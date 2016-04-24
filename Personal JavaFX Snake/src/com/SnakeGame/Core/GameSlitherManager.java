@@ -13,18 +13,18 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameObjectManager2 {
+public class GameSlitherManager {
 
-	private LinkedList<GameObject2> object;
-	private GameObject2 tempObject;
+	private LinkedList<SlitherMain> object;
+	private SlitherMain tempObject;
 	private SnakeGame game;
 
-	public GameObjectManager2(SnakeGame gameJavaFX){
+	public GameSlitherManager(SnakeGame gameJavaFX){
 		this.game = gameJavaFX;
 		initialize();
 	}
 	public void initialize() {
-		this.object = new LinkedList<GameObject2> ();
+		this.object = new LinkedList<SlitherMain> ();
 	}
 	/**
 	 * This method updates the objects using and iterator
@@ -33,9 +33,9 @@ public class GameObjectManager2 {
 	 * be modified through this method or else an exception will be thrown
 	 */
     public void update(GraphicsContext gc,long timePassed) {
-        Iterator<? extends GameObject2> spriteIter = object.iterator();
+        Iterator<? extends SlitherMain> spriteIter = object.iterator();
         while( spriteIter.hasNext()) {
-            GameObject2 sprite = spriteIter.next();
+            SlitherMain sprite = spriteIter.next();
             sprite.updateUI();
             sprite.addPhysics();
             sprite.updateAnimation(timePassed);
@@ -151,26 +151,26 @@ public class GameObjectManager2 {
      * Procedurally places the objects in the level
      */
     public void procedurallyCreateLevel(){
-    	   Iterator<? extends GameObject2> spriteIter = object.iterator();
+    	   Iterator<? extends SlitherMain> spriteIter = object.iterator();
            while( spriteIter.hasNext()) {
-               GameObject2 sprite = spriteIter.next();
+               SlitherMain sprite = spriteIter.next();
                sprite.createLevel();
            }
     }
-    public LinkedList<GameObject2> getObjectList(){
+    public LinkedList<SlitherMain> getObjectList(){
     	return object;
     }
-	public void addObject(GameObject2 object){
+	public void addObject(SlitherMain object){
 		this.object.add(object);
 	}
-	public void removeObject(GameObject2 object){
+	public void removeObject(SlitherMain object){
 		this.object.remove(object);
 	}
 	public void clearAll(){
 		this.object.clear();
 	}
-	public GameObject2 findObject(GameObjectID id){
-		for(GameObject2 go: object){
+	public SlitherMain findObject(GameObjectID id){
+		for(SlitherMain go: object){
 			if(go.getId() == id){
 				return go;
 			}

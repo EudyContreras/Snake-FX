@@ -45,7 +45,7 @@ public class GameLoader {
 	GameTileManager tileManager;
 	Player player;
 	Player2 player2;
-	Player3 player3;
+	SlitherSnake player3;
 	Random rand;
 	public static double ResolutionScaleX = 1.0;
 	public static double ResolutionScaleY = 1.0;
@@ -584,7 +584,7 @@ public class GameLoader {
 
 		float x = (float) (50 / 2.0);
 		float y = (float) (Settings.HEIGHT * 0.5);
-		player3 = new Player3(game, game.getSnakeHeadLayer(), new Circle(40, Color.GREEN), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,0, GameObjectID.Player3, game.getObjectManager2());
+		player3 = new SlitherSnake(game, game.getSnakeHeadLayer(), new Circle(40, Color.GREEN), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,0, GameObjectID.Player3, game.getObjectManager2());
 		game.getObjectManager2().addObject(player3);
 	}
 	public void killPlayer(){
@@ -664,7 +664,7 @@ public class GameLoader {
 	public Player2 getPlayer2(){
 		return player2;
 	}
-	public Player3 getPlayer3() {
+	public SlitherSnake getPlayer3() {
 		return player3;
 	}
 	public void setPlayer(Player player) {

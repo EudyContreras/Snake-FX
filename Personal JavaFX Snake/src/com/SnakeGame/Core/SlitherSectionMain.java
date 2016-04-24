@@ -23,7 +23,7 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public abstract class SectionMain2 {
+public abstract class SlitherSectionMain {
 
 	GameObjectID id;
 	PlayerMovement direction;
@@ -59,7 +59,7 @@ public abstract class SectionMain2 {
 	 * The constructors used in this class allows objects to be created in different ways and with different attributes
 	 */
 
-    public SectionMain2(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+    public SlitherSectionMain(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
     	this.layer = layer;
         this.x = x;
         this.y = y;
@@ -90,7 +90,7 @@ public abstract class SectionMain2 {
         }
 
     }
-    public SectionMain2(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+    public SlitherSectionMain(SnakeGame game, Pane layer, Node node, GameObjectID id) {
     	this.layer = layer;
         this.id = id;
         if(node instanceof Rectangle){
@@ -119,7 +119,7 @@ public abstract class SectionMain2 {
         }
 
     }
-    public SectionMain2( Image image, float x, float y) {
+    public SlitherSectionMain( Image image, float x, float y) {
         this.image = image;
         this.x = x;
         this.y = y;
@@ -131,7 +131,7 @@ public abstract class SectionMain2 {
      //   addToLayer();
 
     }
-    public SectionMain2(SnakeGame game, Pane layer, GameObjectID id) {
+    public SlitherSectionMain(SnakeGame game, Pane layer, GameObjectID id) {
     	this.layer = layer;
         this.id = id;
     }

@@ -4,11 +4,11 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class SnakeSection3 extends SectionMain2{
-	Player3 snake;
+public class SlitherSection extends SlitherSectionMain{
+	SlitherSnake snake;
 	GameSectionManager3 sectManager;
 
-	public SnakeSection3(Player3 snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id, PlayerMovement Direction, int numericID) {
+	public SlitherSection(SlitherSnake snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id, PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.snake = snake;
 		this.numericID = numericID;
@@ -41,7 +41,7 @@ public class SnakeSection3 extends SectionMain2{
 			}
 		} else if (this.numericID > 0) {
 			for(int i = sectManager.getSectionList().size()-1; i>=0; i--){
-				SectionMain2 previousSect = sectManager.getSectionList().get(i);
+				SlitherSectionMain previousSect = sectManager.getSectionList().get(i);
 				if(previousSect.getNumericID() == this.numericID-1){
 					switch(previousSect.getLastDirection()){
 					case MOVE_UP:

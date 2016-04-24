@@ -2,7 +2,7 @@ package com.SnakeGame.Core;
 
 import java.util.LinkedList;
 
-public class Slither extends SlitherMain{
+public class Slither extends SlitherMain3{
 	LinkedList<SnakePart> parts = new LinkedList<>();
 	public Slither(float x, float y) {
 		super(x, y);

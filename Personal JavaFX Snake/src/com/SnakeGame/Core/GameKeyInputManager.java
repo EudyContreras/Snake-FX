@@ -22,7 +22,7 @@ public class GameKeyInputManager {
         keyDown[5] = false;
     }
 
-    public void processInput(SnakeGame game,Player p,Player2 p2, Player3 p3,Scene scene){
+    public void processInput(SnakeGame game,Player p,Player2 p2, SlitherSnake p3,Scene scene){
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
             public void handle(KeyEvent e) {

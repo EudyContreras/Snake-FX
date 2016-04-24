@@ -14,7 +14,7 @@ import javafx.scene.shape.Circle;
 
 
 
-public class Player3 extends GameObject2 {
+public class SlitherSnake extends SlitherMain {
 
     double minX;
     double maxX;
@@ -67,11 +67,11 @@ public class Player3 extends GameObject2 {
 	MotionBlur motionBlur = new MotionBlur();
     Light.Point light = new Light.Point();
     Lighting lighting = new Lighting();
-    GameObjectManager2 gom;
+    GameSlitherManager gom;
     GameSectionManager3 sectManager;
     PlayerMovement direction;
 
-    public Player3(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR, double health, double damage, double speed, GameObjectID id, GameObjectManager2 gom) {
+    public SlitherSnake(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR, double health, double damage, double speed, GameObjectID id, GameSlitherManager gom) {
         super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
         this.gom = gom;
         this.speed = speed;
@@ -176,7 +176,7 @@ public class Player3 extends GameObject2 {
         }}
 	}
     public void addSection(){
-    	sectManager.addSection(new SnakeSection3(this,game, layer, new Circle(40,Color.WHITE), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+    	sectManager.addSection(new SlitherSection(this,game, layer, new Circle(40,Color.WHITE), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
         SnakeGame.writeToLog("New section added "+ NUMERIC_ID);
         NUMERIC_ID++;
         game.getScoreBoard().increaseScore();

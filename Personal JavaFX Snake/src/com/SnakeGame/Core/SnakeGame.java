@@ -54,7 +54,7 @@ public class SnakeGame extends Application implements Runnable {
 	GameMouseInputManager mouseInput;
 	GraphicsContext gc;
 	GameObjectManager objectManager;
-	GameObjectManager2 objectManager2;
+	GameSlitherManager objectManager2;
 	GameDebrisManager debrisManager;
 	GameSectionManager sectManager;
 	GameSectionManager2 sectManager2;
@@ -252,7 +252,7 @@ public class SnakeGame extends Application implements Runnable {
 		overlay = new Pane();
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
-		objectManager2 = new GameObjectManager2(this);
+		objectManager2 = new GameSlitherManager(this);
 		sectManager = new GameSectionManager(this);
 		sectManager2 = new GameSectionManager2(this);
 		sectManager3 = new GameSectionManager3(this);
@@ -949,7 +949,7 @@ public class SnakeGame extends Application implements Runnable {
 		return objectManager;
 	}
 
-	public GameObjectManager2 getObjectManager2() {
+	public GameSlitherManager getObjectManager2() {
 		return objectManager2;
 	}
 

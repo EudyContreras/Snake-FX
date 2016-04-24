@@ -14,8 +14,8 @@ import javafx.scene.canvas.GraphicsContext;
  *
  */
 public class GameSectionManager3 {
-	private ArrayList<SectionMain2> sectionList;
-	private SectionMain2 tempSection;
+	private ArrayList<SlitherSectionMain> sectionList;
+	private SlitherSectionMain tempSection;
 
 	public GameSectionManager3(SnakeGame gameJavaFX){
 		initialize();
@@ -47,17 +47,17 @@ public class GameSectionManager3 {
 	}
 
 	public void addNewDirection(PlayerMovement direction){
-		for(SectionMain2 sect: sectionList){
+		for(SlitherSectionMain sect: sectionList){
 			sect.setNewDirection(direction);
 		}
 	}
 	public void addNewLocation(Point2D location){
-		for(SectionMain2 sect: sectionList){
+		for(SlitherSectionMain sect: sectionList){
 			sect.setNewLocation(location);
 		}
 	}
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID){
-		for(SectionMain2 sect: sectionList){
+		for(SlitherSectionMain sect: sectionList){
 			if(sect.getNumericID() == ID){
 			sect.setNewDirection(direction);
 			sect.setNewLocation(location);
@@ -135,13 +135,13 @@ public class GameSectionManager3 {
     /**
      * Procedurally places the sections in the level
      */
-    public ArrayList<SectionMain2> getSectionList(){
+    public ArrayList<SlitherSectionMain> getSectionList(){
     	return sectionList;
     }
-	public void addSection(SectionMain2 sect){
+	public void addSection(SlitherSectionMain sect){
 		sectionList.add(sect);
 	}
-	public void removeSection(SectionMain2 section){
+	public void removeSection(SlitherSectionMain section){
 		this.sectionList.remove(section);
 	}
 	public void clearAll(){
