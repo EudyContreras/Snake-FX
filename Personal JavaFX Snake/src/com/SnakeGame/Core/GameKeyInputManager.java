@@ -29,19 +29,31 @@ public class GameKeyInputManager {
 
                 if (e.getCode() == KeyCode.W){
                     keyDown[0] = true;
-                    p3.setDirection(PlayerMovement.MOVE_UP);
+//                    p3.setDirection(180);
+//                    p3.setVelY(5);
+//                    p3.setVelX(0);
                 }
                 if (e.getCode()== KeyCode.S){
                     keyDown[1] = true;
-                    p3.setDirection(PlayerMovement.MOVE_DOWN);
+//                    p3.setDirection(0);
+//                    p3.setVelY(5);
+//                    p3.setVelX(0);
                 }
                 if (e.getCode() == KeyCode.A){
                     keyDown[2] = true;
-                    p3.setDirection(PlayerMovement.MOVE_LEFT);
+//                    p3.setDirection(-90);
+//                    p3.setVelY(0);
+//                    p3.setVelX(5);
+                    p3.rotateLeft = true;
+                 //   p3.rotateRight = false;
                 }
                 if (e.getCode() == KeyCode.D){
                     keyDown[3] = true;
-                    p3.setDirection(PlayerMovement.MOVE_RIGHT);
+//                    p3.setDirection(90);
+//                    p3.setVelY(0);
+//                    p3.setVelX(5);
+                    p3.rotateRight = true;
+                  //  p3.rotateLeft = false;
                 }
                 if (e.getCode() == KeyCode.H){
                 	game.getGameHud().showHide();
@@ -114,6 +126,8 @@ public class GameKeyInputManager {
                 if(!keyDown[0] && !keyDown[1]){
                 }
                 if(!keyDown[2] && !keyDown[3]){
+                	p3.rotateLeft = false;
+                	p3.rotateRight = false;
                 }
                 if(!keyDown[4]){
                 }

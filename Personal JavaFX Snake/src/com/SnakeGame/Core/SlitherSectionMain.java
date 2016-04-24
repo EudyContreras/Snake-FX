@@ -41,6 +41,8 @@ public abstract class SlitherSectionMain {
     protected float velX;
     protected float velY;
     protected float velR;
+    protected float degree;
+    protected float speed;
     protected double width;
     protected double height;
     protected double radius;
@@ -172,6 +174,12 @@ public abstract class SlitherSectionMain {
     public void setY(float y) {
         this.y = y;
     }
+	public float getSpeed() {
+		return speed;
+	}
+	public float getRotDegree() {
+		return degree;
+	}
     /**
      * This method will relocate the object to specific point
      * @param x

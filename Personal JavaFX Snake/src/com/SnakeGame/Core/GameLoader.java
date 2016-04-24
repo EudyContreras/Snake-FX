@@ -582,9 +582,9 @@ public class GameLoader {
 	}
 	public void createSlither() {
 
-		float x = (float) (50 / 2.0);
-		float y = (float) (Settings.HEIGHT * 0.5);
-		player3 = new SlitherSnake(game, game.getSnakeHeadLayer(), new Circle(40, Color.GREEN), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,0, GameObjectID.Player3, game.getObjectManager2());
+		float x = (float) (Settings.WIDTH/2+25);
+		float y = (float) (Settings.HEIGHT * 0.55);
+		player3 = new SlitherSnake(game, game.getSnakeHeadLayer(), new Circle(25, Color.GREEN), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,0, GameObjectID.Player3, game.getObjectManager2());
 		game.getObjectManager2().addObject(player3);
 	}
 	public void killPlayer(){

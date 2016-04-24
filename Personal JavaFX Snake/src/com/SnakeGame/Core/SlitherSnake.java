@@ -1,5 +1,7 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.Core.Slither.SnakePart;
+
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
@@ -39,6 +41,8 @@ public class SlitherSnake extends SlitherMain {
 	boolean right = false;
 	boolean vibrate = false;
 	boolean collision = false;
+	boolean rotateLeft = false;
+	boolean rotateRight = true;
 	boolean checkVibrate = true;
 	boolean hitBounds = false;
     boolean movingUp = false;
@@ -59,6 +63,7 @@ public class SlitherSnake extends SlitherMain {
     int shakeDuration = 30;
     int NUMERIC_ID = 0;
     int scroll = 0;
+    float rotation = 0;
 	float glowLevel =0;
 	float amountOfBlur = 2.0f;
     SnakeGame game;
@@ -68,7 +73,7 @@ public class SlitherSnake extends SlitherMain {
     Light.Point light = new Light.Point();
     Lighting lighting = new Lighting();
     GameSlitherManager gom;
-    GameSectionManager3 sectManager;
+    GameSlitherSectionManager sectManager;
     PlayerMovement direction;
 
     public SlitherSnake(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR, double health, double damage, double speed, GameObjectID id, GameSlitherManager gom) {
@@ -85,43 +90,85 @@ public class SlitherSnake extends SlitherMain {
 		this.lighting.setSpecularConstant(0.2);
 		this.direction = PlayerMovement.STANDING_STILL;
 		this.sectManager = game.getSectionManager3();
+		this.velX = 5;
+		this.velY = 5;
+		this.speed = 0.7;
 		if(Settings.ADD_LIGHTING)
 		this.motionBlur.setInput(lighting);
+		addSection();
     }
     public void updateUI(){
     	super.updateUI();
+    	rotateLeft();
+    	rotateRight();
 
     }
-    public void move(){
-    	super.move();
+//    public void move(){
+//    	super.move();
+//
+//    }
+    public void move() {
+    	 x = (float)(getX() + Math.sin(Math.toRadians(rotation)) * velX * speed);
+    	 y = (float)(getY() + Math.cos(Math.toRadians(rotation)) * velY * speed);
 
+	      SlitherSectionMain snakeHead = sectManager.getSectionList().get(0);
+	      int snakeLength = sectManager.getSectionList().size() - 1;
+
+	      snakeHead.setX((float)(snakeHead.getX() + Math.sin(Math.toRadians(rotation)) * velX * speed));
+	      snakeHead.setY((float)(snakeHead.getY() + Math.cos(Math.toRadians(rotation)) * velY * speed));
+
+	      for (int i = 1; i <= snakeLength; i++) {
+
+	    	 SlitherSectionMain partBefore = sectManager.getSectionList().get(i-1);
+	         SlitherSectionMain thisPart = sectManager.getSectionList().get(i);
+
+	         float xChange = partBefore.getX() - thisPart.getX();
+	         float yChange = partBefore.getY() - thisPart.getY();
+
+	         float angle = (float)Math.atan2(yChange, xChange);
+
+	         thisPart.setX(partBefore.getX() - (float)Math.cos(angle) * 10);
+	         thisPart.setY(partBefore.getY() - (float)Math.sin(angle) * 10);
+
+	      }
+
+	   }
+    public void rotateLeft() {
+    	if(rotateLeft)
+    	rotation+=5;
     }
-    public void setDirection(PlayerMovement direction) {
-		if(this.direction == direction) {
-			this.direction = direction;
-		} else if(!(
-				(this.direction == PlayerMovement.MOVE_LEFT && direction == PlayerMovement.MOVE_RIGHT ) ||
-				(this.direction == PlayerMovement.MOVE_RIGHT && direction == PlayerMovement.MOVE_LEFT ) ||
-				(this.direction == PlayerMovement.MOVE_UP && direction == PlayerMovement.MOVE_DOWN ) ||
-				(this.direction == PlayerMovement.MOVE_DOWN && direction == PlayerMovement.MOVE_UP ))){
-
-			if(direction == PlayerMovement.MOVE_UP) {
-				moveUp();
-			}
-			else if(direction == PlayerMovement.MOVE_DOWN) {
-				moveDown();
-			}
-			else if(direction == PlayerMovement.MOVE_LEFT) {
-				moveLeft();
-			}
-			else if(direction == PlayerMovement.MOVE_RIGHT) {
-				moveRight();
-			}
-		}
-
-		this.direction = direction;
+    public void rotateRight() {
+    	if(rotateRight)
+    	rotation-=5;
+    }
+//    public void setDirection(PlayerMovement direction) {
+//		if(this.direction == direction) {
+//			this.direction = direction;
+//		} else if(!(
+//				(this.direction == PlayerMovement.MOVE_LEFT && direction == PlayerMovement.MOVE_RIGHT ) ||
+//				(this.direction == PlayerMovement.MOVE_RIGHT && direction == PlayerMovement.MOVE_LEFT ) ||
+//				(this.direction == PlayerMovement.MOVE_UP && direction == PlayerMovement.MOVE_DOWN ) ||
+//				(this.direction == PlayerMovement.MOVE_DOWN && direction == PlayerMovement.MOVE_UP ))){
+//
+//			if(direction == PlayerMovement.MOVE_UP) {
+//				moveUp();
+//			}
+//			else if(direction == PlayerMovement.MOVE_DOWN) {
+//				moveDown();
+//			}
+//			else if(direction == PlayerMovement.MOVE_LEFT) {
+//				moveLeft();
+//			}
+//			else if(direction == PlayerMovement.MOVE_RIGHT) {
+//				moveRight();
+//			}
+//		}
+//
+//		this.direction = direction;
+//	}
+  public void setDirection(float direction) {
+		this.rotation = direction;
 	}
-
 	private void moveUp() {
 		velY = -Settings.SNAKE_SPEED2;
 		velX = 0;
@@ -176,10 +223,12 @@ public class SlitherSnake extends SlitherMain {
         }}
 	}
     public void addSection(){
-    	sectManager.addSection(new SlitherSection(this,game, layer, new Circle(40,Color.WHITE), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+    	for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++) {
+    	sectManager.addSection(new SlitherSection(this,game, layer, new Circle(25,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
         SnakeGame.writeToLog("New section added "+ NUMERIC_ID);
         NUMERIC_ID++;
-        game.getScoreBoard().increaseScore();
+    	}
+      //  game.getScoreBoard().increaseScore();
         if(ScoreKeeper.APPLE_COUNT>4)
         game.getloader().spawnSnakeFood();
     }
@@ -227,7 +276,12 @@ public class SlitherSnake extends SlitherMain {
 //
 //    	return new Rectangle2D(x+40,y+height/2+15,width-60,height*0.20);
 //    }
-
+    public void setRotation(float rotation) {
+    	this.rotation = rotation;
+    }
+    public float getRotation() {
+    	return rotation;
+    }
 	public boolean isCollision() {
 		return collision;
 	}

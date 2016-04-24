@@ -58,7 +58,7 @@ public class SnakeGame extends Application implements Runnable {
 	GameDebrisManager debrisManager;
 	GameSectionManager sectManager;
 	GameSectionManager2 sectManager2;
-	GameSectionManager3 sectManager3;
+	GameSlitherSectionManager sectManager3;
 	GameImageBank imageBank;
 	FadeTransition fadeSplash;
 	Stage mainWindow;
@@ -255,7 +255,7 @@ public class SnakeGame extends Application implements Runnable {
 		objectManager2 = new GameSlitherManager(this);
 		sectManager = new GameSectionManager(this);
 		sectManager2 = new GameSectionManager2(this);
-		sectManager3 = new GameSectionManager3(this);
+		sectManager3 = new GameSlitherSectionManager(this);
 		keyInput = new GameKeyInputManager();
 		mouseInput = new GameMouseInputManager();
 		debrisManager = new GameDebrisManager(this);
@@ -1071,7 +1071,7 @@ public class SnakeGame extends Application implements Runnable {
 	public GameSectionManager2 getSectionManager2() {
 		return sectManager2;
 	}
-	public GameSectionManager3 getSectionManager3() {
+	public GameSlitherSectionManager getSectionManager3() {
 		return sectManager3;
 	}
 	public void allowMouseInput(boolean choice) {

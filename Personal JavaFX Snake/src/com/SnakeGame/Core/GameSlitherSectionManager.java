@@ -13,11 +13,11 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameSectionManager3 {
+public class GameSlitherSectionManager {
 	private ArrayList<SlitherSectionMain> sectionList;
 	private SlitherSectionMain tempSection;
 
-	public GameSectionManager3(SnakeGame gameJavaFX){
+	public GameSlitherSectionManager(SnakeGame gameJavaFX){
 		initialize();
 	}
 	public void initialize() {
