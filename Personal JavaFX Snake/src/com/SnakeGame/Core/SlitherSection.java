@@ -37,17 +37,8 @@ public class SlitherSection extends SlitherSectionMain{
 		this.velX = Settings.SLITHER_SPEED;
 		this.velY = Settings.SLITHER_SPEED;
 		this.speed = 0.7f;
-		if(numericID<=0) {
-		this.tail = new SlitherTail(this, game, layer, new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), x, y, id);
-		this.game.getSlitherManager().addObject(tail);
-		snake.setTail(tail);
-		snake.setNeighbor(this);
-		if(this.numericID == SlitherSnake.NUMERIC_ID){
-			tail.setWhoToFollow(this);
-		}
-		}
-		if(this.numericID == SlitherSnake.NUMERIC_ID){
-			snake.getTail().setWhoToFollow(this);
+		if(this.numericID<=1) {
+			this.circle.setVisible(false);
 		}
 		if(numericID>0) {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
@@ -61,29 +52,9 @@ public class SlitherSection extends SlitherSectionMain{
 	}
 
 	public void move() {
-//		r = -rotation;
 		if(this.numericID>0) {
 			this.setRotation(previousSect.getRotation());
 		}
-	//	if(this.numericID == SlitherSnake.NUMERIC_ID) {
-//		snake.getTail().setX((float) (getX() + Math.sin(Math.toRadians(rotation)) * velX * speed));
-//		snake.getTail().setY((float) (getY() + Math.cos(Math.toRadians(rotation)) * velY * speed));
-//		snake.getTail().setR((float) (this.getRotation()));
-	//	}
-//		for (int i = 1; i <= snakeLength; i++) {
-//
-//			SlitherSectionMain partBefore = sectManager.getSectionList().get(i - 1);
-//			SlitherSectionMain thisPart = sectManager.getSectionList().get(i);
-//
-//			float xChange = partBefore.getX() - thisPart.getX();
-//			float yChange = partBefore.getY() - thisPart.getY();
-//
-//			float angle = (float) Math.atan2(yChange, xChange);
-//
-//			thisPart.setX(partBefore.getX() - (float) Math.cos(angle) * 10);
-//			thisPart.setY(partBefore.getY() - (float) Math.sin(angle) * 10);
-//
-//		}
 		if (this.numericID > 0) {
 			if(previousSect.getR()>=r) {
 				r+=5.0f/SlitherSnake.ROTATION_OFFSET;
@@ -97,9 +68,6 @@ public class SlitherSection extends SlitherSectionMain{
 					r = previousSect.getR();
 				}
 			}
-//			if(x == previousSect.getX() && y == previousSect.getY()) {
-//				r = previousSect.getR();
-//			}
 		}
 	}
 	public void updateUI(){
@@ -118,8 +86,6 @@ public class SlitherSection extends SlitherSectionMain{
     			fadeValue = 0;
     		}
     	}
-//    	if(this.numericID>0)
-//    	this.r = previousSect.getR()-10;
 	}
 	public void loadBones(){
 		bones = new Circle(x,y,this.radius*0.8,new ImagePattern(GameImageBank.snakeBones));

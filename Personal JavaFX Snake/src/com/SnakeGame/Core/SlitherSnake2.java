@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 
 
 
-public class SlitherSnake extends SlitherMain {
+public class SlitherSnake2 extends SlitherMain {
 
 
 	double minX;
@@ -127,7 +127,7 @@ public class SlitherSnake extends SlitherMain {
     public static Boolean MOUTH_CLOSE = true;
     public static Boolean keepMoving = true;
 
-    public SlitherSnake(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR, double health, double damage, float speed, GameObjectID id, GameSlitherManager gom) {
+    public SlitherSnake2(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR, double health, double damage, float speed, GameObjectID id, GameSlitherManager gom) {
         super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
         this.gom = gom;
         this.speed = speed;
@@ -181,7 +181,7 @@ public class SlitherSnake extends SlitherMain {
         }
         }
         else {
-            setAnim(pattern2);
+            this.snakeHead.setAnim(pattern2);
         }
     	rotateLeft();
     	rotateRight();
@@ -210,8 +210,8 @@ public class SlitherSnake extends SlitherMain {
 			rChange = partBefore.getR() - thisPart.getR();
 			angle = (float) Math.atan2(yChange, xChange);
 
-			thisPart.setX(partBefore.getX() - (float) Math.cos(angle) * 15);
-			thisPart.setY(partBefore.getY() - (float) Math.sin(angle) * 15);
+			thisPart.setX(partBefore.getX() - (float) Math.cos(angle) * 20);
+			thisPart.setY(partBefore.getY() - (float) Math.sin(angle) * 20);
 		}
 	}
     public void update(){
@@ -326,7 +326,7 @@ public class SlitherSnake extends SlitherMain {
 	}
     public void addSection(){
     	for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++) {
-    	sectManager.addSection(new SlitherSection(this,game, layer, new Circle(25,new ImagePattern(GameImageBank.snakeBody)), partBefore.getX() - (float) Math.cos(angle) * 20, partBefore.getY() - (float) Math.cos(angle) * 20, GameObjectID.SnakeSection, NUMERIC_ID));
+    	//sectManager.addSection(new SlitherSection(this,game, layer, new Circle(25,new ImagePattern(GameImageBank.snakeBody)), partBefore.getX() - (float) Math.cos(angle) * 20, partBefore.getY() - (float) Math.cos(angle) * 20, GameObjectID.SnakeSection, NUMERIC_ID));
         SnakeGame.writeToLog("New section added "+ NUMERIC_ID);
         NUMERIC_ID+=1;
         ROTATION_OFFSET+=0.1;
@@ -391,7 +391,7 @@ public class SlitherSnake extends SlitherMain {
 	    }
 	    public void addbaseSections(){
 	        for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++){
-	        	sectManager.addSection(new SlitherSection(this,game, layer, new Circle(25,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, NUMERIC_ID));
+	        	//sectManager.addSection(new SlitherSection(this,game, layer, new Circle(25,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, NUMERIC_ID));
 	            SnakeGame.writeToLog("New section added "+ NUMERIC_ID);
 	            NUMERIC_ID+=1;
 	        }
@@ -456,7 +456,7 @@ public class SlitherSnake extends SlitherMain {
 	        notEating = false;
 	        MOUTH_CLOSE = false;
 	        MOUTH_OPEN = true;
-	        setAnim(this.pattern);
+	        snakeHead.setAnim(this.pattern);
 	        allowOpen = false;
 	        setDelay = true;
 	        maxOpenTime = 30;

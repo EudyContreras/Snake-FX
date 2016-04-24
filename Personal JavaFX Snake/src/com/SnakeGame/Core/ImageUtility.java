@@ -92,7 +92,7 @@ public class ImageUtility {
 		ImageView view = new ImageView(img);
 		light.setX(-200);
 		light.setY(450);
-		light.setZ(200);
+		light.setZ(180);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);

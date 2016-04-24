@@ -29,29 +29,23 @@ public class GameKeyInputManager {
 
                 if (e.getCode() == KeyCode.W){
                     keyDown[0] = true;
-                    p3.setDirection(180);
-//                    p3.setVelY(5);
-//                    p3.setVelX(0);
+//                    p3.moveUp();
+                    p.setDirection(PlayerMovement.MOVE_UP);
                 }
                 if (e.getCode()== KeyCode.S){
                     keyDown[1] = true;
-                    p3.setDirection(0);
-//                    p3.setVelY(5);
-//                    p3.setVelX(0);
+//                    p3.moveDown();
+                    p.setDirection(PlayerMovement.MOVE_DOWN);
                 }
                 if (e.getCode() == KeyCode.A){
                     keyDown[2] = true;
-                    p3.setDirection(-90);
-//                    p3.setVelY(0);
-//                    p3.setVelX(5);
 //                    p3.rotateLeft = true;
+                    p.setDirection(PlayerMovement.MOVE_LEFT);
                 }
                 if (e.getCode() == KeyCode.D){
                     keyDown[3] = true;
-                    p3.setDirection(90);
-//                    p3.setVelY(0);
-//                    p3.setVelX(5);
 //                    p3.rotateRight = true;
+                    p.setDirection(PlayerMovement.MOVE_RIGHT);
                 }
                 if (e.getCode() == KeyCode.H){
                 	game.getGameHud().showHide();
@@ -64,6 +58,7 @@ public class GameKeyInputManager {
                 }
                 if (e.getCode() == KeyCode.SHIFT) {
                     keyDown[5] = true;
+                    p3.thrust = true;
                 }
                 if (e.getCode() == KeyCode.P) {
                         game.pauseGame();
@@ -124,12 +119,13 @@ public class GameKeyInputManager {
                 if(!keyDown[0] && !keyDown[1]){
                 }
                 if(!keyDown[2] && !keyDown[3]){
-                	p3.rotateLeft = false;
-                	p3.rotateRight = false;
+//                	p3.rotateLeft = false;
+//                	p3.rotateRight = false;
                 }
                 if(!keyDown[4]){
                 }
                 if(!keyDown[5]){
+//                	p3.thrust = false;
                 }
             }
         });
