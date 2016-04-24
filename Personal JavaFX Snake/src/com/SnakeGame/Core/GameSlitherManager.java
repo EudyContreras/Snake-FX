@@ -61,7 +61,7 @@ public class GameSlitherManager {
 			tempObject = object.get(i);
 			tempObject.updateUI();
 			tempObject.addPhysics();
-			//tempObject.updateAnimation(timePassed);
+			tempObject.updateAnimation(timePassed);
 			tempObject.draw(gc);
 			tempObject.move();
 			tempObject.checkRemovability();

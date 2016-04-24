@@ -25,6 +25,7 @@ public class GameImageBank {
 	 public static Image snakeHead;
 	 public static Image snakeBlinking;
 	 public static Image snakeEating;
+	 public static Circle slither;
 	 public static Circle snakeSphere;
 	 public static Circle snakeSphere2;
 	 public static Circle snakeSphere3;
@@ -87,8 +88,8 @@ public class GameImageBank {
 		  fruit = ImageUtility.precreatedLightedAndShadedImage("apple.png",Settings.GlOBAL_ILLUMINATION, 0, 150/GameLoader.ResolutionScaleX, 192/GameLoader.ResolutionScaleY); //new Image("dirt.png");
 		  fruit2 = ImageUtility.preCreateShadedCircle(Color.RED,Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 10/GameLoader.ResolutionScaleX, 10/GameLoader.ResolutionScaleY);
 		  fruit3 = ImageUtility.preCreateShadedGlowingCircle(Color.RED,Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 10/GameLoader.ResolutionScaleX, 10/GameLoader.ResolutionScaleY);
-
 		  snakeSphere = new Circle(Settings.SECTION_SIZE*1.4, new ImagePattern(snakeHead));
+		  slither = new Circle(Settings.SECTION_SIZE*1.4, new ImagePattern(snakeHead));
 		  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		  /**
 		   * Player 2

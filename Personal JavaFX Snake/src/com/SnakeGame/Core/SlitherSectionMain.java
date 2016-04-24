@@ -48,7 +48,7 @@ public abstract class SlitherSectionMain {
     protected double radius;
     public double health = 50;
     public double damage;
-    public int numericID;
+    public float numericID;
 	protected boolean isAlive = false;
     protected boolean removable = false;
     protected boolean canMove = true;
@@ -68,8 +68,8 @@ public abstract class SlitherSectionMain {
         this.id = id;
         if(node instanceof Rectangle){
         	this.rect = (Rectangle)node;
-        this.rect.setCache(true);
-        this.rect.setCacheHint(CacheHint.SPEED);
+//        this.rect.setCache(true);
+//        this.rect.setCacheHint(CacheHint.SPEED);
         this.rect.setTranslateX(x);
         this.rect.setTranslateY(y);
         this.rect.setRotate(r);
@@ -79,8 +79,8 @@ public abstract class SlitherSectionMain {
         }
         else if(node instanceof Circle){
         	this.circle = (Circle)node;
-        this.circle.setCache(true);
-        this.circle.setCacheHint(CacheHint.SPEED);
+//        this.circle.setCache(true);
+//        this.circle.setCacheHint(CacheHint.SPEED);
         this.circle.setTranslateX(x);
         this.circle.setTranslateY(y);
         this.circle.setRotate(r);
@@ -97,8 +97,8 @@ public abstract class SlitherSectionMain {
         this.id = id;
         if(node instanceof Rectangle){
         	this.rect = (Rectangle)node;
-        this.rect.setCache(true);
-        this.rect.setCacheHint(CacheHint.SPEED);
+//        this.rect.setCache(true);
+//        this.rect.setCacheHint(CacheHint.SPEED);
         this.rect.setTranslateX(x);
         this.rect.setTranslateY(y);
         this.rect.setRotate(r);
@@ -108,8 +108,8 @@ public abstract class SlitherSectionMain {
         }
         else if(node instanceof Circle){
         	this.circle = (Circle)node;
-        this.circle.setCache(true);
-        this.circle.setCacheHint(CacheHint.SPEED);
+//        this.circle.setCache(true);
+//        this.circle.setCacheHint(CacheHint.SPEED);
         this.circle.setTranslateX(x);
         this.circle.setTranslateY(y);
         this.circle.setRotate(r);
@@ -147,7 +147,7 @@ public abstract class SlitherSectionMain {
         this.layer.getChildren().add(this.imageView);
     }
 	public void addToLayer(Node node) {
-        this.layer.getChildren().add(node);
+        this.layer.getChildren().add(0, node);
     }
 	public void addToCanvas() {
         this.layer.getChildren().add(this.imageView);
@@ -177,7 +177,7 @@ public abstract class SlitherSectionMain {
 	public float getSpeed() {
 		return speed;
 	}
-	public float getRotDegree() {
+	public float getRotation() {
 		return degree;
 	}
     /**
@@ -354,7 +354,10 @@ public abstract class SlitherSectionMain {
 	protected void setNumericID(int SECTION_COUNT) {
 		this.numericID = SECTION_COUNT;
 	}
-	protected int getNumericID(){
+	protected float getNumericID(){
 		return numericID;
+	}
+	public void setRotation(float rotation) {
+		this.degree = rotation;
 	}
 }

@@ -54,7 +54,7 @@ public class SnakeGame extends Application implements Runnable {
 	GameMouseInputManager mouseInput;
 	GraphicsContext gc;
 	GameObjectManager objectManager;
-	GameSlitherManager objectManager2;
+	GameSlitherManager slitherManager;
 	GameDebrisManager debrisManager;
 	GameSectionManager sectManager;
 	GameSectionManager2 sectManager2;
@@ -252,7 +252,7 @@ public class SnakeGame extends Application implements Runnable {
 		overlay = new Pane();
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
-		objectManager2 = new GameSlitherManager(this);
+		slitherManager = new GameSlitherManager(this);
 		sectManager = new GameSectionManager(this);
 		sectManager2 = new GameSectionManager2(this);
 		sectManager3 = new GameSlitherSectionManager(this);
@@ -327,7 +327,7 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public void processGameInput() {
-		keyInput.processInput(this, loader.getPlayer(), loader.getPlayer2(), loader.getPlayer3(),scene);
+		keyInput.processInput(this, loader.getPlayer(), loader.getPlayer2(), loader.getSlither(),scene);
 	}
 
 	public void closeGame() {
@@ -450,8 +450,8 @@ public class SnakeGame extends Application implements Runnable {
 							scoreKeeper.keepCount();
 							// loader.spawnObjectRandomly(true);
 							// loader.updateLevelObjects();
-							objectManager2.updateAll(gc, timePassed);
-							objectManager2.checkCollisions();
+							slitherManager.updateAll(gc, timePassed);
+							slitherManager.checkCollisions();
 							objectManager.updateAll(gc, timePassed);
 							objectManager.checkCollisions();
 							sectManager.updateAll(gc, timePassed);
@@ -834,7 +834,7 @@ public class SnakeGame extends Application implements Runnable {
 			particleLayer.getChildren().clear();
 			debrisManager.clearAll();
 			objectManager.clearAll();
-			objectManager2.clearAll();
+			slitherManager.clearAll();
 			sectManager.clearAll();
 			sectManager2.clearAll();
 			sectManager3.clearAll();
@@ -949,8 +949,8 @@ public class SnakeGame extends Application implements Runnable {
 		return objectManager;
 	}
 
-	public GameSlitherManager getObjectManager2() {
-		return objectManager2;
+	public GameSlitherManager getSlitherManager() {
+		return slitherManager;
 	}
 
 	public void setObjectManager(GameObjectManager objectManager) {
