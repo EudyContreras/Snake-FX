@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import com.SnakeGame.OriginalSnake.OrgPlayer;
+
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -570,8 +572,8 @@ public class GameLoader {
 	public void loadOrgPlayer() {
 		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.55);
-		orgPlayer =  new OrgPlayer(game, game.getPlayfieldLayer(), 
-				new Circle(40, Color.GREEN), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.Player, game.getObjectManager());
+		orgPlayer =  new OrgPlayer(game, game.getSnakeHeadLayer(),
+				new Circle(40, new ImagePattern(GameImageBank.snakeHead)), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
 		game.getOrgObjectManager().addObject(orgPlayer);
 	}
 	public void loadPlayer1() {

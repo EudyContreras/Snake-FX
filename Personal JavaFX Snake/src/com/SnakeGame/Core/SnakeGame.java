@@ -1,5 +1,8 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.OriginalSnake.OrgGameObjectManager;
+import com.SnakeGame.OriginalSnake.OrgGameSectionManager;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -455,7 +458,7 @@ public class SnakeGame extends Application implements Runnable {
 							scoreKeeper.keepCount();
 							// loader.spawnObjectRandomly(true);
 							// loader.updateLevelObjects();
-							
+
 							slitherManager.updateAll(gc, timePassed);
 							slitherManager.checkCollisions();
 							objectManager.updateAll(gc, timePassed);
