@@ -1,4 +1,4 @@
-package com.SnakeGame.OriginalSnake;
+package com.SnakeGame.PlayerOne;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -252,6 +252,9 @@ public abstract class OrgSectionMain {
         circle.setTranslateY(y);
         circle.setRotate(r);
     }
+    public void logicUpdate() {
+
+    }
     public void createLevel() {
 
     }
@@ -307,13 +310,12 @@ public abstract class OrgSectionMain {
     public void stopMovement() {
         this.canMove = false;
     }
-    /**Abstract methods every object must have in order to determined
-     * the condition in which the object will be removed and the objects
-     * collision boundaries
-     */
-    public abstract void checkRemovability();
-    public abstract void checkCollision();
+    public void checkRemovability() {
 
+    }
+    public void checkCollision() {
+
+    }
     protected void removePerformedCoordinateChange() {
 		lastPosition.remove();
 		lastDirection.remove();

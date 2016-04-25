@@ -1,4 +1,4 @@
-package com.SnakeGame.OriginalSnake;
+package com.SnakeGame.PlayerOne;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -64,7 +64,8 @@ public class OrgGameObjectManager {
 			tempObject = object.get(i);
 			tempObject.updateUI();
 			tempObject.addPhysics();
-			//tempObject.updateAnimation(timePassed);
+			tempObject.updateAnimation(timePassed);
+			tempObject.logicUpdate();
 			tempObject.draw(gc);
 			tempObject.move();
 			tempObject.checkRemovability();

@@ -1,4 +1,4 @@
-package com.SnakeGame.OriginalSnake;
+package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.SnakeGame;
@@ -321,6 +321,9 @@ public abstract class OrgGameObject {
         y = y + velY;
         r = r + velR;
     }
+    public void logicUpdate() {
+
+    }
     public boolean isAlive() {
         return Double.compare(health, 0) > 0;
     }
@@ -391,10 +394,10 @@ public abstract class OrgGameObject {
     public void stopMovement() {
         this.canMove = false;
     }
-    /**Abstract methods every object must have in order to determined
-     * the condition in which the object will be removed and the objects
-     * collision boundaries
-     */
-    public abstract void checkRemovability();
-    public abstract void checkCollision();
+    public void checkRemovability() {
+
+    }
+    public void checkCollision() {
+
+    }
 }

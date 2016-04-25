@@ -1,4 +1,4 @@
-package com.SnakeGame.OriginalSnake;
+package com.SnakeGame.PlayerOne;
 
 
 import java.util.Arrays;

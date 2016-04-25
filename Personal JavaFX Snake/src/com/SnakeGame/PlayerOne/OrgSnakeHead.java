@@ -1,8 +1,6 @@
-package com.SnakeGame.OriginalSnake;
+package com.SnakeGame.PlayerOne;
 
-import com.SnakeGame.Core.Animation;
 import com.SnakeGame.Core.FruitSplash2;
-import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.LevelObjectID;
 import com.SnakeGame.Core.PlayerMovement;
@@ -10,7 +8,6 @@ import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Core.Tile;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -25,7 +22,6 @@ public class OrgSnakeHead extends OrgGameObject{
 	boolean rotate;
 	SnakeGame game;
 	OrgPlayer snake;
-    Animation anim;
 	Rectangle headBounds;
 	Rectangle headBoundsLeft;
 	Rectangle headBoundsRight;
@@ -49,7 +45,6 @@ public class OrgSnakeHead extends OrgGameObject{
 		this.headBoundsRight = new Rectangle(x,y,node.getRadius()*.5,node.getRadius()*.5);
 		this.headBoundsTop = new Rectangle(x,y,node.getRadius()*.5,node.getRadius()*.5);
 		this.headBoundsBottom = new Rectangle(x,y,node.getRadius()*.5,node.getRadius()*.5);
-		this.clearFromCollision = new Rectangle(x,y,node.getRadius()*2,node.getRadius()*2);
 		if(Settings.DEBUG_MODE){
 			this.headBounds.setFill(Color.TRANSPARENT);
 			this.headBounds.setStroke(Color.WHITE);
@@ -70,36 +65,14 @@ public class OrgSnakeHead extends OrgGameObject{
 			this.clearFromCollision.setStroke(Color.WHITE);
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
-			this.loadImages();
 		}
 	}
-    public void loadImages(){
-        anim.addScene(GameImageBank.snakeHead, 4000);
-        anim.addScene(GameImageBank.snakeBlinking, 250);
-        setAnimation(anim);
-    }
 	public void move() {
 		if (Settings.DEBUG_MODE) {
 			adjustBounds();
 		}
-		super.move();
-		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
-			this.y = snake.getY();
-			this.x = snake.getX();
-			r = 180;
-		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.y = snake.getY();
-			this.x = snake.getX();
-			r = 0;
-		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.y = snake.getY();
-			this.x = snake.getX();
-			r = 89;
-		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.y = snake.getY();
-			this.x = snake.getX();
-			r = -89;
-		}
+		this.y = snake.getY();
+		this.x = snake.getX();
 	}
 	public void rotate(){
 		if(r == 0 && newDirection == PlayerMovement.MOVE_LEFT) {
@@ -255,22 +228,6 @@ public class OrgSnakeHead extends OrgGameObject{
 	}
 	public void setAnim(ImagePattern scene){
 		this.circle.setFill(scene);
-	}
-
-	public Image getAnimationImage() {
-		return anim.getImage();
-	}
-
-	public Animation getAnimation() {
-		return anim;
-	}
-
-	public void setAnimation(Animation anim) {
-		this.anim = anim;
-	}
-
-	public void updateAnimation(long timePassed) {
-		anim.update(timePassed);
 	}
 	public void adjustBounds() {
 		this.headBounds.setX(x-radius/2);

@@ -1,7 +1,7 @@
 package com.SnakeGame.Core;
 
-import com.SnakeGame.OriginalSnake.OrgGameObjectManager;
-import com.SnakeGame.OriginalSnake.OrgGameSectionManager;
+import com.SnakeGame.PlayerOne.OrgGameObjectManager;
+import com.SnakeGame.PlayerOne.OrgGameSectionManager;
 import com.SnakeGame.SlitherSnake.GameSlitherManager;
 import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOne;
