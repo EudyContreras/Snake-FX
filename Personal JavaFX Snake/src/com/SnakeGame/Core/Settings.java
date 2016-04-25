@@ -6,6 +6,7 @@ public class Settings {
 
 
 	public static final int SLITHER_SPEED = 5;
+	public static final int SECTION = 5;
 	/**
 	 * The following settings can be used to increase the speed of the snake
 	 * relative to the size of the snake. These are the valid values that can be used

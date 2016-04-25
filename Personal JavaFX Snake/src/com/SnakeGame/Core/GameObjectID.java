@@ -12,8 +12,9 @@ public enum GameObjectID {
 	Mouse(),
 	Trap(),
 	Fruit(),
+	OrgSnakeSection(),
 	SnakeSection(),
 	SnakeTail(),
 	Player2(),
-	Player3(),
+	Player3(), OrgPlayer,
 }

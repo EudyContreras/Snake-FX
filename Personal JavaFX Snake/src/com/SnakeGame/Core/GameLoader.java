@@ -47,6 +47,7 @@ public class GameLoader {
 	Player2 player2;
 	SlitherSnake slither;
 	Random rand;
+	private OrgPlayer orgPlayer;
 	public static double ResolutionScaleX = 1.0;
 	public static double ResolutionScaleY = 1.0;
 
@@ -566,6 +567,13 @@ public class GameLoader {
 	 * Method used to create the player and position the player at a specified
 	 * position.
 	 */
+	public void loadOrgPlayer() {
+		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
+		float y = (float) (Settings.HEIGHT * 0.55);
+		orgPlayer =  new OrgPlayer(game, game.getPlayfieldLayer(), 
+				new Circle(40, Color.GREEN), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.Player, game.getObjectManager());
+		game.getOrgObjectManager().addObject(orgPlayer);
+	}
 	public void loadPlayer1() {
 		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.55);
@@ -662,6 +670,9 @@ public class GameLoader {
 	}
 	public Player2 getPlayer2(){
 		return player2;
+	}
+	public OrgPlayer getOrgPlayer2(){
+		return orgPlayer;
 	}
 	public SlitherSnake getSlither() {
 		return slither;

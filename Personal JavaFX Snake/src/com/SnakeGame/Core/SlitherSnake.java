@@ -73,7 +73,7 @@ public class SlitherSnake extends SlitherMain {
     boolean allowTurnRight = true;
     boolean allowTurnUp = true;
     boolean allowTurnDown = true;
-    boolean allowMoving = true;
+    boolean allowMovement = false;
     boolean thrust = false;
     int turnDelay = Settings.TURN_DELAY;
     int dirtDelay = 10;
@@ -189,7 +189,7 @@ public class SlitherSnake extends SlitherMain {
     }
 
 	public void move() {
-
+		if(allowMovement) {
 		x = (float) (getX() + Math.sin(Math.toRadians(rotation)) * velX * speed);
 		y = (float) (getY() + Math.cos(Math.toRadians(rotation)) * velY * speed);
 		r = -rotation;
@@ -212,6 +212,7 @@ public class SlitherSnake extends SlitherMain {
 
 			thisPart.setX(partBefore.getX() - (float) Math.cos(angle) * 15);
 			thisPart.setY(partBefore.getY() - (float) Math.sin(angle) * 15);
+		}
 		}
 	}
     public void update(){
@@ -261,6 +262,7 @@ public class SlitherSnake extends SlitherMain {
     	}
     }
 	public void setDirection(float direction) {
+		allowMovement = true;
 		this.rotation = direction;
 	}
 	public void moveUp() {

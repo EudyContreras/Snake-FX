@@ -30,22 +30,22 @@ public class GameKeyInputManager {
                 if (e.getCode() == KeyCode.W){
                     keyDown[0] = true;
 //                    p3.moveUp();
-                    p.setDirection(PlayerMovement.MOVE_UP);
+                    game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_UP);
                 }
                 if (e.getCode()== KeyCode.S){
                     keyDown[1] = true;
 //                    p3.moveDown();
-                    p.setDirection(PlayerMovement.MOVE_DOWN);
+                    game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_DOWN);
                 }
                 if (e.getCode() == KeyCode.A){
                     keyDown[2] = true;
 //                    p3.rotateLeft = true;
-                    p.setDirection(PlayerMovement.MOVE_LEFT);
+                    game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_LEFT);
                 }
                 if (e.getCode() == KeyCode.D){
                     keyDown[3] = true;
 //                    p3.rotateRight = true;
-                    p.setDirection(PlayerMovement.MOVE_RIGHT);
+                    game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_RIGHT);
                 }
                 if (e.getCode() == KeyCode.H){
                 	game.getGameHud().showHide();

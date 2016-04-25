@@ -54,9 +54,11 @@ public class SnakeGame extends Application implements Runnable {
 	GameMouseInputManager mouseInput;
 	GraphicsContext gc;
 	GameObjectManager objectManager;
+	OrgGameObjectManager orgObjectManager;
 	GameSlitherManager slitherManager;
 	GameDebrisManager debrisManager;
 	GameSectionManager sectManager;
+	OrgGameSectionManager orgSectManager;
 	GameSectionManager2 sectManager2;
 	GameSlitherSectionManager sectManager3;
 	GameImageBank imageBank;
@@ -182,7 +184,8 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPixelMap();
 		loader.loadPlayer1();
 		loader.loadPlayer2();
-		loader.createSlither();
+		loader.loadOrgPlayer();
+//		loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		gameHud = new GameHud(this, -5, 0, Settings.WIDTH+10, 55 / GameLoader.ResolutionScaleY);
 		healthBar = new HealthBar(this, 20 / GameLoader.ResolutionScaleX, 0, (int) (350 / GameLoader.ResolutionScaleX),
@@ -254,6 +257,8 @@ public class SnakeGame extends Application implements Runnable {
 		objectManager = new GameObjectManager(this);
 		slitherManager = new GameSlitherManager(this);
 		sectManager = new GameSectionManager(this);
+		orgObjectManager = new OrgGameObjectManager(this);
+		orgSectManager = new OrgGameSectionManager(this);
 		sectManager2 = new GameSectionManager2(this);
 		sectManager3 = new GameSlitherSectionManager(this);
 		keyInput = new GameKeyInputManager();
@@ -450,6 +455,7 @@ public class SnakeGame extends Application implements Runnable {
 							scoreKeeper.keepCount();
 							// loader.spawnObjectRandomly(true);
 							// loader.updateLevelObjects();
+							
 							slitherManager.updateAll(gc, timePassed);
 							slitherManager.checkCollisions();
 							objectManager.updateAll(gc, timePassed);
@@ -457,6 +463,9 @@ public class SnakeGame extends Application implements Runnable {
 							sectManager.updateAll(gc, timePassed);
 							sectManager2.updateAll(gc, timePassed);
 							sectManager3.updateAll(gc, timePassed);
+							orgObjectManager.updateAll(gc, timePassed);
+							orgObjectManager.checkCollisions();
+							orgSectManager.updateAll(gc, timePassed);
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
@@ -959,6 +968,14 @@ public class SnakeGame extends Application implements Runnable {
 
 	public GameDebrisManager getDebrisManager() {
 		return debrisManager;
+	}
+
+	public OrgGameObjectManager getOrgObjectManager() {
+		return orgObjectManager;
+	}
+
+	public OrgGameSectionManager getOrgSectManager() {
+		return orgSectManager;
 	}
 
 	public void setDebrisManager(GameDebrisManager debrisManager) {
