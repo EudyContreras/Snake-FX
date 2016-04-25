@@ -1,4 +1,4 @@
-package com.SnakeGame.Slither;
+package com.SnakeGame.SlitherSnake;
 
 import java.util.Random;
 
@@ -137,7 +137,7 @@ public class SlitherSection extends SlitherSectionMain{
 		}
 	}
 	public void checkRemovability() {
-		teleport();
+	//	teleport();
 	}
 	public void checkCollision() {
 

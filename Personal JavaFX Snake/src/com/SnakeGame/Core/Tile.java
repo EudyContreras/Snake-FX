@@ -16,16 +16,16 @@ import javafx.scene.image.ImageView;
 public abstract class Tile {
 
     protected ImageView view = new ImageView();
-    protected float x;
-    protected float y;
+    public float x;
+    public float y;
     protected float r;
     protected float velX;
     protected float velY;
     protected float velR;
     protected Image image;
     protected boolean status = true;
-    protected double width;
-    protected double height;
+    public double width;
+    public double height;
 	protected LevelObjectID id;
 
 	public Tile(float x, float y) {

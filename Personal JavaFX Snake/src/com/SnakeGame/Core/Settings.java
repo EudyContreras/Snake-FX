@@ -35,8 +35,8 @@ public class Settings {
     public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
     public static double SCALE = 1.0;
 
-    public static double SNAKE_SPEED = 6; //must be a number which the size must be divisible by while the result remains whole
-	public static double SECTION_SIZE = 30;	//Could now be any number I think!!
+    public static double SNAKE_SPEED = 5; //must be a number which the size must be divisible by while the result remains whole
+	public static double SECTION_SIZE = 25;	//Could now be any number I think!!
 
 	public static int APPLE_COUNT = 10;
 	public static int SECTIONS_TO_ADD = 3;

@@ -1,4 +1,4 @@
-package com.SnakeGame.Slither;
+package com.SnakeGame.SlitherSnake;
 
 import java.util.Iterator;
 import java.util.LinkedList;

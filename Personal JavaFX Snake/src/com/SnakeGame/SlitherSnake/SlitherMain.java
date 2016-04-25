@@ -1,4 +1,4 @@
-package com.SnakeGame.Slither;
+package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.Core.GameObject;
 import com.SnakeGame.Core.GameObjectID;

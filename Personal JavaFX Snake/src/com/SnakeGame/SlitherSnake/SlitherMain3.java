@@ -1,4 +1,4 @@
-package com.SnakeGame.Slither;
+package com.SnakeGame.SlitherSnake;
 
 public class SlitherMain3 {
 	protected float x;

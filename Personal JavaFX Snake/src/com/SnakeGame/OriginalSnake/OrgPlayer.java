@@ -7,7 +7,6 @@ import com.SnakeGame.Core.GameObjectManager;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
-
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
@@ -62,11 +61,12 @@ public class OrgPlayer extends OrgGameObject {
 	int rightBoundary;
 	int recoilDuration = 30;
 	int shakeDuration = 30;
-	int NUMERIC_ID = 0;
 	int scroll = 0;
 	float glowLevel = 0;
 	float amountOfBlur = 2.0f;
 	SnakeGame game;
+	OrgSnakeTail tail;
+	OrgSnakeHead snakeHead;
 	DropShadow borderGlow = new DropShadow();
 	DropShadow borderGlow2 = new DropShadow();
 	MotionBlur motionBlur = new MotionBlur();
@@ -75,6 +75,7 @@ public class OrgPlayer extends OrgGameObject {
 	GameObjectManager gom;
 	OrgGameSectionManager sectManager;
 	PlayerMovement direction;
+    public static int NUMERIC_ID = 0;
 
 	public OrgPlayer(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR,
 			double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
@@ -82,17 +83,11 @@ public class OrgPlayer extends OrgGameObject {
 		this.gom = gom;
 		this.speed = speed;
 		this.game = game;
-		this.motionBlur.setAngle(-15.0);
-		this.motionBlur.setRadius(amountOfBlur);
-		this.imageView.setEffect(motionBlur);
-		this.lighting.setSurfaceScale(5.0);
-		this.lighting.setLight(light);
-		this.lighting.setDiffuseConstant(1.2);
-		this.lighting.setSpecularConstant(0.2);
-		this.direction = PlayerMovement.STANDING_STILL;
+		this.circle.setVisible(false);
+        this.snakeHead = new OrgSnakeHead(this,game,layer,new Circle(Settings.SECTION_SIZE*1.4, new ImagePattern(GameImageBank.snakeHead)), x, y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
+        this.game.getOrgObjectManager().addObject(snakeHead);
+        this.direction = PlayerMovement.STANDING_STILL;
 		this.sectManager = game.getOrgSectManager();
-		if (Settings.ADD_LIGHTING)
-			this.motionBlur.setInput(lighting);
 	}
 
 	public void updateUI() {
@@ -128,6 +123,7 @@ public class OrgPlayer extends OrgGameObject {
 	private void moveUp() {
 		velY = -Settings.SECTION;
 		velX = 0;
+		r = 180;
 		setCurrentDirection(PlayerMovement.MOVE_UP);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, 0);
@@ -137,6 +133,7 @@ public class OrgPlayer extends OrgGameObject {
 	private void moveDown() {
 		velY = Settings.SECTION;
 		velX = 0;
+		r = 0;
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, 0);
@@ -146,6 +143,7 @@ public class OrgPlayer extends OrgGameObject {
 	private void moveRight() {
 		velX = Settings.SECTION;
 		velY = 0;
+		r = -89;
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, 0);
@@ -155,6 +153,7 @@ public class OrgPlayer extends OrgGameObject {
 	private void moveLeft() {
 		velX = -Settings.SECTION;
 		velY = 0;
+		r = 89;
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, 0);
@@ -186,7 +185,7 @@ public class OrgPlayer extends OrgGameObject {
 	}
 	public void addSection(){
         for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++){
-        	sectManager.addSection(new OrgSnakeSection(this, game, layer, new Circle(40, new ImagePattern(GameImageBank.snakeBody)), x, y,
+        	sectManager.addSection(new OrgSnakeSection(this, game, layer, new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
         NUMERIC_ID++;
         }
@@ -243,4 +242,13 @@ public class OrgPlayer extends OrgGameObject {
 	public void setSpeedBump(boolean b) {
 
 	}
+
+	public void setTail(OrgSnakeTail tail) {
+		this.tail = tail;
+
+	}
+	public OrgSnakeTail getTail() {
+		return tail;
+	}
+
 }

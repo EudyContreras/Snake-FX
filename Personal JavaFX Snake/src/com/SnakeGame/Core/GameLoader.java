@@ -4,7 +4,8 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import com.SnakeGame.OriginalSnake.OrgPlayer;
-import com.SnakeGame.Slither.SlitherSnake;
+import com.SnakeGame.SlitherSnake.SlitherSnake;
+
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -570,7 +571,7 @@ public class GameLoader {
 		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.55);
 		orgPlayer =  new OrgPlayer(game, game.getSnakeHeadLayer(),
-				new Circle(40, new ImagePattern(GameImageBank.snakeHead)), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
+				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
 		game.getOrgObjectManager().addObject(orgPlayer);
 	}
 	public void loadPlayer1() {

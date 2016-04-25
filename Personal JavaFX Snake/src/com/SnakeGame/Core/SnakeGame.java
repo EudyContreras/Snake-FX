@@ -2,8 +2,8 @@ package com.SnakeGame.Core;
 
 import com.SnakeGame.OriginalSnake.OrgGameObjectManager;
 import com.SnakeGame.OriginalSnake.OrgGameSectionManager;
-import com.SnakeGame.Slither.GameSlitherManager;
-import com.SnakeGame.Slither.GameSlitherSectionManager;
+import com.SnakeGame.SlitherSnake.GameSlitherManager;
+import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;

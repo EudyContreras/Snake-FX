@@ -1,4 +1,4 @@
-package com.SnakeGame.Slither;
+package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.Core.Animation;
 import com.SnakeGame.Core.DirtDisplacement;
@@ -89,7 +89,7 @@ public class SlitherSnake extends SlitherMain {
     boolean allowTurnRight = true;
     boolean allowTurnUp = true;
     boolean allowTurnDown = true;
-    boolean allowMovement = false;
+    boolean allowMovement = true;
     public boolean thrust = false;
     int turnDelay = Settings.TURN_DELAY;
     int dirtDelay = 10;
@@ -436,7 +436,7 @@ public class SlitherSnake extends SlitherMain {
 			}
 		}
 	    public void draw(GraphicsContext gc){
-	    	checkBounds();
+	    	//checkBounds();
 	    	if(allowDamage == false){
 	    		immunity--;
 	    		if(immunity<=0){

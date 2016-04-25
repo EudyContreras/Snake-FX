@@ -1,6 +1,6 @@
 package com.SnakeGame.Core;
 
-import com.SnakeGame.Slither.SlitherSnake;
+import com.SnakeGame.SlitherSnake.SlitherSnake;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -151,7 +151,7 @@ public class GameKeyInputManager {
                 if(!keyDown[4]){
                 }
                 if(!keyDown[5]){
-//                	p3.thrust = false;
+//               	p3.thrust = false;
                 }
             }
         });
