@@ -1,7 +1,11 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Slither;
 
 
 import java.util.ArrayList;
+
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.SnakeGame;
+
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 

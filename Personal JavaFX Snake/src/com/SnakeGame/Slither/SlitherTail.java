@@ -1,4 +1,9 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Slither;
+
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.GameSectionManager;
+import com.SnakeGame.Core.Player;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;

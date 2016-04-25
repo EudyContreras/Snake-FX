@@ -1,4 +1,20 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Slither;
+
+import com.SnakeGame.Core.Animation;
+import com.SnakeGame.Core.DirtDisplacement;
+import com.SnakeGame.Core.EatTrigger1;
+import com.SnakeGame.Core.GameImageBank;
+import com.SnakeGame.Core.GameObject;
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.LevelObjectID;
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.ScoreKeeper;
+import com.SnakeGame.Core.ScreenOverlay;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Core.SnakeHead;
+import com.SnakeGame.Core.SnakeMouth;
+import com.SnakeGame.Core.Tile;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -44,8 +60,8 @@ public class SlitherSnake extends SlitherMain {
     boolean right = false;
     boolean vibrate = false;
     boolean collision = false;
-    boolean rotateLeft = false;
-    boolean rotateRight = false;
+    public boolean rotateLeft = false;
+    public boolean rotateRight = false;
     boolean checkVibrate = true;
     boolean hitBounds = false;
     boolean movingUp = false;
@@ -74,7 +90,7 @@ public class SlitherSnake extends SlitherMain {
     boolean allowTurnUp = true;
     boolean allowTurnDown = true;
     boolean allowMovement = false;
-    boolean thrust = false;
+    public boolean thrust = false;
     int turnDelay = Settings.TURN_DELAY;
     int dirtDelay = 10;
     int tailSize = 30;
@@ -513,7 +529,7 @@ public class SlitherSnake extends SlitherMain {
 	    public void die(){
 			killSlither = true;
 			blurOut();
-			game.healthBar.drainAll();
+			game.getHealthBar().drainAll();
 	    }
 	    public void addBones() {
 	        isDead = true;

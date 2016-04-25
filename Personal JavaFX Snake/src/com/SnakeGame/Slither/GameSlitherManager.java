@@ -1,7 +1,10 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Slither;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.scene.canvas.GraphicsContext;
 

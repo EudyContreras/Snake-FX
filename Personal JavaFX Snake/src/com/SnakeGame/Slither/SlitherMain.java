@@ -1,4 +1,8 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Slither;
+
+import com.SnakeGame.Core.GameObject;
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -255,7 +259,7 @@ public abstract class SlitherMain {
         this.layer.getChildren().add(this.imageView);
     }
 	public void addToLayer(Node node) {
-        this.layer.getChildren().add(node);
+        this.layer.getChildren().add(0,node);
     }
 	public void addToCanvas() {
         this.layer.getChildren().add(this.imageView);

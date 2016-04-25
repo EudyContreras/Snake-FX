@@ -4,7 +4,6 @@ import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
-
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -39,6 +38,12 @@ public class OrgSnakeSection extends OrgSectionMain {
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
+				this.setLastDirection(Direction);
+				this.x = (float) (x - this.circle.getRadius());
+				this.y = y;
+				this.velX = snake.getVelX();
+				this.velY = snake.getVelY();
+			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
 				this.x = (float) (x - this.circle.getRadius());
 				this.y = y;

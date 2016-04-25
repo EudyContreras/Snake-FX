@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Slither;
 
 import java.util.LinkedList;
 
@@ -11,9 +11,6 @@ public class Slither extends SlitherMain3{
 		 parts.add(part);
 		}
 	}
-
-
-
 	public void move() {
 
 	      SnakePart snakeHead = parts.get(0);

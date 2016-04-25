@@ -3,12 +3,9 @@ package com.SnakeGame.Core;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
 import com.SnakeGame.OriginalSnake.OrgPlayer;
-
-import javafx.scene.Scene;
+import com.SnakeGame.Slither.SlitherSnake;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
@@ -42,9 +39,9 @@ public class GameLoader {
 	private double Front_Distance_LOD = 1;
 	private double Rear_Distance_LOD = 0;
 	private SnakeGame game;
+	public GameTileManager tileManager;
 	TileMap texture;
 	GameObjectManager objectManger;
-	GameTileManager tileManager;
 	Player player;
 	Player2 player2;
 	SlitherSnake slither;

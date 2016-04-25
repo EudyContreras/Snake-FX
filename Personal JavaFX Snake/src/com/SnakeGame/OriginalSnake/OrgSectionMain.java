@@ -149,7 +149,7 @@ public abstract class OrgSectionMain {
         this.layer.getChildren().add(this.imageView);
     }
 	public void addToLayer(Node node) {
-        this.layer.getChildren().add(node);
+        this.layer.getChildren().add(0,node);
     }
 	public void addToCanvas() {
         this.layer.getChildren().add(this.imageView);

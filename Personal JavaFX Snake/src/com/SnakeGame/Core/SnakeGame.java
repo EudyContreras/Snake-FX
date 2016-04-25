@@ -2,6 +2,8 @@ package com.SnakeGame.Core;
 
 import com.SnakeGame.OriginalSnake.OrgGameObjectManager;
 import com.SnakeGame.OriginalSnake.OrgGameSectionManager;
+import com.SnakeGame.Slither.GameSlitherManager;
+import com.SnakeGame.Slither.GameSlitherSectionManager;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -108,17 +110,17 @@ public class SnakeGame extends Application implements Runnable {
 	Boolean stopDrawing = false;
 	String title = "SNAKE";
 	Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	boolean isRunning = true;
-	boolean gameRunning = false;
-	boolean imageReady = true;
-	boolean checkCollisions = false;
-	boolean fadeOut = false;
-	int splashWidth;
-	int splashHeight;
-	int levelLenght;
-	double fade = 0.0;
-	double splashFadeDuration;
-	double splashFadeDelay;
+	public boolean isRunning = true;
+	public boolean gameRunning = false;
+	public boolean imageReady = true;
+	public boolean checkCollisions = false;
+	public boolean fadeOut = false;
+	public int splashWidth;
+	public int splashHeight;
+	public int levelLenght;
+	public double fade = 0.0;
+	public double splashFadeDuration;
+	public double splashFadeDelay;
 
 	public void start(Stage primaryStage) {
 		// reset();
@@ -899,6 +901,22 @@ public class SnakeGame extends Application implements Runnable {
 			}
 		}
 	}
+	public HealthBar getHealthBar() {
+		return healthBar;
+	}
+
+	public void setHealthBar(HealthBar healthBar) {
+		this.healthBar = healthBar;
+	}
+
+	public HealthBar2 getHealthBar2() {
+		return healthBar2;
+	}
+
+	public void setHealthBar2(HealthBar2 healthBar2) {
+		this.healthBar2 = healthBar2;
+	}
+
 	public static void writeToLog(String text) {
 		System.out.println(text + "\n");
 	}
