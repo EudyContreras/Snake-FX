@@ -1,7 +1,12 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.SnakeOne;
 
 
 import java.util.ArrayList;
+
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.SectionMain;
+import com.SnakeGame.Core.SnakeGame;
+
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -13,11 +18,11 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameSectionManager {
+public class SnakeOneSectionManager {
 	private ArrayList<SectionMain> sectionList;
 	private SectionMain tempSection;
 
-	public GameSectionManager(SnakeGame gameJavaFX){
+	public SnakeOneSectionManager(SnakeGame gameJavaFX){
 		initialize();
 	}
 	public void initialize() {

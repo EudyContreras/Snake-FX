@@ -1,6 +1,8 @@
 package com.SnakeGame.Core;
 
 
+import com.SnakeGame.SnakeOne.SnakeOne;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -46,7 +48,7 @@ public class GameOverScreen {
 	}
 	public void finishLevel(){
 		gamePane.showCursor(true, gamePane.getScene());
-		Player.levelComplete = true;
+		SnakeOne.levelComplete = true;
 		Player2.levelComplete = true;
 		gameOver();
 	}
@@ -164,7 +166,7 @@ public class GameOverScreen {
 					boardXPosition = 0;
 					swipeLeft = false;
 					gamePane.restart();
-				   	Player.levelComplete = false;
+				   	SnakeOne.levelComplete = false;
 			    	Player2.levelComplete = false;
 					center = false;
 				}
@@ -221,7 +223,7 @@ public class GameOverScreen {
     }
     public void removeBlur(){
     	overlay.removeBlur();
-    	Player.levelComplete = false;
+    	SnakeOne.levelComplete = false;
     	Player2.levelComplete = false;
     	removeBoard();
     }

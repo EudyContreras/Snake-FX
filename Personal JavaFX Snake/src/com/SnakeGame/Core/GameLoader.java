@@ -3,8 +3,10 @@ package com.SnakeGame.Core;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+
 import com.SnakeGame.OriginalSnake.OrgPlayer;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
+import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -43,7 +45,7 @@ public class GameLoader {
 	public GameTileManager tileManager;
 	TileMap texture;
 	GameObjectManager objectManger;
-	Player player;
+	SnakeOne player;
 	Player2 player2;
 	SlitherSnake slither;
 	Random rand;
@@ -452,7 +454,7 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 0 && green == 0 && blue == 255) {
-					this.player = new Player(game, game.getPlayfieldLayer(), GameImageBank.snakeSphere, row * 20,
+					this.player = new SnakeOne(game, game.getPlayfieldLayer(), GameImageBank.snakeSphere, row * 20,
 							col * 20, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player,
 							game.getObjectManager());
 					game.getObjectManager().addObject(player);
@@ -578,7 +580,7 @@ public class GameLoader {
 	public void loadPlayer1() {
 		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.55);
-		player = new Player(game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
+		player = new SnakeOne(game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
 				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player, game.getObjectManager());
 		game.getObjectManager().addObject(player);
 	}
@@ -666,7 +668,7 @@ public class GameLoader {
 //		}
 //	}
 
-	public Player getPlayer() {
+	public SnakeOne getPlayer() {
 		return player;
 	}
 	public Player2 getPlayer2(){
@@ -678,7 +680,7 @@ public class GameLoader {
 	public SlitherSnake getSlither() {
 		return slither;
 	}
-	public void setPlayer(Player player) {
+	public void setPlayer(SnakeOne player) {
 		this.player = player;
 	}
 	public void setPlayer2(Player2 player) {

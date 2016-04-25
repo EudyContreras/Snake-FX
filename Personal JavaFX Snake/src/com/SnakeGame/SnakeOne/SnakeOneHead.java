@@ -1,4 +1,14 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.SnakeOne;
+
+import com.SnakeGame.Core.FruitSplash2;
+import com.SnakeGame.Core.GameObject;
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.GameObjectManager;
+import com.SnakeGame.Core.LevelObjectID;
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Core.Tile;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
@@ -7,26 +17,26 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class SnakeHead extends GameObject{
+public class SnakeOneHead extends GameObject{
 	double rotation = 0;
 	double rotationSpeed = 0;
 	double targetRotation;
 	int equivalence;
 	boolean rotate;
 	SnakeGame game;
-	Player snake;
+	SnakeOne snake;
 	Rectangle headBounds;
 	Rectangle headBoundsLeft;
 	Rectangle headBoundsRight;
 	Rectangle headBoundsTop;
 	Rectangle headBoundsBottom;
 	Rectangle clearFromCollision;
-	GameSectionManager sectManager;
+	SnakeOneSectionManager sectManager;
 	GameObjectManager gom;
 	PlayerMovement direction = PlayerMovement.MOVE_DOWN;
 	PlayerMovement newDirection;
 
-	public SnakeHead(Player snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id, PlayerMovement Direction) {
+	public SnakeOneHead(SnakeOne snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, id);
 		this.snake = snake;
 		this.game = game;

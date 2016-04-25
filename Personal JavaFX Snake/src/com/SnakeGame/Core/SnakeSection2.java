@@ -19,7 +19,7 @@ public class SnakeSection2 extends SectionMain{
 	SnakeTail2 tail;
 	Random rand;
 	Circle bones;
-	GameSectionManager2 sectManager;
+	SnakeTwoSectionManager sectManager;
 	PlayerMovement direction;
 	boolean stopped = false;
 

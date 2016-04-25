@@ -320,7 +320,7 @@ public abstract class SectionMain {
     protected void removeLatestDirection(){
     	lastDirection.remove(0);
     }
-	protected void setNewLocation(Point2D... location){
+	public void setNewLocation(Point2D... location){
 		if(location.length > 1){
 			lastPosition.addAll(Arrays.asList(location));
 		}
@@ -329,7 +329,7 @@ public abstract class SectionMain {
 		}
 
 	}
-	protected void setNewDirection(PlayerMovement... direction){
+	public void setNewDirection(PlayerMovement... direction){
 		 if (direction.length > 1) {
 	        lastDirection.addAll(Arrays.asList(direction));
 		 }
@@ -340,7 +340,7 @@ public abstract class SectionMain {
 	protected void setLastDirection(PlayerMovement direction){
 		this.direction = direction;
 	}
-	protected PlayerMovement getLastDirection(){
+	public PlayerMovement getLastDirection(){
 		return direction;
 	}
 	protected void setLastPosition(Point2D position){
@@ -352,10 +352,10 @@ public abstract class SectionMain {
 	protected void setNumericID(int SECTION_COUNT) {
 		this.numericID = SECTION_COUNT;
 	}
-	protected int getNumericID(){
+	public int getNumericID(){
 		return numericID;
 	}
-	protected void die() {
+	public void die() {
 
 
 	}

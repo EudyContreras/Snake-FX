@@ -1,6 +1,7 @@
 package com.SnakeGame.Core;
 
 import com.SnakeGame.SlitherSnake.SlitherSnake;
+import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -24,7 +25,7 @@ public class GameKeyInputManager {
         keyDown[5] = false;
     }
 
-    public void processInput(SnakeGame game,Player p,Player2 p2, SlitherSnake p3,Scene scene){
+    public void processInput(SnakeGame game,SnakeOne p,Player2 p2, SlitherSnake p3,Scene scene){
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
             public void handle(KeyEvent e) {

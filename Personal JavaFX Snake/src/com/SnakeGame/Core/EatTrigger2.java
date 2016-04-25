@@ -10,7 +10,7 @@ public class EatTrigger2 extends GameObject{
 	boolean stop = false;
 	SnakeGame game;
 	Player2 snake;
-	GameSectionManager2 sectManager;
+	SnakeTwoSectionManager sectManager;
 	GameObjectManager gom;
 
 

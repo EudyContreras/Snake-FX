@@ -1,6 +1,9 @@
 package com.SnakeGame.Core;
 
 import java.util.Random;
+
+import com.SnakeGame.SnakeOne.SnakeOne;
+
 import javafx.scene.shape.Circle;
 /**
  * This class is used to keep track of energy used by the player if there's is any
@@ -22,7 +25,7 @@ public class SandEmitter {
 	double height = 0;
 	int interval = 0;
 	int spawnDelay = 0;
-	Player player;
+	SnakeOne player;
 	Circle emitter;
 	SnakeGame game;
 	Random rand;
@@ -71,7 +74,7 @@ public class SandEmitter {
 		if (random && rand.nextInt(Settings.BLUR_RANDOMNESS) != 0) {
 			return;
 		}
-		if(!Player.killTheSnake && !Player2.killTheSnake)
+		if(!SnakeOne.killTheSnake && !Player2.killTheSnake)
 		this.overlay.addStormBlur();
 		//this.overlay.addToneOverlay(Color.rgb(255, 150, 0,0), 6, 2);
 	}

@@ -1,6 +1,22 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.SnakeOne;
 
 import java.util.LinkedList;
+
+import com.SnakeGame.Core.Animation;
+import com.SnakeGame.Core.DirtDisplacement;
+import com.SnakeGame.Core.GameImageBank;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.GameObject;
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.GameObjectManager;
+import com.SnakeGame.Core.LevelObjectID;
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.ScoreKeeper;
+import com.SnakeGame.Core.ScreenOverlay;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Core.Tile;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -14,7 +30,7 @@ import javafx.scene.shape.Rectangle;
 
 
 
-public class Player extends GameObject {
+public class SnakeOne extends GameObject {
 
     double minX;
     double maxX;
@@ -57,7 +73,7 @@ public class Player extends GameObject {
     boolean introduceSpaceship = true;
     boolean firstBite = false;
     boolean notEating = true;
-    boolean allowOpen = true;
+    public boolean allowOpen = true;
     boolean eatCoolDown = false;
     boolean setDelay = false;
     boolean allowToTurn = true;
@@ -98,15 +114,15 @@ public class Player extends GameObject {
     Circle skull;
     GameObjectManager gom;
     Animation anim;
-    GameSectionManager sectManager;
-    SnakeHead snakeHead;
-    SnakeMouth mouth;
-    SnakeTail tail;
+    SnakeOneSectionManager sectManager;
+    SnakeOneHead snakeHead;
+    SnakeOneMouth mouth;
+    SnakeOneTail tail;
     Rectangle bounds;
-    EatTrigger1 trigger;
+    SnakeOneEatTrigger trigger;
     ScreenOverlay overlay;
     PlayerMovement direction;
-	private SnakeSection neighbor;
+	private SnakeOneSection neighbor;
     public static int NUMERIC_ID = 0;
     public static Boolean killTheSnake = false;
     public static Boolean levelComplete = false;
@@ -115,7 +131,7 @@ public class Player extends GameObject {
     public static Boolean MOUTH_CLOSE = true;
     public static Boolean keepMoving = true;
 
-    public Player(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY, double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
+    public SnakeOne(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY, double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
         super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
         this.gom = gom;
         this.speed = speed;
@@ -128,9 +144,9 @@ public class Player extends GameObject {
         this.circle.setVisible(false);
         this.direction = PlayerMovement.STANDING_STILL;
         this.sectManager = game.getSectionManager();
-        this.snakeHead = new SnakeHead(this,game,layer,GameImageBank.snakeSphere, this.x, this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-        this.mouth = new SnakeMouth(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE*0.30/GameLoader.ResolutionScaleX,Color.TRANSPARENT), this.x, this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
-        this.trigger = new EatTrigger1(this,game, game.getSnakeHeadLayer(),  new Circle(Settings.SECTION_SIZE*0.8/GameLoader.ResolutionScaleX,Color.TRANSPARENT), this.x, this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
+        this.snakeHead = new SnakeOneHead(this,game,layer,GameImageBank.snakeSphere, this.x, this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
+        this.mouth = new SnakeOneMouth(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE*0.30/GameLoader.ResolutionScaleX,Color.TRANSPARENT), this.x, this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
+        this.trigger = new SnakeOneEatTrigger(this,game, game.getSnakeHeadLayer(),  new Circle(Settings.SECTION_SIZE*0.8/GameLoader.ResolutionScaleX,Color.TRANSPARENT), this.x, this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
         this.gom.addObject(trigger);
         this.gom.addObject(mouth);
         this.gom.addObject(snakeHead);
@@ -433,14 +449,14 @@ public class Player extends GameObject {
     }
     public void addbaseSections(){
         for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++){
-        sectManager.addSection(new SnakeSection(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+        sectManager.addSection(new SnakeOneSection(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
         SnakeGame.writeToLog("New section added "+ NUMERIC_ID);
         NUMERIC_ID++;
         }
     }
     public void addSection(){
         for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++){
-        sectManager.addSection(new SnakeSection(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+        sectManager.addSection(new SnakeOneSection(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
         SnakeGame.writeToLog("New section added "+ NUMERIC_ID);
         NUMERIC_ID++;
         }
@@ -667,7 +683,7 @@ public class Player extends GameObject {
     public void die(){
 		killTheSnake = true;
 		blurOut();
-		game.healthBar.drainAll();
+		game.getHealthBarOne().drainAll();
     }
     public void addBones() {
         isDead = true;
@@ -686,7 +702,7 @@ public class Player extends GameObject {
     public void setDead(boolean isDead) {
         this.isDead = isDead;
     }
-    public SnakeMouth getMouth(){
+    public SnakeOneMouth getMouth(){
         return mouth;
     }
     public void checkRemovability() {
@@ -698,10 +714,10 @@ public class Player extends GameObject {
     public void setSpeedBump(boolean b) {
 
     }
-    public void setTail(SnakeTail tail){
+    public void setTail(SnakeOneTail tail){
     	this.tail = tail;
     }
-    public SnakeTail getTail(){
+    public SnakeOneTail getTail(){
     	return tail;
     }
     public Image getAnimationImage(){
@@ -713,7 +729,7 @@ public class Player extends GameObject {
     public void setAnimation(Animation anim) {
         this.anim = anim;
     }
-	public void setNeighbor(SnakeSection snakeSection) {
+	public void setNeighbor(SnakeOneSection snakeSection) {
 		this.neighbor = snakeSection;
 
 	}

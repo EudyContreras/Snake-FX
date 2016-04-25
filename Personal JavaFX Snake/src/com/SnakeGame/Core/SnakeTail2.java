@@ -9,7 +9,7 @@ import javafx.scene.layout.Pane;
 public class SnakeTail2 extends GameObject{
 	SnakeSection2 snakeSect;
 	SnakeSection2 sectionToFollow;
-	GameSectionManager2 sectManager;
+	SnakeTwoSectionManager sectManager;
 	LinkedList<Point2D> lastLocation = new LinkedList<Point2D>();
 	LinkedList<PlayerMovement> lastDirection = new LinkedList<PlayerMovement>();
 

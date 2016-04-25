@@ -1,5 +1,7 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.SnakeOne.SnakeOne;
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
@@ -414,7 +416,7 @@ public abstract class GameObject {
     public void remove() {
         setRemovable(true);
     }
-    public void bounce(Player snake,double x, double y){
+    public void bounce(SnakeOne snake,double x, double y){
 
     }
     public void bounce(Player2 snake,double x, double y){

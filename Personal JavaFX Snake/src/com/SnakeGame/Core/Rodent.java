@@ -2,6 +2,10 @@ package com.SnakeGame.Core;
 
 import java.util.LinkedList;
 
+import com.SnakeGame.SnakeOne.SnakeOneMouth;
+import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
+import com.SnakeGame.SnakeOne.SnakeOneTail;
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -95,9 +99,9 @@ public class Rodent extends GameObject {
     Circle skull;
     GameObjectManager gom;
     Animation anim;
-    GameSectionManager sectManager;
-    SnakeMouth mouth;
-    SnakeTail tail;
+    SnakeOneSectionManager sectManager;
+    SnakeOneMouth mouth;
+    SnakeOneTail tail;
     ScreenOverlay overlay;
     PlayerMovement direction;
     public static int NUMERIC_ID = 0;
@@ -452,7 +456,7 @@ public class Rodent extends GameObject {
     public void setDead(boolean isDead) {
         this.isDead = isDead;
     }
-    public SnakeMouth getMouth(){
+    public SnakeOneMouth getMouth(){
         return mouth;
     }
     public void checkRemovability() {
@@ -464,10 +468,10 @@ public class Rodent extends GameObject {
     public void setSpeedBump(boolean b) {
 
     }
-    public void setTail(SnakeTail tail){
+    public void setTail(SnakeOneTail tail){
     	this.tail = tail;
     }
-    public SnakeTail getTail(){
+    public SnakeOneTail getTail(){
     	return tail;
     }
     public Image getAnimationImage(){

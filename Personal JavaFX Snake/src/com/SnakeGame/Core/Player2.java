@@ -98,7 +98,7 @@ public class Player2 extends GameObject {
     Circle skull;
     GameObjectManager gom;
     Animation anim;
-    GameSectionManager2 sectManager;
+    SnakeTwoSectionManager sectManager;
     SnakeHead2 snakeHead;
     SnakeMouth2 mouth;
     SnakeTail2 tail;
@@ -666,7 +666,7 @@ public class Player2 extends GameObject {
     public void die(){
 		killTheSnake = true;
 		blurOut();
-		game.healthBar2.drainAll();
+		game.healthBarTwo.drainAll();
     }
     public void addBones() {
         isDead = true;

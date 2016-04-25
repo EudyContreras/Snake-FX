@@ -2,7 +2,6 @@ package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.Core.Animation;
 import com.SnakeGame.Core.DirtDisplacement;
-import com.SnakeGame.Core.EatTrigger1;
 import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameObject;
 import com.SnakeGame.Core.GameObjectID;
@@ -12,10 +11,7 @@ import com.SnakeGame.Core.ScoreKeeper;
 import com.SnakeGame.Core.ScreenOverlay;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
-import com.SnakeGame.Core.SnakeHead;
-import com.SnakeGame.Core.SnakeMouth;
 import com.SnakeGame.Core.Tile;
-
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -126,11 +122,8 @@ public class SlitherSnake extends SlitherMain {
     SlitherSectionMain partBefore;
     SlitherSectionMain snakeTail;
     GameSlitherSectionManager sectManager;
-    SnakeHead snakeHead;
-    SnakeMouth mouth;
     SlitherTail tail;
     Rectangle bounds;
-    EatTrigger1 trigger;
     ScreenOverlay overlay;
 	SlitherSection neighbor;
 	PlayerMovement direction;
@@ -381,32 +374,29 @@ public class SlitherSnake extends SlitherMain {
 	public void updateAnimation(long timePassed) {
 		anim.update(timePassed);
 	}
-	    public void checkTurns() {
-	    	if(snakeHead.allowLeftTurn()) {
-	    		this.allowTurnLeft = true;
-	    	}
-	    	else {
-	    		this.allowTurnLeft = false;
-	    	}
-	    	if(snakeHead.allowRightTurn()) {
-	    		this.allowTurnRight = true;
-	    	}
-	    	else {
-	    		this.allowTurnRight = false;
-	    	}
-	    	if(snakeHead.allowUpTurn()) {
-	    		this.allowTurnUp = true;
-	    	}
-	    	else {
-	    		this.allowTurnUp = false;
-	    	}
-	    	if(snakeHead.allowDownTurn()) {
-	    		this.allowTurnDown = true;
-	    	}
-	    	else {
-	    		this.allowTurnDown = false;
-	    	}
-	    }
+//
+//	public void checkTurns() {
+//		if (snakeHead.allowLeftTurn()) {
+//			this.allowTurnLeft = true;
+//		} else {
+//			this.allowTurnLeft = false;
+//		}
+//		if (snakeHead.allowRightTurn()) {
+//			this.allowTurnRight = true;
+//		} else {
+//			this.allowTurnRight = false;
+//		}
+//		if (snakeHead.allowUpTurn()) {
+//			this.allowTurnUp = true;
+//		} else {
+//			this.allowTurnUp = false;
+//		}
+//		if (snakeHead.allowDownTurn()) {
+//			this.allowTurnDown = true;
+//		} else {
+//			this.allowTurnDown = false;
+//		}
+//	}
 	    public void addbaseSections(){
 	        for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++){
 	        	sectManager.addSection(new SlitherSection(this,game, game.getSnakeBodyLayer(), new Circle(25,new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection, NUMERIC_ID));
@@ -542,9 +532,9 @@ public class SlitherSnake extends SlitherMain {
 	    public void fadeAndEnd(){
 	        game.getFadeScreen().getChildren().add(fadeRect);
 	    }
-	    public SnakeMouth getMouth(){
-	        return mouth;
-	    }
+//	    public SnakeOneMouth getMouth(){
+//	        return mouth;
+//	    }
 	    public boolean isNotMovingFast() {
 	        return false;
 	    }

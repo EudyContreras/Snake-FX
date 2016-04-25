@@ -1,5 +1,7 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.SnakeOne.SnakeOne;
+
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -29,7 +31,7 @@ public class ScoreBoard {
 	double height = 0;
 	double delay = 0;
 	String message;
-	Player player;
+	SnakeOne player;
 	Text text  = new Text();
 	Font theFont = Font.font( "Helvetica", FontWeight.BOLD, 20/GameLoader.ResolutionScaleX );
 	Rectangle board;
@@ -59,7 +61,7 @@ public class ScoreBoard {
 
 	}
 	public void hide(){
-		if(Player.levelComplete || Player2.levelComplete){
+		if(SnakeOne.levelComplete || Player2.levelComplete){
 			text.setVisible(false);
 			board.setVisible(false);
 		}

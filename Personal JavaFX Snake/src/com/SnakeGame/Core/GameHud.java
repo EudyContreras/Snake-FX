@@ -1,5 +1,7 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.SnakeOne.SnakeOne;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -24,7 +26,7 @@ public class GameHud {
 	double swipeSpeed = 0;
 	double limit;
 	SnakeGame game;
-	Player player;
+	SnakeOne player;
 	GraphicsContext gc;
 	Rectangle hudBar = new Rectangle();
 	Rectangle hudBarBorder = new Rectangle();
@@ -93,7 +95,7 @@ public class GameHud {
 		swipeUp = true;
 	}
 	public void hide(){
-		if(Player.levelComplete || Player2.levelComplete){
+		if(SnakeOne.levelComplete || Player2.levelComplete){
 			hudBar.setVisible(false);
 			hudBarBorder.setVisible(false);
 		}

@@ -13,7 +13,7 @@ public class SnakeMouth2 extends GameObject{
 	double offsetY;
 	SnakeGame game;
 	Player2 snake;
-	GameSectionManager2 sectManager;
+	SnakeTwoSectionManager sectManager;
 	GameObjectManager gom;
 
 

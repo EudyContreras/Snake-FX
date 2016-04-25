@@ -1,5 +1,7 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.SnakeOne.SnakeOne;
+
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
@@ -62,7 +64,7 @@ public class ScreenOverlay{
 	 * @param lifetime
 	 */
 	public void addDistortion(double lifetime, double speed){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.layer.setEffect(motionEffect);
 		this.motionEffect.setAngle(10);
 		this.setDistortion = true;
@@ -77,7 +79,7 @@ public class ScreenOverlay{
 	 * @param lifetime
 	 */
 	public void addSoftBlur(double lifetime, double speed){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.layer.setEffect(null);
 		this.softBlurLifetime = lifetime;
 		this.speedGaussian = speed;
@@ -92,7 +94,7 @@ public class ScreenOverlay{
 	 * @param lifetime
 	 */
 	public void addIntenseBlur(double lifetime, double speed){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.intenseBlurLifetime = lifetime;
 		this.speedBlur = speed;
 		this.blurEffect.setIterations(2);
@@ -107,7 +109,7 @@ public class ScreenOverlay{
 	 * @param lifetime
 	 */
 	public void addBloom(double lifetime, double speed){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.bloomLifetime = lifetime/10;
 		this.speedBloom = speed/10;
 		this.layer.setEffect(bloomEffect);
@@ -123,7 +125,7 @@ public class ScreenOverlay{
 	 * @param speed
 	 */
 	public void addToneOverlay(Color tone, double lifetime, double speed){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.layer.getChildren().remove(toneOverlay);
 		this.toneLifetime = lifetime/10;
 		this.speedTone = speed/10;
@@ -134,7 +136,7 @@ public class ScreenOverlay{
 		}
 	}
 	public void addDeathBlur(){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.layer.setEffect(null);
 		this.layer.setEffect(deathEffect);
 		this.deathBlur = true;
@@ -146,7 +148,7 @@ public class ScreenOverlay{
 		this.clearLevel = true;
 	}
 	public void addStormBlur(){
-		if(!Player.levelComplete && !Player2.levelComplete ){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete ){
 		this.layer.setEffect(null);
 		this.layer.setEffect(stormBlur);
 		this.storm = true;
@@ -214,7 +216,7 @@ public class ScreenOverlay{
 		}
 	}
 	public void setStormBlur(){
-		if(!Player.levelComplete && !Player2.levelComplete){
+		if(!SnakeOne.levelComplete && !Player2.levelComplete){
 		if(blurUp){
 			stormBluring+=0.1;
 			if(stormBluring>=4){

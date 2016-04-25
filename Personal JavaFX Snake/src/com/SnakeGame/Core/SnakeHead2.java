@@ -21,7 +21,7 @@ public class SnakeHead2 extends GameObject{
 	Rectangle headBoundsTop;
 	Rectangle headBoundsBottom;
 	Rectangle clearFromCollision;
-	GameSectionManager2 sectManager;
+	SnakeTwoSectionManager sectManager;
 	GameObjectManager gom;
 	PlayerMovement direction = PlayerMovement.MOVE_DOWN;
 	PlayerMovement newDirection;

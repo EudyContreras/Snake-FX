@@ -14,11 +14,11 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameSectionManager2 {
+public class SnakeTwoSectionManager {
 	private LinkedList<SectionMain> sectionList;
 	private SectionMain tempSection;
 	
-	public GameSectionManager2(SnakeGame gameJavaFX){
+	public SnakeTwoSectionManager(SnakeGame gameJavaFX){
 		initialize();
 	}
 	public void initialize() {

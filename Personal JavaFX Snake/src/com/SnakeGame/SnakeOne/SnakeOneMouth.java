@@ -1,23 +1,34 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.SnakeOne;
+
+import com.SnakeGame.Core.GameObject;
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.GameObjectManager;
+import com.SnakeGame.Core.LevelObjectID;
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.SectionMain;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.Snake;
+import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Core.Tile;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class SnakeMouth extends GameObject{
+public class SnakeOneMouth extends GameObject{
 	int index ;
 	int counter = 0;
 	boolean stop = false;
 	double offsetX;
 	double offsetY;
 	SnakeGame game;
-	Player snake;
-	GameSectionManager sectManager;
+	SnakeOne snake;
+	SnakeOneSectionManager sectManager;
 	GameObjectManager gom;
 
 
-	public SnakeMouth(Player snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id, PlayerMovement Direction) {
+	public SnakeOneMouth(SnakeOne snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, id);
 		this.snake = snake;
 		this.game = game;
@@ -57,7 +68,7 @@ public class SnakeMouth extends GameObject{
 		this.game.getloader().spawnSnakeFood();
 	}
 	public void move(){
-		if(Player.killTheSnake == false){
+		if(SnakeOne.killTheSnake == false){
 			this.index = sectManager.getSectionList().size()-1;
 		}
 		x = snake.getCenterX()+offsetX;
@@ -91,7 +102,7 @@ public class SnakeMouth extends GameObject{
 	    		GameObject tempObject = gom.getObjectList().get(i);
 	    		if(tempObject.getId() == GameObjectID.Fruit){
 	    			if(getRadialBounds().intersects(tempObject.getRadialBounds())){
-	    	 			if(Player.MOUTH_OPEN){
+	    	 			if(SnakeOne.MOUTH_OPEN){
 	    	    		snake.addSection();
 	    	    		snake.closeMouth();
 	    	    		game.getScoreKeeper().decreaseCount();
@@ -117,7 +128,7 @@ public class SnakeMouth extends GameObject{
 		 }
 	}
 	public void killTheSnake(){
-		if (Player.killTheSnake == true) {
+		if (SnakeOne.killTheSnake == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
 				if (counter == 5) {

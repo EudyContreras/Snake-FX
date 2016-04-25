@@ -1,29 +1,38 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.SnakeOne;
 
 import java.util.Random;
+
+import com.SnakeGame.Core.DirtDisplacement;
+import com.SnakeGame.Core.GameImageBank;
+import com.SnakeGame.Core.GameObjectID;
+import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.SectionDisintegration;
+import com.SnakeGame.Core.SectionMain;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class SnakeSection extends SectionMain{
+public class SnakeOneSection extends SectionMain{
 	double particleLife;
 	double particleSize;
 	double fadeValue = 1.0;
 	boolean fade = false;
 	boolean blowUp = true;
 	int dirtDelay = 10;
-	Player snake;
+	SnakeOne snake;
 	SnakeGame game;
-	SnakeTail tail;
+	SnakeOneTail tail;
 	Random rand;
 	Circle bones;
-	GameSectionManager sectManager;
+	SnakeOneSectionManager sectManager;
 	PlayerMovement direction;
 	boolean stopped = false;
 
-	public SnakeSection(Player snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id, PlayerMovement Direction, int numericID) {
+	public SnakeOneSection(SnakeOne snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id, PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
 		this.snake = snake;
@@ -40,11 +49,11 @@ public class SnakeSection extends SectionMain{
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
 				setLastPosition(new Point2D(this.x,this.y));
-				tail = new SnakeTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
+				tail = new SnakeOneTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 				snake.setNeighbor(this);
-				if(this.numericID == Player.NUMERIC_ID){
+				if(this.numericID == SnakeOne.NUMERIC_ID){
 					tail.setWhoToFollow(this);
 				}
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
@@ -56,11 +65,11 @@ public class SnakeSection extends SectionMain{
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
 				setLastPosition(new Point2D(this.x,this.y));
-				tail = new SnakeTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_DOWN);
+				tail = new SnakeOneTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_DOWN);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 				snake.setNeighbor(this);
-				if(this.numericID == Player.NUMERIC_ID){
+				if(this.numericID == SnakeOne.NUMERIC_ID){
 					tail.setWhoToFollow(this);
 				}
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
@@ -72,11 +81,11 @@ public class SnakeSection extends SectionMain{
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
 				setLastPosition(new Point2D(this.x,this.y));
-				tail = new SnakeTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_LEFT);
+				tail = new SnakeOneTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_LEFT);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 				snake.setNeighbor(this);
-				if(this.numericID == Player.NUMERIC_ID){
+				if(this.numericID == SnakeOne.NUMERIC_ID){
 					tail.setWhoToFollow(this);
 				}
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
@@ -88,11 +97,11 @@ public class SnakeSection extends SectionMain{
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
 				setLastPosition(new Point2D(this.x,this.y));
-				tail = new SnakeTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_RIGHT);
+				tail = new SnakeOneTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_RIGHT);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 				snake.setNeighbor(this);
-				if(this.numericID == Player.NUMERIC_ID){
+				if(this.numericID == SnakeOne.NUMERIC_ID){
 					tail.setWhoToFollow(this);
 				}
 			}
@@ -105,11 +114,11 @@ public class SnakeSection extends SectionMain{
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
 				setLastPosition(new Point2D(this.x,this.y));
-				tail = new SnakeTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_DOWN);
+				tail = new SnakeOneTail(this,game, game.getSnakeBodyLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_DOWN);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 				snake.setNeighbor(this);
-				if(this.numericID == Player.NUMERIC_ID){
+				if(this.numericID == SnakeOne.NUMERIC_ID){
 					tail.setWhoToFollow(this);
 				}
 			}
@@ -127,7 +136,7 @@ public class SnakeSection extends SectionMain{
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
 						setLastPosition(new Point2D(this.x,this.y));
-						if(this.numericID == Player.NUMERIC_ID){
+						if(this.numericID == SnakeOne.NUMERIC_ID){
 							snake.getTail().setWhoToFollow(this);
 							snake.getTail().addNewCoordinate(new Point2D(x, y), PlayerMovement.MOVE_UP);
 						}
@@ -141,7 +150,7 @@ public class SnakeSection extends SectionMain{
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
 						setLastPosition(new Point2D(this.x,this.y));
-						if(this.numericID == Player.NUMERIC_ID){
+						if(this.numericID == SnakeOne.NUMERIC_ID){
 							snake.getTail().setWhoToFollow(this);
 							snake.getTail().addNewCoordinate(new Point2D(x, y), PlayerMovement.MOVE_DOWN);
 						}
@@ -155,7 +164,7 @@ public class SnakeSection extends SectionMain{
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
 						setLastPosition(new Point2D(this.x,this.y));
-						if(this.numericID == Player.NUMERIC_ID){
+						if(this.numericID == SnakeOne.NUMERIC_ID){
 							snake.getTail().setWhoToFollow(this);
 							snake.getTail().addNewCoordinate(new Point2D(x, y), PlayerMovement.MOVE_LEFT);
 						}
@@ -169,7 +178,7 @@ public class SnakeSection extends SectionMain{
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
 						setLastPosition(new Point2D(this.x,this.y));
-						if(this.numericID == Player.NUMERIC_ID){
+						if(this.numericID == SnakeOne.NUMERIC_ID){
 							snake.getTail().setWhoToFollow(this);
 							snake.getTail().addNewCoordinate(new Point2D(x, y), PlayerMovement.MOVE_RIGHT);
 						}
@@ -183,7 +192,7 @@ public class SnakeSection extends SectionMain{
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
 						setLastPosition(new Point2D(this.x,this.y));
-						if(this.numericID == Player.NUMERIC_ID){
+						if(this.numericID == SnakeOne.NUMERIC_ID){
 							snake.getTail().setWhoToFollow(this);
 							snake.getTail().addNewCoordinate(new Point2D(x, y), PlayerMovement.STANDING_STILL);
 						}
@@ -196,7 +205,7 @@ public class SnakeSection extends SectionMain{
 	}
 
 	public void move() {
-		if(Player.killTheSnake == false && !Player.levelComplete && Player.keepMoving){
+		if(SnakeOne.killTheSnake == false && !SnakeOne.levelComplete && SnakeOne.keepMoving){
 		super.move();
 		if (lastPosition.size() > 0) {
 			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
@@ -278,7 +287,7 @@ public class SnakeSection extends SectionMain{
 		blowUp();
 	}
     public void displaceDirt(double x, double y, double low, double high){
-    	if(!Player.killTheSnake){
+    	if(!SnakeOne.killTheSnake){
     		for(int i = 0; i<8; i++){
     		game.getDebrisManager().addDebris(new DirtDisplacement(game,GameImageBank.dirt, (double) x, (double) y, new Point2D((Math.random()*(8 - -8 + 1) + -8), Math.random()*(8 - -8 + 1) + -8)));
     		}

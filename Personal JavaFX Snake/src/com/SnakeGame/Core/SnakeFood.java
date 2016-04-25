@@ -2,6 +2,9 @@ package com.SnakeGame.Core;
 
 import java.util.Random;
 
+import com.SnakeGame.SnakeOne.SnakeOne;
+import com.SnakeGame.SnakeOne.SnakeOneMouth;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -149,7 +152,7 @@ public class SnakeFood extends GameObject{
 		}
 		return false;
 	}
-	public boolean isApproximateTo(SnakeMouth object){
+	public boolean isApproximateTo(SnakeOneMouth object){
 		double distance = Math.sqrt((x-object.getX())*(x-object.getX()) + (y-object.getY())*(y-object.getY()));
 		if(distance<15){
 			return true;
@@ -212,7 +215,7 @@ public class SnakeFood extends GameObject{
 			game.getDebrisManager().addObject(new FruitSplash2(game, new ImagePattern(GameImageBank.fruit2), particleLife, particleSize,(float) (x + this.radius/2), (float) (y + this.radius/2)));
 		}
 	}
-	public void bounce(Player snake,double x, double y){
+	public void bounce(SnakeOne snake,double x, double y){
 		if(snake.getVelX() == 0){
 			this.velX =  snake.getVelX() + (double) (Math.random() *(13 - 8+1)-8);
 			this.velY =  snake.getVelY() + (double) (Math.random() *(7 - 4+1)-4);

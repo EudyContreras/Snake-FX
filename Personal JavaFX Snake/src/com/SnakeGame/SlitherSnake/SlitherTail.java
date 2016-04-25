@@ -1,30 +1,22 @@
 package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.Core.GameObjectID;
-import com.SnakeGame.Core.GameSectionManager;
-import com.SnakeGame.Core.Player;
 import com.SnakeGame.Core.SnakeGame;
-
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 
 public class SlitherTail extends SlitherMain{
 	SlitherSection slitherSect;
 	SlitherSection sectionToFollow;
-	GameSectionManager sectManager;
 
 	public SlitherTail(SlitherSection section, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id) {
 		super(game, layer, node, id);
 		this.slitherSect = section;
-		this.sectManager = game.getSectionManager();
 		this.x = x;
 		this.y = y;
 	}
 
 	public void move(){
-		if(Player.killTheSnake == true){
-
-		}
 //		this.y = (double) (sectionToFollow.getY()+ this.circle.getRadius()*1.5);
 //		this.x = sectionToFollow.getX();
 //		this.r = 180;
