@@ -159,7 +159,7 @@ public class GameLoader {
 		// }
 		setLevel(level1);
 		loadDesertLevels(GameLevelImage.desertBackground);
-		loadDesertBorder();
+		//loadDesertBorder();
 		game.levelLenght = 128 * 64;
 	}
 
@@ -197,19 +197,20 @@ public class GameLoader {
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
-				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 120 / GameLoader.ResolutionScaleX),
-							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-							LevelObjectID.fence);
-					tileManager.addTile(texture);
-					game.playfieldLayer.getChildren().add(texture.getView());
-				}else if (red == 0 && green == 0 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50.5 / GameLoader.ResolutionScaleX),
-							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-							LevelObjectID.fence);
-					tileManager.addTile(texture);
-					game.playfieldLayer.getChildren().add(texture.getView());
-				}else if (red == 255 && green == 0 && blue == 0) {
+//				if (red == 255 && green == 255 && blue == 255) {
+//					TileMap texture = new TileMap(game,(float) (row * 120 / GameLoader.ResolutionScaleX),
+//							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
+//							LevelObjectID.fence);
+//					tileManager.addTile(texture);
+//					game.playfieldLayer.getChildren().add(texture.getView());
+//				}else if (red == 0 && green == 0 && blue == 255) {
+//					TileMap texture = new TileMap(game,(float) (row * 50.5 / GameLoader.ResolutionScaleX),
+//							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
+//							LevelObjectID.fence);
+//					tileManager.addTile(texture);
+//					game.playfieldLayer.getChildren().add(texture.getView());
+//				}
+				if (red == 255 && green == 0 && blue == 0) {
 					TileMap texture = new TileMap(game,(float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
 							LevelObjectID.rock);
@@ -568,8 +569,8 @@ public class GameLoader {
 	 * position.
 	 */
 	public void loadOrgPlayer() {
-		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
-		float y = (float) (Settings.HEIGHT * 0.55);
+		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius()*3);
+		float y = (float) (Settings.HEIGHT * 0.568);
 		orgPlayer =  new OrgPlayer(game, game.getSnakeHeadLayer(),
 				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
 		game.getOrgObjectManager().addObject(orgPlayer);
