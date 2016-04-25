@@ -182,7 +182,7 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPixelMap();
 		loader.loadPlayer1();
 		loader.loadPlayer2();
-		//loader.createSlither();
+		loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		gameHud = new GameHud(this, -5, 0, Settings.WIDTH+10, 55 / GameLoader.ResolutionScaleY);
 		healthBar = new HealthBar(this, 20 / GameLoader.ResolutionScaleX, 0, (int) (350 / GameLoader.ResolutionScaleX),

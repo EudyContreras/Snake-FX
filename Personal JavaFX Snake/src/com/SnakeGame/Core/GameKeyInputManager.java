@@ -92,6 +92,18 @@ public class GameKeyInputManager {
                         p2.openMouth();
                     }
                 }
+                if (e.getCode() == KeyCode.NUMPAD8) {
+
+                }
+                if (e.getCode() == KeyCode.NUMPAD5) {
+
+                }
+                if (e.getCode() == KeyCode.NUMPAD4) {
+                	 p3.rotateLeft = true;
+                }
+                if (e.getCode() == KeyCode.NUMPAD6) {
+                	 p3.rotateRight = true;
+                }
             }
         });
         scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -114,7 +126,19 @@ public class GameKeyInputManager {
                     keyDown[4] = false;
                 }
                 if (e.getCode() == KeyCode.SHIFT) {
-                        keyDown[5] = false;
+                    keyDown[5] = false;
+                }
+                if (e.getCode() == KeyCode.NUMPAD8) {
+
+                }
+                if (e.getCode() == KeyCode.NUMPAD5) {
+
+                }
+                if (e.getCode() == KeyCode.NUMPAD4) {
+                	 p3.rotateLeft = false;
+                }
+                if (e.getCode() == KeyCode.NUMPAD6) {
+                	 p3.rotateRight = false;
                 }
                 if(!keyDown[0] && !keyDown[1]){
                 }
