@@ -1,11 +1,19 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.HudElements.GameHud;
+import com.SnakeGame.HudElements.GameOverScreen;
+import com.SnakeGame.HudElements.HealthBarOne;
+import com.SnakeGame.HudElements.HealthBarTwo;
+import com.SnakeGame.HudElements.ScoreBoard;
+import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.HudElements.VictoryScreen;
 import com.SnakeGame.PlayerOne.OrgGameObjectManager;
 import com.SnakeGame.PlayerOne.OrgGameSectionManager;
 import com.SnakeGame.SlitherSnake.GameSlitherManager;
 import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
+import com.SnakeGame.VisualInterface.MenuMain;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -192,7 +200,7 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPlayer1();
 		loader.loadPlayer2();
 		loader.loadOrgPlayer();
-//		loader.createSlither();
+		loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		gameHud = new GameHud(this, -5, 0, Settings.WIDTH+10, 55 / GameLoader.ResolutionScaleY);
 		setHealthBarOne(new HealthBarOne(this, 20 / GameLoader.ResolutionScaleX, 0, (int) (350 / GameLoader.ResolutionScaleX),
@@ -205,9 +213,9 @@ public class SnakeGame extends Application implements Runnable {
 				Settings.WIDTH / 2 - GameImageBank.countKeeper.getWidth() / 2 / GameLoader.ResolutionScaleX, 0,
 				GameImageBank.countKeeper.getWidth() / GameLoader.ResolutionScaleX,
 				GameImageBank.countKeeper.getHeight() / 2 / GameLoader.ResolutionScaleY);
-		scoreBoard = new ScoreBoard("Player 1", this, scoreKeeper.x + 70/GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY, 0, 0,
+		scoreBoard = new ScoreBoard("Player 1", this, scoreKeeper.getX() + 70/GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY, 0, 0,
 				100 / GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY);
-		scoreBoard2 = new ScoreBoard("Player 2", this, scoreKeeper.x + scoreKeeper.width - 190/GameLoader.ResolutionScaleX,
+		scoreBoard2 = new ScoreBoard("Player 2", this, scoreKeeper.getX() + scoreKeeper.getWidth() - 190/GameLoader.ResolutionScaleX,
 				30 / GameLoader.ResolutionScaleY, Settings.WIDTH - 100 / GameLoader.ResolutionScaleX, 0,
 				100 / GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY);
 		victoryScreen = new VictoryScreen(this,GameImageBank.levelCompleteSplash,800,450);
@@ -731,8 +739,9 @@ public class SnakeGame extends Application implements Runnable {
 	 */
 	public void translateObjects(ObservableList<Node> rootPane) {
 		TextFPS = new Text("FPS : ");
-		TextFPS.setX(getHealthBarOne().width+45/GameLoader.ResolutionScaleX);
-		TextFPS.setY(ScaleY(30));
+//		TextFPS.setX(getHealthBarOne().width+45/GameLoader.ResolutionScaleX);
+		TextFPS.setX(ScaleX(20));
+		TextFPS.setY(ScaleY(70));
 		// overlay.setTranslateX(0);
 		// overlay.setTranslateY(0);
 		TextFPS.setFill(Color.WHITE);
@@ -877,7 +886,7 @@ public class SnakeGame extends Application implements Runnable {
 
 		gameOver.removeBoard();
 		gameOver.finishLevel();
-		scoreKeeper.position = 1.5f;
+		scoreKeeper.setPosition(1.5f);
 		getGameHud().swipeDown();
 		GameOverScreen.FAILED_LEVEL = true;
 		}

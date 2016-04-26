@@ -1,4 +1,9 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.VisualInterface;
+
+import com.SnakeGame.Core.GameAudio;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -455,7 +460,7 @@ public class MenuMain {
     private void startSelected() {
     	menuRoot.getChildren().remove(fadeScreen);
         game.showCursor(false, game.getScene());
-        game.setRoot(game.mainRoot);
+        game.setRoot(game.getMainRoot());
         game.resumeGame();
         game.processGameInput();
     }

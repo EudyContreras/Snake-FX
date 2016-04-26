@@ -1,4 +1,8 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.VisualInterface;
+
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -37,19 +41,19 @@ public class MenuMultiplayer {
     private MenuSettings settingsMenu;
     private MenuMode modeMenu;
     private MenuControlls controllsMenu;
-	
+
 	public MenuMultiplayer(MenuMain mainMenu, SnakeGame game){
 		this.mainMenu = mainMenu;
 		this.game = game;
 		backgroundImage = new ImageView(MenuImageBank.optionsMenuBackground);
 		gameTitle.setLayoutX(0);
 	}
-	
+
 	public void setupMultiplayerMenu(){
 		setTitleStyle(gameTitle);
 		setStyle(startServerLabel);
 		setStyle(connectToServerLabel);
-		
+
 		titleBox.getChildren().addAll(gameTitle);
         titleBox.setBackground(Background.EMPTY);
         titleBox.setPrefWidth(900);
@@ -58,7 +62,7 @@ public class MenuMultiplayer {
         titleBox.setAlignment(Pos.CENTER);
         gameTitle.setAlignment(Pos.CENTER);
         gameTitle.setPrefWidth(900);
-        
+
 		serverBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         serverBox.getChildren().addAll(startServerLabel, connectToServerLabel);
         serverBox.setBackground(Background.EMPTY);
@@ -71,10 +75,10 @@ public class MenuMultiplayer {
         serverBox.setTranslateY(Settings.HEIGHT/2-serverBox.getPrefHeight()/2);
         VBox.setMargin(startServerLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(connectToServerLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         startServerLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
         connectToServerLabel.setAlignment(Pos.CENTER);
-        
+
         r1 = new Rectangle(Settings.WIDTH/2 - 250/2,serverBox.getTranslateY()/GameLoader.ResolutionScaleY,250,50/GameLoader.ResolutionScaleY);
         r1.setFill(Color.rgb(255, 0, 0,0.5));
 //        r1.setFill(Color.TRANSPARENT);
@@ -84,13 +88,13 @@ public class MenuMultiplayer {
         r3 = new Rectangle(Settings.WIDTH/2 - 250/2,r1.getY()+r1.getHeight()+(20/GameLoader.ResolutionScaleY),250,50/GameLoader.ResolutionScaleY);
         r3.setFill(Color.rgb(255, 0, 0,0.5));
 //        r2.setFill(Color.TRANSPARENT);
-        
-        
+
+
         titleBox.setTranslateX(Settings.WIDTH/2-titleBox.getPrefWidth()/2);
         titleBox.setTranslateY(0);
-        
+
         boundBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         boundBox.getChildren().addAll(r1, r2, r3);
         boundBox.setBackground(Background.EMPTY);
         boundBox.setPrefWidth(500);
@@ -102,12 +106,12 @@ public class MenuMultiplayer {
         boundBox.setTranslateY(Settings.HEIGHT/2-boundBox.getPrefHeight()/2);
         VBox.setMargin(r1, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(r2, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         multiplayerRoot.getChildren().addAll(backgroundImage, titleBox, serverBox, boundBox);
         startServerLabel.setStyle("-fx-text-fill: #DBA901; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 
 	}
-	
+
 	 /**
      * Sets the standard style of the labels
      * @param label
@@ -116,7 +120,7 @@ public class MenuMultiplayer {
         label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px;");
         label.setEffect(borderGlow);
     }
-	
+
 	/**
      * Sets the style for the title
      * @param label
@@ -165,13 +169,13 @@ public class MenuMultiplayer {
         label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: 110px;");
         label.setPadding(new Insets(30, 30, 30, 30));
     }
-    
+
 //    /**
 //     * Sets the keyinputhandling for the multiplayermenu
 //     */
 //    public void setKeyInputHandler() {
 //    	/*
-//    	 * Code below determines what will happen if 
+//    	 * Code below determines what will happen if
 //    	 * the user presses enter or space on the different choices
 //    	 */
 //    	game.getScene().setOnKeyPressed(e -> {
@@ -205,30 +209,30 @@ public class MenuMultiplayer {
 //                    }
 //                    if (currentChoice == 2) { modeMenu();
 //                    }
-//                    if (currentChoice == 3) { controllsMenu();                    	
+//                    if (currentChoice == 3) { controllsMenu();
 //                    }
 //                    if (currentChoice == 4) { settingsMenu();
 //                    }
-//                    if (currentChoice == 5) { 
-//                    mainMenu.getMenuRoot().getChildren().remove(optionsRoot); 
+//                    if (currentChoice == 5) {
+//                    mainMenu.getMenuRoot().getChildren().remove(optionsRoot);
 //                    mainMenu.setMainMenu();
 //                    }
 //				    break;
 //                case ESCAPE:
-//                	 mainMenu.getMenuRoot().getChildren().remove(optionsRoot); 
-//                     mainMenu.setMainMenu();          
+//                	 mainMenu.getMenuRoot().getChildren().remove(optionsRoot);
+//                     mainMenu.setMainMenu();
 // 				    break;
 //                case SPACE:
 //                	if (currentChoice == 1) { soundMenu();
 //                		}
 //                	if (currentChoice == 2) { modeMenu();
 //                       }
-//                	if (currentChoice == 3) { controllsMenu();                    	
+//                	if (currentChoice == 3) { controllsMenu();
 //                       }
 //                	if (currentChoice == 4) { settingsMenu();
 //                    }
-//                	if (currentChoice == 5) { 
-//                		 mainMenu.getMenuRoot().getChildren().remove(optionsRoot); 
+//                	if (currentChoice == 5) {
+//                		 mainMenu.getMenuRoot().getChildren().remove(optionsRoot);
 //                         mainMenu.setMainMenu();
 //                         mainMenu.setCurrentChoice(1);
 //                       }
@@ -236,7 +240,7 @@ public class MenuMultiplayer {
 //				    break;
 //            }
 //    		/*
-//    		 * Code below determines the styling of the different labels 
+//    		 * Code below determines the styling of the different labels
 //    		 * if the user has toggled to that choice
 //    		 */
 //            if (currentChoice == 1) {
@@ -245,14 +249,14 @@ public class MenuMultiplayer {
 //                controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                settingsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                backLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
-//               
+//
 //            } else if (currentChoice == 2) {
 //            	 modeLabel.setStyle("-fx-text-fill: #DBA901; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                 soundLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                 controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                 settingsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                 backLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
-//             
+//
 //            } else if (currentChoice == 3) {
 //            	 controllsLabel.setStyle("-fx-text-fill: #DBA901; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                 modeLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
@@ -272,9 +276,9 @@ public class MenuMultiplayer {
 //                 controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //                 soundLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //            }
-//        }); 
-//    } 
-//    
+//        });
+//    }
+//
 //    /**
 //     * Sets the mouseinputhandling for the optionslabels
 //     */
@@ -300,7 +304,7 @@ public class MenuMultiplayer {
 //			mainMenu.setMainMenu();
 //			mainMenu.setCurrentChoice(1);
 //		});
-//		
+//
 //		/**
 //		 * Code below determines the style of the labels if
 //		 * the mouse enters one of the rectangles
@@ -341,7 +345,7 @@ public class MenuMultiplayer {
 //			controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 //		});
 //    }
-    
+
     public Pane getMultiplayerRoot(){
     	return multiplayerRoot;
     }

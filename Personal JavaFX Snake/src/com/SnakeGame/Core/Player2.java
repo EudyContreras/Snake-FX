@@ -1,6 +1,9 @@
 package com.SnakeGame.Core;
 
 import java.util.LinkedList;
+
+import com.SnakeGame.HudElements.ScoreKeeper;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;

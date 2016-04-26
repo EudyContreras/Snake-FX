@@ -1,6 +1,12 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.HudElements;
 
 
+import com.SnakeGame.Core.GameImageBank;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Player2;
+import com.SnakeGame.Core.ScreenOverlay;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.image.Image;

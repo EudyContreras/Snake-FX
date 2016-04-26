@@ -1,19 +1,18 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.VisualInterface;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
@@ -45,7 +44,7 @@ public class MenuOptions {
     private MenuSettings settingsMenu;
     private MenuMode modeMenu;
     private MenuControlls controllsMenu;
-    
+
     public MenuOptions(MenuMain mainMenu, SnakeGame game) {
     	this.mainMenu = mainMenu;
     	this.game = game;
@@ -61,7 +60,7 @@ public class MenuOptions {
 		velX = -1;
 		velX2 = -1;
     }
-    
+
     /**
      * Sets up the optionsmenu
      */
@@ -72,7 +71,7 @@ public class MenuOptions {
         setStyle(controllsLabel);
         setStyle(settingsLabel);
         setStyle(backLabel);
-        
+
         titleBox.getChildren().addAll(gameTitle);
         titleBox.setBackground(Background.EMPTY);
         titleBox.setPrefWidth(900);
@@ -81,7 +80,7 @@ public class MenuOptions {
         titleBox.setAlignment(Pos.CENTER);
         gameTitle.setAlignment(Pos.CENTER);
         gameTitle.setPrefWidth(900);
-        
+
         optionsBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         optionsBox.getChildren().addAll(soundLabel, modeLabel, controllsLabel, settingsLabel, backLabel);
         optionsBox.setBackground(Background.EMPTY);
@@ -97,13 +96,13 @@ public class MenuOptions {
         VBox.setMargin(controllsLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(settingsLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(backLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         soundLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
         modeLabel.setAlignment(Pos.CENTER);
         controllsLabel.setAlignment(Pos.CENTER);
         settingsLabel.setAlignment(Pos.CENTER);
         backLabel.setAlignment(Pos.CENTER);
-        
+
         r1 = new Rectangle(Settings.WIDTH/2 - 250/2,optionsBox.getTranslateY()/GameLoader.ResolutionScaleY,250,50/GameLoader.ResolutionScaleY);
         r1.setFill(Color.rgb(255, 0, 0,0.5));
 //        r1.setFill(Color.TRANSPARENT);
@@ -119,13 +118,13 @@ public class MenuOptions {
         r5 = new Rectangle(Settings.WIDTH/2 - 250/2,r4.getY()+r4.getHeight()+(20/GameLoader.ResolutionScaleY),250,50/GameLoader.ResolutionScaleY);
         r5.setFill(Color.rgb(255, 0, 0,0.5));
 //        r5.setFill(Color.TRANSPARENT);
-        
-  
+
+
         titleBox.setTranslateX(Settings.WIDTH/2-titleBox.getPrefWidth()/2);
         titleBox.setTranslateY(0);
-        
+
         boundBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         boundBox.getChildren().addAll(r1, r2, r3, r4, r5);
         boundBox.setBackground(Background.EMPTY);
         boundBox.setPrefWidth(500);
@@ -140,7 +139,7 @@ public class MenuOptions {
         VBox.setMargin(r3, new Insets(15/GameLoader.ResolutionScaleY, 10/GameLoader.ResolutionScaleY, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(r4, new Insets(15/GameLoader.ResolutionScaleY, 10/GameLoader.ResolutionScaleY, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(r5, new Insets(15/GameLoader.ResolutionScaleY, 10/GameLoader.ResolutionScaleY, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         optionsRoot.getChildren().addAll(backgroundImage, titleBox, optionsBox, boundBox);
         soundLabel.setStyle("-fx-text-fill: #DBA901; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
         soundMenu.setupSoundsMenu();
@@ -148,7 +147,7 @@ public class MenuOptions {
         controllsMenu.setupControllsMenu();
         settingsMenu.setupSettingsMenu();
     }
-    
+
     /**
      * Sets the standard style of the labels
      * @param label
@@ -157,7 +156,7 @@ public class MenuOptions {
         label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px;");
         label.setEffect(borderGlow);
     }
-    
+
     /**
      * Sets the style for the title
      * @param label
@@ -206,13 +205,13 @@ public class MenuOptions {
         label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: 110px;");
         label.setPadding(new Insets(30, 30, 30, 30));
     }
-    
+
     /**
      * Sets the keyinputhandling for the optionsmenu
      */
     public void setKeyInputHandler() {
     	/*
-    	 * Code below determines what will happen if 
+    	 * Code below determines what will happen if
     	 * the user presses enter or space on the different choices
     	 */
     	game.getScene().setOnKeyPressed(e -> {
@@ -246,30 +245,30 @@ public class MenuOptions {
                     }
                     if (currentChoice == 2) { modeMenu();
                     }
-                    if (currentChoice == 3) { controllsMenu();                    	
+                    if (currentChoice == 3) { controllsMenu();
                     }
                     if (currentChoice == 4) { settingsMenu();
                     }
-                    if (currentChoice == 5) { 
-                    mainMenu.getMenuRoot().getChildren().remove(optionsRoot); 
+                    if (currentChoice == 5) {
+                    mainMenu.getMenuRoot().getChildren().remove(optionsRoot);
                     mainMenu.setMainMenu();
                     }
 				    break;
                 case ESCAPE:
-                	 mainMenu.getMenuRoot().getChildren().remove(optionsRoot); 
-                     mainMenu.setMainMenu();          
+                	 mainMenu.getMenuRoot().getChildren().remove(optionsRoot);
+                     mainMenu.setMainMenu();
  				    break;
                 case SPACE:
                 	if (currentChoice == 1) { soundMenu();
                 		}
                 	if (currentChoice == 2) { modeMenu();
                        }
-                	if (currentChoice == 3) { controllsMenu();                    	
+                	if (currentChoice == 3) { controllsMenu();
                        }
                 	if (currentChoice == 4) { settingsMenu();
                     }
-                	if (currentChoice == 5) { 
-                		 mainMenu.getMenuRoot().getChildren().remove(optionsRoot); 
+                	if (currentChoice == 5) {
+                		 mainMenu.getMenuRoot().getChildren().remove(optionsRoot);
                          mainMenu.setMainMenu();
                          mainMenu.setCurrentChoice(1);
                        }
@@ -277,7 +276,7 @@ public class MenuOptions {
 				    break;
             }
     		/*
-    		 * Code below determines the styling of the different labels 
+    		 * Code below determines the styling of the different labels
     		 * if the user has toggled to that choice
     		 */
             if (currentChoice == 1) {
@@ -286,14 +285,14 @@ public class MenuOptions {
                 controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                 settingsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                 backLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
-               
+
             } else if (currentChoice == 2) {
             	 modeLabel.setStyle("-fx-text-fill: #DBA901; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  soundLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  settingsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  backLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
-             
+
             } else if (currentChoice == 3) {
             	 controllsLabel.setStyle("-fx-text-fill: #DBA901; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  modeLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
@@ -313,9 +312,9 @@ public class MenuOptions {
                  controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  soundLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
             }
-        }); 
-    } 
-    
+        });
+    }
+
     /**
      * Sets the mouseinputhandling for the optionslabels
      */
@@ -341,7 +340,7 @@ public class MenuOptions {
 			mainMenu.setMainMenu();
 			mainMenu.setCurrentChoice(1);
 		});
-		
+
 		/**
 		 * Code below determines the style of the labels if
 		 * the mouse enters one of the rectangles
@@ -382,32 +381,32 @@ public class MenuOptions {
 			controllsLabel.setStyle("-fx-text-fill: #F5F6CE; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 		});
     }
-    
+
     public Pane getOptionsRoot(){
     	return optionsRoot;
     }
-    
+
     private void soundMenu(){
     	currentChoice =1;
     	optionsRoot.getChildren().add(soundMenu.getSoundsRoot());
     	soundMenu.setKeyInputHandler();
     	soundMenu.setMouseInputHandler();
     }
-    
+
     private void modeMenu(){
     	currentChoice = 1;
     	optionsRoot.getChildren().add(modeMenu.getModeRoot());
     	modeMenu.setKeyInputHandler();
     	modeMenu.setMouseInputHandler();
     }
-    
+
     private void controllsMenu(){
     	currentChoice = 1;
     	optionsRoot.getChildren().add(controllsMenu.getControllsRoot());
     	controllsMenu.setKeyInputHandler();
     	controllsMenu.setMouseInputHandler();
     }
-    
+
     private void settingsMenu(){
     	currentChoice = 1;
     	optionsRoot.getChildren().add(settingsMenu.getSettingsRoot());

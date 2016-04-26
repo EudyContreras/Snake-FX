@@ -1,19 +1,18 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.VisualInterface;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
@@ -39,7 +38,7 @@ public class MenuMode {
     private SnakeGame game;
     private float x,y,velX,velY,x2,y2,velX2,velY2;
     private MenuOptions optionsMenu;
-    
+
     public MenuMode(MenuOptions optionsMenu, SnakeGame game) {
     	this.optionsMenu = optionsMenu;
     	this.game = game;
@@ -51,7 +50,7 @@ public class MenuMode {
 		velX = -1;
 		velX2 = -1;
     }
-    
+
     /**
      * Sets up the sounds menu
      */
@@ -59,7 +58,7 @@ public class MenuMode {
     	setTitleStyle(gameTitle);
         setStyle(modeLabel);
         setStyle(backLabel);
-        
+
         titleBox.getChildren().addAll(gameTitle);
         titleBox.setBackground(Background.EMPTY);
         titleBox.setPrefWidth(900);
@@ -68,7 +67,7 @@ public class MenuMode {
         titleBox.setAlignment(Pos.CENTER);
         gameTitle.setAlignment(Pos.CENTER);
         gameTitle.setPrefWidth(900);
-        
+
         modeBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         modeBox.getChildren().addAll(modeLabel, backLabel);
         modeBox.setBackground(Background.EMPTY);
@@ -81,23 +80,23 @@ public class MenuMode {
         modeBox.setTranslateY(Settings.HEIGHT/2-modeBox.getPrefHeight()/2);
         VBox.setMargin(modeLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(backLabel, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         modeLabel.setStyle("-fx-text-fill: #0040FF; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
         modeLabel.setAlignment(Pos.CENTER);
         backLabel.setAlignment(Pos.CENTER);
-        
+
         r1 = new Rectangle(Settings.WIDTH/2 - 250/2,modeBox.getTranslateY()/GameLoader.ResolutionScaleY,350,50/GameLoader.ResolutionScaleY);
         r1.setFill(Color.rgb(255, 0, 0,0.5));
 //        r1.setFill(Color.TRANSPARENT);
         r2 = new Rectangle(Settings.WIDTH/2 - 250/2,r1.getY()+r1.getHeight()+(20/GameLoader.ResolutionScaleY),250,50/GameLoader.ResolutionScaleY);
         r2.setFill(Color.rgb(255, 0, 0,0.5));
 //        r2.setFill(Color.TRANSPARENT);
-  
+
         titleBox.setTranslateX(Settings.WIDTH/2-titleBox.getPrefWidth()/2);
         titleBox.setTranslateY(0);
-        
+
         boundBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         boundBox.getChildren().addAll(r1, r2);
         boundBox.setBackground(Background.EMPTY);
         boundBox.setPrefWidth(500);
@@ -109,10 +108,10 @@ public class MenuMode {
         boundBox.setTranslateY(Settings.HEIGHT/2-boundBox.getPrefHeight()/2);
         VBox.setMargin(r1, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
         VBox.setMargin(r2, new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
-        
+
         modeRoot.getChildren().addAll(backgroundImage, titleBox, modeBox, boundBox);
     }
-    
+
     /**
      * Sets the standard style of the labels
      * @param label
@@ -121,7 +120,7 @@ public class MenuMode {
         label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px;");
         label.setEffect(borderGlow);
     }
-    
+
     /**
      * Sets the style for the title
      * @param label
@@ -170,13 +169,13 @@ public class MenuMode {
         label.setStyle("-fx-text-fill: #0040FF; -fx-font-family: Impact; -fx-font-size: 110px;");
         label.setPadding(new Insets(30, 30, 30, 30));
     }
-    
+
     /**
      * Sets up the keyinputhandling for the mode menu
      */
     public void setKeyInputHandler() {
     	/*
-    	 * Code below determines what will happen if 
+    	 * Code below determines what will happen if
     	 * the user presses enter or space on the different choices
     	 */
     	game.getScene().setOnKeyPressed(e -> {
@@ -208,22 +207,22 @@ public class MenuMode {
                 case ENTER:
                     if (currentChoice == 1) { mode();
                     }
-                    if (currentChoice == 2) { 
-                    optionsMenu.getOptionsRoot().getChildren().remove(modeRoot); 
+                    if (currentChoice == 2) {
+                    optionsMenu.getOptionsRoot().getChildren().remove(modeRoot);
                     optionsMenu.setKeyInputHandler();
                     optionsMenu.setMouseInputHandler();
                     }
 				    break;
                 case ESCAPE:
-                	 optionsMenu.getOptionsRoot().getChildren().remove(modeRoot); 
+                	 optionsMenu.getOptionsRoot().getChildren().remove(modeRoot);
                      optionsMenu.setKeyInputHandler();
                      optionsMenu.setMouseInputHandler();
                      break;
                 case SPACE:
                 	if (currentChoice == 1) { mode();
-                		}                    	
-                	if (currentChoice == 2) { 
-                		  optionsMenu.getOptionsRoot().getChildren().remove(modeRoot); 
+                		}
+                	if (currentChoice == 2) {
+                		  optionsMenu.getOptionsRoot().getChildren().remove(modeRoot);
                           optionsMenu.setKeyInputHandler();
                           optionsMenu.setMouseInputHandler();
                        }
@@ -231,20 +230,20 @@ public class MenuMode {
 				    break;
             }
     		/*
-    		 * Code below determines the styling of the different labels 
+    		 * Code below determines the styling of the different labels
     		 * if the user has toggled to that choice
     		 */
             if (currentChoice == 1) {
                 modeLabel.setStyle("-fx-text-fill: #0040FF; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                 backLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
-               
+
             }  else if (currentChoice == 2) {
             	 backLabel.setStyle("-fx-text-fill: #0040FF; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
                  modeLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
             }
-        }); 
-    } 
-    
+        });
+    }
+
     /**
      * Sets the mouseinputhandling for the mode menu
      */
@@ -261,7 +260,7 @@ public class MenuMode {
 			optionsMenu.setKeyInputHandler();
 			optionsMenu.setMouseInputHandler();
 		});
-		
+
 		/**
 		 * Code below determines the style of the labels if
 		 * the mouse enters one of the rectangles
@@ -275,11 +274,11 @@ public class MenuMode {
 			modeLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 		});
     }
-    
+
     public Pane getModeRoot(){
     	return modeRoot;
     }
-    
+
     private void mode(){
     	if(modeLabel.getText()=="Current mode is: FREESTYLE MODE"){
     		modeLabel.setText("Current mode is: MODE 2");
@@ -291,6 +290,6 @@ public class MenuMode {
     		modeLabel.setText("Current mode is: FREESTYLE MODE");
     	}
     }
-    
-  
+
+
 }

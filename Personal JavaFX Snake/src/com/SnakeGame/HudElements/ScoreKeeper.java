@@ -1,4 +1,10 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.HudElements;
+
+import com.SnakeGame.Core.GameImageBank;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.ImageUtility;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,7 +23,7 @@ public class ScoreKeeper {
 	public  Rectangle board;
 	public  Text text;
 	public  Font font;
-	float x = 0;
+	private float x = 0;
 	float y = 0;
 	float x1 = 0;
 	float y1 = 0;
@@ -25,8 +31,8 @@ public class ScoreKeeper {
 	float oldY = 0;
 	float oldY1 = 0;
 	float oldY2 = 0;
-	float position = 0;
-	double width = 0;
+	private float position = 0;
+	private double width = 0;
 	double height = 0;
 	float delay = 0;
 	float confirmX = 0;
@@ -43,13 +49,13 @@ public class ScoreKeeper {
 		this.game = game;
 		this.text = new Text();
     	this.apple = new ImageView(new Image(ImageUtility.loadResource("apple.png")));
-		this.x = (float) x;
+		this.setX((float) x);
 		this.y = (float) y;
 		this.oldY = (float) y;
 		this.x1 = (float) x1;
 		this.y1 = (float) y1;
 		this.oldY1 = (float) y1;
-		this.width = width;
+		this.setWidth(width);
 		this.height = height;
 		this.board = new Rectangle(x,y,width,height);
 		this.font = Font.font( "Helvetica", FontWeight.BOLD, 20/GameLoader.ResolutionScaleX );
@@ -75,9 +81,9 @@ public class ScoreKeeper {
 		updateCount();
 	}
 	public  void keepCount(){
-		y = y + position;
-		y1 = y1 + position;
-		y2 = y2 + position;
+		y = y + getPosition();
+		y1 = y1 + getPosition();
+		y2 = y2 + getPosition();
 		text.setTranslateY(y1);
 		board.setY(y);
 		apple.setY(y2);
@@ -85,7 +91,7 @@ public class ScoreKeeper {
 			if(VictoryScreen.LEVEL_COMPLETE == false){
 				game.getVictoryScreen().removeBoard();
 				game.getVictoryScreen().finishLevel();
-				position = 1.5f;
+				setPosition(1.5f);
 				game.getGameHud().swipeDown();
 				VictoryScreen.LEVEL_COMPLETE = true;
 			}
@@ -94,12 +100,12 @@ public class ScoreKeeper {
 			game.getGameHud().swipeUp();
 		}
 		if(y>=game.getGameHud().height){
-			position = 0;
+			setPosition(0);
 		}
 		if(game.getGameHud().swipeUp){
-			position = -1.5f;
+			setPosition(-1.5f);
 			if(y<=oldY){
-				position = 0;
+				setPosition(0);
 //				y = oldY;
 //				y1 = oldY1;
 //				y2 = 0;
@@ -115,5 +121,23 @@ public class ScoreKeeper {
 //		y = oldY;
 //		y1 = oldY1;
 //		y2 = 0;
+	}
+	public double getWidth() {
+		return width;
+	}
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	public float getX() {
+		return x;
+	}
+	public void setX(float x) {
+		this.x = x;
+	}
+	public float getPosition() {
+		return position;
+	}
+	public void setPosition(float position) {
+		this.position = position;
 	}
 }

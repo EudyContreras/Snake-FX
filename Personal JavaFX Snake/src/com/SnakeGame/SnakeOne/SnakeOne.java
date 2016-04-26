@@ -11,11 +11,11 @@ import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.GameObjectManager;
 import com.SnakeGame.Core.LevelObjectID;
 import com.SnakeGame.Core.PlayerMovement;
-import com.SnakeGame.Core.ScoreKeeper;
 import com.SnakeGame.Core.ScreenOverlay;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Core.Tile;
+import com.SnakeGame.HudElements.ScoreKeeper;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

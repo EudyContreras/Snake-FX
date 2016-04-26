@@ -1,19 +1,18 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.VisualInterface;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.Blend;
 import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
@@ -65,7 +64,7 @@ public class MenuControlls {
 		setStyle(leftLabel);
 		setStyle(rightLabel);
 		setStyle(backLabel);
-		
+
 		titleBox.getChildren().addAll(gameTitle);
         titleBox.setBackground(Background.EMPTY);
         titleBox.setPrefWidth(900);
@@ -74,7 +73,7 @@ public class MenuControlls {
         titleBox.setAlignment(Pos.CENTER);
         gameTitle.setAlignment(Pos.CENTER);
         gameTitle.setPrefWidth(900);
-        
+
         controllsBox.setPadding(new Insets(20/GameLoader.ResolutionScaleY, 20, 20, 20/GameLoader.ResolutionScaleY));
 		controllsBox.getChildren().addAll(upLabel, downLabel, leftLabel, rightLabel, backLabel);
 		controllsBox.setBackground(Background.EMPTY);
@@ -96,7 +95,7 @@ public class MenuControlls {
         leftLabel.setAlignment(Pos.CENTER);
         rightLabel.setAlignment(Pos.CENTER);
         backLabel.setAlignment(Pos.CENTER);
-        
+
 		r1 = new Rectangle(Settings.WIDTH / 2 - 250 / 2, controllsBox.getTranslateY() / GameLoader.ResolutionScaleY,
 				350, 50 / GameLoader.ResolutionScaleY);
 //		 r1.setFill(Color.rgb(255, 0, 0,0.5));
@@ -117,10 +116,10 @@ public class MenuControlls {
 				r4.getY() + r4.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
 //		 r5.setFill(Color.rgb(255, 0, 0,0.5));
 		r5.setFill(Color.TRANSPARENT);
-		
+
 		titleBox.setTranslateX(Settings.WIDTH/2-titleBox.getPrefWidth()/2);
         titleBox.setTranslateY(0);
-        
+
 		boundBox.setPadding(new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 
 		boundBox.getChildren().addAll(r1, r2, r3, r4, r5);
@@ -137,7 +136,7 @@ public class MenuControlls {
 		VBox.setMargin(r3, new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(r4, new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(r5, new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
-		
+
 		controllsRoot.getChildren().addAll(backgroundImage, titleBox, controllsBox, boundBox);
 		upLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "+36/GameLoader.ResolutionScaleY+"px");
 	}
@@ -206,7 +205,7 @@ public class MenuControlls {
 	 */
 	public void setKeyInputHandler() {
 		/*
-    	 * Code below determines what will happen if 
+    	 * Code below determines what will happen if
     	 * the user presses enter or space on the different choices
     	 */
 		game.getScene().setOnKeyPressed(e -> {
@@ -257,7 +256,7 @@ public class MenuControlls {
 				break;
 			}
 			/*
-    		 * Code below determines the styling of the different labels 
+    		 * Code below determines the styling of the different labels
     		 * if the user has toggled to that choice
     		 */
 			if (currentChoice == 1) {
@@ -311,7 +310,7 @@ public class MenuControlls {
 			optionsMenu.setKeyInputHandler();
 			optionsMenu.setMouseInputHandler();
 		});
-		
+
 		/**
 		 * Code below determines the style of the labels if
 		 * the mouse enters one of the rectangles

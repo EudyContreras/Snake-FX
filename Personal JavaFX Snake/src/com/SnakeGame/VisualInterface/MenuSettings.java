@@ -1,4 +1,8 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.VisualInterface;
+
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -172,7 +176,7 @@ public class MenuSettings {
 
 	/**
 	 * Sets the standard style of the labels
-	 * 
+	 *
 	 * @param label
 	 */
 	private void setStyle(Label label) {
@@ -183,7 +187,7 @@ public class MenuSettings {
 
 	/**
 	 * Sets the style for the title
-	 * 
+	 *
 	 * @param label
 	 */
 	public void setTitleStyle(Label label) {
@@ -286,7 +290,7 @@ public class MenuSettings {
 						Settings.AUTOMATIC_EATING = true;
 						autoEatLabel.setText("Automatic eating: ON");
 					}
-				} 
+				}
 				if (currentChoice == 7) {
 					if (dirtLabel.getText() == "Allow Dirt: ON"){
 						Settings.ALLOW_DIRT = false;
@@ -326,7 +330,7 @@ public class MenuSettings {
 						Settings.AUTOMATIC_EATING = true;
 						autoEatLabel.setText("Automatic eating: ON");
 					}
-				} 
+				}
 				if (currentChoice == 7) {
 					if (dirtLabel.getText() == "Allow Dirt: ON"){
 						Settings.ALLOW_DIRT = false;
@@ -680,7 +684,7 @@ public class MenuSettings {
 					+ 36 / GameLoader.ResolutionScaleY + "px");
 		});
 	}
-	
+
 	public Pane getSettingsRoot(){
 		return settingsRoot;
 	}

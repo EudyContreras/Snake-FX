@@ -17,6 +17,7 @@ import java.util.Observable;
 import javax.imageio.ImageIO;
 
 import com.SnakeGame.DataPackage.DataPacket;
+import com.SnakeGame.VisualInterface.MenuMultiplayer;
 
 public class MultiplayerClient extends Observable{
 

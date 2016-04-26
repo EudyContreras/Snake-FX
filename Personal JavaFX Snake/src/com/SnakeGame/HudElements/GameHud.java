@@ -1,5 +1,8 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.HudElements;
 
+import com.SnakeGame.Core.GameImageBank;
+import com.SnakeGame.Core.Player2;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.canvas.GraphicsContext;

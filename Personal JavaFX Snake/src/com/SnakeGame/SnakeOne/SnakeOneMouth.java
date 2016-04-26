@@ -7,10 +7,8 @@ import com.SnakeGame.Core.LevelObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.SectionMain;
 import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.Snake;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Core.Tile;
-
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
