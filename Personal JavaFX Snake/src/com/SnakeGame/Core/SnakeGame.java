@@ -99,7 +99,7 @@ public class SnakeGame extends Application implements Runnable {
 	Stage primaryStage;
 	Text TextFPS;
 	Timeline physicsLoop;
-	private HealthBarOne healthBarOne;
+	HealthBarOne healthBarOne;
 	HealthBarTwo healthBarTwo;
 	ScoreBoard scoreBoard;
 	ScoreBoard scoreBoard2;
@@ -200,7 +200,7 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPlayer1();
 		loader.loadPlayer2();
 		loader.loadOrgPlayer();
-		loader.createSlither();
+//		loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		gameHud = new GameHud(this, -5, 0, Settings.WIDTH+10, 55 / GameLoader.ResolutionScaleY);
 		setHealthBarOne(new HealthBarOne(this, 20 / GameLoader.ResolutionScaleX, 0, (int) (350 / GameLoader.ResolutionScaleX),
