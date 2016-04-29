@@ -1,9 +1,9 @@
 package com.SnakeGame.PlayerOne;
 
-import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Point2D;

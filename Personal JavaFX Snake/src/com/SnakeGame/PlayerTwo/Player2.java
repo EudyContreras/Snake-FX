@@ -2,7 +2,6 @@ package com.SnakeGame.PlayerTwo;
 
 import java.util.LinkedList;
 
-import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameLoader;
 import com.SnakeGame.Core.GameObject;
 import com.SnakeGame.Core.PlayerMovement;
@@ -11,6 +10,7 @@ import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Debris_Particles.DirtDisplacement;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Utilities.Animation;
@@ -682,7 +682,7 @@ public class Player2 extends GameObject {
 
 			int offSet = newValue.intValue();
 			if (offSet > 100 && offSet < game.levelLenght - 1900) {
-				game.getRoot().setTranslateX(-(offSet - 100));
+				game.getGameRoot().setTranslateX(-(offSet - 100));
 			}
 		});
 	}

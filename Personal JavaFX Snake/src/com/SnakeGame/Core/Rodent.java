@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.SnakeGame.Debris_Particles.DirtDisplacement;
 import com.SnakeGame.GameObjects.Tile;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;
@@ -426,7 +427,7 @@ public class Rodent extends GameObject {
 
 			int offSet = newValue.intValue();
 			if (offSet > 100 && offSet < game.levelLenght - 1900) {
-				game.getRoot().setTranslateX(-(offSet - 100));
+				game.getGameRoot().setTranslateX(-(offSet - 100));
 			}
 		});
 	}

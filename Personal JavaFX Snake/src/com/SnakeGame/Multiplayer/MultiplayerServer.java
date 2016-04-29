@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Multiplayer;
 
 public class MultiplayerServer {
 

@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.AudioBanks;
 
 import javax.sound.sampled.Clip;
 

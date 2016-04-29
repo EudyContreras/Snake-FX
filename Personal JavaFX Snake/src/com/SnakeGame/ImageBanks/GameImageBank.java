@@ -1,5 +1,7 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.ImageBanks;
 
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Utilities.ImageUtility;
 
 import javafx.scene.image.Image;
@@ -15,7 +17,7 @@ import javafx.scene.shape.Circle;
  * effect image with a simple Image utility I have created which will apply
  * effects to an image and will then take a snapshot of that image and save it
  * to memory.
- * 
+ *
  * @author Eudy Contreras
  *
  */

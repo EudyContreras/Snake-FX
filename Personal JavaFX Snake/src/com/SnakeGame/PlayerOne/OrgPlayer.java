@@ -2,12 +2,12 @@ package com.SnakeGame.PlayerOne;
 
 import java.util.LinkedList;
 
-import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameObject;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Debris_Particles.DirtDisplacement;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.GameObjectManager;

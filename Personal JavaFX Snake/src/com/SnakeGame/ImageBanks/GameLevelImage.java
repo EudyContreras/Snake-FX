@@ -1,5 +1,7 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.ImageBanks;
 
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Utilities.ImageUtility;
 
 import javafx.scene.image.Image;
@@ -60,37 +62,37 @@ public class GameLevelImage {
 	// final static Image littleCactus =
 	// ImageUtility.preCreateShadedImages("little-cactus3.png",1.9,1.3,63/GameLoader.ResolutionScaleX,49/GameLoader.ResolutionScaleY);
 	//
-	final static Image desertBackground = ImageUtility.preCreateShadedBackground("desert-sand10.png",
+	public final static Image desertBackground = ImageUtility.preCreateShadedBackground("desert-sand10.png",
 			Settings.GlOBAL_ILLUMINATION - 0.1, 0.0, Settings.WIDTH, Settings.HEIGHT);// new
 																						// Image("desert-sand.jpg",
 																						// Settings.WIDTH,
 																						// Settings.HEIGHT,
 																						// false,
 																						// true);
-	final static Image horizontalFence = ImageUtility.precreatedLightedImage("fence.png", Settings.GlOBAL_ILLUMINATION,
+	public final static Image horizontalFence = ImageUtility.precreatedLightedImage("fence.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 120 / GameLoader.ResolutionScaleX, 50 / GameLoader.ResolutionScaleY);
-	final static Image verticalFence = ImageUtility.precreatedLightedAndShadedImage("fence2.png",
+	public final static Image verticalFence = ImageUtility.precreatedLightedAndShadedImage("fence2.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 50 / GameLoader.ResolutionScaleX,
 			120 / GameLoader.ResolutionScaleY);
 	// final static Image smallRock =
 	// ImageUtility.preCreateShadedImages("small-rock.png",Settings.GlOBAL_ILLUMINATION,Settings.SPECULAR_MAP,30/GameLoader.ResolutionScaleX,30/GameLoader.ResolutionScaleY);
-	final static Image rock = ImageUtility.precreatedLightedAndShadedImage("rock-2.png", Settings.GlOBAL_ILLUMINATION,
+	public final static Image rock = ImageUtility.precreatedLightedAndShadedImage("rock-2.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
-	final static Image bark = ImageUtility.precreatedLightedAndShadedImage("bark.png", Settings.GlOBAL_ILLUMINATION,
+	public final static Image bark = ImageUtility.precreatedLightedAndShadedImage("bark.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP - 0.4, 400 / GameLoader.ResolutionScaleX, 220 / GameLoader.ResolutionScaleY);
-	final static Image cactus = ImageUtility.precreatedLightedAndShadedImage("Cactus2.png",
+	public final static Image cactus = ImageUtility.precreatedLightedAndShadedImage("Cactus2.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 118 / GameLoader.ResolutionScaleX,
 			168 / GameLoader.ResolutionScaleY);
-	final static Image flower = ImageUtility.precreatedLightedAndShadedImage("Organ_Pipe_Cactus.png",
+	public final static Image flower = ImageUtility.precreatedLightedAndShadedImage("Organ_Pipe_Cactus.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
 			100 / GameLoader.ResolutionScaleY);
-	final static Image flower2 = ImageUtility.precreatedLightedAndShadedImage("Flower_Cactus.png",
+	public final static Image flower2 = ImageUtility.precreatedLightedAndShadedImage("Flower_Cactus.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
 			100 / GameLoader.ResolutionScaleY);
-	final static Image skeleton = ImageUtility.precreatedLightedAndShadedImage("bison-skull.png",
+	public final static Image skeleton = ImageUtility.precreatedLightedAndShadedImage("bison-skull.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 120 / GameLoader.ResolutionScaleX,
 			120 / GameLoader.ResolutionScaleY);
-	final static Image littleCactus = ImageUtility.precreatedLightedAndShadedImage("Cactus_Cluster.png",
+	public final static Image littleCactus = ImageUtility.precreatedLightedAndShadedImage("Cactus_Cluster.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
 			100 / GameLoader.ResolutionScaleY);
 	public final static Image sandGrain = ImageUtility.precreatedLightedImage("sandGrain.png",

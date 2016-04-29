@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Multiplayer;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;

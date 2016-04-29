@@ -1,6 +1,5 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameObject;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
@@ -8,6 +7,7 @@ import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Debris_Particles.DirtDisplacement;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Utilities.Animation;
@@ -370,7 +370,7 @@ public class SlitherSnake extends SlitherMain {
 
 			int offSet = newValue.intValue();
 			if (offSet > 100 && offSet < game.levelLenght - 1900) {
-				game.getRoot().setTranslateX(-(offSet - 100));
+				game.getGameRoot().setTranslateX(-(offSet - 100));
 			}
 		});
 

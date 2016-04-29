@@ -9,6 +9,8 @@ import com.SnakeGame.HudElements.HealthBarTwo;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
+import com.SnakeGame.ImageBanks.GameImageBank;
+import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.OrgGameObjectManager;
 import com.SnakeGame.PlayerOne.OrgGameSectionManager;
 import com.SnakeGame.PlayerTwo.Player2;
@@ -201,7 +203,7 @@ public class SnakeGame extends Application implements Runnable {
 		getGameRoot().getChildren().add(snakeHead);
 		getGameRoot().getChildren().add(particleLayer);
 		getGameRoot().getChildren().add(overlay);
-		mainRoot.getChildren().add(getRoot());
+		mainRoot.getChildren().add(getGameRoot());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
 		loader.loadPlayer1();
@@ -261,7 +263,7 @@ public class SnakeGame extends Application implements Runnable {
 		initSplash();
 		imageBank = new GameImageBank();
 		mainRoot = new Group();
-		setRoot(new Pane());
+		root = new Pane();
 		mainMenu = new MenuMain(this);
 		backgroundImage = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
@@ -292,27 +294,27 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public void processGestures() {
-		getRoot().setOnSwipeUp(new EventHandler<SwipeEvent>() {
+		getGameRoot().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_UP);
 				event.consume();
 			}
 		});
-		getRoot().setOnSwipeDown(new EventHandler<SwipeEvent>() {
+		getGameRoot().setOnSwipeDown(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_DOWN);
 				event.consume();
 			}
 		});
-		getRoot().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
+		getGameRoot().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_LEFT);
 				event.consume();
 			}
 		});
-		getRoot().setOnSwipeRight(new EventHandler<SwipeEvent>() {
+		getGameRoot().setOnSwipeRight(new EventHandler<SwipeEvent>() {
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_RIGHT);
 				event.consume();
@@ -772,7 +774,7 @@ public class SnakeGame extends Application implements Runnable {
 		Player2.NUMERIC_ID = 0;
 		Player2.killTheSnake = false;
 		Player2.MOUTH_CLOSE = true;
-		getRoot().setEffect(null);
+		getGameRoot().setEffect(null);
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
 		scoreKeeper.resetCount();
@@ -810,7 +812,7 @@ public class SnakeGame extends Application implements Runnable {
 		Player2.NUMERIC_ID = 0;
 		Player2.killTheSnake = false;
 		Player2.MOUTH_CLOSE = true;
-		getRoot().setEffect(null);
+		getGameRoot().setEffect(null);
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
 		scoreKeeper.resetCount();
@@ -883,7 +885,7 @@ public class SnakeGame extends Application implements Runnable {
 			Player2.NUMERIC_ID = 0;
 			Player2.killTheSnake = false;
 			Player2.MOUTH_CLOSE = true;
-			getRoot().setEffect(null);
+			getGameRoot().setEffect(null);
 			scoreBoard.resetScore();
 			scoreBoard2.resetScore();
 			scoreKeeper.resetCount();
@@ -978,10 +980,6 @@ public class SnakeGame extends Application implements Runnable {
 
 	public void setLevelManager(GameLoader loader) {
 		this.loader = loader;
-	}
-
-	public Parent getRoot() {
-		return scene.getRoot();
 	}
 
 	public Pane getGameRoot() {
@@ -1164,9 +1162,4 @@ public class SnakeGame extends Application implements Runnable {
 	public void setHealthBarTwo(HealthBarTwo healthBarTwo) {
 		this.healthBarTwo = healthBarTwo;
 	}
-
-	public void setRoot(Pane root) {
-		this.root = root;
-	}
-
 }

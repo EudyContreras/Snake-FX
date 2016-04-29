@@ -1,9 +1,9 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameLoader;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.Utilities.ScreenOverlay;
