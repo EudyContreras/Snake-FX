@@ -1,7 +1,7 @@
 package com.SnakeGame.PlayerOne;
 
-import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;

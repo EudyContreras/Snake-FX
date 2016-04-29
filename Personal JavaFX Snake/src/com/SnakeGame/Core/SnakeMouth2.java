@@ -1,5 +1,8 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
+
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

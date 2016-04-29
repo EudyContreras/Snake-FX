@@ -1,12 +1,13 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.Core.FruitSplash2;
-import com.SnakeGame.Core.GameObjectID;
-import com.SnakeGame.Core.LevelObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Core.Tile;
+import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

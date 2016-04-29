@@ -1,5 +1,6 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.geometry.Bounds;

@@ -1,14 +1,15 @@
 package com.SnakeGame.SnakeOne;
 
 import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.GameObjectManager;
-import com.SnakeGame.Core.LevelObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.SectionMain;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Core.Tile;
+import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
+
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

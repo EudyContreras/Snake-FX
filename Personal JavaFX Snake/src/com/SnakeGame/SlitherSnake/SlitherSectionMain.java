@@ -3,10 +3,10 @@ package com.SnakeGame.SlitherSnake;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.SectionMain;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;

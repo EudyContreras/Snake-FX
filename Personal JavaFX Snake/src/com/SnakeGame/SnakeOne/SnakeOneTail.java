@@ -3,9 +3,9 @@ package com.SnakeGame.SnakeOne;
 import java.util.LinkedList;
 
 import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;

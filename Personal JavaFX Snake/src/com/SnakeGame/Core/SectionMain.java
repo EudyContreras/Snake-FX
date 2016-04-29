@@ -2,6 +2,9 @@ package com.SnakeGame.Core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import com.SnakeGame.ObjectIDs.GameObjectID;
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

@@ -3,6 +3,8 @@ package com.SnakeGame.Core;
 import java.util.LinkedList;
 
 import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

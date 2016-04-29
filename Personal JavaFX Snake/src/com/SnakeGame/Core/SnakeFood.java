@@ -2,6 +2,8 @@ package com.SnakeGame.Core;
 
 import java.util.Random;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;
 

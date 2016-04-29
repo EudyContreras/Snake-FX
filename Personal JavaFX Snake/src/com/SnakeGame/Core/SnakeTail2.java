@@ -2,6 +2,8 @@ package com.SnakeGame.Core;
 
 import java.util.LinkedList;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
+
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;

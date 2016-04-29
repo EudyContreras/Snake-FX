@@ -1,22 +1,14 @@
 package com.SnakeGame.Core;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInput;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.LinkedList;
 import java.util.Observable;
-import javax.imageio.ImageIO;
 
-import com.SnakeGame.DataPackage.DataPacket;
 import com.SnakeGame.VisualInterface.MenuMultiplayer;
 
 public class MultiplayerClient extends Observable{

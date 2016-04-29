@@ -3,6 +3,7 @@ package com.SnakeGame.Core;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 

@@ -1,10 +1,11 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.Core.GameImageBank;
-import com.SnakeGame.Core.GameObjectID;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.ObjectIDs.GameObjectID;
+
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;

@@ -1,9 +1,10 @@
 package com.SnakeGame.Core;
 
 import java.util.List;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.*;
+import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;

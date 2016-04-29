@@ -1,6 +1,8 @@
 package com.SnakeGame.Core;
 
 
+import com.SnakeGame.ObjectIDs.LevelObjectID;
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;

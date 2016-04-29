@@ -1,6 +1,7 @@
 package com.SnakeGame.Core;
 
 import java.util.LinkedList;
+
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 

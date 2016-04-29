@@ -1,6 +1,9 @@
 package com.SnakeGame.Core;
 
 import java.util.Random;
+
+import com.SnakeGame.ObjectIDs.GameDebrisID;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

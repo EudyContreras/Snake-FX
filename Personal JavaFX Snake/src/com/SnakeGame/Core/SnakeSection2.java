@@ -2,6 +2,8 @@ package com.SnakeGame.Core;
 
 import java.util.Random;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
+
 import javafx.geometry.Point2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;

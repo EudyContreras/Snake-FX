@@ -3,6 +3,8 @@ package com.SnakeGame.Core;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
+
 import javafx.scene.canvas.GraphicsContext;
 
 /**

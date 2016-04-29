@@ -4,6 +4,8 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.SnakeOne.SnakeOne;
