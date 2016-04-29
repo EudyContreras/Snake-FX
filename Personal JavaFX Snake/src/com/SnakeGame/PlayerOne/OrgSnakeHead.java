@@ -4,7 +4,7 @@ import com.SnakeGame.Core.FruitSplash2;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
-import com.SnakeGame.Core.Tile;
+import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 

@@ -4,6 +4,9 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import com.SnakeGame.GameObjects.SnakeFood;
+import com.SnakeGame.GameObjects.WavingCactus;
+import com.SnakeGame.GameObjects.WavingCactus2;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.PlayerOne.OrgPlayer;

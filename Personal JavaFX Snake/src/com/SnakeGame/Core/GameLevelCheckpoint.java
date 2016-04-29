@@ -1,6 +1,8 @@
 
 package com.SnakeGame.Core;
 
+import com.SnakeGame.GameObjects.Tile;
+
 import javafx.scene.image.Image;
 
 /**

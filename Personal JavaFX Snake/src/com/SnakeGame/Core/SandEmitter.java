@@ -2,6 +2,10 @@ package com.SnakeGame.Core;
 
 import java.util.Random;
 
+import com.SnakeGame.Core.GameLevelImage;
+import com.SnakeGame.Core.ScreenOverlay;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 

@@ -1,6 +1,7 @@
 
-package com.SnakeGame.Core;
+package com.SnakeGame.GameObjects;
 
+import com.SnakeGame.Core.Settings;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 
 import javafx.geometry.Bounds;
@@ -12,13 +13,13 @@ import javafx.scene.image.ImageView;
  * This class is the game tile super class and is the class that every tile
  * object or level object extends. Events within this class will reflect on the
  * children of this class.
- * 
+ *
  * @author Eudy Contreras
  *
  */
 public abstract class Tile {
 
-	protected ImageView view = new ImageView();
+	public ImageView view = new ImageView();
 	public float x;
 	public float y;
 	protected float r;

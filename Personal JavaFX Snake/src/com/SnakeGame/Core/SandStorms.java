@@ -1,5 +1,9 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.Core.DebrisEffect;
+import com.SnakeGame.Core.GameLoader;
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;

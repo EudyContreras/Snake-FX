@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.SnakeGame.GameObjects.Tile;
+
 /**
  * This manager class is responsible for managing, updating moving, displaying,
  * adding and removing different level objects each level object should have its

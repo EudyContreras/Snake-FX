@@ -2,6 +2,7 @@ package com.SnakeGame.Core;
 
 import java.util.LinkedList;
 
+import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;

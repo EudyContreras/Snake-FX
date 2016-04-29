@@ -1,6 +1,7 @@
 
 package com.SnakeGame.Core;
 
+import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 
 import javafx.geometry.Bounds;

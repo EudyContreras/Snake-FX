@@ -16,7 +16,6 @@ import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
 import com.SnakeGame.VisualInterface.MenuMain;
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
