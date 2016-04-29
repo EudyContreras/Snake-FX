@@ -1,5 +1,7 @@
 package com.SnakeGame.Core;
 
+import com.SnakeGame.Debris_Particles.GameDebrisManager;
+import com.SnakeGame.Debris_Particles.SandEmitter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
@@ -16,6 +18,7 @@ import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
 import com.SnakeGame.VisualInterface.MenuMain;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;

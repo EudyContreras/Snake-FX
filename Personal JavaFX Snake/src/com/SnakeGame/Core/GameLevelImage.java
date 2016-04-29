@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  * Class used to load all level objects meaning all images that will be used in
  * game. The images may be regular images or images which have effects applyed
  * to them
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -91,7 +91,7 @@ public class GameLevelImage {
 	final static Image littleCactus = ImageUtility.precreatedLightedAndShadedImage("Cactus_Cluster.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
 			100 / GameLoader.ResolutionScaleY);
-	final static Image sandGrain = ImageUtility.precreatedLightedImage("sandGrain.png",
+	public final static Image sandGrain = ImageUtility.precreatedLightedImage("sandGrain.png",
 			Settings.GlOBAL_ILLUMINATION - 0.5, Settings.SPECULAR_MAP - 0.5, 5, 5);
 	// final static Image spider = ImageUtility.preCreateShadedDebris(path,
 	// diffused, specularMap, width, height)

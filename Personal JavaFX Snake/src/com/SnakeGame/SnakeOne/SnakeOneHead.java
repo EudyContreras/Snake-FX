@@ -1,11 +1,11 @@
 package com.SnakeGame.SnakeOne;
 
-import com.SnakeGame.Core.FruitSplash2;
 import com.SnakeGame.Core.GameObject;
 import com.SnakeGame.Core.GameObjectManager;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Debris_Particles.FruitSplash2;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;

@@ -2,13 +2,13 @@ package com.SnakeGame.SnakeOne;
 
 import java.util.Random;
 
-import com.SnakeGame.Core.DirtDisplacement;
 import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.PlayerMovement;
-import com.SnakeGame.Core.SectionDisintegration;
 import com.SnakeGame.Core.SectionMain;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Debris_Particles.DirtDisplacement;
+import com.SnakeGame.Debris_Particles.SectionDisintegration;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Point2D;
