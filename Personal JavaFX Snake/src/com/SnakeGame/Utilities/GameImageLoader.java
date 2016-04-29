@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

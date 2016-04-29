@@ -2,9 +2,9 @@ package com.SnakeGame.HudElements;
 
 import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameLoader;
-import com.SnakeGame.Core.ImageUtility;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.Utilities.ImageUtility;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

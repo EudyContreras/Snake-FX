@@ -1,10 +1,11 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 
 /**
@@ -12,7 +13,7 @@ import com.SnakeGame.GameObjects.Tile;
  * adding and removing different level objects each level object should have its
  * own separate list according to the amount of objects that will be rendered in
  * the game.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -66,9 +67,9 @@ public class GameTileManager {
 			;
 			tempTile.move();
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
-				game.root.getChildren().remove(tempTile.view);
-				game.levelLayer.getChildren().remove(tempTile.view);
-				game.bottomLayer.getChildren().remove(tempTile.view);
+				game.getGameRoot().getChildren().remove(tempTile.view);
+				game.getLevelLayer().getChildren().remove(tempTile.view);
+				game.getBottomLayer().getChildren().remove(tempTile.view);
 				tileList.remove();
 				continue;
 			}
@@ -117,24 +118,24 @@ public class GameTileManager {
 		for (int i = 0; i < tile.size(); i++) {
 			tempTile = tile.get(i);
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
-				game.root.getChildren().remove(tempTile.view);
-				game.bottomLayer.getChildren().remove(tempTile.view);
+				game.getGameRoot().getChildren().remove(tempTile.view);
+				game.getBottomLayer().getChildren().remove(tempTile.view);
 				tile.remove(i);
 			}
 		}
 		for (int i = 0; i < trap.size(); i++) {
 			tempTrap = trap.get(i);
 			if (tempTrap.isBehindCharacter() || !tempTrap.isAlive()) {
-				game.root.getChildren().remove(tempTrap.view);
-				game.bottomLayer.getChildren().remove(tempTrap.view);
+				game.getGameRoot().getChildren().remove(tempTrap.view);
+				game.getBottomLayer().getChildren().remove(tempTrap.view);
 				trap.remove(i);
 			}
 		}
 		for (int i = 0; i < block.size(); i++) {
 			tempBlock = block.get(i);
 			if (tempBlock.isBehindCharacter() || !tempBlock.isAlive()) {
-				game.root.getChildren().remove(tempBlock.view);
-				game.bottomLayer.getChildren().remove(tempBlock.view);
+				game.getGameRoot().getChildren().remove(tempBlock.view);
+				game.getBottomLayer().getChildren().remove(tempBlock.view);
 				block.remove(i);
 			}
 		}

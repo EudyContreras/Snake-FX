@@ -5,7 +5,6 @@ import java.util.Random;
 import com.SnakeGame.Core.GameImageBank;
 import com.SnakeGame.Core.GameLoader;
 import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.GameObjectManager;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Debris_Particles.FruitSplash;
@@ -15,6 +14,7 @@ import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;
+import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.effect.BlurType;

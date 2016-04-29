@@ -1,16 +1,18 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
 
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.SnakeGame.Core.GameStates;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameStateID;
 
 /**
  * Class used for updating, switching, and removing states This class may be
  * useful when a game have different states which must be individually rendered
  * or updated
- * 
+ *
  * @author Eudy Contreras
  *
  */

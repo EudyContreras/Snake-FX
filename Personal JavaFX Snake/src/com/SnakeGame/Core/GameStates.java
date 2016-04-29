@@ -1,6 +1,7 @@
 package com.SnakeGame.Core;
 
 import com.SnakeGame.ObjectIDs.GameStateID;
+import com.SnakeGame.Utilities.GameStateManager;
 
 /**
  * This class is the parent of every state. Each state must extend this class.

@@ -1,4 +1,6 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
+
+import com.SnakeGame.Core.Settings;
 
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;

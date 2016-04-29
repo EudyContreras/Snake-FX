@@ -1,7 +1,6 @@
 package com.SnakeGame.SnakeOne;
 
 import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.GameObjectManager;
 import com.SnakeGame.Core.PlayerMovement;
 import com.SnakeGame.Core.SectionMain;
 import com.SnakeGame.Core.Settings;
@@ -9,6 +8,7 @@ import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;

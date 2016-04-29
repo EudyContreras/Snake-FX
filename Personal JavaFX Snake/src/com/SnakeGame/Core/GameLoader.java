@@ -13,6 +13,9 @@ import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.SnakeOne.SnakeOne;
+import com.SnakeGame.Utilities.GameImageLoader;
+import com.SnakeGame.Utilities.GameObjectManager;
+import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -583,7 +586,7 @@ public class GameLoader {
 	public void createGameObject(float x, float y, Image image) {
 		TileMap texture = new TileMap(game, x, y, -2, 0, image);
 		if (image.isBackgroundLoading())
-			game.root.getChildren().add(texture.getView());
+			game.getGameRoot().getChildren().add(texture.getView());
 	}
 
 	/**

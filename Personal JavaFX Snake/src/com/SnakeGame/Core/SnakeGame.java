@@ -17,6 +17,9 @@ import com.SnakeGame.SlitherSnake.GameSlitherManager;
 import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
+import com.SnakeGame.Utilities.GameObjectManager;
+import com.SnakeGame.Utilities.ImageUtility;
+import com.SnakeGame.Utilities.ScreenOverlay;
 import com.SnakeGame.VisualInterface.MenuMain;
 
 import javafx.animation.AnimationTimer;
@@ -87,7 +90,7 @@ public class SnakeGame extends Application implements Runnable {
 	Scene scene;
 	Scene splashScene;
 	Group mainRoot;
-	Pane root;
+	private Pane root;
 	Canvas canvas;
 	Pane splashLayout;
 	Pane playfieldLayer;
@@ -190,15 +193,15 @@ public class SnakeGame extends Application implements Runnable {
 		splashLayout = null;
 		splash = null;
 		splashScene = null;
-		root.getChildren().add(backgroundImage);
-		root.getChildren().add(debrisLayer);
-		root.getChildren().add(bottomLayer);
-		root.getChildren().add(playfieldLayer);
-		root.getChildren().add(snakeBody);
-		root.getChildren().add(snakeHead);
-		root.getChildren().add(particleLayer);
-		root.getChildren().add(overlay);
-		mainRoot.getChildren().add(root);
+		getGameRoot().getChildren().add(backgroundImage);
+		getGameRoot().getChildren().add(debrisLayer);
+		getGameRoot().getChildren().add(bottomLayer);
+		getGameRoot().getChildren().add(playfieldLayer);
+		getGameRoot().getChildren().add(snakeBody);
+		getGameRoot().getChildren().add(snakeHead);
+		getGameRoot().getChildren().add(particleLayer);
+		getGameRoot().getChildren().add(overlay);
+		mainRoot.getChildren().add(getRoot());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
 		loader.loadPlayer1();
@@ -258,7 +261,7 @@ public class SnakeGame extends Application implements Runnable {
 		initSplash();
 		imageBank = new GameImageBank();
 		mainRoot = new Group();
-		root = new Pane();
+		setRoot(new Pane());
 		mainMenu = new MenuMain(this);
 		backgroundImage = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
@@ -285,31 +288,31 @@ public class SnakeGame extends Application implements Runnable {
 		keyInput = new GameKeyInputManager();
 		mouseInput = new GameMouseInputManager();
 		debrisManager = new GameDebrisManager(this);
-		postEffects = new ScreenOverlay(this, root);
+		postEffects = new ScreenOverlay(this, getGameRoot());
 	}
 
 	public void processGestures() {
-		root.setOnSwipeUp(new EventHandler<SwipeEvent>() {
+		getRoot().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_UP);
 				event.consume();
 			}
 		});
-		root.setOnSwipeDown(new EventHandler<SwipeEvent>() {
+		getRoot().setOnSwipeDown(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_DOWN);
 				event.consume();
 			}
 		});
-		root.setOnSwipeLeft(new EventHandler<SwipeEvent>() {
+		getRoot().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_LEFT);
 				event.consume();
 			}
 		});
-		root.setOnSwipeRight(new EventHandler<SwipeEvent>() {
+		getRoot().setOnSwipeRight(new EventHandler<SwipeEvent>() {
 			public void handle(SwipeEvent event) {
 				loader.getPlayer().setDirection(PlayerMovement.MOVE_RIGHT);
 				event.consume();
@@ -685,7 +688,7 @@ public class SnakeGame extends Application implements Runnable {
 				System.out.println("Amount of objects in game layer: " + playfieldLayer.getChildren().size());
 				System.out.println("Amount of objects in bottom layer: " + bottomLayer.getChildren().size());
 				System.out.println("Amount of objects in radar layer: " + overlay.getChildren().size());
-				System.out.println("Amount of objects in level layer: " + root.getChildren().size());
+				System.out.println("Amount of objects in level layer: " + getGameRoot().getChildren().size());
 				System.out.println();
 				System.out.println();
 				System.out.println("Amount of objects in object manager: " + objectManager.getObjectList().size());
@@ -769,7 +772,7 @@ public class SnakeGame extends Application implements Runnable {
 		Player2.NUMERIC_ID = 0;
 		Player2.killTheSnake = false;
 		Player2.MOUTH_CLOSE = true;
-		root.setEffect(null);
+		getRoot().setEffect(null);
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
 		scoreKeeper.resetCount();
@@ -807,7 +810,7 @@ public class SnakeGame extends Application implements Runnable {
 		Player2.NUMERIC_ID = 0;
 		Player2.killTheSnake = false;
 		Player2.MOUTH_CLOSE = true;
-		root.setEffect(null);
+		getRoot().setEffect(null);
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
 		scoreKeeper.resetCount();
@@ -880,7 +883,7 @@ public class SnakeGame extends Application implements Runnable {
 			Player2.NUMERIC_ID = 0;
 			Player2.killTheSnake = false;
 			Player2.MOUTH_CLOSE = true;
-			root.setEffect(null);
+			getRoot().setEffect(null);
 			scoreBoard.resetScore();
 			scoreBoard2.resetScore();
 			scoreKeeper.resetCount();
@@ -1160,6 +1163,10 @@ public class SnakeGame extends Application implements Runnable {
 
 	public void setHealthBarTwo(HealthBarTwo healthBarTwo) {
 		this.healthBarTwo = healthBarTwo;
+	}
+
+	public void setRoot(Pane root) {
+		this.root = root;
 	}
 
 }

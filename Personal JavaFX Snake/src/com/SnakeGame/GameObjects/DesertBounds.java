@@ -1,9 +1,9 @@
 package com.SnakeGame.GameObjects;
 
-import com.SnakeGame.Core.GameTileManager;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;

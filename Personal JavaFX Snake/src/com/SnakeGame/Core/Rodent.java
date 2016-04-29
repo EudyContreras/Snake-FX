@@ -9,6 +9,9 @@ import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;
 import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOneTail;
+import com.SnakeGame.Utilities.Animation;
+import com.SnakeGame.Utilities.GameObjectManager;
+import com.SnakeGame.Utilities.ScreenOverlay;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;

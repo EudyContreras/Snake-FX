@@ -1,5 +1,7 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
 
+import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
@@ -61,7 +63,7 @@ public class ScreenOverlay {
 	/**
 	 * Adds a distortion effect to the layer. max lifetime = 63. min lifetime =
 	 * 0.
-	 * 
+	 *
 	 * @param lifetime
 	 */
 	public void addDistortion(double lifetime, double speed) {
@@ -77,7 +79,7 @@ public class ScreenOverlay {
 	/**
 	 * Adds a soft blur effect to the layer. max lifetime = 63. min lifetime =
 	 * 0.
-	 * 
+	 *
 	 * @param lifetime
 	 */
 	public void addSoftBlur(double lifetime, double speed) {
@@ -93,7 +95,7 @@ public class ScreenOverlay {
 	/**
 	 * Adds a intense blur effect to the layer. max lifetime = 255. min lifetime
 	 * = 0.
-	 * 
+	 *
 	 * @param lifetime
 	 */
 	public void addIntenseBlur(double lifetime, double speed) {
@@ -108,7 +110,7 @@ public class ScreenOverlay {
 
 	/**
 	 * Adds a bloom effect to the scene max lifetime = 10; min lifeTime = 0;
-	 * 
+	 *
 	 * @param lifetime
 	 */
 	public void addBloom(double lifetime, double speed) {
@@ -123,7 +125,7 @@ public class ScreenOverlay {
 	/**
 	 * Adds a tone overlay to the screen which will disappear after at a given
 	 * rate max lifetime = 10; min lifetime = 0;
-	 * 
+	 *
 	 * @param tone
 	 * @param lifetime
 	 * @param speed

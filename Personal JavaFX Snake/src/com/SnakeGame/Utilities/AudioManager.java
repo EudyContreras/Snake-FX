@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -7,6 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import com.SnakeGame.Core.SnakeGame;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

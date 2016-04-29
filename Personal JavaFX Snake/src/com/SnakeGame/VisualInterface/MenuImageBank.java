@@ -1,7 +1,7 @@
 package com.SnakeGame.VisualInterface;
 
-import com.SnakeGame.Core.ImageUtility;
 import com.SnakeGame.Core.Settings;
+import com.SnakeGame.Utilities.ImageUtility;
 
 import javafx.scene.image.Image;
 

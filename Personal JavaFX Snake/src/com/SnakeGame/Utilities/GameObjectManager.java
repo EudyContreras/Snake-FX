@@ -1,8 +1,10 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.Utilities;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.SnakeGame.Core.GameObject;
+import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
  * and checking whether the objects is alive or not meaning no longer used. the
  * objects updated by this class are mob objects meaning objects that move,
  * interact and collide.
- * 
+ *
  * @author Eudy Contreras
  *
  */
