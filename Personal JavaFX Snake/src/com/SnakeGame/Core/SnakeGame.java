@@ -9,6 +9,8 @@ import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
 import com.SnakeGame.PlayerOne.OrgGameObjectManager;
 import com.SnakeGame.PlayerOne.OrgGameSectionManager;
+import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.PlayerTwo.SnakeTwoSectionManager;
 import com.SnakeGame.SlitherSnake.GameSlitherManager;
 import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOne;
@@ -100,7 +102,7 @@ public class SnakeGame extends Application implements Runnable {
 	Text TextFPS;
 	Timeline physicsLoop;
 	HealthBarOne healthBarOne;
-	HealthBarTwo healthBarTwo;
+	private HealthBarTwo healthBarTwo;
 	ScoreBoard scoreBoard;
 	ScoreBoard scoreBoard2;
 	EnergyMeter energyMeter;
@@ -200,26 +202,28 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPlayer1();
 		loader.loadPlayer2();
 		loader.loadOrgPlayer();
-//		loader.createSlither();
+		// loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-		gameHud = new GameHud(this, -5, 0, Settings.WIDTH+10, 55 / GameLoader.ResolutionScaleY);
-		setHealthBarOne(new HealthBarOne(this, 20 / GameLoader.ResolutionScaleX, 0, (int) (350 / GameLoader.ResolutionScaleX),
-				(int) (40 / GameLoader.ResolutionScaleY)));
-		healthBarTwo = new HealthBarTwo(this,
+		gameHud = new GameHud(this, -5, 0, Settings.WIDTH + 10, 55 / GameLoader.ResolutionScaleY);
+		setHealthBarOne(new HealthBarOne(this, 20 / GameLoader.ResolutionScaleX, 0,
+				(int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
+		setHealthBarTwo(new HealthBarTwo(this,
 				(int) (Settings.WIDTH - (int) (350 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
-				0, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY));
+				0, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, Settings.WIDTH / 2 - 10 / GameLoader.ResolutionScaleX,
 				30 / GameLoader.ResolutionScaleY,
 				Settings.WIDTH / 2 - GameImageBank.countKeeper.getWidth() / 2 / GameLoader.ResolutionScaleX, 0,
 				GameImageBank.countKeeper.getWidth() / GameLoader.ResolutionScaleX,
 				GameImageBank.countKeeper.getHeight() / 2 / GameLoader.ResolutionScaleY);
-		scoreBoard = new ScoreBoard("Player 1", this, scoreKeeper.getX() + 70/GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY, 0, 0,
-				100 / GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY);
-		scoreBoard2 = new ScoreBoard("Player 2", this, scoreKeeper.getX() + scoreKeeper.getWidth() - 190/GameLoader.ResolutionScaleX,
+		scoreBoard = new ScoreBoard("Player 1", this, scoreKeeper.getX() + 70 / GameLoader.ResolutionScaleX,
+				30 / GameLoader.ResolutionScaleY, 0, 0, 100 / GameLoader.ResolutionScaleX,
+				30 / GameLoader.ResolutionScaleY);
+		scoreBoard2 = new ScoreBoard("Player 2", this,
+				scoreKeeper.getX() + scoreKeeper.getWidth() - 190 / GameLoader.ResolutionScaleX,
 				30 / GameLoader.ResolutionScaleY, Settings.WIDTH - 100 / GameLoader.ResolutionScaleX, 0,
 				100 / GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY);
-		victoryScreen = new VictoryScreen(this,GameImageBank.levelCompleteSplash,800,450);
-		gameOver = new GameOverScreen(this,GameImageBank.gameOverScreen,800,450);
+		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800, 450);
+		gameOver = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
@@ -347,7 +351,7 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public void processGameInput() {
-		keyInput.processInput(this, loader.getPlayer(), loader.getPlayer2(), loader.getSlither(),scene);
+		keyInput.processInput(this, loader.getPlayer(), loader.getPlayer2(), loader.getSlither(), scene);
 	}
 
 	public void closeGame() {
@@ -396,9 +400,9 @@ public class SnakeGame extends Application implements Runnable {
 						getHealthBarOne().depleteHealth();
 						getHealthBarOne().regerateHealth();
 					}
-					if (loader.getPlayer2() != null && healthBarTwo != null) {
-						healthBarTwo.depleteHealth();
-						healthBarTwo.regerateHealth();
+					if (loader.getPlayer2() != null && getHealthBarTwo() != null) {
+						getHealthBarTwo().depleteHealth();
+						getHealthBarTwo().regerateHealth();
 					}
 					if (Settings.ALLOW_PHYSICS) {
 						if (!debrisLayer.getChildren().isEmpty()) {
@@ -490,9 +494,9 @@ public class SnakeGame extends Application implements Runnable {
 								getHealthBarOne().depleteHealth();
 								getHealthBarOne().regerateHealth();
 							}
-							if (loader.getPlayer2() != null && healthBarTwo != null) {
-								healthBarTwo.depleteHealth();
-								healthBarTwo.regerateHealth();
+							if (loader.getPlayer2() != null && getHealthBarTwo() != null) {
+								getHealthBarTwo().depleteHealth();
+								getHealthBarTwo().regerateHealth();
 							}
 							if (scoreBoard != null) {
 								scoreBoard.hide();
@@ -739,7 +743,7 @@ public class SnakeGame extends Application implements Runnable {
 	 */
 	public void translateObjects(ObservableList<Node> rootPane) {
 		TextFPS = new Text("FPS : ");
-//		TextFPS.setX(getHealthBarOne().width+45/GameLoader.ResolutionScaleX);
+		// TextFPS.setX(getHealthBarOne().width+45/GameLoader.ResolutionScaleX);
 		TextFPS.setX(ScaleX(20));
 		TextFPS.setY(ScaleY(70));
 		// overlay.setTranslateX(0);
@@ -781,11 +785,11 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPlayer1();
 		loader.loadPlayer2();
 		getHealthBarOne().show();
-		healthBarTwo.show();
+		getHealthBarTwo().show();
 		getHealthBarOne().refill();
-		healthBarTwo.refill();
+		getHealthBarTwo().refill();
 		getHealthBarOne().setPlayer();
-		healthBarTwo.setPlayer();
+		getHealthBarTwo().setPlayer();
 		loader.loadPixelMap();
 		processGameInput();
 	}
@@ -819,11 +823,11 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPlayer1();
 		loader.loadPlayer2();
 		getHealthBarOne().show();
-		healthBarTwo.show();
+		getHealthBarTwo().show();
 		getHealthBarOne().refill();
-		healthBarTwo.refill();
+		getHealthBarTwo().refill();
 		getHealthBarOne().setPlayer();
-		healthBarTwo.setPlayer();
+		getHealthBarTwo().setPlayer();
 		loader.loadPixelMap();
 		processGameInput();
 		getMainMenu().setMainMenu();
@@ -847,8 +851,9 @@ public class SnakeGame extends Application implements Runnable {
 		fadeScreen.getChildren().clear();
 
 	}
+
 	public void gameOver() {
-		if(GameOverScreen.FAILED_LEVEL == false) {
+		if (GameOverScreen.FAILED_LEVEL == false) {
 
 			playfieldLayer.getChildren().clear();
 			debrisLayer.getChildren().clear();
@@ -884,13 +889,14 @@ public class SnakeGame extends Application implements Runnable {
 			gameOver.removeBoard();
 			processGameInput();
 
-		gameOver.removeBoard();
-		gameOver.finishLevel();
-		scoreKeeper.setPosition(1.5f);
-		getGameHud().swipeDown();
-		GameOverScreen.FAILED_LEVEL = true;
+			gameOver.removeBoard();
+			gameOver.finishLevel();
+			scoreKeeper.setPosition(1.5f);
+			getGameHud().swipeDown();
+			GameOverScreen.FAILED_LEVEL = true;
 		}
 	}
+
 	public void addFadeScreen() {
 		if (!fadeOut) {
 			getMainRoot().getChildren().add(fadeRect);
@@ -912,6 +918,7 @@ public class SnakeGame extends Application implements Runnable {
 			}
 		}
 	}
+
 	public HealthBarOne getHealthBar() {
 		return getHealthBarOne();
 	}
@@ -921,19 +928,21 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public HealthBarTwo getHealthBar2() {
-		return healthBarTwo;
+		return getHealthBarTwo();
 	}
 
 	public void setHealthBar2(HealthBarTwo healthBarTwo) {
-		this.healthBarTwo = healthBarTwo;
+		this.setHealthBarTwo(healthBarTwo);
 	}
 
 	public static void writeToLog(String text) {
 		System.out.println(text + "\n");
 	}
-	public VictoryScreen getVictoryScreen(){
+
+	public VictoryScreen getVictoryScreen() {
 		return victoryScreen;
 	}
+
 	public EnergyMeter getEnergyMeter() {
 		return energyMeter;
 	}
@@ -1125,12 +1134,15 @@ public class SnakeGame extends Application implements Runnable {
 	public SnakeOneSectionManager getSectionManager() {
 		return sectManager;
 	}
+
 	public SnakeTwoSectionManager getSectionManager2() {
 		return sectManager2;
 	}
+
 	public GameSlitherSectionManager getSectionManager3() {
 		return sectManager3;
 	}
+
 	public void allowMouseInput(boolean choice) {
 		if (choice)
 			mouseInput.processInput(this, getloader().getPlayer(), scene);
@@ -1140,8 +1152,12 @@ public class SnakeGame extends Application implements Runnable {
 		launch(args);
 	}
 
+	public HealthBarTwo getHealthBarTwo() {
+		return healthBarTwo;
+	}
 
-
-
+	public void setHealthBarTwo(HealthBarTwo healthBarTwo) {
+		this.healthBarTwo = healthBarTwo;
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.SnakeGame.SnakeOne;
+package com.SnakeGame.PlayerTwo;
 
 import java.util.LinkedList;
 
@@ -28,7 +28,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class SnakeOne extends GameObject {
+public class Player2 extends GameObject {
 
 	double minX;
 	double maxX;
@@ -106,21 +106,21 @@ public class SnakeOne extends GameObject {
 	SnakeGame game;
 	LinkedList<PlayerMovement> turns = new LinkedList<>();
 	Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	ImagePattern pattern = new ImagePattern(GameImageBank.snakeEating);
-	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeBlinking);
+	ImagePattern pattern = new ImagePattern(GameImageBank.snakeEating2);
+	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeBlinking2);
 	Circle headBounds;
 	Circle skull;
 	GameObjectManager gom;
 	Animation anim;
-	SnakeOneSectionManager sectManager;
-	SnakeOneHead snakeHead;
-	SnakeOneMouth mouth;
-	SnakeOneTail tail;
+	SnakeTwoSectionManager sectManager;
+	SnakeHead2 snakeHead;
+	SnakeMouth2 mouth;
+	SnakeTail2 tail;
 	Rectangle bounds;
-	SnakeOneEatTrigger trigger;
+	EatTrigger2 trigger;
 	ScreenOverlay overlay;
 	PlayerMovement direction;
-	private SnakeOneSection neighbor;
+	private SnakeSection2 neighbor;
 	public static int NUMERIC_ID = 0;
 	public static Boolean killTheSnake = false;
 	public static Boolean levelComplete = false;
@@ -129,7 +129,7 @@ public class SnakeOne extends GameObject {
 	public static Boolean MOUTH_CLOSE = true;
 	public static Boolean keepMoving = true;
 
-	public SnakeOne(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+	public Player2(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
 			double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.gom = gom;
@@ -142,13 +142,13 @@ public class SnakeOne extends GameObject {
 		this.anim = new Animation();
 		this.circle.setVisible(false);
 		this.direction = PlayerMovement.STANDING_STILL;
-		this.sectManager = game.getSectionManager();
-		this.snakeHead = new SnakeOneHead(this, game, layer, GameImageBank.snakeSphere, this.x, this.y,
+		this.sectManager = game.getSectionManager2();
+		this.snakeHead = new SnakeHead2(this, game, layer, GameImageBank.snakeSphere2, this.x, this.y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.mouth = new SnakeOneMouth(this, game, game.getSnakeHeadLayer(),
+		this.mouth = new SnakeMouth2(this, game, game.getSnakeHeadLayer(),
 				new Circle(Settings.SECTION_SIZE * 0.30 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
-		this.trigger = new SnakeOneEatTrigger(this, game, game.getSnakeHeadLayer(),
+		this.trigger = new EatTrigger2(this, game, game.getSnakeHeadLayer(),
 				new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
 		this.gom.addObject(trigger);
@@ -459,8 +459,8 @@ public class SnakeOne extends GameObject {
 
 	public void addbaseSections() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new SnakeOneSection(this, game, game.getSnakeBodyLayer(),
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
+			sectManager.addSection(new SnakeSection2(this, game, game.getSnakeBodyLayer(),
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
@@ -469,8 +469,8 @@ public class SnakeOne extends GameObject {
 
 	public void addSection() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new SnakeOneSection(this, game, game.getSnakeBodyLayer(),
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
+			sectManager.addSection(new SnakeSection2(this, game, game.getSnakeBodyLayer(),
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
@@ -584,7 +584,7 @@ public class SnakeOne extends GameObject {
 			}
 			if (fade >= 1.1f) {
 				game.gameOver();
-				// game.reset();
+				//
 			}
 		}
 		if (showTheSkull == true) {
@@ -597,7 +597,6 @@ public class SnakeOne extends GameObject {
 	}
 
 	public void headAdjustment() {
-		// calculateAction();
 		if (this.direction == PlayerMovement.MOVE_DOWN) {
 			if (y - neighbor.getY() > Settings.SECTION_SIZE) {
 				y = neighbor.getY() + Settings.SECTION_SIZE;
@@ -629,8 +628,8 @@ public class SnakeOne extends GameObject {
 	}
 
 	public void loadImages() {
-		anim.addScene(GameImageBank.snakeHead, 4000);
-		anim.addScene(GameImageBank.snakeBlinking, 250);
+		anim.addScene(GameImageBank.snakeHead2, 4000);
+		anim.addScene(GameImageBank.snakeBlinking2, 250);
 		setAnimation(anim);
 	}
 
@@ -720,7 +719,7 @@ public class SnakeOne extends GameObject {
 	public void die() {
 		killTheSnake = true;
 		blurOut();
-		game.getHealthBarOne().drainAll();
+		game.getHealthBarTwo().drainAll();
 	}
 
 	public void addBones() {
@@ -744,7 +743,7 @@ public class SnakeOne extends GameObject {
 		this.isDead = isDead;
 	}
 
-	public SnakeOneMouth getMouth() {
+	public SnakeMouth2 getMouth() {
 		return mouth;
 	}
 
@@ -760,11 +759,11 @@ public class SnakeOne extends GameObject {
 
 	}
 
-	public void setTail(SnakeOneTail tail) {
+	public void setTail(SnakeTail2 tail) {
 		this.tail = tail;
 	}
 
-	public SnakeOneTail getTail() {
+	public SnakeTail2 getTail() {
 		return tail;
 	}
 
@@ -780,7 +779,7 @@ public class SnakeOne extends GameObject {
 		this.anim = anim;
 	}
 
-	public void setNeighbor(SnakeOneSection snakeSection) {
+	public void setNeighbor(SnakeSection2 snakeSection) {
 		this.neighbor = snakeSection;
 
 	}

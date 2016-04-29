@@ -1,17 +1,18 @@
 package com.SnakeGame.HudElements;
 
 import com.SnakeGame.Core.GameImageBank;
-import com.SnakeGame.Core.Player2;
 import com.SnakeGame.Core.Settings;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+
 /**
- * This class is used to simulate a simple health bar
- * which will decrease under certain conditions, and that will
- * also self restore
+ * This class is used to simulate a simple health bar which will decrease under
+ * certain conditions, and that will also self restore
+ * 
  * @author Eudy Contreras
  *
  */
@@ -33,7 +34,7 @@ public class HealthBarTwo {
 	Rectangle healthBar = new Rectangle();
 	Rectangle healthBarBorder = new Rectangle();
 
-	public HealthBarTwo(SnakeGame game,double x, double y, double width, double height) {
+	public HealthBarTwo(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.oldX = this.x;
@@ -41,12 +42,12 @@ public class HealthBarTwo {
 		this.height = height;
 		this.player = game.getloader().getPlayer2();
 		this.game = game;
-//		this.healthBar.setWidth(width/GameLoader.ResolutionScaleX);
-//		this.healthBar.setHeight(height/GameLoader.ResolutionScaleX);
-//		this.healthBar.setTranslateX(x/GameLoader.ResolutionScaleX);
-//		this.healthBar.setTranslateY(y/GameLoader.ResolutionScaleX);
-//		this.healthBar.setArcHeight(20/GameLoader.ResolutionScaleX);
-//		this.healthBar.setArcWidth(20/GameLoader.ResolutionScaleX);
+		// this.healthBar.setWidth(width/GameLoader.ResolutionScaleX);
+		// this.healthBar.setHeight(height/GameLoader.ResolutionScaleX);
+		// this.healthBar.setTranslateX(x/GameLoader.ResolutionScaleX);
+		// this.healthBar.setTranslateY(y/GameLoader.ResolutionScaleX);
+		// this.healthBar.setArcHeight(20/GameLoader.ResolutionScaleX);
+		// this.healthBar.setArcWidth(20/GameLoader.ResolutionScaleX);
 
 		this.healthBar.setWidth(width);
 		this.healthBar.setHeight(height);
@@ -57,26 +58,27 @@ public class HealthBarTwo {
 		this.healthBarBorder.setTranslateX(x);
 		this.healthBarBorder.setTranslateY(y);
 		this.healthBar.setFill(new ImagePattern(GameImageBank.healthBarGreen2));
-//		this.healthBarBorder.setWidth(width);
-//		this.healthBarBorder.setHeight(height);
-//		this.healthBarBorder.setArcWidth(20);
-//		this.healthBarBorder.setArcHeight(20);
-//		this.healthBarBorder.setTranslateX(x);
-//		this.healthBarBorder.setTranslateY(y);
+		// this.healthBarBorder.setWidth(width);
+		// this.healthBarBorder.setHeight(height);
+		// this.healthBarBorder.setArcWidth(20);
+		// this.healthBarBorder.setArcHeight(20);
+		// this.healthBarBorder.setTranslateX(x);
+		// this.healthBarBorder.setTranslateY(y);
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.healthBarRed2));
 		game.getOverlay().getChildren().addAll(healthBarBorder);
 		game.getOverlay().getChildren().add(healthBar);
 		this.maxHealth = width;
 	}
+
 	/**
-	 * This method depletes the health by a specific percentage
-	 * and under specific conditions
+	 * This method depletes the health by a specific percentage and under
+	 * specific conditions
 	 */
 	public void depleteHealth() {
 
 		if (player.isCollision() == true) {
 			width -= Settings.DAMAGE_AMOUNT;
-			x+=Settings.DAMAGE_AMOUNT;
+			x += Settings.DAMAGE_AMOUNT;
 			setDelay = true;
 			player.setCollision(false);
 		}
@@ -88,58 +90,61 @@ public class HealthBarTwo {
 		this.healthBar.setWidth(width);
 
 	}
-	/**
-	 * This method add a predetermined delay to
-	 * health regeneration
-	 */
-	public void setDelay(){
 
-		if(setDelay == true){
+	/**
+	 * This method add a predetermined delay to health regeneration
+	 */
+	public void setDelay() {
+
+		if (setDelay == true) {
 			delay = 100;
 			setDelay = false;
 		}
 	}
+
 	/**
-	 * This method regenerates the health
-	 * over a given period of time.
+	 * This method regenerates the health over a given period of time.
 	 */
 	public void regerateHealth() {
-		//hide();
-		if(player.isDead() == false){
-		setDelay();
-		if(delay>=0){
-			delay--;
-		}
+		// hide();
+		if (player.isDead() == false) {
+			setDelay();
+			if (delay >= 0) {
+				delay--;
+			}
 
-		if (player.isCollision() == false) {
-			if (width < maxHealth) {
-				if(delay<=0){
-				width+=Settings.HEALTH_REGENERATION_SPEED;
-				x-=Settings.HEALTH_REGENERATION_SPEED;
-				}
-				if(x<=oldX){
-					x = oldX;
+			if (player.isCollision() == false) {
+				if (width < maxHealth) {
+					if (delay <= 0) {
+						width += Settings.HEALTH_REGENERATION_SPEED;
+						x -= Settings.HEALTH_REGENERATION_SPEED;
+					}
+					if (x <= oldX) {
+						x = oldX;
+					}
 				}
 			}
 		}
-		}
-		if(killPlayer == true){
+		if (killPlayer == true) {
 			player.die();
 			killPlayer = false;
 		}
-		//x = (int) width;
+		// x = (int) width;
 	}
-	public void hide(){
-		if(SnakeOne.levelComplete || Player2.levelComplete){
+
+	public void hide() {
+		if (SnakeOne.levelComplete || Player2.levelComplete) {
 			healthBar.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
 	}
-	public void show(){
+
+	public void show() {
 		healthBar.setVisible(true);
 		healthBarBorder.setVisible(true);
 	}
-	public void refill(){
+
+	public void refill() {
 		this.depleated = false;
 		this.setDelay = false;
 		this.killPlayer = false;
@@ -149,11 +154,13 @@ public class HealthBarTwo {
 		this.healthBar.setTranslateX(x);
 		this.healthBar.setWidth(maxHealth);
 	}
-	public void drainAll(){
+
+	public void drainAll() {
 		this.width = 0;
 		this.healthBar.setWidth(width);
 	}
-	public void setPlayer(){
+
+	public void setPlayer() {
 		this.player = null;
 		this.player = game.getloader().getPlayer2();
 	}

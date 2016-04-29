@@ -1,8 +1,10 @@
-package com.SnakeGame.SlitherSnake;
+package com.SnakeGame.PlayerTwo;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import com.SnakeGame.Core.PlayerMovement;
+import com.SnakeGame.Core.SectionMain;
 import com.SnakeGame.Core.SnakeGame;
 
 import javafx.geometry.Point2D;
@@ -18,16 +20,16 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameSlitherSectionManager {
-	private ArrayList<SlitherSectionMain> sectionList;
-	private SlitherSectionMain tempSection;
+public class SnakeTwoSectionManager {
+	private LinkedList<SectionMain> sectionList;
+	private SectionMain tempSection;
 
-	public GameSlitherSectionManager(SnakeGame gameJavaFX) {
+	public SnakeTwoSectionManager(SnakeGame gameJavaFX) {
 		initialize();
 	}
 
 	public void initialize() {
-		this.sectionList = new ArrayList<>();
+		this.sectionList = new LinkedList<>();
 	}
 
 	/**
@@ -53,19 +55,19 @@ public class GameSlitherSectionManager {
 	}
 
 	public void addNewDirection(PlayerMovement direction) {
-		for (SlitherSectionMain sect : sectionList) {
+		for (SectionMain sect : sectionList) {
 			sect.setNewDirection(direction);
 		}
 	}
 
 	public void addNewLocation(Point2D location) {
-		for (SlitherSectionMain sect : sectionList) {
+		for (SectionMain sect : sectionList) {
 			sect.setNewLocation(location);
 		}
 	}
 
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID) {
-		for (SlitherSectionMain sect : sectionList) {
+		for (SectionMain sect : sectionList) {
 			if (sect.getNumericID() == ID) {
 				sect.setNewDirection(direction);
 				sect.setNewLocation(location);
@@ -151,15 +153,20 @@ public class GameSlitherSectionManager {
 	/**
 	 * Procedurally places the sections in the level
 	 */
-	public ArrayList<SlitherSectionMain> getSectionList() {
+	public LinkedList<SectionMain> getSectionList() {
 		return sectionList;
 	}
 
-	public void addSection(SlitherSectionMain sect) {
-		sectionList.add(sect);
+	public void addSection(SectionMain... sect) {
+		if (sect.length > 1) {
+
+			sectionList.addAll(Arrays.asList(sect));
+		} else {
+			sectionList.addLast(sect[0]);
+		}
 	}
 
-	public void removeSection(SlitherSectionMain section) {
+	public void removeSection(SectionMain section) {
 		this.sectionList.remove(section);
 	}
 

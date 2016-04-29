@@ -7,111 +7,128 @@ import javafx.scene.paint.ImagePattern;
 
 /**
  * Class used for controlling and performing frame based animations
+ * 
  * @author Eudy
  *
  */
 public class Animation {
-	
-	private LinkedList<Object> scenes = new LinkedList<Object>(); 
+
+	private LinkedList<Object> scenes = new LinkedList<Object>();
 	private int sceneIndex;
 	private long movieTime;
 	private long totalTime;
-	
-	public Animation(){
+
+	public Animation() {
 		totalTime = 0;
 		start();
 	}
-	public synchronized void addScene(Image image, long time){
-		totalTime+=time;
+
+	public synchronized void addScene(Image image, long time) {
+		totalTime += time;
 		scenes.add(new OneScene(image, totalTime));
 	}
+
 	/**
 	 * starts the animation
 	 */
-	public synchronized void start(){
+	public synchronized void start() {
 		movieTime = 0;
 		sceneIndex = 0;
-		
+
 	}
+
 	/**
 	 * Updates the animations by switching the frames
+	 * 
 	 * @param timePassed
 	 */
-	public synchronized void update(long timePassed){
-		if(scenes.size()> 1){
+	public synchronized void update(long timePassed) {
+		if (scenes.size() > 1) {
 			movieTime += timePassed;
-			if(movieTime >= totalTime){
+			if (movieTime >= totalTime) {
 				movieTime = 0;
 				sceneIndex = 0;
 			}
-			while(movieTime > getScene(sceneIndex).endTime){
+			while (movieTime > getScene(sceneIndex).endTime) {
 				sceneIndex++;
 			}
 		}
 	}
+
 	/**
-	 * Fetches the  image
+	 * Fetches the image
+	 * 
 	 * @return
 	 */
-	public synchronized Image getImage(){
-		if(scenes.size() == 0){
+	public synchronized Image getImage() {
+		if (scenes.size() == 0) {
 			return null;
-		}
-		else{
+		} else {
 			return getScene(sceneIndex).pic;
 		}
 	}
+
 	/**
-	 * Fetches the  image
+	 * Fetches the image
+	 * 
 	 * @return
 	 */
-	public synchronized ImagePattern getPattern(){
-		if(scenes.size() == 0){
+	public synchronized ImagePattern getPattern() {
+		if (scenes.size() == 0) {
 			return null;
-		}
-		else{
+		} else {
 			return getScene(sceneIndex).pattern;
 		}
 	}
+
 	/**
-	 * Fetches the frame 
+	 * Fetches the frame
+	 * 
 	 * @param x
 	 * @return
 	 */
-	private OneScene getScene(int x){
-		return (OneScene)scenes.get(x);
+	private OneScene getScene(int x) {
+		return (OneScene) scenes.get(x);
 	}
+
 	/**
 	 * Scene class holding one particular scene or frame
+	 * 
 	 * @author Eudy Contreras
 	 *
 	 */
-	private class OneScene{
+	private class OneScene {
 		Image pic;
 		ImagePattern pattern;
 		long endTime;
-		
-		public OneScene(Image pic, long endTime){
+
+		public OneScene(Image pic, long endTime) {
 			this.pic = pic;
 			this.endTime = endTime;
 			this.pattern = new ImagePattern(pic);
 		}
 	}
+
 	/**
-	 * Animation example. We first create and array 
-	 * of the image we wish to animate. then we initialize 
-	 * each image in the array according to their respective paths
-	 * this should be done in the order of the animation. as seen here
-	 * each image has a number making it easy to add to both initialize them and
-	 * add them to scene...
+	 * Animation example. We first create and array of the image we wish to
+	 * animate. then we initialize each image in the array according to their
+	 * respective paths this should be done in the order of the animation. as
+	 * seen here each image has a number making it easy to add to both
+	 * initialize them and add them to scene...
 	 */
-	public void addImagesToAnimate(){
+	public void addImagesToAnimate() {
 		Image[] objectToAnimate = new Image[4];
-	
-		for(int i = 0; i<objectToAnimate.length; i++){
-			objectToAnimate[i] = new Image("respectivePath"+ i/* =should me the name of the image*/ +".png" /*and then the image's extension*/);
-			addScene(objectToAnimate[i], 250); //we add all the images and we decide how long in milliseconds each frame will have screen time.
+
+		for (int i = 0; i < objectToAnimate.length; i++) {
+			objectToAnimate[i] = new Image(
+					"respectivePath" + i/* =should me the name of the image */
+							+ ".png" /* and then the image's extension */);
+			addScene(objectToAnimate[i], 250); // we add all the images and we
+												// decide how long in
+												// milliseconds each frame will
+												// have screen time.
 		}
-		// now we have all the needed scenes for a fluent animation to take place
+		// now we have all the needed scenes for a fluent animation to take
+		// place
 	}
 }

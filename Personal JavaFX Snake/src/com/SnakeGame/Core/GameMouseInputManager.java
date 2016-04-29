@@ -7,60 +7,63 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 
 /**
- * Class allows a specified object to be moved using the mouse
- * this class also allows mapping a specific action to every key of
- * the mouse
+ * Class allows a specified object to be moved using the mouse this class also
+ * allows mapping a specific action to every key of the mouse
+ * 
  * @author Eudy Contreras
  *
  */
 public class GameMouseInputManager {
 
-	public static int mouseX , mouseY;
+	public static int mouseX, mouseY;
 	SnakeGame game;
-	public void processInput(SnakeGame game, SnakeOne player,Scene scene){
+
+	public void processInput(SnakeGame game, SnakeOne player, Scene scene) {
 		this.game = game;
-	scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
+		scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
 
-        public void handle(MouseEvent e) {
+			public void handle(MouseEvent e) {
 
-    		mouseX = (int) (e.getX()/ Settings.SCALE);
-    		mouseY = (int) (e.getY()/ Settings.SCALE);
-    		if(Settings.ALLOW_MOUSE_INPUT){
+				mouseX = (int) (e.getX() / Settings.SCALE);
+				mouseY = (int) (e.getY() / Settings.SCALE);
+				if (Settings.ALLOW_MOUSE_INPUT) {
 
-    		}
-        }
-    });
-	scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+				}
+			}
+		});
+		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
 
-        public void handle(MouseEvent e) {
+			public void handle(MouseEvent e) {
 
-    		mouseX = (int) (e.getX()/ Settings.SCALE);
-    		mouseY = (int) (e.getY()/ Settings.SCALE);
-    		if(Settings.ALLOW_MOUSE_INPUT){
+				mouseX = (int) (e.getX() / Settings.SCALE);
+				mouseY = (int) (e.getY() / Settings.SCALE);
+				if (Settings.ALLOW_MOUSE_INPUT) {
 
-    		}
-        }
-    });
-	scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+				}
+			}
+		});
+		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 
-        public void handle(MouseEvent e) {
-        	if(e.isPrimaryButtonDown()){
+			public void handle(MouseEvent e) {
+				if (e.isPrimaryButtonDown()) {
 
-        	}
+				}
 
-        	if(e.isSecondaryButtonDown()){
+				if (e.isSecondaryButtonDown()) {
 
-        	}
+				}
 
-        	if(e.isMiddleButtonDown()){
+				if (e.isMiddleButtonDown()) {
 
-        	}
-        }
-    });
+				}
+			}
+		});
 	}
+
 	public static int getMouseX() {
 		return mouseX;
 	}
+
 	public static int getMouseY() {
 		return mouseY;
 	}

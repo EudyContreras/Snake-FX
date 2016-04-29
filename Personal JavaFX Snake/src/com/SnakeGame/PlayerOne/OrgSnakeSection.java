@@ -26,56 +26,66 @@ public class OrgSnakeSection extends OrgSectionMain {
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
 				this.setLastDirection(Direction);
-				this.y = (float) (y + this.circle.getRadius()*Settings.SECTION_DISTANCE);
+				this.y = (float) (y + this.circle.getRadius() * Settings.SECTION_DISTANCE);
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
+				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
+						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
 				game.getOrgObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
-				this.y = (float) (y - this.circle.getRadius()*Settings.SECTION_DISTANCE);
+				this.y = (float) (y - this.circle.getRadius() * Settings.SECTION_DISTANCE);
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
+				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
+						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
 				game.getOrgObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
-				this.x = (float) (x + this.circle.getRadius()*Settings.SECTION_DISTANCE);
+				this.x = (float) (x + this.circle.getRadius() * Settings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
+				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
+						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
 				game.getOrgObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
-				this.x = (float) (x - this.circle.getRadius()*Settings.SECTION_DISTANCE);
+				this.x = (float) (x - this.circle.getRadius() * Settings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
+				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
+						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
 				game.getOrgObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
-				this.x = (float) (x - this.circle.getRadius()*Settings.SECTION_DISTANCE);
+				this.x = (float) (x - this.circle.getRadius() * Settings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this,game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE-5,new ImagePattern(GameImageBank.snakeTail)), this.x, this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
+				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
+						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
 				game.getOrgObjectManager().addObject(tail);
 				snake.setTail(tail);
@@ -87,7 +97,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 					switch (previousSect.getLastDirection()) {
 					case MOVE_UP:
 						setLastDirection(PlayerMovement.MOVE_UP);
-						this.y = (float) (previousSect.getY() + this.circle.getRadius()*Settings.SECTION_DISTANCE);
+						this.y = (float) (previousSect.getY() + this.circle.getRadius() * Settings.SECTION_DISTANCE);
 						this.x = previousSect.getX();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -96,7 +106,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 						break;
 					case MOVE_DOWN:
 						setLastDirection(PlayerMovement.MOVE_DOWN);
-						this.y = (float) (previousSect.getY() - this.circle.getRadius()*Settings.SECTION_DISTANCE);
+						this.y = (float) (previousSect.getY() - this.circle.getRadius() * Settings.SECTION_DISTANCE);
 						this.x = previousSect.getX();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -105,7 +115,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 						break;
 					case MOVE_LEFT:
 						setLastDirection(PlayerMovement.MOVE_LEFT);
-						this.x = (float) (previousSect.getX() + this.circle.getRadius()*Settings.SECTION_DISTANCE);
+						this.x = (float) (previousSect.getX() + this.circle.getRadius() * Settings.SECTION_DISTANCE);
 						this.y = previousSect.getY();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -114,7 +124,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 						break;
 					case MOVE_RIGHT:
 						setLastDirection(PlayerMovement.MOVE_RIGHT);
-						this.x = (float) (previousSect.getX() - this.circle.getRadius()*Settings.SECTION_DISTANCE);
+						this.x = (float) (previousSect.getX() - this.circle.getRadius() * Settings.SECTION_DISTANCE);
 						this.y = previousSect.getY();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -123,7 +133,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 						break;
 					case STANDING_STILL:
 						setLastDirection(PlayerMovement.STANDING_STILL);
-						this.x = (float) (previousSect.getX() - this.circle.getRadius()*Settings.SECTION_DISTANCE);
+						this.x = (float) (previousSect.getX() - this.circle.getRadius() * Settings.SECTION_DISTANCE);
 						this.y = previousSect.getY();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -141,7 +151,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 		checkBounds();
 		hideLast();
 		if (OrgPlayer.DEAD == false && OrgPlayer.LEVEL_COMPLETED == false && OrgPlayer.KEEP_MOVING)
-		super.move();
+			super.move();
 		if (lastPosition.size() > 0) {
 			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
 				removeLatestLocation();
@@ -178,14 +188,15 @@ public class OrgSnakeSection extends OrgSectionMain {
 			}
 		}
 	}
+
 	public void hideLast() {
-		if(this.numericID == OrgPlayer.NUMERIC_ID-1) {
+		if (this.numericID == OrgPlayer.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
-		}
-		else if(this.numericID != OrgPlayer.NUMERIC_ID-1) {
+		} else if (this.numericID != OrgPlayer.NUMERIC_ID - 1) {
 			this.circle.setVisible(true);
 		}
 	}
+
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (Settings.WIDTH + radius);

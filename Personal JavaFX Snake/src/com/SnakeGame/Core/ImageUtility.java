@@ -1,6 +1,5 @@
 package com.SnakeGame.Core;
 
-
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.Bloom;
@@ -67,15 +66,16 @@ public class ImageUtility {
 		img = ImageUtility.createImage(view);
 		return img;
 	}
+
 	public static Image precreateShadedImages(String path, double diffused, double specularMap, double width,
 			double height) {
 		DropShadow shadow = new DropShadow(15, Color.BLACK);
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		shadow.setColor(Color.rgb(0, 0, 0,0.8));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.8));
 		shadow.setRadius(15);
-//		shadow.setOffsetX(20);
-//		shadow.setOffsetY(-15);
+		// shadow.setOffsetX(20);
+		// shadow.setOffsetY(-15);
 		if (Settings.ADD_LIGHTING)
 			view.setEffect(shadow);
 		view.setFitWidth(width);
@@ -83,6 +83,7 @@ public class ImageUtility {
 		img = ImageUtility.createImage(view);
 		return img;
 	}
+
 	public static Image precreatedLightedAndShadedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		DropShadow shadow = new DropShadow(15, Color.BLACK);
@@ -97,7 +98,7 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0,0.5));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		shadow.setRadius(15);
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
@@ -109,6 +110,7 @@ public class ImageUtility {
 		img = ImageUtility.createImage(view);
 		return img;
 	}
+
 	public static Image precreatedLightedAndShadedSnake(String path, double diffused, double specularMap, double width,
 			double height) {
 		DropShadow shadow = new DropShadow(15, Color.BLACK);
@@ -123,7 +125,7 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0,0.6));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
 		shadow.setRadius(20);
 		shadow.setWidth(25);
 		shadow.setHeight(25);
@@ -135,7 +137,8 @@ public class ImageUtility {
 		img = ImageUtility.createImage(view);
 		return img;
 	}
-	public static Image precreateSnapshot(String path, double width, double height){
+
+	public static Image precreateSnapshot(String path, double width, double height) {
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
 		view.setFitWidth(width);
@@ -143,6 +146,7 @@ public class ImageUtility {
 		img = ImageUtility.createImage(view);
 		return img;
 	}
+
 	public static Image preCreateShadedCircle(Color color, double diffused, double specularMap, double width,
 			double height) {
 		Lighting lighting = new Lighting();
@@ -164,6 +168,7 @@ public class ImageUtility {
 		img = ImageUtility.createImage(circle);
 		return img;
 	}
+
 	public static Image preCreateShadedGlowingCircle(Color color, double diffused, double specularMap, double width,
 			double height) {
 		Lighting lighting = new Lighting();
@@ -192,6 +197,7 @@ public class ImageUtility {
 		img = ImageUtility.createImage(circle);
 		return img;
 	}
+
 	public static Image preCreateShadedBackground(String path, double diffused, double specularMap, double width,
 			double height) {
 		DropShadow shadow = new DropShadow(15, Color.BLACK);
@@ -206,7 +212,7 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0,0.5));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		shadow.setRadius(15);
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);

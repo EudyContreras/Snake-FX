@@ -1,4 +1,4 @@
-package com.SnakeGame.SnakeOne;
+package com.SnakeGame.PlayerTwo;
 
 import java.util.LinkedList;
 
@@ -11,18 +11,18 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class SnakeOneTail extends GameObject {
-	SnakeOneSection snakeSect;
-	SnakeOneSection sectionToFollow;
-	SnakeOneSectionManager sectManager;
+public class SnakeTail2 extends GameObject {
+	SnakeSection2 snakeSect;
+	SnakeSection2 sectionToFollow;
+	SnakeTwoSectionManager sectManager;
 	LinkedList<Point2D> lastLocation = new LinkedList<Point2D>();
 	LinkedList<PlayerMovement> lastDirection = new LinkedList<PlayerMovement>();
 
-	public SnakeOneTail(SnakeOneSection snake, SnakeGame game, Pane layer, Node node, double x, double y,
-			GameObjectID id, PlayerMovement Direction) {
+	public SnakeTail2(SnakeSection2 snake, SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id,
+			PlayerMovement Direction) {
 		super(game, layer, node, id);
 		this.snakeSect = snake;
-		this.sectManager = game.getSectionManager();
+		this.sectManager = game.getSectionManager2();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (double) (y + this.circle.getRadius() * 1.5);
 			this.x = x;
@@ -52,7 +52,7 @@ public class SnakeOneTail extends GameObject {
 	}
 
 	public void move() {
-		if (SnakeOne.killTheSnake == true) {
+		if (Player2.killTheSnake == true) {
 			// this.circle.setVisible(false);
 			// this.remove();
 		}
@@ -108,7 +108,7 @@ public class SnakeOneTail extends GameObject {
 		}
 	}
 
-	public void setWhoToFollow(SnakeOneSection snakeSection) {
+	public void setWhoToFollow(SnakeSection2 snakeSection) {
 		sectionToFollow = snakeSection;
 	}
 

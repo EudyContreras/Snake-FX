@@ -5,10 +5,12 @@ import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
 /**
- * This class is used to keep track of energy used by the player if there's is any
- * it will decrease and regenerate according to time passed and given actions by the
- * player.
+ * This class is used to keep track of energy used by the player if there's is
+ * any it will decrease and regenerate according to time passed and given
+ * actions by the player.
+ * 
  * @author Eudy Contreras
  *
  */
@@ -48,9 +50,9 @@ public class EnergyMeter {
 		game.getOverlay().getChildren().add(energyBarBorder);
 		this.maxEnergyLevel = width;
 	}
+
 	/**
-	 * depletes the energy
-	 * by a constant percentage
+	 * depletes the energy by a constant percentage
 	 */
 	public void deplete() {
 		if (shotsFired == true) {
@@ -60,43 +62,45 @@ public class EnergyMeter {
 
 		if (width >= 15) {
 			player.setSpeedBump(false);
-		}
-		else if (width <= 0) {
+		} else if (width <= 0) {
 			player.setSpeedBump(true);
 			setDelay = true;
 		}
 		this.energyBar.setWidth(width);
 	}
+
 	/**
-	 * sets a regeneration delay
-	 * by a constant percentage
+	 * sets a regeneration delay by a constant percentage
 	 */
-	public void setDelay(){
-		if(setDelay == true){
+	public void setDelay() {
+		if (setDelay == true) {
 			delay = 90;
 			width = 1;
 			setDelay = false;
 		}
 	}
+
 	public void shotFired(boolean state) {
 		this.shotsFired = state;
 	}
+
 	/**
 	 * Regenerates the energy until it reaches its max value
 	 */
 	public void regerate() {
 		setDelay();
-		if(delay>=0){
+		if (delay >= 0) {
 			delay--;
 		}
 		if (player.isNotMovingFast() == true) {
 			if (width < maxEnergyLevel) {
-				if(delay<=0)
-				width+=2;
+				if (delay <= 0)
+					width += 2;
 			}
 		}
 	}
-	public void refill(){
+
+	public void refill() {
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
 	}

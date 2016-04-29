@@ -38,8 +38,7 @@ public enum AudioManager {
 	public static final int SFX_ID_FAST = 7;
 	public static final int SFX_ID_SLOW = 8;
 
-	private String[] SFX_PATHS = {
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
+	private String[] SFX_PATHS = { SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
 			SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
 			SnakeGame.class.getResource("/com/Snake/sfx/sfx_die1.wav").toExternalForm(),
 			SnakeGame.class.getResource("/com/Snake/sfx/sfx_die2.wav").toExternalForm(),
@@ -47,23 +46,24 @@ public enum AudioManager {
 			SnakeGame.class.getResource("/com/Snake/sfx/sfx_apple_spawn.wav").toExternalForm(),
 			SnakeGame.class.getResource("/com/Snake/sfx/sfx_apple_die.wav").toExternalForm(),
 			SnakeGame.class.getResource("/com/Snake/sfx/sfx_fast.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_slow.wav").toExternalForm()};
+			SnakeGame.class.getResource("/com/Snake/sfx/sfx_slow.wav").toExternalForm() };
 
 	private final String PROPERTIES_COMMENT = "AUDIO SETTINGS";
 
-    private final String GAME_MUSIC_URL = SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm();
+	private final String GAME_MUSIC_URL = SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav")
+			.toExternalForm();
 
-    private final String MUSIC_VOL = "MUSIC_VOL";
-    private final String AUDIO_VOL = "AUDIO_VOL";
+	private final String MUSIC_VOL = "MUSIC_VOL";
+	private final String AUDIO_VOL = "AUDIO_VOL";
 
-    private DoubleProperty musicVolume = new SimpleDoubleProperty(1);
-    private DoubleProperty audioVolume = new SimpleDoubleProperty(1);
+	private DoubleProperty musicVolume = new SimpleDoubleProperty(1);
+	private DoubleProperty audioVolume = new SimpleDoubleProperty(1);
 
 	Media gameMedia = new Media(GAME_MUSIC_URL);
 
-    private MediaPlayer audioPlayer = new MediaPlayer(gameMedia);
+	private MediaPlayer audioPlayer = new MediaPlayer(gameMedia);
 
-    private AudioClip[] sfxAudio = new AudioClip[SFX_PATHS.length];
+	private AudioClip[] sfxAudio = new AudioClip[SFX_PATHS.length];
 
 	File propFile = new File(PATH_PROPERTIES_FILE);
 	File root = new File(PATH_ROOT);
@@ -73,20 +73,20 @@ public enum AudioManager {
 		audioPlayer.volumeProperty().set(musicVolume.get());
 		audioPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
-        Bindings.bindBidirectional(audioPlayer.volumeProperty(), musicVolume);
+		Bindings.bindBidirectional(audioPlayer.volumeProperty(), musicVolume);
 
-        for( int i = 0 ; i < SFX_PATHS.length ; i++) {
-        	sfxAudio[i] = new AudioClip(SFX_PATHS[i]);
-        	sfxAudio[i].volumeProperty().set(audioVolume.get());
-            Bindings.bindBidirectional(sfxAudio[i].volumeProperty(), audioVolume);
-        }
-
+		for (int i = 0; i < SFX_PATHS.length; i++) {
+			sfxAudio[i] = new AudioClip(SFX_PATHS[i]);
+			sfxAudio[i].volumeProperty().set(audioVolume.get());
+			Bindings.bindBidirectional(sfxAudio[i].volumeProperty(), audioVolume);
+		}
 
 	}
+
 	public void initialize() {
 		audioPlayer.setAutoPlay(true);
 		load();
-		if(!propFile.exists()) {
+		if (!propFile.exists()) {
 			save();
 		}
 	}
@@ -98,24 +98,25 @@ public enum AudioManager {
 		Runnable saveRunnable = new Runnable() {
 			@Override
 			public void run() {
-		    	Properties prop = new Properties();
+				Properties prop = new Properties();
 
-		    	try {
-		    		if( propFile.exists() ) {
-		    			propFile.delete();
-		    		} else if(!root.exists()) {
-		    			root.mkdirs();
-		    		}
-		    		propFile.createNewFile();
+				try {
+					if (propFile.exists()) {
+						propFile.delete();
+					} else if (!root.exists()) {
+						root.mkdirs();
+					}
+					propFile.createNewFile();
 
-		    		prop.setProperty(MUSIC_VOL, String.valueOf(musicVolume.get()));
-		    		prop.setProperty(AUDIO_VOL, String.valueOf(audioVolume.get()));
+					prop.setProperty(MUSIC_VOL, String.valueOf(musicVolume.get()));
+					prop.setProperty(AUDIO_VOL, String.valueOf(audioVolume.get()));
 
-		    		prop.store(new BufferedOutputStream( new FileOutputStream(PATH_PROPERTIES_FILE)), PROPERTIES_COMMENT);
-		    		System.out.println("Saved audio settings");
-		    	} catch (IOException ex) {
-		    		System.out.println("Could not save audio settings");
-		        }
+					prop.store(new BufferedOutputStream(new FileOutputStream(PATH_PROPERTIES_FILE)),
+							PROPERTIES_COMMENT);
+					System.out.println("Saved audio settings");
+				} catch (IOException ex) {
+					System.out.println("Could not save audio settings");
+				}
 			}
 		};
 
@@ -124,34 +125,35 @@ public enum AudioManager {
 		saveThread.start();
 	}
 
-    /**
-     * @return true if file could be loaded, else false
-     */
-    public boolean load()
-    {
-    	Properties prop = new Properties();
+	/**
+	 * @return true if file could be loaded, else false
+	 */
+	public boolean load() {
+		Properties prop = new Properties();
 
-    	try {
-               //load a properties file from class path, inside static method
-    		prop.load(new BufferedInputStream( new FileInputStream(PATH_PROPERTIES_FILE)));
+		try {
+			// load a properties file from class path, inside static method
+			prop.load(new BufferedInputStream(new FileInputStream(PATH_PROPERTIES_FILE)));
 
-    		musicVolume.set(Double.parseDouble(prop.getProperty(MUSIC_VOL)));
-    		audioVolume.set(Double.parseDouble(prop.getProperty(AUDIO_VOL)));
-    		return true;
-    	} catch (IOException | NumberFormatException ex) {
-    		System.out.println("Could not load audio settings");
-    		return false;
-        }
+			musicVolume.set(Double.parseDouble(prop.getProperty(MUSIC_VOL)));
+			audioVolume.set(Double.parseDouble(prop.getProperty(AUDIO_VOL)));
+			return true;
+		} catch (IOException | NumberFormatException ex) {
+			System.out.println("Could not load audio settings");
+			return false;
+		}
 
-    }
+	}
 
-    /**
-     * Plays a sound effect
-     * @param sfxID ID of sound effect to play, use SFX_ID.. constants
-     */
-    public void playSFX(int sfxID){
-    	sfxAudio[sfxID].play();
-    }
+	/**
+	 * Plays a sound effect
+	 * 
+	 * @param sfxID
+	 *            ID of sound effect to play, use SFX_ID.. constants
+	 */
+	public void playSFX(int sfxID) {
+		sfxAudio[sfxID].play();
+	}
 
 	public DoubleProperty getMusicVolume() {
 		return musicVolume;
@@ -169,11 +171,9 @@ public enum AudioManager {
 		this.audioVolume.set(audioVolume);
 	}
 
-
 	public DoubleProperty getGameSongRateProperty() {
 		return audioPlayer.rateProperty();
 	}
-
 
 	public void setGameSongRateProperty(DoubleProperty rate) {
 		audioPlayer.rateProperty().set(rate.get());
@@ -184,14 +184,18 @@ public enum AudioManager {
 		fade.play();
 	}
 
-
 	/**
-	 * Method "fading" a DoubleProperty value, i.e. incrementing or decrementing the "fadeVal"
-	 * during a Duration (in millis)
-	 * @param duration Duration fade duration
-	 * @param fadeVal DoubleProperty value to be faded/changed
-	 * @param fadeFromVal double fade from
-	 * @param fadeToVal double fade to
+	 * Method "fading" a DoubleProperty value, i.e. incrementing or decrementing
+	 * the "fadeVal" during a Duration (in millis)
+	 * 
+	 * @param duration
+	 *            Duration fade duration
+	 * @param fadeVal
+	 *            DoubleProperty value to be faded/changed
+	 * @param fadeFromVal
+	 *            double fade from
+	 * @param fadeToVal
+	 *            double fade to
 	 * @return Timeline which will fade the "fadeVal"
 	 */
 	private Timeline fader(Duration duration, DoubleProperty fadeVal, double fadeFromVal, double fadeToVal) {

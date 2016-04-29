@@ -29,8 +29,6 @@ import javafx.scene.shape.Rectangle;
 
 public class OrgPlayer extends OrgGameObject {
 
-
-
 	public int turnDelay = Settings.TURN_DELAY;
 	public int dirtDelay = 10;
 	public int tailSize = 30;
@@ -92,8 +90,8 @@ public class OrgPlayer extends OrgGameObject {
 	public Circle headBounds;
 	public Circle skull;
 	public Animation anim;
-    public Rectangle bounds;
-    public ScreenOverlay overlay;
+	public Rectangle bounds;
+	public ScreenOverlay overlay;
 	public OrgSnakeTail tail;
 	public OrgSnakeHead snakeHead;
 	public GameObjectManager gom;
@@ -103,50 +101,56 @@ public class OrgPlayer extends OrgGameObject {
 	public MotionBlur motionBlur = new MotionBlur();
 	public Light.Point light = new Light.Point();
 	public Lighting lighting = new Lighting();
-    public ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating);
-    public ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking);
+	public ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating);
+	public ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking);
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	public PlayerMovement direction;
-    public static int NUMERIC_ID = 0;
+	public static int NUMERIC_ID = 0;
 	public static boolean DEAD = false;
-    public static Boolean LEVEL_COMPLETED = false;
-    public static Boolean STOP_MOVING = false;
-    public static Boolean MOUTH_OPEN = false;
-    public static Boolean MOUTH_CLOSE = true;
-    public static Boolean KEEP_MOVING = true;
+	public static Boolean LEVEL_COMPLETED = false;
+	public static Boolean STOP_MOVING = false;
+	public static Boolean MOUTH_OPEN = false;
+	public static Boolean MOUTH_CLOSE = true;
+	public static Boolean KEEP_MOVING = true;
 
-	public OrgPlayer(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY, float velR,
-			double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
+	public OrgPlayer(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+			float velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.gom = gom;
 		this.speed = speed;
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
-        this.snakeHead = new OrgSnakeHead(this,game,layer,new Circle(Settings.SECTION_SIZE*1.4, new ImagePattern(GameImageBank.snakeHead)), x, y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-        this.game.getOrgObjectManager().addObject(snakeHead);
-        this.sectManager = game.getOrgSectManager();
-        this.loadImages();
+		this.snakeHead = new OrgSnakeHead(this, game, layer,
+				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead)), x, y,
+				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
+		this.game.getOrgObjectManager().addObject(snakeHead);
+		this.sectManager = game.getOrgSectManager();
+		this.loadImages();
 		this.setDirection(PlayerMovement.MOVE_DOWN);
 	}
-    public void loadImages(){
-        anim.addScene(GameImageBank.snakeHead, 4000);
-        anim.addScene(GameImageBank.snakeBlinking, 250);
-        setAnimation(anim);
-    }
-    public void spawnBody() {
-    	addbaseSections();
-    	KEEP_MOVING = false;
-    	this.direction = PlayerMovement.STANDING_STILL;
-    }
-    public void updateUI() {
+
+	public void loadImages() {
+		anim.addScene(GameImageBank.snakeHead, 4000);
+		anim.addScene(GameImageBank.snakeBlinking, 250);
+		setAnimation(anim);
+	}
+
+	public void spawnBody() {
+		addbaseSections();
+		KEEP_MOVING = false;
+		this.direction = PlayerMovement.STANDING_STILL;
+	}
+
+	public void updateUI() {
 		super.updateUI();
 	}
 
 	public void move() {
-		 if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
-	            super.move();
+		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
+			super.move();
 	}
+
 	public void logicUpdate() {
 		controlEating();
 		hinderMovement();
@@ -187,20 +191,21 @@ public class OrgPlayer extends OrgGameObject {
 	}
 
 	public void hinderMovement() {
-		 if(turns.size()>0){
-	            turnDelay--;
-	            if (turnDelay <= 0) {
-	                makeTurn();
-	            }
-	        }
-	        if(KEEP_MOVING){
-	        moveDelay --;
-	        if(moveDelay<=0){
-	        	moveDelay = 0;
-	        	allowCollision = true;
-	        }
-	    }
+		if (turns.size() > 0) {
+			turnDelay--;
+			if (turnDelay <= 0) {
+				makeTurn();
+			}
+		}
+		if (KEEP_MOVING) {
+			moveDelay--;
+			if (moveDelay <= 0) {
+				moveDelay = 0;
+				allowCollision = true;
+			}
+		}
 	}
+
 	public void positionBody() {
 		if (!hasBaseBody) {
 			if (y >= bodyTrigger) {
@@ -209,51 +214,57 @@ public class OrgPlayer extends OrgGameObject {
 			}
 		}
 	}
+
 	public void updateBounds() {
 		if (Settings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
 		}
 	}
+
 	public void updateImmunity() {
-		if(allowDamage == false){
-    		immunity--;
-    		if(immunity<=0){
-    			immunity = 0;
-    			allowDamage = true;
-    		}
-    	}
+		if (allowDamage == false) {
+			immunity--;
+			if (immunity <= 0) {
+				immunity = 0;
+				allowDamage = true;
+			}
+		}
 	}
+
 	public void updateDirt() {
 		dirtDelay--;
-        if (dirtDelay <= 0) {
-        	if(KEEP_MOVING) {
-            displaceDirt(x + width / 2, y + height / 2, 18, 18);
-            dirtDelay = 10;
-        }
-        }
+		if (dirtDelay <= 0) {
+			if (KEEP_MOVING) {
+				displaceDirt(x + width / 2, y + height / 2, 18, 18);
+				dirtDelay = 10;
+			}
+		}
 	}
-    public void updateAnimation(long timePassed){
-        anim.update(timePassed);
-    }
 
-    public void openMouth() {
-    	if(direction != PlayerMovement.STANDING_STILL){
-        notEating = false;
-        MOUTH_CLOSE = false;
-        MOUTH_OPEN = true;
-        snakeHead.setAnim(eatingFrame);
-        allowOpen = false;
-        setDelay = true;
-        maxOpenTime = 30;
-    	}
-    }
-    public void closeMouth(){
-        MOUTH_OPEN = false;
-        MOUTH_CLOSE = true;
-        notEating = true;
-        coolDown = Settings.BITE_DELAY;
-    }
+	public void updateAnimation(long timePassed) {
+		anim.update(timePassed);
+	}
+
+	public void openMouth() {
+		if (direction != PlayerMovement.STANDING_STILL) {
+			notEating = false;
+			MOUTH_CLOSE = false;
+			MOUTH_OPEN = true;
+			snakeHead.setAnim(eatingFrame);
+			allowOpen = false;
+			setDelay = true;
+			maxOpenTime = 30;
+		}
+	}
+
+	public void closeMouth() {
+		MOUTH_OPEN = false;
+		MOUTH_CLOSE = true;
+		notEating = true;
+		coolDown = Settings.BITE_DELAY;
+	}
+
 	public void setDirection(PlayerMovement direction) {
 		KEEP_MOVING = true;
 		if (this.direction == direction) {
@@ -280,27 +291,27 @@ public class OrgPlayer extends OrgGameObject {
 
 		this.direction = direction;
 	}
+
 	public void turnDelay(PlayerMovement newDirection) {
-        turns.add(newDirection);
-    }
-    public void makeTurn(){
-        if(turns.get(0) == PlayerMovement.MOVE_UP){
-            moveUp();
-            this.direction = PlayerMovement.MOVE_UP;
-        }
-        else if(turns.get(0) == PlayerMovement.MOVE_DOWN){
-            moveDown();
-            this.direction = PlayerMovement.MOVE_DOWN;
-        }
-        else if(turns.get(0) == PlayerMovement.MOVE_LEFT){
-            moveLeft();
-            this.direction = PlayerMovement.MOVE_LEFT;
-        }
-        else if(turns.get(0) == PlayerMovement.MOVE_RIGHT){
-            moveRight();
-            this.direction = PlayerMovement.MOVE_RIGHT;
-        }
-    }
+		turns.add(newDirection);
+	}
+
+	public void makeTurn() {
+		if (turns.get(0) == PlayerMovement.MOVE_UP) {
+			moveUp();
+			this.direction = PlayerMovement.MOVE_UP;
+		} else if (turns.get(0) == PlayerMovement.MOVE_DOWN) {
+			moveDown();
+			this.direction = PlayerMovement.MOVE_DOWN;
+		} else if (turns.get(0) == PlayerMovement.MOVE_LEFT) {
+			moveLeft();
+			this.direction = PlayerMovement.MOVE_LEFT;
+		} else if (turns.get(0) == PlayerMovement.MOVE_RIGHT) {
+			moveRight();
+			this.direction = PlayerMovement.MOVE_RIGHT;
+		}
+	}
+
 	private void moveUp() {
 		velY = -Settings.SECTION;
 		velX = 0;
@@ -356,32 +367,39 @@ public class OrgPlayer extends OrgGameObject {
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						addSection();
-	    	    		tempObject.blowUp();
-	    	    		tempObject.remove();
-	    	    		break;
+						tempObject.blowUp();
+						tempObject.remove();
+						break;
 					}
 				}
 			}
 		}
 	}
-    public void addbaseSections(){
-    	 for(int i = 0; i<Settings.SECTIONS_TO_ADD+1; i++){
-         	sectManager.addSection(new OrgSnakeSection(this, game, layer, new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
- 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
-         NUMERIC_ID++;
-    	 }
-    }
-	public void addSection(){
-        for(int i = 0; i<Settings.SECTIONS_TO_ADD; i++){
-        	sectManager.addSection(new OrgSnakeSection(this, game, layer, new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
+
+	public void addbaseSections() {
+		for (int i = 0; i < Settings.SECTIONS_TO_ADD + 1; i++) {
+			sectManager.addSection(new OrgSnakeSection(this, game, layer,
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
-        NUMERIC_ID++;
-        }
-        game.getloader().spawnSnakeFood();
-    }
-    public boolean withinBounds() {
-    	return x>0-radius-1 && x<Settings.WIDTH+radius+1 && y>0-radius-1 && y<Settings.HEIGHT+radius+1;
-    }
+			NUMERIC_ID++;
+		}
+	}
+
+	public void addSection() {
+		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
+			sectManager.addSection(new OrgSnakeSection(this, game, layer,
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
+					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+			NUMERIC_ID++;
+		}
+		game.getloader().spawnSnakeFood();
+	}
+
+	public boolean withinBounds() {
+		return x > 0 - radius - 1 && x < Settings.WIDTH + radius + 1 && y > 0 - radius - 1
+				&& y < Settings.HEIGHT + radius + 1;
+	}
+
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (Settings.WIDTH + radius);
@@ -393,22 +411,28 @@ public class OrgPlayer extends OrgGameObject {
 			y = (float) (0 - radius);
 		}
 	}
-    public void displaceDirt(double x, double y, double low, double high){
-        if(direction!= PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED){
-            for(int i = 0; i<15; i++){
-            game.getDebrisManager().addObject(new DirtDisplacement(game,GameImageBank.dirt, x, y, new Point2D((Math.random()*(8 - -8 + 1) + -8), Math.random()*(8 - -8 + 1) + -8)));
-            }
-        }
-    }
-    public Image getAnimationImage(){
-        return anim.getImage();
-    }
-    public Animation getAnimation() {
-        return anim;
-    }
-    public void setAnimation(Animation anim) {
-        this.anim = anim;
-    }
+
+	public void displaceDirt(double x, double y, double low, double high) {
+		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
+			for (int i = 0; i < 15; i++) {
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, x, y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+			}
+		}
+	}
+
+	public Image getAnimationImage() {
+		return anim.getImage();
+	}
+
+	public Animation getAnimation() {
+		return anim;
+	}
+
+	public void setAnimation(Animation anim) {
+		this.anim = anim;
+	}
+
 	public void draw(GraphicsContext gc) {
 		checkBounds();
 	}
@@ -451,6 +475,7 @@ public class OrgPlayer extends OrgGameObject {
 		this.tail = tail;
 
 	}
+
 	public OrgSnakeTail getTail() {
 		return tail;
 	}

@@ -17,8 +17,8 @@ public class SandStorms extends DebrisEffect {
 	double radius;
 	double decay;
 	double lifeTime = 4.0f;
-	double width = Math.random()*(6 - 2.5 +1)+2.5;
-	double height = Math.random()*(6 - 2.5 +1)+2.5;
+	double width = Math.random() * (6 - 2.5 + 1) + 2.5;
+	double height = Math.random() * (6 - 2.5 + 1) + 2.5;
 	boolean isAlive = false;
 	boolean removable = false;
 	int depth = 400;
@@ -28,7 +28,7 @@ public class SandStorms extends DebrisEffect {
 	public SandStorms(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
-		this.shape = new Circle(radius,x,y);
+		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016 / expireTime;
@@ -38,6 +38,7 @@ public class SandStorms extends DebrisEffect {
 		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		init();
 	}
+
 	public SandStorms(SnakeGame game, Image image, double expireTime, double x, double y) {
 		this.game = game;
 		this.view = new ImageView(image);
@@ -50,12 +51,13 @@ public class SandStorms extends DebrisEffect {
 		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		init();
 	}
+
 	public void init() {
-		if(shape!=null){
+		if (shape != null) {
 			shape.setFill(imagePattern);
 			game.getParticleLayer().getChildren().add(shape);
 		}
-		if(view!=null){
+		if (view != null) {
 			game.getParticleLayer().getChildren().add(view);
 		}
 	}
@@ -66,6 +68,7 @@ public class SandStorms extends DebrisEffect {
 		velX += Settings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		velY -= 0.002;
 	}
+
 	public void move() {
 		if (shape != null) {
 			shape.setCenterX(x);
@@ -75,10 +78,11 @@ public class SandStorms extends DebrisEffect {
 		if (view != null) {
 			view.setTranslateX(x);
 			view.setTranslateY(y);
-			//view.setOpacity(lifeTime);
+			// view.setOpacity(lifeTime);
 		}
 
 	}
+
 	public void collide() {
 	}
 

@@ -7,6 +7,7 @@ import java.util.Random;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.PlayerOne.OrgPlayer;
+import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
@@ -62,6 +63,7 @@ public class GameLoader {
 		this.tileManager = new GameTileManager(game);
 		loadLevelManager();
 	}
+
 	/**
 	 * this method will load all the level images in to memory and make them
 	 * accessible to the level loader. this class also determines what level
@@ -69,7 +71,7 @@ public class GameLoader {
 	 */
 	public void loadLevelManager() {
 		this.border = GameImageLoader.loadImage("/desert-level-border2.png");
-		this.level  = GameImageLoader.loadImage("/desert-level.png");
+		this.level = GameImageLoader.loadImage("/desert-level.png");
 		this.level1 = GameImageLoader.loadImage("/desert-level.png");
 		this.level2 = GameImageLoader.loadImage("/desert-level2.png");
 		this.level3 = GameImageLoader.loadImage("/desert-level3.png");
@@ -86,6 +88,7 @@ public class GameLoader {
 		this.game.levelLenght = 128 * 64;
 		System.out.print("loaded");
 	}
+
 	public static void scaleResolution() {
 		double resolutionX = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 		double resolutionY = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -97,6 +100,7 @@ public class GameLoader {
 		System.out.println("height scale = " + ResolutionScaleY);
 
 	}
+
 	/**
 	 * will attempt to scale but the speed and the size of the snake according
 	 * to the new scaled resolution
@@ -163,7 +167,7 @@ public class GameLoader {
 		// }
 		setLevel(level1);
 		loadDesertLevels(GameLevelImage.desertBackground);
-		//loadDesertBorder();
+		// loadDesertBorder();
 		game.levelLenght = 128 * 64;
 	}
 
@@ -190,9 +194,10 @@ public class GameLoader {
 	 * of the pixel and space calculations it will then load a specified object
 	 * at the given pixel's predetermined position.
 	 */
-	public void changeBackground(Image image){
+	public void changeBackground(Image image) {
 		game.setBackgroundImage(image);
 	}
+
 	public void loadDesertLevels(Image image) {
 		changeBackground(image);
 		for (double row = 0; row < levelWidth; row++) {
@@ -201,21 +206,25 @@ public class GameLoader {
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
-//				if (red == 255 && green == 255 && blue == 255) {
-//					TileMap texture = new TileMap(game,(float) (row * 120 / GameLoader.ResolutionScaleX),
-//							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-//							LevelObjectID.fence);
-//					tileManager.addTile(texture);
-//					game.playfieldLayer.getChildren().add(texture.getView());
-//				}else if (red == 0 && green == 0 && blue == 255) {
-//					TileMap texture = new TileMap(game,(float) (row * 50.5 / GameLoader.ResolutionScaleX),
-//							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-//							LevelObjectID.fence);
-//					tileManager.addTile(texture);
-//					game.playfieldLayer.getChildren().add(texture.getView());
-//				}
+				// if (red == 255 && green == 255 && blue == 255) {
+				// TileMap texture = new TileMap(game,(float) (row * 120 /
+				// GameLoader.ResolutionScaleX),
+				// (float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0,
+				// GameLevelImage.horizontalFence,
+				// LevelObjectID.fence);
+				// tileManager.addTile(texture);
+				// game.playfieldLayer.getChildren().add(texture.getView());
+				// }else if (red == 0 && green == 0 && blue == 255) {
+				// TileMap texture = new TileMap(game,(float) (row * 50.5 /
+				// GameLoader.ResolutionScaleX),
+				// (float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0,
+				// GameLevelImage.verticalFence,
+				// LevelObjectID.fence);
+				// tileManager.addTile(texture);
+				// game.playfieldLayer.getChildren().add(texture.getView());
+				// }
 				if (red == 255 && green == 0 && blue == 0) {
-					TileMap texture = new TileMap(game,(float) (row * 55 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
 							LevelObjectID.rock);
 					tileManager.addBlock(texture);
@@ -227,19 +236,19 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.bottomLayer.getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					TileMap texture = new TileMap(game,(float) (row * 58 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.skeleton,
 							LevelObjectID.skeleton);
 					tileManager.addTile(texture);
 					game.debrisLayer.getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					WavingCactus2 texture = new WavingCactus2(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactus2 texture = new WavingCactus2(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.bottomLayer.getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
 							LevelObjectID.treeBark);
 					tileManager.addTile(texture);
@@ -250,9 +259,8 @@ public class GameLoader {
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}
-				else if (red == 255 && green == 200 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+				} else if (red == 255 && green == 200 && blue == 255) {
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -263,32 +271,36 @@ public class GameLoader {
 		getLevel().flush();
 
 	}
-	private void loadDesertBorder(){
+
+	private void loadDesertBorder() {
 		setLevel(border);
-		for (double row = levelWidth-1; row>=0; row--) {
-			for (double col = levelHeight-1; col>=0; col--) {
+		for (double row = levelWidth - 1; row >= 0; row--) {
+			for (double col = levelHeight - 1; col >= 0; col--) {
 				pixel = level.getRGB((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 110 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 110 / GameLoader.ResolutionScaleX),
 							(float) (col * 15 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
 				}
-//				if (red == 0 && green == 0 && blue == 255) {
-//					TileMap texture = new TileMap((float) (row * 50.5 / GameLoader.ResolutionScaleX),
-//							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-//							LevelObjectID.fence);
-//					tileManager.addTile(texture);
-//					game.playfieldLayer.getChildren().add(texture.getView());
-//				}
+				// if (red == 0 && green == 0 && blue == 255) {
+				// TileMap texture = new TileMap((float) (row * 50.5 /
+				// GameLoader.ResolutionScaleX),
+				// (float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0,
+				// GameLevelImage.verticalFence,
+				// LevelObjectID.fence);
+				// tileManager.addTile(texture);
+				// game.playfieldLayer.getChildren().add(texture.getView());
+				// }
 			}
 		}
 		getLevel().flush();
 	}
+
 	public void loadJungleLevels(Image image) {
 		changeBackground(image);
 		for (double row = 0; row < levelWidth; row++) {
@@ -298,19 +310,19 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 120 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}else if (red == 0 && green == 0 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50.5 / GameLoader.ResolutionScaleX),
+				} else if (red == 0 && green == 0 && blue == 255) {
+					TileMap texture = new TileMap(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}else if (red == 255 && green == 0 && blue == 0) {
-					TileMap texture = new TileMap(game,(float) (row * 55 / GameLoader.ResolutionScaleX),
+				} else if (red == 255 && green == 0 && blue == 0) {
+					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -322,19 +334,19 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.bottomLayer.getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					TileMap texture = new TileMap(game,(float) (row * 58 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.skeleton,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.debrisLayer.getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					WavingCactus2 texture = new WavingCactus2(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactus2 texture = new WavingCactus2(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.bottomLayer.getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
 							LevelObjectID.LevelTile);
 					tileManager.addTile(texture);
@@ -345,9 +357,8 @@ public class GameLoader {
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}
-				else if (red == 255 && green == 200 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+				} else if (red == 255 && green == 200 && blue == 255) {
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -357,6 +368,7 @@ public class GameLoader {
 		}
 		getLevel().flush();
 	}
+
 	public void loadSeaLevels(Image image) {
 		changeBackground(image);
 		for (double row = 0; row < levelWidth; row++) {
@@ -366,19 +378,19 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 120 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}else if (red == 0 && green == 0 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50.5 / GameLoader.ResolutionScaleX),
+				} else if (red == 0 && green == 0 && blue == 255) {
+					TileMap texture = new TileMap(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}else if (red == 255 && green == 0 && blue == 0) {
-					TileMap texture = new TileMap(game,(float) (row * 55 / GameLoader.ResolutionScaleX),
+				} else if (red == 255 && green == 0 && blue == 0) {
+					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -390,19 +402,19 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.bottomLayer.getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					TileMap texture = new TileMap(game,(float) (row * 58 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.skeleton,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.debrisLayer.getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					WavingCactus2 texture = new WavingCactus2(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactus2 texture = new WavingCactus2(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.bottomLayer.getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
 							LevelObjectID.LevelTile);
 					tileManager.addTile(texture);
@@ -413,9 +425,8 @@ public class GameLoader {
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.playfieldLayer.getChildren().add(texture.getView());
-				}
-				else if (red == 255 && green == 200 && blue == 255) {
-					TileMap texture = new TileMap(game,(float) (row * 50 / GameLoader.ResolutionScaleX),
+				} else if (red == 255 && green == 200 && blue == 255) {
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -425,24 +436,25 @@ public class GameLoader {
 		}
 		getLevel().flush();
 	}
-//	public void loadLevelOverlay() {
-//		for (double row = 0; row < levelWidth; row++) {
-//			for (double col = 0; col < levelHeight; col++) {
-//				pixel = mazeImage.getRGB((int) row, (int) col);
-//				red = (pixel >> 16) & 0xff;
-//				green = (pixel >> 8) & 0xff;
-//				blue = (pixel) & 0xff;
-//
-//				if (red == 0 && green == 100 && blue == 0) {
-//					TileMap texture = new TileMap((float) (row * 40 / 2), (float) (col * 50 / 2), 0, 0,
-//							GameLevelImage.littleCactus, LevelObjectID.rock);
-//					tileManager.addTile(texture);
-//					game.bottomLayer.getChildren().add(texture.getView());
-//				}
-//			}
-//		}
-//		mazeImage.flush();
-//	}
+	// public void loadLevelOverlay() {
+	// for (double row = 0; row < levelWidth; row++) {
+	// for (double col = 0; col < levelHeight; col++) {
+	// pixel = mazeImage.getRGB((int) row, (int) col);
+	// red = (pixel >> 16) & 0xff;
+	// green = (pixel >> 8) & 0xff;
+	// blue = (pixel) & 0xff;
+	//
+	// if (red == 0 && green == 100 && blue == 0) {
+	// TileMap texture = new TileMap((float) (row * 40 / 2), (float) (col * 50 /
+	// 2), 0, 0,
+	// GameLevelImage.littleCactus, LevelObjectID.rock);
+	// tileManager.addTile(texture);
+	// game.bottomLayer.getChildren().add(texture.getView());
+	// }
+	// }
+	// }
+	// mazeImage.flush();
+	// }
 
 	/**
 	 * Will load the player at a specified positions according to a color code
@@ -465,9 +477,11 @@ public class GameLoader {
 		}
 		getLevel().flush();
 	}
-	public void levelTransition(){
+
+	public void levelTransition() {
 
 	}
+
 	/**
 	 * This function is responsible for switching levels in a specified order
 	 * this function will first clear all objects from the game in order to
@@ -550,7 +564,8 @@ public class GameLoader {
 		tileManager.updateTiles();
 		tileManager.checkIfRemovable();
 	}
-	public void clearTiles(){
+
+	public void clearTiles() {
 		tileManager.clearAll();
 	}
 
@@ -563,7 +578,7 @@ public class GameLoader {
 	 * @param image
 	 */
 	public void createGameObject(float x, float y, Image image) {
-		TileMap texture = new TileMap(game,x, y, -2, 0, image);
+		TileMap texture = new TileMap(game, x, y, -2, 0, image);
 		if (image.isBackgroundLoading())
 			game.root.getChildren().add(texture.getView());
 	}
@@ -573,36 +588,45 @@ public class GameLoader {
 	 * position.
 	 */
 	public void loadOrgPlayer() {
-		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius()*3);
+		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeSphere.getRadius() * 3);
 		float y = (float) (Settings.HEIGHT * 0.568);
-		orgPlayer =  new OrgPlayer(game, game.getSnakeHeadLayer(),
-				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
+		orgPlayer = new OrgPlayer(game, game.getSnakeHeadLayer(),
+				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
+				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
 		game.getOrgObjectManager().addObject(orgPlayer);
 	}
+
 	public void loadPlayer1() {
-		float x = (float) (Settings.WIDTH/2-GameImageBank.snakeSphere.getRadius());
+		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.55);
-		player = new SnakeOne(game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
+		player = new SnakeOne(game, game.getSnakeHeadLayer(),
+				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
 				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player, game.getObjectManager());
 		game.getObjectManager().addObject(player);
 	}
+
 	public void loadPlayer2() {
-		float x = (float) (Settings.WIDTH/2+GameImageBank.snakeSphere2.getRadius());
+		float x = (float) (Settings.WIDTH / 2 + GameImageBank.snakeSphere2.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.55);
-		player2 = new Player2(game, game.getSnakeHeadLayer(), new Circle(Settings.SECTION_SIZE,new ImagePattern(GameImageBank.snakeBody2)), x, y, 0, 0, 0, 0,
+		player2 = new Player2(game, game.getSnakeHeadLayer(),
+				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y, 0, 0, 0, 0,
 				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player2, game.getObjectManager());
 		game.getObjectManager().addObject(player2);
 	}
+
 	public void createSlither() {
-		float x = (float) (Settings.WIDTH/2+25);
+		float x = (float) (Settings.WIDTH / 2 + 25);
 		float y = (float) (Settings.HEIGHT * 0.55);
-		slither = new SlitherSnake(game, game.getSnakeHeadLayer(), GameImageBank.slither, x, y, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0,0, GameObjectID.Player3, game.getSlitherManager());
+		slither = new SlitherSnake(game, game.getSnakeHeadLayer(), GameImageBank.slither, x, y, 0, 0, 0, 0,
+				Settings.PLAYER_HEALTH, 0, 0, GameObjectID.Player3, game.getSlitherManager());
 		game.getSlitherManager().addObject(slither);
 	}
-	public void killPlayer(){
+
+	public void killPlayer() {
 		player = null;
 	}
-	public void killPlayer2(){
+
+	public void killPlayer2() {
 		player2 = null;
 	}
 
@@ -613,7 +637,7 @@ public class GameLoader {
 	 * @param random
 	 */
 	public void spawnBackgroundStuff(boolean random) {
-		//randomOpacity = rand.nextFloat() * (0.5 - 0.2 + 1) + 0.2;
+		// randomOpacity = rand.nextFloat() * (0.5 - 0.2 + 1) + 0.2;
 	}
 
 	/**
@@ -623,7 +647,7 @@ public class GameLoader {
 	 * @param random
 	 */
 	public void spawnObjectRandomly(boolean random) {
-		//randomRotation = rand.nextFloat() * (1.2f - -1.2f + 1) + -1.2f;
+		// randomRotation = rand.nextFloat() * (1.2f - -1.2f + 1) + -1.2f;
 		if (random && rand.nextInt(20) != 0) {
 			return;
 		}
@@ -640,51 +664,64 @@ public class GameLoader {
 		SnakeFood food = new SnakeFood(game, game.getPlayfieldLayer(), fruit, x, y, GameObjectID.Fruit);
 		game.getObjectManager().addObject(food);
 	}
-//	public void spawnSnakeFood(Player2 snake) {
-//		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
-//		float x = (int) (Math.random() * ((Settings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-//				+ fruit.getRadius() * 3);
-//		float y = (int) (Math.random() * ((Settings.HEIGHT - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-//				+ fruit.getRadius() * 3);
-//		SnakeFood2 food = new SnakeFood2(game, snake, game.getPlayfieldLayer(), fruit, x, y, GameObjectID.Fruit);
-//		game.getObjectManager().addObject(food);
-//	}
-//	public void spawnSnakeFood() {
-//		Circle fruit = new Circle(30 / ResolutionScaleX, new ImagePattern(GameImageBank.fruit));
-//		float x = (int) (Math.random() * ((Settings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-//				+ fruit.getRadius() * 3);
-//		float y = (int) (Math.random() * ((Settings.HEIGHT - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-//				+ fruit.getRadius() * 3);
-//
-//		for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
-//			Tile tempTile = game.getloader().tileManager.tile.get(i);
-//			if (tempTile.getId() == LevelObjectID.rock) {
-//				if (!new Rectangle2D(x, y, 50, 50).intersects(tempTile.getBounds())) {
-//					SnakeFood food = new SnakeFood(game, game.getSnakeHeadLayer(), fruit, x, y, GameObjectID.Fruit);
-//					game.getObjectManager().addObject(food);
-//					break;
-//				} else {
-//					spawnSnakeFood();
-//				}
-//			}
-//		}
-//	}
+	// public void spawnSnakeFood(Player2 snake) {
+	// Circle fruit = new Circle(30 / ResolutionScaleX - (5), new
+	// ImagePattern(GameImageBank.fruit));
+	// float x = (int) (Math.random() * ((Settings.WIDTH - fruit.getRadius() *
+	// 3) - fruit.getRadius() * 3 + 1)
+	// + fruit.getRadius() * 3);
+	// float y = (int) (Math.random() * ((Settings.HEIGHT - fruit.getRadius() *
+	// 3) - fruit.getRadius() * 3 + 1)
+	// + fruit.getRadius() * 3);
+	// SnakeFood2 food = new SnakeFood2(game, snake, game.getPlayfieldLayer(),
+	// fruit, x, y, GameObjectID.Fruit);
+	// game.getObjectManager().addObject(food);
+	// }
+	// public void spawnSnakeFood() {
+	// Circle fruit = new Circle(30 / ResolutionScaleX, new
+	// ImagePattern(GameImageBank.fruit));
+	// float x = (int) (Math.random() * ((Settings.WIDTH - fruit.getRadius() *
+	// 3) - fruit.getRadius() * 3 + 1)
+	// + fruit.getRadius() * 3);
+	// float y = (int) (Math.random() * ((Settings.HEIGHT - fruit.getRadius() *
+	// 3) - fruit.getRadius() * 3 + 1)
+	// + fruit.getRadius() * 3);
+	//
+	// for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
+	// Tile tempTile = game.getloader().tileManager.tile.get(i);
+	// if (tempTile.getId() == LevelObjectID.rock) {
+	// if (!new Rectangle2D(x, y, 50, 50).intersects(tempTile.getBounds())) {
+	// SnakeFood food = new SnakeFood(game, game.getSnakeHeadLayer(), fruit, x,
+	// y, GameObjectID.Fruit);
+	// game.getObjectManager().addObject(food);
+	// break;
+	// } else {
+	// spawnSnakeFood();
+	// }
+	// }
+	// }
+	// }
 
 	public SnakeOne getPlayer() {
 		return player;
 	}
-	public Player2 getPlayer2(){
+
+	public Player2 getPlayer2() {
 		return player2;
 	}
-	public OrgPlayer getOrgPlayer2(){
+
+	public OrgPlayer getOrgPlayer2() {
 		return orgPlayer;
 	}
+
 	public SlitherSnake getSlither() {
 		return slither;
 	}
+
 	public void setPlayer(SnakeOne player) {
 		this.player = player;
 	}
+
 	public void setPlayer2(Player2 player) {
 		this.player2 = player;
 	}

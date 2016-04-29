@@ -117,35 +117,35 @@ public class MenuSettings {
 
 		r1 = new Rectangle(Settings.WIDTH / 2 - 250 / 2, settingsBox.getTranslateY() / GameLoader.ResolutionScaleY, 350,
 				50 / GameLoader.ResolutionScaleY);
-//		 r1.setFill(Color.rgb(255, 0, 0,0.5));
+		// r1.setFill(Color.rgb(255, 0, 0,0.5));
 		r1.setFill(Color.TRANSPARENT);
 		r2 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r1.getY() + r1.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r2.setFill(Color.rgb(255, 0, 0,0.5));
+		// r2.setFill(Color.rgb(255, 0, 0,0.5));
 		r2.setFill(Color.TRANSPARENT);
 		r3 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r2.getY() + r2.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r3.setFill(Color.rgb(255, 0, 0,0.5));
+		// r3.setFill(Color.rgb(255, 0, 0,0.5));
 		r3.setFill(Color.TRANSPARENT);
 		r4 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r3.getY() + r3.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r4.setFill(Color.rgb(255, 0, 0,0.5));
+		// r4.setFill(Color.rgb(255, 0, 0,0.5));
 		r4.setFill(Color.TRANSPARENT);
 		r5 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r4.getY() + r4.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r5.setFill(Color.rgb(255, 0, 0,0.5));
+		// r5.setFill(Color.rgb(255, 0, 0,0.5));
 		r5.setFill(Color.TRANSPARENT);
 		r6 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r5.getY() + r5.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r6.setFill(Color.rgb(255, 0, 0,0.5));
+		// r6.setFill(Color.rgb(255, 0, 0,0.5));
 		r6.setFill(Color.TRANSPARENT);
 		r7 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r6.getY() + r6.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r7.setFill(Color.rgb(255, 0, 0,0.5));
+		// r7.setFill(Color.rgb(255, 0, 0,0.5));
 		r7.setFill(Color.TRANSPARENT);
 		r8 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r7.getY() + r7.getHeight() + (20 / GameLoader.ResolutionScaleY), 350, 50 / GameLoader.ResolutionScaleY);
-//		 r8.setFill(Color.rgb(255, 0, 0,0.5));
+		// r8.setFill(Color.rgb(255, 0, 0,0.5));
 		r8.setFill(Color.TRANSPARENT);
 
 		titleBox.setTranslateX(Settings.WIDTH / 2 - titleBox.getPrefWidth() / 2);
@@ -283,19 +283,19 @@ public class MenuSettings {
 
 				}
 				if (currentChoice == 6) {
-					if (autoEatLabel.getText() == "Automatic eating: ON"){
+					if (autoEatLabel.getText() == "Automatic eating: ON") {
 						Settings.AUTOMATIC_EATING = false;
 						autoEatLabel.setText("Automatic eating: OFF");
-					} else if (autoEatLabel.getText() == "Automatic eating: OFF"){
+					} else if (autoEatLabel.getText() == "Automatic eating: OFF") {
 						Settings.AUTOMATIC_EATING = true;
 						autoEatLabel.setText("Automatic eating: ON");
 					}
 				}
 				if (currentChoice == 7) {
-					if (dirtLabel.getText() == "Allow Dirt: ON"){
+					if (dirtLabel.getText() == "Allow Dirt: ON") {
 						Settings.ALLOW_DIRT = false;
 						dirtLabel.setText("Allow Dirt: OFF");
-					} else if (dirtLabel.getText() == "Allow Dirt: OFF"){
+					} else if (dirtLabel.getText() == "Allow Dirt: OFF") {
 						Settings.ALLOW_DIRT = true;
 						dirtLabel.setText("Allow Dirt: ON");
 					}
@@ -323,19 +323,19 @@ public class MenuSettings {
 				if (currentChoice == 5) {
 				}
 				if (currentChoice == 6) {
-					if (autoEatLabel.getText() == "Automatic eating: ON"){
+					if (autoEatLabel.getText() == "Automatic eating: ON") {
 						Settings.AUTOMATIC_EATING = false;
 						autoEatLabel.setText("Automatic eating: OFF");
-					} else if (autoEatLabel.getText() == "Automatic eating: OFF"){
+					} else if (autoEatLabel.getText() == "Automatic eating: OFF") {
 						Settings.AUTOMATIC_EATING = true;
 						autoEatLabel.setText("Automatic eating: ON");
 					}
 				}
 				if (currentChoice == 7) {
-					if (dirtLabel.getText() == "Allow Dirt: ON"){
+					if (dirtLabel.getText() == "Allow Dirt: ON") {
 						Settings.ALLOW_DIRT = false;
 						dirtLabel.setText("Allow Dirt: OFF");
-					} else if (dirtLabel.getText() == "Allow Dirt: OFF"){
+					} else if (dirtLabel.getText() == "Allow Dirt: OFF") {
 						Settings.ALLOW_DIRT = true;
 						dirtLabel.setText("Allow Dirt: ON");
 					}
@@ -685,7 +685,7 @@ public class MenuSettings {
 		});
 	}
 
-	public Pane getSettingsRoot(){
+	public Pane getSettingsRoot() {
 		return settingsRoot;
 	}
 

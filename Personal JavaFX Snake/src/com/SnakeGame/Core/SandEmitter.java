@@ -2,13 +2,16 @@ package com.SnakeGame.Core;
 
 import java.util.Random;
 
+import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.shape.Circle;
+
 /**
- * This class is used to keep track of energy used by the player if there's is any
- * it will decrease and regenerate according to time passed and given actions by the
- * player.
+ * This class is used to keep track of energy used by the player if there's is
+ * any it will decrease and regenerate according to time passed and given
+ * actions by the player.
+ * 
  * @author Eudy Contreras
  *
  */
@@ -30,6 +33,7 @@ public class SandEmitter {
 	SnakeGame game;
 	Random rand;
 	ScreenOverlay overlay;
+
 	public SandEmitter(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
@@ -38,46 +42,48 @@ public class SandEmitter {
 		this.height = height;
 		this.game = game;
 		this.rand = new Random();
-		this.overlay = new ScreenOverlay(game,game.getGameRoot());
+		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 	}
-	public void move(){
+
+	public void move() {
 		this.overlay.updateEffect();
 		y += velY;
-		if(y>=Settings.HEIGHT){
+		if (y >= Settings.HEIGHT) {
 			goUp = true;
 			goDown = false;
 		}
-		if(y<=0){
+		if (y <= 0) {
 			goDown = true;
 			goUp = false;
 		}
-		if(goDown){
-			velY =25;
+		if (goDown) {
+			velY = 25;
 		}
-		if(goUp){
-			velY =-25;
+		if (goUp) {
+			velY = -25;
 		}
 	}
-	public void emit(int spawnDelay, int amount){
-		if(Settings.SAND_STORM){
-		addRandomBlur(true);
-		interval++;
-		if(interval == spawnDelay){
-			for(int i = 0; i<amount; i++){
-			game.getDebrisManager().addParticle(new SandStorms(game,GameLevelImage.sandGrain,5, x,y));
+
+	public void emit(int spawnDelay, int amount) {
+		if (Settings.SAND_STORM) {
+			addRandomBlur(true);
+			interval++;
+			if (interval == spawnDelay) {
+				for (int i = 0; i < amount; i++) {
+					game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.sandGrain, 5, x, y));
+				}
+				interval = 0;
 			}
-			interval = 0;
-		}
 		}
 	}
+
 	public void addRandomBlur(boolean random) {
 		if (random && rand.nextInt(Settings.BLUR_RANDOMNESS) != 0) {
 			return;
 		}
-		if(!SnakeOne.killTheSnake && !Player2.killTheSnake)
-		this.overlay.addStormBlur();
-		//this.overlay.addToneOverlay(Color.rgb(255, 150, 0,0), 6, 2);
+		if (!SnakeOne.killTheSnake && !Player2.killTheSnake)
+			this.overlay.addStormBlur();
+		// this.overlay.addToneOverlay(Color.rgb(255, 150, 0,0), 6, 2);
 	}
-
 
 }

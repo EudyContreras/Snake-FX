@@ -1,17 +1,18 @@
 package com.SnakeGame.HudElements;
 
 import com.SnakeGame.Core.GameImageBank;
-import com.SnakeGame.Core.Player2;
 import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+
 /**
- * This class is used to simulate a simple health bar
- * which will decrease under certain conditions, and that will
- * also self restore
+ * This class is used to simulate a simple health bar which will decrease under
+ * certain conditions, and that will also self restore
+ * 
  * @author Eudy Contreras
  *
  */
@@ -34,8 +35,7 @@ public class GameHud {
 	Rectangle hudBar = new Rectangle();
 	Rectangle hudBarBorder = new Rectangle();
 
-
-	public GameHud(SnakeGame game,double x, double y, double width, double height) {
+	public GameHud(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.limit = width;
@@ -50,7 +50,7 @@ public class GameHud {
 		this.hudBar.setArcHeight(20);
 		this.hudBar.setArcWidth(20);
 		this.hudBarBorder.setWidth(width);
-		this.hudBarBorder.setHeight(height+5);
+		this.hudBarBorder.setHeight(height + 5);
 		this.hudBarBorder.setTranslateX(x);
 		this.hudBarBorder.setTranslateY(y);
 		this.hudBar.setFill(new ImagePattern(GameImageBank.hudBar));
@@ -61,54 +61,60 @@ public class GameHud {
 		game.getFadeScreen().getChildren().add(hudBar);
 		this.maxHealth = width;
 	}
-	public void update(){
-		y = y+swipeSpeed;
-		if(swipeDown){
+
+	public void update() {
+		y = y + swipeSpeed;
+		if (swipeDown) {
 			swipeSpeed = 1.5;
-			if(y>=0){
+			if (y >= 0) {
 				swipeSpeed = 0;
-				//swipeDown = false;
+				// swipeDown = false;
 			}
 		}
-		if(swipeUp){
+		if (swipeUp) {
 			swipeSpeed = -1.5;
-			if(y<0-height){
+			if (y < 0 - height) {
 				swipeSpeed = 0;
-				//swipeUp = false;
+				// swipeUp = false;
 			}
 		}
 		hudBar.setTranslateY(y);
 	}
-	public void showHide(){
-		if(swipeDown){
+
+	public void showHide() {
+		if (swipeDown) {
 			swipeDown = false;
 			swipeUp = true;
-		}
-		else if(swipeUp){
+		} else if (swipeUp) {
 			swipeUp = false;
 			swipeDown = true;
 		}
 	}
-	public void swipeDown(){
+
+	public void swipeDown() {
 		swipeUp = false;
 		swipeDown = true;
 	}
-	public void swipeUp(){
+
+	public void swipeUp() {
 		swipeDown = false;
 		swipeUp = true;
 	}
-	public void hide(){
-		if(SnakeOne.levelComplete || Player2.levelComplete){
+
+	public void hide() {
+		if (SnakeOne.levelComplete || Player2.levelComplete) {
 			hudBar.setVisible(false);
 			hudBarBorder.setVisible(false);
 		}
 	}
-	public void show(){
+
+	public void show() {
 		game.getFadeScreen().getChildren().add(hudBar);
 		hudBar.setVisible(true);
 		hudBarBorder.setVisible(true);
 	}
-	public void setPlayer(){
+
+	public void setPlayer() {
 		this.player = null;
 		this.player = game.getloader().getPlayer();
 	}

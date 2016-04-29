@@ -30,7 +30,7 @@ public class SectionDisintegration extends DebrisEffect {
 	public SectionDisintegration(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
-		this.shape = new Circle(radius,x,y);
+		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016 / expireTime;
