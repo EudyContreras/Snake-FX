@@ -2,11 +2,11 @@ package com.SnakeGame.SlitherSnake;
 
 import java.util.Random;
 
-import com.SnakeGame.Core.PlayerMovement;
-import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Debris_Particles.DirtDisplacement;
 import com.SnakeGame.Debris_Particles.SectionDisintegration;
+import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 

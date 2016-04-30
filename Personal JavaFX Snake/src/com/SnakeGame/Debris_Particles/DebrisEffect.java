@@ -1,7 +1,7 @@
 package com.SnakeGame.Debris_Particles;
 
-import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;

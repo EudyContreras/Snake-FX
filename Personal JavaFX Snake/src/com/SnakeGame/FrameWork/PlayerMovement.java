@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 /**
  * Keeps a database of the IDs used by different sorts of movements that can be

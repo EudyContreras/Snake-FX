@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.PlayerTwo.Player2;

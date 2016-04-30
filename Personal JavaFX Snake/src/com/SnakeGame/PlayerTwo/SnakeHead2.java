@@ -1,10 +1,10 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.PlayerMovement;
-import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.SnakeGame;
 import com.SnakeGame.Debris_Particles.FruitSplash2;
+import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;

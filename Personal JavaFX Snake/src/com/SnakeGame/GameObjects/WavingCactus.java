@@ -1,8 +1,8 @@
 
 package com.SnakeGame.GameObjects;
 
-import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 

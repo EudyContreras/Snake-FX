@@ -1,7 +1,7 @@
 package com.SnakeGame.ImageBanks;
 
-import com.SnakeGame.Core.GameLoader;
-import com.SnakeGame.Core.Settings;
+import com.SnakeGame.FrameWork.GameLoader;
+import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.Utilities.ImageUtility;
 
 import javafx.scene.image.Image;

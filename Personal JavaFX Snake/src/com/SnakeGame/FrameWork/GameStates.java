@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.ObjectIDs.GameStateID;
 import com.SnakeGame.Utilities.GameStateManager;

@@ -1,5 +1,5 @@
 
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.GameObjects.Tile;
 

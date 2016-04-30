@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.Debris_Particles.GameDebrisManager;
 import com.SnakeGame.Debris_Particles.SandEmitter;

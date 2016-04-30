@@ -1,7 +1,7 @@
 package com.SnakeGame.Utilities;
 
-import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 

@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 /**
  * Class used to translate a given object across the game world allowing the

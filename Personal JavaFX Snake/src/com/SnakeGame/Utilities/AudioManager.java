@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.SnakeGame;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;

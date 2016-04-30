@@ -1,9 +1,9 @@
 package com.SnakeGame.SnakeOne;
 
-import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.PlayerMovement;
-import com.SnakeGame.Core.Settings;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Utilities.GameObjectManager;
 

@@ -4,8 +4,8 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.SnakeGame.Core.GameStates;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.GameStates;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameStateID;
 
 /**

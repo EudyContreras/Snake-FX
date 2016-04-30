@@ -1,7 +1,7 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.Core.GameObject;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Bounds;

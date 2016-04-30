@@ -1,4 +1,4 @@
-package com.SnakeGame.Core;
+package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SlitherSnake.SlitherSnake;

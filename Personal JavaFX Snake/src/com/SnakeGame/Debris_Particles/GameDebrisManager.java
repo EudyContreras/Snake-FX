@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.SnakeGame;
 
 import javafx.scene.canvas.GraphicsContext;
 

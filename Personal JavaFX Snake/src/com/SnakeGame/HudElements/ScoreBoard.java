@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.Core.GameLoader;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.GameLoader;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 

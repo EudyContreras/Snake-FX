@@ -3,8 +3,8 @@ package com.SnakeGame.PlayerOne;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import com.SnakeGame.Core.PlayerMovement;
-import com.SnakeGame.Core.SnakeGame;
+import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.SnakeGame;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
