@@ -1,6 +1,5 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.Debris_Particles.FruitSplash2;
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
@@ -8,6 +7,7 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Particles.FruitSplash2;
 import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Rectangle2D;

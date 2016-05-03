@@ -2,8 +2,6 @@ package com.SnakeGame.GameObjects;
 
 import java.util.Random;
 
-import com.SnakeGame.Debris_Particles.FruitSplash;
-import com.SnakeGame.Debris_Particles.FruitSplash2;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.Settings;
@@ -11,6 +9,8 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Particles.FruitSplash;
+import com.SnakeGame.Particles.FruitSplash2;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;

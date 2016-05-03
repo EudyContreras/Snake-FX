@@ -1,6 +1,5 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.Debris_Particles.DirtDisplacement;
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
@@ -10,6 +9,7 @@ import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.ScreenOverlay;
 

@@ -2,13 +2,13 @@ package com.SnakeGame.SlitherSnake;
 
 import java.util.Random;
 
-import com.SnakeGame.Debris_Particles.DirtDisplacement;
-import com.SnakeGame.Debris_Particles.SectionDisintegration;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.Particles.DirtDisplacement;
+import com.SnakeGame.Particles.SectionDisintegration;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;

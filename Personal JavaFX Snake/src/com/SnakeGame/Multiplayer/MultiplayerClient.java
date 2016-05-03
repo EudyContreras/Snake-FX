@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Observable;
 
-import com.SnakeGame.VisualInterface.MenuMultiplayer;
+import com.SnakeGame.Interface.MenuMultiplayer;
 
 public class MultiplayerClient extends Observable {
 

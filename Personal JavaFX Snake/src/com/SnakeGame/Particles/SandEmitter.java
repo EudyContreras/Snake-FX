@@ -1,4 +1,4 @@
-package com.SnakeGame.Debris_Particles;
+package com.SnakeGame.Particles;
 
 import java.util.Random;
 

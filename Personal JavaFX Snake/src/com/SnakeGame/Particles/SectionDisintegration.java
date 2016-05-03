@@ -1,30 +1,27 @@
-package com.SnakeGame.Debris_Particles;
+package com.SnakeGame.Particles;
 
 import java.util.Random;
 
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class FruitSplash2 extends DebrisEffect {
+public class SectionDisintegration extends DebrisEffect {
 
 	GameDebrisID id;
 	Random rand = new Random();
 	Paint color;
 	double radius;
 	double decay;
-	float x;
-	float y;
-	float r;
-	float velX = rand.nextInt(15 - -15 + 1) + -15;
-	float velY = rand.nextInt(15 - -15 + 1) + -15;
-	float velR;
-	float lifeTime = 1.0f;
+	double lifeTime = 1.0f;
 	double width;
 	double height;
 	boolean isAlive = false;
@@ -33,39 +30,35 @@ public class FruitSplash2 extends DebrisEffect {
 	int amount = 200;
 	double greenRange = Math.random() * (200 - 65 + 1) + 65;
 
-	public FruitSplash2(SnakeGame game, Paint fill, double expireTime, double radius, float x, float y) {
+	public SectionDisintegration(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
-		this.shape = new Circle();
+		this.shape = new Circle(radius, x, y);
+		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016 / expireTime;
-		this.color = fill;
 		this.x = x;
 		this.y = y;
+		this.velX = Math.random() * (2 - -2 + 1) + -2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velY = Math.random() * (2 - -2 + 1) + -2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		init();
 	}
 
 	public void init() {
-		shape.setFill(color);
-		game.getDebrisLayer().getChildren().add(shape);
+		shape.setFill(imagePattern);
+		game.getParticleLayer().getChildren().add(shape);
 	}
 
 	public void update() {
-		x = x + velX;
-		y = y + velY;
+		super.move();
 		lifeTime -= decay;
-		// radius-=1;
-		// this.shape.setRadius(this.radius);
-		// if(radius<=0){
-		// lifeTime =0;
-		// }
+		velX += 0.05 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		velY -= 0.002;
 	}
 
 	public void move() {
-
 		shape.setCenterX(x);
 		shape.setCenterY(y);
-
 	}
 
 	public void collide() {

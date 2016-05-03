@@ -2,11 +2,11 @@ package com.SnakeGame.FrameWork;
 
 import java.util.LinkedList;
 
-import com.SnakeGame.Debris_Particles.DirtDisplacement;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;
 import com.SnakeGame.SnakeOne.SnakeOneSectionManager;
 import com.SnakeGame.SnakeOne.SnakeOneTail;
