@@ -2,6 +2,7 @@ package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.Debris_Particles.GameDebrisManager;
 import com.SnakeGame.Debris_Particles.SandEmitter;
+import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
@@ -23,7 +24,6 @@ import com.SnakeGame.Utilities.GameObjectManager;
 import com.SnakeGame.Utilities.ImageUtility;
 import com.SnakeGame.Utilities.ScreenOverlay;
 import com.SnakeGame.VisualInterface.MenuMain;
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;

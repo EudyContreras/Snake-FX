@@ -19,15 +19,12 @@ public class Settings {
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static double SCALE = 1.0;
 
-	public static double SNAKE_SPEED = 5; // must be a number which the size
-											// must be divisible by while the
-											// result remains whole
+	public static double SNAKE_SPEED = 5; // must be a number which the size											// result remains whole
 	public static double SECTION_SIZE = 25; // Could now be any number I think!!
 
 	public static int APPLE_COUNT = 10;
 	public static int SECTIONS_TO_ADD = 3;
-	public static double SECTION_DISTANCE = 1; // Must be a number divisible by
-												// the speed
+	public static double SECTION_DISTANCE = 1; // Must be a number divisible by										// the speed
 	public static float FRAME_SCALE = 1.0f;
 
 	public static int TURN_DELAY = 5;
@@ -48,7 +45,7 @@ public class Settings {
 	public static int MAX_AMOUNT_OF_OBJECTS = 30;
 	public static int DEBRIS_LIMIT = 120;
 	public static int PARTICLE_LIMIT = 30;
-	public static double WIND_FORCE = 1.0;
+	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double AMBIENTLIGHT_OPACITY = 0.8;

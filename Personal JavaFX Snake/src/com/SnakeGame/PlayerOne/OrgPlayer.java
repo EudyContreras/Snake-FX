@@ -23,6 +23,7 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -127,6 +128,7 @@ public class OrgPlayer extends OrgGameObject {
 		this.game.getOrgObjectManager().addObject(snakeHead);
 		this.sectManager = game.getOrgSectManager();
 		this.loadImages();
+		this.drawBoundingBox();
 		this.setDirection(PlayerMovement.MOVE_DOWN);
 	}
 
@@ -411,7 +413,16 @@ public class OrgPlayer extends OrgGameObject {
 			y = (float) (0 - radius);
 		}
 	}
+	public void drawBoundingBox() {
 
+		if (Settings.DEBUG_MODE) {
+			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
+			bounds.setStroke(Color.WHITE);
+			bounds.setStrokeWidth(3);
+			bounds.setFill(Color.TRANSPARENT);
+			game.getOverlay().getChildren().add(bounds);
+		}
+	}
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < 15; i++) {

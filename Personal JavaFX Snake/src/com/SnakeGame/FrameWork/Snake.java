@@ -91,10 +91,10 @@ public class Snake extends Application {
 				return;
 			boolean toRemove = snake.size() > 1;
 			Node tail;
-			// x = x+velX;
-			// y = y+velY;
-			x += (float) (Math.sin(Math.toRadians(80))) * velX;
-			y += (float) (Math.sin(Math.toRadians(-80))) * velY;
+			 x = x+velX;
+			 y = y+velY;
+//			x += (float) (Math.sin(Math.toRadians(80))) * velX;
+//			y += (float) (Math.sin(Math.toRadians(-80))) * velY;
 
 			if (toRemove == true) {
 				tail = snake.remove(snake.size() - 1);

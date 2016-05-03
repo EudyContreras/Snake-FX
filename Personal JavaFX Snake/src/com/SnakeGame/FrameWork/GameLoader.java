@@ -79,7 +79,7 @@ public class GameLoader {
 	 */
 	public void loadLevelManager() {
 		this.border = GameImageLoader.loadImage("/desert-level-border2.png");
-		this.level = GameImageLoader.loadImage("/desert-level.png");
+		this.level  = GameImageLoader.loadImage("/desert-level.png");
 		this.level1 = GameImageLoader.loadImage("/desert-level.png");
 		this.level2 = GameImageLoader.loadImage("/desert-level2.png");
 		this.level3 = GameImageLoader.loadImage("/desert-level3.png");
