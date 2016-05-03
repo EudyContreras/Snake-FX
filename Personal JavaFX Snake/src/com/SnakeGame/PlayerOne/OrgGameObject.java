@@ -2,6 +2,8 @@ package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -19,7 +21,7 @@ import javafx.scene.shape.Rectangle;
  * This class is the game object super class and is the class that every game
  * object or mob extends. Actions performed within this class will reflect on
  * the children of this class.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -59,7 +61,7 @@ public abstract class OrgGameObject {
 	/**
 	 * The constructors used in this class allows objects to be created in
 	 * different ways and with different attributes
-	 * 
+	 *
 	 * @param game
 	 * @param layer
 	 * @param image
@@ -286,7 +288,7 @@ public abstract class OrgGameObject {
 
 	/**
 	 * This method will relocate the object to specific point
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */
@@ -442,6 +444,18 @@ public abstract class OrgGameObject {
 
 	public void getDamagedBy(OrgGameObject object) {
 		health -= object.getDamage();
+	}
+
+	public void bounce(SnakeOne snake, double x, double y) {
+
+	}
+
+	public void bounce(OrgPlayer snake, float x, float y) {
+
+	}
+
+	public void blowUp() {
+
 	}
 
 	public void kill() {

@@ -24,7 +24,7 @@ import javafx.scene.shape.Rectangle;
  * This class is the game object super class and is the class that every game
  * object or mob extends. Actions performed within this class will reflect on
  * the children of this class.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -193,7 +193,7 @@ public abstract class OrgSectionMain {
 
 	/**
 	 * This method will relocate the object to specific point
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */
@@ -415,5 +415,8 @@ public abstract class OrgSectionMain {
 
 	protected int getNumericID() {
 		return numericID;
+	}
+	public void die() {
+
 	}
 }

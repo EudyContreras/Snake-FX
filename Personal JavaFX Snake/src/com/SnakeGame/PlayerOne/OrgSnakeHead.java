@@ -46,6 +46,7 @@ public class OrgSnakeHead extends OrgGameObject {
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
+		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
 		if (Settings.DEBUG_MODE) {
 			this.headBounds.setFill(Color.TRANSPARENT);
 			this.headBounds.setStroke(Color.WHITE);

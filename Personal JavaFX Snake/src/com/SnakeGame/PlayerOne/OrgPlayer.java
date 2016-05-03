@@ -431,7 +431,14 @@ public class OrgPlayer extends OrgGameObject {
 			}
 		}
 	}
+	public void addBones() {
+		isDead = true;
+		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
+		skull.setRotate(r);
+		game.getDebrisLayer().getChildren().add(skull);
+		overlay.addFadeScreen(3);
 
+	}
 	public Image getAnimationImage() {
 		return anim.getImage();
 	}

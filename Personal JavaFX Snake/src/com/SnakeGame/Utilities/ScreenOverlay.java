@@ -23,6 +23,7 @@ public class ScreenOverlay {
 	GaussianBlur gaussianEffect = new GaussianBlur(7);
 	GaussianBlur clearLevelBlur = new GaussianBlur(0);
 	GaussianBlur stormBlur = new GaussianBlur(0);
+	Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
 	Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
 	Bloom bloomEffect = new Bloom();
 	Glow glowEffect = new Glow();
@@ -37,6 +38,7 @@ public class ScreenOverlay {
 	Boolean storm = false;
 	Boolean blurUp = true;
 	Boolean blurDown = false;
+	Boolean setFadeOverlay = false;
 	Double clearLevelBluring = 0.0;
 	Double stormBluring = 0.0;
 	Double softBlurLifetime = 0.0;
@@ -51,6 +53,8 @@ public class ScreenOverlay {
 	Double speedGaussian;
 	Double speedDeath;
 	Double speedBloom;
+	Double fade;
+	Double fadeSpeed;
 	Pane layer;
 	SnakeGame game;
 
@@ -141,7 +145,9 @@ public class ScreenOverlay {
 			this.setToneOverlay = true;
 		}
 	}
-
+	/**
+	 * Adds a blur to the screen after the snake dies
+	 */
 	public void addDeathBlur() {
 		if (!SnakeOne.levelComplete && !Player2.levelComplete) {
 			this.layer.setEffect(null);
@@ -149,13 +155,17 @@ public class ScreenOverlay {
 			this.deathBlur = true;
 		}
 	}
-
+	/**
+	 * Adds a blur to the screen after the level has been completed
+	 */
 	public void levelCompleteBlur() {
 		this.clearLevelBluring = 0.0;
 		this.layer.setEffect(clearLevelBlur);
 		this.clearLevel = true;
 	}
-
+	/**
+	 * Adds random blurring during sand storms
+	 */
 	public void addStormBlur() {
 		if (!SnakeOne.levelComplete && !Player2.levelComplete) {
 			this.layer.setEffect(null);
@@ -163,7 +173,20 @@ public class ScreenOverlay {
 			this.storm = true;
 		}
 	}
-
+	/**
+	 * Adds a fading screen to the game which leads to the main menu.
+	 * The fade speed determines the speed of the fade.
+	 * @param fadeSpeed: max 10, min 1;
+	 */
+	public void addFadeScreen(double fadeSpeed) {
+		game.getFadeScreen().getChildren().remove(fadeScreen);
+		this.fadeScreen.setOpacity(fade);
+		this.fadeScreen.setFill(Color.BLACK);
+		fade = 0.0;
+		this.fadeSpeed = fadeSpeed/1000;
+		game.getFadeScreen().getChildren().add(fadeScreen);
+		this.setFadeOverlay = true;
+	}
 	public void updateEffect() {
 		if (setDistortion) {
 			setDistortionModifier();
@@ -188,6 +211,9 @@ public class ScreenOverlay {
 		}
 		if (clearLevel) {
 			setClearLevelBlur();
+		}
+		if (setFadeOverlay){
+			setFadeModifier();
 		}
 	}
 
@@ -230,7 +256,15 @@ public class ScreenOverlay {
 			this.layer.getChildren().remove(toneOverlay);
 		}
 	}
-
+	public void setFadeModifier(){
+			fade += fadeSpeed;
+			fadeScreen.setOpacity(fade);
+			if (fade >= 1.0f) {
+				fadeScreen.setOpacity(1);
+			}
+			if (fade >= 1.1f) {
+			}
+	}
 	public void setStormBlur() {
 		if (!SnakeOne.levelComplete && !Player2.levelComplete) {
 			if (blurUp) {
@@ -288,10 +322,5 @@ public class ScreenOverlay {
 		layer.setEffect(null);
 	}
 
-	public void checkRemovability() {
-	}
-
-	public void checkCollision() {
-	}
 
 }
