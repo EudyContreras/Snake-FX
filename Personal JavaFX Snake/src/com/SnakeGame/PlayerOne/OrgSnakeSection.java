@@ -7,6 +7,7 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
@@ -207,5 +208,10 @@ public class OrgSnakeSection extends OrgSectionMain {
 		} else if (y > Settings.HEIGHT + radius) {
 			y = (float) (0 - radius);
 		}
+	}
+
+	public Rectangle2D getBounds() {
+
+		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
 	}
 }

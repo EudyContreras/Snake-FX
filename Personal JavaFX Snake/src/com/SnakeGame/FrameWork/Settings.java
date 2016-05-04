@@ -45,6 +45,8 @@ public class Settings {
 	public static int MAX_AMOUNT_OF_OBJECTS = 30;
 	public static int DEBRIS_LIMIT = 120;
 	public static int PARTICLE_LIMIT = 30;
+	public static int SAND_AMOUNT = 9;
+	public static int SAND_SPAWN_DELAY = 1;
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;

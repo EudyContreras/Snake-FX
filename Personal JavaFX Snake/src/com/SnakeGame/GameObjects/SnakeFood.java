@@ -11,12 +11,15 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplash;
 import com.SnakeGame.Particles.FruitSplash2;
+import com.SnakeGame.PlayerOne.OrgGameObject;
+import com.SnakeGame.PlayerOne.OrgSectionMain;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.SnakeOne.SnakeOneMouth;
 import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
@@ -25,16 +28,18 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class SnakeFood extends GameObject {
+
+	double size;
+	double targetSize;
 	double particleLife;
 	double particleSize;
 	double fadeValue = 0.0;
 	double glowValue = 0.0;
+	double staticRadius = 0;
 	boolean maxSize = false;
 	boolean minSize = true;
 	boolean maxGlow = false;
 	boolean noGlow = true;
-	double size;
-	double targetSize;
 	Circle bounds;
 	DropShadow borderGlow = new DropShadow();
 	GameObjectManager gom;
@@ -43,17 +48,17 @@ public class SnakeFood extends GameObject {
 
 	SnakeGame game;
 
-	// public SnakeFood(SnakeGame game, Pane layer, Node node, double x, double
-	// y, GameObjectID id) {
-	// super(game, layer, node, x, y, id);
-	// this.game = game;
-	// this.gom = game.getObjectManager();
-	// }
+	public SnakeFood(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id) {
+		super(game, layer, node, x, y, id);
+		this.game = game;
+		this.gom = game.getObjectManager();
+	}
 	public SnakeFood(SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 		this.gom = game.getObjectManager();
 		this.circle.setOpacity(fadeValue);
+		this.staticRadius = node.getRadius();
 		this.size = circle.getRadius();
 		this.targetSize = size;
 		this.addGLow();
@@ -191,12 +196,30 @@ public class SnakeFood extends GameObject {
 			}
 		}
 		for (Tile tempTile : game.getloader().tileManager.tile) {
+			if (tempTile.getId() == LevelObjectID.cactus) {
+				if (getBounds().intersects(tempTile.getBounds())) {
+					this.x = newX;
+					this.y = newY;
+					this.fadeValue = 0;
+				}
+			}
+		}
+		for (Tile tempTile : game.getloader().tileManager.tile) {
 			if (tempTile.getId() == LevelObjectID.fence) {
 				if (getCollisionBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
 					this.game.getloader().spawnSnakeFood();
 					this.remove();
 					break;
+				}
+			}
+		}
+		for (OrgSectionMain object : game.getOrgSectManager().getSectionList()) {
+			if (object.getId() == GameObjectID.SnakeSection) {
+				if (getBounds().intersects(object.getBounds())) {
+					this.x = newX;
+					this.y = newY;
+					this.fadeValue = 0;
 				}
 			}
 		}
@@ -266,10 +289,10 @@ public class SnakeFood extends GameObject {
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - radius, y - radius, radius * 2, radius * 2);
+		return new Rectangle2D(x - staticRadius, y - staticRadius, staticRadius * 2, staticRadius * 2);
 	}
 
 	public Rectangle2D getCollisionBounds() {
-		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
+		return new Rectangle2D(x - staticRadius / 2, y - staticRadius / 2, staticRadius, staticRadius);
 	}
 }

@@ -20,8 +20,8 @@ public class SandStorms extends DebrisEffect {
 	double radius;
 	double decay;
 	double lifeTime = 4.0f;
-	double width = Math.random() * (6 - 2.5 + 1) + 2.5;
-	double height = Math.random() * (6 - 2.5 + 1) + 2.5;
+	double width = 3;
+	double height = 3;
 	boolean isAlive = false;
 	boolean removable = false;
 	int depth = 400;
@@ -50,7 +50,7 @@ public class SandStorms extends DebrisEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velX = Math.random() * (6 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		init();
 	}

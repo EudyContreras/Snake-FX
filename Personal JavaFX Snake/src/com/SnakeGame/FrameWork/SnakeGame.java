@@ -497,7 +497,7 @@ public class SnakeGame extends Application implements Runnable {
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
 							sandEmitter.move();
-							sandEmitter.emit(1, 9);
+							sandEmitter.emit();
 							if (loader.getPlayer() != null && getHealthBarOne() != null) {
 								getHealthBarOne().depleteHealth();
 								getHealthBarOne().regerateHealth();

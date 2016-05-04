@@ -9,13 +9,14 @@ import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 /**
  * This class is used to keep track of energy used by the player if there's is
  * any it will decrease and regenerate according to time passed and given
  * actions by the player.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -68,12 +69,12 @@ public class SandEmitter {
 		}
 	}
 
-	public void emit(int spawnDelay, int amount) {
+	public void emit() {
 		if (Settings.SAND_STORM) {
 			addRandomBlur(true);
 			interval++;
-			if (interval == spawnDelay) {
-				for (int i = 0; i < amount; i++) {
+			if (interval == Settings.SAND_SPAWN_DELAY) {
+				for (int i = 0; i < Settings.SAND_AMOUNT; i++) {
 					game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.sandGrain, 5, x, y));
 				}
 				interval = 0;
@@ -87,7 +88,7 @@ public class SandEmitter {
 		}
 		if (!SnakeOne.killTheSnake && !Player2.killTheSnake)
 			this.overlay.addStormBlur();
-		// this.overlay.addToneOverlay(Color.rgb(255, 150, 0,0), 6, 2);
+		    this.overlay.addToneOverlay(Color.rgb(255, 150, 0,0), 6, 2);
 	}
 
 }
