@@ -8,6 +8,7 @@ import com.SnakeGame.ObjectIDs.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
@@ -46,6 +47,7 @@ public class FruitSplash2 extends DebrisEffect {
 	}
 
 	public void init() {
+		shape.setBlendMode(BlendMode.MULTIPLY);
 		shape.setFill(color);
 		game.getDebrisLayer().getChildren().add(shape);
 	}

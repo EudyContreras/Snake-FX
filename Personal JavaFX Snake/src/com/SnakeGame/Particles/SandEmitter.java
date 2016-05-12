@@ -48,6 +48,7 @@ public class SandEmitter {
 		this.game = game;
 		this.rand = new Random();
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+//	    this.overlay.addToneOverlay(Color.rgb(255, 150, 0,1), 20, 1);
 	}
 
 	public void move() {
@@ -88,7 +89,7 @@ public class SandEmitter {
 		}
 		if (!SnakeOne.killTheSnake && !Player2.killTheSnake)
 			this.overlay.addStormBlur();
-		    this.overlay.addToneOverlay(Color.rgb(255, 150, 0,0), 6, 2);
+
 	}
 
 }

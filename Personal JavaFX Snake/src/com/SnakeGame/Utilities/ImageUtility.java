@@ -270,8 +270,8 @@ public class ImageUtility {
 			double height) {
 		Image img;
 		Circle circle = new Circle();
-		circle.setFill(Color.rgb(255, 200, 0, 1.0));
-		circle.setRadius(20);
+		circle.setFill(color);
+		circle.setRadius(depth);
 		borderGlow.setOffsetY(0f);
 		borderGlow.setOffsetX(0f);
 		borderGlow.setSpread(spread);

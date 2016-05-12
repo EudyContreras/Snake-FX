@@ -489,6 +489,9 @@ public abstract class GameObject {
 
 	}
 
+	public void blowUp2() {
+
+	}
 	public void stopMovement() {
 		this.canMove = false;
 	}

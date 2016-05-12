@@ -20,8 +20,8 @@ public class SandStorms extends DebrisEffect {
 	double radius;
 	double decay;
 	double lifeTime = 4.0f;
-	double width = 3;
-	double height = 3;
+	double width = Settings.SAND_SIZE;
+	double height = Settings.SAND_SIZE;
 	boolean isAlive = false;
 	boolean removable = false;
 	int depth = 400;

@@ -6,6 +6,7 @@ public class Settings {
 
 	public static final int SLITHER_SPEED = 5;
 	public static final int SECTION = 5;
+
 	/**
 	 * The following settings can be used to increase the speed of the snake
 	 * relative to the size of the snake. These are the valid values that can be
@@ -44,9 +45,10 @@ public class Settings {
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;
 	public static int MAX_AMOUNT_OF_OBJECTS = 30;
 	public static int DEBRIS_LIMIT = 120;
-	public static int PARTICLE_LIMIT = 30;
-	public static int SAND_AMOUNT = 9;
+	public static int PARTICLE_LIMIT = 20;
+	public static int SAND_AMOUNT = 4;
 	public static int SAND_SPAWN_DELAY = 1;
+	public static double SAND_SIZE = 4;
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;

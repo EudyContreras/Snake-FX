@@ -69,7 +69,7 @@ public class GameImageBank {
 	public static Image healthBarRed2;
 
 	public GameImageBank() {
-
+		  glowingCircle = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
 		// redHealthBar =
 		// ImageUtility.precreateSnapshot("red-HealthBar.png",400/GameLoader.ResolutionScaleX,
 		// 35/GameLoader.ResolutionScaleY);

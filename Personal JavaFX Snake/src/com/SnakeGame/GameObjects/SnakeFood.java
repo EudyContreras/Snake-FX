@@ -11,7 +11,6 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplash;
 import com.SnakeGame.Particles.FruitSplash2;
-import com.SnakeGame.PlayerOne.OrgGameObject;
 import com.SnakeGame.PlayerOne.OrgSectionMain;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SnakeOne.SnakeOne;
@@ -58,9 +57,9 @@ public class SnakeFood extends GameObject {
 		this.game = game;
 		this.gom = game.getObjectManager();
 		this.circle.setOpacity(fadeValue);
-		this.staticRadius = node.getRadius();
 		this.size = circle.getRadius();
 		this.targetSize = size;
+		this.staticRadius = targetSize+10;
 		this.addGLow();
 		if (Settings.DEBUG_MODE) {
 			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
@@ -263,7 +262,7 @@ public class SnakeFood extends GameObject {
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
-			game.getDebrisManager().addObject(new FruitSplash2(game, new ImagePattern(GameImageBank.fruit2),
+			game.getDebrisManager().addObject(new FruitSplash2(game, new ImagePattern(GameImageBank.glowingCircle),
 					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 		}
 	}
