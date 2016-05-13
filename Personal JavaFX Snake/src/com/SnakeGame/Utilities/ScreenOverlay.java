@@ -180,9 +180,9 @@ public class ScreenOverlay {
 	 */
 	public void addFadeScreen(double fadeSpeed) {
 		game.getFadeScreen().getChildren().remove(fadeScreen);
+		this.fade = 0.0;
 		this.fadeScreen.setOpacity(fade);
 		this.fadeScreen.setFill(Color.BLACK);
-		fade = 0.0;
 		this.fadeSpeed = fadeSpeed/1000;
 		game.getFadeScreen().getChildren().add(fadeScreen);
 		this.setFadeOverlay = true;

@@ -1,10 +1,13 @@
 package com.SnakeGame.PlayerOne;
 
+import java.util.Random;
+
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.Particles.SectionDisintegration;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -14,6 +17,17 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class OrgSnakeSection extends OrgSectionMain {
+	PlayerMovement direction;
+	double particleLife;
+	double particleSize;
+	double fadeValue = 1.0;
+	boolean fade = false;
+	boolean blowUp = true;
+	boolean stopped = false;
+	int dirtDelay = 10;
+	SnakeGame game;
+	Random rand;
+	Circle bones;
 	OrgPlayer snake;
 	OrgSnakeTail tail;
 	OrgGameSectionManager sectManager;
@@ -22,8 +36,10 @@ public class OrgSnakeSection extends OrgSectionMain {
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.snake = snake;
+		this.game = game;
 		this.numericID = numericID;
 		this.sectManager = game.getOrgSectManager();
+		this.rand = new Random();
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
 				this.setLastDirection(Direction);
@@ -196,6 +212,13 @@ public class OrgSnakeSection extends OrgSectionMain {
 		} else if (this.numericID != OrgPlayer.NUMERIC_ID - 1) {
 			this.circle.setVisible(true);
 		}
+		if (fade == true) {
+			fadeValue -= 0.01;
+			this.circle.setOpacity(fadeValue);
+			if (fadeValue <= 0) {
+				fadeValue = 0;
+			}
+		}
 	}
 
 	public void checkBounds() {
@@ -209,7 +232,31 @@ public class OrgSnakeSection extends OrgSectionMain {
 			y = (float) (0 - radius);
 		}
 	}
+	public void loadBones() {
+		bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
+		game.getDebrisLayer().getChildren().add(bones);
+		bones.setRotate(r-90);
+	}
 
+	public void blowUp() {
+		if (blowUp == true) {
+			for (int i = 0; i < Settings.PARTICLE_LIMIT; i++) {
+				if (Settings.ADD_VARIATION) {
+					particleSize = Math.random() * (12 - 5 + 1) + 5;
+					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
+				}
+				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeDebris,
+						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
+			}
+			blowUp = false;
+		}
+	}
+
+	public void die() {
+		loadBones();
+		fade = true;
+		blowUp();
+	}
 	public Rectangle2D getBounds() {
 
 		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);

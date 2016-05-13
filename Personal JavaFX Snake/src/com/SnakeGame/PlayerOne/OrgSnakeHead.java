@@ -1,5 +1,6 @@
 package com.SnakeGame.PlayerOne;
 
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -22,12 +23,12 @@ public class OrgSnakeHead extends OrgGameObject {
 	boolean rotate;
 	SnakeGame game;
 	OrgPlayer snake;
-	Rectangle headBounds;
 	Rectangle headBoundsLeft;
 	Rectangle headBoundsRight;
 	Rectangle headBoundsTop;
 	Rectangle headBoundsBottom;
 	Rectangle clearFromCollision;
+	OrgSnakeFangs fangs;
 	OrgGameSectionManager sectManager;
 	OrgGameObjectManager gom;
 	PlayerMovement direction = PlayerMovement.MOVE_DOWN;
@@ -41,16 +42,16 @@ public class OrgSnakeHead extends OrgGameObject {
 		this.game = game;
 		this.gom = game.getOrgObjectManager();
 		this.sectManager = game.getOrgSectManager();
-		this.headBounds = new Rectangle(x, y, node.getRadius(), node.getRadius());
+		this.gom.addObject(new OrgEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
+		this.gom.addObject(new OrgSnakeFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.BLACK), this.x,
+				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
 		if (Settings.DEBUG_MODE) {
-			this.headBounds.setFill(Color.TRANSPARENT);
-			this.headBounds.setStroke(Color.WHITE);
-			this.layer.getChildren().add(headBounds);
 			this.headBoundsRight.setFill(Color.BLUE);
 			this.headBoundsRight.setStroke(Color.WHITE);
 			this.layer.getChildren().add(headBoundsRight);
@@ -241,8 +242,7 @@ public class OrgSnakeHead extends OrgGameObject {
 	}
 
 	public void adjustBounds() {
-		this.headBounds.setX(x - radius / 2);
-		this.headBounds.setY(y - radius / 2);
+		//this.positionFangs();
 		this.headBoundsLeft.setX(x - radius - headBoundsLeft.getWidth() / 2);
 		this.headBoundsLeft.setY(y + radius / 2 - headBoundsLeft.getHeight() * 1.5);
 		this.headBoundsRight.setX(x + radius - headBoundsRight.getWidth() / 2);

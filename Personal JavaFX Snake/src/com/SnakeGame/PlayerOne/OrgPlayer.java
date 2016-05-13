@@ -122,6 +122,7 @@ public class OrgPlayer extends OrgGameObject {
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
+		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new OrgSnakeHead(this, game, layer,
 				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
@@ -290,8 +291,6 @@ public class OrgPlayer extends OrgGameObject {
 				snakeHead.setR(-89);
 			}
 		}
-
-		this.direction = direction;
 	}
 
 	public void turnDelay(PlayerMovement newDirection) {
@@ -368,10 +367,14 @@ public class OrgPlayer extends OrgGameObject {
 				GameObject tempObject = gom.getObjectList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						addSection();
-						tempObject.blowUp();
-						tempObject.remove();
-						break;
+						if (MOUTH_OPEN) {
+							addSection();
+							closeMouth();
+							game.getScoreKeeper().decreaseCount();
+							tempObject.blowUp();
+							tempObject.remove();
+							break;
+						}
 					}
 				}
 			}
@@ -464,9 +467,10 @@ public class OrgPlayer extends OrgGameObject {
 	}
 
 	public void die() {
+		DEAD = true;
+//		blurOut();
+		game.getHealthBarOne().drainAll();
 		isDead = true;
-		game.getPlayfieldLayer().getChildren().remove(this.imageView);
-		this.imageView.setVisible(false);
 	}
 
 	public boolean isDead() {
