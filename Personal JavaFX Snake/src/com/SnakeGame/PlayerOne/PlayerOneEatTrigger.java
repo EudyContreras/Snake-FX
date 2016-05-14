@@ -1,15 +1,17 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.OrgGameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class OrgEatTrigger extends OrgGameObject {
+public class PlayerOneEatTrigger extends OrgGameObject {
 	int index;
 	int counter = 0;
 	boolean stop = false;
@@ -19,7 +21,7 @@ public class OrgEatTrigger extends OrgGameObject {
 	OrgGameSectionManager sectManager;
 	OrgGameObjectManager gom;
 
-	public OrgEatTrigger(OrgSnakeHead head, OrgPlayer snake, SnakeGame game, Pane layer, Circle node, float x, float y,
+	public PlayerOneEatTrigger(OrgSnakeHead head, OrgPlayer snake, SnakeGame game, Pane layer, Circle node, float x, float y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;

@@ -1,11 +1,13 @@
 package com.SnakeGame.PlayerOne;
 
+import com.SnakeGame.FrameWork.OrgGameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -17,7 +19,7 @@ public class OrgSnakeFangs extends OrgGameObject {
 	boolean stop = false;
 	float offsetX = 0;
 	float offsetY = 0;
-	OrgEatTrigger trigger;
+	PlayerOneEatTrigger trigger;
 	SnakeGame game;
 	OrgPlayer snake;
 	OrgGameSectionManager sectManager;

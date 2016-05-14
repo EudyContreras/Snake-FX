@@ -1,8 +1,8 @@
 package com.SnakeGame.FrameWork;
 
+import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -12,7 +12,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * Class that controls the game's key mappings. this class allows us to assign
  * specific actions to every key
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -28,7 +28,7 @@ public class GameKeyInputManager {
 		keyDown[5] = false;
 	}
 
-	public void processInput(SnakeGame game, SnakeOne p, Player2 p2, SlitherSnake p3, Scene scene) {
+	public void processInput(SnakeGame game, OrgPlayer p1, Player2 p2, SlitherSnake p3, Scene scene) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			public void handle(KeyEvent e) {
@@ -57,8 +57,8 @@ public class GameKeyInputManager {
 					game.getGameHud().showHide();
 				}
 				if (e.getCode() == KeyCode.SPACE) {
-					if (p.allowOpen) {
-						p.openMouth();
+					if (p1.allowOpen) {
+						p1.openMouth();
 					}
 					keyDown[4] = true;
 				}

@@ -1,8 +1,7 @@
-package com.SnakeGame.PlayerOne;
+package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
-import com.SnakeGame.SnakeOne.SnakeOne;
+import com.SnakeGame.PlayerOne.OrgPlayer;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -445,7 +444,7 @@ public abstract class OrgGameObject {
 		health -= object.getDamage();
 	}
 
-	public void bounce(SnakeOne snake, double x, double y) {
+	public void bounce(OrgPlayer snake, double x, double y) {
 
 	}
 

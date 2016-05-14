@@ -14,7 +14,6 @@ import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerTwo.Player2;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.SnakeOne.SnakeOne;
 import com.SnakeGame.Utilities.GameImageLoader;
 import com.SnakeGame.Utilities.GameObjectManager;
 import com.SnakeGame.Utilities.GameTileManager;
@@ -56,11 +55,10 @@ public class GameLoader {
 	public GameTileManager tileManager;
 	TileMap texture;
 	GameObjectManager objectManger;
-	SnakeOne player;
 	Player2 player2;
 	SlitherSnake slither;
 	Random rand;
-	private OrgPlayer orgPlayer;
+	private OrgPlayer player;
 	public static double ResolutionScaleX = 1.0;
 	public static double ResolutionScaleY = 1.0;
 
@@ -471,10 +469,10 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 0 && green == 0 && blue == 255) {
-					this.player = new SnakeOne(game, game.getPlayfieldLayer(), GameImageBank.snakeSphere, row * 20,
+					this.player = new OrgPlayer(game, game.getPlayfieldLayer(), GameImageBank.snakeSphere, row * 20,
 							col * 20, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player,
 							game.getObjectManager());
-					game.getObjectManager().addObject(player);
+					game.getOrgObjectManager().addObject(player);
 				}
 			}
 		}
@@ -593,19 +591,10 @@ public class GameLoader {
 	public void loadOrgPlayer() {
 		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeSphere.getRadius() * 3);
 		float y = (float) (Settings.HEIGHT * 0.568);
-		orgPlayer = new OrgPlayer(game, game.getSnakeHeadLayer(),
+		player = new OrgPlayer(game, game.getSnakeHeadLayer(),
 				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
 				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
-		game.getOrgObjectManager().addObject(orgPlayer);
-	}
-
-	public void loadPlayer1() {
-		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeSphere.getRadius());
-		float y = (float) (Settings.HEIGHT * 0.55);
-		player = new SnakeOne(game, game.getSnakeHeadLayer(),
-				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
-				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player, game.getObjectManager());
-		game.getObjectManager().addObject(player);
+		game.getOrgObjectManager().addObject(player);
 	}
 
 	public void loadPlayer2() {
@@ -705,23 +694,20 @@ public class GameLoader {
 	// }
 	// }
 
-	public SnakeOne getPlayer() {
-		return player;
-	}
 
 	public Player2 getPlayer2() {
 		return player2;
 	}
 
 	public OrgPlayer getOrgPlayer2() {
-		return orgPlayer;
+		return player;
 	}
 
 	public SlitherSnake getSlither() {
 		return slither;
 	}
 
-	public void setPlayer(SnakeOne player) {
+	public void setPlayer1(OrgPlayer player) {
 		this.player = player;
 	}
 

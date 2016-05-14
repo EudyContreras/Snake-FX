@@ -3,8 +3,8 @@ package com.SnakeGame.HudElements;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
+import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerTwo.Player2;
-import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -12,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * This class is used to simulate a simple health bar which will decrease under
  * certain conditions, and that will also self restore
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -133,7 +133,7 @@ public class HealthBarTwo {
 	}
 
 	public void hide() {
-		if (SnakeOne.levelComplete || Player2.levelComplete) {
+		if (OrgPlayer.LEVEL_COMPLETED || Player2.levelComplete) {
 			healthBar.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}

@@ -1,5 +1,6 @@
 package com.SnakeGame.PlayerOne;
 
+import com.SnakeGame.FrameWork.OrgGameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;

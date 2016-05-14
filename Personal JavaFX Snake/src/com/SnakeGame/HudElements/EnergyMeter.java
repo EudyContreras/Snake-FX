@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.SnakeOne.SnakeOne;
+import com.SnakeGame.PlayerOne.OrgPlayer;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
  * This class is used to keep track of energy used by the player if there's is
  * any it will decrease and regenerate according to time passed and given
  * actions by the player.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -25,7 +25,7 @@ public class EnergyMeter {
 	int width = 0;
 	int height = 0;
 	int delay = 0;
-	SnakeOne player;
+	OrgPlayer player;
 	Rectangle energyBar = new Rectangle();
 	Rectangle energyBarBorder = new Rectangle();
 
@@ -34,7 +34,7 @@ public class EnergyMeter {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getPlayer();
+		this.player = game.getloader().getOrgPlayer2();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);

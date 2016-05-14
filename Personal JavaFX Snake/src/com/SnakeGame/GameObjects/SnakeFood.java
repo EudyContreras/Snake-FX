@@ -11,10 +11,10 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplash;
 import com.SnakeGame.Particles.FruitSplash2;
+import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerOne.OrgSectionMain;
+import com.SnakeGame.PlayerOne.OrgSnakeFangs;
 import com.SnakeGame.PlayerTwo.Player2;
-import com.SnakeGame.SnakeOne.SnakeOne;
-import com.SnakeGame.SnakeOne.SnakeOneMouth;
 import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Rectangle2D;
@@ -173,7 +173,7 @@ public class SnakeFood extends GameObject {
 		return false;
 	}
 
-	public boolean isApproximateTo(SnakeOneMouth object) {
+	public boolean isApproximateTo(OrgSnakeFangs object) {
 		double distance = Math
 				.sqrt((x - object.getX()) * (x - object.getX()) + (y - object.getY()) * (y - object.getY()));
 		if (distance < 15) {
@@ -267,7 +267,7 @@ public class SnakeFood extends GameObject {
 		}
 	}
 
-	public void bounce(SnakeOne snake, double x, double y) {
+	public void bounce(OrgPlayer snake, double x, double y) {
 		if (snake.getVelX() == 0) {
 			this.velX = snake.getVelX() + (double) (Math.random() * (13 - 8 + 1) - 8);
 			this.velY = snake.getVelY() + (double) (Math.random() * (7 - 4 + 1) - 4);

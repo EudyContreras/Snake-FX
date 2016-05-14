@@ -3,6 +3,7 @@ package com.SnakeGame.PlayerOne;
 import java.util.LinkedList;
 
 import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.OrgGameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -161,6 +162,7 @@ public class OrgPlayer extends OrgGameObject {
 		updateBounds();
 		updateImmunity();
 		updateDirt();
+		overlay.updateEffect();
 
 	}
 
@@ -468,9 +470,12 @@ public class OrgPlayer extends OrgGameObject {
 
 	public void die() {
 		DEAD = true;
-//		blurOut();
+		blurOut();
 		game.getHealthBarOne().drainAll();
 		isDead = true;
+	}
+	public void blurOut() {
+		this.overlay.addDeathBlur();
 	}
 
 	public boolean isDead() {

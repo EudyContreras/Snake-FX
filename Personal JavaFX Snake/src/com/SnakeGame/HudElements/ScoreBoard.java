@@ -2,8 +2,8 @@ package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerTwo.Player2;
-import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
 /**
  * This class is used for holding and displaying a score which can the be
  * stored.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -35,7 +35,7 @@ public class ScoreBoard {
 	double height = 0;
 	double delay = 0;
 	String message;
-	SnakeOne player;
+	OrgPlayer player;
 	Text text = new Text();
 	Font theFont = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
 	Rectangle board;
@@ -47,7 +47,7 @@ public class ScoreBoard {
 		this.message = text;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getPlayer();
+		this.player = game.getloader().getOrgPlayer2();
 		this.board = new Rectangle(x, y, width, height);
 		this.board.setFill(new ImagePattern(new Image("com/SnakeGame/Images/scoreBoard.png")));
 		this.text.setTranslateX(x1);
@@ -67,7 +67,7 @@ public class ScoreBoard {
 	}
 
 	public void hide() {
-		if (SnakeOne.levelComplete || Player2.levelComplete) {
+		if (OrgPlayer.LEVEL_COMPLETED || Player2.levelComplete) {
 			text.setVisible(false);
 			board.setVisible(false);
 		}

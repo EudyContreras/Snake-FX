@@ -1,6 +1,7 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.FrameWork.GameLoader;
+import com.SnakeGame.FrameWork.OrgGameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -8,6 +9,7 @@ import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplash2;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -42,7 +44,7 @@ public class OrgSnakeHead extends OrgGameObject {
 		this.game = game;
 		this.gom = game.getOrgObjectManager();
 		this.sectManager = game.getOrgSectManager();
-		this.gom.addObject(new OrgEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.gom.addObject(new OrgSnakeFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.BLACK), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));

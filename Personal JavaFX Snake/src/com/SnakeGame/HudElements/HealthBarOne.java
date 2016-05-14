@@ -3,8 +3,8 @@ package com.SnakeGame.HudElements;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
+import com.SnakeGame.PlayerOne.OrgPlayer;
 import com.SnakeGame.PlayerTwo.Player2;
-import com.SnakeGame.SnakeOne.SnakeOne;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
@@ -13,7 +13,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * This class is used to simulate a simple health bar which will decrease under
  * certain conditions, and that will also self restore
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -30,7 +30,7 @@ public class HealthBarOne {
 	double height = 0;
 	int delay = 0;
 	SnakeGame game;
-	SnakeOne player;
+	OrgPlayer player;
 	GraphicsContext gc;
 	Rectangle healthBar = new Rectangle();
 	Rectangle healthBarBorder = new Rectangle();
@@ -40,7 +40,7 @@ public class HealthBarOne {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getPlayer();
+		this.player = game.getloader().getOrgPlayer2();
 		this.game = game;
 		// this.healthBar.setWidth(width);
 		// this.healthBar.setHeight(height);
@@ -124,7 +124,7 @@ public class HealthBarOne {
 	}
 
 	public void hide() {
-		if (SnakeOne.levelComplete || Player2.levelComplete) {
+		if (OrgPlayer.LEVEL_COMPLETED || Player2.levelComplete) {
 			healthBar.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
@@ -151,7 +151,7 @@ public class HealthBarOne {
 
 	public void setPlayer() {
 		this.player = null;
-		this.player = game.getloader().getPlayer();
+		this.player = game.getloader().getOrgPlayer2();
 	}
 
 }

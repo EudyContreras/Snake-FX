@@ -3,6 +3,7 @@ package com.SnakeGame.PlayerOne;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.SnakeGame.FrameWork.OrgGameObject;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
