@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
+import com.SnakeGame.FrameWork.GameStateID;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -13,7 +14,6 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.ScreenOverlay;
-
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -272,7 +272,7 @@ public class PlayerTwo extends GameObject {
 
 	public void setDirection(PlayerMovement direction) {
 		KEEP_MOVING = true;
-		if(LEVEL_COMPLETED && DEAD){
+		if(!LEVEL_COMPLETED && !DEAD){
 		if (this.direction == direction) {
 			this.direction = direction;
 		} else if (!((this.direction == PlayerMovement.MOVE_LEFT && direction == PlayerMovement.MOVE_RIGHT)
@@ -445,7 +445,7 @@ public class PlayerTwo extends GameObject {
 		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
 		game.getDebrisLayer().getChildren().add(skull);
-		overlay.addFadeScreen(3);
+		overlay.addFadeScreen(4,GameStateID.GAME_OVER);
 
 	}
 	public Image getAnimationImage() {

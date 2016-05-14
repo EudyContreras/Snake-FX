@@ -1,5 +1,6 @@
 package com.SnakeGame.Utilities;
 
+import com.SnakeGame.FrameWork.GameStateID;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -57,7 +58,7 @@ public class ScreenOverlay {
 	Double fadeSpeed;
 	Pane layer;
 	SnakeGame game;
-
+	GameStateID stateID;
 	public ScreenOverlay(SnakeGame game, Pane layer) {
 		this.game = game;
 		this.layer = layer;
@@ -178,13 +179,14 @@ public class ScreenOverlay {
 	 * The fade speed determines the speed of the fade.
 	 * @param fadeSpeed: max 10, min 1;
 	 */
-	public void addFadeScreen(double fadeSpeed) {
-		game.getFadeScreen().getChildren().remove(fadeScreen);
+	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
+		this.stateID = stateID;
+		this.game.getFadeScreen().getChildren().remove(fadeScreen);
 		this.fade = 0.0;
 		this.fadeScreen.setOpacity(fade);
 		this.fadeScreen.setFill(Color.BLACK);
 		this.fadeSpeed = fadeSpeed/1000;
-		game.getFadeScreen().getChildren().add(fadeScreen);
+		this.game.getFadeScreen().getChildren().add(fadeScreen);
 		this.setFadeOverlay = true;
 	}
 	public void updateEffect() {
@@ -263,8 +265,16 @@ public class ScreenOverlay {
 				fadeScreen.setOpacity(1);
 			}
 			if (fade >= 1.1f) {
-				game.gameOver();
-				setFadeOverlay = false;
+				if(stateID == GameStateID.GAME_OVER){
+					game.gameOver();
+					setFadeOverlay = false;
+				}
+				if(stateID == GameStateID.GAME_MENU){
+
+				}
+				if(stateID == GameStateID.LEVEL_COMPLETED){
+
+				}
 			}
 	}
 	public void setStormBlur() {

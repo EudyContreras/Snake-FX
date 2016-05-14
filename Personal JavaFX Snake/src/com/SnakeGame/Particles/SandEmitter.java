@@ -70,7 +70,7 @@ public class SandEmitter {
 	}
 
 	public void emit() {
-		if (Settings.SAND_STORM) {
+		if (Settings.SAND_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD) {
 			addRandomBlur(true);
 			interval++;
 			if (interval == Settings.SAND_SPAWN_DELAY) {
