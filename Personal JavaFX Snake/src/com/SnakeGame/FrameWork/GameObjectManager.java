@@ -1,10 +1,8 @@
-package com.SnakeGame.Utilities;
+package com.SnakeGame.FrameWork;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.GameObject;
-import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -15,7 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
  * and checking whether the objects is alive or not meaning no longer used. the
  * objects updated by this class are mob objects meaning objects that move,
  * interact and collide.
- *
+ * 
  * @author Eudy Contreras
  *
  */
@@ -46,6 +44,7 @@ public class GameObjectManager {
 			GameObject sprite = spriteIter.next();
 			sprite.updateUI();
 			sprite.addPhysics();
+			sprite.updateAnimation(timePassed);
 			sprite.draw(gc);
 			sprite.move();
 			sprite.checkRemovability();
@@ -68,9 +67,10 @@ public class GameObjectManager {
 			tempObject = object.get(i);
 			tempObject.updateUI();
 			tempObject.addPhysics();
+			tempObject.updateAnimation(timePassed);
+			tempObject.logicUpdate();
 			tempObject.draw(gc);
 			tempObject.move();
-			tempObject.updateAnimation(timePassed);
 			tempObject.checkRemovability();
 			if (tempObject.isRemovable() || !tempObject.isAlive()) {
 				tempObject.removeFromLayer();

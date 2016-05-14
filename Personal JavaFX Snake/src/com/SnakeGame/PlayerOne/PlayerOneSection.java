@@ -16,7 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class OrgSnakeSection extends OrgSectionMain {
+public class PlayerOneSection extends AbstractSection {
 	PlayerMovement direction;
 	double particleLife;
 	double particleSize;
@@ -28,17 +28,17 @@ public class OrgSnakeSection extends OrgSectionMain {
 	SnakeGame game;
 	Random rand;
 	Circle bones;
-	OrgPlayer snake;
-	OrgSnakeTail tail;
-	OrgGameSectionManager sectManager;
+	PlayerOne snake;
+	PlayerOneTail tail;
+	PlayerOneSectionManager sectManager;
 
-	public OrgSnakeSection(OrgPlayer snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
+	public PlayerOneSection(PlayerOne snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.snake = snake;
 		this.game = game;
 		this.numericID = numericID;
-		this.sectManager = game.getOrgSectManager();
+		this.sectManager = game.getSectManagerOne();
 		this.rand = new Random();
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
@@ -48,7 +48,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -61,7 +61,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -74,7 +74,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -87,7 +87,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -100,7 +100,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new OrgSnakeTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -109,7 +109,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 			}
 		} else if (this.numericID > 0) {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
-				OrgSectionMain previousSect = sectManager.getSectionList().get(i);
+				AbstractSection previousSect = sectManager.getSectionList().get(i);
 				if (previousSect.getNumericID() == this.numericID - 1) {
 					switch (previousSect.getLastDirection()) {
 					case MOVE_UP:
@@ -167,7 +167,7 @@ public class OrgSnakeSection extends OrgSectionMain {
 	public void move() {
 		checkBounds();
 		hideLast();
-		if (OrgPlayer.DEAD == false && OrgPlayer.LEVEL_COMPLETED == false && OrgPlayer.KEEP_MOVING)
+		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING)
 			super.move();
 		if (lastPosition.size() > 0) {
 			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
@@ -207,9 +207,9 @@ public class OrgSnakeSection extends OrgSectionMain {
 	}
 
 	public void hideLast() {
-		if (this.numericID == OrgPlayer.NUMERIC_ID - 1) {
+		if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
-		} else if (this.numericID != OrgPlayer.NUMERIC_ID - 1) {
+		} else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
 			this.circle.setVisible(true);
 		}
 		if (fade == true) {

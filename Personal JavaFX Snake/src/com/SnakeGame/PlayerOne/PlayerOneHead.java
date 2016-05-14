@@ -1,7 +1,8 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.OrgGameObject;
+import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -17,36 +18,36 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class OrgSnakeHead extends OrgGameObject {
+public class PlayerOneHead extends GameObject {
 	double rotation = 0;
 	double rotationSpeed = 0;
 	double targetRotation;
 	int equivalence;
 	boolean rotate;
 	SnakeGame game;
-	OrgPlayer snake;
+	PlayerOne snake;
 	Rectangle headBoundsLeft;
 	Rectangle headBoundsRight;
 	Rectangle headBoundsTop;
 	Rectangle headBoundsBottom;
 	Rectangle clearFromCollision;
-	OrgSnakeFangs fangs;
-	OrgGameSectionManager sectManager;
-	OrgGameObjectManager gom;
+	PlayerOneFangs fangs;
+	PlayerOneSectionManager sectManager;
+	GameObjectManager gom;
 	PlayerMovement direction = PlayerMovement.MOVE_DOWN;
 	PlayerMovement newDirection;
 
-	public OrgSnakeHead(OrgPlayer snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
+	public PlayerOneHead(PlayerOne snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
 		this.gom = game.getOrgObjectManager();
-		this.sectManager = game.getOrgSectManager();
+		this.sectManager = game.getSectManagerOne();
 		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.gom.addObject(new OrgSnakeFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.BLACK), this.x,
+		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.BLACK), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);

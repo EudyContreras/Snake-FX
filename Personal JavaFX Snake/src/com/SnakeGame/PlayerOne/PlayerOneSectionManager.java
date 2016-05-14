@@ -19,11 +19,11 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class OrgGameSectionManager {
-	private LinkedList<OrgSectionMain> sectionList;
-	private OrgSectionMain tempSection;
+public class PlayerOneSectionManager {
+	private LinkedList<AbstractSection> sectionList;
+	private AbstractSection tempSection;
 
-	public OrgGameSectionManager(SnakeGame gameJavaFX) {
+	public PlayerOneSectionManager(SnakeGame gameJavaFX) {
 		initialize();
 	}
 
@@ -54,19 +54,19 @@ public class OrgGameSectionManager {
 	}
 
 	public void addNewDirection(PlayerMovement direction) {
-		for (OrgSectionMain sect : sectionList) {
+		for (AbstractSection sect : sectionList) {
 			sect.setNewDirection(direction);
 		}
 	}
 
 	public void addNewLocation(Point2D location) {
-		for (OrgSectionMain sect : sectionList) {
+		for (AbstractSection sect : sectionList) {
 			sect.setNewLocation(location);
 		}
 	}
 
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID) {
-		for (OrgSectionMain sect : sectionList) {
+		for (AbstractSection sect : sectionList) {
 			if (sect.getNumericID() == ID) {
 				sect.setNewDirection(direction);
 				sect.setNewLocation(location);
@@ -152,11 +152,11 @@ public class OrgGameSectionManager {
 	/**
 	 * Procedurally places the sections in the level
 	 */
-	public LinkedList<OrgSectionMain> getSectionList() {
+	public LinkedList<AbstractSection> getSectionList() {
 		return sectionList;
 	}
 
-	public void addSection(OrgSectionMain... sect) {
+	public void addSection(AbstractSection... sect) {
 		if (sect.length > 1) {
 
 			sectionList.addAll(Arrays.asList(sect));
@@ -165,7 +165,7 @@ public class OrgGameSectionManager {
 		}
 	}
 
-	public void removeSection(OrgSectionMain section) {
+	public void removeSection(AbstractSection section) {
 		this.sectionList.remove(section);
 	}
 

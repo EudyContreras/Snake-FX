@@ -2,8 +2,8 @@ package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.PlayerOne.OrgPlayer;
-import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
@@ -30,7 +30,7 @@ public class GameHud {
 	double swipeSpeed = 0;
 	double limit;
 	SnakeGame game;
-	OrgPlayer player;
+	PlayerOne player;
 	GraphicsContext gc;
 	Rectangle hudBar = new Rectangle();
 	Rectangle hudBarBorder = new Rectangle();
@@ -102,7 +102,7 @@ public class GameHud {
 	}
 
 	public void hide() {
-		if (OrgPlayer.LEVEL_COMPLETED || Player2.levelComplete) {
+		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			hudBar.setVisible(false);
 			hudBarBorder.setVisible(false);
 		}

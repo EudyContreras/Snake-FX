@@ -1,8 +1,7 @@
 package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.ObjectIDs.GameObjectID;
-import com.SnakeGame.PlayerOne.OrgPlayer;
-import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.PlayerOne.PlayerOne;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -33,21 +32,21 @@ public abstract class GameObject {
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
-	protected double x;
-	protected double y;
-	protected double r;
-	protected double velX;
-	protected double velY;
-	protected double velR;
+	protected float x;
+	protected float y;
+	protected float r;
+	protected float velX;
+	protected float velY;
+	protected float velR;
 	protected double width;
 	protected double height;
 	protected double radius;
 	public double health = 50;
 	public double damage;
-	public double accelarationX;
-	public double accelarationY;
-	protected double stopX;
-	protected double stopY;
+	public float accelarationX;
+	public float accelarationY;
+	protected float stopX;
+	protected float stopY;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -74,8 +73,8 @@ public abstract class GameObject {
 	 * @param damage
 	 * @param id
 	 */
-	public GameObject(SnakeGame game, Pane layer, Image image, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, GameObjectID id) {
+	public GameObject(SnakeGame game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
+			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.image = image;
@@ -100,8 +99,8 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, GameObjectID id) {
+	public GameObject(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.x = x;
@@ -136,7 +135,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Image image, Pane layer, double x, double y, double r, double velX, double velY,
+	public GameObject(SnakeGame game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
@@ -158,7 +157,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, double x, double y, double r, double velX, double velY,
+	public GameObject(SnakeGame game, Pane layer, float x, float y, float r, float velX, float velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
@@ -171,7 +170,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Image image, double x, double y, GameObjectID id) {
+	public GameObject(SnakeGame game, Pane layer, Image image, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
@@ -188,7 +187,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id) {
+	public GameObject(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -218,35 +217,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Node node, GameObjectID id) {
-		this.layer = layer;
-		this.id = id;
-		if (node instanceof Rectangle) {
-			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
-			this.rect.setTranslateX(x);
-			this.rect.setTranslateY(y);
-			this.rect.setRotate(r);
-			this.width = rect.getWidth();
-			this.height = rect.getHeight();
-			addToLayer(rect);
-		} else if (node instanceof Circle) {
-			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
-			this.circle.setTranslateX(x);
-			this.circle.setTranslateY(y);
-			this.circle.setRotate(r);
-			this.radius = circle.getRadius();
-			addToLayer(circle);
-		} else if (node instanceof Rectangle) {
-
-		}
-
-	}
-
-	public GameObject(Image image, double x, double y) {
+	public GameObject(Image image, float x, float y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -297,19 +268,19 @@ public abstract class GameObject {
 		this.layer = layer;
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
@@ -324,35 +295,35 @@ public abstract class GameObject {
 		imageView.setTranslateY(point.getY());
 	}
 
-	public double getR() {
+	public float getR() {
 		return r;
 	}
 
-	public void setR(double r) {
+	public void setR(float r) {
 		this.r = r;
 	}
 
-	public double getVelX() {
+	public float getVelX() {
 		return velX;
 	}
 
-	public void setVelX(double velX) {
+	public void setVelX(float velX) {
 		this.velX = velX;
 	}
 
-	public double getVelY() {
+	public float getVelY() {
 		return velY;
 	}
 
-	public void setVelY(double velY) {
+	public void setVelY(float velY) {
 		this.velY = velY;
 	}
 
-	public double getVelR() {
+	public float getVelR() {
 		return velR;
 	}
 
-	public void setVelR(double velR) {
+	public void setVelR(float velR) {
 		this.velR = velR;
 	}
 
@@ -386,9 +357,13 @@ public abstract class GameObject {
 	public void move() {
 		if (!canMove)
 			return;
-		x = x + velX * Settings.FRAME_SCALE;
-		y = y + velY * Settings.FRAME_SCALE;
-		r = r + velR * Settings.FRAME_SCALE;
+		x = x + velX;
+		y = y + velY;
+		r = r + velR;
+	}
+
+	public void logicUpdate() {
+
 	}
 
 	public boolean isAlive() {
@@ -469,6 +444,18 @@ public abstract class GameObject {
 		health -= object.getDamage();
 	}
 
+	public void bounce(PlayerOne snake, double x, double y) {
+
+	}
+
+	public void bounce(PlayerOne snake, float x, float y) {
+
+	}
+
+	public void blowUp() {
+
+	}
+
 	public void kill() {
 		setHealth(0);
 	}
@@ -477,31 +464,15 @@ public abstract class GameObject {
 		setRemovable(true);
 	}
 
-	public void bounce(OrgPlayer snake, double x, double y) {
-
-	}
-
-	public void bounce(Player2 snake, double x, double y) {
-
-	}
-
-	public void blowUp() {
-
-	}
-
-	public void blowUp2() {
-
-	}
 	public void stopMovement() {
 		this.canMove = false;
 	}
 
-	/**
-	 * Abstract methods every object must have in order to determined the
-	 * condition in which the object will be removed and the objects collision
-	 * boundaries
-	 */
-	public abstract void checkRemovability();
+	public void checkRemovability() {
 
-	public abstract void checkCollision();
+	}
+
+	public void checkCollision() {
+
+	}
 }

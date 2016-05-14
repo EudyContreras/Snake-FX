@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.SectionMain;
 import com.SnakeGame.FrameWork.SnakeGame;
 
 import javafx.geometry.Point2D;
@@ -20,11 +19,11 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class SnakeTwoSectionManager {
-	private LinkedList<SectionMain> sectionList;
-	private SectionMain tempSection;
+public class PlayerTwoSectionManager {
+	private LinkedList<AbstractSection> sectionList;
+	private AbstractSection tempSection;
 
-	public SnakeTwoSectionManager(SnakeGame gameJavaFX) {
+	public PlayerTwoSectionManager(SnakeGame gameJavaFX) {
 		initialize();
 	}
 
@@ -43,31 +42,31 @@ public class SnakeTwoSectionManager {
 			tempSection = sectionList.get(i);
 			tempSection.updateUI();
 			tempSection.addPhysics();
-			tempSection.updateAnimation(timePassed);
+			// tempSection.updateAnimation(timePassed);
 			tempSection.draw(gc);
 			tempSection.move();
-			tempSection.checkRemovability();
-			if (tempSection.isRemovable() || !tempSection.isAlive()) {
-				tempSection.removeFromLayer();
-				sectionList.remove(i);
-			}
+			// tempSection.checkRemovability();
+			// if( tempSection.isRemovable() || !tempSection.isAlive()) {
+			// tempSection.removeFromLayer();
+			// section.remove(i);
+			// }
 		}
 	}
 
 	public void addNewDirection(PlayerMovement direction) {
-		for (SectionMain sect : sectionList) {
+		for (AbstractSection sect : sectionList) {
 			sect.setNewDirection(direction);
 		}
 	}
 
 	public void addNewLocation(Point2D location) {
-		for (SectionMain sect : sectionList) {
+		for (AbstractSection sect : sectionList) {
 			sect.setNewLocation(location);
 		}
 	}
 
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID) {
-		for (SectionMain sect : sectionList) {
+		for (AbstractSection sect : sectionList) {
 			if (sect.getNumericID() == ID) {
 				sect.setNewDirection(direction);
 				sect.setNewLocation(location);
@@ -153,11 +152,11 @@ public class SnakeTwoSectionManager {
 	/**
 	 * Procedurally places the sections in the level
 	 */
-	public LinkedList<SectionMain> getSectionList() {
+	public LinkedList<AbstractSection> getSectionList() {
 		return sectionList;
 	}
 
-	public void addSection(SectionMain... sect) {
+	public void addSection(AbstractSection... sect) {
 		if (sect.length > 1) {
 
 			sectionList.addAll(Arrays.asList(sect));
@@ -166,7 +165,7 @@ public class SnakeTwoSectionManager {
 		}
 	}
 
-	public void removeSection(SectionMain section) {
+	public void removeSection(AbstractSection section) {
 		this.sectionList.remove(section);
 	}
 

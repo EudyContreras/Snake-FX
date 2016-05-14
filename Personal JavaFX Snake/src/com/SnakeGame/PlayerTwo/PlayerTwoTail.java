@@ -1,6 +1,6 @@
-package com.SnakeGame.PlayerOne;
+package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.OrgGameObject;
+import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
@@ -8,12 +8,12 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class OrgSnakeTail extends OrgGameObject {
-	OrgSnakeSection snakeSect;
-	OrgSnakeSection sectionToFollow;
-	OrgGameSectionManager sectManager;
+public class PlayerTwoTail extends GameObject {
+	PlayerTwoSection snakeSect;
+	PlayerTwoSection sectionToFollow;
+	PlayerTwoSectionManager sectManager;
 
-	public OrgSnakeTail(OrgSnakeSection snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
+	public PlayerTwoTail(PlayerTwoSection snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.velX = snake.getVelX();
@@ -28,7 +28,7 @@ public class OrgSnakeTail extends OrgGameObject {
 		r = sectionToFollow.getR();
 	}
 
-	public void setWhoToFollow(OrgSnakeSection snakeSection) {
+	public void setWhoToFollow(PlayerTwoSection snakeSection) {
 		sectionToFollow = snakeSection;
 	}
 

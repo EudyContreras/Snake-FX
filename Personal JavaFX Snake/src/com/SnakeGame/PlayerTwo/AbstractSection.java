@@ -1,9 +1,14 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.PlayerTwo;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
+import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
-import com.SnakeGame.PlayerOne.OrgPlayer;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Node;
@@ -23,11 +28,14 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public abstract class OrgGameObject {
+public abstract class AbstractSection {
 
 	GameObjectID id;
+	PlayerMovement direction;
 	protected Image image;
 	protected ImageView imageView = new ImageView();
+	protected LinkedList<Point2D> lastPosition = new LinkedList<>();
+	protected LinkedList<Enum<PlayerMovement>> lastDirection = new LinkedList<>();
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
@@ -43,10 +51,7 @@ public abstract class OrgGameObject {
 	protected double radius;
 	public double health = 50;
 	public double damage;
-	public float accelarationX;
-	public float accelarationY;
-	protected float stopX;
-	protected float stopY;
+	public int numericID;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -59,135 +64,9 @@ public abstract class OrgGameObject {
 	/**
 	 * The constructors used in this class allows objects to be created in
 	 * different ways and with different attributes
-	 *
-	 * @param game
-	 * @param layer
-	 * @param image
-	 * @param x
-	 * @param y
-	 * @param r
-	 * @param velX
-	 * @param velY
-	 * @param velR
-	 * @param health
-	 * @param damage
-	 * @param id
 	 */
-	public OrgGameObject(SnakeGame game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, GameObjectID id) {
 
-		this.layer = layer;
-		this.image = image;
-		this.x = x;
-		this.y = y;
-		this.r = r;
-		this.velX = velX;
-		this.velY = velY;
-		this.velR = velR;
-		this.id = id;
-		this.health = health;
-		this.damage = damage;
-		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
-		this.imageView.setTranslateX(x);
-		this.imageView.setTranslateY(y);
-		this.imageView.setRotate(r);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-		addToLayer();
-
-	}
-
-	public OrgGameObject(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, GameObjectID id) {
-
-		this.layer = layer;
-		this.x = x;
-		this.y = y;
-		this.r = r;
-		this.velX = velX;
-		this.velY = velY;
-		this.velR = velR;
-		this.id = id;
-		this.health = health;
-		this.damage = damage;
-		if (node instanceof Rectangle) {
-			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
-			this.rect.setTranslateX(x);
-			this.rect.setTranslateY(y);
-			this.rect.setRotate(r);
-			this.width = rect.getWidth();
-			this.height = rect.getHeight();
-			addToLayer(rect);
-		} else if (node instanceof Circle) {
-			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
-			this.circle.setTranslateX(x);
-			this.circle.setTranslateY(y);
-			this.circle.setRotate(r);
-			this.radius = circle.getRadius();
-			addToLayer(circle);
-		}
-
-	}
-
-	public OrgGameObject(SnakeGame game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
-			GameObjectID id) {
-		this.layer = layer;
-		this.image = image;
-		this.x = x;
-		this.y = y;
-		this.r = r;
-		this.velX = velX;
-		this.velY = velY;
-		this.id = id;
-		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
-		this.imageView.setTranslateX(x);
-		this.imageView.setTranslateY(y);
-		this.imageView.setRotate(r);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-		addToLayer();
-
-	}
-
-	public OrgGameObject(SnakeGame game, Pane layer, float x, float y, float r, float velX, float velY,
-			GameObjectID id) {
-		this.layer = layer;
-		this.x = x;
-		this.y = y;
-		this.r = r;
-		this.velX = velX;
-		this.velY = velY;
-		this.id = id;
-		addToLayer();
-
-	}
-
-	public OrgGameObject(SnakeGame game, Pane layer, Image image, float x, float y, GameObjectID id) {
-		this.layer = layer;
-		this.image = image;
-		this.x = x;
-		this.y = y;
-		this.id = id;
-		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
-		this.imageView.setTranslateX(x);
-		this.imageView.setTranslateY(y);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-		addToLayer();
-
-	}
-
-	public OrgGameObject(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractSection(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -217,7 +96,35 @@ public abstract class OrgGameObject {
 
 	}
 
-	public OrgGameObject(Image image, float x, float y) {
+	public AbstractSection(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+		this.layer = layer;
+		this.id = id;
+		if (node instanceof Rectangle) {
+			this.rect = (Rectangle) node;
+			this.rect.setCache(true);
+			this.rect.setCacheHint(CacheHint.SPEED);
+			this.rect.setTranslateX(x);
+			this.rect.setTranslateY(y);
+			this.rect.setRotate(r);
+			this.width = rect.getWidth();
+			this.height = rect.getHeight();
+			addToLayer(rect);
+		} else if (node instanceof Circle) {
+			this.circle = (Circle) node;
+			this.circle.setCache(true);
+			this.circle.setCacheHint(CacheHint.SPEED);
+			this.circle.setTranslateX(x);
+			this.circle.setTranslateY(y);
+			this.circle.setRotate(r);
+			this.radius = circle.getRadius();
+			addToLayer(circle);
+		} else if (node instanceof Rectangle) {
+
+		}
+
+	}
+
+	public AbstractSection(Image image, float x, float y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -230,7 +137,7 @@ public abstract class OrgGameObject {
 
 	}
 
-	public OrgGameObject(SnakeGame game, Pane layer, GameObjectID id) {
+	public AbstractSection(SnakeGame game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -248,7 +155,7 @@ public abstract class OrgGameObject {
 	}
 
 	public void addToLayer(Node node) {
-		this.layer.getChildren().add(node);
+		this.layer.getChildren().add(0, node);
 	}
 
 	public void addToCanvas() {
@@ -362,10 +269,6 @@ public abstract class OrgGameObject {
 		r = r + velR;
 	}
 
-	public void logicUpdate() {
-
-	}
-
 	public boolean isAlive() {
 		return Double.compare(health, 0) > 0;
 	}
@@ -382,6 +285,10 @@ public abstract class OrgGameObject {
 		circle.setTranslateX(x);
 		circle.setTranslateY(y);
 		circle.setRotate(r);
+	}
+
+	public void logicUpdate() {
+
 	}
 
 	public void createLevel() {
@@ -440,20 +347,8 @@ public abstract class OrgGameObject {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public void getDamagedBy(OrgGameObject object) {
+	public void getDamagedBy(AbstractSection object) {
 		health -= object.getDamage();
-	}
-
-	public void bounce(OrgPlayer snake, double x, double y) {
-
-	}
-
-	public void bounce(OrgPlayer snake, float x, float y) {
-
-	}
-
-	public void blowUp() {
-
 	}
 
 	public void kill() {
@@ -473,6 +368,55 @@ public abstract class OrgGameObject {
 	}
 
 	public void checkCollision() {
+
+	}
+
+	protected void removePerformedCoordinateChange() {
+		lastPosition.remove();
+		lastDirection.remove();
+	}
+
+	protected void removeLatestLocation() {
+		lastPosition.remove();
+	}
+
+	protected void removeLatestDirection() {
+		lastDirection.remove();
+	}
+
+	protected void setNewLocation(Point2D... location) {
+		if (location.length > 1) {
+			lastPosition.addAll(Arrays.asList(location));
+		} else {
+			lastPosition.add(location[0]);
+		}
+
+	}
+
+	protected void setNewDirection(PlayerMovement... direction) {
+		if (direction.length > 1) {
+			lastDirection.addAll(Arrays.asList(direction));
+		} else {
+			lastDirection.add(direction[0]);
+		}
+	}
+
+	protected void setLastDirection(PlayerMovement direction) {
+		this.direction = direction;
+	}
+
+	protected PlayerMovement getLastDirection() {
+		return direction;
+	}
+
+	protected void setNumericID(int SECTION_COUNT) {
+		this.numericID = SECTION_COUNT;
+	}
+
+	protected int getNumericID() {
+		return numericID;
+	}
+	public void die() {
 
 	}
 }

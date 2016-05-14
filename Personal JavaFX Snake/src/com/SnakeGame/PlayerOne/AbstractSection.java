@@ -28,7 +28,7 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public abstract class OrgSectionMain {
+public abstract class AbstractSection {
 
 	GameObjectID id;
 	PlayerMovement direction;
@@ -66,7 +66,7 @@ public abstract class OrgSectionMain {
 	 * different ways and with different attributes
 	 */
 
-	public OrgSectionMain(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractSection(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -96,7 +96,7 @@ public abstract class OrgSectionMain {
 
 	}
 
-	public OrgSectionMain(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+	public AbstractSection(SnakeGame game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 		if (node instanceof Rectangle) {
@@ -124,7 +124,7 @@ public abstract class OrgSectionMain {
 
 	}
 
-	public OrgSectionMain(Image image, float x, float y) {
+	public AbstractSection(Image image, float x, float y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -137,7 +137,7 @@ public abstract class OrgSectionMain {
 
 	}
 
-	public OrgSectionMain(SnakeGame game, Pane layer, GameObjectID id) {
+	public AbstractSection(SnakeGame game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -347,7 +347,7 @@ public abstract class OrgSectionMain {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public void getDamagedBy(OrgSectionMain object) {
+	public void getDamagedBy(AbstractSection object) {
 		health -= object.getDamage();
 	}
 

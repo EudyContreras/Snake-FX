@@ -5,8 +5,8 @@ import java.util.Random;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameLevelImage;
-import com.SnakeGame.PlayerOne.OrgPlayer;
-import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
 import javafx.scene.shape.Circle;
@@ -32,7 +32,7 @@ public class SandEmitter {
 	double height = 0;
 	int interval = 0;
 	int spawnDelay = 0;
-	OrgPlayer player;
+	PlayerOne player;
 	Circle emitter;
 	SnakeGame game;
 	Random rand;
@@ -86,7 +86,7 @@ public class SandEmitter {
 		if (random && rand.nextInt(Settings.BLUR_RANDOMNESS) != 0) {
 			return;
 		}
-		if (!OrgPlayer.LEVEL_COMPLETED && !Player2.killTheSnake)
+		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED)
 			this.overlay.addStormBlur();
 
 	}

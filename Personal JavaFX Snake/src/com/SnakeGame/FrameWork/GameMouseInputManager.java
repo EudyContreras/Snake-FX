@@ -1,6 +1,6 @@
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.PlayerOne.OrgPlayer;
+import com.SnakeGame.PlayerOne.PlayerOne;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,7 +18,7 @@ public class GameMouseInputManager {
 	public static int mouseX, mouseY;
 	SnakeGame game;
 
-	public void processInput(SnakeGame game, OrgPlayer player, Scene scene) {
+	public void processInput(SnakeGame game, PlayerOne player, Scene scene) {
 		this.game = game;
 		scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
 

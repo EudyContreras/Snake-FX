@@ -3,8 +3,8 @@ package com.SnakeGame.HudElements;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.PlayerOne.OrgPlayer;
-import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
@@ -30,7 +30,7 @@ public class HealthBarOne {
 	double height = 0;
 	int delay = 0;
 	SnakeGame game;
-	OrgPlayer player;
+	PlayerOne player;
 	GraphicsContext gc;
 	Rectangle healthBar = new Rectangle();
 	Rectangle healthBarBorder = new Rectangle();
@@ -124,7 +124,7 @@ public class HealthBarOne {
 	}
 
 	public void hide() {
-		if (OrgPlayer.LEVEL_COMPLETED || Player2.levelComplete) {
+		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			healthBar.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}

@@ -1,9 +1,9 @@
-package com.SnakeGame.PlayerOne;
+package com.SnakeGame.PlayerTwo;
 
 import java.util.LinkedList;
 
 import com.SnakeGame.FrameWork.GameObject;
-import com.SnakeGame.FrameWork.OrgGameObject;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -11,7 +11,6 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
-import com.SnakeGame.Utilities.GameObjectManager;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
 import javafx.geometry.Point2D;
@@ -29,7 +28,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class OrgPlayer extends OrgGameObject {
+public class PlayerTwo extends GameObject {
 
 	public int turnDelay = Settings.TURN_DELAY;
 	public int dirtDelay = 10;
@@ -94,10 +93,10 @@ public class OrgPlayer extends OrgGameObject {
 	public Animation anim;
 	public Rectangle bounds;
 	public ScreenOverlay overlay;
-	public OrgSnakeTail tail;
-	public OrgSnakeHead snakeHead;
+	public PlayerTwoTail tail;
+	public PlayerTwoHead snakeHead;
 	public GameObjectManager gom;
-	public OrgGameSectionManager sectManager;
+	public PlayerTwoSectionManager sectManager;
 	public DropShadow borderGlow = new DropShadow();
 	public DropShadow borderGlow2 = new DropShadow();
 	public MotionBlur motionBlur = new MotionBlur();
@@ -115,7 +114,7 @@ public class OrgPlayer extends OrgGameObject {
 	public static Boolean MOUTH_CLOSE = true;
 	public static Boolean KEEP_MOVING = true;
 
-	public OrgPlayer(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+	public PlayerTwo(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
 			float velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.gom = gom;
@@ -124,11 +123,11 @@ public class OrgPlayer extends OrgGameObject {
 		this.anim = new Animation();
 		this.circle.setVisible(false);
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
-		this.snakeHead = new OrgSnakeHead(this, game, layer,
+		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getOrgObjectManager().addObject(snakeHead);
-		this.sectManager = game.getOrgSectManager();
+		this.sectManager = game.getSectManagerTwo();
 		this.loadImages();
 		this.drawBoundingBox();
 		this.setDirection(PlayerMovement.MOVE_DOWN);
@@ -385,7 +384,7 @@ public class OrgPlayer extends OrgGameObject {
 
 	public void addbaseSections() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD + 1; i++) {
-			sectManager.addSection(new OrgSnakeSection(this, game, layer,
+			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
@@ -394,7 +393,7 @@ public class OrgPlayer extends OrgGameObject {
 
 	public void addSection() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new OrgSnakeSection(this, game, layer,
+			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
@@ -498,12 +497,12 @@ public class OrgPlayer extends OrgGameObject {
 
 	}
 
-	public void setTail(OrgSnakeTail tail) {
+	public void setTail(PlayerTwoTail tail) {
 		this.tail = tail;
 
 	}
 
-	public OrgSnakeTail getTail() {
+	public PlayerTwoTail getTail() {
 		return tail;
 	}
 

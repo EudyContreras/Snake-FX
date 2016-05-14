@@ -1,32 +1,34 @@
 package com.SnakeGame.PlayerTwo;
 
 import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
-import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class EatTrigger2 extends GameObject {
+public class PlayerTwoEatTrigger extends GameObject {
 	int index;
 	int counter = 0;
 	boolean stop = false;
 	SnakeGame game;
-	Player2 snake;
-	SnakeTwoSectionManager sectManager;
+	PlayerTwo snake;
+	PlayerTwoHead head;
+	PlayerTwoSectionManager sectManager;
 	GameObjectManager gom;
 
-	public EatTrigger2(Player2 snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id,
-			PlayerMovement Direction) {
-		super(game, layer, node, id);
+	public PlayerTwoEatTrigger(PlayerTwoHead head, PlayerTwo snake, SnakeGame game, Pane layer, Circle node, float x, float y,
+			GameObjectID id, PlayerMovement Direction) {
+		super(game, layer, node, x, y, id);
 		this.snake = snake;
+		this.head = head;
 		this.game = game;
-		this.gom = game.getObjectManager();
-		this.sectManager = game.getSectionManager2();
+		this.gom = game.getOrgObjectManager();
+		this.sectManager = game.getSectManagerTwo();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);
 			this.x = x;
@@ -61,7 +63,7 @@ public class EatTrigger2 extends GameObject {
 	}
 
 	public void move() {
-		if (Player2.killTheSnake == false) {
+		if (PlayerTwo.DEAD == false) {
 			this.index = sectManager.getSectionList().size() - 1;
 		}
 		super.move();
@@ -81,19 +83,16 @@ public class EatTrigger2 extends GameObject {
 	}
 
 	public void checkCollision() {
-		for (int i = 0; i < gom.getObjectList().size(); i++) {
-			GameObject tempObject = gom.getObjectList().get(i);
+		for (int i = 0; i < game.getObjectManager().getObjectList().size(); i++) {
+			GameObject tempObject = game.getObjectManager().getObjectList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (Player2.MOUTH_CLOSE && Settings.AUTOMATIC_EATING) {
+					if (PlayerTwo.MOUTH_CLOSE && Settings.AUTOMATIC_EATING) {
 						snake.openMouth();
 						break;
 					}
 				}
 			}
 		}
-	}
-
-	public void checkRemovability() {
 	}
 }

@@ -13,14 +13,12 @@ import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
 import com.SnakeGame.Particles.GameDebrisManager;
 import com.SnakeGame.Particles.SandEmitter;
-import com.SnakeGame.PlayerOne.OrgGameObjectManager;
-import com.SnakeGame.PlayerOne.OrgGameSectionManager;
-import com.SnakeGame.PlayerOne.OrgPlayer;
-import com.SnakeGame.PlayerTwo.Player2;
-import com.SnakeGame.PlayerTwo.SnakeTwoSectionManager;
+import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
+import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
 import com.SnakeGame.SlitherSnake.GameSlitherManager;
 import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
-import com.SnakeGame.Utilities.GameObjectManager;
 import com.SnakeGame.Utilities.ImageUtility;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
@@ -78,11 +76,11 @@ public class SnakeGame extends Application implements Runnable {
 	GameMouseInputManager mouseInput;
 	GraphicsContext gc;
 	GameObjectManager objectManager;
-	OrgGameObjectManager orgObjectManager;
+	GameObjectManager orgObjectManager;
 	GameSlitherManager slitherManager;
 	GameDebrisManager debrisManager;
-	OrgGameSectionManager orgSectManager;
-	SnakeTwoSectionManager sectManager2;
+	PlayerOneSectionManager sectManagerOne;
+	PlayerTwoSectionManager sectManagerTwo;;
 	GameSlitherSectionManager sectManager3;
 	GameImageBank imageBank;
 	FadeTransition fadeSplash;
@@ -280,9 +278,9 @@ public class SnakeGame extends Application implements Runnable {
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
 		slitherManager = new GameSlitherManager(this);
-		orgObjectManager = new OrgGameObjectManager(this);
-		orgSectManager = new OrgGameSectionManager(this);
-		sectManager2 = new SnakeTwoSectionManager(this);
+		orgObjectManager = new GameObjectManager(this);
+		sectManagerOne = new PlayerOneSectionManager(this);
+		sectManagerTwo = new PlayerTwoSectionManager(this);
 		sectManager3 = new GameSlitherSectionManager(this);
 		keyInput = new GameKeyInputManager();
 		mouseInput = new GameMouseInputManager();
@@ -397,7 +395,7 @@ public class SnakeGame extends Application implements Runnable {
 					drawOverlay(gc);
 					debrisManager.update(gc);
 					objectManager.updateAll(gc, now);
-					sectManager2.updateAll(gc, now);
+					sectManagerTwo.updateAll(gc, now);
 					objectManager.checkCollisions();
 					if (loader.getOrgPlayer2() != null && getHealthBarOne() != null) {
 						getHealthBarOne().depleteHealth();
@@ -482,11 +480,11 @@ public class SnakeGame extends Application implements Runnable {
 							slitherManager.checkCollisions();
 							objectManager.updateAll(gc, timePassed);
 							objectManager.checkCollisions();
-							sectManager2.updateAll(gc, timePassed);
+							sectManagerTwo.updateAll(gc, timePassed);
 							sectManager3.updateAll(gc, timePassed);
 							orgObjectManager.updateAll(gc, timePassed);
 							orgObjectManager.checkCollisions();
-							orgSectManager.updateAll(gc, timePassed);
+							sectManagerOne.updateAll(gc, timePassed);
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
@@ -718,7 +716,7 @@ public class SnakeGame extends Application implements Runnable {
 		debrisManager.update(gc);
 		objectManager.updateAll(gc, now);
 		objectManager.checkCollisions();
-		sectManager2.updateAll(gc, now);
+		sectManagerTwo.updateAll(gc, now);
 		if (loader.getOrgPlayer2() != null) {
 			// energyMeter.deplete();
 			// energyMeter.regerate();
@@ -761,13 +759,13 @@ public class SnakeGame extends Application implements Runnable {
 		clearAll();
 		fade = 0.0;
 		fadeRect.setOpacity(fade);
-		OrgPlayer.NUMERIC_ID = 0;
-		OrgPlayer.DEAD = false;
-		OrgPlayer.MOUTH_CLOSE = true;
-		OrgPlayer.KEEP_MOVING = true;
-		Player2.NUMERIC_ID = 0;
-		Player2.killTheSnake = false;
-		Player2.MOUTH_CLOSE = true;
+		PlayerOne.NUMERIC_ID = 0;
+		PlayerOne.DEAD = false;
+		PlayerOne.MOUTH_CLOSE = true;
+		PlayerOne.KEEP_MOVING = true;
+		PlayerTwo.NUMERIC_ID = 0;
+		PlayerTwo.DEAD = false;
+		PlayerTwo.MOUTH_CLOSE = true;
 		getGameRoot().setEffect(null);
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
@@ -799,13 +797,13 @@ public class SnakeGame extends Application implements Runnable {
 		clearAll();
 		fade = 0.0;
 		fadeRect.setOpacity(fade);
-		OrgPlayer.NUMERIC_ID = 0;
-		OrgPlayer.DEAD = false;
-		OrgPlayer.MOUTH_CLOSE = true;
-		OrgPlayer.KEEP_MOVING = true;
-		Player2.NUMERIC_ID = 0;
-		Player2.killTheSnake = false;
-		Player2.MOUTH_CLOSE = true;
+		PlayerOne.NUMERIC_ID = 0;
+		PlayerOne.DEAD = false;
+		PlayerOne.MOUTH_CLOSE = true;
+		PlayerOne.KEEP_MOVING = true;
+		PlayerTwo.NUMERIC_ID = 0;
+		PlayerTwo.DEAD = false;
+		PlayerTwo.MOUTH_CLOSE = true;
 		getGameRoot().setEffect(null);
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
@@ -845,8 +843,8 @@ public class SnakeGame extends Application implements Runnable {
 		debrisManager.clearAll();
 		objectManager.clearAll();
 		orgObjectManager.clearAll();
-		orgSectManager.clearAll();
-		sectManager2.clearAll();
+		sectManagerOne.clearAll();
+		sectManagerTwo.clearAll();
 		sectManager3.clearAll();
 		loader.clearTiles();
 		fadeScreen.getChildren().clear();
@@ -866,20 +864,20 @@ public class SnakeGame extends Application implements Runnable {
 			debrisManager.clearAll();
 			objectManager.clearAll();
 			orgObjectManager.clearAll();
-			orgSectManager.clearAll();
+			sectManagerOne.clearAll();
 			slitherManager.clearAll();
-			sectManager2.clearAll();
+			sectManagerTwo.clearAll();
 			sectManager3.clearAll();
 			loader.clearTiles();
 			fade = 0.0;
 			fadeRect.setOpacity(fade);
-			OrgPlayer.NUMERIC_ID = 0;
-			OrgPlayer.DEAD = false;
-			OrgPlayer.MOUTH_CLOSE = true;
-			OrgPlayer.KEEP_MOVING = true;
-			Player2.NUMERIC_ID = 0;
-			Player2.killTheSnake = false;
-			Player2.MOUTH_CLOSE = true;
+			PlayerOne.NUMERIC_ID = 0;
+			PlayerOne.DEAD = false;
+			PlayerOne.MOUTH_CLOSE = true;
+			PlayerOne.KEEP_MOVING = true;
+			PlayerTwo.NUMERIC_ID = 0;
+			PlayerTwo.DEAD = false;
+			PlayerTwo.MOUTH_CLOSE = true;
 			getGameRoot().setEffect(null);
 			scoreBoard.resetScore();
 			scoreBoard2.resetScore();
@@ -1009,14 +1007,16 @@ public class SnakeGame extends Application implements Runnable {
 		return debrisManager;
 	}
 
-	public OrgGameObjectManager getOrgObjectManager() {
+	public GameObjectManager getOrgObjectManager() {
 		return orgObjectManager;
 	}
 
-	public OrgGameSectionManager getOrgSectManager() {
-		return orgSectManager;
+	public PlayerOneSectionManager getSectManagerOne() {
+		return sectManagerOne;
 	}
-
+	public PlayerTwoSectionManager getSectManagerTwo() {
+		return sectManagerTwo;
+	}
 	public void setDebrisManager(GameDebrisManager debrisManager) {
 		this.debrisManager = debrisManager;
 	}
@@ -1129,9 +1129,6 @@ public class SnakeGame extends Application implements Runnable {
 			scene.setCursor(Cursor.DEFAULT);
 	}
 
-	public SnakeTwoSectionManager getSectionManager2() {
-		return sectManager2;
-	}
 
 	public GameSlitherSectionManager getSectionManager3() {
 		return sectManager3;

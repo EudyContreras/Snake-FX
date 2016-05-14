@@ -2,8 +2,8 @@ package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.PlayerOne.OrgPlayer;
-import com.SnakeGame.PlayerTwo.Player2;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -35,7 +35,7 @@ public class ScoreBoard {
 	double height = 0;
 	double delay = 0;
 	String message;
-	OrgPlayer player;
+	PlayerOne player;
 	Text text = new Text();
 	Font theFont = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
 	Rectangle board;
@@ -67,7 +67,7 @@ public class ScoreBoard {
 	}
 
 	public void hide() {
-		if (OrgPlayer.LEVEL_COMPLETED || Player2.levelComplete) {
+		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			text.setVisible(false);
 			board.setVisible(false);
 		}

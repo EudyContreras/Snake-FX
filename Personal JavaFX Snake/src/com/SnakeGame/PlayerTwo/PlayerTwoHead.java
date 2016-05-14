@@ -1,6 +1,8 @@
 package com.SnakeGame.PlayerTwo;
 
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -8,7 +10,6 @@ import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplash2;
-import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
@@ -17,68 +18,43 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class SnakeHead2 extends GameObject {
+public class PlayerTwoHead extends GameObject {
 	double rotation = 0;
 	double rotationSpeed = 0;
 	double targetRotation;
 	int equivalence;
 	boolean rotate;
 	SnakeGame game;
-	Player2 snake;
-	Rectangle headBounds;
+	PlayerTwo snake;
 	Rectangle headBoundsLeft;
 	Rectangle headBoundsRight;
 	Rectangle headBoundsTop;
 	Rectangle headBoundsBottom;
 	Rectangle clearFromCollision;
-	SnakeTwoSectionManager sectManager;
+	PlayerTwoFangs fangs;
+	PlayerTwoSectionManager sectManager;
 	GameObjectManager gom;
 	PlayerMovement direction = PlayerMovement.MOVE_DOWN;
 	PlayerMovement newDirection;
 
-	public SnakeHead2(Player2 snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id,
+	public PlayerTwoHead(PlayerTwo snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
 			PlayerMovement Direction) {
-		super(game, layer, node, id);
+		super(game, layer, node, x, y, id);
+		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
-		this.gom = game.getObjectManager();
-		this.sectManager = game.getSectionManager2();
-		this.headBounds = new Rectangle(x, y, node.getRadius(), node.getRadius());
+		this.gom = game.getOrgObjectManager();
+		this.sectManager = game.getSectManagerTwo();
+		this.gom.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
+		this.gom.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.BLACK), this.x,
+				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
-		if (Direction == PlayerMovement.MOVE_UP) {
-			this.y = (float) (y - this.circle.getRadius());
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_DOWN) {
-			this.y = (float) (y + this.circle.getRadius());
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_LEFT) {
-			this.x = (float) (x - this.circle.getRadius());
-			this.y = y;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_RIGHT) {
-			this.x = (float) (x + this.circle.getRadius());
-			this.y = y;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.STANDING_STILL) {
-			this.y = (float) (y + this.circle.getRadius());
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		}
 		if (Settings.DEBUG_MODE) {
-			this.headBounds.setFill(Color.TRANSPARENT);
-			this.headBounds.setStroke(Color.WHITE);
-			this.layer.getChildren().add(headBounds);
 			this.headBoundsRight.setFill(Color.BLUE);
 			this.headBoundsRight.setStroke(Color.WHITE);
 			this.layer.getChildren().add(headBoundsRight);
@@ -102,26 +78,8 @@ public class SnakeHead2 extends GameObject {
 		if (Settings.DEBUG_MODE) {
 			adjustBounds();
 		}
-		x = x + velX;
-		y = y + velY;
-		r = r + velR;
-		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
-			this.y = (float) (snake.getY());
-			this.x = snake.getX();
-			r = 180;
-		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.y = (float) (snake.getY());
-			this.x = snake.getX();
-			r = 0;
-		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.x = (float) (snake.getX());
-			this.y = snake.getY();
-			r = 89;
-		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.x = (float) (snake.getX());
-			this.y = snake.getY();
-			r = -89;
-		}
+		this.y = snake.getY();
+		this.x = snake.getX();
 	}
 
 	public void rotate() {
@@ -287,8 +245,7 @@ public class SnakeHead2 extends GameObject {
 	}
 
 	public void adjustBounds() {
-		this.headBounds.setX(x - radius / 2);
-		this.headBounds.setY(y - radius / 2);
+		//this.positionFangs();
 		this.headBoundsLeft.setX(x - radius - headBoundsLeft.getWidth() / 2);
 		this.headBoundsLeft.setY(y + radius / 2 - headBoundsLeft.getHeight() * 1.5);
 		this.headBoundsRight.setX(x + radius - headBoundsRight.getWidth() / 2);

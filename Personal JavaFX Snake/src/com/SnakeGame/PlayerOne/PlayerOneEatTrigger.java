@@ -1,7 +1,7 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.FrameWork.GameObject;
-import com.SnakeGame.FrameWork.OrgGameObject;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -11,24 +11,24 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PlayerOneEatTrigger extends OrgGameObject {
+public class PlayerOneEatTrigger extends GameObject {
 	int index;
 	int counter = 0;
 	boolean stop = false;
 	SnakeGame game;
-	OrgPlayer snake;
-	OrgSnakeHead head;
-	OrgGameSectionManager sectManager;
-	OrgGameObjectManager gom;
+	PlayerOne snake;
+	PlayerOneHead head;
+	PlayerOneSectionManager sectManager;
+	GameObjectManager gom;
 
-	public PlayerOneEatTrigger(OrgSnakeHead head, OrgPlayer snake, SnakeGame game, Pane layer, Circle node, float x, float y,
+	public PlayerOneEatTrigger(PlayerOneHead head, PlayerOne snake, SnakeGame game, Pane layer, Circle node, float x, float y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;
 		this.head = head;
 		this.game = game;
 		this.gom = game.getOrgObjectManager();
-		this.sectManager = game.getOrgSectManager();
+		this.sectManager = game.getSectManagerOne();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);
 			this.x = x;
@@ -63,7 +63,7 @@ public class PlayerOneEatTrigger extends OrgGameObject {
 	}
 
 	public void move() {
-		if (OrgPlayer.DEAD == false) {
+		if (PlayerOne.DEAD == false) {
 			this.index = sectManager.getSectionList().size() - 1;
 		}
 		super.move();
@@ -87,7 +87,7 @@ public class PlayerOneEatTrigger extends OrgGameObject {
 			GameObject tempObject = game.getObjectManager().getObjectList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (OrgPlayer.MOUTH_CLOSE && Settings.AUTOMATIC_EATING) {
+					if (PlayerOne.MOUTH_CLOSE && Settings.AUTOMATIC_EATING) {
 						snake.openMouth();
 						break;
 					}

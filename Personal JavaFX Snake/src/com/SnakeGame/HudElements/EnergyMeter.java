@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.PlayerOne.OrgPlayer;
+import com.SnakeGame.PlayerOne.PlayerOne;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,7 +25,7 @@ public class EnergyMeter {
 	int width = 0;
 	int height = 0;
 	int delay = 0;
-	OrgPlayer player;
+	PlayerOne player;
 	Rectangle energyBar = new Rectangle();
 	Rectangle energyBarBorder = new Rectangle();
 

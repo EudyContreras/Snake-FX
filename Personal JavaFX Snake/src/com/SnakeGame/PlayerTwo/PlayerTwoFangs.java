@@ -1,6 +1,7 @@
-package com.SnakeGame.PlayerOne;
+package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.OrgGameObject;
+import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -13,27 +14,27 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class OrgSnakeFangs extends OrgGameObject {
+public class PlayerTwoFangs extends GameObject {
 	int index;
 	int counter = 0;
 	boolean stop = false;
 	float offsetX = 0;
 	float offsetY = 0;
-	PlayerOneEatTrigger trigger;
+	PlayerTwoEatTrigger trigger;
 	SnakeGame game;
-	OrgPlayer snake;
-	OrgGameSectionManager sectManager;
-	OrgSnakeHead snakeHead;
-	OrgGameObjectManager gom;
+	PlayerTwo snake;
+	PlayerTwoSectionManager sectManager;
+	PlayerTwoHead snakeHead;
+	GameObjectManager gom;
 
-	public OrgSnakeFangs(OrgSnakeHead snakeHead, OrgPlayer snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
+	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.snakeHead = snakeHead;
 		this.snake = snake;
 		this.game = game;
 		this.gom = game.getOrgObjectManager();
-		this.sectManager = game.getOrgSectManager();
+		this.sectManager = game.getSectManagerTwo();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);
 			this.x = x;
@@ -69,7 +70,7 @@ public class OrgSnakeFangs extends OrgGameObject {
 	}
 
 	public void move() {
-		if (OrgPlayer.DEAD == false) {
+		if (PlayerTwo.DEAD == false) {
 			this.index = sectManager.getSectionList().size() - 1;
 		}
 		checkOffset();
@@ -128,7 +129,7 @@ public class OrgSnakeFangs extends OrgGameObject {
 
 	public void checkCollision() {
 		for (int i = 0; i < sectManager.getSectionList().size(); i++) {
-			OrgSectionMain tempObject = sectManager.getSectionList().get(i);
+			AbstractSection tempObject = sectManager.getSectionList().get(i);
 			if (tempObject.getId() == GameObjectID.SnakeSection) {
 				if (tempObject.getNumericID() > 1) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
@@ -152,11 +153,11 @@ public class OrgSnakeFangs extends OrgGameObject {
 	}
 
 	public void killTheSnake() {
-		if (OrgPlayer.DEAD == true) {
+		if (PlayerTwo.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
 				if (counter == 5) {
-					OrgSectionMain sectToKill = sectManager.getSectionList().get(index);
+					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;
 					index--;
