@@ -4,8 +4,6 @@ import java.awt.Toolkit;
 
 public class Settings {
 
-	public static final int SLITHER_SPEED = 5;
-	public static final int SECTION = 5;
 
 	/**
 	 * The following settings can be used to increase the speed of the snake
@@ -13,19 +11,21 @@ public class Settings {
 	 * used Good settings for speed and size : 4/24 4/28 5/25 5/30 6/24 6/30
 	 * 7/28 8/32 9/27 10/30 11/33 12/24 12/36 13/26 14/28 15/30
 	 */
+	public static final int SLITHER_SPEED = 5;
+	public static final int SECTION = 5;
 
 	public static double START_X = 1920;
 	public static double START_Y = 200;// 800
 	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-	public static double SCALE = 1.0;
+	public static double SIZE_SCALE = 1.0;
 
-	public static double SNAKE_SPEED = 5; // must be a number which the size											// result remains whole
+	public static double SNAKE_SPEED = 5; // must be a number which the size of the result remains whole
 	public static double SECTION_SIZE = 25; // Could now be any number I think!!
 
 	public static int APPLE_COUNT = 10;
 	public static int SECTIONS_TO_ADD = 3;
-	public static double SECTION_DISTANCE = 1; // Must be a number divisible by										// the speed
+	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
 
 	public static int TURN_DELAY = 5;
@@ -48,6 +48,7 @@ public class Settings {
 	public static int PARTICLE_LIMIT = 20;
 	public static int SAND_AMOUNT = 4;
 	public static int SAND_SPAWN_DELAY = 1;
+
 	public static double SAND_SIZE = 4;
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;

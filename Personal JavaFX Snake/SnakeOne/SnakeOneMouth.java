@@ -1,40 +1,38 @@
-package com.SnakeGame.PlayerOne;
+package com.SnakeGame.SnakeOne;
 
 import com.SnakeGame.FrameWork.GameObject;
-import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.SectionMain;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Utilities.GameObjectManager;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PlayerOneFangs extends GameObject {
+public class SnakeOneMouth extends GameObject {
 	int index;
 	int counter = 0;
 	boolean stop = false;
-	float offsetX = 0;
-	float offsetY = 0;
-	PlayerOneEatTrigger trigger;
+	double offsetX;
+	double offsetY;
 	SnakeGame game;
-	PlayerOne snake;
-	PlayerOneSectionManager sectManager;
-	PlayerOneHead snakeHead;
+	SnakeOne snake;
+	SnakeOneSectionManager sectManager;
 	GameObjectManager gom;
 
-	public PlayerOneFangs(PlayerOneHead snakeHead, PlayerOne snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
+	public SnakeOneMouth(SnakeOne snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
-		super(game, layer, node, y, y, id);
-		this.snakeHead = snakeHead;
+		super(game, layer, node, id);
 		this.snake = snake;
 		this.game = game;
 		this.gom = game.getObjectManager();
-		this.sectManager = game.getSectManagerOne();
+		this.sectManager = game.getSectionManager();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);
 			this.x = x;
@@ -62,59 +60,22 @@ public class PlayerOneFangs extends GameObject {
 			this.velY = snake.getVelY();
 		}
 		if (Settings.DEBUG_MODE) {
-			this.circle.setStroke(Color.WHITE);
-			this.circle.setStrokeWidth(3);
+			this.circle.setStroke(Color.BLACK);
+			this.circle.setFill(Color.BLACK);
 		}
 		this.game.getloader().spawnSnakeFood();
 		this.game.getloader().spawnSnakeFood();
 	}
 
 	public void move() {
-		if (PlayerOne.DEAD == false) {
+		if (SnakeOne.killTheSnake == false) {
 			this.index = sectManager.getSectionList().size() - 1;
 		}
-		checkOffset();
-		x = (float) (snakeHead.getX() + offsetX);
-		y = (float) (snakeHead.getY() + offsetY);
+		x = snake.getCenterX() + offsetX;
+		y = snake.getCenterY() + offsetY;
 
 	}
-//	public void move() {
-//		if (OrgPlayer.DEAD == false) {
-//			this.index = sectManager.getSectionList().size() - 1;
-//		}
-//		super.move();
-//		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
-//			this.y = (float) (snake.getY() - this.circle.getRadius() * 3);
-//			this.x = snake.getX();
-//		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-//			this.y = (float) (snake.getY() + this.circle.getRadius() * 3);
-//			this.x = snake.getX();
-//		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-//			this.x = (float) (snake.getX() - this.circle.getRadius() * 3);
-//			this.y = snake.getY();
-//		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-//			this.x = (float) (snake.getX() + this.circle.getRadius() * 3);
-//			this.y = snake.getY();
-//		}
-//	}
-	public void checkOffset(){
-		if(snake.direction == PlayerMovement.MOVE_UP){
-			this.offsetY = -20;
-			this.offsetX = 0;
-		}
-		else if(snake.direction == PlayerMovement.MOVE_DOWN){
-			this.offsetY = 20;
-			this.offsetX = 0;
-		}
-		else if(snake.direction == PlayerMovement.MOVE_LEFT){
-			this.offsetX = -20;
-			this.offsetY = 0;
-		}
-		else if(snake.direction == PlayerMovement.MOVE_RIGHT){
-			this.offsetX = 20;
-			this.offsetY = 0;
-		}
-	}
+
 	public boolean isApproximate(float tail_X, double sect_X, float tail_Y, double sect_Y) {
 		double distance = Math.sqrt((tail_X - sect_X) * (tail_X - sect_X) + (tail_Y - sect_Y) * (tail_Y - sect_Y));
 		if (distance > 10) {
@@ -129,13 +90,30 @@ public class PlayerOneFangs extends GameObject {
 
 	public void checkCollision() {
 		for (int i = 0; i < sectManager.getSectionList().size(); i++) {
-			AbstractSection tempObject = sectManager.getSectionList().get(i);
+			SectionMain tempObject = sectManager.getSectionList().get(i);
 			if (tempObject.getId() == GameObjectID.SnakeSection) {
 				if (tempObject.getNumericID() > 1) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						if (tempObject.numericID != 0 && tempObject.numericID != 1 && tempObject.numericID != 2) {
 							snake.die();
 						}
+					}
+				}
+			}
+		}
+		for (int i = 0; i < gom.getObjectList().size(); i++) {
+			GameObject tempObject = gom.getObjectList().get(i);
+			if (tempObject.getId() == GameObjectID.Fruit) {
+				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
+					if (SnakeOne.MOUTH_OPEN) {
+						snake.addSection();
+						snake.closeMouth();
+						game.getScoreKeeper().decreaseCount();
+						tempObject.blowUp();
+						tempObject.remove();
+						break;
+					} else {
+						tempObject.bounce(snake, x, y);
 					}
 				}
 			}
@@ -153,11 +131,11 @@ public class PlayerOneFangs extends GameObject {
 	}
 
 	public void killTheSnake() {
-		if (PlayerOne.DEAD == true) {
+		if (SnakeOne.killTheSnake == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
 				if (counter == 5) {
-					AbstractSection sectToKill = sectManager.getSectionList().get(index);
+					SectionMain sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;
 					index--;
@@ -185,11 +163,12 @@ public class PlayerOneFangs extends GameObject {
 		return this.circle.getBoundsInParent();
 	}
 
-	public void setOffsetX(float offsetX) {
+	public void setOffsetX(double offsetX) {
 		this.offsetX = offsetX;
 
 	}
-	public void setOffsetY(float offsetY) {
+
+	public void setOffsetY(double offsetY) {
 		this.offsetY = offsetY;
 
 	}

@@ -41,7 +41,7 @@ public class GameHud {
 		this.limit = width;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getOrgPlayer2();
+		this.player = game.getloader().getPlayerOne();
 		this.game = game;
 		this.hudBar.setWidth(width);
 		this.hudBar.setHeight(height);
@@ -116,7 +116,7 @@ public class GameHud {
 
 	public void setPlayer() {
 		this.player = null;
-		this.player = game.getloader().getOrgPlayer2();
+		this.player = game.getloader().getPlayerOne();
 	}
 
 }

@@ -22,14 +22,14 @@ import javafx.scene.shape.Rectangle;
  * This class is the game object super class and is the class that every game
  * object or mob extends. Actions performed within this class will reflect on
  * the children of this class.
- * 
+ *
  * @author Eudy Contreras
  *
  */
 public abstract class SectionMain {
 
-	GameObjectID id;
-	PlayerMovement direction;
+	protected GameObjectID id;
+	protected PlayerMovement direction;
 	protected Image image;
 	protected ImageView imageView;
 	public ArrayList<Point2D> lastPosition = new ArrayList<>();
@@ -48,9 +48,9 @@ public abstract class SectionMain {
 	protected double width;
 	protected double height;
 	protected double radius;
-	public double health = 50;
-	public double damage;
-	public int numericID;
+	protected double health = 50;
+	protected double damage;
+	protected int numericID;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -192,7 +192,7 @@ public abstract class SectionMain {
 
 	/**
 	 * This method will relocate the object to specific point
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */

@@ -565,7 +565,7 @@ public class SlitherSnake extends SlitherMain {
 	public void die() {
 		killSlither = true;
 		blurOut();
-		game.getHealthBar().drainAll();
+		game.getHealthBarOne().drainAll();
 	}
 
 	public void addBones() {

@@ -7,6 +7,7 @@ import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
@@ -102,8 +103,8 @@ public class PlayerTwo extends GameObject {
 	public MotionBlur motionBlur = new MotionBlur();
 	public Light.Point light = new Light.Point();
 	public Lighting lighting = new Lighting();
-	public ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating);
-	public ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking);
+	public ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating2);
+	public ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking2);
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	public PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
@@ -124,9 +125,9 @@ public class PlayerTwo extends GameObject {
 		this.circle.setVisible(false);
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
-				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead)), x, y,
+				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead2)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getOrgObjectManager().addObject(snakeHead);
+		this.game.getObjectManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerTwo();
 		this.loadImages();
 		this.drawBoundingBox();
@@ -134,8 +135,8 @@ public class PlayerTwo extends GameObject {
 	}
 
 	public void loadImages() {
-		anim.addScene(GameImageBank.snakeHead, 4000);
-		anim.addScene(GameImageBank.snakeBlinking, 250);
+		anim.addScene(GameImageBank.snakeHead2, 4000);
+		anim.addScene(GameImageBank.snakeBlinking2, 250);
 		setAnimation(anim);
 	}
 
@@ -271,6 +272,7 @@ public class PlayerTwo extends GameObject {
 
 	public void setDirection(PlayerMovement direction) {
 		KEEP_MOVING = true;
+		if(LEVEL_COMPLETED && DEAD){
 		if (this.direction == direction) {
 			this.direction = direction;
 		} else if (!((this.direction == PlayerMovement.MOVE_LEFT && direction == PlayerMovement.MOVE_RIGHT)
@@ -291,7 +293,7 @@ public class PlayerTwo extends GameObject {
 				moveRight();
 				snakeHead.setR(-89);
 			}
-		}
+		}}
 	}
 
 	public void turnDelay(PlayerMovement newDirection) {
@@ -385,7 +387,7 @@ public class PlayerTwo extends GameObject {
 	public void addbaseSections() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
@@ -394,11 +396,14 @@ public class PlayerTwo extends GameObject {
 	public void addSection() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 		}
-		game.getloader().spawnSnakeFood();
+		game.getScoreBoard().increaseScore();
+		if (ScoreKeeper.APPLE_COUNT > 4)
+			game.getloader().spawnSnakeFood();
 	}
 
 	public boolean withinBounds() {

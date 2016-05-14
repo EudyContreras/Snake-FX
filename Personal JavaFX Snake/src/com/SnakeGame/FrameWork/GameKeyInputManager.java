@@ -17,7 +17,7 @@ import javafx.scene.input.KeyEvent;
  *
  */
 public class GameKeyInputManager {
-	boolean[] keyDown = new boolean[6];
+	private boolean[] keyDown = new boolean[6];
 
 	public GameKeyInputManager() {
 		keyDown[0] = false;
@@ -28,43 +28,43 @@ public class GameKeyInputManager {
 		keyDown[5] = false;
 	}
 
-	public void processInput(SnakeGame game, PlayerOne p1, PlayerTwo p2, SlitherSnake p3, Scene scene) {
+	public void processInput(SnakeGame game, PlayerOne playerOne, PlayerTwo playerTwo, SlitherSnake slither, Scene scene) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			public void handle(KeyEvent e) {
 
 				if (e.getCode() == KeyCode.W) {
 					keyDown[0] = true;
-					// p3.moveUp();
-					game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_UP);
+					// slither.moveUp();
+					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
 				}
 				if (e.getCode() == KeyCode.S) {
 					keyDown[1] = true;
-					// p3.moveDown();
-					game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_DOWN);
+					// slither.moveDown();
+					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
 				}
 				if (e.getCode() == KeyCode.A) {
 					keyDown[2] = true;
-					// p3.rotateLeft = true;
-					game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_LEFT);
+					// slither.rotateLeft = true;
+					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				if (e.getCode() == KeyCode.D) {
 					keyDown[3] = true;
-					// p3.rotateRight = true;
-					game.getloader().getOrgPlayer2().setDirection(PlayerMovement.MOVE_RIGHT);
+					// slither.rotateRight = true;
+					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.H) {
 					game.getGameHud().showHide();
 				}
 				if (e.getCode() == KeyCode.SPACE) {
-					if (p1.allowOpen) {
-						p1.openMouth();
+					if (playerOne.allowOpen) {
+						playerOne.openMouth();
 					}
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
 					keyDown[5] = true;
-					p3.thrust = true;
+					slither.thrust = true;
 				}
 				if (e.getCode() == KeyCode.P) {
 					game.pauseGame();
@@ -82,20 +82,20 @@ public class GameKeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.UP) {
-					p2.setDirection(PlayerMovement.MOVE_UP);
+					playerTwo.setDirection(PlayerMovement.MOVE_UP);
 				}
 				if (e.getCode() == KeyCode.DOWN) {
-					p2.setDirection(PlayerMovement.MOVE_DOWN);
+					playerTwo.setDirection(PlayerMovement.MOVE_DOWN);
 				}
 				if (e.getCode() == KeyCode.LEFT) {
-					p2.setDirection(PlayerMovement.MOVE_LEFT);
+					playerTwo.setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				if (e.getCode() == KeyCode.RIGHT) {
-					p2.setDirection(PlayerMovement.MOVE_RIGHT);
+					playerTwo.setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.CONTROL) {
-					if (p2.allowOpen) {
-						p2.openMouth();
+					if (playerTwo.allowOpen) {
+						playerTwo.openMouth();
 					}
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
@@ -105,10 +105,10 @@ public class GameKeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-					p3.rotateLeft = true;
+					slither.rotateLeft = true;
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
-					p3.rotateRight = true;
+					slither.rotateRight = true;
 				}
 			}
 		});
@@ -141,21 +141,21 @@ public class GameKeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-					p3.rotateLeft = false;
+					slither.rotateLeft = false;
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
-					p3.rotateRight = false;
+					slither.rotateRight = false;
 				}
 				if (!keyDown[0] && !keyDown[1]) {
 				}
 				if (!keyDown[2] && !keyDown[3]) {
-					// p3.rotateLeft = false;
-					// p3.rotateRight = false;
+					// slither.rotateLeft = false;
+					// slither.rotateRight = false;
 				}
 				if (!keyDown[4]) {
 				}
 				if (!keyDown[5]) {
-					// p3.thrust = false;
+					// slither.thrust = false;
 				}
 			}
 		});

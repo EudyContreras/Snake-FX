@@ -40,7 +40,7 @@ public class HealthBarTwo {
 		this.oldX = this.x;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getPlayer2();
+		this.player = game.getloader().getPlayerTwo();
 		this.game = game;
 		// this.healthBar.setWidth(width/GameLoader.ResolutionScaleX);
 		// this.healthBar.setHeight(height/GameLoader.ResolutionScaleX);
@@ -162,7 +162,7 @@ public class HealthBarTwo {
 
 	public void setPlayer() {
 		this.player = null;
-		this.player = game.getloader().getPlayer2();
+		this.player = game.getloader().getPlayerTwo();
 	}
 
 }

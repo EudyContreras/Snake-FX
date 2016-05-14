@@ -7,6 +7,7 @@ import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
@@ -126,7 +127,7 @@ public class PlayerOne extends GameObject {
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getOrgObjectManager().addObject(snakeHead);
+		this.game.getObjectManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerOne();
 		this.loadImages();
 		this.drawBoundingBox();
@@ -271,6 +272,7 @@ public class PlayerOne extends GameObject {
 
 	public void setDirection(PlayerMovement direction) {
 		KEEP_MOVING = true;
+		if(LEVEL_COMPLETED && DEAD){
 		if (this.direction == direction) {
 			this.direction = direction;
 		} else if (!((this.direction == PlayerMovement.MOVE_LEFT && direction == PlayerMovement.MOVE_RIGHT)
@@ -291,7 +293,7 @@ public class PlayerOne extends GameObject {
 				moveRight();
 				snakeHead.setR(-89);
 			}
-		}
+		}}
 	}
 
 	public void turnDelay(PlayerMovement newDirection) {
@@ -396,9 +398,12 @@ public class PlayerOne extends GameObject {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 		}
-		game.getloader().spawnSnakeFood();
+		game.getScoreBoard().increaseScore();
+		if (ScoreKeeper.APPLE_COUNT > 4)
+			game.getloader().spawnSnakeFood();
 	}
 
 	public boolean withinBounds() {

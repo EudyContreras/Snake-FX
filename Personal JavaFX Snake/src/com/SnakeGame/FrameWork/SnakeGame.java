@@ -44,7 +44,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -71,61 +70,57 @@ import javafx.util.Duration;
  */
 public class SnakeGame extends Application implements Runnable {
 
-	GameLoader loader;
-	GameKeyInputManager keyInput;
-	GameMouseInputManager mouseInput;
-	GraphicsContext gc;
-	GameObjectManager objectManager;
-	GameObjectManager orgObjectManager;
-	GameSlitherManager slitherManager;
-	GameDebrisManager debrisManager;
-	PlayerOneSectionManager sectManagerOne;
-	PlayerTwoSectionManager sectManagerTwo;;
-	GameSlitherSectionManager sectManager3;
-	GameImageBank imageBank;
-	FadeTransition fadeSplash;
-	Stage mainWindow;
-	MenuMain mainMenu;
-	Scene scene;
-	Scene splashScene;
-	Group mainRoot;
+	private GameLoader loader;
+	private GameKeyInputManager keyInput;
+	private GameMouseInputManager mouseInput;
+	private GameGestureInputManager gestures;
+	private GraphicsContext gc;
+	private GameObjectManager objectManager;
+	private GameSlitherManager slitherManager;
+	private GameDebrisManager debrisManager;
+	private PlayerOneSectionManager sectManagerOne;
+	private PlayerTwoSectionManager sectManagerTwo;;
+	private GameSlitherSectionManager sectManagerThree;
+	private FadeTransition fadeSplash;
+	private Stage mainWindow;
+	private MenuMain mainMenu;
+	private Scene scene;
+	private Scene splashScene;
+	private Group mainRoot;
 	private Pane root;
-	Canvas canvas;
-	Pane splashLayout;
-	Pane playfieldLayer;
-	Pane particleLayer;
-	Pane debrisLayer;
-	Pane bottomLayer;
-	Pane levelLayer;
-	Pane fadeScreen;
-	Pane endGame;
-	Pane snakeHead;
-	Pane snakeBody;
-	Pane overlay;
-	Stage primaryStage;
-	Text TextFPS;
-	Timeline physicsLoop;
-	HealthBarOne healthBarOne;
+	private Canvas canvas;
+	private Pane splashLayout;
+	private Pane playfieldLayer;
+	private Pane particleLayer;
+	private Pane debrisLayer;
+	private Pane bottomLayer;
+	private Pane levelLayer;
+	private	Pane fadeScreen;
+	private Pane snakeHead;
+	private Pane snakeBody;
+	private Pane overlay;
+	public Stage primaryStage;
+	public GameImageBank imageBank;
+	private Text TextFPS;
+	private HealthBarOne healthBarOne;
 	private HealthBarTwo healthBarTwo;
-	ScoreBoard scoreBoard;
-	ScoreBoard scoreBoard2;
-	EnergyMeter energyMeter;
-	SandEmitter sandEmitter;
-	VictoryScreen victoryScreen;
-	AnimationTimer gameLoop;
-	AnimationTimer animationLoop;
-	AnimationTimer particleLoop;
-	GameOverScreen gameOver;
-	ScreenOverlay postEffects;
-	ScoreKeeper scoreKeeper;
-	GameHud gameHud;
-	ImageView backgroundImage;
-	ImageView apple;
-	ImageView splash;
-	Rectangle2D bounds;
-	Boolean stopDrawing = false;
-	String title = "SNAKE";
-	Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
+	private ScoreBoard scoreBoard;
+	private ScoreBoard scoreBoard2;
+	private EnergyMeter energyMeter;
+	private SandEmitter sandEmitter;
+	private VictoryScreen victoryScreen;
+	private AnimationTimer gameLoop;
+	private AnimationTimer animationLoop;
+	private AnimationTimer particleLoop;
+	private GameOverScreen gameOverScreen;
+	private ScreenOverlay postEffects;
+	private ScoreKeeper scoreKeeper;
+	private GameHud gameHud;
+	private ImageView backgroundImage;
+	private ImageView splash;
+	private Rectangle2D bounds;
+	private String title = "SNAKE";
+	private Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
 	public boolean isRunning = true;
 	public boolean gameRunning = false;
 	public boolean imageReady = true;
@@ -139,11 +134,10 @@ public class SnakeGame extends Application implements Runnable {
 	public double splashFadeDelay;
 
 	public void start(Stage primaryStage) {
-		// reset();
 		GameLoader.scaleResolution();
 		GameLoader.scaleSpeedAndSize();
-		initialize();
 		mainWindow = primaryStage;
+		initialize();
 		showSplashScreen();
 	}
 
@@ -184,7 +178,6 @@ public class SnakeGame extends Application implements Runnable {
 			}
 		});
 		fadeSplash.play();
-
 	}
 
 	public void initGame() {
@@ -203,8 +196,8 @@ public class SnakeGame extends Application implements Runnable {
 		mainRoot.getChildren().add(getGameRoot());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
-		loader.loadPlayer2();
-		loader.loadOrgPlayer();
+		loader.loadPlayerTwo();
+		loader.loadPlayerOne();
 		// loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		gameHud = new GameHud(this, -5, 0, Settings.WIDTH + 10, 55 / GameLoader.ResolutionScaleY);
@@ -226,7 +219,7 @@ public class SnakeGame extends Application implements Runnable {
 				30 / GameLoader.ResolutionScaleY, Settings.WIDTH - 100 / GameLoader.ResolutionScaleX, 0,
 				100 / GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY);
 		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800, 450);
-		gameOver = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
+		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
@@ -265,7 +258,6 @@ public class SnakeGame extends Application implements Runnable {
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), Settings.WIDTH, Settings.HEIGHT);
 		gc = canvas.getGraphicsContext2D();
-		endGame = new Pane();
 		playfieldLayer = new Pane();
 		particleLayer = new Pane();
 		bottomLayer = new Pane();
@@ -278,43 +270,14 @@ public class SnakeGame extends Application implements Runnable {
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
 		slitherManager = new GameSlitherManager(this);
-		orgObjectManager = new GameObjectManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
-		sectManager3 = new GameSlitherSectionManager(this);
+		sectManagerThree = new GameSlitherSectionManager(this);
 		keyInput = new GameKeyInputManager();
+		gestures = new GameGestureInputManager();
 		mouseInput = new GameMouseInputManager();
 		debrisManager = new GameDebrisManager(this);
 		postEffects = new ScreenOverlay(this, getGameRoot());
-	}
-
-	public void processGestures() {
-		getGameRoot().setOnSwipeUp(new EventHandler<SwipeEvent>() {
-
-			public void handle(SwipeEvent event) {
-				loader.getOrgPlayer2().setDirection(PlayerMovement.MOVE_UP);
-				event.consume();
-			}
-		});
-		getGameRoot().setOnSwipeDown(new EventHandler<SwipeEvent>() {
-
-			public void handle(SwipeEvent event) {
-				loader.getOrgPlayer2().setDirection(PlayerMovement.MOVE_DOWN);
-				event.consume();
-			}
-		});
-		getGameRoot().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
-			public void handle(SwipeEvent event) {
-				loader.getOrgPlayer2().setDirection(PlayerMovement.MOVE_LEFT);
-				event.consume();
-			}
-		});
-		getGameRoot().setOnSwipeRight(new EventHandler<SwipeEvent>() {
-			public void handle(SwipeEvent event) {
-				loader.getOrgPlayer2().setDirection(PlayerMovement.MOVE_RIGHT);
-				event.consume();
-			}
-		});
 	}
 
 	public Double ScaleX(int value) {
@@ -353,9 +316,11 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public void processGameInput() {
-		keyInput.processInput(this, loader.getOrgPlayer2(), loader.getPlayer2(), loader.getSlither(), scene);
+		keyInput.processInput(this, loader.getPlayerOne(), loader.getPlayerTwo(), loader.getSlither(), scene);
 	}
-
+	public void processGestures(){
+		gestures.processGestures(this);
+	}
 	public void closeGame() {
 		pauseGame();
 		this.getObjectManager().clearAll();
@@ -397,11 +362,11 @@ public class SnakeGame extends Application implements Runnable {
 					objectManager.updateAll(gc, now);
 					sectManagerTwo.updateAll(gc, now);
 					objectManager.checkCollisions();
-					if (loader.getOrgPlayer2() != null && getHealthBarOne() != null) {
+					if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
 						getHealthBarOne().depleteHealth();
 						getHealthBarOne().regerateHealth();
 					}
-					if (loader.getPlayer2() != null && getHealthBarTwo() != null) {
+					if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
 						getHealthBarTwo().depleteHealth();
 						getHealthBarTwo().regerateHealth();
 					}
@@ -471,30 +436,25 @@ public class SnakeGame extends Application implements Runnable {
 							drawOverlay(gc);
 							gameHud.update();
 							victoryScreen.swipeFromLeft();
-							gameOver.swipeFromLeft();
+							gameOverScreen.swipeFromLeft();
 							scoreKeeper.keepCount();
-							// loader.spawnObjectRandomly(true);
-							// loader.updateLevelObjects();
-
 							slitherManager.updateAll(gc, timePassed);
 							slitherManager.checkCollisions();
 							objectManager.updateAll(gc, timePassed);
 							objectManager.checkCollisions();
 							sectManagerTwo.updateAll(gc, timePassed);
-							sectManager3.updateAll(gc, timePassed);
-							orgObjectManager.updateAll(gc, timePassed);
-							orgObjectManager.checkCollisions();
+							sectManagerThree.updateAll(gc, timePassed);
 							sectManagerOne.updateAll(gc, timePassed);
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
 							sandEmitter.move();
 							sandEmitter.emit();
-							if (loader.getOrgPlayer2() != null && getHealthBarOne() != null) {
+							if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
 								getHealthBarOne().depleteHealth();
 								getHealthBarOne().regerateHealth();
 							}
-							if (loader.getPlayer2() != null && getHealthBarTwo() != null) {
+							if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
 								getHealthBarTwo().depleteHealth();
 								getHealthBarTwo().regerateHealth();
 							}
@@ -717,7 +677,7 @@ public class SnakeGame extends Application implements Runnable {
 		objectManager.updateAll(gc, now);
 		objectManager.checkCollisions();
 		sectManagerTwo.updateAll(gc, now);
-		if (loader.getOrgPlayer2() != null) {
+		if (loader.getPlayerOne() != null) {
 			// energyMeter.deplete();
 			// energyMeter.regerate();
 			getHealthBarOne().depleteHealth();
@@ -777,12 +737,12 @@ public class SnakeGame extends Application implements Runnable {
 		fadeOut = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
-		gameOver.removeBlur();
-		gameOver.removeBoard();
-		loader.killPlayer();
-		loader.killPlayer2();
-		loader.loadOrgPlayer();
-		loader.loadPlayer2();
+		gameOverScreen.removeBlur();
+		gameOverScreen.removeBoard();
+		loader.killPlayerOne();
+		loader.killPlayerTwo();
+		loader.loadPlayerOne();
+		loader.loadPlayerTwo();
 		getHealthBarOne().show();
 		getHealthBarTwo().show();
 		getHealthBarOne().refill();
@@ -815,12 +775,12 @@ public class SnakeGame extends Application implements Runnable {
 		fadeOut = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
-		gameOver.removeBlur();
-		gameOver.removeBoard();
-		loader.killPlayer();
-		loader.killPlayer2();
-		loader.loadOrgPlayer();
-		loader.loadPlayer2();
+		gameOverScreen.removeBlur();
+		gameOverScreen.removeBoard();
+		loader.killPlayerOne();
+		loader.killPlayerTwo();
+		loader.loadPlayerOne();
+		loader.loadPlayerTwo();
 		getHealthBarOne().show();
 		getHealthBarTwo().show();
 		getHealthBarOne().refill();
@@ -842,10 +802,9 @@ public class SnakeGame extends Application implements Runnable {
 		particleLayer.getChildren().clear();
 		debrisManager.clearAll();
 		objectManager.clearAll();
-		orgObjectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
-		sectManager3.clearAll();
+		sectManagerThree.clearAll();
 		loader.clearTiles();
 		fadeScreen.getChildren().clear();
 
@@ -863,11 +822,10 @@ public class SnakeGame extends Application implements Runnable {
 			particleLayer.getChildren().clear();
 			debrisManager.clearAll();
 			objectManager.clearAll();
-			orgObjectManager.clearAll();
 			sectManagerOne.clearAll();
 			slitherManager.clearAll();
 			sectManagerTwo.clearAll();
-			sectManager3.clearAll();
+			sectManagerThree.clearAll();
 			loader.clearTiles();
 			fade = 0.0;
 			fadeRect.setOpacity(fade);
@@ -885,12 +843,12 @@ public class SnakeGame extends Application implements Runnable {
 			fadeOut = false;
 			victoryScreen.removeBlur();
 			victoryScreen.removeBoard();
-			gameOver.removeBlur();
-			gameOver.removeBoard();
+			gameOverScreen.removeBlur();
+			gameOverScreen.removeBoard();
 			processGameInput();
 
-			gameOver.removeBoard();
-			gameOver.finishLevel();
+			gameOverScreen.removeBoard();
+			gameOverScreen.finishLevel();
 			scoreKeeper.setPosition(1.5f);
 			getGameHud().swipeDown();
 			GameOverScreen.FAILED_LEVEL = true;
@@ -919,20 +877,20 @@ public class SnakeGame extends Application implements Runnable {
 		}
 	}
 
-	public HealthBarOne getHealthBar() {
-		return getHealthBarOne();
+	public HealthBarOne getHealthBarOne() {
+		return healthBarOne;
 	}
 
-	public void setHealthBar(HealthBarOne healthBarOne) {
-		this.setHealthBarOne(healthBarOne);
+	public HealthBarTwo getHealthBarTwo() {
+		return healthBarTwo;
 	}
 
-	public HealthBarTwo getHealthBar2() {
-		return getHealthBarTwo();
+	public void setHealthBarOne(HealthBarOne healthBarOne) {
+		this.healthBarOne = healthBarOne;
 	}
 
-	public void setHealthBar2(HealthBarTwo healthBarTwo) {
-		this.setHealthBarTwo(healthBarTwo);
+	public void setHealthBarTwo(HealthBarTwo healthBarTwo) {
+		this.healthBarTwo = healthBarTwo;
 	}
 
 	public static void writeToLog(String text) {
@@ -942,7 +900,13 @@ public class SnakeGame extends Application implements Runnable {
 	public VictoryScreen getVictoryScreen() {
 		return victoryScreen;
 	}
+	public GameOverScreen getGameOverScreen() {
+		return gameOverScreen;
+	}
 
+	public void setGameOverScreen(GameOverScreen gameOverScreen) {
+		this.gameOverScreen = gameOverScreen;
+	}
 	public EnergyMeter getEnergyMeter() {
 		return energyMeter;
 	}
@@ -1005,10 +969,6 @@ public class SnakeGame extends Application implements Runnable {
 
 	public GameDebrisManager getDebrisManager() {
 		return debrisManager;
-	}
-
-	public GameObjectManager getOrgObjectManager() {
-		return orgObjectManager;
 	}
 
 	public PlayerOneSectionManager getSectManagerOne() {
@@ -1093,13 +1053,6 @@ public class SnakeGame extends Application implements Runnable {
 		return particleLayer;
 	}
 
-	public HealthBarOne getHealthBarOne() {
-		return healthBarOne;
-	}
-
-	public void setHealthBarOne(HealthBarOne healthBarOne) {
-		this.healthBarOne = healthBarOne;
-	}
 
 	public void setDebrisLayer(Pane debrisLayer) {
 		this.debrisLayer = debrisLayer;
@@ -1131,23 +1084,16 @@ public class SnakeGame extends Application implements Runnable {
 
 
 	public GameSlitherSectionManager getSectionManager3() {
-		return sectManager3;
+		return sectManagerThree;
 	}
 
 	public void allowMouseInput(boolean choice) {
 		if (choice)
-			mouseInput.processInput(this, getloader().getOrgPlayer2(), scene);
+			mouseInput.processInput(this, getloader().getPlayerOne(), getloader().getPlayerTwo(), scene);
 	}
 
 	public static void main(String[] args) {
 		launch(args);
 	}
 
-	public HealthBarTwo getHealthBarTwo() {
-		return healthBarTwo;
-	}
-
-	public void setHealthBarTwo(HealthBarTwo healthBarTwo) {
-		this.healthBarTwo = healthBarTwo;
-	}
 }

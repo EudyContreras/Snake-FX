@@ -1,6 +1,7 @@
 package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,14 +19,14 @@ public class GameMouseInputManager {
 	public static int mouseX, mouseY;
 	SnakeGame game;
 
-	public void processInput(SnakeGame game, PlayerOne player, Scene scene) {
+	public void processInput(SnakeGame game, PlayerOne playerOne, PlayerTwo playerTwo, Scene scene) {
 		this.game = game;
 		scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
 
 			public void handle(MouseEvent e) {
 
-				mouseX = (int) (e.getX() / Settings.SCALE);
-				mouseY = (int) (e.getY() / Settings.SCALE);
+				mouseX = (int) (e.getX() / Settings.SIZE_SCALE);
+				mouseY = (int) (e.getY() / Settings.SIZE_SCALE);
 				if (Settings.ALLOW_MOUSE_INPUT) {
 
 				}
@@ -35,8 +36,8 @@ public class GameMouseInputManager {
 
 			public void handle(MouseEvent e) {
 
-				mouseX = (int) (e.getX() / Settings.SCALE);
-				mouseY = (int) (e.getY() / Settings.SCALE);
+				mouseX = (int) (e.getX() / Settings.SIZE_SCALE);
+				mouseY = (int) (e.getY() / Settings.SIZE_SCALE);
 				if (Settings.ALLOW_MOUSE_INPUT) {
 
 				}

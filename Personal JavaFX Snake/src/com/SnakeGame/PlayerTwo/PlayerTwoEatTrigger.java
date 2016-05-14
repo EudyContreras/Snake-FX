@@ -27,7 +27,7 @@ public class PlayerTwoEatTrigger extends GameObject {
 		this.snake = snake;
 		this.head = head;
 		this.game = game;
-		this.gom = game.getOrgObjectManager();
+		this.gom = game.getObjectManager();
 		this.sectManager = game.getSectManagerTwo();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);

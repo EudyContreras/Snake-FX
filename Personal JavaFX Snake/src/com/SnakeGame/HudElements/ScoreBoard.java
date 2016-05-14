@@ -47,7 +47,7 @@ public class ScoreBoard {
 		this.message = text;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getOrgPlayer2();
+		this.player = game.getloader().getPlayerOne();
 		this.board = new Rectangle(x, y, width, height);
 		this.board.setFill(new ImagePattern(new Image("com/SnakeGame/Images/scoreBoard.png")));
 		this.text.setTranslateX(x1);

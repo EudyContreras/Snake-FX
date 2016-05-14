@@ -43,7 +43,7 @@ public class PlayerTwoHead extends GameObject {
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
-		this.gom = game.getOrgObjectManager();
+		this.gom = game.getObjectManager();
 		this.sectManager = game.getSectManagerTwo();
 		this.gom.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));

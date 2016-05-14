@@ -40,7 +40,7 @@ public class HealthBarOne {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getOrgPlayer2();
+		this.player = game.getloader().getPlayerOne();
 		this.game = game;
 		// this.healthBar.setWidth(width);
 		// this.healthBar.setHeight(height);
@@ -151,7 +151,7 @@ public class HealthBarOne {
 
 	public void setPlayer() {
 		this.player = null;
-		this.player = game.getloader().getOrgPlayer2();
+		this.player = game.getloader().getPlayerOne();
 	}
 
 }

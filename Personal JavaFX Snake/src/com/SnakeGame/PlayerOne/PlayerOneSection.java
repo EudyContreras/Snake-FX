@@ -52,7 +52,7 @@ public class PlayerOneSection extends AbstractSection {
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
-				game.getOrgObjectManager().addObject(tail);
+				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
@@ -65,7 +65,7 @@ public class PlayerOneSection extends AbstractSection {
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
-				game.getOrgObjectManager().addObject(tail);
+				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
@@ -78,7 +78,7 @@ public class PlayerOneSection extends AbstractSection {
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
-				game.getOrgObjectManager().addObject(tail);
+				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
@@ -91,7 +91,7 @@ public class PlayerOneSection extends AbstractSection {
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
-				game.getOrgObjectManager().addObject(tail);
+				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
@@ -104,7 +104,7 @@ public class PlayerOneSection extends AbstractSection {
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
-				game.getOrgObjectManager().addObject(tail);
+				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
 			}
 		} else if (this.numericID > 0) {

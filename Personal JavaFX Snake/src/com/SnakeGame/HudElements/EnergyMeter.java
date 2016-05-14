@@ -34,7 +34,7 @@ public class EnergyMeter {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getOrgPlayer2();
+		this.player = game.getloader().getPlayerOne();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);
