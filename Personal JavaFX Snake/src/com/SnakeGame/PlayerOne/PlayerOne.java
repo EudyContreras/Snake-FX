@@ -8,9 +8,11 @@ import com.SnakeGame.FrameWork.GameStateID;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.ScreenOverlay;
@@ -96,6 +98,7 @@ public class PlayerOne extends GameObject {
 	public ScreenOverlay overlay;
 	public PlayerOneTail tail;
 	public PlayerOneHead snakeHead;
+	public PlayerOneSection neighbor;
 	public GameObjectManager gom;
 	public PlayerOneSectionManager sectManager;
 	public DropShadow borderGlow = new DropShadow();
@@ -162,6 +165,7 @@ public class PlayerOne extends GameObject {
 		updateBounds();
 		updateImmunity();
 		updateDirt();
+		checkTurns();
 		overlay.updateEffect();
 
 	}
@@ -225,6 +229,9 @@ public class PlayerOne extends GameObject {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
 		}
+		if (neighbor != null) {
+			headAdjustment();
+		}
 	}
 
 	public void updateImmunity() {
@@ -243,6 +250,22 @@ public class PlayerOne extends GameObject {
 			if (KEEP_MOVING) {
 				displaceDirt(x + width / 2, y + height / 2, 18, 18);
 				dirtDelay = 10;
+			}
+		}
+	}
+
+	public void updateTurns() {
+		if (turns.size() > 0) {
+			turnDelay--;
+			if (turnDelay <= 0) {
+				makeTurn();
+			}
+		}
+		if (KEEP_MOVING) {
+			moveDelay--;
+			if (moveDelay <= 0) {
+				moveDelay = 0;
+				allowCollision = true;
 			}
 		}
 	}
@@ -272,28 +295,48 @@ public class PlayerOne extends GameObject {
 
 	public void setDirection(PlayerMovement direction) {
 		KEEP_MOVING = true;
-		if(!LEVEL_COMPLETED && !DEAD){
-		if (this.direction == direction) {
-			this.direction = direction;
-		} else if (!((this.direction == PlayerMovement.MOVE_LEFT && direction == PlayerMovement.MOVE_RIGHT)
-				|| (this.direction == PlayerMovement.MOVE_RIGHT && direction == PlayerMovement.MOVE_LEFT)
-				|| (this.direction == PlayerMovement.MOVE_UP && direction == PlayerMovement.MOVE_DOWN)
-				|| (this.direction == PlayerMovement.MOVE_DOWN && direction == PlayerMovement.MOVE_UP))) {
-
-			if (direction == PlayerMovement.MOVE_UP) {
-				moveUp();
-				snakeHead.setR(180);
-			} else if (direction == PlayerMovement.MOVE_DOWN) {
-				moveDown();
-				snakeHead.setR(0);
-			} else if (direction == PlayerMovement.MOVE_LEFT) {
-				moveLeft();
-				snakeHead.setR(89);
-			} else if (direction == PlayerMovement.MOVE_RIGHT) {
-				moveRight();
-				snakeHead.setR(-89);
+		if (!LEVEL_COMPLETED && !DEAD) {
+			if (this.direction == direction) {
+				this.direction = direction;
+			} else {
+				switch (direction) {
+				case MOVE_UP:
+					if (this.direction != PlayerMovement.MOVE_DOWN) {
+						if (allowTurnUp) {
+							moveUp();
+							snakeHead.setR(180);
+						}
+					}
+					break;
+				case MOVE_DOWN:
+					if (this.direction != PlayerMovement.MOVE_UP) {
+						if (allowTurnDown) {
+							moveDown();
+							snakeHead.setR(0);
+						}
+					}
+					break;
+				case MOVE_LEFT:
+					if (this.direction != PlayerMovement.MOVE_RIGHT) {
+						if (allowTurnLeft) {
+							moveLeft();
+							snakeHead.setR(89);
+						}
+					}
+					break;
+				case MOVE_RIGHT:
+					if (this.direction != PlayerMovement.MOVE_LEFT) {
+						if (allowTurnRight) {
+							moveRight();
+							snakeHead.setR(-89);
+						}
+					}
+					break;
+				case STANDING_STILL:
+					break;
+				}
 			}
-		}}
+		}
 	}
 
 	public void turnDelay(PlayerMovement newDirection) {
@@ -317,6 +360,8 @@ public class PlayerOne extends GameObject {
 	}
 
 	private void moveUp() {
+		offsetX = 0;
+		offsetY = -20;
 		velY = -Settings.SECTION;
 		velX = 0;
 		r = 180;
@@ -327,6 +372,8 @@ public class PlayerOne extends GameObject {
 	}
 
 	private void moveDown() {
+		offsetX = 0;
+		offsetY = 20;
 		velY = Settings.SECTION;
 		velX = 0;
 		r = 0;
@@ -337,6 +384,8 @@ public class PlayerOne extends GameObject {
 	}
 
 	private void moveRight() {
+		offsetX = 20;
+		offsetY = 0;
 		velX = Settings.SECTION;
 		velY = 0;
 		r = -89;
@@ -347,6 +396,8 @@ public class PlayerOne extends GameObject {
 	}
 
 	private void moveLeft() {
+		offsetX = -20;
+		offsetY = 0;
 		velX = -Settings.SECTION;
 		velY = 0;
 		r = 89;
@@ -365,18 +416,32 @@ public class PlayerOne extends GameObject {
 	}
 
 	public void checkCollision() {
-		if (isDead == false) {
-			for (int i = 0; i < gom.getObjectList().size(); i++) {
-				GameObject tempObject = gom.getObjectList().get(i);
-				if (tempObject.getId() == GameObjectID.Fruit) {
-					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						if (MOUTH_OPEN) {
-							addSection();
-							closeMouth();
-							game.getScoreKeeper().decreaseCount();
-							tempObject.blowUp();
-							tempObject.remove();
-							break;
+		if (!DEAD && !LEVEL_COMPLETED) {
+			for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
+				Tile tempTile = game.getloader().tileManager.tile.get(i);
+				if (tempTile.getId() == LevelObjectID.cactus) {
+					if (getBounds().intersects(tempTile.getBounds())) {
+						if (allowDamage) {
+							setCollision(true);
+							if (!DEAD) {
+								this.overlay.addDistortion(15, 0.2);
+								this.overlay.addToneOverlay(Color.RED, 5, 3.0);
+							}
+							immunity = Settings.IMMUNITY_TIME;
+							allowDamage = false;
+						}
+					}
+				}
+			}
+			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
+				Tile tempTile = game.getloader().tileManager.block.get(i);
+				if (tempTile.getId() == LevelObjectID.rock) {
+					if (getBounds().intersects(tempTile.getBounds())) {
+						if (Settings.ROCK_COLLISION) {
+							if (allowCollision) {
+								KEEP_MOVING = false;
+								allowCollision = false;
+							}
 						}
 					}
 				}
@@ -422,6 +487,61 @@ public class PlayerOne extends GameObject {
 			y = (float) (0 - radius);
 		}
 	}
+
+	public void checkTurns() {
+		if (snakeHead.allowLeftTurn()) {
+			this.allowTurnLeft = true;
+		} else {
+			this.allowTurnLeft = false;
+		}
+		if (snakeHead.allowRightTurn()) {
+			this.allowTurnRight = true;
+		} else {
+			this.allowTurnRight = false;
+		}
+		if (snakeHead.allowUpTurn()) {
+			this.allowTurnUp = true;
+		} else {
+			this.allowTurnUp = false;
+		}
+		if (snakeHead.allowDownTurn()) {
+			this.allowTurnDown = true;
+		} else {
+			this.allowTurnDown = false;
+		}
+	}
+
+	public void headAdjustment() {
+		if (this.direction == PlayerMovement.MOVE_DOWN) {
+			if (y - neighbor.getY() > Settings.SECTION_SIZE) {
+				y = (float) (neighbor.getY() + Settings.SECTION_SIZE);
+				x = neighbor.getX();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_UP) {
+			if (neighbor.getY() - y > Settings.SECTION_SIZE) {
+				y = (float) (neighbor.getY() - Settings.SECTION_SIZE);
+				x = neighbor.getX();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_LEFT) {
+			if (neighbor.getX() - x > Settings.SECTION_SIZE) {
+				x = (float) (neighbor.getX() - Settings.SECTION_SIZE);
+				y = neighbor.getY();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_RIGHT) {
+			if (x - neighbor.getX() > Settings.SECTION_SIZE) {
+				x = (float) (neighbor.getX() + Settings.SECTION_SIZE);
+				y = neighbor.getY();
+			}
+		}
+	}
+
+	public void setNeighbor(PlayerOneSection snakeSection) {
+		this.neighbor = snakeSection;
+	}
+
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
@@ -432,6 +552,7 @@ public class PlayerOne extends GameObject {
 			game.getOverlay().getChildren().add(bounds);
 		}
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < 15; i++) {
@@ -440,14 +561,16 @@ public class PlayerOne extends GameObject {
 			}
 		}
 	}
+
 	public void addBones() {
 		isDead = true;
 		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
 		game.getDebrisLayer().getChildren().add(skull);
-		overlay.addFadeScreen(4,GameStateID.GAME_OVER);
+		overlay.addFadeScreen(4, GameStateID.GAME_OVER);
 
 	}
+
 	public Image getAnimationImage() {
 		return anim.getImage();
 	}
@@ -478,6 +601,7 @@ public class PlayerOne extends GameObject {
 		game.getHealthBarOne().drainAll();
 		isDead = true;
 	}
+
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}

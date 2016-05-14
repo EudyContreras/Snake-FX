@@ -47,7 +47,7 @@ public class PlayerOneHead extends GameObject {
 		this.sectManager = game.getSectManagerOne();
 		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.BLACK), this.x,
+		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);

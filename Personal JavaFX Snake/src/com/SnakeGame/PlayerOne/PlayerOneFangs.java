@@ -128,12 +128,28 @@ public class PlayerOneFangs extends GameObject {
 	}
 
 	public void checkCollision() {
+		if (PlayerOne.DEAD == false) {
+			for (int i = 0; i < gom.getObjectList().size(); i++) {
+				GameObject tempObject = gom.getObjectList().get(i);
+				if (tempObject.getId() == GameObjectID.Fruit) {
+					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
+						if (PlayerOne.MOUTH_OPEN) {
+							snake.addSection();
+							snake.closeMouth();
+							game.getScoreKeeper().decreaseCount();
+							tempObject.blowUp();
+							tempObject.remove();
+							break;
+						}
+					}
+				}
+			}
 		for (int i = 0; i < sectManager.getSectionList().size(); i++) {
 			AbstractSection tempObject = sectManager.getSectionList().get(i);
 			if (tempObject.getId() == GameObjectID.SnakeSection) {
 				if (tempObject.getNumericID() > 1) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						if (tempObject.numericID != 0 && tempObject.numericID != 1 && tempObject.numericID != 2) {
+						if (tempObject.numericID != 0 && tempObject.numericID != 1 && tempObject.numericID != 2 && tempObject.numericID != PlayerOne.NUMERIC_ID) {
 							snake.die();
 						}
 					}
@@ -149,6 +165,7 @@ public class PlayerOneFangs extends GameObject {
 					}
 				}
 			}
+		}
 		}
 	}
 

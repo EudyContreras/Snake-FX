@@ -54,6 +54,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.tail.setWhoToFollow(this);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
+				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
 				this.y = (float) (y - this.circle.getRadius() * Settings.SECTION_DISTANCE);
@@ -67,6 +68,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.tail.setWhoToFollow(this);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
+				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
 				this.x = (float) (x + this.circle.getRadius() * Settings.SECTION_DISTANCE);
@@ -80,6 +82,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.tail.setWhoToFollow(this);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
+				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
 				this.x = (float) (x - this.circle.getRadius() * Settings.SECTION_DISTANCE);
@@ -93,6 +96,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.tail.setWhoToFollow(this);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
+				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
 				this.x = (float) (x - this.circle.getRadius() * Settings.SECTION_DISTANCE);
@@ -106,6 +110,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.tail.setWhoToFollow(this);
 				game.getObjectManager().addObject(tail);
 				snake.setTail(tail);
+				snake.setNeighbor(this);
 			}
 		} else if (this.numericID > 0) {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
