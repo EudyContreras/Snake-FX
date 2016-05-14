@@ -1,6 +1,7 @@
 package com.SnakeGame.PlayerTwo;
 
 import java.util.LinkedList;
+
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.GameStateID;
@@ -15,6 +16,7 @@ import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.ScreenOverlay;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;

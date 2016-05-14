@@ -1,4 +1,4 @@
-package com.SnakeGame.PlayerOne;
+package com.SnakeGame.FrameWork;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -384,7 +384,7 @@ public abstract class AbstractSection {
 		lastDirection.remove();
 	}
 
-	protected void setNewLocation(Point2D... location) {
+	public void setNewLocation(Point2D... location) {
 		if (location.length > 1) {
 			lastPosition.addAll(Arrays.asList(location));
 		} else {
@@ -393,7 +393,7 @@ public abstract class AbstractSection {
 
 	}
 
-	protected void setNewDirection(PlayerMovement... direction) {
+	public void setNewDirection(PlayerMovement... direction) {
 		if (direction.length > 1) {
 			lastDirection.addAll(Arrays.asList(direction));
 		} else {
@@ -405,7 +405,7 @@ public abstract class AbstractSection {
 		this.direction = direction;
 	}
 
-	protected PlayerMovement getLastDirection() {
+	public PlayerMovement getLastDirection() {
 		return direction;
 	}
 
@@ -413,7 +413,7 @@ public abstract class AbstractSection {
 		this.numericID = SECTION_COUNT;
 	}
 
-	protected int getNumericID() {
+	public int getNumericID() {
 		return numericID;
 	}
 	public void die() {

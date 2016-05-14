@@ -1,5 +1,6 @@
 package com.SnakeGame.PlayerOne;
 
+import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
@@ -149,7 +150,7 @@ public class PlayerOneFangs extends GameObject {
 			if (tempObject.getId() == GameObjectID.SnakeSection) {
 				if (tempObject.getNumericID() > 1) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						if (tempObject.numericID != 0 && tempObject.numericID != 1 && tempObject.numericID != 2 && tempObject.numericID != PlayerOne.NUMERIC_ID) {
+						if (tempObject.numericID != 0 && tempObject.numericID != 1 && tempObject.numericID != 2 && tempObject.numericID != PlayerOne.NUMERIC_ID && tempObject.numericID != PlayerOne.NUMERIC_ID-1) {
 							snake.die();
 						}
 					}

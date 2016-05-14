@@ -2,6 +2,7 @@ package com.SnakeGame.GameObjects;
 
 import java.util.Random;
 
+import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
@@ -12,9 +13,8 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplash;
 import com.SnakeGame.Particles.FruitSplash2;
-import com.SnakeGame.PlayerOne.AbstractSection;
-import com.SnakeGame.PlayerOne.PlayerOneFangs;
 import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerOne.PlayerOneFangs;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.geometry.Rectangle2D;
@@ -213,12 +213,25 @@ public class SnakeFood extends GameObject {
 				}
 			}
 		}
-		for (AbstractSection object : game.getSectManagerOne().getSectionList()) {
+		for (AbstractSection object : game.getSectManagerTwo().getSectionList()) {
 			if (object.getId() == GameObjectID.SnakeSection) {
-				if (getBounds().intersects(object.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
+				if (object.getNumericID() > 0) {
+					if (getBounds().intersects(object.getBounds())) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+					}
+				}
+			}
+		}
+		for (AbstractSection object : game.getSectManagerTwo().getSectionList()) {
+			if (object.getId() == GameObjectID.SnakeSection) {
+				if (object.getNumericID() > 0) {
+					if (getBounds().intersects(object.getBounds())) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+					}
 				}
 			}
 		}
