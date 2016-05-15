@@ -3,8 +3,6 @@ package com.SnakeGame.FrameWork;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
 import javafx.geometry.Bounds;

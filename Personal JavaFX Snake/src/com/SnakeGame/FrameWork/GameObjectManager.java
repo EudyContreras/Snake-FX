@@ -19,8 +19,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class GameObjectManager {
 
-	private LinkedList<GameObject> object;
-	private GameObject tempObject;
+	private LinkedList<AbstractObject> object;
+	private AbstractObject tempObject;
 	private SnakeGame game;
 
 	public GameObjectManager(SnakeGame gameJavaFX) {
@@ -29,7 +29,7 @@ public class GameObjectManager {
 	}
 
 	public void initialize() {
-		this.object = new LinkedList<GameObject>();
+		this.object = new LinkedList<AbstractObject>();
 	}
 
 	/**
@@ -39,9 +39,9 @@ public class GameObjectManager {
 	 * be thrown
 	 */
 	public void update(GraphicsContext gc, long timePassed) {
-		Iterator<? extends GameObject> spriteIter = object.iterator();
+		Iterator<? extends AbstractObject> spriteIter = object.iterator();
 		while (spriteIter.hasNext()) {
-			GameObject sprite = spriteIter.next();
+			AbstractObject sprite = spriteIter.next();
 			sprite.updateUI();
 			sprite.addPhysics();
 			sprite.updateAnimation(timePassed);
@@ -167,22 +167,22 @@ public class GameObjectManager {
 	 * Procedurally places the objects in the level
 	 */
 	public void procedurallyCreateLevel() {
-		Iterator<? extends GameObject> spriteIter = object.iterator();
+		Iterator<? extends AbstractObject> spriteIter = object.iterator();
 		while (spriteIter.hasNext()) {
-			GameObject sprite = spriteIter.next();
+			AbstractObject sprite = spriteIter.next();
 			sprite.createLevel();
 		}
 	}
 
-	public LinkedList<GameObject> getObjectList() {
+	public LinkedList<AbstractObject> getObjectList() {
 		return object;
 	}
 
-	public void addObject(GameObject object) {
+	public void addObject(AbstractObject object) {
 		this.object.add(object);
 	}
 
-	public void removeObject(GameObject object) {
+	public void removeObject(AbstractObject object) {
 		this.object.remove(object);
 	}
 
@@ -190,8 +190,8 @@ public class GameObjectManager {
 		this.object.clear();
 	}
 
-	public GameObject findObject(GameObjectID id) {
-		for (GameObject go : object) {
+	public AbstractObject findObject(GameObjectID id) {
+		for (AbstractObject go : object) {
 			if (go.getId() == id) {
 				return go;
 			}

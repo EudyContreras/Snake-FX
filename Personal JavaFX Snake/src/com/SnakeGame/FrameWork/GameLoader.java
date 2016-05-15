@@ -76,8 +76,8 @@ public class GameLoader {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadLevelManager() {
-		this.border = GameImageLoader.loadImage("/desert-level-border2.png");
-		this.level = GameImageLoader.loadImage("/desert-level.png");
+		this.border = GameImageLoader.loadImage("/desert-level-fence.png");
+		this.level  = GameImageLoader.loadImage("/desert-level.png");
 		this.level1 = GameImageLoader.loadImage("/desert-level.png");
 		this.level2 = GameImageLoader.loadImage("/desert-level2.png");
 		this.level3 = GameImageLoader.loadImage("/desert-level3.png");
@@ -172,6 +172,7 @@ public class GameLoader {
 		// spawnBackgroundStuff(true);
 		// }
 		loadDesertLevels(GameLevelImage.desertBackground);
+		loadDesertBorder();
 		// loadDesertBorder();
 		game.levelLenght = 128 * 64;
 	}
@@ -207,23 +208,10 @@ public class GameLoader {
 		changeBackground(image);
 		for (double row = 0; row < levelWidth; row++) {
 			for (double col = 0; col < levelHeight; col++) {
-				pixel = level.getRGB((int) row, (int) col);
+				pixel = getLevel().getRGB((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
-//				if (red == 255 && green == 255 && blue == 255) {
-//					TileMap texture = new TileMap(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
-//							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-//							LevelObjectID.fence);
-//					tileManager.addTile(texture);
-//					game.playfieldLayer.getChildren().add(texture.getView());
-//				} else if (red == 0 && green == 0 && blue == 255) {
-//					TileMap texture = new TileMap(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
-//							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-//							LevelObjectID.fence);
-//					tileManager.addTile(texture);
-//					game.playfieldLayer.getChildren().add(texture.getView());
-//				}
 				if (red == 255 && green == 0 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
@@ -270,20 +258,18 @@ public class GameLoader {
 			}
 		}
 		getLevel().flush();
-
 	}
 
 	private void loadDesertBorder() {
-		setLevel(border);
 		for (double row = levelWidth - 1; row >= 0; row--) {
 			for (double col = levelHeight - 1; col >= 0; col--) {
-				pixel = level.getRGB((int) row, (int) col);
+				pixel = getBorder().getRGB((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 110 / GameLoader.ResolutionScaleX),
-							(float) (col * 15 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
+					TileMap texture = new TileMap(game, (float) (row * 115 / GameLoader.ResolutionScaleX),
+							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
@@ -297,7 +283,7 @@ public class GameLoader {
 				}
 			}
 		}
-		getLevel().flush();
+		getBorder().flush();
 	}
 
 	public void loadJungleLevels(Image image) {
@@ -542,6 +528,13 @@ public class GameLoader {
 		this.level = level;
 	}
 
+	public BufferedImage getBorder() {
+		return border;
+	}
+
+	public void setBorder(BufferedImage border) {
+		this.border = border;
+	}
 	/**
 	 * Method responsible for the procedural creation of a level it loads and
 	 * culls specific sections of the level at a predetermined speed. TODO:

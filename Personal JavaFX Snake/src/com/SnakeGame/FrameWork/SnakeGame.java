@@ -13,8 +13,8 @@ import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
 import com.SnakeGame.Particles.GameDebrisManager;
 import com.SnakeGame.Particles.SandEmitter;
-import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
 import com.SnakeGame.SlitherSnake.GameSlitherManager;
@@ -280,12 +280,14 @@ public class SnakeGame extends Application implements Runnable {
 		postEffects = new ScreenOverlay(this, getGameRoot());
 	}
 
-	public Double ScaleX(int value) {
-		return value / GameLoader.ResolutionScaleX;
+	public static Double ScaleX(int value) {
+		Double newSize = value/GameLoader.ResolutionScaleX;
+		return newSize;
 	}
 
-	public Double ScaleY(int value) {
-		return value / GameLoader.ResolutionScaleY;
+	public static Double ScaleY(int value) {
+		Double newSize = value/GameLoader.ResolutionScaleY;
+		return newSize;
 	}
 
 	public void resumeGame() {

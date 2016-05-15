@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -26,7 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class SnakeFood extends GameObject {
+public class SnakeFood extends AbstractObject {
 
 	double size;
 	double targetSize;
@@ -215,7 +215,7 @@ public class SnakeFood extends GameObject {
 		}
 		for (AbstractSection object : game.getSectManagerTwo().getSectionList()) {
 			if (object.getId() == GameObjectID.SnakeSection) {
-				if (object.getNumericID() > 0) {
+				if (object.getNumericID() > 1) {
 					if (getBounds().intersects(object.getBounds())) {
 						this.x = newX;
 						this.y = newY;
@@ -226,7 +226,7 @@ public class SnakeFood extends GameObject {
 		}
 		for (AbstractSection object : game.getSectManagerTwo().getSectionList()) {
 			if (object.getId() == GameObjectID.SnakeSection) {
-				if (object.getNumericID() > 0) {
+				if (object.getNumericID() > 1 ) {
 					if (getBounds().intersects(object.getBounds())) {
 						this.x = newX;
 						this.y = newY;

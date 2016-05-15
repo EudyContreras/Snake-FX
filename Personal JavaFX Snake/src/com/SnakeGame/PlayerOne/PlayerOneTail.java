@@ -1,6 +1,6 @@
 package com.SnakeGame.PlayerOne;
 
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
@@ -8,7 +8,7 @@ import com.SnakeGame.ObjectIDs.GameObjectID;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
-public class PlayerOneTail extends GameObject {
+public class PlayerOneTail extends AbstractObject {
 	PlayerOneSection snakeSect;
 	PlayerOneSection sectionToFollow;
 	PlayerOneSectionManager sectManager;

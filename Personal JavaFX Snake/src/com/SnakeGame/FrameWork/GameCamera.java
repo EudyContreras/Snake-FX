@@ -18,7 +18,7 @@ public class GameCamera {
 		this.y = y;
 	}
 
-	public void followPlayer(GameObject player) {
+	public void followPlayer(AbstractObject player) {
 		y = (float) (-player.getY() + Settings.HEIGHT - 300);
 		x = (float) (-player.getX() + Settings.WIDTH - 600);
 	}

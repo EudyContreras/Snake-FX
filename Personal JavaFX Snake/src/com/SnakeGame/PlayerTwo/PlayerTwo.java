@@ -2,9 +2,8 @@ package com.SnakeGame.PlayerTwo;
 
 import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
-import com.SnakeGame.FrameWork.GameStateID;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -12,6 +11,7 @@ import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.ObjectIDs.GameStateID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
@@ -32,7 +32,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class PlayerTwo extends GameObject {
+public class PlayerTwo extends AbstractObject {
 
 	public int turnDelay = Settings.TURN_DELAY;
 	public int dirtDelay = 10;

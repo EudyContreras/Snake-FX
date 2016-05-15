@@ -23,7 +23,7 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public abstract class GameObject {
+public abstract class AbstractObject {
 
 	GameObjectID id;
 	protected Image image;
@@ -73,7 +73,7 @@ public abstract class GameObject {
 	 * @param damage
 	 * @param id
 	 */
-	public GameObject(SnakeGame game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
+	public AbstractObject(SnakeGame game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
 			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
@@ -99,7 +99,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+	public AbstractObject(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
 			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
@@ -135,7 +135,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
+	public AbstractObject(SnakeGame game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
@@ -157,7 +157,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, float x, float y, float r, float velX, float velY,
+	public AbstractObject(SnakeGame game, Pane layer, float x, float y, float r, float velX, float velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
@@ -170,7 +170,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Image image, float x, float y, GameObjectID id) {
+	public AbstractObject(SnakeGame game, Pane layer, Image image, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
@@ -187,7 +187,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractObject(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -217,7 +217,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(Image image, float x, float y) {
+	public AbstractObject(Image image, float x, float y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -230,7 +230,7 @@ public abstract class GameObject {
 
 	}
 
-	public GameObject(SnakeGame game, Pane layer, GameObjectID id) {
+	public AbstractObject(SnakeGame game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -440,7 +440,7 @@ public abstract class GameObject {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public void getDamagedBy(GameObject object) {
+	public void getDamagedBy(AbstractObject object) {
 		health -= object.getDamage();
 	}
 

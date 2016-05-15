@@ -1,6 +1,6 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 
@@ -460,7 +460,7 @@ public abstract class SlitherMain {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public void getDamagedBy(GameObject object) {
+	public void getDamagedBy(AbstractObject object) {
 		health -= object.getDamage();
 	}
 

@@ -1,6 +1,6 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -307,7 +307,7 @@ public class SlitherSnake extends SlitherMain {
 	public void checkCollision() {
 		if (isDead == false) {
 			for (int i = 0; i < game.getObjectManager().getObjectList().size(); i++) {
-				GameObject tempObject = game.getObjectManager().getObjectList().get(i);
+				AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						addSection();

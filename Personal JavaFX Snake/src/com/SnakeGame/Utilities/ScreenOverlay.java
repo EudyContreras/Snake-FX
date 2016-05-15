@@ -1,8 +1,8 @@
 package com.SnakeGame.Utilities;
 
-import com.SnakeGame.FrameWork.GameStateID;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.ObjectIDs.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 

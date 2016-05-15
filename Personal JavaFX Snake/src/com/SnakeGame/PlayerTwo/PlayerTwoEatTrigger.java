@@ -1,6 +1,6 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PlayerTwoEatTrigger extends GameObject {
+public class PlayerTwoEatTrigger extends AbstractObject {
 	int index;
 	int counter = 0;
 	boolean stop = false;
@@ -84,7 +84,7 @@ public class PlayerTwoEatTrigger extends GameObject {
 
 	public void checkCollision() {
 		for (int i = 0; i < game.getObjectManager().getObjectList().size(); i++) {
-			GameObject tempObject = game.getObjectManager().getObjectList().get(i);
+			AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 					if (PlayerTwo.MOUTH_CLOSE && Settings.AUTOMATIC_EATING) {

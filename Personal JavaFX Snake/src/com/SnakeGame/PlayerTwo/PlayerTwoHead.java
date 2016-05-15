@@ -1,7 +1,7 @@
 package com.SnakeGame.PlayerTwo;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameObject;
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
@@ -18,7 +18,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class PlayerTwoHead extends GameObject {
+public class PlayerTwoHead extends AbstractObject {
 	double rotation = 0;
 	double rotationSpeed = 0;
 	double targetRotation;
