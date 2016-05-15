@@ -182,28 +182,28 @@ public class PlayerOneSection extends AbstractSection {
 					setLastDirection(PlayerMovement.MOVE_UP);
 					removeLatestDirection();
 					velX = 0;
-					velY = -Settings.SECTION;
+					velY = -Settings.SNAKE_SPEED;
 					r = 180;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_DOWN) {
 					setLastDirection(PlayerMovement.MOVE_DOWN);
 					removeLatestDirection();
 					velX = 0;
-					velY = Settings.SECTION;
+					velY = Settings.SNAKE_SPEED;
 					r = 0;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_LEFT) {
 					setLastDirection(PlayerMovement.MOVE_LEFT);
 					removeLatestDirection();
 					velY = 0;
-					velX = -Settings.SECTION;
+					velX = -Settings.SNAKE_SPEED;
 					r = 89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
 					removeLatestDirection();
 					velY = 0;
-					velX = Settings.SECTION;
+					velX = Settings.SNAKE_SPEED;
 					r = -89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}

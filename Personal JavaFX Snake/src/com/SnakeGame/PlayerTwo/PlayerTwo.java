@@ -363,7 +363,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
-		velY = -Settings.SECTION;
+		velY = -Settings.SNAKE_SPEED;
 		velX = 0;
 		r = 180;
 		setCurrentDirection(PlayerMovement.MOVE_UP);
@@ -375,7 +375,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
-		velY = Settings.SECTION;
+		velY = Settings.SNAKE_SPEED;
 		velX = 0;
 		r = 0;
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
@@ -387,7 +387,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
-		velX = Settings.SECTION;
+		velX = Settings.SNAKE_SPEED;
 		velY = 0;
 		r = -89;
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
@@ -399,7 +399,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
-		velX = -Settings.SECTION;
+		velX = -Settings.SNAKE_SPEED;
 		velY = 0;
 		r = 89;
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);

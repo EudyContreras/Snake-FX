@@ -5,6 +5,7 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
+
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -17,11 +18,12 @@ import javafx.scene.shape.Rectangle;
  */
 public class HealthBarTwo {
 
-
 	private boolean setDelay = false;
 	private boolean killPlayer = false;
 	private boolean playerIsAlive = true;
 	private double maxHealth = 100;
+	private double x = 0;
+	private double oldX = 0;
 	private double width = 0;
 	private int delay = 0;
 	private SnakeGame game;
@@ -30,6 +32,8 @@ public class HealthBarTwo {
 	private Rectangle healthBarBorder = new Rectangle();
 
 	public HealthBarTwo(SnakeGame game, double x, double y, double width, double height) {
+		this.x = x;
+		this.oldX = this.x;
 		this.width = width;
 		this.player = game.getloader().getPlayerTwo();
 		this.game = game;
@@ -41,9 +45,9 @@ public class HealthBarTwo {
 		this.healthBarBorder.setHeight(height);
 		this.healthBarBorder.setTranslateX(x);
 		this.healthBarBorder.setTranslateY(y);
-		this.healthBar.setFill(new ImagePattern(GameImageBank.healthBarGreen1));
-		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.healthBarRed1));
-		game.getOverlay().getChildren().add(healthBarBorder);
+		this.healthBar.setFill(new ImagePattern(GameImageBank.healthBarGreen2));
+		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.healthBarRed2));
+		game.getOverlay().getChildren().addAll(healthBarBorder);
 		game.getOverlay().getChildren().add(healthBar);
 		this.maxHealth = width;
 	}
@@ -56,6 +60,7 @@ public class HealthBarTwo {
 
 		if (player.isCollision() == true) {
 			width -= Settings.DAMAGE_AMOUNT;
+			x += Settings.DAMAGE_AMOUNT;
 			setDelay = true;
 			player.setCollision(false);
 		}
@@ -63,7 +68,9 @@ public class HealthBarTwo {
 			killPlayer = true;
 			playerIsAlive = false;
 		}
+		this.healthBar.setTranslateX(x);
 		this.healthBar.setWidth(width);
+
 	}
 
 	/**
@@ -81,6 +88,7 @@ public class HealthBarTwo {
 	 * This method regenerates the health over a given period of time.
 	 */
 	public void regerateHealth() {
+		// hide();
 		if (player.isDead() == false) {
 			setDelay();
 			if (delay >= 0) {
@@ -89,8 +97,13 @@ public class HealthBarTwo {
 
 			if (player.isCollision() == false) {
 				if (width < maxHealth) {
-					if (delay <= 0)
+					if (delay <= 0) {
 						width += Settings.HEALTH_REGENERATION_SPEED;
+						x -= Settings.HEALTH_REGENERATION_SPEED;
+					}
+					if (x <= oldX) {
+						x = oldX;
+					}
 				}
 			}
 		}
@@ -98,6 +111,7 @@ public class HealthBarTwo {
 			player.die();
 			killPlayer = false;
 		}
+		// x = (int) width;
 	}
 
 	public void hide() {
@@ -117,6 +131,8 @@ public class HealthBarTwo {
 		this.killPlayer = false;
 		this.playerIsAlive = true;
 		this.width = maxHealth;
+		this.x = oldX;
+		this.healthBar.setTranslateX(x);
 		this.healthBar.setWidth(maxHealth);
 	}
 

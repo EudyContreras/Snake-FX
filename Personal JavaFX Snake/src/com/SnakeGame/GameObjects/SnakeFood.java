@@ -112,10 +112,12 @@ public class SnakeFood extends AbstractObject {
 	}
 
 	public void updateLife(){
-		lifeTime++;
-		if(lifeTime>=80){
-			lifeTime = 80;
-			remainStatic = true;
+		if (fadeValue >= 1.0) {
+			lifeTime++;
+			if (lifeTime >= 80) {
+				lifeTime = 80;
+				remainStatic = true;
+			}
 		}
 	}
 	public void updateGlow(){

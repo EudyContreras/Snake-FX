@@ -159,7 +159,7 @@ public class GameOverScreen {
 					}
 
 				}
-				if (boardX <= 0 - gameOverScreen.getHeight() + 50) {
+				if (boardX <= 0 - (gameOverScreen.getHeight() + 150)) {
 					boardX = (float) (0 - gameOverScreen.getHeight() + 50);
 					boardXPosition = 0;
 					swipeLeft = false;
