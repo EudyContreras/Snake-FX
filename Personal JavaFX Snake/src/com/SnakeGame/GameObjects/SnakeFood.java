@@ -2,17 +2,16 @@ package com.SnakeGame.GameObjects;
 
 import java.util.Random;
 
+import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.AbstractObject;
-import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
-import com.SnakeGame.Particles.FruitSplash;
-import com.SnakeGame.Particles.FruitSplash2;
+import com.SnakeGame.Particles.FruitSplashOne;
+import com.SnakeGame.Particles.FruitSplashTwo;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneFangs;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -28,34 +27,32 @@ import javafx.scene.shape.Circle;
 
 public class SnakeFood extends AbstractObject {
 
-	double size;
-	double targetSize;
-	double particleLife;
-	double particleSize;
-	double fadeValue = 0.0;
-	double glowValue = 0.0;
-	double staticRadius = 0;
-	boolean maxSize = false;
-	boolean minSize = true;
-	boolean maxGlow = false;
-	boolean noGlow = true;
-	Circle bounds;
-	DropShadow borderGlow = new DropShadow();
-	GameObjectManager gom;
-	Boolean collision = false;
-	Random rand = new Random();
+	private double size;
+	private double targetSize;
+	private double particleLife;
+	private double particleSize;
+	private double fadeValue = 0.0;
+	private double glowValue = 0.0;
+	private double staticRadius = 0;
+	private double lifeTime = 0;
+	private boolean remainStatic = false;
+	private boolean maxSize = false;
+	private boolean minSize = true;
+	private boolean maxGlow = false;
+	private boolean noGlow = true;
+	private Circle bounds;
+	private DropShadow borderGlow = new DropShadow();
+	private Random rand = new Random();
+	private SnakeGame game;
 
-	SnakeGame game;
 
 	public SnakeFood(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
-		this.gom = game.getObjectManager();
 	}
 	public SnakeFood(SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
-		this.gom = game.getObjectManager();
 		this.circle.setOpacity(fadeValue);
 		this.size = circle.getRadius();
 		this.targetSize = size;
@@ -81,7 +78,16 @@ public class SnakeFood extends AbstractObject {
 			circle.setEffect(borderGlow);
 		}
 	}
-
+	public void logicUpdate(){
+		fadeValue += 0.01;
+		if (fadeValue >= 1.0) {
+			fadeValue = 1.0;
+		}
+		fruitFadein();
+		lookAtMe();
+		updateGlow();
+		updateLife();
+	}
 	public void move() {
 		if (Settings.DEBUG_MODE) {
 			bounds.setCenterX(x);
@@ -105,17 +111,14 @@ public class SnakeFood extends AbstractObject {
 		velY *= 0.97;
 	}
 
-	public void checkRemovability() {
-		fadeValue += 0.01;
-		if (fadeValue >= 1.0) {
-			fadeValue = 1.0;
+	public void updateLife(){
+		lifeTime++;
+		if(lifeTime>=80){
+			lifeTime = 80;
+			remainStatic = true;
 		}
-		fruitFadein();
-		if (collision == true) {
-			this.remove();
-			this.setRemovable(true);
-		}
-		lookAtMe();
+	}
+	public void updateGlow(){
 		if (Settings.ADD_GLOW) {
 			if (fadeValue == 1.0) {
 				if (noGlow) {
@@ -145,7 +148,6 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
-
 	public void lookAtMe() {
 		if (minSize) {
 			size += 0.5 * Settings.FRAME_SCALE;
@@ -217,9 +219,12 @@ public class SnakeFood extends AbstractObject {
 			if (object.getId() == GameObjectID.SnakeSection) {
 				if (object.getNumericID() > 1) {
 					if (getBounds().intersects(object.getBounds())) {
-						this.x = newX;
-						this.y = newY;
-						this.fadeValue = 0;
+						if (!remainStatic) {
+							this.x = newX;
+							this.y = newY;
+							this.fadeValue = 0;
+							lifeTime = 0;
+						}
 					}
 				}
 			}
@@ -228,9 +233,12 @@ public class SnakeFood extends AbstractObject {
 			if (object.getId() == GameObjectID.SnakeSection) {
 				if (object.getNumericID() > 1 ) {
 					if (getBounds().intersects(object.getBounds())) {
-						this.x = newX;
-						this.y = newY;
-						this.fadeValue = 0;
+						if (!remainStatic) {
+							this.x = newX;
+							this.y = newY;
+							this.fadeValue = 0;
+							lifeTime = 0;
+						}
 					}
 				}
 			}
@@ -262,7 +270,7 @@ public class SnakeFood extends AbstractObject {
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
-			game.getDebrisManager().addObject(new FruitSplash(game, new ImagePattern(GameImageBank.fruit2),
+			game.getDebrisManager().addObject(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruit2),
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 		}
 	}
@@ -275,7 +283,7 @@ public class SnakeFood extends AbstractObject {
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
-			game.getDebrisManager().addObject(new FruitSplash2(game, new ImagePattern(GameImageBank.glowingCircle),
+			game.getDebrisManager().addObject(new FruitSplashTwo(game, new ImagePattern(GameImageBank.glowingCircle),
 					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 		}
 	}

@@ -32,7 +32,7 @@ public class SlitherSection extends SlitherSectionMain {
 	Circle bones;
 	SlitherSnake snake;
 	SlitherSectionMain previousSect;
-	GameSlitherSectionManager sectManager;
+	SlitherSectionManager sectManager;
 
 	public SlitherSection(SlitherSnake snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
 			float numericID) {

@@ -13,36 +13,29 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class VictoryScreen {
 
-	static boolean LEVEL_COMPLETE = false;
-	ScreenOverlay overlay;
-	SnakeGame gamePane;
-	Rectangle confirmScreen;
-	ImageView yes;
-	ImageView no;
-	ImageView restart;
-	Pane scoreLayer;
-	Text text;
-	Font font;
-	Image boardImage;
-	float position = 0;
-	double width = 0;
-	double height = 0;
-	float delay = 0;
-	float confirmX = 0;
-	float confirmXPosition = 0;
-	float accelaration = 0.3f;
-	boolean swipeRight = false;
-	boolean swipeLeft = false;
-	boolean center = true;
+	public static boolean LEVEL_COMPLETE = false;
+	private ScreenOverlay overlay;
+	private SnakeGame gamePane;
+	private Rectangle confirmScreen;
+	private ImageView yes;
+	private ImageView no;
+	private ImageView restart;
+	private Pane scoreLayer;
+	private Image boardImage;
+	private double width = 0;
+	private double height = 0;
+	private float confirmX = 0;
+	private float confirmXPosition = 0;
+	private float accelaration = 0.3f;
+	private boolean swipeRight = false;
+	private boolean swipeLeft = false;
+	private boolean center = true;
 
 	public VictoryScreen(SnakeGame game, Image boardImage, double width, double height) {
 		this.gamePane = game;
-		this.text = new Text();
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.scoreLayer = new Pane();
 		this.boardImage = boardImage;
@@ -117,7 +110,7 @@ public class VictoryScreen {
 
 	}
 
-	public void swipeFromLeft() {
+	public void swipeRight() {
 		if (swipeRight == true) {
 			confirmScreen.setX(confirmX);
 			confirmX += confirmXPosition;
@@ -127,10 +120,6 @@ public class VictoryScreen {
 				if (accelaration <= 0) {
 
 					accelaration = 0;
-					// if(confirmXPosition>=0.005){
-					//
-					// //confirmXPosition = 0.001f;
-					// }
 					confirmXPosition -= 1.17;
 					if (confirmXPosition <= 0.25) {
 						confirmXPosition = 0.25f;

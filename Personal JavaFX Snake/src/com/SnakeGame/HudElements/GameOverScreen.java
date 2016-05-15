@@ -7,42 +7,34 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.Utilities.ScreenOverlay;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class GameOverScreen {
 
-	ScreenOverlay overlay;
-	SnakeGame gamePane;
-	Rectangle gameOverScreen;
-	ImageView yes;
-	ImageView no;
-	ImageView restart;
-	Pane scoreLayer;
-	Text text;
-	Font font;
-	Image boardImage;
-	float position = 0;
-	double width = 0;
-	double height = 0;
-	float delay = 0;
-	float boardX = 0;
-	float boardXPosition = 0;
-	float accelaration = 0.3f;
-	boolean swipeRight = false;
-	boolean swipeLeft = false;
-	boolean center = true;
+	private ScreenOverlay overlay;
+	private SnakeGame gamePane;
+	private Rectangle gameOverScreen;
+	private ImageView yes;
+	private ImageView no;
+	private ImageView restart;
+	private Pane scoreLayer;
+	private Image boardImage;
+	private double width = 0;
+	private double height = 0;
+	private float boardX = 0;
+	private float boardXPosition = 0;
+	private float accelaration = 0.3f;
+	private boolean swipeRight = false;
+	private boolean swipeLeft = false;
+	private boolean center = true;
 	public static boolean FAILED_LEVEL = false;
 
 	public GameOverScreen(SnakeGame game, Image boardImage, double width, double height) {
 		this.gamePane = game;
-		this.text = new Text();
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.scoreLayer = new Pane();
 		this.boardImage = boardImage;
@@ -117,7 +109,7 @@ public class GameOverScreen {
 
 	}
 
-	public void swipeFromLeft() {
+	public void swipeDown() {
 		if (swipeRight == true) {
 			gameOverScreen.setY(boardX);
 			boardX += boardXPosition;
@@ -127,9 +119,6 @@ public class GameOverScreen {
 				if (accelaration <= 0) {
 
 					accelaration = 0;
-					// if(confirmXPosition>=0.005){
-					// //confirmXPosition = 0.001f;
-					// }
 					boardXPosition -= 0.60;
 					if (boardXPosition <= 0.25) {
 						boardXPosition = 0.25f;

@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
  * Class used by the level culler. The culler uses this class by placing this
  * class at specific checkpoints and and loading another area of the game once
  * this checkpoint is reached
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -33,6 +33,9 @@ public class GameLevelCheckpoint extends Tile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
+	}
+	public void Action(){
+
 	}
 
 }

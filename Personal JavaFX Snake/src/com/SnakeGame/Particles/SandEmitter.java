@@ -9,8 +9,6 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
-import javafx.scene.shape.Circle;
-
 /**
  * This class is used to keep track of energy used by the player if there's is
  * any it will decrease and regenerate according to time passed and given
@@ -21,33 +19,23 @@ import javafx.scene.shape.Circle;
  */
 public class SandEmitter {
 
-	boolean goUp = false;
-	boolean goDown = true;
-	boolean blur = false;
-	double maxEnergyLevel = 100;
-	double x = 0;
-	double y = 0;
-	double velY;
-	double width = 0;
-	double height = 0;
-	int interval = 0;
-	int spawnDelay = 0;
-	PlayerOne player;
-	Circle emitter;
-	SnakeGame game;
-	Random rand;
-	ScreenOverlay overlay;
+	private boolean goUp = false;
+	private boolean goDown = true;
+	private double x = 0;
+	private double y = 0;
+	private double velY;
+	private int interval = 0;
+	private SnakeGame game;
+	private Random rand;
+	private ScreenOverlay overlay;
 
 	public SandEmitter(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.velY = 5;
-		this.width = width;
-		this.height = height;
 		this.game = game;
 		this.rand = new Random();
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
-//	    this.overlay.addToneOverlay(Color.rgb(255, 150, 0,1), 20, 1);
 	}
 
 	public void move() {

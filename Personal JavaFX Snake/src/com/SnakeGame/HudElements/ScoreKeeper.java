@@ -24,25 +24,13 @@ public class ScoreKeeper {
 	public Text text;
 	public Font font;
 	private float x = 0;
-	float y = 0;
-	float x1 = 0;
-	float y1 = 0;
-	float y2 = 0;
-	float oldY = 0;
-	float oldY1 = 0;
-	float oldY2 = 0;
+	private float y = 0;
+	private float y1 = 0;
+	private float y2 = 0;
+	private float oldY = 0;
 	private float position = 0;
 	private double width = 0;
-	double height = 0;
-	float delay = 0;
-	float confirmX = 0;
-	float confirmXPosition = 0;
-	float accelaration = 0.3f;
-	boolean swipeRight = false;
-	boolean goLeft = false;
-	boolean goRight = true;
-	boolean center = true;
-	int initialAmount;
+	private int initialAmount;
 
 	public ScoreKeeper(SnakeGame game, int count, double x1, double y1, double x, double y, double width,
 			double height) {
@@ -54,11 +42,8 @@ public class ScoreKeeper {
 		this.setX((float) x);
 		this.y = (float) y;
 		this.oldY = (float) y;
-		this.x1 = (float) x1;
 		this.y1 = (float) y1;
-		this.oldY1 = (float) y1;
 		this.setWidth(width);
-		this.height = height;
 		this.board = new Rectangle(x, y, width, height);
 		this.font = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
 		this.board.setFill(new ImagePattern(GameImageBank.countKeeper));
@@ -123,9 +108,6 @@ public class ScoreKeeper {
 	public void resetCount() {
 		APPLE_COUNT = initialAmount;
 		text.setText(" X " + APPLE_COUNT);
-		// y = oldY;
-		// y1 = oldY1;
-		// y2 = 0;
 	}
 
 	public double getWidth() {

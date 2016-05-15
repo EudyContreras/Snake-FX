@@ -10,30 +10,30 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class GameDebrisManager {
 
-	private LinkedList<DebrisEffect> debris;
-	private LinkedList<DebrisEffect> particles;
-	private DebrisEffect tempDebris;
+	private LinkedList<AbstractDebrisEffect> debris;
+	private LinkedList<AbstractDebrisEffect> particles;
+	private AbstractDebrisEffect tempDebris;
 	public SnakeGame game;
 
 	public GameDebrisManager(SnakeGame game) {
 		this.game = game;
-		this.debris = new LinkedList<DebrisEffect>();
-		this.particles = new LinkedList<DebrisEffect>();
+		this.debris = new LinkedList<AbstractDebrisEffect>();
+		this.particles = new LinkedList<AbstractDebrisEffect>();
 	}
 
-	public void addParticle(DebrisEffect particle) {
+	public void addParticle(AbstractDebrisEffect particle) {
 		particles.add(particle);
 	}
 
-	public void addDebris(DebrisEffect debrisEffect) {
+	public void addDebris(AbstractDebrisEffect debrisEffect) {
 		debris.add(debrisEffect);
 	}
 
-	public void addObject(DebrisEffect debris) {
+	public void addObject(AbstractDebrisEffect debris) {
 		this.debris.add(debris);
 	}
 
-	public void addObjectA(DebrisEffect... db) {
+	public void addObjectA(AbstractDebrisEffect... db) {
 		if (db.length > 1) {
 			debris.addAll(Arrays.asList(db));
 		} else {
@@ -42,8 +42,8 @@ public class GameDebrisManager {
 	}
 
 	public void update(GraphicsContext gc) {
-		for (Iterator<DebrisEffect> debrisList = debris.iterator(); debrisList.hasNext();) {
-			DebrisEffect tempDebris = debrisList.next();
+		for (Iterator<AbstractDebrisEffect> debrisList = debris.iterator(); debrisList.hasNext();) {
+			AbstractDebrisEffect tempDebris = debrisList.next();
 			tempDebris.update();
 			tempDebris.draw(gc);
 			tempDebris.move();
@@ -112,11 +112,11 @@ public class GameDebrisManager {
 		}
 	}
 
-	public LinkedList<DebrisEffect> getDebrisList() {
+	public LinkedList<AbstractDebrisEffect> getDebrisList() {
 		return debris;
 	}
 
-	public LinkedList<DebrisEffect> getParticleList() {
+	public LinkedList<AbstractDebrisEffect> getParticleList() {
 		return particles;
 	}
 

@@ -45,7 +45,17 @@ public class GameTileManager {
 	public void addTrap(Tile tile) {
 		this.trap.add(tile);
 	}
+	public List<Tile> getTile() {
+		return tile;
+	}
 
+	public List<Tile> getBlock() {
+		return block;
+	}
+
+	public List<Tile> getTrap() {
+		return trap;
+	}
 	public void addObjectAsArray(Tile... tl) {
 		if (tl.length > 1) {
 			tile.addAll(Arrays.asList(tl));

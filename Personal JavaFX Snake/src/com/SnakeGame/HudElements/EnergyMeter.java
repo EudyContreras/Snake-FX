@@ -16,18 +16,20 @@ import javafx.scene.shape.Rectangle;
  */
 public class EnergyMeter {
 
-	boolean depleated = false;
-	boolean shotsFired = false;
-	boolean setDelay = false;
-	int maxEnergyLevel = 100;
-	int x = 0;
-	int y = 0;
-	int width = 0;
-	int height = 0;
-	int delay = 0;
-	PlayerOne player;
-	Rectangle energyBar = new Rectangle();
-	Rectangle energyBarBorder = new Rectangle();
+
+
+	private boolean depleated = false;
+	private boolean shotsFired = false;
+	private boolean setDelay = false;
+	private int maxEnergyLevel = 100;
+	private int x = 0;
+	private int y = 0;
+	private int width = 0;
+	private int height = 0;
+	private int delay = 0;
+	private PlayerOne player;
+	private Rectangle energyBar = new Rectangle();
+	private Rectangle energyBarBorder = new Rectangle();
 
 	public EnergyMeter(SnakeGame game, int x, int y, int width, int height) {
 		this.x = x;
@@ -104,5 +106,99 @@ public class EnergyMeter {
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
 	}
+	public boolean isDepleated() {
+		return depleated;
+	}
 
+	public void setDepleated(boolean depleated) {
+		this.depleated = depleated;
+	}
+
+	public boolean isShotsFired() {
+		return shotsFired;
+	}
+
+	public void setShotsFired(boolean shotsFired) {
+		this.shotsFired = shotsFired;
+	}
+
+	public boolean isSetDelay() {
+		return setDelay;
+	}
+
+	public void setSetDelay(boolean setDelay) {
+		this.setDelay = setDelay;
+	}
+
+	public int getMaxEnergyLevel() {
+		return maxEnergyLevel;
+	}
+
+	public void setMaxEnergyLevel(int maxEnergyLevel) {
+		this.maxEnergyLevel = maxEnergyLevel;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getDelay() {
+		return delay;
+	}
+
+	public void setDelay(int delay) {
+		this.delay = delay;
+	}
+
+	public PlayerOne getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(PlayerOne player) {
+		this.player = player;
+	}
+
+	public Rectangle getEnergyBar() {
+		return energyBar;
+	}
+
+	public void setEnergyBar(Rectangle energyBar) {
+		this.energyBar = energyBar;
+	}
+
+	public Rectangle getEnergyBarBorder() {
+		return energyBarBorder;
+	}
+
+	public void setEnergyBarBorder(Rectangle energyBarBorder) {
+		this.energyBarBorder = energyBarBorder;
+	}
 }

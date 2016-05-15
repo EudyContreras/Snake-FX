@@ -1,7 +1,5 @@
 package com.SnakeGame.Particles;
 
-import java.util.Random;
-
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -14,24 +12,16 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class FruitSplash extends DebrisEffect {
+public class FruitSplashOne extends AbstractDebrisEffect {
 
-	GameDebrisID id;
-	Random rand = new Random();
-	Paint color;
-	double radius;
-	double decay;
-	double lifeTime = 1.0f;
-	double width;
-	double height;
-	double energyLoss = 0.9;
-	boolean isAlive = false;
-	boolean removable = false;
-	int depth = 400;
-	int amount = 200;
-	double greenRange = Math.random() * (200 - 65 + 1) + 65;
+	private GameDebrisID id;
+	private Paint color;
+	private double radius;
+	private double decay;
+	private double lifeTime = 1.0f;
+	private double energyLoss = 0.9;
 
-	public FruitSplash(SnakeGame game, Paint fill, double expireTime, double radius, double x, double y) {
+	public FruitSplashOne(SnakeGame game, Paint fill, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.shape = new Circle();
@@ -48,7 +38,7 @@ public class FruitSplash extends DebrisEffect {
 		init();
 	}
 
-	public FruitSplash(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
+	public FruitSplashOne(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.imagePattern = new ImagePattern(image);
@@ -68,11 +58,6 @@ public class FruitSplash extends DebrisEffect {
 	public void update() {
 		super.move();
 		lifeTime -= decay;
-		// radius-=1;
-		// this.shape.setRadius(this.radius);
-		// if(radius<=0){
-		// lifeTime =0;
-		// }
 	}
 
 	public void move() {

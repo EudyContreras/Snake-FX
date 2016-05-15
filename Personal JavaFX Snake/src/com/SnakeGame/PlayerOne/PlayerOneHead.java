@@ -9,7 +9,7 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
-import com.SnakeGame.Particles.FruitSplash2;
+import com.SnakeGame.Particles.FruitSplashTwo;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
@@ -231,7 +231,7 @@ public class PlayerOneHead extends AbstractObject {
 
 	public void showVisualQue(Color color) {
 		game.getDebrisManager().addObject(
-				new FruitSplash2(game, color, 1, 10, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
+				new FruitSplashTwo(game, color, 1, 10, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 	}
 
 	public void setRotate(boolean rotate, PlayerMovement newDirection, int targetRotation) {

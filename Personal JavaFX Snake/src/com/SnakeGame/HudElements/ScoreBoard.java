@@ -22,43 +22,25 @@ import javafx.scene.text.Text;
  */
 public class ScoreBoard {
 
-	boolean depleated = false;
-	boolean shotsFired = false;
-	boolean setDelay = false;
-	boolean killPlayer = false;
-	boolean playerIsAlive = true;
-	double maxHealth = 100;
-	int score = 0;
-	double x = 0;
-	double y = 0;
-	double width = 0;
-	double height = 0;
-	double delay = 0;
-	String message;
-	PlayerOne player;
-	Text text = new Text();
-	Font theFont = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
-	Rectangle board;
+
+
+	private int score = 0;
+	private String message;
+	private Text text = new Text();
+	private Font theFont = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
+	private Rectangle board;
 
 	public ScoreBoard(String text, SnakeGame game, double x1, double y1, double x, double y, double width,
 			double height) {
-		this.x = x;
-		this.y = y;
 		this.message = text;
-		this.width = width;
-		this.height = height;
-		this.player = game.getloader().getPlayerOne();
 		this.board = new Rectangle(x, y, width, height);
 		this.board.setFill(new ImagePattern(new Image("com/SnakeGame/Images/scoreBoard.png")));
 		this.text.setTranslateX(x1);
 		this.text.setTranslateY(y1);
 		this.text.setFill(Color.RED);
-		// this.text.prefWidth(width);
-		// this.text.prefHeight(height);
 		this.text.setEffect(null);
 		this.text.setFont(theFont);
 		this.text.setText(message + " :" + "0" + score);
-		// game.getOverlay().getChildren().add(board);
 		game.getOverlay().getChildren().add(this.text);
 	}
 

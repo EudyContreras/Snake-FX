@@ -17,8 +17,8 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
-import com.SnakeGame.SlitherSnake.GameSlitherManager;
-import com.SnakeGame.SlitherSnake.GameSlitherSectionManager;
+import com.SnakeGame.SlitherSnake.SlitherManager;
+import com.SnakeGame.SlitherSnake.SlitherSectionManager;
 import com.SnakeGame.Utilities.ImageUtility;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
@@ -76,11 +76,11 @@ public class SnakeGame extends Application implements Runnable {
 	private GameGestureInputManager gestures;
 	private GraphicsContext gc;
 	private GameObjectManager objectManager;
-	private GameSlitherManager slitherManager;
+	private SlitherManager slitherManager;
 	private GameDebrisManager debrisManager;
 	private PlayerOneSectionManager sectManagerOne;
 	private PlayerTwoSectionManager sectManagerTwo;;
-	private GameSlitherSectionManager sectManagerThree;
+	private SlitherSectionManager sectManagerThree;
 	private FadeTransition fadeSplash;
 	private Stage mainWindow;
 	private MenuMain mainMenu;
@@ -269,10 +269,10 @@ public class SnakeGame extends Application implements Runnable {
 		overlay = new Pane();
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
-		slitherManager = new GameSlitherManager(this);
+		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
-		sectManagerThree = new GameSlitherSectionManager(this);
+		sectManagerThree = new SlitherSectionManager(this);
 		keyInput = new GameKeyInputManager();
 		gestures = new GameGestureInputManager();
 		mouseInput = new GameMouseInputManager();
@@ -437,8 +437,8 @@ public class SnakeGame extends Application implements Runnable {
 							fade();
 							drawOverlay(gc);
 							gameHud.update();
-							victoryScreen.swipeFromLeft();
-							gameOverScreen.swipeFromLeft();
+							victoryScreen.swipeRight();
+							gameOverScreen.swipeDown();
 							scoreKeeper.keepCount();
 							slitherManager.updateAll(gc, timePassed);
 							slitherManager.checkCollisions();
@@ -961,7 +961,7 @@ public class SnakeGame extends Application implements Runnable {
 		return objectManager;
 	}
 
-	public GameSlitherManager getSlitherManager() {
+	public SlitherManager getSlitherManager() {
 		return slitherManager;
 	}
 
@@ -999,11 +999,11 @@ public class SnakeGame extends Application implements Runnable {
 		this.overlay = radarLayer;
 	}
 
-	public ScoreBoard getScoreBoard() {
+	public ScoreBoard getScoreBoardOne() {
 		return scoreBoard;
 	}
 
-	public ScoreBoard getScoreBoard2() {
+	public ScoreBoard getScoreBoardTwo() {
 		return scoreBoard2;
 	}
 
@@ -1085,7 +1085,7 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 
-	public GameSlitherSectionManager getSectionManager3() {
+	public SlitherSectionManager getSectionManager3() {
 		return sectManagerThree;
 	}
 

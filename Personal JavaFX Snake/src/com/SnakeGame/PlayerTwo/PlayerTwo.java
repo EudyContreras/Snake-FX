@@ -467,7 +467,7 @@ public class PlayerTwo extends AbstractObject {
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 		}
-		game.getScoreBoard().increaseScore();
+		game.getScoreBoardTwo().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
 			game.getloader().spawnSnakeFood();
 	}

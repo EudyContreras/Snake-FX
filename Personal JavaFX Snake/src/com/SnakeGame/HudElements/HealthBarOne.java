@@ -6,7 +6,6 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -19,36 +18,22 @@ import javafx.scene.shape.Rectangle;
  */
 public class HealthBarOne {
 
-	boolean depleated = false;
-	boolean setDelay = false;
-	boolean killPlayer = false;
-	boolean playerIsAlive = true;
-	double maxHealth = 100;
-	double x = 0;
-	double y = 0;
-	double width = 0;
-	double height = 0;
-	int delay = 0;
-	SnakeGame game;
-	PlayerOne player;
-	GraphicsContext gc;
-	Rectangle healthBar = new Rectangle();
-	Rectangle healthBarBorder = new Rectangle();
+
+	private boolean setDelay = false;
+	private boolean killPlayer = false;
+	private boolean playerIsAlive = true;
+	private double maxHealth = 100;
+	private double width = 0;
+	private int delay = 0;
+	private SnakeGame game;
+	private PlayerOne player;
+	private Rectangle healthBar = new Rectangle();
+	private Rectangle healthBarBorder = new Rectangle();
 
 	public HealthBarOne(SnakeGame game, double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
 		this.width = width;
-		this.height = height;
 		this.player = game.getloader().getPlayerOne();
 		this.game = game;
-		// this.healthBar.setWidth(width);
-		// this.healthBar.setHeight(height);
-		// this.healthBar.setTranslateX(x);
-		// this.healthBar.setTranslateY(y);
-		// this.healthBar.setArcHeight(20);
-		// this.healthBar.setArcWidth(20);
-
 		this.healthBar.setWidth(width);
 		this.healthBar.setHeight(height);
 		this.healthBar.setTranslateX(x);
@@ -58,12 +43,6 @@ public class HealthBarOne {
 		this.healthBarBorder.setTranslateX(x);
 		this.healthBarBorder.setTranslateY(y);
 		this.healthBar.setFill(new ImagePattern(GameImageBank.healthBarGreen1));
-		// this.healthBarBorder.setWidth(width);
-		// this.healthBarBorder.setHeight(height);
-		// this.healthBarBorder.setArcWidth(20);
-		// this.healthBarBorder.setArcHeight(20);
-		// this.healthBarBorder.setTranslateX(x);
-		// this.healthBarBorder.setTranslateY(y);
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.healthBarRed1));
 		game.getOverlay().getChildren().add(healthBarBorder);
 		game.getOverlay().getChildren().add(healthBar);
@@ -103,7 +82,6 @@ public class HealthBarOne {
 	 * This method regenerates the health over a given period of time.
 	 */
 	public void regerateHealth() {
-		// hide();
 		if (player.isDead() == false) {
 			setDelay();
 			if (delay >= 0) {
@@ -136,7 +114,6 @@ public class HealthBarOne {
 	}
 
 	public void refill() {
-		this.depleated = false;
 		this.setDelay = false;
 		this.killPlayer = false;
 		this.playerIsAlive = true;

@@ -10,23 +10,17 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class SandStorms extends DebrisEffect {
+public class SandStorms extends AbstractDebrisEffect {
 
-	GameDebrisID id;
-	Paint color;
-	double radius;
-	double decay;
-	double lifeTime = 4.0f;
-	double width = Settings.SAND_SIZE;
-	double height = Settings.SAND_SIZE;
-	boolean isAlive = false;
-	boolean removable = false;
-	int depth = 400;
-	int amount = 200;
-	double expireTime = Math.random() * (1 - 0.01 + 1) + 0.01;
+	private GameDebrisID id;
+	private double radius;
+	private double decay;
+	private double lifeTime = 4.0f;
+	private double width = Settings.SAND_SIZE;
+	private double height = Settings.SAND_SIZE;
+	private double expireTime = Math.random() * (1 - 0.01 + 1) + 0.01;
 
 	public SandStorms(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;

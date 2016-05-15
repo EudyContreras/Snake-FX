@@ -5,12 +5,9 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
-
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.effect.Glow;
 import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -18,47 +15,45 @@ import javafx.scene.shape.Rectangle;
 
 public class ScreenOverlay {
 
-	MotionBlur motionEffect = new MotionBlur(0, 50);
-	BoxBlur blurEffect = new BoxBlur(25, 25, 2);
-	GaussianBlur deathEffect = new GaussianBlur(0);
-	GaussianBlur gaussianEffect = new GaussianBlur(7);
-	GaussianBlur clearLevelBlur = new GaussianBlur(0);
-	GaussianBlur stormBlur = new GaussianBlur(0);
-	Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
-	Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	Bloom bloomEffect = new Bloom();
-	Glow glowEffect = new Glow();
-	DropShadow shadow = new DropShadow();
-	Boolean setDistortion = false;
-	Boolean setBloom = false;
-	Boolean setSoftBlur = false;
-	Boolean setIntenseBlur = false;
-	Boolean setToneOverlay = false;
-	Boolean deathBlur = false;
-	Boolean clearLevel = false;
-	Boolean storm = false;
-	Boolean blurUp = true;
-	Boolean blurDown = false;
-	Boolean setFadeOverlay = false;
-	Double clearLevelBluring = 0.0;
-	Double stormBluring = 0.0;
-	Double softBlurLifetime = 0.0;
-	Double distortionLifetime = 0.0;
-	Double bloomLifetime = 0.0;
-	Double toneLifetime = 0.0;
-	Double intenseBlurLifetime = 0.0;
-	Double deathBlurLifetime = 0.0;
-	Double speedDistortion;
-	Double speedTone;
-	Double speedBlur;
-	Double speedGaussian;
-	Double speedDeath;
-	Double speedBloom;
-	Double fade;
-	Double fadeSpeed;
-	Pane layer;
-	SnakeGame game;
-	GameStateID stateID;
+	private MotionBlur motionEffect = new MotionBlur(0, 50);
+	private BoxBlur blurEffect = new BoxBlur(25, 25, 2);
+	private GaussianBlur deathEffect = new GaussianBlur(0);
+	private GaussianBlur gaussianEffect = new GaussianBlur(7);
+	private GaussianBlur clearLevelBlur = new GaussianBlur(0);
+	private GaussianBlur stormBlur = new GaussianBlur(0);
+	private Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
+	private Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
+	private Bloom bloomEffect = new Bloom();
+	private Boolean setDistortion = false;
+	private Boolean setBloom = false;
+	private Boolean setSoftBlur = false;
+	private Boolean setIntenseBlur = false;
+	private Boolean setToneOverlay = false;
+	private Boolean deathBlur = false;
+	private Boolean clearLevel = false;
+	private Boolean storm = false;
+	private Boolean blurUp = true;
+	private Boolean blurDown = false;
+	private Boolean setFadeOverlay = false;
+	private Double clearLevelBluring = 0.0;
+	private Double stormBluring = 0.0;
+	private Double softBlurLifetime = 0.0;
+	private Double distortionLifetime = 0.0;
+	private Double bloomLifetime = 0.0;
+	private Double toneLifetime = 0.0;
+	private Double intenseBlurLifetime = 0.0;
+	private Double deathBlurLifetime = 0.0;
+	private Double speedDistortion;
+	private Double speedTone;
+	private Double speedBlur;
+	private Double speedGaussian;
+	private Double speedBloom;
+	private Double fade;
+	private Double fadeSpeed;
+	private Pane layer;
+	private SnakeGame game;
+	private GameStateID stateID;
+
 	public ScreenOverlay(SnakeGame game, Pane layer) {
 		this.game = game;
 		this.layer = layer;
@@ -219,21 +214,21 @@ public class ScreenOverlay {
 		}
 	}
 
-	public void setDistortionModifier() {
+	private void setDistortionModifier() {
 		if (distortionLifetime >= 0) {
 			distortionLifetime -= speedDistortion;
 			this.motionEffect.setRadius(distortionLifetime);
 		}
 	}
 
-	public void setSoftBlurModifier() {
+	private void setSoftBlurModifier() {
 		if (softBlurLifetime >= 0) {
 			softBlurLifetime -= speedGaussian;
 			this.gaussianEffect.setRadius(softBlurLifetime);
 		}
 	}
 
-	public void setIntenseBlurModifier() {
+	private void setIntenseBlurModifier() {
 		if (intenseBlurLifetime >= 0) {
 			intenseBlurLifetime -= speedBlur;
 			this.blurEffect.setWidth(intenseBlurLifetime);
@@ -241,7 +236,7 @@ public class ScreenOverlay {
 		}
 	}
 
-	public void setBloomModifier() {
+	private void setBloomModifier() {
 		bloomLifetime -= speedBloom;
 		bloomEffect.setThreshold(bloomLifetime);
 		if (bloomLifetime <= 0) {
@@ -250,7 +245,7 @@ public class ScreenOverlay {
 		}
 	}
 
-	public void setToneModifier() {
+	private void setToneModifier() {
 		toneLifetime -= speedTone;
 		this.toneOverlay.setOpacity(toneLifetime);
 		if (toneLifetime <= 0) {
@@ -258,7 +253,8 @@ public class ScreenOverlay {
 			this.layer.getChildren().remove(toneOverlay);
 		}
 	}
-	public void setFadeModifier(){
+
+	private void setFadeModifier(){
 			fade += fadeSpeed;
 			fadeScreen.setOpacity(fade);
 			if (fade >= 1.0f) {
@@ -277,7 +273,8 @@ public class ScreenOverlay {
 				}
 			}
 	}
-	public void setStormBlur() {
+
+	private void setStormBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			if (blurUp) {
 				stormBluring += 0.1;
@@ -301,7 +298,7 @@ public class ScreenOverlay {
 		}
 	}
 
-	public void setDeathBlur() {
+	private void setDeathBlur() {
 		deathBlurLifetime += 0.05;
 		this.layer.setEffect(deathEffect);
 		this.deathEffect.setRadius(deathBlurLifetime);
@@ -310,7 +307,7 @@ public class ScreenOverlay {
 		}
 	}
 
-	public void setClearLevelBlur() {
+	private void setClearLevelBlur() {
 		clearLevelBluring += 0.5;
 		this.layer.setEffect(clearLevelBlur);
 		this.clearLevelBlur.setRadius(clearLevelBluring);

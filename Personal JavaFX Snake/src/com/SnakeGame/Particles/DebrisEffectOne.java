@@ -1,6 +1,4 @@
 package com.SnakeGame.Particles;
-import java.util.Random;
-
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameDebrisID;
@@ -11,33 +9,19 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class DebrisEffect6 extends DebrisEffect{
+public class DebrisEffectOne extends AbstractDebrisEffect{
 
-	GameDebrisID id;
-	Random rand = new Random();
-	Paint color;
-	double radius;
-	double decay;
-	float x;
-	float y;
-	float r;
-	float velX = rand.nextInt(15 - -15 + 1) + -15;
-	float velY = rand.nextInt(15 - -15 + 1) + -15;
-	float velR;
-	float lifeTime = 1.0f;
-	double width;
-	double height;
-	boolean isAlive = false;
-	boolean removable = false;
-	int depth = 400;
-	int amount = 200;
-	double greenRange = Math.random()*(200 - 65 + 1) +65;
-	Point2D velocity = new Point2D((Math.random()*(15 - -15 + 1) + -15), Math.random()*(15 - -15 + 1) + -15);
+	private GameDebrisID id;
+	private double radius;
+	private double decay;
+	private float x;
+	private float y;
+	private float lifeTime = 1.0f;
+	private Point2D velocity = new Point2D((Math.random()*(15 - -15 + 1) + -15), Math.random()*(15 - -15 + 1) + -15);
 
-	public DebrisEffect6(SnakeGame game,Image image, double expireTime, double radius, float x, float y,  Point2D velocity) {
+	public DebrisEffectOne(SnakeGame game,Image image, double expireTime, double radius, float x, float y,  Point2D velocity) {
 		this.game = game;
 		this.radius = radius/2;
 		this.imagePattern = new ImagePattern(image);

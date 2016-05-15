@@ -11,7 +11,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class FruitSplash2 extends DebrisEffect {
+public class FruitSplashTwo extends AbstractDebrisEffect {
 
 	GameDebrisID id;
 	Random rand = new Random();
@@ -33,7 +33,7 @@ public class FruitSplash2 extends DebrisEffect {
 	int amount = 200;
 	double greenRange = Math.random() * (200 - 65 + 1) + 65;
 
-	public FruitSplash2(SnakeGame game, Paint fill, double expireTime, double radius, float x, float y) {
+	public FruitSplashTwo(SnakeGame game, Paint fill, double expireTime, double radius, float x, float y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.shape = new Circle();

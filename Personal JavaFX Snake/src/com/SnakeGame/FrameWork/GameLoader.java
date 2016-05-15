@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.SnakeGame.GameObjects.SnakeFood;
-import com.SnakeGame.GameObjects.WavingCactus;
-import com.SnakeGame.GameObjects.WavingCactus2;
+import com.SnakeGame.GameObjects.WavingCactusOne;
+import com.SnakeGame.GameObjects.WavingCactusTwo;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.ObjectIDs.GameObjectID;
@@ -173,7 +173,6 @@ public class GameLoader {
 		// }
 		loadDesertLevels(GameLevelImage.desertBackground);
 		loadDesertBorder();
-		// loadDesertBorder();
 		game.levelLenght = 128 * 64;
 	}
 
@@ -219,7 +218,7 @@ public class GameLoader {
 					tileManager.addBlock(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
-					WavingCactus texture = new WavingCactus((float) (row * 53 / GameLoader.ResolutionScaleX),
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.cactus,
 							LevelObjectID.longCactus);
 					tileManager.addTile(texture);
@@ -231,7 +230,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					WavingCactus2 texture = new WavingCactus2(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
@@ -243,7 +242,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
-					WavingCactus texture = new WavingCactus((float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -313,7 +312,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
-					WavingCactus texture = new WavingCactus((float) (row * 53 / GameLoader.ResolutionScaleX),
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.cactus,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -325,7 +324,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					WavingCactus2 texture = new WavingCactus2(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
@@ -337,7 +336,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
-					WavingCactus texture = new WavingCactus((float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -381,7 +380,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
-					WavingCactus texture = new WavingCactus((float) (row * 53 / GameLoader.ResolutionScaleX),
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.cactus,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -393,7 +392,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					WavingCactus2 texture = new WavingCactus2(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
@@ -405,7 +404,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
-					WavingCactus texture = new WavingCactus((float) (row * 50 / GameLoader.ResolutionScaleX),
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -517,6 +516,7 @@ public class GameLoader {
 		this.game.levelLenght = 128 * 64;
 		loadPlayer();
 		loadPixelMap();
+		game.reset();
 		GameLevelImage.LEVEL++;
 	}
 
@@ -605,14 +605,6 @@ public class GameLoader {
 		game.getSlitherManager().addObject(slither);
 	}
 
-	public void killPlayerOne() {
-		player = null;
-	}
-
-	public void killPlayerTwo() {
-		player2 = null;
-	}
-
 	/**
 	 * Method used to randomly spawn an esthetic object at a random position and
 	 * at random speed.
@@ -667,6 +659,13 @@ public class GameLoader {
 		return slither;
 	}
 
+	public void killPlayerOne() {
+		player = null;
+	}
+
+	public void killPlayerTwo() {
+		player2 = null;
+	}
 
 
 }

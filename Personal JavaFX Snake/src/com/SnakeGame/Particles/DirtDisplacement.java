@@ -1,7 +1,5 @@
 package com.SnakeGame.Particles;
 
-import java.util.Random;
-
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -12,23 +10,15 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class DirtDisplacement extends DebrisEffect {
+public class DirtDisplacement extends AbstractDebrisEffect {
 
-	GameDebrisID id;
-	Random rand = new Random();
-	Paint color;
-	double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
-	double decay;
-	double lifeTime = 1.0f;
-	double width;
-	double height;
-	double energyLoss = 0.9;
-	int depth = 75;
-	int amount = 200;
-	double greenRange = Math.random() * (190 - 40 + 1) + 40;
+	private GameDebrisID id;
+	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
+	private double decay;
+	private double lifeTime = 1.0f;
+	private double energyLoss = 0.9;
 	Point2D velocity = new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10 + 1) + -10);
 
 	public DirtDisplacement(SnakeGame game, Image image, double x, double y, Point2D velocity) {

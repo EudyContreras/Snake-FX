@@ -13,25 +13,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public abstract class DebrisEffect {
+public abstract class AbstractDebrisEffect {
 
-	SnakeGame game;
+	protected SnakeGame game;
 	protected Circle shape;
-	ImageView view;
-	ImagePattern imagePattern;
-	DropShadow borderGlow;
-	Bloom bloom;
-	BoxBlur motionBlur;
-	double x;
-	double velX;
-	double y;
-	double velY;
-	double r;
-	double velR;
-
-	public DebrisEffect() {
-
-	}
+	protected ImageView view;
+	protected ImagePattern imagePattern;
+	protected DropShadow borderGlow;
+	protected Bloom bloom;
+	protected BoxBlur motionBlur;
+	protected double x;
+	protected double velX;
+	protected double y;
+	protected double velY;
+	protected double r;
+	protected double velR;
 
 	public abstract void update();
 

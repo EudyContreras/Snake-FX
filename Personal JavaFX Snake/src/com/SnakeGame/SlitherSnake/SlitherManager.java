@@ -18,13 +18,13 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameSlitherManager {
+public class SlitherManager {
 
 	private LinkedList<SlitherMain> object;
 	private SlitherMain tempObject;
 	private SnakeGame game;
 
-	public GameSlitherManager(SnakeGame gameJavaFX) {
+	public SlitherManager(SnakeGame gameJavaFX) {
 		this.game = gameJavaFX;
 		initialize();
 	}

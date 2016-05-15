@@ -4,12 +4,14 @@ package com.SnakeGame.GameObjects;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 /**
  * Every static object or esthetic object in the game such as walls, boxes etc
@@ -19,25 +21,18 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class WavingCactus2 extends Tile {
-
+public class WavingCactusOne extends Tile {
+	GameTileManager tileManager;
 	SnakeGame game;
-	Rectangle bounds;
-	Rectangle2D collisionBounds;
 	float speed;
-	float oldX;
 
-	public WavingCactus2(SnakeGame game, float x, float y, float velX, float velR, Image image, LevelObjectID id) {
+	public WavingCactusOne(float x, float y, float velR, Image image, LevelObjectID id) {
 		super(x, y, image, id);
-		this.oldX = x;
 		if (Settings.SAND_STORM)
-			this.velX = velX;
-		this.velR = velR;
-		this.game = game;
+			this.velR = velR;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		this.drawBoundingBox();
-		this.adjustBounds();
+		this.view.setRotationAxis(Rotate.Y_AXIS);
 	}
 
 	public void move() {
@@ -47,39 +42,32 @@ public class WavingCactus2 extends Tile {
 	}
 
 	public void wave() {
-		if (x > oldX + Settings.WIND_FORCE) {
-			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
+		if (r > 4) {
+			velR -= Math.random() * (0.4 - 0.01 + 1) + 0.01;
 		}
-		if (x <= oldX) {
-			if (velX < Settings.WIND_FORCE)
-				velX += 0.4f;
+		if (r <= 0) {
+			if (velR < 4)
+				velR += 0.5f;
 		}
 	}
 
 	public void draw() {
-
-	}
-
-	public void adjustBounds() {
-		if (this.id == LevelObjectID.cactus) {
-			collisionBounds = new Rectangle2D(x + 15, y + 40, width - 50, height - 60);
-		}
+		drawBoundingBox();
 	}
 
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			bounds = new Rectangle(x + 15, y + 35, width - 50, height - 60);
+			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
 			game.getOverlay().getChildren().add(bounds);
-
 		}
 	}
 
 	public Rectangle2D getBounds() {
-		return collisionBounds;
+		return new Rectangle2D(x, y, width, height);
 	}
 
 	public Rectangle2D getBoundsTop() {

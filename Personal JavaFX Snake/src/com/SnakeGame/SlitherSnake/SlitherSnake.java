@@ -114,12 +114,12 @@ public class SlitherSnake extends SlitherMain {
 	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeBlinking);
 	Circle headBounds;
 	Circle skull;
-	GameSlitherManager gom;
+	SlitherManager gom;
 	Animation anim;
 	SlitherSectionMain thisPart;
 	SlitherSectionMain partBefore;
 	SlitherSectionMain snakeTail;
-	GameSlitherSectionManager sectManager;
+	SlitherSectionManager sectManager;
 	SlitherTail tail;
 	Rectangle bounds;
 	ScreenOverlay overlay;
@@ -135,7 +135,7 @@ public class SlitherSnake extends SlitherMain {
 	public static Boolean keepMoving = true;
 
 	public SlitherSnake(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, float speed, GameObjectID id, GameSlitherManager gom) {
+			float velR, double health, double damage, float speed, GameObjectID id, SlitherManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.gom = gom;
 		this.speed = speed;
@@ -360,7 +360,7 @@ public class SlitherSnake extends SlitherMain {
 			NUMERIC_ID += 1;
 			ROTATION_OFFSET += 0.1;
 		}
-		game.getScoreBoard().increaseScore();
+		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
 			game.getloader().spawnSnakeFood();
 	}

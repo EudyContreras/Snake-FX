@@ -68,14 +68,12 @@ public class GameHud {
 			swipeSpeed = 1.5;
 			if (y >= 0) {
 				swipeSpeed = 0;
-				// swipeDown = false;
 			}
 		}
 		if (swipeUp) {
 			swipeSpeed = -1.5;
 			if (y < 0 - height) {
 				swipeSpeed = 0;
-				// swipeUp = false;
 			}
 		}
 		hudBar.setTranslateY(y);

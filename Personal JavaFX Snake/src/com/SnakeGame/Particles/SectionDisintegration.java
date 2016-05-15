@@ -1,7 +1,5 @@
 package com.SnakeGame.Particles;
 
-import java.util.Random;
-
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
@@ -11,24 +9,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class SectionDisintegration extends DebrisEffect {
+public class SectionDisintegration extends AbstractDebrisEffect {
 
-	GameDebrisID id;
-	Random rand = new Random();
-	Paint color;
-	double radius;
-	double decay;
-	double lifeTime = 1.0f;
-	double width;
-	double height;
-	boolean isAlive = false;
-	boolean removable = false;
-	int depth = 400;
-	int amount = 200;
-	double greenRange = Math.random() * (200 - 65 + 1) + 65;
+	private GameDebrisID id;
+	private double radius;
+	private double decay;
+	private double lifeTime = 1.0f;
 
 	public SectionDisintegration(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
