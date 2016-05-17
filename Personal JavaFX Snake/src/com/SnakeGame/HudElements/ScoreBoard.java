@@ -65,7 +65,7 @@ public class ScoreBoard {
 		if (score < 10)
 			text.setText(message + " : " + "0" + score);
 		else
-			text.setText("Hits: " + score);
+			text.setText(message + " : " +  score);
 	}
 
 	public void resetScore() {

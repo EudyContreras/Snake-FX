@@ -11,8 +11,7 @@ public class Settings {
 	 * used Good settings for speed and size : 4/24 4/28 5/25 5/30 6/24 6/30
 	 * 7/28 8/32 9/27 10/30 11/33 12/24 12/36 13/26 14/28 15/30
 	 */
-	public static final int SLITHER_SPEED = 5;
-//	public static final int SECTION = 5;
+
 
 	public static double START_X = 1920;
 	public static double START_Y = 200;// 800
@@ -22,7 +21,8 @@ public class Settings {
 
 	public static int SNAKE_SPEED = 5; // must be a number which the size of the result remains whole
 	public static double SECTION_SIZE = 25; // Could now be any number I think!!
-
+	public static final int SLITHER_SPEED = 5;
+	
 	public static int APPLE_COUNT = 100;
 	public static int SECTIONS_TO_ADD = 3;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
@@ -61,7 +61,7 @@ public class Settings {
 	public static boolean SAND_STORM = true;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

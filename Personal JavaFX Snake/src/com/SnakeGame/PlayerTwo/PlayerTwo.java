@@ -426,7 +426,7 @@ public class PlayerTwo extends AbstractObject {
 							setCollision(true);
 							if (!DEAD) {
 								this.overlay.addDistortion(15, 0.2);
-								this.overlay.addToneOverlay(Color.RED, 5, 3.0);
+								this.overlay.addToneOverlay(Color.RED, 5, 1.0);
 							}
 							immunity = Settings.IMMUNITY_TIME;
 							allowDamage = false;

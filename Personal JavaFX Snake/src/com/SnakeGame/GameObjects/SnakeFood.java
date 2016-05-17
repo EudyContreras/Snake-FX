@@ -45,18 +45,18 @@ public class SnakeFood extends AbstractObject {
 	private Random rand = new Random();
 	private SnakeGame game;
 
-
 	public SnakeFood(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 	}
+
 	public SnakeFood(SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 		this.circle.setOpacity(fadeValue);
 		this.size = circle.getRadius();
 		this.targetSize = size;
-		this.staticRadius = targetSize+10;
+		this.staticRadius = targetSize + 10;
 		this.addGLow();
 		if (Settings.DEBUG_MODE) {
 			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
@@ -78,7 +78,8 @@ public class SnakeFood extends AbstractObject {
 			circle.setEffect(borderGlow);
 		}
 	}
-	public void logicUpdate(){
+
+	public void logicUpdate() {
 		fadeValue += 0.01;
 		if (fadeValue >= 1.0) {
 			fadeValue = 1.0;
@@ -88,6 +89,7 @@ public class SnakeFood extends AbstractObject {
 		updateGlow();
 		updateLife();
 	}
+
 	public void move() {
 		if (Settings.DEBUG_MODE) {
 			bounds.setCenterX(x);
@@ -111,7 +113,7 @@ public class SnakeFood extends AbstractObject {
 		velY *= 0.97;
 	}
 
-	public void updateLife(){
+	public void updateLife() {
 		if (fadeValue >= 1.0) {
 			lifeTime++;
 			if (lifeTime >= 80) {
@@ -120,7 +122,8 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
-	public void updateGlow(){
+
+	public void updateGlow() {
 		if (Settings.ADD_GLOW) {
 			if (fadeValue == 1.0) {
 				if (noGlow) {
@@ -150,6 +153,7 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
+
 	public void lookAtMe() {
 		if (minSize) {
 			size += 0.5 * Settings.FRAME_SCALE;
@@ -217,30 +221,26 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 		}
-		for (AbstractSection object : game.getSectManagerTwo().getSectionList()) {
-			if (object.getId() == GameObjectID.SnakeSection) {
-				if (object.getNumericID() > 1) {
-					if (getBounds().intersects(object.getBounds())) {
-						if (!remainStatic) {
-							this.x = newX;
-							this.y = newY;
-							this.fadeValue = 0;
-							lifeTime = 0;
-						}
+		for (AbstractSection object : game.getSectManagerOne().getSectionList()) {
+			if (object.getNumericID() > 1) {
+				if (getBounds().intersects(object.getBounds())) {
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						lifeTime = 0;
 					}
 				}
 			}
 		}
 		for (AbstractSection object : game.getSectManagerTwo().getSectionList()) {
-			if (object.getId() == GameObjectID.SnakeSection) {
-				if (object.getNumericID() > 1 ) {
-					if (getBounds().intersects(object.getBounds())) {
-						if (!remainStatic) {
-							this.x = newX;
-							this.y = newY;
-							this.fadeValue = 0;
-							lifeTime = 0;
-						}
+			if (object.getNumericID() > 1) {
+				if (getBounds().intersects(object.getBounds())) {
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						lifeTime = 0;
 					}
 				}
 			}

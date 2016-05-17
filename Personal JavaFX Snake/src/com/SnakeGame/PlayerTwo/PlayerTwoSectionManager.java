@@ -16,7 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
  * and checking whether the sections is alive or not meaning no longer used. the
  * sections updated by this class are mob sections meaning sections that move,
  * interact and collide.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -43,14 +43,10 @@ public class PlayerTwoSectionManager {
 			tempSection = sectionList.get(i);
 			tempSection.updateUI();
 			tempSection.addPhysics();
-			// tempSection.updateAnimation(timePassed);
+			tempSection.updateAnimation(timePassed);
 			tempSection.draw(gc);
 			tempSection.move();
-			// tempSection.checkRemovability();
-			// if( tempSection.isRemovable() || !tempSection.isAlive()) {
-			// tempSection.removeFromLayer();
-			// section.remove(i);
-			// }
+			tempSection.checkRemovability();
 		}
 	}
 
