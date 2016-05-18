@@ -119,8 +119,8 @@ public class PlayerTwo extends AbstractObject {
 	public static Boolean MOUTH_CLOSE = true;
 	public static Boolean KEEP_MOVING = true;
 
-	public PlayerTwo(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
+	public PlayerTwo(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+			double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.gom = gom;
 		this.speed = speed;
@@ -467,7 +467,7 @@ public class PlayerTwo extends AbstractObject {
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 		}
-		game.getScoreBoardTwo().increaseScore();
+		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
 			game.getloader().spawnSnakeFood();
 	}
@@ -599,7 +599,7 @@ public class PlayerTwo extends AbstractObject {
 	public void die() {
 		DEAD = true;
 		blurOut();
-		game.getHealthBarTwo().drainAll();
+		game.getHealthBarOne().drainAll();
 		isDead = true;
 	}
 

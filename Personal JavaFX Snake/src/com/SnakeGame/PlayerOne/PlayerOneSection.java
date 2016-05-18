@@ -33,7 +33,7 @@ public class PlayerOneSection extends AbstractSection {
 	PlayerOneTail tail;
 	PlayerOneSectionManager sectManager;
 
-	public PlayerOneSection(PlayerOne snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
+	public PlayerOneSection(PlayerOne snake, SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.snake = snake;

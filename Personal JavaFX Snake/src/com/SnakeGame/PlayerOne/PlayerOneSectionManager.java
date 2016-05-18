@@ -1,12 +1,9 @@
 package com.SnakeGame.PlayerOne;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-
-import com.SnakeGame.FrameWork.AbstractSection;
+import java.util.ArrayList;
 import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.SnakeGame;
-
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -21,7 +18,8 @@ import javafx.scene.canvas.GraphicsContext;
  *
  */
 public class PlayerOneSectionManager {
-	private LinkedList<AbstractSection> sectionList;
+
+	private ArrayList<AbstractSection> sectionList;
 	private AbstractSection tempSection;
 
 	public PlayerOneSectionManager(SnakeGame gameJavaFX) {
@@ -29,25 +27,7 @@ public class PlayerOneSectionManager {
 	}
 
 	public void initialize() {
-		this.sectionList = new LinkedList<>();
-	}
-
-	/**
-	 * Method used to update every section in the game. this method uses a
-	 * conventional for loop and allows the list to be modified from an outside
-	 * source without provoking a break.
-	 */
-	public void updateAll(GraphicsContext gc, long timePassed) {
-
-		for (int i = 0; i < sectionList.size(); i++) {
-			tempSection = sectionList.get(i);
-			tempSection.updateUI();
-			tempSection.addPhysics();
-			tempSection.updateAnimation(timePassed);
-			tempSection.draw(gc);
-			tempSection.move();
-			tempSection.checkRemovability();
-		}
+		this.sectionList = new ArrayList<>();
 	}
 
 	public void addNewDirection(PlayerMovement direction) {
@@ -70,7 +50,27 @@ public class PlayerOneSectionManager {
 			}
 		}
 	}
+	/**
+	 * Method used to update every section in the game. this method uses a
+	 * conventional for loop and allows the list to be modified from an outside
+	 * source without provoking a break.
+	 */
+	public void updateAll(GraphicsContext gc, long timePassed) {
 
+		for (int i = 0; i < sectionList.size(); i++) {
+			tempSection = sectionList.get(i);
+			tempSection.updateUI();
+			tempSection.addPhysics();
+			tempSection.updateAnimation(timePassed);
+			tempSection.draw(gc);
+			tempSection.move();
+			tempSection.checkRemovability();
+			if (tempSection.isRemovable() || !tempSection.isAlive()) {
+				tempSection.removeFromLayer();
+				sectionList.remove(i);
+			}
+		}
+	}
 	/**
 	 * Method used to explicitly update the graphics
 	 */
@@ -149,17 +149,12 @@ public class PlayerOneSectionManager {
 	/**
 	 * Procedurally places the sections in the level
 	 */
-	public LinkedList<AbstractSection> getSectionList() {
+	public ArrayList<AbstractSection> getSectionList() {
 		return sectionList;
 	}
 
-	public void addSection(AbstractSection... sect) {
-		if (sect.length > 1) {
-
-			sectionList.addAll(Arrays.asList(sect));
-		} else {
-			sectionList.addLast(sect[0]);
-		}
+	public void addSection(AbstractSection sect) {
+		sectionList.add(sect);
 	}
 
 	public void removeSection(AbstractSection section) {

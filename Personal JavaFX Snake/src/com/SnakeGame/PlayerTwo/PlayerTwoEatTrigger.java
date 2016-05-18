@@ -1,34 +1,23 @@
 package com.SnakeGame.PlayerTwo;
 
 import com.SnakeGame.FrameWork.AbstractObject;
-import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameObjectID;
-
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class PlayerTwoEatTrigger extends AbstractObject {
-	int index;
-	int counter = 0;
-	boolean stop = false;
-	SnakeGame game;
-	PlayerTwo snake;
-	PlayerTwoHead head;
-	PlayerTwoSectionManager sectManager;
-	GameObjectManager gom;
+	private SnakeGame game;
+	private PlayerTwo snake;
 
-	public PlayerTwoEatTrigger(PlayerTwoHead head, PlayerTwo snake, SnakeGame game, Pane layer, Circle node, float x, float y,
+	public PlayerTwoEatTrigger(PlayerTwoHead head, PlayerTwo snake, SnakeGame game, Pane layer, Circle node, double x, double y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;
-		this.head = head;
 		this.game = game;
-		this.gom = game.getObjectManager();
-		this.sectManager = game.getSectManagerTwo();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);
 			this.x = x;
@@ -63,9 +52,6 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 	}
 
 	public void move() {
-		if (PlayerTwo.DEAD == false) {
-			this.index = sectManager.getSectionList().size() - 1;
-		}
 		super.move();
 		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
 			this.y = (float) (snake.getY() - this.circle.getRadius() * 3);

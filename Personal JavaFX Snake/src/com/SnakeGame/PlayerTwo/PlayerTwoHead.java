@@ -19,32 +19,25 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class PlayerTwoHead extends AbstractObject {
-	double rotation = 0;
-	double rotationSpeed = 0;
-	double targetRotation;
-	int equivalence;
-	boolean rotate;
-	SnakeGame game;
-	PlayerTwo snake;
-	Rectangle headBoundsLeft;
-	Rectangle headBoundsRight;
-	Rectangle headBoundsTop;
-	Rectangle headBoundsBottom;
-	Rectangle clearFromCollision;
-	PlayerTwoFangs fangs;
-	PlayerTwoSectionManager sectManager;
-	GameObjectManager gom;
-	PlayerMovement direction = PlayerMovement.MOVE_DOWN;
-	PlayerMovement newDirection;
+	private double targetRotation;
+	private int equivalence;
+	private SnakeGame game;
+	private PlayerTwo snake;
+	private Rectangle headBoundsLeft;
+	private Rectangle headBoundsRight;
+	private Rectangle headBoundsTop;
+	private Rectangle headBoundsBottom;
+	private Rectangle clearFromCollision;
+	private GameObjectManager gom;
+	private PlayerMovement newDirection;
 
-	public PlayerTwoHead(PlayerTwo snake, SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id,
+	public PlayerTwoHead(PlayerTwo snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
 		this.gom = game.getObjectManager();
-		this.sectManager = game.getSectManagerTwo();
 		this.gom.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.gom.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
@@ -236,7 +229,6 @@ public class PlayerTwoHead extends AbstractObject {
 
 	public void setRotate(boolean rotate, PlayerMovement newDirection, int targetRotation) {
 		this.newDirection = newDirection;
-		this.rotate = rotate;
 		this.targetRotation = targetRotation;
 	}
 

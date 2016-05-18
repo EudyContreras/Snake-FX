@@ -16,20 +16,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class PlayerTwoFangs extends AbstractObject {
-	int index;
-	int counter = 0;
-	boolean stop = false;
-	float offsetX = 0;
-	float offsetY = 0;
-	PlayerTwoEatTrigger trigger;
-	SnakeGame game;
-	PlayerTwo snake;
-	PlayerTwoSectionManager sectManager;
-	PlayerTwoHead snakeHead;
-	GameObjectManager gom;
+	private int index;
+	private int counter = 0;
+	private boolean stop = false;
+	private float offsetX = 0;
+	private float offsetY = 0;
+	private SnakeGame game;
+	private PlayerTwo snake;
+	private PlayerTwoSectionManager sectManager;
+	private PlayerTwoHead snakeHead;
+	private GameObjectManager gom;
 
-	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, SnakeGame game, Pane layer, Circle node, float x,
-			float y, GameObjectID id, PlayerMovement Direction) {
+	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, SnakeGame game, Pane layer, Circle node, double x,
+			double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.snakeHead = snakeHead;
 		this.snake = snake;
@@ -149,9 +148,9 @@ public class PlayerTwoFangs extends AbstractObject {
 				if (tempObject.getId() == GameObjectID.SnakeSection) {
 					if (tempObject.getNumericID() > 1) {
 						if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-							if (tempObject.numericID != 0 && tempObject.numericID != 1
-									&& tempObject.numericID != PlayerTwo.NUMERIC_ID
-									&& tempObject.numericID != PlayerTwo.NUMERIC_ID - 1) {
+							if (tempObject.getNumericID() != 0 && tempObject.getNumericID() != 1 && tempObject.getNumericID() != 2
+									&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID
+									&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID - 1) {
 								snake.die();
 							}
 						}

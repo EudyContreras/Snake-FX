@@ -1,10 +1,8 @@
 package com.SnakeGame.FrameWork;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-
 import com.SnakeGame.ObjectIDs.GameObjectID;
-
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -28,28 +26,29 @@ import javafx.scene.shape.Rectangle;
  */
 public abstract class AbstractSection {
 
-	GameObjectID id;
-	PlayerMovement direction;
+	protected GameObjectID id;
+	protected PlayerMovement direction;
 	protected Image image;
-	protected ImageView imageView = new ImageView();
-	protected LinkedList<Point2D> lastPosition = new LinkedList<>();
-	protected LinkedList<Enum<PlayerMovement>> lastDirection = new LinkedList<>();
+	protected ImageView imageView;
+	public ArrayList<Point2D> lastPosition = new ArrayList<>();
+	public ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
+	protected Point2D position;
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
-	protected float x;
-	protected float y;
-	protected float r;
-	protected float velX;
-	protected float velY;
-	protected float velR;
+	protected double x;
+	protected double y;
+	protected double r;
+	protected double velX;
+	protected double velY;
+	protected double velR;
 	protected double width;
 	protected double height;
 	protected double radius;
-	public double health = 50;
-	public double damage;
-	public int numericID;
+	protected double health = 50;
+	protected double damage;
+	protected int numericID;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -64,7 +63,7 @@ public abstract class AbstractSection {
 	 * different ways and with different attributes
 	 */
 
-	public AbstractSection(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractSection(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -122,7 +121,7 @@ public abstract class AbstractSection {
 
 	}
 
-	public AbstractSection(Image image, float x, float y) {
+	public AbstractSection(Image image, double x, double y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -173,19 +172,19 @@ public abstract class AbstractSection {
 		this.layer = layer;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
@@ -200,35 +199,35 @@ public abstract class AbstractSection {
 		imageView.setTranslateY(point.getY());
 	}
 
-	public float getR() {
+	public double getR() {
 		return r;
 	}
 
-	public void setR(float r) {
+	public void setR(double r) {
 		this.r = r;
 	}
 
-	public float getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(float velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 
-	public float getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(float velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
 
-	public float getVelR() {
+	public double getVelR() {
 		return velR;
 	}
 
-	public void setVelR(float velR) {
+	public void setVelR(double velR) {
 		this.velR = velR;
 	}
 
@@ -262,9 +261,9 @@ public abstract class AbstractSection {
 	public void move() {
 		if (!canMove)
 			return;
-		x = x + velX;
-		y = y + velY;
-		r = r + velR;
+		x = x + velX * Settings.FRAME_SCALE;
+		y = y + velY * Settings.FRAME_SCALE;
+		r = r + velR * Settings.FRAME_SCALE;
 	}
 
 	public boolean isAlive() {
@@ -280,13 +279,9 @@ public abstract class AbstractSection {
 	 *
 	 */
 	public void updateUI() {
-		circle.setTranslateX(x);
-		circle.setTranslateY(y);
+		circle.setCenterX(x);
+		circle.setCenterY(y);
 		circle.setRotate(r);
-	}
-
-	public void logicUpdate() {
-
 	}
 
 	public void createLevel() {
@@ -361,25 +356,28 @@ public abstract class AbstractSection {
 		this.canMove = false;
 	}
 
-	public void checkRemovability() {
+	/**
+	 * Abstract methods every object must have in order to determined the
+	 * condition in which the object will be removed and the objects collision
+	 * boundaries
+	 */
+	public void checkRemovability(){
 
 	}
-
-	public void checkCollision() {
+	public void checkCollision(){
 
 	}
-
 	protected void removePerformedCoordinateChange() {
-		lastPosition.remove();
-		lastDirection.remove();
+		lastPosition.remove(0);
+		lastDirection.remove(0);
 	}
 
 	protected void removeLatestLocation() {
-		lastPosition.remove();
+		lastPosition.remove(0);
 	}
 
 	protected void removeLatestDirection() {
-		lastDirection.remove();
+		lastDirection.remove(0);
 	}
 
 	public void setNewLocation(Point2D... location) {
@@ -407,6 +405,14 @@ public abstract class AbstractSection {
 		return direction;
 	}
 
+	protected void setLastPosition(Point2D position) {
+		this.position = position;
+	}
+
+	protected Point2D getLastPosition() {
+		return position;
+	}
+
 	protected void setNumericID(int SECTION_COUNT) {
 		this.numericID = SECTION_COUNT;
 	}
@@ -414,6 +420,7 @@ public abstract class AbstractSection {
 	public int getNumericID() {
 		return numericID;
 	}
+
 	public void die() {
 
 	}

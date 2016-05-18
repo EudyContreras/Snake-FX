@@ -13,7 +13,7 @@ public class PlayerOneTail extends AbstractObject {
 	PlayerOneSection sectionToFollow;
 	PlayerOneSectionManager sectManager;
 
-	public PlayerOneTail(PlayerOneSection snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
+	public PlayerOneTail(PlayerOneSection snake, SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.velX = snake.getVelX();
