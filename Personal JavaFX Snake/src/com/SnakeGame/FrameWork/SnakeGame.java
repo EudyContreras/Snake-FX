@@ -99,7 +99,6 @@ public class SnakeGame extends Application implements Runnable {
 	private Pane snakeHead;
 	private Pane snakeBody;
 	private Pane overlay;
-	public Stage primaryStage;
 	public GameImageBank imageBank;
 	private Text TextFPS;
 	private HealthBarOne healthBarOne;

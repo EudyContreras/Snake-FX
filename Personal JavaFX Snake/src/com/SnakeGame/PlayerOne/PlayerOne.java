@@ -118,6 +118,7 @@ public class PlayerOne extends AbstractObject {
 	public static Boolean MOUTH_OPEN = false;
 	public static Boolean MOUTH_CLOSE = true;
 	public static Boolean KEEP_MOVING = true;
+	public static Boolean ALLOW_FADE = false;
 
 	public PlayerOne(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
 			double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
@@ -167,6 +168,7 @@ public class PlayerOne extends AbstractObject {
 		updateImmunity();
 		updateDirt();
 		checkTurns();
+		fadeOut();
 		overlay.updateEffect();
 
 	}
@@ -568,7 +570,7 @@ public class PlayerOne extends AbstractObject {
 		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
 		game.getDebrisLayer().getChildren().add(skull);
-		overlay.addFadeScreen(4, GameStateID.GAME_OVER);
+
 
 	}
 
@@ -601,6 +603,12 @@ public class PlayerOne extends AbstractObject {
 		blurOut();
 		game.getHealthBarOne().drainAll();
 		isDead = true;
+	}
+	public void fadeOut(){
+		if(ALLOW_FADE){
+		overlay.addFadeScreen(5, GameStateID.GAME_OVER);
+		ALLOW_FADE = false;
+		}
 	}
 
 	public void blurOut() {

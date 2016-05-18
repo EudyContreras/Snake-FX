@@ -76,25 +76,25 @@ public class GameLevelImage {
 			120 / GameLoader.ResolutionScaleY);
 	// final static Image smallRock =
 	// ImageUtility.preCreateShadedImages("small-rock.png",Settings.GlOBAL_ILLUMINATION,Settings.SPECULAR_MAP,30/GameLoader.ResolutionScaleX,30/GameLoader.ResolutionScaleY);
-	public final static Image rock = ImageUtility.precreatedLightedAndShadedImage("rock-2.png", Settings.GlOBAL_ILLUMINATION,
+	public final static Image rock = ImageUtility.precreatedLightedAndShadedImage("rock2.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
 	public final static Image bark = ImageUtility.precreatedLightedAndShadedImage("bark.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP - 0.4, 400 / GameLoader.ResolutionScaleX, 220 / GameLoader.ResolutionScaleY);
-	public final static Image cactus = ImageUtility.precreatedLightedAndShadedImage("Cactus2.png",
-			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 118 / GameLoader.ResolutionScaleX,
-			168 / GameLoader.ResolutionScaleY);
-	public final static Image flower = ImageUtility.precreatedLightedAndShadedImage("Organ_Pipe_Cactus.png",
-			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
-			100 / GameLoader.ResolutionScaleY);
-	public final static Image flower2 = ImageUtility.precreatedLightedAndShadedImage("Flower_Cactus.png",
-			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
-			100 / GameLoader.ResolutionScaleY);
+	public final static Image cactus = ImageUtility.precreatedLightedAndShadedImage("big_cactus_thick2.png",
+			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
+			190 / GameLoader.ResolutionScaleY);
+	public final static Image flower = ImageUtility.precreatedLightedAndShadedImage("desert_bush.png",
+			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 96 / GameLoader.ResolutionScaleX,
+			120 / GameLoader.ResolutionScaleY);
+	public final static Image flower2 = ImageUtility.precreatedLightedAndShadedImage("flower_cactus.png",
+			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 72 / GameLoader.ResolutionScaleX,
+			123 / GameLoader.ResolutionScaleY);
 	public final static Image skeleton = ImageUtility.precreatedLightedAndShadedImage("bison-skull.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 120 / GameLoader.ResolutionScaleX,
 			120 / GameLoader.ResolutionScaleY);
-	public final static Image littleCactus = ImageUtility.precreatedLightedAndShadedImage("Cactus_Cluster.png",
-			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 100 / GameLoader.ResolutionScaleX,
-			100 / GameLoader.ResolutionScaleY);
+	public final static Image littleCactus = ImageUtility.precreatedLightedAndShadedImage("little_cactus.png",
+			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 88 / GameLoader.ResolutionScaleX,
+			92 / GameLoader.ResolutionScaleY);
 	public final static Image sandGrain = ImageUtility.precreatedLightedImage("sandGrain.png",
 			Settings.GlOBAL_ILLUMINATION - 0.5, Settings.SPECULAR_MAP - 0.5, 5, 5);
 	// final static Image spider = ImageUtility.preCreateShadedDebris(path,

@@ -119,7 +119,7 @@ public class GameImageBank {
 		snakeSkull = ImageUtility.precreatedLightedAndShadedSnake("snake-skull.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);// new
 																											// Image("snakeBody.png");
-		snakeBody = ImageUtility.precreatedLightedImage("snake-skin1.png", Settings.GlOBAL_ILLUMINATION - 0.2,
+		snakeBody = ImageUtility.precreatedLightedImage("snake-skin1.5.png", Settings.GlOBAL_ILLUMINATION - 0.2,
 				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);// new
 																												// Image("snakeBody.png");
 		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", Settings.GlOBAL_ILLUMINATION,

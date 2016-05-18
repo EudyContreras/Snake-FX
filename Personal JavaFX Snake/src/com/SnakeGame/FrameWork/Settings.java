@@ -22,7 +22,7 @@ public class Settings {
 	public static int SNAKE_SPEED = 5; // must be a number which the size of the result remains whole
 	public static double SECTION_SIZE = 25; // Could now be any number I think!!
 	public static final int SLITHER_SPEED = 5;
-	
+
 	public static int APPLE_COUNT = 100;
 	public static int SECTIONS_TO_ADD = 3;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
@@ -39,7 +39,7 @@ public class Settings {
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double SPECULAR_MAP = 1.6;
+	public static double SPECULAR_MAP = 1.2;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;

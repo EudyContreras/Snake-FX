@@ -24,6 +24,7 @@ public class ScreenOverlay {
 	private Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
 	private Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
+	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
 	private Boolean setBloom = false;
 	private Boolean setSoftBlur = false;
@@ -146,6 +147,7 @@ public class ScreenOverlay {
 	 */
 	public void addDeathBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
+			this.addToneOverlay(Color.RED, 5, 0.05);
 			this.layer.setEffect(null);
 			this.layer.setEffect(deathEffect);
 			this.deathBlur = true;
@@ -304,6 +306,13 @@ public class ScreenOverlay {
 		this.deathEffect.setRadius(deathBlurLifetime);
 		if (deathBlurLifetime >= 63) {
 			deathBlurLifetime = 63.0;
+		}
+		if (deathBlurLifetime >= 10) {
+			if(!instanceCheck){
+			PlayerOne.ALLOW_FADE = true;
+			PlayerTwo.ALLOW_FADE = true;
+			instanceCheck = true;
+			}
 		}
 	}
 
