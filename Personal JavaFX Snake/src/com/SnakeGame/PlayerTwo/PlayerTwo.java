@@ -166,7 +166,7 @@ public class PlayerTwo extends AbstractObject {
 		positionBody();
 		updateBounds();
 		updateImmunity();
-		updateDirt();
+	//	updateDirt();
 		checkTurns();
 		fadeOut();
 		overlay.updateEffect();
@@ -559,7 +559,7 @@ public class PlayerTwo extends AbstractObject {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < 15; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, x, y,
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}

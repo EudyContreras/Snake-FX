@@ -113,7 +113,7 @@ public class SlitherSection extends SlitherSectionMain {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (!SlitherSnake.killSlither) {
 			for (int i = 0; i < 8; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, (double) x, (double) y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,1, (double) x, (double) y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}

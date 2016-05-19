@@ -203,7 +203,7 @@ public class SnakeGame extends Application implements Runnable {
 		gameHud = new GameHud(this, -5, -10, Settings.WIDTH + 10, 82 / GameLoader.ResolutionScaleY);
 		setHealthBarOne(new HealthBarOne(this, 55 / GameLoader.ResolutionScaleX, 15,
 				(int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
-		setHealthBarTwo(new HealthBarTwo(this,(int) (Settings.WIDTH - (int) (405 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
+		setHealthBarTwo(new HealthBarTwo(this,(int) (Settings.WIDTH - (int) (395 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
 				15, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, Settings.WIDTH / 2 - 10 / GameLoader.ResolutionScaleX,
 				50 / GameLoader.ResolutionScaleY,ScaleX((int) (Settings.WIDTH / 2 - (980 / 2))) , 10,

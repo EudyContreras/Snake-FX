@@ -21,13 +21,13 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	private double energyLoss = 0.9;
 	Point2D velocity = new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10 + 1) + -10);
 
-	public DirtDisplacement(SnakeGame game, Image image, double x, double y, Point2D velocity) {
+	public DirtDisplacement(SnakeGame game, Image image,double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.shape = new Circle(x, y, radius);
 		this.shape.setRadius(radius);
 		this.velocity = velocity;
-		this.decay = 0.026;
+		this.decay = 0.026/expireTime;
 		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX);
 		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX);
 		this.x = x;

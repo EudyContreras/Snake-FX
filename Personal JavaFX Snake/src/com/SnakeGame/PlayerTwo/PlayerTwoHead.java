@@ -1,16 +1,19 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.AbstractObject;
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.Tile;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.FruitSplashTwo;
 
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -136,6 +139,15 @@ public class PlayerTwoHead extends AbstractObject {
 
 	}
 
+	public void displaceDirt(double x, double y, double low, double high) {
+		if (!PlayerTwo.DEAD) {
+			for (int i = 0; i < 2; i++) {
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,0.5, (double) x, (double) y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+			}
+		}
+	}
+
 	public void checkCollision() {
 		if (Settings.DEBUG_MODE) {
 			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
@@ -156,6 +168,30 @@ public class PlayerTwoHead extends AbstractObject {
 					} else if (getBoundsBottom().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
 							showVisualQue(Color.YELLOW);
+						}
+					}
+				}
+			}
+		}
+		if (!Settings.DEBUG_MODE) {
+			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
+				Tile tempTile = game.getloader().tileManager.block.get(i);
+				if (tempTile.getId() == LevelObjectID.rock) {
+					if (getBoundsLeft().intersects(tempTile.getBounds())) {
+						if (Settings.ROCK_COLLISION) {
+							displaceDirt(getBoundsLeft().getMinX(),getBoundsLeft().getMinY(),0,0);
+						}
+					} else if (getBoundsRight().intersects(tempTile.getBounds())) {
+						if (Settings.ROCK_COLLISION) {
+							displaceDirt(getBoundsRight().getMinX(),getBoundsRight().getMinY(),0,0);
+						}
+					} else if (getBoundsTop().intersects(tempTile.getBounds())) {
+						if (Settings.ROCK_COLLISION) {
+							displaceDirt(getBoundsTop().getMinX(),getBoundsTop().getMinY(),0,0);
+						}
+					} else if (getBoundsBottom().intersects(tempTile.getBounds())) {
+						if (Settings.ROCK_COLLISION) {
+							displaceDirt(getBoundsBottom().getMinX(),getBoundsBottom().getMinY(),0,0);
 						}
 					}
 				}

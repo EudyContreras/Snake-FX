@@ -8,6 +8,7 @@ import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.SectionDisintegration;
 
 import javafx.geometry.Point2D;
@@ -210,8 +211,25 @@ public class PlayerOneSection extends AbstractSection {
 
 			}
 		}
+		updateDirt();
 	}
-
+	public void updateDirt() {
+		dirtDelay--;
+		if (dirtDelay <= 0) {
+			if (PlayerOne.KEEP_MOVING) {
+				displaceDirt(x + width / 2, y + height / 2, 18, 18);
+				dirtDelay = 10;
+			}
+		}
+	}
+	public void displaceDirt(double x, double y, double low, double high) {
+		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
+			for (int i = 0; i <2; i++) {
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,0.5, x, y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+			}
+		}
+	}
 	public void hideLast() {
 		if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
