@@ -69,7 +69,7 @@ public class WavingCactusTwo extends Tile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			bounds = new Rectangle(x + 15, y + 35, width - 50, height - 60);
+			bounds = new Rectangle(x, y+height/4, width/1.5, height/1.5);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

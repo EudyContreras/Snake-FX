@@ -168,9 +168,9 @@ public class GameLoader {
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		// for(int i=0;i<Settings.MAX_AMOUNT_OF_OBJECTS;i++){
-		// spawnBackgroundStuff(true);
-		// }
+		for (int i = 0; i < Settings.MAX_AMOUNT_OF_OBJECTS; i++) {
+			spawnBackgroundStuff(true);
+		}
 		loadDesertLevels(GameLevelImage.desertBackground);
 		loadDesertBorder();
 		game.levelLenght = 128 * 64;
@@ -240,7 +240,7 @@ public class GameLoader {
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
 							LevelObjectID.treeBark);
 					tileManager.addTile(texture);
-					game.getPlayfieldLayer().getChildren().add(texture.getView());
+					game.getSnakeBodyLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
@@ -252,7 +252,7 @@ public class GameLoader {
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
-					game.getBottomLayer().getChildren().add(texture.getView());
+					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				}
 			}
 		}

@@ -76,7 +76,7 @@ public class GameLevelImage {
 			120 / GameLoader.ResolutionScaleY);
 	// final static Image smallRock =
 	// ImageUtility.preCreateShadedImages("small-rock.png",Settings.GlOBAL_ILLUMINATION,Settings.SPECULAR_MAP,30/GameLoader.ResolutionScaleX,30/GameLoader.ResolutionScaleY);
-	public final static Image rock = ImageUtility.precreatedLightedAndShadedImage("rock2.png", Settings.GlOBAL_ILLUMINATION,
+	public final static Image rock = ImageUtility.precreatedLightedAndShadedImage("desert_rock.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
 	public final static Image bark = ImageUtility.precreatedLightedAndShadedImage("bark.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP - 0.4, 400 / GameLoader.ResolutionScaleX, 220 / GameLoader.ResolutionScaleY);

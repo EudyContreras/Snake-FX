@@ -44,8 +44,8 @@ public abstract class Tile {
 		this.y = y;
 		this.image = image;
 		this.view.setImage(image);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
+		this.width = view.getFitWidth();
+		this.height = view.getFitHeight();
 	}
 
 	public Tile(float x, float y, Image image, LevelObjectID id) {
