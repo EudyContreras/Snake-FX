@@ -22,6 +22,8 @@ public class ScoreKeeper {
 	public ImageView apple;
 	public Rectangle board;
 	public Text text;
+	public Text timer;
+	public Font timerFont;
 	public Font font;
 	private float x = 0;
 	private float y = 0;
@@ -31,6 +33,13 @@ public class ScoreKeeper {
 	private float position = 0;
 	private double width = 0;
 	private int initialAmount;
+	private int counter;
+	private int seconds = 00;
+	private int minutes = 00;
+	private int hours = 00;
+	private String secondsS = "00";
+	private String minutesS = "00";
+	private String hoursS = "00";
 
 	public ScoreKeeper(SnakeGame game, int count, double x1, double y1, double x, double y, double width,
 			double height) {
@@ -38,29 +47,38 @@ public class ScoreKeeper {
 		this.initialAmount = count;
 		this.game = game;
 		this.text = new Text();
+		this.timer = new Text();
 		this.apple = new ImageView(new Image(ImageUtility.loadResource("apple.png")));
 		this.setX((float) x);
 		this.y = (float) y;
+		this.y2 = (float) (y);
 		this.oldY = (float) y;
 		this.y1 = (float) y1;
 		this.setWidth(width);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
+		this.timerFont = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
 		this.board.setFill(new ImagePattern(GameImageBank.countKeeper));
-		this.apple.setFitWidth(40 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(40 / GameLoader.ResolutionScaleY);
+		this.apple.setFitWidth(50 / GameLoader.ResolutionScaleX);
+		this.apple.setFitHeight(50 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(Settings.WIDTH / 2 - apple.getFitWidth() / 2 - 20);
+		this.apple.setX(Settings.WIDTH / 2);
 		this.apple.setY(y2);
-		this.text.setTranslateX(x1);
+		this.text.setTranslateX(apple.getX()+apple.getFitWidth());
 		this.text.setTranslateY(y1);
 		this.text.setFill(Color.RED);
 		this.text.setEffect(null);
 		this.text.setFont(font);
 		this.text.setText(" X " + APPLE_COUNT);
+		this.timer.setTranslateX(Settings.WIDTH/2-120);
+		this.timer.setTranslateY(y1);
+		this.timer.setFill(Color.rgb(255, 120, 0));
+		this.timer.setFont(timerFont);
+		this.timer.setText("00:00:00");
 		game.getOverlay().getChildren().add(board);
 		game.getOverlay().getChildren().add(apple);
 		game.getOverlay().getChildren().add(text);
+		game.getOverlay().getChildren().add(timer);
 		updateCount();
 	}
 
@@ -68,35 +86,69 @@ public class ScoreKeeper {
 		APPLE_COUNT -= 1;
 		updateCount();
 	}
+	public void updateTimer(){
+		counter+=1;
+		if(counter>59){
+			seconds+=1;
+			counter = 0;
+		}
+		if(seconds>59){
+			minutes+=1;
+			seconds = 0;
+		}
+		if(minutes>59){
+			hours+=1;
+			minutes = 0;
+		}
+		if(seconds<10){
+			secondsS="0"+seconds;
+		}
+		else if(seconds>=10){
+			secondsS = ""+seconds;
+		}
+		if(minutes<10){
+			minutesS="0"+minutes;
+		}
+		else if(minutes>=10){
+			minutesS = ""+minutes;
+		}
+		if(hours<10){
+			hoursS="0"+hours;
+		}
+		else if(hours>=10){
+			hoursS = ""+hours;
+		}
+		this.timer.setText(hoursS+":"+minutesS+":"+secondsS);
 
+
+	}
 	public void keepCount() {
+		updateTimer();
 		y = y + getPosition();
 		y1 = y1 + getPosition();
 		y2 = y2 + getPosition();
 		text.setTranslateY(y1);
+		timer.setTranslateY(y1);
 		board.setY(y);
 		apple.setY(y2);
 		if (APPLE_COUNT <= 0) {
 			if (VictoryScreen.LEVEL_COMPLETE == false) {
 				game.getVictoryScreen().removeBoard();
 				game.getVictoryScreen().finishLevel();
-				setPosition(1.5f);
 				game.getGameHud().swipeDown();
+				setPosition(1.4f);
 				VictoryScreen.LEVEL_COMPLETE = true;
 			}
 		} else {
 			game.getGameHud().swipeUp();
 		}
-		if (y >= game.getGameHud().height) {
+		if (y >= game.getGameHud().height-10) {
 			setPosition(0);
 		}
 		if (game.getGameHud().swipeUp) {
-			setPosition(-1.5f);
+			setPosition(-1.4f);
 			if (y <= oldY) {
 				setPosition(0);
-				// y = oldY;
-				// y1 = oldY1;
-				// y2 = 0;
 			}
 		}
 	}

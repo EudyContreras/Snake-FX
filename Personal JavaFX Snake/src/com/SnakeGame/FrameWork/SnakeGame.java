@@ -99,8 +99,9 @@ public class SnakeGame extends Application implements Runnable {
 	private Pane snakeHead;
 	private Pane snakeBody;
 	private Pane overlay;
-	public GameImageBank imageBank;
 	private Text TextFPS;
+	public GameImageBank imageBank;
+	public GameLevelImage levelImageBank;
 	private HealthBarOne healthBarOne;
 	private HealthBarTwo healthBarTwo;
 	private ScoreBoard scoreBoard;
@@ -197,26 +198,21 @@ public class SnakeGame extends Application implements Runnable {
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
-		// loader.createSlither();
+	//	loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-		gameHud = new GameHud(this, -5, 0, Settings.WIDTH + 10, 55 / GameLoader.ResolutionScaleY);
-		setHealthBarOne(new HealthBarOne(this, 20 / GameLoader.ResolutionScaleX, 0,
+		gameHud = new GameHud(this, -5, -10, Settings.WIDTH + 10, 82 / GameLoader.ResolutionScaleY);
+		setHealthBarOne(new HealthBarOne(this, 55 / GameLoader.ResolutionScaleX, 15,
 				(int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
-		setHealthBarTwo(new HealthBarTwo(this,
-				(int) (Settings.WIDTH - (int) (350 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
-				0, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
+		setHealthBarTwo(new HealthBarTwo(this,(int) (Settings.WIDTH - (int) (405 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
+				15, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, Settings.WIDTH / 2 - 10 / GameLoader.ResolutionScaleX,
-				30 / GameLoader.ResolutionScaleY,
-				Settings.WIDTH / 2 - GameImageBank.countKeeper.getWidth() / 2 / GameLoader.ResolutionScaleX, 0,
-				GameImageBank.countKeeper.getWidth() / GameLoader.ResolutionScaleX,
-				GameImageBank.countKeeper.getHeight() / 2 / GameLoader.ResolutionScaleY);
-		scoreBoard = new ScoreBoard("Player 1", this, scoreKeeper.getX() + 70 / GameLoader.ResolutionScaleX,
-				30 / GameLoader.ResolutionScaleY, 0, 0, 100 / GameLoader.ResolutionScaleX,
-				30 / GameLoader.ResolutionScaleY);
-		scoreBoard2 = new ScoreBoard("Player 2", this,
-				scoreKeeper.getX() + scoreKeeper.getWidth() - 190 / GameLoader.ResolutionScaleX,
-				30 / GameLoader.ResolutionScaleY, Settings.WIDTH - 100 / GameLoader.ResolutionScaleX, 0,
-				100 / GameLoader.ResolutionScaleX, 30 / GameLoader.ResolutionScaleY);
+				50 / GameLoader.ResolutionScaleY,ScaleX((int) (Settings.WIDTH / 2 - (980 / 2))) , 10,
+				ScaleX(980),65 / GameLoader.ResolutionScaleY);
+		scoreBoard = new ScoreBoard("", this, scoreKeeper.getX() + 200 / GameLoader.ResolutionScaleX,
+				45 / GameLoader.ResolutionScaleY, scoreKeeper.getX() + 180, ScaleX(40), 30 / GameLoader.ResolutionScaleX, GameImageBank.snakeEating);
+		scoreBoard2 = new ScoreBoard("", this,scoreKeeper.getX() + scoreKeeper.getWidth() - 250 / GameLoader.ResolutionScaleX,
+				45 / GameLoader.ResolutionScaleY, ScaleX((int) (scoreKeeper.getX() + scoreKeeper.getWidth() - 170)) / GameLoader.ResolutionScaleX, ScaleX(40),
+				30 / GameLoader.ResolutionScaleX, GameImageBank.snakeEating2);
 		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800, 450);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
 		processGameInput();
@@ -250,6 +246,7 @@ public class SnakeGame extends Application implements Runnable {
 	private void initialize() {
 		initSplash();
 		imageBank = new GameImageBank();
+		levelImageBank = new GameLevelImage();
 		mainRoot = new Group();
 		root = new Pane();
 		mainMenu = new MenuMain(this);

@@ -211,45 +211,51 @@ public class GameLoader {
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
-				if (red == 255 && green == 0 && blue == 0) {
+				if (red == 0 && green == 0 && blue == 255) {
+					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
+							(float) (col * 55.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
+							LevelObjectID.flower);
+					tileManager.addTile(texture);
+					game.getPlayfieldLayer().getChildren().add(texture.getView());
+				}else if (red == 255 && green == 0 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
-							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
+							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							LevelObjectID.rock);
 					tileManager.addBlock(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
-							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.cactus,
+							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							LevelObjectID.longCactus);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
-							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.skeleton,
+							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							LevelObjectID.skeleton);
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
 					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
+							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
+							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							LevelObjectID.treeBark);
 					tileManager.addTile(texture);
 					game.getSnakeBodyLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
+							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
+							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
@@ -307,43 +313,43 @@ public class GameLoader {
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
-							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
+							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
-							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.cactus,
+							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
-							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.skeleton,
+							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
 					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
+							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
+							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							LevelObjectID.LevelTile);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
+							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
+							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
@@ -375,43 +381,43 @@ public class GameLoader {
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
-							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.rock,
+							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
-							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.cactus,
+							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
-							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.skeleton,
+							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getDebrisLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
 					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.littleCactus,
+							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.bark,
+							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							LevelObjectID.LevelTile);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.flower,
+							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.flower2,
+							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
@@ -431,7 +437,7 @@ public class GameLoader {
 
 				if (red == 0 && green == 100 && blue == 0) {
 					TileMap texture = new TileMap(game, (float) (row * 40 / 2), (float) (col * 50 / 2), 0, 0,
-							GameLevelImage.littleCactus, LevelObjectID.rock);
+							GameLevelImage.desert_cactus_small, LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
 				}

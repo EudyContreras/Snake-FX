@@ -63,7 +63,7 @@ public class SandEmitter {
 			interval++;
 			if (interval == Settings.SAND_SPAWN_DELAY) {
 				for (int i = 0; i < Settings.SAND_AMOUNT; i++) {
-					game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.sandGrain, 5, x, y));
+					game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.desert_sand, 5, x, y));
 				}
 				interval = 0;
 			}

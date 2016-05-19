@@ -38,12 +38,12 @@ public class HealthBarOne {
 		this.healthBar.setHeight(height);
 		this.healthBar.setTranslateX(x);
 		this.healthBar.setTranslateY(y);
-		this.healthBarBorder.setWidth(width);
-		this.healthBarBorder.setHeight(height);
-		this.healthBarBorder.setTranslateX(x);
-		this.healthBarBorder.setTranslateY(y);
-		this.healthBar.setFill(new ImagePattern(GameImageBank.healthBarGreen1));
-		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.healthBarRed1));
+		this.healthBarBorder.setWidth(width+4);
+		this.healthBarBorder.setHeight(height+3);
+		this.healthBarBorder.setTranslateX(x-1);
+		this.healthBarBorder.setTranslateY(y-1);
+		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_one));
+		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_one));
 		game.getOverlay().getChildren().add(healthBarBorder);
 		game.getOverlay().getChildren().add(healthBar);
 		this.maxHealth = width;
