@@ -69,40 +69,8 @@ public class GameImageBank {
 	public static Image healthBarRed2;
 
 	public GameImageBank() {
-		  glowingCircle = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
-		// redHealthBar =
-		// ImageUtility.precreateSnapshot("red-HealthBar.png",400/GameLoader.ResolutionScaleX,
-		// 35/GameLoader.ResolutionScaleY);
-		// greenHealthBar =
-		// ImageUtility.precreateSnapshot("green-HealthBar.png",400/GameLoader.ResolutionScaleX,
-		// 35/GameLoader.ResolutionScaleY);
-		// scoreBoard =
-		// ImageUtility.precreateSnapshot("score-board.png",128/GameLoader.ResolutionScaleX,
-		// 41/GameLoader.ResolutionScaleY);
-		// "com/SnakeGame/Images/"
-		/**
-		 * Images used for the desert levels
-		 */
-		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		// glowingImage = ImageUtility.preCreateGlowingImages("image.png",
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// Color.rgb(255,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 185,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0,1.0),
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 150,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0.6,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0);
-		// glowingCircle = ImageUtility.preCreateGlowingCircle(Color.ORANGE,1,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 500,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0.8,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0);
-		// glowingCircle2 =
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// ImageUtility.preCreateAlternateGlowingCircle(Color.ORANGE,1,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 500,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0.8,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0,
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 0);
+		glowingCircle = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
+
 		snakeHead = ImageUtility.precreatedLightedImage("desert-snake-head3.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);// new
 																											// Image("snake-head.png");
@@ -119,7 +87,7 @@ public class GameImageBank {
 		snakeSkull = ImageUtility.precreatedLightedAndShadedSnake("snake-skull.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);// new
 																											// Image("snakeBody.png");
-		snakeBody = ImageUtility.precreatedLightedImage("snake-skin1.5.png", Settings.GlOBAL_ILLUMINATION - 0.2,
+		snakeBody = ImageUtility.precreatedLightedImage("snake-skin1.png", Settings.GlOBAL_ILLUMINATION - 0.2,
 				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);// new
 																												// Image("snakeBody.png");
 		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", Settings.GlOBAL_ILLUMINATION,
@@ -134,10 +102,10 @@ public class GameImageBank {
 		fruit = ImageUtility.precreatedLightedAndShadedImage("apple.png", Settings.GlOBAL_ILLUMINATION, 0,
 				150 / GameLoader.ResolutionScaleX, 192 / GameLoader.ResolutionScaleY); // new
 																						// Image("dirt.png");
-		fruit2 = ImageUtility.preCreateShadedCircle(Color.RED, Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP,
+		fruit2 = ImageUtility.preCreateShadedCircle(Color.RED, Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP+0.4,
 				10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
 		fruit3 = ImageUtility.preCreateShadedGlowingCircle(Color.RED, Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
+				Settings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
 		snakeSphere = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeHead));
 		slither = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeHead));
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -185,10 +153,7 @@ public class GameImageBank {
 		healthBarRed1 = new Image(ImageUtility.loadResource("healthBarRed2.png"));
 		healthBarRed2 = new Image(ImageUtility.loadResource("healthBar2Red2.png"));
 
-		// redHealthBar = new Image("com/SnakeGame/Images/red-HealthBar.png");
-		// greenHealthBar = new
-		// Image("com/SnakeGame/Images/green-HealthBar.png");
-		// scoreBoard = new Image("com/SnakeGame/Images/score-board.png");
+
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
