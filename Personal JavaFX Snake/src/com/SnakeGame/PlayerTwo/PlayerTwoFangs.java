@@ -99,16 +99,16 @@ public class PlayerTwoFangs extends AbstractObject {
 	// }
 	// }
 	public void checkOffset() {
-		if (snake.direction == PlayerMovement.MOVE_UP) {
+		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
 			this.offsetY = -20;
 			this.offsetX = 0;
-		} else if (snake.direction == PlayerMovement.MOVE_DOWN) {
+		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
 			this.offsetY = 20;
 			this.offsetX = 0;
-		} else if (snake.direction == PlayerMovement.MOVE_LEFT) {
+		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
 			this.offsetX = -20;
 			this.offsetY = 0;
-		} else if (snake.direction == PlayerMovement.MOVE_RIGHT) {
+		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
 			this.offsetX = 20;
 			this.offsetY = 0;
 		}
@@ -180,7 +180,7 @@ public class PlayerTwoFangs extends AbstractObject {
 					if (index <= 0) {
 						index = 0;
 						if (!stop) {
-							snake.showTheSkull = true;
+							snake.setShowTheSkull(true);
 							snake.addBones();
 							stop = true;
 						}
@@ -189,7 +189,7 @@ public class PlayerTwoFangs extends AbstractObject {
 			} else {
 				if (!stop) {
 					index = 0;
-					snake.showTheSkull = true;
+					snake.setShowTheSkull(true);
 					snake.addBones();
 					stop = true;
 				}

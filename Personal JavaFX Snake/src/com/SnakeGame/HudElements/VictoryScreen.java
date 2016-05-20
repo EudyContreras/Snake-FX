@@ -48,6 +48,12 @@ public class VictoryScreen {
 		gamePane.showCursor(true, gamePane.getScene());
 		PlayerTwo.LEVEL_COMPLETED = true;
 		PlayerOne.LEVEL_COMPLETED = true;
+		if(gamePane.getloader().getPlayerOne().getAppleCount()>gamePane.getloader().getPlayerTwo().getAppleCount()){
+			this.boardImage = GameImageBank.player_one_wins;
+		}
+		else{
+			this.boardImage = GameImageBank.player_two_wins;
+		}
 		askConfirm();
 	}
 
@@ -201,6 +207,7 @@ public class VictoryScreen {
 	}
 
 	private void askConfirm() {
+		confirmScreen.setFill(new ImagePattern(boardImage));
 		confirmX = (float) (0 - confirmScreen.getWidth() - 50);
 		confirmScreen.setX(confirmX);
 		yes.setX(confirmScreen.getX());

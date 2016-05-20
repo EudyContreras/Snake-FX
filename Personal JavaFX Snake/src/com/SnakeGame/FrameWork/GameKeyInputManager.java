@@ -57,7 +57,7 @@ public class GameKeyInputManager {
 					game.getGameHud().showHide();
 				}
 				if (e.getCode() == KeyCode.SPACE) {
-					if (playerOne.allowOpen) {
+					if (playerOne.isAllowOpen()) {
 						playerOne.openMouth();
 					}
 					keyDown[4] = true;
@@ -94,7 +94,7 @@ public class GameKeyInputManager {
 					playerTwo.setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.CONTROL) {
-					if (playerTwo.allowOpen) {
+					if (playerTwo.isAllowOpen()) {
 						playerTwo.openMouth();
 					}
 				}

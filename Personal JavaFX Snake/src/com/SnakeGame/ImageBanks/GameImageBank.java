@@ -73,6 +73,8 @@ public class GameImageBank {
 	public static Image hud_timer;
 	public static Image player_one_hud;
 	public static Image player_two_hud;
+	public static Image player_one_wins;
+	public static Image player_two_wins;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +160,8 @@ public class GameImageBank {
 		health_bar_red_two = new Image(ImageUtility.loadResource("health_bar_red_border_two.png"));
 		player_one_hud = new Image(ImageUtility.loadResource("player_one_hud.png"));
 		player_two_hud = new Image(ImageUtility.loadResource("player_two_hud.png"));
+		player_one_wins = new Image(ImageUtility.loadResource("player_one_wins.png"));
+		player_two_wins = new Image(ImageUtility.loadResource("player_two_wins.png"));
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -21,10 +21,6 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Light;
-import javafx.scene.effect.Lighting;
-import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -34,83 +30,43 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerOne extends AbstractObject {
 
-	public int turnDelay = Settings.TURN_DELAY;
-	public int dirtDelay = 10;
-	public int tailSize = 30;
-	public int maxOpenTime = 0;
-	public int coolDown = 60;
-	public int immunity = Settings.IMMUNITY_TIME;
-	public int moveDelay = 0;
-	public int safeDistance = 0;
-	public int shakeDuration = 30;
-	public float amountOfBlur = 2.0f;
-	public double fade = 0.0;
-	public double fadeAway = 1.0f;
-	public double bodyTrigger;
-	public double minX;
-	public double maxX;
-	public double minY;
-	public double maxY;
-	public double speed;
-	public double clearUp;
-	public double offsetX = 0;
-	public double offsetY = 0;
-	public boolean isDead = false;
-	public boolean up = true;
-	public boolean down = false;
-	public boolean shake = false;
-	public boolean applyRecoil = false;
-	public boolean left = true;
-	public boolean right = false;
-	public boolean vibrate = false;
-	public boolean collision = false;
-	public boolean movingUp = false;
-	public boolean movingDown = false;
-	public boolean movingLeft = false;
-	public boolean movingRight = false;
-	public boolean standingStill = false;
-	public boolean standingStillY = false;
-	public boolean showTheSkull = false;
-	public boolean firstBite = false;
-	public boolean notEating = true;
-	public boolean allowOpen = true;
-	public boolean eatCoolDown = false;
-	public boolean setDelay = false;
-	public boolean allowToTurn = true;
-	public boolean allowDamage = true;
-	public boolean noCollisionZone = true;
-	public boolean allowCollision = true;
-	public boolean hasBaseBody = false;
-	public boolean allowTurnLeft = true;
-	public boolean allowTurnRight = true;
-	public boolean allowTurnUp = true;
-	public boolean allowTurnDown = true;
-	public boolean allowMoving = true;
-	public boolean notMovingToTheSides = false;
-	public boolean loopingAudio = false;
-	public boolean increaseGlow = true;
-	public boolean decreaseGlow = false;
-	public boolean introduceSpaceship = true;
-	public SnakeGame game;
-	public Circle headBounds;
-	public Circle skull;
-	public Animation anim;
-	public Rectangle bounds;
-	public ScreenOverlay overlay;
-	public PlayerOneTail tail;
-	public PlayerOneHead snakeHead;
-	public PlayerOneSection neighbor;
-	public GameObjectManager gom;
-	public PlayerOneSectionManager sectManager;
-	public DropShadow borderGlow = new DropShadow();
-	public DropShadow borderGlow2 = new DropShadow();
-	public MotionBlur motionBlur = new MotionBlur();
-	public Light.Point light = new Light.Point();
-	public Lighting lighting = new Lighting();
-	public ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating);
-	public ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking);
+	private int turnDelay = Settings.TURN_DELAY;
+	private int dirtDelay = 10;
+	private int maxOpenTime = 0;
+	private int coolDown = 60;
+	private int immunity = Settings.IMMUNITY_TIME;
+	private int moveDelay = 0;
+	private int appleCount = 0;
+	private double bodyTrigger;
+	private double offsetX = 0;
+	private double offsetY = 0;
+	private boolean isDead = false;
+	private boolean collision = false;
+	private boolean showTheSkull = false;
+	private boolean notEating = true;
+	private boolean allowOpen = true;
+	private boolean eatCoolDown = false;
+	private boolean setDelay = false;
+	private boolean allowDamage = true;
+	private boolean allowCollision = true;
+	private boolean hasBaseBody = false;
+	private boolean allowTurnLeft = true;
+	private boolean allowTurnRight = true;
+	private boolean allowTurnUp = true;
+	private boolean allowTurnDown = true;
+	private SnakeGame game;
+	private Circle skull;
+	private Animation anim;
+	private Rectangle bounds;
+	private ScreenOverlay overlay;
+	private PlayerOneTail tail;
+	private PlayerOneHead snakeHead;
+	private PlayerOneSection neighbor;
+	private PlayerOneSectionManager sectManager;
+	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating);
+	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking);
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
-	public PlayerMovement direction;
+	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
 	public static boolean DEAD = false;
 	public static Boolean LEVEL_COMPLETED = false;
@@ -123,8 +79,6 @@ public class PlayerOne extends AbstractObject {
 	public PlayerOne(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
 			double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
-		this.gom = gom;
-		this.speed = speed;
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
@@ -166,7 +120,7 @@ public class PlayerOne extends AbstractObject {
 		positionBody();
 		updateBounds();
 		updateImmunity();
-		//updateDirt();
+		updateDirt();
 		checkTurns();
 		fadeOut();
 		overlay.updateEffect();
@@ -180,7 +134,7 @@ public class PlayerOne extends AbstractObject {
 			if (notEating) {
 				this.snakeHead.setAnim(anim.getPattern());
 			}
-			if (allowOpen == false) {
+			if (isAllowOpen() == false) {
 				if (setDelay == true) {
 					if (maxOpenTime <= 0) {
 						maxOpenTime = 0;
@@ -193,7 +147,7 @@ public class PlayerOne extends AbstractObject {
 			if (eatCoolDown == true) {
 				if (coolDown <= 0) {
 					coolDown = 0;
-					allowOpen = true;
+					setAllowOpen(true);
 					eatCoolDown = false;
 				}
 			}
@@ -248,11 +202,13 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void updateDirt() {
-		dirtDelay--;
-		if (dirtDelay <= 0) {
-			if (KEEP_MOVING) {
-				displaceDirt(x + width / 2, y + height / 2, 18, 18);
-				dirtDelay = 10;
+		if (Settings.ALLOW_DIRT) {
+			dirtDelay--;
+			if (dirtDelay <= 0) {
+				if (KEEP_MOVING) {
+					displaceDirt(x + width / 2, y + height / 2, 18, 18);
+					dirtDelay = 10;
+				}
 			}
 		}
 	}
@@ -283,7 +239,7 @@ public class PlayerOne extends AbstractObject {
 			MOUTH_CLOSE = false;
 			MOUTH_OPEN = true;
 			snakeHead.setAnim(eatingFrame);
-			allowOpen = false;
+			setAllowOpen(false);
 			setDelay = true;
 			maxOpenTime = 30;
 		}
@@ -468,6 +424,7 @@ public class PlayerOne extends AbstractObject {
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
+			appleCount++;
 		}
 		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
@@ -662,6 +619,25 @@ public class PlayerOne extends AbstractObject {
 	public Rectangle2D getBounds() {
 
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
+	}
+
+	public boolean isShowTheSkull() {
+		return showTheSkull;
+	}
+
+	public void setShowTheSkull(boolean showTheSkull) {
+		this.showTheSkull = showTheSkull;
+	}
+
+	public boolean isAllowOpen() {
+		return allowOpen;
+	}
+
+	public void setAllowOpen(boolean allowOpen) {
+		this.allowOpen = allowOpen;
+	}
+	public double getAppleCount(){
+		return appleCount;
 	}
 
 }
