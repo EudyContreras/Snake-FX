@@ -64,8 +64,8 @@ public class GameImageBank {
 	public static Image continueOpt2;
 	public static Image quitOpt2;
 	public static Image restartOpt2;
-	public static Image hudBar;
-	public static Image hudBarTwo;
+	public static Image hud_bar;
+	public static Image hud_bar_cover;
 	public static Image health_bar_red_one;
 	public static Image health_bar_green_two;
 	public static Image health_bar_green_one;
@@ -75,6 +75,10 @@ public class GameImageBank {
 	public static Image player_two_hud;
 	public static Image player_one_wins;
 	public static Image player_two_wins;
+	public static Image options_board;
+	public static Image continue_button;
+	public static Image restart_button;
+	public static Image quit_button;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,8 +145,8 @@ public class GameImageBank {
 		/**
 		 * General Images
 		 */
-		hudBar = new Image(ImageUtility.loadResource("hud_bar.png"));
-		hudBarTwo = new Image(ImageUtility.loadResource("hud_bar_two.png"));
+		hud_bar = new Image(ImageUtility.loadResource("hud_bar.png"));
+		hud_bar_cover = new Image(ImageUtility.loadResource("hud_bar_cover.png"));
 		apple = new Image(ImageUtility.loadResource("apple.png"));
 		countKeeper = new Image(ImageUtility.loadResource("hud_bar_info_thin.png"));
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
@@ -162,6 +166,10 @@ public class GameImageBank {
 		player_two_hud = new Image(ImageUtility.loadResource("player_two_hud.png"));
 		player_one_wins = new Image(ImageUtility.loadResource("player_one_wins.png"));
 		player_two_wins = new Image(ImageUtility.loadResource("player_two_wins.png"));
+		options_board = new Image(ImageUtility.loadResource("options_board.png"));
+		continue_button = new Image(ImageUtility.loadResource("continue_button.png"));
+		restart_button = new Image(ImageUtility.loadResource("restart_button.png"));
+		quit_button = new Image(ImageUtility.loadResource("quit_button.png"));
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

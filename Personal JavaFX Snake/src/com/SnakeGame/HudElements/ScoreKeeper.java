@@ -90,7 +90,7 @@ public class ScoreKeeper {
 		y1 = y1 + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5f;
-			if (y >= 80) {
+			if (y >= 85) {
 				swipeSpeed = 0;
 			}
 		}

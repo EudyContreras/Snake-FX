@@ -55,8 +55,8 @@ public class GameHud {
 		this.hudBar.setTranslateY(y);
 		this.hudBar.setArcWidth(20);
 		this.hudBar.setArcHeight(20);
-		this.hudBar.setFill(new ImagePattern(GameImageBank.hudBar));
-		this.hudBarCover.setFill(new ImagePattern(GameImageBank.hudBar));
+		this.hudBar.setFill(new ImagePattern(GameImageBank.hud_bar));
+		this.hudBarCover.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getOverlay().getChildren().add(hudBar);
 		game.getFadeScreen().getChildren().add(hudBarCover);
 		this.maxHealth = width;

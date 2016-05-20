@@ -73,5 +73,6 @@ public class Settings {
 	public static boolean ADD_BLUR = true;
 	public static boolean ADD_GLOW = false;
 	public static boolean FAST_TURNS = false;
-
+	public static String PLAYER_ONE_NAME = "";
+	public static String PLAYER_TWO_NAME = "";
 }

@@ -20,10 +20,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class PlayerOneHead extends AbstractObject {
 	private double targetRotation;
 	private int equivalence;
+	private Text text;
+	private Font font;
 	private SnakeGame game;
 	private PlayerOne snake;
 	private Rectangle headBoundsLeft;
@@ -41,6 +46,11 @@ public class PlayerOneHead extends AbstractObject {
 		this.snake = snake;
 		this.game = game;
 		this.gom = game.getObjectManager();
+		this.text = new Text();
+		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
+		this.text.setFill(Color.rgb(210, 0, 0));
+		this.text.setFont(font);
+		this.text.setText(Settings.PLAYER_ONE_NAME);
 		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
@@ -68,6 +78,7 @@ public class PlayerOneHead extends AbstractObject {
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
 		}
+		this.layer.getChildren().add(text);
 	}
 
 	public void move() {
@@ -76,6 +87,8 @@ public class PlayerOneHead extends AbstractObject {
 		}
 		this.y = snake.getY();
 		this.x = snake.getX();
+		this.text.setX(x-50);
+		this.text.setY(y-40);
 	}
 
 	public void rotate() {

@@ -8,9 +8,12 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -23,8 +26,10 @@ public class VictoryScreen {
 	private ImageView yes;
 	private ImageView no;
 	private ImageView restart;
+	private ImageView optionBoard;
 	private Pane scoreLayer;
 	private Image boardImage;
+	private DropShadow borderGlow;
 	private double width = 0;
 	private double height = 0;
 	private float confirmX = 0;
@@ -41,6 +46,14 @@ public class VictoryScreen {
 		this.boardImage = boardImage;
 		this.width = width;
 		this.height = height;
+		this.borderGlow = new DropShadow();
+		this.borderGlow.setOffsetY(0f);
+		this.borderGlow.setOffsetX(0f);
+		this.borderGlow.setSpread(0.3);
+		this.borderGlow.setColor(Color.WHITE);
+		this.borderGlow.setWidth(35);
+		this.borderGlow.setHeight(35);
+		this.borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		confirmScreenSetup();
 	}
 
@@ -69,46 +82,54 @@ public class VictoryScreen {
 		yes = new ImageView();
 		no = new ImageView();
 		restart = new ImageView();
-		yes.setImage(GameImageBank.continueOpt);
-		no.setImage(GameImageBank.quitOpt);
-		restart.setImage(GameImageBank.restartOpt);
-		yes.setFitWidth(200 / GameLoader.ResolutionScaleX);
-		yes.setFitHeight(50 / GameLoader.ResolutionScaleY);
-		no.setFitWidth(200 / GameLoader.ResolutionScaleX);
-		no.setFitHeight(50 / GameLoader.ResolutionScaleY);
-		yes.setX(confirmScreen.getX());
-		yes.setY(confirmScreen.getY() + confirmScreen.getHeight());
-		no.setX(confirmScreen.getX() + confirmScreen.getWidth() - no.getFitWidth());
-		no.setY(confirmScreen.getY() + confirmScreen.getHeight());
+		optionBoard = new ImageView(GameImageBank.options_board);
+		optionBoard.setX(confirmX);
+		optionBoard.setY(confirmScreen.getY()+confirmScreen.getHeight());
+		optionBoard.setFitWidth(width/ GameLoader.ResolutionScaleX);
+		optionBoard.setFitHeight((height/4)/GameLoader.ResolutionScaleY);
+		yes.setImage(GameImageBank.continue_button);
+		no.setImage(GameImageBank.quit_button);
+		restart.setImage(GameImageBank.restart_button);
+		yes.setFitWidth(240 / GameLoader.ResolutionScaleX);
+		yes.setFitHeight(70 / GameLoader.ResolutionScaleY);
+		no.setFitWidth(240 / GameLoader.ResolutionScaleX);
+		no.setFitHeight(70 / GameLoader.ResolutionScaleY);
+		yes.setX(optionBoard.getX()+30);
+		yes.setY(optionBoard.getY()+30);
+		no.setX(optionBoard.getX() + optionBoard.getFitWidth() - no.getFitWidth());
+		no.setY(optionBoard.getY()+10);
 		restart.setX(yes.getX() + yes.getFitWidth());
 		restart.setY(yes.getY());
-		restart.setFitWidth((no.getX() - yes.getX() - yes.getFitWidth()));
+		restart.setFitWidth((yes.getFitWidth())-5 );
 		restart.setFitHeight(no.getFitHeight());
-		scoreLayer.getChildren().addAll(confirmScreen, yes, no, restart);
+		scoreLayer.getChildren().addAll(confirmScreen,optionBoard, yes, no, restart);
 		processInput();
 	}
 
 	private void processInput() {
 		yes.setOnMouseEntered(e -> {
-			yes.setImage(GameImageBank.continueOpt2);
+			borderGlow.setColor(Color.rgb(0,240,0));
+			yes.setEffect(borderGlow);
 		});
 		yes.setOnMouseExited(e -> {
-			yes.setImage(GameImageBank.continueOpt);
+			yes.setEffect(null);
 		});
 		no.setOnMouseEntered(e -> {
-			no.setImage(GameImageBank.quitOpt2);
+			borderGlow.setColor(Color.rgb(240,0,0));
+			no.setEffect(borderGlow);
 		});
 		no.setOnMouseExited(e -> {
-			no.setImage(GameImageBank.quitOpt);
+			no.setEffect(null);
 		});
 		no.setOnMouseClicked(e -> {
 			gamePane.addFadeScreen();
 		});
 		restart.setOnMouseEntered(e -> {
-			restart.setImage(GameImageBank.restartOpt2);
+			borderGlow.setColor(Color.rgb(240, 150,0));
+			restart.setEffect(borderGlow);
 		});
 		restart.setOnMouseExited(e -> {
-			restart.setImage(GameImageBank.restartOpt);
+			restart.setEffect(null);
 		});
 		restart.setOnMouseClicked(e -> {
 			restartLevel();
@@ -119,6 +140,7 @@ public class VictoryScreen {
 	public void swipeRight() {
 		if (swipeRight == true) {
 			confirmScreen.setX(confirmX);
+			optionBoard.setX(confirmX);
 			confirmX += confirmXPosition;
 			confirmXPosition += accelaration;
 			if (center) {
@@ -140,11 +162,11 @@ public class VictoryScreen {
 					center = false;
 				}
 			}
-			yes.setX(confirmScreen.getX());
-			yes.setY(confirmScreen.getY() + confirmScreen.getHeight());
-			no.setX(confirmScreen.getX() + confirmScreen.getWidth() - no.getFitWidth());
-			no.setY(confirmScreen.getY() + confirmScreen.getHeight());
-			restart.setX(yes.getX() + yes.getFitWidth());
+			yes.setX(optionBoard.getX()+20);
+			yes.setY(optionBoard.getY()+20);
+			no.setX(optionBoard.getX() + optionBoard.getFitWidth() - no.getFitWidth()-20);
+			no.setY(optionBoard.getY()+20);
+			restart.setX(yes.getX() + yes.getFitWidth()+20);
 			restart.setY(yes.getY());
 		}
 		overlay.updateEffect();
@@ -154,6 +176,7 @@ public class VictoryScreen {
 	public void hide() {
 		if (swipeLeft == true) {
 			confirmScreen.setX(confirmX);
+			optionBoard.setX(confirmX);
 			confirmX -= confirmXPosition;
 			confirmXPosition += accelaration;
 			if (center) {
