@@ -206,12 +206,12 @@ public class SnakeGame extends Application implements Runnable {
 		setHealthBarTwo(new HealthBarTwo(this,(int) (Settings.WIDTH - (int) (395 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
 				15, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, Settings.WIDTH / 2 - 10 / GameLoader.ResolutionScaleX,
-				50 / GameLoader.ResolutionScaleY,ScaleX((int) (Settings.WIDTH / 2 - (500 / 2))) , 10,
-				ScaleX(500),65 / GameLoader.ResolutionScaleY);
+				35 / GameLoader.ResolutionScaleY,ScaleX((int) (Settings.WIDTH / 2 - (680 / 2))) , 10,
+				ScaleX(680),85 / GameLoader.ResolutionScaleY);
 		scoreBoard = new ScoreBoard("", this, ScaleX((int) (healthBarOne.getX() + healthBarOne.getWidth() + 100)),
-				ScaleY(50));
+				ScaleY(50), Color.RED);
 		scoreBoard2 = new ScoreBoard("", this, ScaleX((int) (healthBarTwo.getX() - healthBarTwo.getWidth()/2+20)),
-				ScaleY(50));
+				ScaleY(50), Color.RED);
 		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800, 450);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
 		processGameInput();

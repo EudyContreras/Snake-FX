@@ -57,7 +57,7 @@ public class Settings {
 
 	public static boolean ROCK_COLLISION = true;
 	public static boolean AUTOMATIC_EATING = true;
-	public static boolean ALLOW_DIRT = false;
+	public static boolean ALLOW_DIRT = true;
 	public static boolean SAND_STORM = true;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;

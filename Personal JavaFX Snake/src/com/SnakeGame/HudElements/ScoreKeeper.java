@@ -25,13 +25,14 @@ public class ScoreKeeper {
 	private String hoursS = "00";
 	private Text text;
 	private Text timer;
-	private Text timer2;
 	private Font font;
+	private boolean swipeUp = true;
+	private boolean swipeDown = false;
+	private float swipeSpeed = 0;
 	private double width = 0;
 	private float x = 0;
 	private float y = 0;
 	private float y1 = 0;
-	private float y2 = 0;
 	private float oldY = 0;
 	private float position = 0;
 	private int initialAmount;
@@ -47,43 +48,35 @@ public class ScoreKeeper {
 		this.game = game;
 		this.text = new Text();
 		this.timer = new Text();
-		this.timer2 = new Text();
 		this.apple = new ImageView(GameImageBank.apple);
 		this.setX((float) x);
-		this.y = (float) y;
-		this.y2 = (float) (y);
+		this.setY((float) y);
 		this.oldY = (float) y;
 		this.y1 = (float) y1;
 		this.setWidth(width);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Helvetica", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.board.setFill(new ImagePattern(GameImageBank.countKeeper));
-		this.apple.setFitWidth(50 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(50 / GameLoader.ResolutionScaleY);
+		this.apple.setFitWidth(35 / GameLoader.ResolutionScaleX);
+		this.apple.setFitHeight(35 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(Settings.WIDTH / 2-this.apple.getFitWidth()/1.5 );
-		this.apple.setY(y2);
-		this.text.setTranslateX(apple.getX() + apple.getFitWidth());
-		this.text.setTranslateY(y1);
+		this.apple.setX(Settings.WIDTH/2+apple.getFitWidth());
+		this.apple.setY(y1-15);
+		this.text.setX(apple.getX() + apple.getFitWidth()/2+10);
+		this.text.setY(y1-15);
 		this.text.setFill(Color.RED);
 		this.text.setEffect(null);
 		this.text.setFont(font);
-		this.text.setText("x " + APPLE_COUNT);
-		this.timer.setTranslateX(SnakeGame.ScaleX((int) (x+40)));
-		this.timer.setTranslateY(y1);
-		this.timer.setFill(Color.rgb(255, 120, 0));
+		this.text.setText(" x " + APPLE_COUNT);
+		this.timer.setX(SnakeGame.ScaleX((int) (x+width/2.6	)));
+		this.timer.setY(y1-15);
+		this.timer.setFill(Color.RED);
 		this.timer.setFont(font);
 		this.timer.setText("00:00:00");
-		this.timer2.setTranslateX(SnakeGame.ScaleX((int) (Settings.WIDTH/2+110)));
-		this.timer2.setTranslateY(y1);
-		this.timer2.setFill(Color.rgb(255, 120, 0));
-		this.timer2.setFont(font);
-		this.timer2.setText("00:00:00");
 		game.getOverlay().getChildren().add(board);
 		game.getOverlay().getChildren().add(apple);
 		game.getOverlay().getChildren().add(text);
 		game.getOverlay().getChildren().add(timer);
-		game.getOverlay().getChildren().add(timer2);
 		startTimer();
 		updateCount();
 	}
@@ -92,7 +85,46 @@ public class ScoreKeeper {
 		APPLE_COUNT -= 1;
 		updateCount();
 	}
+	public void update() {
+		y = y + swipeSpeed;
+		y1 = y1 + swipeSpeed;
+		if (swipeDown) {
+			swipeSpeed = 1.5f;
+			if (y >= 80) {
+				swipeSpeed = 0;
+			}
+		}
+		if (swipeUp) {
+			swipeSpeed = -1.5f;
+			if (y < oldY) {
+				swipeSpeed = 0;
+			}
+		}
+		board.setY(y);
+		apple.setY(y1-5);
+		text.setTranslateY(y1);
+		timer.setTranslateY(y1);
+	}
 
+	public void showHide() {
+		if (swipeDown) {
+			swipeDown = false;
+			swipeUp = true;
+		} else if (swipeUp) {
+			swipeUp = false;
+			swipeDown = true;
+		}
+	}
+
+	public void swipeDown() {
+		swipeUp = false;
+		swipeDown = true;
+	}
+
+	public void swipeUp() {
+		swipeDown = false;
+		swipeUp = true;
+	}
 	public void updateTimer() {
 		if (!VictoryScreen.LEVEL_COMPLETE && startTimer) {
 			counter += 1;
@@ -124,7 +156,6 @@ public class ScoreKeeper {
 				hoursS = "" + hours;
 			}
 			this.timer.setText(hoursS + ":" + minutesS + ":" + secondsS);
-			this.timer2.setText(hoursS + ":" + minutesS + ":" + secondsS);
 		}
 		else{
 			stopTimer();
@@ -146,65 +177,54 @@ public class ScoreKeeper {
 
 	public void keepCount() {
 		updateTimer();
-		y = y + getPosition();
-		y1 = y1 + getPosition();
-		y2 = y2 + getPosition();
-		text.setTranslateY(y1);
-		timer.setTranslateY(y1);
-		board.setY(y);
-		apple.setY(y2);
+		update();
 		if (APPLE_COUNT <= 0) {
 			if (VictoryScreen.LEVEL_COMPLETE == false) {
 				game.getVictoryScreen().removeBoard();
 				game.getVictoryScreen().finishLevel();
+				setPosition(1.5f);
+				swipeDown();
 				game.getGameHud().swipeDown();
-				setPosition(1.4f);
 				VictoryScreen.LEVEL_COMPLETE = true;
 			}
-		} else {
+		}
+		else {
+			swipeUp();
 			game.getGameHud().swipeUp();
-		}
-		if (y >= game.getGameHud().height - 10) {
-			setPosition(0);
-		}
-		if (game.getGameHud().swipeUp) {
-			setPosition(-1.4f);
-			if (y <= oldY) {
-				setPosition(0);
-			}
 		}
 	}
 
 	public void updateCount() {
-		text.setText("x " + APPLE_COUNT);
+		text.setText(" x " + APPLE_COUNT);
 	}
 
 	public void resetCount() {
 		APPLE_COUNT = initialAmount;
-		text.setText("x " + APPLE_COUNT);
+		text.setText(" x " + APPLE_COUNT);
 	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getPosition() {
-		return position;
-	}
-
 	public void setPosition(float position) {
 		this.position = position;
 	}
+	public float getPosition() {
+		return position;
+	}
+	public double getWidth() {
+		return width;
+	}
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	public float getX() {
+		return x;
+	}
+	public void setX(float x) {
+		this.x = x;
+	}
+	public float getY() {
+		return y;
+	}
+	public void setY(float y) {
+		this.y = y;
+	}
+
 }

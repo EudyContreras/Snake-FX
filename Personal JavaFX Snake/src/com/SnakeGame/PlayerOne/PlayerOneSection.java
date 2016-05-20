@@ -211,6 +211,7 @@ public class PlayerOneSection extends AbstractSection {
 
 			}
 		}
+		if(Settings.ALLOW_DIRT)
 		updateDirt();
 	}
 	public void updateDirt() {

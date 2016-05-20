@@ -65,6 +65,7 @@ public class GameImageBank {
 	public static Image quitOpt2;
 	public static Image restartOpt2;
 	public static Image hudBar;
+	public static Image hudBarTwo;
 	public static Image health_bar_red_one;
 	public static Image health_bar_green_two;
 	public static Image health_bar_green_one;
@@ -139,8 +140,9 @@ public class GameImageBank {
 		 * General Images
 		 */
 		hudBar = new Image(ImageUtility.loadResource("hud_bar.png"));
+		hudBarTwo = new Image(ImageUtility.loadResource("hud_bar_two.png"));
 		apple = new Image(ImageUtility.loadResource("apple.png"));
-		countKeeper = new Image(ImageUtility.loadResource("hud_bar_info.png"));
+		countKeeper = new Image(ImageUtility.loadResource("hud_bar_info_thin.png"));
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
 		levelCompleteSplash = new Image(ImageUtility.loadResource("levelComplete2.png"));
 		gameOverScreen = new Image(ImageUtility.loadResource("GameOver.png"));
