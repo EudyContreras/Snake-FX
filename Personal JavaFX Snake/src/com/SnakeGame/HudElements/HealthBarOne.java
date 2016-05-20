@@ -7,6 +7,7 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -24,14 +25,22 @@ public class HealthBarOne {
 	private boolean playerIsAlive = true;
 	private double maxHealth = 100;
 	private double width = 0;
+	private double x;
+	private double y;
+	private double height;
 	private int delay = 0;
 	private SnakeGame game;
 	private PlayerOne player;
 	private Rectangle healthBar = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
+	private Rectangle playerHud = new Rectangle();
+	private Circle playerHead = new Circle();
 
 	public HealthBarOne(SnakeGame game, double x, double y, double width, double height) {
+		this.x = x;
+		this.y = y;
 		this.width = width;
+		this.height = height;
 		this.player = game.getloader().getPlayerOne();
 		this.game = game;
 		this.healthBar.setWidth(width);
@@ -42,10 +51,21 @@ public class HealthBarOne {
 		this.healthBarBorder.setHeight(height+3);
 		this.healthBarBorder.setTranslateX(x-1);
 		this.healthBarBorder.setTranslateY(y-1);
+		this.playerHud.setWidth(width/2);
+		this.playerHud.setHeight(height*2);
+		this.playerHud.setTranslateX(x+width);
+		this.playerHud.setTranslateY(0);
+		this.playerHead.setRadius(SnakeGame.ScaleX(30));
+		this.playerHead.setCenterX(x+width+playerHead.getRadius()*1.5);
+		this.playerHead.setCenterY(y+playerHead.getRadius());
+		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeEating));
+		this.playerHud.setFill(new ImagePattern(GameImageBank.player_one_hud));
 		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_one));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_one));
 		game.getOverlay().getChildren().add(healthBarBorder);
 		game.getOverlay().getChildren().add(healthBar);
+		game.getOverlay().getChildren().add(playerHud);
+		game.getOverlay().getChildren().add(playerHead);
 		this.maxHealth = width;
 	}
 
@@ -131,4 +151,16 @@ public class HealthBarOne {
 		this.player = game.getloader().getPlayerOne();
 	}
 
+	public double getX() {
+		return x;
+	}
+	public double getY() {
+		return y;
+	}
+	public double getWidth(){
+		return width;
+	}
+	public double getHeight(){
+		return height;
+	}
 }

@@ -23,6 +23,7 @@ import javafx.scene.shape.Circle;
  */
 public class GameImageBank {
 
+
 	public static Image glowingImage;
 	public static Image glowingCircle;
 	public static Image glowingCircle2;
@@ -42,6 +43,7 @@ public class GameImageBank {
 	public static Image snakeBones;
 	public static Image snakeSkull;
 	public static Image dirt;
+	public static Image apple;
 	public static Image fruit;
 	public static Image fruit2;
 	public static Image fruit3;
@@ -68,6 +70,8 @@ public class GameImageBank {
 	public static Image health_bar_green_one;
 	public static Image health_bar_red_two;
 	public static Image hud_timer;
+	public static Image player_one_hud;
+	public static Image player_two_hud;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +139,7 @@ public class GameImageBank {
 		 * General Images
 		 */
 		hudBar = new Image(ImageUtility.loadResource("hud_bar.png"));
+		apple = new Image(ImageUtility.loadResource("apple.png"));
 		countKeeper = new Image(ImageUtility.loadResource("hud_bar_info.png"));
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
 		levelCompleteSplash = new Image(ImageUtility.loadResource("levelComplete2.png"));
@@ -149,6 +154,8 @@ public class GameImageBank {
 		health_bar_green_two = new Image(ImageUtility.loadResource("health_bar_green_two.png"));
 		health_bar_red_one = new Image(ImageUtility.loadResource("health_bar_red_border.png"));
 		health_bar_red_two = new Image(ImageUtility.loadResource("health_bar_red_border_two.png"));
+		player_one_hud = new Image(ImageUtility.loadResource("player_one_hud.png"));
+		player_two_hud = new Image(ImageUtility.loadResource("player_two_hud.png"));
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

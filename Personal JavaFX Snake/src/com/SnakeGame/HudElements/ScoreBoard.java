@@ -5,10 +5,7 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -26,22 +23,20 @@ public class ScoreBoard {
 
 	private int score = 0;
 	private String message;
-	private Text text = new Text();
-	private Font theFont = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
-	private Circle face;
+	private Text text;
+	private Font theFont;
 
-	public ScoreBoard(String text, SnakeGame game, double x1, double y1, double x, double y, double radius, Image image) {
+	public ScoreBoard(String text, SnakeGame game, double x, double y) {
 		this.message = text;
-		this.face = new Circle(x, y, radius);
-		this.face.setFill(new ImagePattern(image));
-		this.text.setTranslateX(x1);
-		this.text.setTranslateY(y1);
-		this.text.setFill(Color.rgb(255, 150, 0));
+		this.text = new Text();
+		this.theFont = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
+		this.text.setTranslateX(x);
+		this.text.setTranslateY(y);
+		this.text.setFill(Color.rgb(0, 255, 0));
 		this.text.setEffect(null);
 		this.text.setFont(theFont);
 		this.text.setText(message + " 00" + score);
 		game.getOverlay().getChildren().add(this.text);
-		game.getOverlay().getChildren().add(this.face);
 	}
 
 	public void showScore() {
@@ -51,13 +46,11 @@ public class ScoreBoard {
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			text.setVisible(false);
-			face.setVisible(false);
 		}
 	}
 
 	public void show() {
 		text.setVisible(true);
-		face.setVisible(true);
 	}
 
 	public void increaseScore() {

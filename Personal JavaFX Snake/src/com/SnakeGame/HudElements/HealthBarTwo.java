@@ -7,6 +7,7 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -23,13 +24,17 @@ public class HealthBarTwo {
 	private boolean playerIsAlive = true;
 	private double maxHealth = 100;
 	private double x = 0;
+	private double y = 0;
 	private double oldX = 0;
 	private double width = 0;
+	private double height = 0;
 	private int delay = 0;
 	private SnakeGame game;
 	private PlayerTwo player;
 	private Rectangle healthBar = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
+	private Rectangle playerHud = new Rectangle();
+	private Circle playerHead = new Circle();
 
 	public HealthBarTwo(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
@@ -45,10 +50,21 @@ public class HealthBarTwo {
 		this.healthBarBorder.setHeight(height+2);
 		this.healthBarBorder.setTranslateX(x-2);
 		this.healthBarBorder.setTranslateY(y-1);
+		this.playerHud.setWidth(width/2);
+		this.playerHud.setHeight(height*2);
+		this.playerHud.setTranslateX(x-width+width/2);
+		this.playerHud.setTranslateY(0);
+		this.playerHead.setRadius(SnakeGame.ScaleX(30));
+		this.playerHead.setCenterX(SnakeGame.ScaleX((int) (x-width+width-playerHead.getRadius()*1.5)));
+		this.playerHead.setCenterY(y+playerHead.getRadius());
+		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeEating2));
+		this.playerHud.setFill(new ImagePattern(GameImageBank.player_two_hud));
 		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_two));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_two));
+		game.getOverlay().getChildren().add(playerHud);
 		game.getOverlay().getChildren().addAll(healthBarBorder);
 		game.getOverlay().getChildren().add(healthBar);
+		game.getOverlay().getChildren().add(playerHead);
 		this.maxHealth = width;
 	}
 
@@ -144,6 +160,19 @@ public class HealthBarTwo {
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getloader().getPlayerTwo();
+	}
+
+	public double getX() {
+		return x;
+	}
+	public double getY() {
+		return y;
+	}
+	public double getWidth() {
+		return width;
+	}
+	public double getHeight() {
+		return height;
 	}
 
 }

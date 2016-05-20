@@ -206,13 +206,12 @@ public class SnakeGame extends Application implements Runnable {
 		setHealthBarTwo(new HealthBarTwo(this,(int) (Settings.WIDTH - (int) (395 / GameLoader.ResolutionScaleX)) - 20 / GameLoader.ResolutionScaleX,
 				15, (int) (350 / GameLoader.ResolutionScaleX), (int) (40 / GameLoader.ResolutionScaleY)));
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, Settings.WIDTH / 2 - 10 / GameLoader.ResolutionScaleX,
-				50 / GameLoader.ResolutionScaleY,ScaleX((int) (Settings.WIDTH / 2 - (980 / 2))) , 10,
-				ScaleX(980),65 / GameLoader.ResolutionScaleY);
-		scoreBoard = new ScoreBoard("", this, scoreKeeper.getX() + 200 / GameLoader.ResolutionScaleX,
-				45 / GameLoader.ResolutionScaleY, scoreKeeper.getX() + 180, ScaleX(40), 30 / GameLoader.ResolutionScaleX, GameImageBank.snakeEating);
-		scoreBoard2 = new ScoreBoard("", this,scoreKeeper.getX() + scoreKeeper.getWidth() - 250 / GameLoader.ResolutionScaleX,
-				45 / GameLoader.ResolutionScaleY, ScaleX((int) (scoreKeeper.getX() + scoreKeeper.getWidth() - 170)) / GameLoader.ResolutionScaleX, ScaleX(40),
-				30 / GameLoader.ResolutionScaleX, GameImageBank.snakeEating2);
+				50 / GameLoader.ResolutionScaleY,ScaleX((int) (Settings.WIDTH / 2 - (500 / 2))) , 10,
+				ScaleX(500),65 / GameLoader.ResolutionScaleY);
+		scoreBoard = new ScoreBoard("", this, ScaleX((int) (healthBarOne.getX() + healthBarOne.getWidth() + 100)),
+				ScaleY(50));
+		scoreBoard2 = new ScoreBoard("", this, ScaleX((int) (healthBarTwo.getX() - healthBarTwo.getWidth()/2+20)),
+				ScaleY(50));
 		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800, 450);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
 		processGameInput();
@@ -728,6 +727,7 @@ public class SnakeGame extends Application implements Runnable {
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
 		scoreKeeper.resetCount();
+		scoreKeeper.resetTimer();
 		gameHud.show();
 		gameHud.swipeUp();
 		scoreBoard.show();
@@ -766,6 +766,7 @@ public class SnakeGame extends Application implements Runnable {
 		scoreBoard.resetScore();
 		scoreBoard2.resetScore();
 		scoreKeeper.resetCount();
+		scoreKeeper.resetTimer();
 		gameHud.show();
 		gameHud.swipeUp();
 		scoreBoard.show();
@@ -838,13 +839,13 @@ public class SnakeGame extends Application implements Runnable {
 			scoreBoard.resetScore();
 			scoreBoard2.resetScore();
 			scoreKeeper.resetCount();
+			scoreKeeper.resetTimer();
 			fadeOut = false;
 			victoryScreen.removeBlur();
 			victoryScreen.removeBoard();
 			gameOverScreen.removeBlur();
 			gameOverScreen.removeBoard();
 			processGameInput();
-
 			gameOverScreen.removeBoard();
 			gameOverScreen.finishLevel();
 			scoreKeeper.setPosition(1.5f);
