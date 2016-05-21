@@ -3,11 +3,11 @@ package com.SnakeGame.PlayerTwo;
 import java.util.LinkedList;
 
 import com.SnakeGame.FrameWork.AbstractObject;
+import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
@@ -16,6 +16,7 @@ import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.ScreenOverlay;
+
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -376,7 +377,7 @@ public class PlayerTwo extends AbstractObject {
 	public void checkCollision() {
 		if (!DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
-				Tile tempTile = game.getloader().tileManager.tile.get(i);
+				AbstractTile tempTile = game.getloader().tileManager.tile.get(i);
 				if (tempTile.getId() == LevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
@@ -392,7 +393,7 @@ public class PlayerTwo extends AbstractObject {
 				}
 			}
 			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
-				Tile tempTile = game.getloader().tileManager.block.get(i);
+				AbstractTile tempTile = game.getloader().tileManager.block.get(i);
 				if (tempTile.getId() == LevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
@@ -401,6 +402,14 @@ public class PlayerTwo extends AbstractObject {
 								allowCollision = false;
 							}
 						}
+					}
+				}
+			}
+			for (int i = 0; i < game.getloader().tileManager.trap.size(); i++) {
+				AbstractTile tempTile = game.getloader().tileManager.trap.get(i);
+				if (tempTile.getId() == LevelObjectID.fence) {
+					if (getBounds().intersects(tempTile.getBounds())) {
+						die();
 					}
 				}
 			}

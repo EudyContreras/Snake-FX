@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import com.SnakeGame.GameObjects.SnakeFood;
+import com.SnakeGame.GameObjects.SpikeFence;
+import com.SnakeGame.GameObjects.TileMap;
 import com.SnakeGame.GameObjects.WavingCactusOne;
 import com.SnakeGame.GameObjects.WavingCactusTwo;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -31,6 +33,7 @@ import javafx.scene.shape.Circle;
  */
 public class GameLoader {
 	private BufferedImage border;
+	private BufferedImage fence;
 	private BufferedImage level;
 	private BufferedImage level1;
 	private BufferedImage level2;
@@ -77,8 +80,9 @@ public class GameLoader {
 	 */
 	public void loadLevelManager() {
 		this.border = GameImageLoader.loadImage("/desert-level-fence.png");
+		this.fence = GameImageLoader.loadImage("/desert-level-border.png");
 		this.level  = GameImageLoader.loadImage("/desert-level.png");
-		this.level1 = GameImageLoader.loadImage("/desert-level.png");
+		this.level1 = GameImageLoader.loadImage("/desert-level1.png");
 		this.level2 = GameImageLoader.loadImage("/desert-level2.png");
 		this.level3 = GameImageLoader.loadImage("/desert-level3.png");
 		this.level4 = GameImageLoader.loadImage("/desert-level4.png");
@@ -91,7 +95,7 @@ public class GameLoader {
 		this.setLevel(level);
 		this.levelWidth = getLevel().getWidth();
 		this.levelHeight = getLevel().getHeight();
-		this.game.levelLenght = 128 * 64;
+		this.game.setLevelLenght(128 * 64);
 		System.out.print("loaded");
 	}
 
@@ -173,7 +177,8 @@ public class GameLoader {
 		}
 		loadDesertLevels(GameLevelImage.desertBackground);
 		loadDesertBorder();
-		game.levelLenght = 128 * 64;
+		loadSpikeFence();
+		game.setLevelLenght(128 * 64);
 	}
 
 	/**
@@ -273,22 +278,47 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 115 / GameLoader.ResolutionScaleX),
+					SpikeFence texture = new SpikeFence(game, (float) (row * 115 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
-					tileManager.addTile(texture);
+					tileManager.addTrap(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				}
 				 if (red == 0 && green == 0 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
+					SpikeFence texture = new SpikeFence(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
 							LevelObjectID.fence);
-					tileManager.addTile(texture);
+					tileManager.addTrap(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				}
 			}
 		}
 		getBorder().flush();
+	}
+	private void loadSpikeFence() {
+		for (double row = levelWidth - 1; row >= 0; row--) {
+			for (double col = levelHeight - 1; col >= 0; col--) {
+				pixel = getSpikeFence().getRGB((int) row, (int) col);
+				red = (pixel >> 16) & 0xff;
+				green = (pixel >> 8) & 0xff;
+				blue = (pixel) & 0xff;
+				if (red == 255 && green == 255 && blue == 255) {
+					SpikeFence texture = new SpikeFence(game, (float) (row * 85 / GameLoader.ResolutionScaleX),
+							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
+							LevelObjectID.fence);
+					tileManager.addTrap(texture);
+					game.getPlayfieldLayer().getChildren().add(texture.getView());
+				}
+				 if (red == 0 && green == 0 && blue == 255) {
+					SpikeFence texture = new SpikeFence(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
+							(float) (col * 115 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
+							LevelObjectID.fence);
+					tileManager.addTrap(texture);
+					game.getPlayfieldLayer().getChildren().add(texture.getView());
+				}
+			}
+		}
+		getSpikeFence().flush();
 	}
 
 	public void loadJungleLevels(Image image) {
@@ -478,14 +508,12 @@ public class GameLoader {
 	 * allow the game to reload this objects for a new and fresh start
 	 */
 	public void switcLevel() {
-		game.getObjectManager().clearAll();
-		game.getDebrisManager().clearAll();
-		game.getDebrisLayer().getChildren().clear();
-		game.getPlayfieldLayer().getChildren().clear();
-		game.getBottomLayer().getChildren().clear();
 		Front_Distance_LOD = 512;
 		Rear_Distance_LOD = 511;
 		switch (GameLevelImage.LEVEL) {
+		case 0:
+			setLevel(level);
+			break;
 		case 1:
 			setLevel(level1);
 			break;
@@ -517,12 +545,10 @@ public class GameLoader {
 			setLevel(level10);
 			break;
 		}
+
 		this.levelWidth = getLevel().getWidth();
 		this.levelHeight = getLevel().getHeight();
-		this.game.levelLenght = 128 * 64;
-		loadPlayer();
 		loadPixelMap();
-		game.reset();
 		GameLevelImage.LEVEL++;
 	}
 
@@ -538,8 +564,15 @@ public class GameLoader {
 		return border;
 	}
 
+	public BufferedImage getSpikeFence() {
+		return fence;
+	}
+
 	public void setBorder(BufferedImage border) {
 		this.border = border;
+	}
+	public void setSpikeFence(BufferedImage fence) {
+		this.fence = fence;
 	}
 	/**
 	 * Method responsible for the procedural creation of a level it loads and
@@ -587,7 +620,7 @@ public class GameLoader {
 	 */
 	public void loadPlayerOne() {
 		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeSphere.getRadius());
-		float y = (float) (Settings.HEIGHT * 0.55);
+		float y = (float) (Settings.HEIGHT * 0.50);
 		player = new PlayerOne(game, game.getSnakeHeadLayer(),
 				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
 				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
@@ -596,7 +629,7 @@ public class GameLoader {
 
 	public void loadPlayerTwo() {
 		float x = (float) (Settings.WIDTH / 2 + GameImageBank.snakeSphere2.getRadius());
-		float y = (float) (Settings.HEIGHT * 0.55);
+		float y = (float) (Settings.HEIGHT * 0.50);
 		player2 = new PlayerTwo(game, game.getSnakeHeadLayer(),
 				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y, 0, 0, 0, 0,
 				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player2, game.getObjectManager());

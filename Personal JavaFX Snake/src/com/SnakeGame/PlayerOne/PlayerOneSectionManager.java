@@ -1,9 +1,11 @@
 package com.SnakeGame.PlayerOne;
 
 import java.util.ArrayList;
-import com.SnakeGame.FrameWork.PlayerMovement;
+
 import com.SnakeGame.FrameWork.AbstractSection;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.SnakeGame;
+
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 

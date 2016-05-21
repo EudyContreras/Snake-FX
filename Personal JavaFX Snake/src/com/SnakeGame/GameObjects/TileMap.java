@@ -12,7 +12,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 /**
  * Every static object or esthetic object in the game such as walls, boxes etc
@@ -22,34 +21,44 @@ import javafx.scene.transform.Rotate;
  * @author Eudy Contreras
  *
  */
-public class WavingCactusOne extends AbstractTile {
+public class TileMap extends AbstractTile {
 	GameTileManager tileManager;
+	Rectangle2D collisionBounds;
 	SnakeGame game;
 	float speed;
 
-	public WavingCactusOne(float x, float y, float velR, Image image, LevelObjectID id) {
+	public TileMap(SnakeGame game, float x, float y, float speed, float velY, Image image, LevelObjectID id) {
 		super(x, y, image, id);
-		if (Settings.SAND_STORM)
-			this.velR = velR;
+		this.game = game;
+		this.velX = 0;
+		this.speed = speed;
+		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		this.view.setRotationAxis(Rotate.Y_AXIS);
+		draw();
+		adjustBounds();
+	}
+
+	public TileMap(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+		super(x, y, image);
+		this.game = game;
+		this.velX = velX;
+		this.velY = velY;
+		this.view.setTranslateX(x);
+		this.view.setTranslateY(y);
+		draw();
+		adjustBounds();
+	}
+
+	public void adjustBounds() {
+		if (this.id == LevelObjectID.rock) {
+			collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
+		}
 	}
 
 	public void move() {
-		super.move();
-		if (Settings.SAND_STORM)
-			wave();
-	}
+		x = x + velX;
 
-	public void wave() {
-		if (r > 4) {
-			velR -= Math.random() * (0.4 - 0.01 + 1) + 0.01;
-		}
-		if (r <= 0) {
-			if (velR < 4)
-				velR += 0.5f;
-		}
 	}
 
 	public void draw() {
@@ -64,11 +73,12 @@ public class WavingCactusOne extends AbstractTile {
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
 			game.getOverlay().getChildren().add(bounds);
+
 		}
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x, y, width, height);
+		return collisionBounds;
 	}
 
 	public Rectangle2D getBoundsTop() {

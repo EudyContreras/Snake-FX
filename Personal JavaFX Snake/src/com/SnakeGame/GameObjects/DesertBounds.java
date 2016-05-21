@@ -1,5 +1,6 @@
 package com.SnakeGame.GameObjects;
 
+import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
@@ -19,7 +20,7 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class DesertBounds extends Tile {
+public class DesertBounds extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;;
 	SnakeGame game;

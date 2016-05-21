@@ -1,14 +1,12 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.AbstractObject;
+import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.ObjectIDs.GameObjectID;
-import com.SnakeGame.ObjectIDs.LevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
@@ -154,14 +152,6 @@ public class PlayerTwoFangs extends AbstractObject {
 								snake.die();
 							}
 						}
-					}
-				}
-			}
-			for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
-				Tile tempTile = game.getloader().tileManager.tile.get(i);
-				if (tempTile.getId() == LevelObjectID.fence) {
-					if (getCollisionBounds().intersects(tempTile.getCollisionBounds())) {
-						snake.die();
 					}
 				}
 			}

@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.GameObjects.Tile;
 
 /**
  * This manager class is responsible for managing, updating moving, displaying,
@@ -19,44 +19,44 @@ import com.SnakeGame.GameObjects.Tile;
  */
 public class GameTileManager {
 
-	public List<Tile> tile;
-	public List<Tile> block;
-	public List<Tile> trap;
-	public Tile tempTile;
-	public Tile tempTrap;
-	public Tile tempBlock;
+	public List<AbstractTile> tile;
+	public List<AbstractTile> block;
+	public List<AbstractTile> trap;
+	public AbstractTile tempTile;
+	public AbstractTile tempTrap;
+	public AbstractTile tempBlock;
 	public SnakeGame game;
 
 	public GameTileManager(SnakeGame game) {
 		this.game = game;
-		this.tile = new LinkedList<Tile>();
-		this.block = new LinkedList<Tile>();
-		this.trap = new LinkedList<Tile>();
+		this.tile = new LinkedList<AbstractTile>();
+		this.block = new LinkedList<AbstractTile>();
+		this.trap = new LinkedList<AbstractTile>();
 	}
 
-	public void addTile(Tile tile) {
+	public void addTile(AbstractTile tile) {
 		this.tile.add(tile);
 	}
 
-	public void addBlock(Tile tile) {
+	public void addBlock(AbstractTile tile) {
 		this.block.add(tile);
 	}
 
-	public void addTrap(Tile tile) {
+	public void addTrap(AbstractTile tile) {
 		this.trap.add(tile);
 	}
-	public List<Tile> getTile() {
+	public List<AbstractTile> getTile() {
 		return tile;
 	}
 
-	public List<Tile> getBlock() {
+	public List<AbstractTile> getBlock() {
 		return block;
 	}
 
-	public List<Tile> getTrap() {
+	public List<AbstractTile> getTrap() {
 		return trap;
 	}
-	public void addObjectAsArray(Tile... tl) {
+	public void addObjectAsArray(AbstractTile... tl) {
 		if (tl.length > 1) {
 			tile.addAll(Arrays.asList(tl));
 		} else {
@@ -71,15 +71,15 @@ public class GameTileManager {
 	 * be thrown
 	 */
 	public void updateAll() {
-		for (Iterator<Tile> tileList = tile.iterator(); tileList.hasNext();) {
-			Tile tempTile = tileList.next();
+		for (Iterator<AbstractTile> tileList = tile.iterator(); tileList.hasNext();) {
+			AbstractTile tempTile = tileList.next();
 			tempTile.updateUI();
 			;
 			tempTile.move();
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
-				game.getGameRoot().getChildren().remove(tempTile.view);
-				game.getLevelLayer().getChildren().remove(tempTile.view);
-				game.getBottomLayer().getChildren().remove(tempTile.view);
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getBottomLayer().getChildren().remove(tempTile.getView());
 				tileList.remove();
 				continue;
 			}
@@ -128,24 +128,24 @@ public class GameTileManager {
 		for (int i = 0; i < tile.size(); i++) {
 			tempTile = tile.get(i);
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
-				game.getGameRoot().getChildren().remove(tempTile.view);
-				game.getBottomLayer().getChildren().remove(tempTile.view);
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getBottomLayer().getChildren().remove(tempTile.getView());
 				tile.remove(i);
 			}
 		}
 		for (int i = 0; i < trap.size(); i++) {
 			tempTrap = trap.get(i);
 			if (tempTrap.isBehindCharacter() || !tempTrap.isAlive()) {
-				game.getGameRoot().getChildren().remove(tempTrap.view);
-				game.getBottomLayer().getChildren().remove(tempTrap.view);
+				game.getGameRoot().getChildren().remove(tempTrap.getView());
+				game.getBottomLayer().getChildren().remove(tempTrap.getView());
 				trap.remove(i);
 			}
 		}
 		for (int i = 0; i < block.size(); i++) {
 			tempBlock = block.get(i);
 			if (tempBlock.isBehindCharacter() || !tempBlock.isAlive()) {
-				game.getGameRoot().getChildren().remove(tempBlock.view);
-				game.getBottomLayer().getChildren().remove(tempBlock.view);
+				game.getGameRoot().getChildren().remove(tempBlock.getView());
+				game.getBottomLayer().getChildren().remove(tempBlock.getView());
 				block.remove(i);
 			}
 		}

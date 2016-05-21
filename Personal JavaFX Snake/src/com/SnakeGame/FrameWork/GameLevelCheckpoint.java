@@ -1,8 +1,6 @@
 
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.GameObjects.Tile;
-
 import javafx.scene.image.Image;
 
 /**
@@ -13,7 +11,7 @@ import javafx.scene.image.Image;
  * @author Eudy Contreras
  *
  */
-public class GameLevelCheckpoint extends Tile {
+public class GameLevelCheckpoint extends AbstractTile {
 	SnakeGame game;
 	boolean loadFirstSect = false;
 	boolean loadSecondSect = false;

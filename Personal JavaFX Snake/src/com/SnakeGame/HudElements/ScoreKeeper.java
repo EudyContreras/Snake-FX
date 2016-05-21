@@ -28,13 +28,13 @@ public class ScoreKeeper {
 	private Font font;
 	private boolean swipeUp = true;
 	private boolean swipeDown = false;
-	private float swipeSpeed = 0;
+	private double swipeSpeed = 0;
 	private double width = 0;
-	private float x = 0;
-	private float y = 0;
-	private float y1 = 0;
-	private float oldY = 0;
-	private float position = 0;
+	private double x = 0;
+	private double y = 0;
+	private double y1 = 0;
+	private double oldY = 0;
+	private double position = 0;
 	private int initialAmount;
 	private int counter;
 	private int seconds = 00;
@@ -44,18 +44,18 @@ public class ScoreKeeper {
 	public ScoreKeeper(SnakeGame game, int count, double x1, double y1, double x, double y, double width,
 			double height) {
 		APPLE_COUNT = count;
+		this.x = x;
+		this.y = y;
+		this.oldY = y;
+		this.y1 = y1;
+		this.width = width;
 		this.initialAmount = count;
 		this.game = game;
 		this.text = new Text();
 		this.timer = new Text();
 		this.apple = new ImageView(GameImageBank.apple);
-		this.setX((float) x);
-		this.setY((float) y);
-		this.oldY = (float) y;
-		this.y1 = (float) y1;
-		this.setWidth(width);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Helvetica", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Helvetica", FontWeight.BOLD, SnakeGame.ScaleX(18) / GameLoader.ResolutionScaleX);
 		this.board.setFill(new ImagePattern(GameImageBank.countKeeper));
 		this.apple.setFitWidth(35 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(35 / GameLoader.ResolutionScaleY);
@@ -68,7 +68,7 @@ public class ScoreKeeper {
 		this.text.setEffect(null);
 		this.text.setFont(font);
 		this.text.setText(" x " + APPLE_COUNT);
-		this.timer.setX(SnakeGame.ScaleX((int) (x+width/2.6	)));
+		this.timer.setX(x+width/2.6	);
 		this.timer.setY(y1-15);
 		this.timer.setFill(Color.RED);
 		this.timer.setFont(font);
@@ -90,7 +90,7 @@ public class ScoreKeeper {
 		y1 = y1 + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5f;
-			if (y >= 85) {
+			if (y >= SnakeGame.ScaleX(85)) {
 				swipeSpeed = 0;
 			}
 		}
@@ -205,7 +205,7 @@ public class ScoreKeeper {
 	public void setPosition(float position) {
 		this.position = position;
 	}
-	public float getPosition() {
+	public double getPosition() {
 		return position;
 	}
 	public double getWidth() {
@@ -214,16 +214,16 @@ public class ScoreKeeper {
 	public void setWidth(double width) {
 		this.width = width;
 	}
-	public float getX() {
+	public double getX() {
 		return x;
 	}
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
-	public float getY() {
+	public double getY() {
 		return y;
 	}
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 

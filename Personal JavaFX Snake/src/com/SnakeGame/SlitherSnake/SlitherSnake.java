@@ -1,10 +1,10 @@
 package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.FrameWork.AbstractObject;
+import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.GameObjects.Tile;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ObjectIDs.GameObjectID;
@@ -319,7 +319,7 @@ public class SlitherSnake extends SlitherMain {
 				}
 			}
 			for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
-				Tile tempTile = game.getloader().tileManager.tile.get(i);
+				AbstractTile tempTile = game.getloader().tileManager.tile.get(i);
 				if (tempTile.getId() == LevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
@@ -335,7 +335,7 @@ public class SlitherSnake extends SlitherMain {
 				}
 			}
 			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
-				Tile tempTile = game.getloader().tileManager.block.get(i);
+				AbstractTile tempTile = game.getloader().tileManager.block.get(i);
 				if (tempTile.getId() == LevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
@@ -369,7 +369,7 @@ public class SlitherSnake extends SlitherMain {
 		this.imageView.translateXProperty().addListener((v, oldValue, newValue) -> {
 
 			int offSet = newValue.intValue();
-			if (offSet > 100 && offSet < game.levelLenght - 1900) {
+			if (offSet > 100 && offSet < game.getLevelLenght() - 1900) {
 				game.getGameRoot().setTranslateX(-(offSet - 100));
 			}
 		});

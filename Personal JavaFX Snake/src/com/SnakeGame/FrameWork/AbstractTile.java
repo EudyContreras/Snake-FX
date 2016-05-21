@@ -1,7 +1,6 @@
 
-package com.SnakeGame.GameObjects;
+package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
 
 import javafx.geometry.Bounds;
@@ -17,38 +16,38 @@ import javafx.scene.image.ImageView;
  * @author Eudy Contreras
  *
  */
-public abstract class Tile {
+public abstract class AbstractTile {
 
-	public ImageView view = new ImageView();
-	public float x;
-	public float y;
+	protected Image image;
+	protected ImageView view = new ImageView();
+	protected float x;
+	protected float y;
 	protected float r;
 	protected float velX;
 	protected float velY;
 	protected float velR;
-	protected Image image;
 	protected boolean status = true;
-	public double width;
-	public double height;
+	protected double width;
+	protected double height;
 	protected LevelObjectID id;
 
-	public Tile(float x, float y) {
+	public AbstractTile(float x, float y) {
 		this.x = x;
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
 
-	public Tile(float x, float y, Image image) {
+	public AbstractTile(float x, float y, Image image) {
 		this.x = x;
 		this.y = y;
 		this.image = image;
 		this.view.setImage(image);
-		this.width = view.getFitWidth();
-		this.height = view.getFitHeight();
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 	}
 
-	public Tile(float x, float y, Image image, LevelObjectID id) {
+	public AbstractTile(float x, float y, Image image, LevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
@@ -57,7 +56,17 @@ public abstract class Tile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-
+	public AbstractTile(float x, float y, double width, double height, Image image, LevelObjectID id) {
+		this.x = x;
+		this.y = y;
+		this.id = id;
+		this.image = image;
+		this.view.setImage(image);
+		this.width = width;
+		this.height = height;
+		this.view.setFitWidth(width);
+		this.view.setFitHeight(height);
+	}
 	public ImageView getView() {
 		return view;
 	}

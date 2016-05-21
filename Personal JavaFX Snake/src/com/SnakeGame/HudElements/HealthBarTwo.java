@@ -55,7 +55,7 @@ public class HealthBarTwo {
 		this.playerHud.setTranslateX(x-width+width/2);
 		this.playerHud.setTranslateY(0);
 		this.playerHead.setRadius(SnakeGame.ScaleX(30));
-		this.playerHead.setCenterX(SnakeGame.ScaleX((int) (x-width+width-playerHead.getRadius()*1.5)));
+		this.playerHead.setCenterX(x-width+width-playerHead.getRadius()*1.5);
 		this.playerHead.setCenterY(y+playerHead.getRadius());
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeEating2));
 		this.playerHud.setFill(new ImagePattern(GameImageBank.player_two_hud));

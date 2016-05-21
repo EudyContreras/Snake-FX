@@ -1,6 +1,7 @@
 
 package com.SnakeGame.GameObjects;
 
+import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.LevelObjectID;
@@ -19,7 +20,7 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class WavingCactusTwo extends Tile {
+public class WavingCactusTwo extends AbstractTile {
 
 	SnakeGame game;
 	Rectangle bounds;
