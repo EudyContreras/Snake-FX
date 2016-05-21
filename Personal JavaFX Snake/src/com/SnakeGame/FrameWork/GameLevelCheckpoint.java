@@ -23,7 +23,16 @@ public class GameLevelCheckpoint extends AbstractTile {
 	boolean loadThird = false;
 	boolean loadFourth = false;
 	boolean loadFith = false;
-
+	/**
+	 * Constructor which determines the position or velocity of this checkpoint.
+	 * the checkpoint may also be a visible object
+	 * @param game
+	 * @param x
+	 * @param y
+	 * @param velX
+	 * @param velY
+	 * @param image
+	 */
 	public GameLevelCheckpoint(SnakeGame game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;

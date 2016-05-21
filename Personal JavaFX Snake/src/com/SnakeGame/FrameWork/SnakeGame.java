@@ -1,6 +1,5 @@
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
@@ -26,16 +25,12 @@ import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -68,72 +63,7 @@ import javafx.util.Duration;
  * @author Eudy Contreras
  *
  */
-public class SnakeGame extends Application implements Runnable {
-
-	private GameLoader loader;
-	private GameKeyInputManager keyInput;
-	private GameMouseInputManager mouseInput;
-	private GameGestureInputManager gestures;
-	private GraphicsContext gc;
-	private GameObjectManager objectManager;
-	private SlitherManager slitherManager;
-	private GameDebrisManager debrisManager;
-	private PlayerOneSectionManager sectManagerOne;
-	private PlayerTwoSectionManager sectManagerTwo;;
-	private SlitherSectionManager sectManagerThree;
-	private FadeTransition fadeSplash;
-	private Stage mainWindow;
-	private MenuMain mainMenu;
-	private Scene scene;
-	private Scene splashScene;
-	private Group mainRoot;
-	private Pane root;
-	private Canvas canvas;
-	private Pane splashLayout;
-	private Pane thirdLayer;
-	private Pane sixthLayer;
-	private Pane firstLayer;
-	private Pane secondLayer;
-	private Pane levelLayer;
-	private Pane fithLayer;
-	private Pane fourthLayer;
-	private Pane seventhLayer;
-	private	Pane fadeScreenLayer;
-	private Text TextFPS;
-	public GameImageBank imageBank;
-	public GameLevelImage levelImageBank;
-	private HealthBarOne healthBarOne;
-	private HealthBarTwo healthBarTwo;
-	private ScoreBoard scoreBoard;
-	private ScoreBoard scoreBoard2;
-	private EnergyMeter energyMeter;
-	private SandEmitter sandEmitter;
-	private VictoryScreen victoryScreen;
-	private AnimationTimer gameLoop;
-	private AnimationTimer animationLoop;
-	private AnimationTimer particleLoop;
-	private GameOverScreen gameOverScreen;
-	private ScreenOverlay postEffects;
-	private ScoreKeeper scoreKeeper;
-	private GameHud gameHud;
-	private ImageView bottomLayer;
-	private ImageView splash;
-	private Rectangle2D bounds;
-	private String title = "SNAKE";
-	private Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	private boolean isRunning = true;
-	private boolean gameRunning = false;
-	private boolean fadeOut = false;
-	private boolean goToNext;
-	private boolean goToMain;
-	private int splashWidth;
-	private int splashHeight;
-	private int levelLenght;
-	public double fade = 0.0;
-	public double splashFadeDuration;
-	public double splashFadeDelay;
-	public static double ScaleX = GameLoader.ResolutionScaleX;
-	public static double ScaleY = GameLoader.ResolutionScaleY;
+public class SnakeGame extends AbstractGameModel{
 
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution();
@@ -212,9 +142,9 @@ public class SnakeGame extends Application implements Runnable {
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, (Settings.WIDTH / 2) - 10/ ScaleX,
 				35 / ScaleY, Settings.WIDTH / 2 - 680/ScaleX / 2 , 10/ScaleY,
 				680/ScaleX,85 / ScaleY);
-		scoreBoard = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
+		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
 				50/ScaleY, Color.RED);
-		scoreBoard2 = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
+		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
 				50/ScaleY, Color.RED);
 		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800/ScaleX, 450/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800/ScaleX, 450/ScaleY);
@@ -253,6 +183,7 @@ public class SnakeGame extends Application implements Runnable {
 		mainRoot = new Group();
 		root = new Pane();
 		mainMenu = new MenuMain(this);
+		fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
 		bottomLayer = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), Settings.WIDTH, Settings.HEIGHT);
@@ -418,15 +349,17 @@ public class SnakeGame extends Application implements Runnable {
 					long lastTime = System.nanoTime();
 					long nanoSecond = 1000000000;
 					long currentTime = 0;
+					long timePassed = 0;
+					long now = 0;
 					double delta = 0;
 					double FPS = 0;
 
 					public void handle(ActionEvent e) {
-						long now = System.nanoTime();
 						FPS++;
+						now = System.nanoTime();
 						currentTime = now;
 						delta += currentTime - lastTime;
-						long timePassed = System.currentTimeMillis() - cummulativeTime;
+						timePassed = System.currentTimeMillis() - cummulativeTime;
 						cummulativeTime += timePassed;
 						if (!Settings.RENDER_GAME) {
 							mainMenu.transition();
@@ -459,11 +392,11 @@ public class SnakeGame extends Application implements Runnable {
 								getHealthBarTwo().depleteHealth();
 								getHealthBarTwo().regerateHealth();
 							}
-							if (scoreBoard != null) {
-								scoreBoard.hide();
+							if (scoreBoardOne != null) {
+								scoreBoardOne.hide();
 							}
-							if (scoreBoard2 != null) {
-								scoreBoard2.hide();
+							if (scoreBoardTwo != null) {
+								scoreBoardTwo.hide();
 							}
 							if (Settings.ALLOW_PHYSICS) {
 								if (!sixthLayer.getChildren().isEmpty()) {
@@ -492,81 +425,7 @@ public class SnakeGame extends Application implements Runnable {
 		gameLoop.play();
 	}
 
-	// public class ThreadLoop extends Thread{
-	public void run() {
-		long lastTime = System.nanoTime();
-		long startTime = System.currentTimeMillis();
-		// long lastUpdate;
-		long cummulativeTime = startTime;
-		double amountOfUpadates = 60.0;
-		double ns = 1000000000 / amountOfUpadates;
-		double delta = 0;
-		double delta1 = 0;
-		double delta2 = 0;
-		double delta3 = 0;
-		double delta4 = 0;
-		double delta5 = 0;
-		double delta6 = 0;
-		long timer = System.currentTimeMillis();
-		while (isRunning) {
 
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			if (!Settings.RENDER_GAME) {
-				while (delta >= 1) {
-					updateInterface();
-					delta--;
-				}
-			}
-			if (Settings.RENDER_GAME) {
-				long timePassed = System.currentTimeMillis() - cummulativeTime;
-				cummulativeTime += timePassed;
-				delta1 += (now - lastTime) / ns / 100;
-				delta2 += (now - lastTime) / ns / 6;
-				delta3 += (now - lastTime) / ns / 2;
-				delta4 += (now - lastTime) / ns;
-				delta5 += (now - lastTime) / ns * 2;
-				delta6 += (now - lastTime) / ns * 4;
-
-				while (delta1 >= 1) {
-					updateAt1();
-					delta1--;
-				}
-
-				while (delta2 >= 1) {
-					updateAt10();
-					delta2--;
-				}
-
-				while (delta3 >= 1) {
-					updateAt30();
-					delta3--;
-				}
-
-				while (delta4 >= 1) {
-					updateAt60(now);
-					delta4--;
-				}
-
-				while (delta5 >= 1) {
-					updateAt120();
-					delta5--;
-				}
-
-				while (delta6 >= 1) {
-					updateAt240();
-					delta6--;
-				}
-			}
-			lastTime = now;
-			if (System.currentTimeMillis() - timer > 250) {
-				timer += 1000;
-				lastTime = System.nanoTime();
-			}
-		}
-	}
-
-	// }
 	/**
 	 * This method is used to perform a frame base animation on a sequence of
 	 * images.
@@ -655,41 +514,6 @@ public class SnakeGame extends Application implements Runnable {
 		levelUpdateLoop.play();
 	}
 
-	protected void updateInterface() {
-		mainMenu.transition();
-	}
-
-	protected void updateAt1() {
-	}
-
-	protected void updateAt10() {
-	}
-
-	protected void updateAt30() {
-	}
-
-	protected void updateAt60(long now) {
-		drawOverlay(gc);
-		debrisManager.update(gc);
-		objectManager.updateAll(gc, now);
-		objectManager.checkCollisions();
-		sectManagerTwo.updateAll(gc, now);
-		if (loader.getPlayerOne() != null) {
-			// energyMeter.deplete();
-			// energyMeter.regerate();
-			getHealthBarOne().depleteHealth();
-			getHealthBarOne().regerateHealth();
-		}
-	}
-
-	protected void updateAt120() {
-	}
-
-	protected void updateAt240() {
-	}
-
-	protected void updateAnimation(long timePassed) {
-	}
 
 	/**
 	 * Method used to translate objects on the screen nodes translated will stay
@@ -720,14 +544,14 @@ public class SnakeGame extends Application implements Runnable {
 		PlayerTwo.NUMERIC_ID = 0;
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
-		scoreBoard.resetScore();
-		scoreBoard2.resetScore();
+		scoreBoardOne.resetScore();
+		scoreBoardTwo.resetScore();
 		scoreKeeper.resetCount();
 		scoreKeeper.resetTimer();
 		gameHud.show();
 		gameHud.swipeUp();
-		scoreBoard.show();
-		scoreBoard2.show();
+		scoreBoardOne.show();
+		scoreBoardTwo.show();
 		fadeOut = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
@@ -758,14 +582,14 @@ public class SnakeGame extends Application implements Runnable {
 		PlayerTwo.NUMERIC_ID = 0;
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
-		scoreBoard.resetScore();
-		scoreBoard2.resetScore();
+		scoreBoardOne.resetScore();
+		scoreBoardTwo.resetScore();
 		scoreKeeper.resetCount();
 		scoreKeeper.resetTimer();
 		gameHud.show();
 		gameHud.swipeUp();
-		scoreBoard.show();
-		scoreBoard2.show();
+		scoreBoardOne.show();
+		scoreBoardTwo.show();
 		fadeOut = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
@@ -799,14 +623,14 @@ public class SnakeGame extends Application implements Runnable {
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
 		getGameRoot().setEffect(null);
-		scoreBoard.resetScore();
-		scoreBoard2.resetScore();
+		scoreBoardOne.resetScore();
+		scoreBoardTwo.resetScore();
 		scoreKeeper.resetCount();
 		scoreKeeper.resetTimer();
 		gameHud.show();
 		gameHud.swipeUp();
-		scoreBoard.show();
-		scoreBoard2.show();
+		scoreBoardOne.show();
+		scoreBoardTwo.show();
 		fadeOut = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
@@ -880,8 +704,8 @@ public class SnakeGame extends Application implements Runnable {
 			PlayerTwo.DEAD = false;
 			PlayerTwo.MOUTH_CLOSE = true;
 			getGameRoot().setEffect(null);
-			scoreBoard.resetScore();
-			scoreBoard2.resetScore();
+			scoreBoardOne.resetScore();
+			scoreBoardTwo.resetScore();
 			scoreKeeper.resetCount();
 			scoreKeeper.resetTimer();
 			fadeOut = false;
@@ -934,233 +758,12 @@ public class SnakeGame extends Application implements Runnable {
 			}
 		}
 	}
-
-	public HealthBarOne getHealthBarOne() {
-		return healthBarOne;
-	}
-
-	public HealthBarTwo getHealthBarTwo() {
-		return healthBarTwo;
-	}
-
-	public void setHealthBarOne(HealthBarOne healthBarOne) {
-		this.healthBarOne = healthBarOne;
-	}
-
-	public void setHealthBarTwo(HealthBarTwo healthBarTwo) {
-		this.healthBarTwo = healthBarTwo;
-	}
-
-	public static void writeToLog(String text) {
-		System.out.println(text + "\n");
-	}
-
-	public VictoryScreen getVictoryScreen() {
-		return victoryScreen;
-	}
-	public GameOverScreen getGameOverScreen() {
-		return gameOverScreen;
-	}
-
-	public void setGameOverScreen(GameOverScreen gameOverScreen) {
-		this.gameOverScreen = gameOverScreen;
-	}
-	public EnergyMeter getEnergyMeter() {
-		return energyMeter;
-	}
-
-	public void setEnergyMeter(EnergyMeter energyMeter) {
-		this.energyMeter = energyMeter;
-	}
-
-	public MenuMain getMainMenu() {
-		return mainMenu;
-	}
-
-	public void setMainMenu(MenuMain mainMenu) {
-		this.mainMenu = mainMenu;
-	}
-
-	public Stage getMainWindow() {
-		return mainWindow;
-	}
-
-	public void setMainWindow(Stage mainWindow) {
-		this.mainWindow = mainWindow;
-	}
-
-	public GameLoader getloader() {
-		return loader;
-	}
-
-	public void setLevelManager(GameLoader loader) {
-		this.loader = loader;
-	}
-
-	public Pane getGameRoot() {
-		return root;
-	}
-
-	public Pane getLevelLayer() {
-		return levelLayer;
-	}
-
-	public ScreenOverlay getPostEffects() {
-		return postEffects;
-	}
-
-	public void setRoot(Parent root) {
-		scene.setRoot(root);
-	}
-
-	public GameObjectManager getObjectManager() {
-		return objectManager;
-	}
-
-	public SlitherManager getSlitherManager() {
-		return slitherManager;
-	}
-
-	public void setObjectManager(GameObjectManager objectManager) {
-		this.objectManager = objectManager;
-	}
-
-	public GameDebrisManager getDebrisManager() {
-		return debrisManager;
-	}
-
-	public PlayerOneSectionManager getSectManagerOne() {
-		return sectManagerOne;
-	}
-	public PlayerTwoSectionManager getSectManagerTwo() {
-		return sectManagerTwo;
-	}
-	public void setDebrisManager(GameDebrisManager debrisManager) {
-		this.debrisManager = debrisManager;
-	}
-
-	public Pane getPlayfieldLayer() {
-		return thirdLayer;
-	}
-
-	public void setPlayfieldLayer(Pane playfieldLayer) {
-		this.thirdLayer = playfieldLayer;
-	}
-
-	public Pane getOverlay() {
-		return seventhLayer;
-	}
-
-	public void getOverlay(Pane radarLayer) {
-		this.seventhLayer = radarLayer;
-	}
-
-	public ScoreBoard getScoreBoardOne() {
-		return scoreBoard;
-	}
-
-	public ScoreBoard getScoreBoardTwo() {
-		return scoreBoard2;
-	}
-
-	public GameHud getGameHud() {
-		return gameHud;
-	}
-
-	public Group getMainRoot() {
-		return mainRoot;
-	}
-
-	public void setScoreBoard(ScoreBoard scoreBoard) {
-		this.scoreBoard = scoreBoard;
-	}
-
-	public void setScoreBoard2(ScoreBoard scoreBoard) {
-		this.scoreBoard2 = scoreBoard;
-	}
-
-	public Pane getBottomLayer() {
-		return secondLayer;
-	}
-
-	public void setBottomLayer(Pane bottomLayer) {
-		this.secondLayer = bottomLayer;
-	}
-
-	public GameKeyInputManager getKeyInput() {
-		return keyInput;
-	}
-
-	public Pane getSnakeHeadLayer() {
-		return fithLayer;
-	}
-
-	public Pane getSnakeBodyLayer() {
-		return fourthLayer;
-	}
-
-	public void setKeyInput(GameKeyInputManager keyInput) {
-		this.keyInput = keyInput;
-	}
-
-	public Pane getDebrisLayer() {
-		return firstLayer;
-	}
-
-	public Pane getParticleLayer() {
-		return sixthLayer;
-	}
-
-
-	public void setDebrisLayer(Pane debrisLayer) {
-		this.firstLayer = debrisLayer;
-	}
-
-	public Scene getScene() {
-		return scene;
-	}
-
-	public void setScene(Scene scene) {
-		this.scene = scene;
-	}
-
-	public Pane getFadeScreen() {
-		return fadeScreenLayer;
-	}
-
-	public ScoreKeeper getScoreKeeper() {
-		return scoreKeeper;
-	}
-
-	public void showCursor(boolean choice, Scene scene) {
-		if (!choice)
-			scene.setCursor(Cursor.NONE);
-
-		else if (choice)
-			scene.setCursor(Cursor.DEFAULT);
-	}
-
-
-	public SlitherSectionManager getSectionManager3() {
-		return sectManagerThree;
-	}
-
 	public void allowMouseInput(boolean choice) {
 		if (choice)
-			mouseInput.processInput(this, getloader().getPlayerOne(), getloader().getPlayerTwo(), scene);
+			mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);
 	}
-
 	public static void main(String[] args) {
 		launch(args);
 	}
-
-	public int getLevelLenght() {
-		return levelLenght;
-	}
-
-	public void setLevelLenght(int levelLenght) {
-		this.levelLenght = levelLenght;
-	}
-
 
 }

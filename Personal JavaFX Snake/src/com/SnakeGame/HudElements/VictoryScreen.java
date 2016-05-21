@@ -84,13 +84,13 @@ public class VictoryScreen {
 		game.showCursor(true, game.getScene());
 		PlayerTwo.LEVEL_COMPLETED = true;
 		PlayerOne.LEVEL_COMPLETED = true;
-		if(game.getloader().getPlayerOne().getAppleCount()>game.getloader().getPlayerTwo().getAppleCount()){
+		if(game.getGameLoader().getPlayerOne().getAppleCount()>game.getGameLoader().getPlayerTwo().getAppleCount()){
 			this.boardImage = GameImageBank.player_one_wins;
 		}
-		else if(game.getloader().getPlayerOne().getAppleCount()<game.getloader().getPlayerTwo().getAppleCount()){
+		else if(game.getGameLoader().getPlayerOne().getAppleCount()<game.getGameLoader().getPlayerTwo().getAppleCount()){
 			this.boardImage = GameImageBank.player_two_wins;
 		}
-		else if(game.getloader().getPlayerOne().getAppleCount()==game.getloader().getPlayerTwo().getAppleCount()){
+		else if(game.getGameLoader().getPlayerOne().getAppleCount()==game.getGameLoader().getPlayerTwo().getAppleCount()){
 			this.boardImage = GameImageBank.draw_game;
 		}
 		askConfirm();

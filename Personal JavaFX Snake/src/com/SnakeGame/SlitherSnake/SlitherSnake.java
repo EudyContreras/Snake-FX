@@ -142,7 +142,7 @@ public class SlitherSnake extends SlitherMain {
 		this.game = game;
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.anim = new Animation();
-		this.sectManager = game.getSectionManager3();
+		this.sectManager = game.getSectManagerThree();
 		this.velX = Settings.SLITHER_SPEED;
 		this.velY = Settings.SLITHER_SPEED;
 		this.speed = 0.7f;
@@ -318,8 +318,8 @@ public class SlitherSnake extends SlitherMain {
 					}
 				}
 			}
-			for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
-				AbstractTile tempTile = game.getloader().tileManager.tile.get(i);
+			for (int i = 0; i < game.getGameLoader().tileManager.tile.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().tileManager.tile.get(i);
 				if (tempTile.getId() == LevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
@@ -334,8 +334,8 @@ public class SlitherSnake extends SlitherMain {
 					}
 				}
 			}
-			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
-				AbstractTile tempTile = game.getloader().tileManager.block.get(i);
+			for (int i = 0; i < game.getGameLoader().tileManager.block.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().tileManager.block.get(i);
 				if (tempTile.getId() == LevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
@@ -352,7 +352,7 @@ public class SlitherSnake extends SlitherMain {
 
 	public void addSection() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new SlitherSection(this, game, game.getSnakeBodyLayer(),
+			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
 					new Circle(25, new ImagePattern(GameImageBank.snakeBody)),
 					partBefore.getX() - (float) Math.cos(angle) * 20, partBefore.getY() - (float) Math.cos(angle) * 20,
 					GameObjectID.SnakeSection, NUMERIC_ID));
@@ -362,7 +362,7 @@ public class SlitherSnake extends SlitherMain {
 		}
 		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
-			game.getloader().spawnSnakeFood();
+			game.getGameLoader().spawnSnakeFood();
 	}
 
 	public void setScroller() {
@@ -425,7 +425,7 @@ public class SlitherSnake extends SlitherMain {
 	// }
 	public void addbaseSections() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new SlitherSection(this, game, game.getSnakeBodyLayer(),
+			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
 					new Circle(25, new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection,
 					NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
@@ -529,7 +529,7 @@ public class SlitherSnake extends SlitherMain {
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
-			game.getOverlay().getChildren().add(bounds);
+			game.getSeventhLayer().getChildren().add(bounds);
 
 		}
 	}
@@ -572,13 +572,13 @@ public class SlitherSnake extends SlitherMain {
 		isDead = true;
 		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
-		game.getDebrisLayer().getChildren().add(skull);
+		game.getFirstLayer().getChildren().add(skull);
 		fadeAndEnd();
 
 	}
 
 	public void fadeAndEnd() {
-		game.getFadeScreen().getChildren().add(fadeRect);
+		game.getFadeScreenLayer().getChildren().add(fadeRect);
 	}
 
 	// public SnakeOneMouth getMouth(){

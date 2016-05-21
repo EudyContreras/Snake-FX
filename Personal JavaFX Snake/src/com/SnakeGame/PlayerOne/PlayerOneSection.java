@@ -50,7 +50,7 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getFithLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -64,7 +64,7 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getFithLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -78,7 +78,7 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getFithLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -92,7 +92,7 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getFithLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -106,7 +106,7 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, game.getSnakeHeadLayer(),
+				this.tail = new PlayerOneTail(this, game, game.getFithLayer(),
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -259,7 +259,7 @@ public class PlayerOneSection extends AbstractSection {
 	}
 	public void loadBones() {
 		bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-		game.getDebrisLayer().getChildren().add(bones);
+		game.getFirstLayer().getChildren().add(bones);
 		bones.setRotate(r-90);
 	}
 

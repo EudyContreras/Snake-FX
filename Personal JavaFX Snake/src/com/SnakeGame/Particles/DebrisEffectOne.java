@@ -37,7 +37,7 @@ public class DebrisEffectOne extends AbstractDebrisEffect{
 	public void init(){
         shape.setFill(imagePattern);
 		shape.setBlendMode(BlendMode.ADD);
-        game.getDebrisLayer().getChildren().add(shape);
+        game.getFirstLayer().getChildren().add(shape);
 	}
 	public void update(){
 		x += velocity.getX();

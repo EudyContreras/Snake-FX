@@ -52,10 +52,10 @@ public class SandStorms extends AbstractDebrisEffect {
 	public void init() {
 		if (shape != null) {
 			shape.setFill(imagePattern);
-			game.getParticleLayer().getChildren().add(shape);
+			game.getSixthLayer().getChildren().add(shape);
 		}
 		if (view != null) {
-			game.getParticleLayer().getChildren().add(view);
+			game.getSixthLayer().getChildren().add(view);
 		}
 	}
 

@@ -36,7 +36,7 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	}
 
 	public void init() {
-		game.getDebrisLayer().getChildren().add(shape);
+		game.getFirstLayer().getChildren().add(shape);
 		shape.setFill(imagePattern);
 	}
 

@@ -70,7 +70,7 @@ public class DesertBounds extends AbstractTile {
 			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
 			bounds.setStroke(Color.BLACK);
 			bounds.setFill(Color.TRANSPARENT);
-			game.getOverlay().getChildren().add(bounds);
+			game.getSeventhLayer().getChildren().add(bounds);
 
 		}
 

@@ -36,7 +36,7 @@ public class EnergyMeter {
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.player = game.getloader().getPlayerOne();
+		this.player = game.getGameLoader().getPlayerOne();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);
@@ -48,8 +48,8 @@ public class EnergyMeter {
 		this.energyBarBorder.setTranslateY(y);
 		this.energyBarBorder.setStroke(Color.ORANGE);
 		this.energyBarBorder.setFill(Color.TRANSPARENT);
-		game.getOverlay().getChildren().add(energyBar);
-		game.getOverlay().getChildren().add(energyBarBorder);
+		game.getSeventhLayer().getChildren().add(energyBar);
+		game.getSeventhLayer().getChildren().add(energyBarBorder);
 		this.maxEnergyLevel = width;
 	}
 

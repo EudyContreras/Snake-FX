@@ -32,8 +32,8 @@ public abstract class AbstractSection {
 	protected PlayerMovement direction;
 	protected Image image;
 	protected ImageView imageView;
-	public ArrayList<Point2D> lastPosition = new ArrayList<>();
-	public ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
+	protected ArrayList<Point2D> lastPosition = new ArrayList<>();
+	protected ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
 	protected Point2D position;
 	protected Pane layer;
 	protected Node node;

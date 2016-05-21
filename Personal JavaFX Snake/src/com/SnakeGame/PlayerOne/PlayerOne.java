@@ -376,8 +376,8 @@ public class PlayerOne extends AbstractObject {
 
 	public void checkCollision() {
 		if (!DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < game.getloader().tileManager.tile.size(); i++) {
-				AbstractTile tempTile = game.getloader().tileManager.tile.get(i);
+			for (int i = 0; i < game.getGameLoader().tileManager.tile.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().tileManager.tile.get(i);
 				if (tempTile.getId() == LevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
@@ -392,8 +392,8 @@ public class PlayerOne extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < game.getloader().tileManager.block.size(); i++) {
-				AbstractTile tempTile = game.getloader().tileManager.block.get(i);
+			for (int i = 0; i < game.getGameLoader().tileManager.block.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().tileManager.block.get(i);
 				if (tempTile.getId() == LevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
@@ -405,8 +405,8 @@ public class PlayerOne extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < game.getloader().tileManager.trap.size(); i++) {
-				AbstractTile tempTile = game.getloader().tileManager.trap.get(i);
+			for (int i = 0; i < game.getGameLoader().tileManager.trap.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().tileManager.trap.get(i);
 				if (tempTile.getId() == LevelObjectID.fence) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						die();
@@ -436,7 +436,7 @@ public class PlayerOne extends AbstractObject {
 		}
 		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
-			game.getloader().spawnSnakeFood();
+			game.getGameLoader().spawnSnakeFood();
 	}
 
 	public boolean withinBounds() {
@@ -517,7 +517,7 @@ public class PlayerOne extends AbstractObject {
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
-			game.getOverlay().getChildren().add(bounds);
+			game.getSeventhLayer().getChildren().add(bounds);
 		}
 	}
 
@@ -534,7 +534,7 @@ public class PlayerOne extends AbstractObject {
 		isDead = true;
 		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
-		game.getDebrisLayer().getChildren().add(skull);
+		game.getFirstLayer().getChildren().add(skull);
 
 
 	}

@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.SnakeGame.FrameWork.GameStates;
+import com.SnakeGame.FrameWork.AbstractGameStates;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ObjectIDs.GameStateID;
 
@@ -18,16 +18,16 @@ import com.SnakeGame.ObjectIDs.GameStateID;
  */
 public class GameStateManager {
 
-	private Map<GameStateID, GameStates> map;
-	private GameStates currentState;
+	private Map<GameStateID, AbstractGameStates> map;
+	private AbstractGameStates currentState;
 	public SnakeGame game;
 
 	public GameStateManager(SnakeGame game) {
 		this.game = game;
-		map = new HashMap<GameStateID, GameStates>();
+		map = new HashMap<GameStateID, AbstractGameStates>();
 	}
 
-	public void addState(GameStates state) {
+	public void addState(AbstractGameStates state) {
 		map.put(state.getStateID(), state);
 		state.initializeState();
 		if (currentState == null) {
@@ -37,7 +37,7 @@ public class GameStateManager {
 	}
 
 	public void setState(GameStateID id) {
-		GameStates state = map.get(id);
+		AbstractGameStates state = map.get(id);
 		if (state == null) {
 			System.err.println("State <" + id + "> does not exist");
 			return;
@@ -47,7 +47,7 @@ public class GameStateManager {
 		currentState = state;
 	}
 
-	public GameStates getState() {
+	public AbstractGameStates getState() {
 		return currentState;
 	}
 

@@ -47,7 +47,7 @@ public class FruitSplashTwo extends AbstractDebrisEffect {
 
 	public void init() {
 		shape.setFill(color);
-		game.getDebrisLayer().getChildren().add(shape);
+		game.getFirstLayer().getChildren().add(shape);
 	}
 
 	public void update() {

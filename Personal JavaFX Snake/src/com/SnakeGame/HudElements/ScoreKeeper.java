@@ -73,10 +73,10 @@ public class ScoreKeeper {
 		this.timer.setFill(Color.RED);
 		this.timer.setFont(font);
 		this.timer.setText("00:00:00");
-		game.getOverlay().getChildren().add(board);
-		game.getOverlay().getChildren().add(apple);
-		game.getOverlay().getChildren().add(text);
-		game.getOverlay().getChildren().add(timer);
+		game.getSeventhLayer().getChildren().add(board);
+		game.getSeventhLayer().getChildren().add(apple);
+		game.getSeventhLayer().getChildren().add(text);
+		game.getSeventhLayer().getChildren().add(timer);
 		startTimer();
 		updateCount();
 	}

@@ -18,7 +18,14 @@ public class GameMouseInputManager {
 
 	public static int mouseX, mouseY;
 	SnakeGame game;
-
+	/**
+	 * Method used to process all mouse input within a node. this method will assign
+	 * specific actions to the perform mouse actions.
+	 * @param game
+	 * @param playerOne
+	 * @param playerTwo
+	 * @param scene
+	 */
 	public void processInput(SnakeGame game, PlayerOne playerOne, PlayerTwo playerTwo, Scene scene) {
 		this.game = game;
 		scene.setOnMouseMoved(new EventHandler<MouseEvent>() {

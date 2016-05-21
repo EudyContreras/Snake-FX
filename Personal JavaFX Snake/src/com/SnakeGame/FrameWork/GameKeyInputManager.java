@@ -27,7 +27,15 @@ public class GameKeyInputManager {
 		keyDown[4] = false;
 		keyDown[5] = false;
 	}
-
+	/**
+	 * This method will process all the key events within a node and will assign specific actions
+	 * to the them.
+	 * @param game
+	 * @param playerOne
+	 * @param playerTwo
+	 * @param slither
+	 * @param scene
+	 */
 	public void processInput(SnakeGame game, PlayerOne playerOne, PlayerTwo playerTwo, SlitherSnake slither, Scene scene) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
@@ -36,22 +44,22 @@ public class GameKeyInputManager {
 				if (e.getCode() == KeyCode.W) {
 					keyDown[0] = true;
 					// slither.moveUp();
-					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
+					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
 				}
 				if (e.getCode() == KeyCode.S) {
 					keyDown[1] = true;
 					// slither.moveDown();
-					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
+					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
 				}
 				if (e.getCode() == KeyCode.A) {
 					keyDown[2] = true;
 					// slither.rotateLeft = true;
-					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
+					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				if (e.getCode() == KeyCode.D) {
 					keyDown[3] = true;
 					// slither.rotateRight = true;
-					game.getloader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);
+					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.H) {
 					game.getGameHud().showHide();

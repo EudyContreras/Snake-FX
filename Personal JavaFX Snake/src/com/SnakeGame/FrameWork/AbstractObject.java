@@ -26,7 +26,7 @@ import javafx.scene.shape.Rectangle;
  */
 public abstract class AbstractObject {
 
-	GameObjectID id;
+	protected GameObjectID id;
 	protected Image image;
 	protected ImageView imageView = new ImageView();
 	protected Pane layer;
@@ -42,10 +42,10 @@ public abstract class AbstractObject {
 	protected double width;
 	protected double height;
 	protected double radius;
-	public double health = 50;
-	public double damage;
-	public double accelarationX;
-	public double accelarationY;
+	protected double health = 50;
+	protected double damage;
+	protected double accelarationX;
+	protected double accelarationY;
 	protected double stopX;
 	protected double stopY;
 	protected boolean isAlive = false;

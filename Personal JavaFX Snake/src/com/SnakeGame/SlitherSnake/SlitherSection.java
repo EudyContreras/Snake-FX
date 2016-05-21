@@ -40,7 +40,7 @@ public class SlitherSection extends SlitherSectionMain {
 		this.game = game;
 		this.snake = snake;
 		this.numericID = numericID;
-		this.sectManager = game.getSectionManager3();
+		this.sectManager = game.getSectManagerThree();
 		this.x = x;
 		this.y = y;
 		this.velX = Settings.SLITHER_SPEED;
@@ -100,7 +100,7 @@ public class SlitherSection extends SlitherSectionMain {
 
 	public void loadBones() {
 		bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-		game.getDebrisLayer().getChildren().add(bones);
+		game.getFirstLayer().getChildren().add(bones);
 		bones.setRotate(r);
 	}
 

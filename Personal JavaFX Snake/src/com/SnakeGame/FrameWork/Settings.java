@@ -1,7 +1,12 @@
 package com.SnakeGame.FrameWork;
 
 import java.awt.Toolkit;
-
+/**
+ * This class contains all global settings within the game which can be
+ * easily modified.
+ * @author Eudy Contreras
+ *
+ */
 public class Settings {
 
 

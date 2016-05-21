@@ -40,7 +40,7 @@ public class HealthBarTwo {
 		this.x = x;
 		this.oldX = this.x;
 		this.width = width;
-		this.player = game.getloader().getPlayerTwo();
+		this.player = game.getGameLoader().getPlayerTwo();
 		this.game = game;
 		this.healthBar.setWidth(width);
 		this.healthBar.setHeight(height);
@@ -61,10 +61,10 @@ public class HealthBarTwo {
 		this.playerHud.setFill(new ImagePattern(GameImageBank.player_two_hud));
 		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_two));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_two));
-		game.getOverlay().getChildren().add(playerHud);
-		game.getOverlay().getChildren().addAll(healthBarBorder);
-		game.getOverlay().getChildren().add(healthBar);
-		game.getOverlay().getChildren().add(playerHead);
+		game.getSeventhLayer().getChildren().add(playerHud);
+		game.getSeventhLayer().getChildren().addAll(healthBarBorder);
+		game.getSeventhLayer().getChildren().add(healthBar);
+		game.getSeventhLayer().getChildren().add(playerHead);
 		this.maxHealth = width;
 	}
 
@@ -159,7 +159,7 @@ public class HealthBarTwo {
 
 	public void setPlayer() {
 		this.player = null;
-		this.player = game.getloader().getPlayerTwo();
+		this.player = game.getGameLoader().getPlayerTwo();
 	}
 
 	public double getX() {

@@ -179,12 +179,12 @@ public class ScreenOverlay {
 	 */
 	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
 		this.stateID = stateID;
-		this.game.getFadeScreen().getChildren().remove(fadeScreen);
+		this.game.getFadeScreenLayer().getChildren().remove(fadeScreen);
 		this.fade = 0.0;
 		this.fadeScreen.setOpacity(fade);
 		this.fadeScreen.setFill(Color.BLACK);
 		this.fadeSpeed = fadeSpeed/1000;
-		this.game.getFadeScreen().getChildren().add(fadeScreen);
+		this.game.getFadeScreenLayer().getChildren().add(fadeScreen);
 		this.setFadeOverlay = true;
 	}
 	public void updateEffect() {

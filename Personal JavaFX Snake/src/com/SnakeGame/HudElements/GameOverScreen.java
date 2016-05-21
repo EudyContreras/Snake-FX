@@ -214,7 +214,7 @@ public class GameOverScreen {
 		yes.setVisible(true);
 		no.setVisible(true);
 		restart.setVisible(true);
-		gamePane.getFadeScreen().getChildren().add(scoreLayer);
+		gamePane.getFadeScreenLayer().getChildren().add(scoreLayer);
 		center = true;
 		swipeRight = true;
 		accelaration = 5.5f;

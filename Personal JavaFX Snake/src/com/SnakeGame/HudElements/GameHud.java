@@ -62,9 +62,9 @@ public class GameHud {
 		this.hudBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
-		game.getOverlay().getChildren().add(hudBar);
-		game.getFadeScreen().getChildren().add(topHudBar);
-		game.getFadeScreen().getChildren().add(bottomHudBar);
+		game.getSeventhLayer().getChildren().add(hudBar);
+		game.getFadeScreenLayer().getChildren().add(topHudBar);
+		game.getFadeScreenLayer().getChildren().add(bottomHudBar);
 	}
 
 	public void updateTopBar() {
@@ -128,8 +128,8 @@ public class GameHud {
 	}
 
 	public void show() {
-		game.getFadeScreen().getChildren().add(topHudBar);
-		game.getFadeScreen().getChildren().add(bottomHudBar);
+		game.getFadeScreenLayer().getChildren().add(topHudBar);
+		game.getFadeScreenLayer().getChildren().add(bottomHudBar);
 		topHudBar.setVisible(true);
 		bottomHudBar.setVisible(true);
 		hudBar.setVisible(true);

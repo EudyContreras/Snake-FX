@@ -59,7 +59,7 @@ public class SpikeFence extends AbstractTile {
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
-			game.getOverlay().getChildren().add(bounds);
+			game.getSeventhLayer().getChildren().add(bounds);
 
 		}
 	}

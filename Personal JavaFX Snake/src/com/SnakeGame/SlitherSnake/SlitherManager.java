@@ -158,8 +158,8 @@ public class SlitherManager {
 	 * Check the status of the parent node
 	 */
 	public void checkStatus() {
-		if (game.getPlayfieldLayer().getChildren().size() > 50) {
-			game.getPlayfieldLayer().getChildren().remove(2, 35);
+		if (game.getThirdLayer().getChildren().size() > 50) {
+			game.getThirdLayer().getChildren().remove(2, 35);
 		}
 	}
 

@@ -79,7 +79,7 @@ public class GameTileManager {
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
-				game.getBottomLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
 				tileList.remove();
 				continue;
 			}
@@ -129,7 +129,7 @@ public class GameTileManager {
 			tempTile = tile.get(i);
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
-				game.getBottomLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
 				tile.remove(i);
 			}
 		}
@@ -137,7 +137,7 @@ public class GameTileManager {
 			tempTrap = trap.get(i);
 			if (tempTrap.isBehindCharacter() || !tempTrap.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTrap.getView());
-				game.getBottomLayer().getChildren().remove(tempTrap.getView());
+				game.getSecondLayer().getChildren().remove(tempTrap.getView());
 				trap.remove(i);
 			}
 		}
@@ -145,7 +145,7 @@ public class GameTileManager {
 			tempBlock = block.get(i);
 			if (tempBlock.isBehindCharacter() || !tempBlock.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempBlock.getView());
-				game.getBottomLayer().getChildren().remove(tempBlock.getView());
+				game.getSecondLayer().getChildren().remove(tempBlock.getView());
 				block.remove(i);
 			}
 		}

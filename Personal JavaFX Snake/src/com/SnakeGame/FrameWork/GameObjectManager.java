@@ -13,7 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
  * and checking whether the objects is alive or not meaning no longer used. the
  * objects updated by this class are mob objects meaning objects that move,
  * interact and collide.
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -27,7 +27,9 @@ public class GameObjectManager {
 		this.game = gameJavaFX;
 		initialize();
 	}
-
+	/**
+	 * method used to initialize the list.
+	 */
 	public void initialize() {
 		this.object = new LinkedList<AbstractObject>();
 	}
@@ -158,8 +160,8 @@ public class GameObjectManager {
 	 * Check the status of the parent node
 	 */
 	public void checkStatus() {
-		if (game.getPlayfieldLayer().getChildren().size() > 50) {
-			game.getPlayfieldLayer().getChildren().remove(2, 35);
+		if (game.getThirdLayer().getChildren().size() > 50) {
+			game.getThirdLayer().getChildren().remove(2, 35);
 		}
 	}
 
@@ -185,11 +187,18 @@ public class GameObjectManager {
 	public void removeObject(AbstractObject object) {
 		this.object.remove(object);
 	}
-
+	/**
+	 * Clears the object list.
+	 */
 	public void clearAll() {
 		this.object.clear();
 	}
-
+	/**
+	 * Finds a specified object with a given id
+	 * and returns that object.
+	 * @param id
+	 * @return
+	 */
 	public AbstractObject findObject(GameObjectID id) {
 		for (AbstractObject go : object) {
 			if (go.getId() == id) {

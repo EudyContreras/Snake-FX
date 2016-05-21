@@ -11,7 +11,7 @@ import com.SnakeGame.Utilities.GameStateManager;
  *
  */
 
-public abstract class GameStates {
+public abstract class AbstractGameStates {
 	protected GameStateID id;
 	protected GameStateManager stateMangager;
 
