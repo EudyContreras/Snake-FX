@@ -1,11 +1,11 @@
 package com.SnakeGame.HudElements;
 
+import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -18,37 +18,41 @@ import javafx.scene.shape.Rectangle;
  */
 public class GameHud {
 
-	boolean swipeUp = true;
-	boolean swipeDown = false;
-	boolean killPlayer = false;
-	boolean playerIsAlive = true;
-	double maxHealth = 100;
-	double x = 0;
-	double y = 0;
-	double width = 0;
-	double height = 0;
-	double swipeSpeed = 0;
-	double limit;
-	SnakeGame game;
-	PlayerOne player;
-	GraphicsContext gc;
-	Rectangle hudBarCover = new Rectangle();
-	Rectangle hudBar = new Rectangle();
+	private boolean swipeUp = true;
+	private boolean swipeDown = false;
+	private double x = 0;
+	private double y = 0;
+	private double width = 0;
+	private double height = 0;
+	private double swipeSpeed = 0;
+	private double y2 = Settings.HEIGHT;
+	private double swipeSpeed2;
+	private SnakeGame game;
+	private Rectangle topHudBar = new Rectangle();
+	private Rectangle bottomHudBar = new Rectangle();
+	private Rectangle hudBar = new Rectangle();
+
 
 	public GameHud(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
-		this.limit = width;
 		this.width = width;
 		this.height = height+5;
-		this.player = game.getloader().getPlayerOne();
 		this.game = game;
-		this.hudBarCover.setWidth(width);
-		this.hudBarCover.setHeight(height+20);
-		this.hudBarCover.setTranslateX(x);
-		this.hudBarCover.setTranslateY(y);
-		this.hudBarCover.setArcHeight(20);
-		this.hudBarCover.setArcWidth(20);
+		this.y2 = Settings.HEIGHT-height;
+		this.topHudBar.setWidth(width);
+		this.topHudBar.setHeight(height+40);
+		this.topHudBar.setTranslateX(x);
+		this.topHudBar.setTranslateY(y-20);
+		this.topHudBar.setArcHeight(20);
+		this.topHudBar.setArcWidth(20);
+		this.bottomHudBar.setWidth(width);
+		this.bottomHudBar.setHeight(height+40);
+		this.bottomHudBar.setTranslateX(x);
+		this.bottomHudBar.setTranslateY(y2);
+		this.bottomHudBar.setRotate(180);
+		this.bottomHudBar.setArcHeight(20);
+		this.bottomHudBar.setArcWidth(20);
 		this.hudBar.setWidth(width);
 		this.hudBar.setHeight(height + 5);
 		this.hudBar.setTranslateX(x);
@@ -56,13 +60,14 @@ public class GameHud {
 		this.hudBar.setArcWidth(20);
 		this.hudBar.setArcHeight(20);
 		this.hudBar.setFill(new ImagePattern(GameImageBank.hud_bar));
-		this.hudBarCover.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
+		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
+		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getOverlay().getChildren().add(hudBar);
-		game.getFadeScreen().getChildren().add(hudBarCover);
-		this.maxHealth = width;
+		game.getFadeScreen().getChildren().add(topHudBar);
+		game.getFadeScreen().getChildren().add(bottomHudBar);
 	}
 
-	public void update() {
+	public void updateTopBar() {
 		y = y + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5;
@@ -72,11 +77,26 @@ public class GameHud {
 		}
 		if (swipeUp) {
 			swipeSpeed = -1.5;
-			if (y < hudBar.getTranslateY() - height+10) {
+			if (y < hudBar.getTranslateY() - height-10) {
 				swipeSpeed = 0;
 			}
 		}
-		hudBarCover.setTranslateY(y);
+		topHudBar.setTranslateY(y);
+
+		y2 = y2 + swipeSpeed2;
+		if (swipeDown) {
+			swipeSpeed2 = -1.5;
+			if (y2 < Settings.HEIGHT-bottomHudBar.getHeight()+SnakeGame.ScaleY(15)) {
+				swipeSpeed2 = 0;
+			}
+		}
+		if (swipeUp) {
+			swipeSpeed2 = 1.5;
+			if (y2 > Settings.HEIGHT) {
+				swipeSpeed2 = 0;
+			}
+		}
+		bottomHudBar.setTranslateY(y2);
 	}
 
 	public void showHide() {
@@ -101,22 +121,51 @@ public class GameHud {
 
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			hudBarCover.setVisible(false);
+			topHudBar.setVisible(false);
+			bottomHudBar.setVisible(false);
 			hudBar.setVisible(false);
 		}
 	}
 
 	public void show() {
-		game.getFadeScreen().getChildren().add(hudBarCover);
-		hudBarCover.setVisible(true);
+		game.getFadeScreen().getChildren().add(topHudBar);
+		game.getFadeScreen().getChildren().add(bottomHudBar);
+		topHudBar.setVisible(true);
+		bottomHudBar.setVisible(true);
 		hudBar.setVisible(true);
 	}
-
-	public void setPlayer() {
-		this.player = null;
-		this.player = game.getloader().getPlayerOne();
-	}
 	public double getHudbarY(){
-		return hudBarCover.getY();
+		return topHudBar.getY();
+	}
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+	public double getHeight() {
+		return height;
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
 	}
 }

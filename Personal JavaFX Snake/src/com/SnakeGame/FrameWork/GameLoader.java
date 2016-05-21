@@ -177,7 +177,9 @@ public class GameLoader {
 		}
 		loadDesertLevels(GameLevelImage.desertBackground);
 		loadDesertBorder();
-		loadSpikeFence();
+		if(Settings.LOAD_SPIKE_FENCE){
+			loadSpikeFence();
+		}
 		game.setLevelLenght(128 * 64);
 	}
 
@@ -246,12 +248,6 @@ public class GameLoader {
 							LevelObjectID.cactus);
 					tileManager.addTile(texture);
 					game.getBottomLayer().getChildren().add(texture.getView());
-				} else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
-							LevelObjectID.treeBark);
-					tileManager.addTile(texture);
-					game.getSnakeBodyLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
@@ -262,6 +258,12 @@ public class GameLoader {
 					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
+					tileManager.addTile(texture);
+					game.getPlayfieldLayer().getChildren().add(texture.getView());
+				}else if (red == 0 && green == 255 && blue == 255) {
+					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
+							LevelObjectID.treeBark);
 					tileManager.addTile(texture);
 					game.getPlayfieldLayer().getChildren().add(texture.getView());
 				}

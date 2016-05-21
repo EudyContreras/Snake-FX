@@ -90,15 +90,15 @@ public class SnakeGame extends Application implements Runnable {
 	private Pane root;
 	private Canvas canvas;
 	private Pane splashLayout;
-	private Pane playfieldLayer;
-	private Pane particleLayer;
-	private Pane debrisLayer;
-	private Pane bottomLayer;
+	private Pane thirdLayer;
+	private Pane sixthLayer;
+	private Pane firstLayer;
+	private Pane secondLayer;
 	private Pane levelLayer;
-	private	Pane fadeScreen;
-	private Pane snakeHead;
-	private Pane snakeBody;
-	private Pane overlay;
+	private Pane fithLayer;
+	private Pane fourthLayer;
+	private Pane seventhLayer;
+	private	Pane fadeScreenLayer;
 	private Text TextFPS;
 	public GameImageBank imageBank;
 	public GameLevelImage levelImageBank;
@@ -116,7 +116,7 @@ public class SnakeGame extends Application implements Runnable {
 	private ScreenOverlay postEffects;
 	private ScoreKeeper scoreKeeper;
 	private GameHud gameHud;
-	private ImageView backgroundImage;
+	private ImageView bottomLayer;
 	private ImageView splash;
 	private Rectangle2D bounds;
 	private String title = "SNAKE";
@@ -189,14 +189,14 @@ public class SnakeGame extends Application implements Runnable {
 		splashLayout = null;
 		splash = null;
 		splashScene = null;
-		getGameRoot().getChildren().add(backgroundImage);
-		getGameRoot().getChildren().add(debrisLayer);
 		getGameRoot().getChildren().add(bottomLayer);
-		getGameRoot().getChildren().add(playfieldLayer);
-		getGameRoot().getChildren().add(snakeBody);
-		getGameRoot().getChildren().add(snakeHead);
-		getGameRoot().getChildren().add(particleLayer);
-		getGameRoot().getChildren().add(overlay);
+		getGameRoot().getChildren().add(firstLayer);
+		getGameRoot().getChildren().add(secondLayer);
+		getGameRoot().getChildren().add(thirdLayer);
+		getGameRoot().getChildren().add(fourthLayer);
+		getGameRoot().getChildren().add(fithLayer);
+		getGameRoot().getChildren().add(sixthLayer);
+		getGameRoot().getChildren().add(seventhLayer);
 		mainRoot.getChildren().add(getGameRoot());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
@@ -210,14 +210,14 @@ public class SnakeGame extends Application implements Runnable {
 		setHealthBarTwo(new HealthBarTwo(this,Settings.WIDTH - 400 / ScaleX,
 				15 / ScaleY, 350 / ScaleX,40 / ScaleY));
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, (Settings.WIDTH / 2) - 10/ ScaleX,
-				35 / ScaleY, (Settings.WIDTH / 2) - (680 / 2)/ScaleX , 10/ScaleY,
+				35 / ScaleY, Settings.WIDTH / 2 - 680/ScaleX / 2 , 10/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoard = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
 				50/ScaleY, Color.RED);
 		scoreBoard2 = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
 				50/ScaleY, Color.RED);
-		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800, 450);
-		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800, 450);
+		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800/ScaleX, 450/ScaleY);
+		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800/ScaleX, 450/ScaleY);
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
@@ -253,19 +253,19 @@ public class SnakeGame extends Application implements Runnable {
 		mainRoot = new Group();
 		root = new Pane();
 		mainMenu = new MenuMain(this);
-		backgroundImage = new ImageView(GameLevelImage.desertBackground);
+		bottomLayer = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), Settings.WIDTH, Settings.HEIGHT);
 		gc = canvas.getGraphicsContext2D();
-		playfieldLayer = new Pane();
-		particleLayer = new Pane();
-		bottomLayer = new Pane();
-		debrisLayer = new Pane();
+		thirdLayer = new Pane();
+		sixthLayer = new Pane();
+		secondLayer = new Pane();
+		firstLayer = new Pane();
 		levelLayer = new Pane();
-		fadeScreen = new Pane();
-		snakeHead = new Pane();
-		snakeBody = new Pane();
-		overlay = new Pane();
+		fadeScreenLayer = new Pane();
+		fithLayer = new Pane();
+		fourthLayer = new Pane();
+		seventhLayer = new Pane();
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
 		slitherManager = new SlitherManager(this);
@@ -329,7 +329,7 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public void setBackgroundImage(Image image) {
-		backgroundImage.setImage(image);
+		bottomLayer.setImage(image);
 	}
 
 	/**
@@ -372,16 +372,16 @@ public class SnakeGame extends Application implements Runnable {
 						getHealthBarTwo().regerateHealth();
 					}
 					if (Settings.ALLOW_PHYSICS) {
-						if (!debrisLayer.getChildren().isEmpty()) {
-							if (debrisLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
-								debrisLayer.getChildren().remove(50, 100);
+						if (!firstLayer.getChildren().isEmpty()) {
+							if (firstLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
+								firstLayer.getChildren().remove(50, 100);
 							}
 						}
 					}
 					if (!Settings.ALLOW_PHYSICS) {
-						if (!debrisLayer.getChildren().isEmpty()) {
-							if (debrisLayer.getChildren().size() > Settings.DEBRIS_LIMIT + 50) {
-								debrisLayer.getChildren().remove(50, 100);
+						if (!firstLayer.getChildren().isEmpty()) {
+							if (firstLayer.getChildren().size() > Settings.DEBRIS_LIMIT + 50) {
+								firstLayer.getChildren().remove(50, 100);
 							}
 						}
 					}
@@ -435,7 +435,7 @@ public class SnakeGame extends Application implements Runnable {
 						if (Settings.RENDER_GAME) {
 							fade();
 							drawOverlay(gc);
-							gameHud.update();
+							gameHud.updateTopBar();
 							victoryScreen.swipeRight();
 							gameOverScreen.swipeDown();
 							scoreKeeper.keepCount();
@@ -466,16 +466,16 @@ public class SnakeGame extends Application implements Runnable {
 								scoreBoard2.hide();
 							}
 							if (Settings.ALLOW_PHYSICS) {
-								if (!particleLayer.getChildren().isEmpty()) {
-									if (particleLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
-										particleLayer.getChildren().remove(0);
+								if (!sixthLayer.getChildren().isEmpty()) {
+									if (sixthLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
+										sixthLayer.getChildren().remove(0);
 									}
 								}
 							}
 							if (!Settings.ALLOW_PHYSICS) {
-								if (!particleLayer.getChildren().isEmpty()) {
-									if (particleLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
-										particleLayer.getChildren().remove(0);
+								if (!sixthLayer.getChildren().isEmpty()) {
+									if (sixthLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
+										sixthLayer.getChildren().remove(0);
 									}
 								}
 							}
@@ -636,10 +636,10 @@ public class SnakeGame extends Application implements Runnable {
 			public void handle(ActionEvent ae) {
 
 				// loader.procedurallyCreateLevel();
-				System.out.println("Amount of objects in debris layer: " + debrisLayer.getChildren().size());
-				System.out.println("Amount of objects in game layer: " + playfieldLayer.getChildren().size());
-				System.out.println("Amount of objects in bottom layer: " + bottomLayer.getChildren().size());
-				System.out.println("Amount of objects in radar layer: " + overlay.getChildren().size());
+				System.out.println("Amount of objects in debris layer: " + firstLayer.getChildren().size());
+				System.out.println("Amount of objects in game layer: " + thirdLayer.getChildren().size());
+				System.out.println("Amount of objects in bottom layer: " + secondLayer.getChildren().size());
+				System.out.println("Amount of objects in radar layer: " + seventhLayer.getChildren().size());
 				System.out.println("Amount of objects in level layer: " + getGameRoot().getChildren().size());
 				System.out.println();
 				System.out.println();
@@ -703,9 +703,9 @@ public class SnakeGame extends Application implements Runnable {
 		TextFPS.setY(ScaleY(80));
 		TextFPS.setFill(Color.WHITE);
 		TextFPS.setFont(Font.font("AERIAL", FontWeight.BOLD, ScaleX(20)));
-		rootPane.add(overlay);
+		rootPane.add(seventhLayer);
 		rootPane.add(TextFPS);
-		mainRoot.getChildren().add(fadeScreen);
+		mainRoot.getChildren().add(fadeScreenLayer);
 
 	}
 
@@ -828,33 +828,41 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public void clearAll() {
-		playfieldLayer.getChildren().clear();
-		debrisLayer.getChildren().clear();
-		bottomLayer.getChildren().clear();
-		snakeHead.getChildren().clear();
-		snakeBody.getChildren().clear();
+		thirdLayer.getChildren().clear();
+		firstLayer.getChildren().clear();
+		secondLayer.getChildren().clear();
+		fithLayer.getChildren().clear();
+		fourthLayer.getChildren().clear();
 		levelLayer.getChildren().clear();
-		particleLayer.getChildren().clear();
+		sixthLayer.getChildren().clear();
 		debrisManager.clearAll();
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
 		loader.clearTiles();
-		fadeScreen.getChildren().clear();
+		fadeScreenLayer.getChildren().clear();
 
 	}
+	public void removePlayers() {
+		fithLayer.getChildren().clear();
+		fourthLayer.getChildren().clear();
+		objectManager.clearAll();
+		sectManagerOne.clearAll();
+		sectManagerTwo.clearAll();
+		sectManagerThree.clearAll();
 
+	}
 	public void gameOver() {
 		if (GameOverScreen.FAILED_LEVEL == false) {
 
-			playfieldLayer.getChildren().clear();
-			debrisLayer.getChildren().clear();
-			bottomLayer.getChildren().clear();
-			snakeHead.getChildren().clear();
-			snakeBody.getChildren().clear();
+			thirdLayer.getChildren().clear();
+			firstLayer.getChildren().clear();
+			secondLayer.getChildren().clear();
+			fithLayer.getChildren().clear();
+			fourthLayer.getChildren().clear();
 			levelLayer.getChildren().clear();
-			particleLayer.getChildren().clear();
+			sixthLayer.getChildren().clear();
 			debrisManager.clearAll();
 			objectManager.clearAll();
 			sectManagerOne.clearAll();
@@ -1032,19 +1040,19 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public Pane getPlayfieldLayer() {
-		return playfieldLayer;
+		return thirdLayer;
 	}
 
 	public void setPlayfieldLayer(Pane playfieldLayer) {
-		this.playfieldLayer = playfieldLayer;
+		this.thirdLayer = playfieldLayer;
 	}
 
 	public Pane getOverlay() {
-		return overlay;
+		return seventhLayer;
 	}
 
 	public void getOverlay(Pane radarLayer) {
-		this.overlay = radarLayer;
+		this.seventhLayer = radarLayer;
 	}
 
 	public ScoreBoard getScoreBoardOne() {
@@ -1072,11 +1080,11 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public Pane getBottomLayer() {
-		return bottomLayer;
+		return secondLayer;
 	}
 
 	public void setBottomLayer(Pane bottomLayer) {
-		this.bottomLayer = bottomLayer;
+		this.secondLayer = bottomLayer;
 	}
 
 	public GameKeyInputManager getKeyInput() {
@@ -1084,11 +1092,11 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public Pane getSnakeHeadLayer() {
-		return snakeHead;
+		return fithLayer;
 	}
 
 	public Pane getSnakeBodyLayer() {
-		return snakeBody;
+		return fourthLayer;
 	}
 
 	public void setKeyInput(GameKeyInputManager keyInput) {
@@ -1096,16 +1104,16 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public Pane getDebrisLayer() {
-		return debrisLayer;
+		return firstLayer;
 	}
 
 	public Pane getParticleLayer() {
-		return particleLayer;
+		return sixthLayer;
 	}
 
 
 	public void setDebrisLayer(Pane debrisLayer) {
-		this.debrisLayer = debrisLayer;
+		this.firstLayer = debrisLayer;
 	}
 
 	public Scene getScene() {
@@ -1117,7 +1125,7 @@ public class SnakeGame extends Application implements Runnable {
 	}
 
 	public Pane getFadeScreen() {
-		return fadeScreen;
+		return fadeScreenLayer;
 	}
 
 	public ScoreKeeper getScoreKeeper() {

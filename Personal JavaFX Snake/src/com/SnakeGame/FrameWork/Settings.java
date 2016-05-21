@@ -22,6 +22,7 @@ public class Settings {
 	public static int SNAKE_SPEED = 5; // must be a number which the size of the result remains whole
 	public static double SECTION_SIZE = 25; // Could now be any number I think!!
 	public static final int SLITHER_SPEED = 5;
+	public static boolean LOAD_SPIKE_FENCE = false;
 
 	public static int APPLE_COUNT = 4;
 	public static int SECTIONS_TO_ADD = 3;
@@ -61,7 +62,7 @@ public class Settings {
 	public static boolean SAND_STORM = true;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

@@ -79,6 +79,7 @@ public class GameImageBank {
 	public static Image continue_button;
 	public static Image restart_button;
 	public static Image quit_button;
+	public static Image draw_game;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +171,7 @@ public class GameImageBank {
 		continue_button = new Image(ImageUtility.loadResource("continue_button.png"));
 		restart_button = new Image(ImageUtility.loadResource("restart_button.png"));
 		quit_button = new Image(ImageUtility.loadResource("quit_button.png"));
+		draw_game = new Image(ImageUtility.loadResource("game_draw_board.png"));
 
 
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

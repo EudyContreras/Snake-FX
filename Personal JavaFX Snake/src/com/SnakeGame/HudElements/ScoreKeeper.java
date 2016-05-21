@@ -90,7 +90,7 @@ public class ScoreKeeper {
 		y1 = y1 + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5f;
-			if (y >= SnakeGame.ScaleX(85)) {
+			if (y >= SnakeGame.ScaleX(100)) {
 				swipeSpeed = 0;
 			}
 		}
