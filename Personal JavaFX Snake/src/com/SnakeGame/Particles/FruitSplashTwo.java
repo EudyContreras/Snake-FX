@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.ObjectIDs.GameDebrisID;
+import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;

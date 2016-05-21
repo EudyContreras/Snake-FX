@@ -20,7 +20,6 @@ import com.SnakeGame.SlitherSnake.SlitherManager;
 import com.SnakeGame.SlitherSnake.SlitherSectionManager;
 import com.SnakeGame.Utilities.ImageUtility;
 import com.SnakeGame.Utilities.ScreenOverlay;
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -127,6 +126,9 @@ public class SnakeGame extends AbstractGameModel{
 		getGameRoot().getChildren().add(fithLayer);
 		getGameRoot().getChildren().add(sixthLayer);
 		getGameRoot().getChildren().add(seventhLayer);
+		getGameRoot().getChildren().add(eightLayer);
+		getGameRoot().getChildren().add(ninthLayer);
+		//getGameRoot().getChildren().add(tenthLayer);
 		mainRoot.getChildren().add(getGameRoot());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
@@ -188,15 +190,18 @@ public class SnakeGame extends AbstractGameModel{
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), Settings.WIDTH, Settings.HEIGHT);
 		gc = canvas.getGraphicsContext2D();
-		thirdLayer = new Pane();
-		sixthLayer = new Pane();
-		secondLayer = new Pane();
 		firstLayer = new Pane();
-		levelLayer = new Pane();
+		secondLayer = new Pane();
+		thirdLayer = new Pane();
 		fadeScreenLayer = new Pane();
-		fithLayer = new Pane();
 		fourthLayer = new Pane();
+		fithLayer = new Pane();
+		sixthLayer = new Pane();
 		seventhLayer = new Pane();
+		eightLayer = new Pane();
+		ninthLayer = new Pane();
+		tenthLayer = new Pane();
+		levelLayer = new Pane();
 		loader = new GameLoader(this);
 		objectManager = new GameObjectManager(this);
 		slitherManager = new SlitherManager(this);
@@ -368,7 +373,7 @@ public class SnakeGame extends AbstractGameModel{
 						if (Settings.RENDER_GAME) {
 							fade();
 							drawOverlay(gc);
-							gameHud.updateTopBar();
+							gameHud.updateHudBars();
 							victoryScreen.swipeRight();
 							gameOverScreen.swipeDown();
 							scoreKeeper.keepCount();
@@ -527,15 +532,14 @@ public class SnakeGame extends AbstractGameModel{
 		TextFPS.setY(ScaleY(80));
 		TextFPS.setFill(Color.WHITE);
 		TextFPS.setFont(Font.font("AERIAL", FontWeight.BOLD, ScaleX(20)));
-		rootPane.add(seventhLayer);
+		rootPane.add(fadeScreenLayer);
+		rootPane.add(tenthLayer);
 		rootPane.add(TextFPS);
-		mainRoot.getChildren().add(fadeScreenLayer);
-
 	}
 
 	public void restart() {
 		clearAll();
-		fade = 0.0;
+		fade = 1.0;
 		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
@@ -552,7 +556,7 @@ public class SnakeGame extends AbstractGameModel{
 		gameHud.swipeUp();
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
-		fadeOut = false;
+		fadeIn = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
 		gameOverScreen.removeBlur();
@@ -573,7 +577,7 @@ public class SnakeGame extends AbstractGameModel{
 	}
 	public void goToNext() {
 		clearAll();
-		fade = 0.0;
+		fade = 1.0;
 		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
@@ -582,19 +586,18 @@ public class SnakeGame extends AbstractGameModel{
 		PlayerTwo.NUMERIC_ID = 0;
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
-		scoreBoardOne.resetScore();
-		scoreBoardTwo.resetScore();
-		scoreKeeper.resetCount();
-		scoreKeeper.resetTimer();
-		gameHud.show();
-		gameHud.swipeUp();
-		scoreBoardOne.show();
-		scoreBoardTwo.show();
-		fadeOut = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
 		gameOverScreen.removeBlur();
 		gameOverScreen.removeBoard();
+		scoreBoardOne.resetScore();
+		scoreBoardTwo.resetScore();
+		scoreKeeper.resetCount();
+		scoreKeeper.resetTimer();
+		scoreBoardOne.show();
+		scoreBoardTwo.show();
+		gameHud.show();
+		gameHud.swipeUp();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
@@ -631,7 +634,7 @@ public class SnakeGame extends AbstractGameModel{
 		gameHud.swipeUp();
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
-		fadeOut = false;
+		fadeIn = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
 		gameOverScreen.removeBlur();
@@ -652,20 +655,21 @@ public class SnakeGame extends AbstractGameModel{
 	}
 
 	public void clearAll() {
-		thirdLayer.getChildren().clear();
+
 		firstLayer.getChildren().clear();
 		secondLayer.getChildren().clear();
-		fithLayer.getChildren().clear();
+		thirdLayer.getChildren().clear();
 		fourthLayer.getChildren().clear();
-		levelLayer.getChildren().clear();
+		fithLayer.getChildren().clear();
 		sixthLayer.getChildren().clear();
+		levelLayer.getChildren().clear();
 		debrisManager.clearAll();
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
 		loader.clearTiles();
-		fadeScreenLayer.getChildren().clear();
+		//fadeScreenLayer.getChildren().clear();
 
 	}
 	public void removePlayers() {
@@ -708,7 +712,7 @@ public class SnakeGame extends AbstractGameModel{
 			scoreBoardTwo.resetScore();
 			scoreKeeper.resetCount();
 			scoreKeeper.resetTimer();
-			fadeOut = false;
+			fadeIn = false;
 			victoryScreen.removeBlur();
 			victoryScreen.removeBoard();
 			gameOverScreen.removeBlur();
@@ -723,23 +727,23 @@ public class SnakeGame extends AbstractGameModel{
 	}
 
 	public void addFadeScreen() {
-		if (!fadeOut) {
+		if (!fadeIn) {
 			getMainRoot().getChildren().add(fadeRect);
-			fadeOut = true;
+			fadeIn = true;
 			goToMain = true;
 			goToNext = false;
 		}
 	}
 	public void startNextLevel() {
-		if (!fadeOut) {
-			getMainRoot().getChildren().add(fadeRect);
-			fadeOut = true;
+		if (!fadeIn) {
+			getFadeScreenLayer().getChildren().add(fadeRect);
+			fadeIn = true;
 			goToNext = true;
 			goToMain = false;
 		}
 	}
 	public void fade() {
-		if (fadeOut) {
+		if (fadeIn) {
 			fade += 0.01;
 			fadeRect.setOpacity(fade);
 			if (fade >= 1.0f) {
@@ -749,12 +753,22 @@ public class SnakeGame extends AbstractGameModel{
 			if (fade >= 1.1f) {
 				if(goToNext){
 					goToNext();
-					getMainRoot().getChildren().remove(fadeRect);
+					fadeOut = true;
+					fadeIn = false;
 				}
 				else if(goToMain){
 					reset();
 					getMainRoot().getChildren().remove(fadeRect);
 				}
+			}
+		}
+		if (fadeOut) {
+			fade -= 0.01f;
+			fadeRect.setOpacity(fade);
+			if (fade <= 0) {
+				fadeRect.setOpacity(0);
+				getFadeScreenLayer().getChildren().remove(fadeRect);
+				fadeOut = false;
 			}
 		}
 	}

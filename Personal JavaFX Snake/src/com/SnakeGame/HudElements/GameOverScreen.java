@@ -19,9 +19,10 @@ public class GameOverScreen {
 	private ScreenOverlay overlay;
 	private SnakeGame gamePane;
 	private Rectangle gameOverScreen;
-	private ImageView yes;
-	private ImageView no;
-	private ImageView restart;
+	private ImageView continue_btt;
+	private ImageView quitGame_btt;
+	private ImageView restart_btt;
+	private ImageView optionsBoard;
 	private Pane scoreLayer;
 	private Image boardImage;
 	private double width = 0;
@@ -54,57 +55,51 @@ public class GameOverScreen {
 	private void confirmScreenSetup() {
 		scoreLayer.setPrefSize(Settings.WIDTH, Settings.HEIGHT);
 		gameOverScreen = new Rectangle(0, 0, width, height);
-		gameOverScreen.setWidth(width / GameLoader.ResolutionScaleX);
-		gameOverScreen.setHeight(height / GameLoader.ResolutionScaleY);
+		gameOverScreen.setWidth(width);
+		gameOverScreen.setHeight(height);
 		gameOverScreen.setFill(new ImagePattern(boardImage));
-		boardX = (float) (0 - gameOverScreen.getWidth() - 50);
+		boardX = (float) (0 - gameOverScreen.getWidth() - SnakeGame.ScaleX(50));
 		gameOverScreen.setX(boardX);
-		gameOverScreen.setY(Settings.HEIGHT / 2 - gameOverScreen.getHeight() / 2 - 100);
-		yes = new ImageView();
-		no = new ImageView();
-		restart = new ImageView();
-		yes.setImage(GameImageBank.continueOpt);
-		no.setImage(GameImageBank.quitOpt);
-		restart.setImage(GameImageBank.restartOpt);
-		yes.setFitWidth(200 / GameLoader.ResolutionScaleX);
-		yes.setFitHeight(50 / GameLoader.ResolutionScaleY);
-		no.setFitWidth(200 / GameLoader.ResolutionScaleX);
-		no.setFitHeight(50 / GameLoader.ResolutionScaleY);
-		yes.setX(gameOverScreen.getX());
-		yes.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-		no.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - no.getFitWidth());
-		no.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-		restart.setX(yes.getX() + yes.getFitWidth());
-		restart.setY(yes.getY());
-		restart.setFitWidth((no.getX() - yes.getX() - yes.getFitWidth()));
-		restart.setFitHeight(no.getFitHeight());
-		scoreLayer.getChildren().addAll(gameOverScreen, yes, no, restart);
+		gameOverScreen.setY(Settings.HEIGHT / 2 - gameOverScreen.getHeight() / 2 - SnakeGame.ScaleY(100));
+		continue_btt = new ImageView(GameImageBank.continue_button);
+		quitGame_btt = new ImageView(GameImageBank.quit_button);
+		restart_btt = new ImageView(GameImageBank.restart_button);
+		optionsBoard = new ImageView(GameImageBank.options_board);
+		optionsBoard.setFitWidth(width);
+		optionsBoard.setFitHeight((height/4));
+		continue_btt.setFitWidth(SnakeGame.ScaleX(240));
+		continue_btt.setFitHeight(SnakeGame.ScaleY(70));
+		quitGame_btt.setFitWidth(SnakeGame.ScaleX(240));
+		quitGame_btt.setFitHeight(SnakeGame.ScaleY(70));
+		restart_btt.setFitWidth((continue_btt.getFitWidth()));
+		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
+		scoreLayer.getChildren().addAll(gameOverScreen,optionsBoard, continue_btt, quitGame_btt, restart_btt);
 		processInput();
 	}
 
 	private void processInput() {
-		yes.setOnMouseEntered(e -> {
-			yes.setImage(GameImageBank.continueOpt2);
+		continue_btt.setOnMouseEntered(e -> {
+			continue_btt.setImage(GameImageBank.continueOpt2);
 		});
-		yes.setOnMouseExited(e -> {
-			yes.setImage(GameImageBank.continueOpt);
+		continue_btt.setOnMouseExited(e -> {
+			continue_btt.setImage(GameImageBank.continueOpt);
 		});
-		no.setOnMouseEntered(e -> {
-			no.setImage(GameImageBank.quitOpt2);
+		quitGame_btt.setOnMouseEntered(e -> {
+			quitGame_btt.setImage(GameImageBank.quitOpt2);
 		});
-		no.setOnMouseExited(e -> {
-			no.setImage(GameImageBank.quitOpt);
+		quitGame_btt.setOnMouseExited(e -> {
+			quitGame_btt.setImage(GameImageBank.quitOpt);
 		});
-		no.setOnMouseClicked(e -> {
+		quitGame_btt.setOnMouseClicked(e -> {
 			gamePane.addFadeScreen();
 		});
-		restart.setOnMouseEntered(e -> {
-			restart.setImage(GameImageBank.restartOpt2);
+		restart_btt.setOnMouseEntered(e -> {
+			restart_btt.setImage(GameImageBank.restartOpt2);
 		});
-		restart.setOnMouseExited(e -> {
-			restart.setImage(GameImageBank.restartOpt);
+		restart_btt.setOnMouseExited(e -> {
+			restart_btt.setImage(GameImageBank.restartOpt);
 		});
-		restart.setOnMouseClicked(e -> {
+		restart_btt.setOnMouseClicked(e -> {
 			restartLevel();
 		});
 
@@ -134,12 +129,12 @@ public class GameOverScreen {
 					center = false;
 				}
 			}
-			yes.setX(gameOverScreen.getX());
-			yes.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-			no.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - no.getFitWidth());
-			no.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-			restart.setX(yes.getX() + yes.getFitWidth());
-			restart.setY(yes.getY());
+			continue_btt.setX(gameOverScreen.getX());
+			continue_btt.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
+			quitGame_btt.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - quitGame_btt.getFitWidth());
+			quitGame_btt.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth());
+			restart_btt.setY(continue_btt.getY());
 		}
 		overlay.updateEffect();
 		hide();
@@ -170,12 +165,12 @@ public class GameOverScreen {
 					center = false;
 				}
 			}
-			yes.setX(gameOverScreen.getX());
-			yes.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-			no.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - no.getFitWidth());
-			no.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-			restart.setX(yes.getX() + yes.getFitWidth());
-			restart.setY(yes.getY());
+			continue_btt.setX(gameOverScreen.getX());
+			continue_btt.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
+			quitGame_btt.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - quitGame_btt.getFitWidth());
+			quitGame_btt.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth());
+			restart_btt.setY(continue_btt.getY());
 		}
 	}
 
@@ -189,9 +184,9 @@ public class GameOverScreen {
 
 	public void removeBoard() {
 		gameOverScreen.setVisible(false);
-		yes.setVisible(false);
-		no.setVisible(false);
-		restart.setVisible(false);
+		continue_btt.setVisible(false);
+		quitGame_btt.setVisible(false);
+		restart_btt.setVisible(false);
 		gamePane.getMainRoot().getChildren().remove(scoreLayer);
 		FAILED_LEVEL = false;
 		gameOverScreen.setX(0 - gameOverScreen.getWidth() - 50);
@@ -204,16 +199,16 @@ public class GameOverScreen {
 		boardX = (float) (0 - gameOverScreen.getHeight() - 50);
 		gameOverScreen.setY(boardX);
 		gameOverScreen.setX((Settings.WIDTH / 2 - gameOverScreen.getWidth() / 2));
-		yes.setX(gameOverScreen.getX());
-		yes.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-		no.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - no.getFitWidth());
-		no.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
-		restart.setX(yes.getX() + yes.getFitWidth());
-		restart.setY(yes.getY());
+		continue_btt.setX(gameOverScreen.getX());
+		continue_btt.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
+		quitGame_btt.setX(gameOverScreen.getX() + gameOverScreen.getWidth() - quitGame_btt.getFitWidth());
+		quitGame_btt.setY(gameOverScreen.getY() + gameOverScreen.getHeight());
+		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth());
+		restart_btt.setY(continue_btt.getY());
 		gameOverScreen.setVisible(true);
-		yes.setVisible(true);
-		no.setVisible(true);
-		restart.setVisible(true);
+		continue_btt.setVisible(true);
+		quitGame_btt.setVisible(true);
+		restart_btt.setVisible(true);
 		gamePane.getFadeScreenLayer().getChildren().add(scoreLayer);
 		center = true;
 		swipeRight = true;

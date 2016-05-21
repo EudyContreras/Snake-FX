@@ -2,7 +2,7 @@ package com.SnakeGame.Utilities;
 
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.ObjectIDs.GameStateID;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
@@ -179,12 +179,12 @@ public class ScreenOverlay {
 	 */
 	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
 		this.stateID = stateID;
-		this.game.getFadeScreenLayer().getChildren().remove(fadeScreen);
+		this.game.getEighthLayer().getChildren().remove(fadeScreen);
 		this.fade = 0.0;
 		this.fadeScreen.setOpacity(fade);
 		this.fadeScreen.setFill(Color.BLACK);
 		this.fadeSpeed = fadeSpeed/1000;
-		this.game.getFadeScreenLayer().getChildren().add(fadeScreen);
+		this.game.getEighthLayer().getChildren().add(fadeScreen);
 		this.setFadeOverlay = true;
 	}
 	public void updateEffect() {

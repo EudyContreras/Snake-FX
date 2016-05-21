@@ -75,7 +75,7 @@ public class VictoryScreen {
 		continue_btt.setFitHeight(SnakeGame.ScaleY(70));
 		quitGame_btt.setFitWidth(SnakeGame.ScaleX(240));
 		quitGame_btt.setFitHeight(SnakeGame.ScaleY(70));
-		restart_btt.setFitWidth((continue_btt.getFitWidth())-5 );
+		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(confirmScreen,optionsBoard, continue_btt, quitGame_btt, restart_btt);
 		processInput();

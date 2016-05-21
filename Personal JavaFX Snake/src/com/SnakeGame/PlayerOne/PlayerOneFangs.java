@@ -6,7 +6,7 @@ import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;

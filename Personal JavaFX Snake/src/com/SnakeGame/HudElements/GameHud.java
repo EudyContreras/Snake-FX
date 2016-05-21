@@ -10,9 +10,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 /**
- * This class is used to simulate a simple health bar which will decrease under
- * certain conditions, and that will also self restore
- *
+ * This class simulates a simple game heads up display which is shown at the to the level
+ * this display shows useful information concerning game statistics
  * @author Eudy Contreras
  *
  */
@@ -63,11 +62,13 @@ public class GameHud {
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getSeventhLayer().getChildren().add(hudBar);
-		game.getFadeScreenLayer().getChildren().add(topHudBar);
-		game.getFadeScreenLayer().getChildren().add(bottomHudBar);
+		game.getTenthLayer().getChildren().add(topHudBar);
+		game.getTenthLayer().getChildren().add(bottomHudBar);
 	}
-
-	public void updateTopBar() {
+	/**
+	 * Method which updates the movement of the hudbar
+	 */
+	public void updateHudBars() {
 		y = y + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5;
@@ -98,7 +99,10 @@ public class GameHud {
 		}
 		bottomHudBar.setTranslateY(y2);
 	}
-
+	/**
+	 * Method which shows or hides the hud bar
+	 * depending on the current status of the hud
+	 */
 	public void showHide() {
 		if (swipeDown) {
 			swipeDown = false;
@@ -108,17 +112,23 @@ public class GameHud {
 			swipeDown = true;
 		}
 	}
-
+	/**
+	 * Method which swipes down the hud bar
+	 */
 	public void swipeDown() {
 		swipeUp = false;
 		swipeDown = true;
 	}
-
+	/**
+	 * Method which swipes up the hud bar
+	 */
 	public void swipeUp() {
 		swipeDown = false;
 		swipeUp = true;
 	}
-
+	/**
+	 * Method which hides the hud bar
+	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			topHudBar.setVisible(false);
@@ -126,10 +136,12 @@ public class GameHud {
 			hudBar.setVisible(false);
 		}
 	}
-
+	/**
+	 * Method which shows a hud bar
+	 */
 	public void show() {
-		game.getFadeScreenLayer().getChildren().add(topHudBar);
-		game.getFadeScreenLayer().getChildren().add(bottomHudBar);
+//		game.getNinthLayer().getChildren().add(topHudBar);
+//		game.getNinthLayer().getChildren().add(bottomHudBar);
 		topHudBar.setVisible(true);
 		bottomHudBar.setVisible(true);
 		hudBar.setVisible(true);

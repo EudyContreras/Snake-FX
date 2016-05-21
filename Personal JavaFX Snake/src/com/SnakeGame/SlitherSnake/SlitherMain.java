@@ -2,7 +2,7 @@ package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.FrameWork.AbstractObject;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;

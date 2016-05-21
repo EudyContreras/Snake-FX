@@ -1,6 +1,6 @@
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.ObjectIDs.GameObjectID;
+import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 

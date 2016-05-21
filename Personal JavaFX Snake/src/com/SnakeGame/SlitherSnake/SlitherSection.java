@@ -5,8 +5,8 @@ import java.util.Random;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.ObjectIDs.GameObjectID;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.SectionDisintegration;
 

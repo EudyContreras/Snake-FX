@@ -1,4 +1,4 @@
-package com.SnakeGame.HudElements;
+package com.SnakeGame.IDenums;
 
 public enum GameModeID {
 

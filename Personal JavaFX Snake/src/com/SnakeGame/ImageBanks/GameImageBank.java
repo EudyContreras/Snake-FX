@@ -152,11 +152,11 @@ public class GameImageBank {
 		countKeeper = new Image(ImageUtility.loadResource("hud_bar_info_thin.png"));
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
 		levelCompleteSplash = new Image(ImageUtility.loadResource("levelComplete2.png"));
-		gameOverScreen = new Image(ImageUtility.loadResource("GameOver.png"));
+		gameOverScreen = new Image(ImageUtility.loadResource("gameOver_board.png"));
 		continueOpt = new Image(ImageUtility.loadResource("continue.png"));
 		restartOpt = new Image(ImageUtility.loadResource("restart.png"));
 		quitOpt = new Image(ImageUtility.loadResource("quit.png"));
-		continueOpt2 = new Image(ImageUtility.loadResource("continueSelected.png"));
+		continueOpt2 = new Image(ImageUtility.loadResource("continue_button_alt.png"));
 		restartOpt2 = new Image(ImageUtility.loadResource("restartSelected.png"));
 		quitOpt2 = new Image(ImageUtility.loadResource("quitSelected.png"));
 		health_bar_green_one = new Image(ImageUtility.loadResource("health_bar_green.png"));

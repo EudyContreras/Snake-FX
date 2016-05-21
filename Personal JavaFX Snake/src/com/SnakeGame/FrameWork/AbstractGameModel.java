@@ -64,6 +64,9 @@ public abstract class AbstractGameModel extends Application{
 	protected Pane fithLayer;
 	protected Pane fourthLayer;
 	protected Pane seventhLayer;
+	protected Pane eightLayer;
+	protected Pane ninthLayer;
+	protected Pane tenthLayer;
 	protected Pane fadeScreenLayer;
 	protected Text TextFPS;
 	protected GameImageBank imageBank;
@@ -89,6 +92,7 @@ public abstract class AbstractGameModel extends Application{
 	protected Rectangle fadeRect;
 	protected boolean isRunning = true;
 	protected boolean gameRunning = false;
+	protected boolean fadeIn = false;
 	protected boolean fadeOut = false;
 	protected boolean goToNext;
 	protected boolean goToMain;
@@ -293,6 +297,29 @@ public abstract class AbstractGameModel extends Application{
 		this.seventhLayer = radarLayer;
 	}
 
+	public Pane getEighthLayer() {
+		return eightLayer;
+	}
+
+	public void setEighthLayer(Pane eighthLayer) {
+		this.eightLayer = eighthLayer;
+	}
+
+	public Pane getNinthLayer() {
+		return ninthLayer;
+	}
+
+	public void setNinthLayer(Pane ninthLayer) {
+		this.ninthLayer = ninthLayer;
+	}
+
+	public Pane getTenthLayer() {
+		return tenthLayer;
+	}
+
+	public void setTenthLayer(Pane tenthLayer) {
+		this.tenthLayer = tenthLayer;
+	}
 	public Pane getFadeScreenLayer() {
 		return fadeScreenLayer;
 	}

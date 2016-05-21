@@ -1,4 +1,4 @@
-package com.SnakeGame.ObjectIDs;
+package com.SnakeGame.IDenums;
 
 /**
  * Keeps a database of the IDs used by different sorts of particles that are

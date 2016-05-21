@@ -1,7 +1,7 @@
 
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.ObjectIDs.LevelObjectID;
+import com.SnakeGame.IDenums.LevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
