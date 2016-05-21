@@ -13,10 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Every static object or esthetic object in the game such as walls, boxes etc
- * is considered a tile. This class is the main tile class and can be used for
- * creating any level object.
- *
+ * This class represents a cactus which creates a moving
+ * or wind caused waving illusion.
  * @author Eudy Contreras
  *
  */
@@ -37,16 +35,20 @@ public class WavingCactusTwo extends AbstractTile {
 		this.game = game;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		this.drawBoundingBox();
-		this.adjustBounds();
+		this.draw();
 	}
-
+	/**
+	 * Method which moves this object
+	 */
 	public void move() {
 		super.move();
 		if (Settings.SAND_STORM)
 			wave();
 	}
-
+	/**
+	 * Method which makes this object
+	 * move or rotate
+	 */
 	public void wave() {
 		if (x > oldX + Settings.WIND_FORCE) {
 			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
@@ -57,17 +59,17 @@ public class WavingCactusTwo extends AbstractTile {
 		}
 	}
 
+	/**
+	 * Methods which draws a bounding box
+	 */
 	public void draw() {
-
+		drawBoundingBox();
 	}
-
-	public void adjustBounds() {
-		if (this.id == LevelObjectID.cactus) {
-			collisionBounds = new Rectangle2D(x + 15, y + 40, width - 50, height - 60);
-		}
-	}
-
-	public void drawBoundingBox() {
+	/**
+	 * Method which creates and draws a bounding box
+	 * for debugging purposes
+	 */
+ void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
 			bounds = new Rectangle(x, y+height/4, width/1.5, height/1.5);
@@ -78,7 +80,10 @@ public class WavingCactusTwo extends AbstractTile {
 
 		}
 	}
-
+	/**
+	 * This methods will return specified bounds of this object
+	 * based on coordinates and dimensions.
+	 */
 	public Rectangle2D getBounds() {
 		return collisionBounds;
 	}

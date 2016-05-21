@@ -14,9 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Every static object or esthetic object in the game such as walls, boxes etc
- * is considered a tile. This class is the main tile class and can be used for
- * creating any level object.
+ * this class is an object which will kill the player
+ * if the collision bounds of the player intersect the collision
+ * bounds of this class
  *
  * @author Eudy Contreras
  *
@@ -45,13 +45,21 @@ public class SpikeFence extends AbstractTile {
 		this.view.setTranslateY(y);
 		draw();
 	}
+	/**
+	 * Moves this object
+	 */
 	public void move() {
 		x = x + velX;
 	}
+	/**
+	 * Draws a bounding box
+	 */
 	public void draw() {
 		drawBoundingBox();
 	}
-
+	/**
+	 * Draws the bounding box of this object for debugging purposes
+	 */
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
@@ -64,6 +72,10 @@ public class SpikeFence extends AbstractTile {
 		}
 	}
 
+	/**
+	 * This methods will return specified bounds of this object
+	 * based on coordinates and dimensions.
+	 */
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x+5, y+5, width-45, height-10);
 	}

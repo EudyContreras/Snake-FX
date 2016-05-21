@@ -13,20 +13,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Every static object or esthetic object in the game such as walls, boxes etc
- * is considered a tile. This class is the main tile class and can be used for
- * creating any level object.
- * 
+ * Bounds class which can be used for adding specific events to objects
+ * that surround the level
+ *
  * @author Eudy Contreras
  *
  */
-public class DesertBounds extends AbstractTile {
+public class LevelBouds extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;;
 	SnakeGame game;
 	float speed;
 
-	public DesertBounds(SnakeGame game, float x, float y, float speed, float velY, LevelObjectID id) {
+	public LevelBouds(SnakeGame game, float x, float y, float speed, float velY, LevelObjectID id) {
 		super(x, y);
 		this.game = game;
 		this.velX = 0;
@@ -35,10 +34,9 @@ public class DesertBounds extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		draw();
-		adjustBounds();
 	}
 
-	public DesertBounds(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public LevelBouds(SnakeGame game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
@@ -46,13 +44,6 @@ public class DesertBounds extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		draw();
-		adjustBounds();
-	}
-
-	public void adjustBounds() {
-		if (this.id == LevelObjectID.rock) {
-			collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
-		}
 	}
 
 	public void move() {

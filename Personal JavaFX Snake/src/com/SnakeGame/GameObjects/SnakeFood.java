@@ -14,7 +14,6 @@ import com.SnakeGame.ObjectIDs.LevelObjectID;
 import com.SnakeGame.Particles.FruitSplashOne;
 import com.SnakeGame.Particles.FruitSplashTwo;
 import com.SnakeGame.PlayerOne.PlayerOne;
-import com.SnakeGame.PlayerOne.PlayerOneFangs;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.geometry.Rectangle2D;
@@ -26,6 +25,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
+/**
+ * This class is in charge of managing the logic surrounding
+ * the spawning of food or buffs within the level.
+ * @author Eudy Contreras
+ *
+ */
 public class SnakeFood extends AbstractObject {
 
 	private double size;
@@ -45,11 +50,30 @@ public class SnakeFood extends AbstractObject {
 	private DropShadow borderGlow = new DropShadow();
 	private Random rand = new Random();
 	private SnakeGame game;
-
+	/**
+	 * Main constructor which can initialize an edible object
+	 *
+	 * @param game
+	 * @param layer
+	 * @param node
+	 * @param x
+	 * @param y
+	 * @param id
+	 */
 	public SnakeFood(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 	}
+	/**
+	 * Main constructor which will initialize an edible object
+	 * and modified some of the initial valuses.
+	 * @param game
+	 * @param layer
+	 * @param node
+	 * @param x
+	 * @param y
+	 * @param id
+	 */
 
 	public SnakeFood(SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
@@ -66,7 +90,9 @@ public class SnakeFood extends AbstractObject {
 			this.layer.getChildren().add(bounds);
 		}
 	}
-
+	/**
+	 * Adds a glowing aura around the node or image
+	 */
 	public void addGLow() {
 		if (Settings.ADD_GLOW) {
 			borderGlow.setOffsetY(0f);
@@ -79,7 +105,9 @@ public class SnakeFood extends AbstractObject {
 			circle.setEffect(borderGlow);
 		}
 	}
-
+	/**
+	 * Updates methods which do not involve movement
+	 */
 	public void logicUpdate() {
 		fadeValue += 0.01;
 		if (fadeValue >= 1.0) {
@@ -90,7 +118,9 @@ public class SnakeFood extends AbstractObject {
 		updateGlow();
 		updateLife();
 	}
-
+	/**
+	 * Method in charge of moving the node.
+	 */
 	public void move() {
 		if (Settings.DEBUG_MODE) {
 			bounds.setCenterX(x);
@@ -113,7 +143,9 @@ public class SnakeFood extends AbstractObject {
 		velX *= 0.97;
 		velY *= 0.97;
 	}
-
+	/**
+	 * Method in charge of updating the lifetime of the object
+	 */
 	public void updateLife() {
 		if (fadeValue >= 1.0) {
 			lifeTime++;
@@ -123,7 +155,9 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
-
+	/**
+	 * Method in charge of updating the glow of the object
+	 */
 	public void updateGlow() {
 		if (Settings.ADD_GLOW) {
 			if (fadeValue == 1.0) {
@@ -154,7 +188,9 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
-
+	/**
+	 * Method in charge of panning the object in and out
+	 */
 	public void lookAtMe() {
 		if (minSize) {
 			size += 0.5 * Settings.FRAME_SCALE;
@@ -173,7 +209,14 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
-
+	/**
+	 * Method in charge of the object is approximate to another set of dimensions
+	 * @param tail_X
+	 * @param sect_X
+	 * @param tail_Y
+	 * @param sect_Y
+	 * @return
+	 */
 	public boolean isApproximate(double tail_X, double sect_X, double tail_Y, double sect_Y) {
 		double distance = Math.sqrt((tail_X - sect_X) * (tail_X - sect_X) + (tail_Y - sect_Y) * (tail_Y - sect_Y));
 		if (distance > 10) {
@@ -181,8 +224,12 @@ public class SnakeFood extends AbstractObject {
 		}
 		return false;
 	}
-
-	public boolean isApproximateTo(PlayerOneFangs object) {
+	/**
+	 * Method which can determine if the this object is approximate to another given object
+	 * @param object
+	 * @return
+	 */
+	public boolean isApproximateTo(AbstractObject object) {
 		double distance = Math
 				.sqrt((x - object.getX()) * (x - object.getX()) + (y - object.getY()) * (y - object.getY()));
 		if (distance < 15) {
@@ -190,7 +237,10 @@ public class SnakeFood extends AbstractObject {
 		}
 		return false;
 	}
-
+	/**
+	 * Method in charge of checking events within the collision bounds of this object.
+	 * this method will also assign a set of actions to collision events.
+	 */
 	public void checkCollision() {
 		float newX = (int) (rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3);
 		float newY = (int) (rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3);
@@ -247,7 +297,10 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
-
+	/**
+	 * Method which returns true if the location of this object is a permitted location
+	 * @return
+	 */
 	public boolean allowedLocation() {
 		double newX = rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3;
 		double newY = rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3;
@@ -260,11 +313,15 @@ public class SnakeFood extends AbstractObject {
 		}
 		return false;
 	}
-
+	/**
+	 * Method which changes the opacity of this object
+	 */
 	public void fruitFadein() {
 		this.circle.setOpacity(fadeValue);
 	}
-
+	/**
+	 * Method which makes this object blow up into smaller pieces
+	 */
 	public void blowUp() {
 		for (int i = 0; i < Settings.PARTICLE_LIMIT; i++) {
 			if (Settings.ADD_VARIATION) {
@@ -277,8 +334,10 @@ public class SnakeFood extends AbstractObject {
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 		}
 	}
-
-	public void blowUp2() {
+	/**
+	 * Alternate method which makes this object blow up into smaller pieces
+	 */
+	public void altBlowUp() {
 		for (int i = 0; i < Settings.PARTICLE_LIMIT; i++) {
 			if (Settings.ADD_VARIATION) {
 				particleSize = (Math.random() * (40 - 10 + 1) + 10)
@@ -290,7 +349,12 @@ public class SnakeFood extends AbstractObject {
 					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 		}
 	}
-
+	/**
+	 * Method which will make this objects bounce from another object
+	 * @param snake
+	 * @param x
+	 * @param y
+	 */
 	public void bounce(PlayerOne snake, float x, float y) {
 		if (snake.getVelX() == 0) {
 			this.velX = (float) (snake.getVelX() + (Math.random() * (13 - 8 + 1) - 8));
@@ -300,7 +364,12 @@ public class SnakeFood extends AbstractObject {
 			this.velY = (float) (snake.getVelY() + (Math.random() * (13 - 8 + 1) - 8));
 		}
 	}
-
+	/**
+	 * Method which will make this objects bounce from another object
+	 * @param snake
+	 * @param x
+	 * @param y
+	 */
 	public void bounce(PlayerTwo snake, double x, double y) {
 		if (snake.getVelX() == 0) {
 			this.velX = (float) (snake.getVelX() + (Math.random() * (13 - 8 + 1) - 8));
@@ -310,11 +379,17 @@ public class SnakeFood extends AbstractObject {
 			this.velY = (float) (snake.getVelY() + (Math.random() * (13 - 8 + 1) - 8));
 		}
 	}
-
+	/**
+	 * Method which returns the collision bounds for this object
+	 * @return
+	 */
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - staticRadius, y - staticRadius, staticRadius * 2, staticRadius * 2);
 	}
-
+	/**
+	 * Method which returns alternate collision bounds for this object
+	 * @return
+	 */
 	public Rectangle2D getCollisionBounds() {
 		return new Rectangle2D(x - staticRadius / 2, y - staticRadius / 2, staticRadius, staticRadius);
 	}

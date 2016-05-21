@@ -21,13 +21,13 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class TileMap extends AbstractTile {
+public class GenericObject extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;
 	SnakeGame game;
 	float speed;
 
-	public TileMap(SnakeGame game, float x, float y, float speed, float velY, Image image, LevelObjectID id) {
+	public GenericObject(SnakeGame game, float x, float y, float speed, float velY, Image image, LevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -39,7 +39,7 @@ public class TileMap extends AbstractTile {
 		adjustBounds();
 	}
 
-	public TileMap(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public GenericObject(SnakeGame game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
@@ -49,22 +49,30 @@ public class TileMap extends AbstractTile {
 		draw();
 		adjustBounds();
 	}
-
+	/**
+	 * Method which initializes bounds for a specific object
+	 */
 	public void adjustBounds() {
 		if (this.id == LevelObjectID.rock) {
 			collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
 		}
 	}
 
+	/**
+	 * Moves this object
+	 */
 	public void move() {
 		x = x + velX;
-
 	}
-
+	/**
+	 * Draws a bounding box
+	 */
 	public void draw() {
 		drawBoundingBox();
 	}
-
+	/**
+	 * Draws the bounding box of this object for debugging purposes
+	 */
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
@@ -76,7 +84,10 @@ public class TileMap extends AbstractTile {
 
 		}
 	}
-
+	/**
+	 * This methods will return specified bounds of this object
+	 * based on coordinates and dimensions.
+	 */
 	public Rectangle2D getBounds() {
 		return collisionBounds;
 	}

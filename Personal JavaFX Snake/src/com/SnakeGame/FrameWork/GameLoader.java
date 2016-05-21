@@ -6,7 +6,7 @@ import java.util.Random;
 
 import com.SnakeGame.GameObjects.SnakeFood;
 import com.SnakeGame.GameObjects.SpikeFence;
-import com.SnakeGame.GameObjects.TileMap;
+import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.GameObjects.WavingCactusOne;
 import com.SnakeGame.GameObjects.WavingCactusTwo;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -56,7 +56,7 @@ public class GameLoader {
 	private double Rear_Distance_LOD = 0;
 	private SnakeGame game;
 	public GameTileManager tileManager;
-	TileMap texture;
+	GenericObject texture;
 	GameObjectManager objectManger;
 	PlayerTwo player2;
 	SlitherSnake slither;
@@ -228,7 +228,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}else if (red == 255 && green == 0 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							LevelObjectID.rock);
 					tileManager.addBlock(texture);
@@ -240,7 +240,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							LevelObjectID.skeleton);
 					tileManager.addTile(texture);
@@ -258,13 +258,13 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							LevelObjectID.treeBark);
 					tileManager.addTile(texture);
@@ -341,19 +341,19 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 0 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -365,7 +365,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -377,7 +377,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							LevelObjectID.LevelTile);
 					tileManager.addTile(texture);
@@ -389,7 +389,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -409,19 +409,19 @@ public class GameLoader {
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 0 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
 							LevelObjectID.fence);
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -433,7 +433,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							LevelObjectID.rock);
 					tileManager.addTile(texture);
@@ -445,7 +445,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							LevelObjectID.LevelTile);
 					tileManager.addTile(texture);
@@ -457,7 +457,7 @@ public class GameLoader {
 					tileManager.addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
-					TileMap texture = new TileMap(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
 							LevelObjectID.flower);
 					tileManager.addTile(texture);
@@ -477,7 +477,7 @@ public class GameLoader {
 				blue = (pixel) & 0xff;
 
 				if (red == 0 && green == 100 && blue == 0) {
-					TileMap texture = new TileMap(game, (float) (row * 40 / 2), (float) (col * 50 / 2), 0, 0,
+					GenericObject texture = new GenericObject(game, (float) (row * 40 / 2), (float) (col * 50 / 2), 0, 0,
 							GameLevelImage.desert_cactus_small, LevelObjectID.rock);
 					tileManager.addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
@@ -601,7 +601,7 @@ public class GameLoader {
 	 * @param image
 	 */
 	public void createGameObject(float x, float y, Image image) {
-		TileMap texture = new TileMap(game, x, y, -2, 0, image);
+		GenericObject texture = new GenericObject(game, x, y, -2, 0, image);
 		if (image.isBackgroundLoading())
 			game.getGameRoot().getChildren().add(texture.getView());
 	}
