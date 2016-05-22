@@ -178,7 +178,7 @@ public class GameOverScreen {
 					confirmX = (float) (0 - confirmScreen.getWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
-					game.addFadeScreen();
+					game.restartLevel();
 					PlayerOne.LEVEL_COMPLETED = false;
 					PlayerTwo.LEVEL_COMPLETED = false;
 					center = false;

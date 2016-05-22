@@ -59,9 +59,9 @@ public class GameHud {
 		this.hudBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
-		game.getSeventhLayer().getChildren().add(hudBar);
-		game.getTenthLayer().getChildren().add(topHudBar);
-		game.getTenthLayer().getChildren().add(bottomHudBar);
+		game.getTenthLayer().getChildren().add(hudBar);
+		game.getFourTeenthLayer().getChildren().add(topHudBar);
+		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
 	 * Method which updates the movement of the hudbar

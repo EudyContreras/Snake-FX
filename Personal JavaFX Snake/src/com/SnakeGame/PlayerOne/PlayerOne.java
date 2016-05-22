@@ -122,7 +122,7 @@ public class PlayerOne extends AbstractObject {
 		updateImmunity();
 		updateDirt();
 		checkTurns();
-		//fadeOut();
+		fadeOut();
 		overlay.updateEffect();
 
 	}
@@ -376,8 +376,8 @@ public class PlayerOne extends AbstractObject {
 
 	public void checkCollision() {
 		if (!DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < game.getGameLoader().tileManager.tile.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().tileManager.tile.get(i);
+			for (int i = 0; i < game.getGameLoader().getTileManager().tile.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().tile.get(i);
 				if (tempTile.getId() == LevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
@@ -392,8 +392,8 @@ public class PlayerOne extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().tileManager.block.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().tileManager.block.get(i);
+			for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
 				if (tempTile.getId() == LevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
@@ -405,8 +405,8 @@ public class PlayerOne extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().tileManager.trap.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().tileManager.trap.get(i);
+			for (int i = 0; i < game.getGameLoader().getTileManager().trap.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().trap.get(i);
 				if (tempTile.getId() == LevelObjectID.fence) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						die();

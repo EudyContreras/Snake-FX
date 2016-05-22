@@ -50,7 +50,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerTwoTail(this, game, game.getFithLayer(),
+				this.tail = new PlayerTwoTail(this, game, layer,
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -64,7 +64,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerTwoTail(this, game, game.getFithLayer(),
+				this.tail = new PlayerTwoTail(this, game, layer,
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -78,7 +78,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerTwoTail(this, game, game.getFithLayer(),
+				this.tail = new PlayerTwoTail(this, game, layer,
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -92,7 +92,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerTwoTail(this, game, game.getFithLayer(),
+				this.tail = new PlayerTwoTail(this, game, layer,
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);
@@ -106,7 +106,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerTwoTail(this, game, game.getFithLayer(),
+				this.tail = new PlayerTwoTail(this, game, layer,
 						new Circle(Settings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
 						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
 				this.tail.setWhoToFollow(this);

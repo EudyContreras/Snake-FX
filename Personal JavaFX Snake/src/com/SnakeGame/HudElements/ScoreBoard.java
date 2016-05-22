@@ -36,7 +36,7 @@ public class ScoreBoard {
 		this.text.setEffect(null);
 		this.text.setFont(theFont);
 		this.text.setText(message + " 00" + score);
-		game.getNinthLayer().getChildren().add(this.text);
+		game.getTwelfthLayer().getChildren().add(this.text);
 	}
 
 	public void showScore() {

@@ -61,10 +61,10 @@ public class HealthBarTwo {
 		this.playerHud.setFill(new ImagePattern(GameImageBank.player_two_hud));
 		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_two));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_two));
-		game.getNinthLayer().getChildren().add(playerHud);
-		game.getNinthLayer().getChildren().addAll(healthBarBorder);
-		game.getNinthLayer().getChildren().add(healthBar);
-		game.getNinthLayer().getChildren().add(playerHead);
+		game.getEleventhLayer().getChildren().add(playerHud);
+		game.getEleventhLayer().getChildren().addAll(healthBarBorder);
+		game.getEleventhLayer().getChildren().add(healthBar);
+		game.getEleventhLayer().getChildren().add(playerHead);
 		this.maxHealth = width;
 	}
 

@@ -244,7 +244,7 @@ public class SnakeFood extends AbstractObject {
 	public void checkCollision() {
 		float newX = (int) (rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3);
 		float newY = (int) (rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3);
-		for (AbstractTile tempTile : game.getGameLoader().tileManager.block) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().block) {
 			if (tempTile.getId() == LevelObjectID.rock || tempTile.getId() == LevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
 					this.x = newX;
@@ -253,7 +253,7 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 		}
-		for (AbstractTile tempTile : game.getGameLoader().tileManager.tile) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().tile) {
 			if (tempTile.getId() == LevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
 					this.x = newX;
@@ -262,7 +262,7 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 		}
-		for (AbstractTile tempTile : game.getGameLoader().tileManager.tile) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().tile) {
 			if (tempTile.getId() == LevelObjectID.fence) {
 				if (getCollisionBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
@@ -304,7 +304,7 @@ public class SnakeFood extends AbstractObject {
 	public boolean allowedLocation() {
 		double newX = rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3;
 		double newY = rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3;
-		for (AbstractTile tempTile : game.getGameLoader().tileManager.tile) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().tile) {
 			if (tempTile.getId() == LevelObjectID.rock || tempTile.getId() == LevelObjectID.cactus) {
 				if (!new Rectangle2D(newX, newY, radius, radius).intersects(tempTile.getBounds())) {
 					return true;

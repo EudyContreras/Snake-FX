@@ -35,7 +35,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public abstract class AbstractGameModel extends Application{
+public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
 	protected GameLoader loader;
@@ -58,17 +58,22 @@ public abstract class AbstractGameModel extends Application{
 	protected Canvas canvas;
 	protected Pane root;
 	protected Pane splashLayout;
-	protected Pane thirdLayer;
-	protected Pane sixthLayer;
+	protected Pane levelLayer;
+	protected Pane baseLayer;
 	protected Pane firstLayer;
 	protected Pane secondLayer;
-	protected Pane levelLayer;
-	protected Pane fithLayer;
+	protected Pane thirdLayer;
 	protected Pane fourthLayer;
+	protected Pane fithLayer;
+	protected Pane sixthLayer;
 	protected Pane seventhLayer;
-	protected Pane eightLayer;
+	protected Pane eighthLayer;
 	protected Pane ninthLayer;
 	protected Pane tenthLayer;
+	protected Pane eleventhLayer;
+	protected Pane twelfthLayer;
+	protected Pane thirTeenthLayer;
+	protected Pane fourTeenthLayer;
 	protected Pane fadeScreenLayer;
 	protected Text TextFPS;
 	protected GameImageBank imageBank;
@@ -86,10 +91,10 @@ public abstract class AbstractGameModel extends Application{
 	protected GameOverScreen gameOverScreen;
 	protected ScreenOverlay postEffects;
 	protected ScoreKeeper scoreKeeper;
-	protected GameHud gameHud;
-	protected ImageView bottomLayer;
+	protected ImageView backgroundImage;
 	protected ImageView splash;
 	protected Rectangle2D bounds;
+	protected GameHud gameHud;
 	protected String title = "SNAKE";
 	protected Rectangle fadeRect;
 	protected boolean slowFade = false;
@@ -256,6 +261,14 @@ public abstract class AbstractGameModel extends Application{
 		this.keyInput = keyInput;
 	}
 
+	public Pane getBaseLayer() {
+		return baseLayer;
+	}
+
+	public void setBaseLayer(Pane baseLayer) {
+		this.baseLayer = baseLayer;
+	}
+
 	public Pane getFirstLayer() {
 		return firstLayer;
 	}
@@ -301,11 +314,11 @@ public abstract class AbstractGameModel extends Application{
 	}
 
 	public Pane getEighthLayer() {
-		return eightLayer;
+		return eighthLayer;
 	}
 
 	public void setEighthLayer(Pane eighthLayer) {
-		this.eightLayer = eighthLayer;
+		this.eighthLayer = eighthLayer;
 	}
 
 	public Pane getNinthLayer() {
@@ -323,6 +336,39 @@ public abstract class AbstractGameModel extends Application{
 	public void setTenthLayer(Pane tenthLayer) {
 		this.tenthLayer = tenthLayer;
 	}
+
+	public Pane getEleventhLayer() {
+		return eleventhLayer;
+	}
+
+	public void setEleventhLayer(Pane eleventhLayer) {
+		this.eleventhLayer = eleventhLayer;
+	}
+
+	public Pane getTwelfthLayer() {
+		return twelfthLayer;
+	}
+
+	public void setTwelfthLayer(Pane eighthLayer) {
+		this.twelfthLayer = eighthLayer;
+	}
+
+	public Pane getThirTeenthLayer() {
+		return thirTeenthLayer;
+	}
+
+	public void setThirTeenthLayer(Pane ninthLayer) {
+		this.thirTeenthLayer = ninthLayer;
+	}
+
+	public Pane getFourTeenthLayer() {
+		return fourTeenthLayer;
+	}
+
+	public void setFourTeenthLayer(Pane tenthLayer) {
+		this.fourTeenthLayer = tenthLayer;
+	}
+
 	public Pane getFadeScreenLayer() {
 		return fadeScreenLayer;
 	}

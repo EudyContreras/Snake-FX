@@ -11,11 +11,12 @@ public class LogicThread extends Thread {
 	private SnakeGame game;
 	private Boolean isRunning;
 	private Thread mainThread;
+	private Thread helperThread;
 
 	public LogicThread(SnakeGame game){
 		this.game = game;
 	}
-	public synchronized void startThread() {
+	public synchronized void startMainThread() {
 		if (isRunning)
 			return;
 		isRunning = true;
@@ -23,12 +24,24 @@ public class LogicThread extends Thread {
 		mainThread.start();
 	}
 
-	public void stopThread() {
+	public void stopMainThread() {
 		if (!isRunning)
 			return;
 		isRunning = false;
 	}
+	public synchronized void startHelperThread() {
+		if (isRunning)
+			return;
+		isRunning = true;
+		helperThread = new Thread(new HelperThread());
+		helperThread.start();
+	}
 
+	public void stopHelperThread() {
+		if (!isRunning)
+			return;
+		isRunning = false;
+	}
 	public void run() {
 		long lastTime = System.nanoTime();
 		long startTime = System.currentTimeMillis();

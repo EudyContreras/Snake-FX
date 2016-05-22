@@ -318,8 +318,8 @@ public class SlitherSnake extends SlitherMain {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().tileManager.tile.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().tileManager.tile.get(i);
+			for (int i = 0; i < game.getGameLoader().getTileManager().tile.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().tile.get(i);
 				if (tempTile.getId() == LevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
@@ -334,8 +334,8 @@ public class SlitherSnake extends SlitherMain {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().tileManager.block.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().tileManager.block.get(i);
+			for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
 				if (tempTile.getId() == LevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
@@ -475,7 +475,7 @@ public class SlitherSnake extends SlitherMain {
 				fadeRect.setOpacity(1);
 			}
 			if (fade >= 1.1f) {
-				game.gameOver(fadeRect);
+				//game.gameOver(fadeRect);
 			}
 		}
 		if (showTheSkull == true) {
