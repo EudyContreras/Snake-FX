@@ -9,7 +9,7 @@ import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.FruitSplashOne;
 import com.SnakeGame.Particles.FruitSplashTwo;
@@ -244,8 +244,8 @@ public class SnakeFood extends AbstractObject {
 	public void checkCollision() {
 		float newX = (int) (rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3);
 		float newY = (int) (rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3);
-		for (AbstractTile tempTile : game.getGameLoader().getTileManager().block) {
-			if (tempTile.getId() == LevelObjectID.rock || tempTile.getId() == LevelObjectID.cactus) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
+			if (tempTile.getId() == GameLevelObjectID.rock || tempTile.getId() == GameLevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
 					this.x = newX;
 					this.y = newY;
@@ -253,8 +253,8 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 		}
-		for (AbstractTile tempTile : game.getGameLoader().getTileManager().tile) {
-			if (tempTile.getId() == LevelObjectID.cactus) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
+			if (tempTile.getId() == GameLevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
 					this.x = newX;
 					this.y = newY;
@@ -262,8 +262,8 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 		}
-		for (AbstractTile tempTile : game.getGameLoader().getTileManager().tile) {
-			if (tempTile.getId() == LevelObjectID.fence) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
+			if (tempTile.getId() == GameLevelObjectID.fence) {
 				if (getCollisionBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
 					this.game.getGameLoader().spawnSnakeFood();
@@ -304,8 +304,8 @@ public class SnakeFood extends AbstractObject {
 	public boolean allowedLocation() {
 		double newX = rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3;
 		double newY = rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3;
-		for (AbstractTile tempTile : game.getGameLoader().getTileManager().tile) {
-			if (tempTile.getId() == LevelObjectID.rock || tempTile.getId() == LevelObjectID.cactus) {
+		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
+			if (tempTile.getId() == GameLevelObjectID.rock || tempTile.getId() == GameLevelObjectID.cactus) {
 				if (!new Rectangle2D(newX, newY, radius, radius).intersects(tempTile.getBounds())) {
 					return true;
 				}
@@ -330,7 +330,7 @@ public class SnakeFood extends AbstractObject {
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
-			game.getDebrisManager().addObject(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruit2),
+			game.getDebrisManager().addObject(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 		}
 	}
@@ -345,7 +345,7 @@ public class SnakeFood extends AbstractObject {
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
-			game.getDebrisManager().addObject(new FruitSplashTwo(game, new ImagePattern(GameImageBank.glowingCircle),
+			game.getDebrisManager().addObject(new FruitSplashTwo(game, new ImagePattern(GameImageBank.glowingCircleOne),
 					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 		}
 	}

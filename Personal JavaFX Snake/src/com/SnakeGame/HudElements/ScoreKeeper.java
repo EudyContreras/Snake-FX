@@ -58,7 +58,7 @@ public class ScoreKeeper {
 		this.apple = new ImageView(GameImageBank.apple);
 		this.board = new Rectangle(x, y, width, height);
 		this.font = Font.font("Helvetica", FontWeight.BOLD, SnakeGame.ScaleX(18) / GameLoader.ResolutionScaleX);
-		this.board.setFill(new ImagePattern(GameImageBank.countKeeper));
+		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
 		this.apple.setFitWidth(35 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(35 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);

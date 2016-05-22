@@ -4,7 +4,7 @@ package com.SnakeGame.GameObjects;
 import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
@@ -27,7 +27,7 @@ public class GenericObject extends AbstractTile {
 	SnakeGame game;
 	float speed;
 
-	public GenericObject(SnakeGame game, float x, float y, float speed, float velY, Image image, LevelObjectID id) {
+	public GenericObject(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -53,7 +53,7 @@ public class GenericObject extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		if (this.id == LevelObjectID.rock) {
+		if (this.id == GameLevelObjectID.rock) {
 			collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
 		}
 	}

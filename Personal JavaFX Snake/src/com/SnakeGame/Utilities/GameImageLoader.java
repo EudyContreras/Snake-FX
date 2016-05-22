@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
  * of it located in the HashMap will be returned, this effectively reduces
  * memory consumption and the load time of images when a high amount of images
  * are used in game.
- * 
+ *
  * @author Eudy Contreras
  */
 public class GameImageLoader {
@@ -33,8 +33,8 @@ public class GameImageLoader {
 
 	/**
 	 * constructor which creates a bufferedImage from a given path and will then
-	 * store the image insided a hashMap.
-	 * 
+	 * store the image inside a hashMap.
+	 *
 	 * @param path
 	 */
 	public GameImageLoader(String path) {
@@ -58,7 +58,7 @@ public class GameImageLoader {
 	/**
 	 * method which creates a bufferedImage from a given path and returns that
 	 * image ready to be used
-	 * 
+	 *
 	 * @param path
 	 */
 	public static BufferedImage loadImage(String path) {

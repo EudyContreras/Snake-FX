@@ -4,7 +4,7 @@ package com.SnakeGame.GameObjects;
 import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -25,7 +25,7 @@ public class WavingCactusTwo extends AbstractTile {
 	float speed;
 	float oldX;
 
-	public WavingCactusTwo(SnakeGame game, float x, float y, float velX, float velR, Image image, LevelObjectID id) {
+	public WavingCactusTwo(SnakeGame game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.oldX = x;
 		if (Settings.SAND_STORM)

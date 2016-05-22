@@ -1,7 +1,5 @@
 package com.SnakeGame.PlayerOne;
 
-import java.util.Random;
-
 import com.SnakeGame.FrameWork.AbstractSection;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
@@ -19,29 +17,24 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class PlayerOneSection extends AbstractSection {
-	PlayerMovement direction;
-	double particleLife;
-	double particleSize;
-	double fadeValue = 1.0;
-	boolean fade = false;
-	boolean blowUp = true;
-	boolean stopped = false;
-	int dirtDelay = 10;
-	SnakeGame game;
-	Random rand;
-	Circle bones;
-	PlayerOne snake;
-	PlayerOneTail tail;
-	PlayerOneSectionManager sectManager;
+	private PlayerMovement direction;
+	private double particleLife;
+	private double particleSize;
+	private double fadeValue = 1.0;
+	private boolean fade = false;
+	private boolean blowUp = true;
+	private int dirtDelay = 10;
+	private SnakeGame game;
+	private Circle bones;
+	private PlayerOneTail tail;
+	private PlayerOneSectionManager sectManager;
 
 	public PlayerOneSection(PlayerOne snake, SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
-		this.snake = snake;
 		this.game = game;
 		this.numericID = numericID;
 		this.sectManager = game.getSectManagerOne();
-		this.rand = new Random();
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
 				this.setLastDirection(Direction);
@@ -237,6 +230,16 @@ public class PlayerOneSection extends AbstractSection {
 		} else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
 			this.circle.setVisible(true);
 		}
+	}
+
+	public void disguiseLast() {
+		if (!PlayerOne.DEAD) {
+			if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
+				this.circle.setFill(GameImageBank.tailImage);
+			} else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
+				this.circle.setFill(GameImageBank.snakeOneBody);
+			}
+		}
 		if (fade == true) {
 			fadeValue -= 0.01;
 			this.circle.setOpacity(fadeValue);
@@ -245,14 +248,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
-	public void disguiseLast() {
-		if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
-			this.circle.setFill(GameImageBank.tailImage);
-		} else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
-			this.circle.setFill(GameImageBank.snakeOneBody);
-		}
 
-	}
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (Settings.WIDTH + radius);
@@ -277,7 +273,7 @@ public class PlayerOneSection extends AbstractSection {
 					particleSize = Math.random() * (12 - 5 + 1) + 5;
 					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeDebris,
+				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 			}
 			blowUp = false;

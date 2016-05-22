@@ -3,7 +3,7 @@ package com.SnakeGame.GameObjects;
 import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
@@ -25,7 +25,7 @@ public class LevelBouds extends AbstractTile {
 	SnakeGame game;
 	float speed;
 
-	public LevelBouds(SnakeGame game, float x, float y, float speed, float velY, LevelObjectID id) {
+	public LevelBouds(SnakeGame game, float x, float y, float speed, float velY, GameLevelObjectID id) {
 		super(x, y);
 		this.game = game;
 		this.velX = 0;

@@ -1,12 +1,26 @@
 package com.SnakeGame.IDenums;
 
 /**
- * Keeps a database of the IDs used by different sorts of objects that are used
- * in the game in order to uniquely identify them by name
- * 
+ * Keeps a database of the IDs used by different sorts of debris that can be
+ * created by the game.
+ *
  * @author Eudy Contreras
  *
  */
 public enum GameLevelObjectID {
-	player(), fruit(), mouse(), wall(), object();
+	BackgroundTile(),
+	LevelBox(),
+	LevelTile(),
+	LevelTrap(),
+	CollideBox(),
+	rock(),
+	fence(),
+	cactus(),
+	trap(),
+	flower(),
+	ramp(),
+	puddle(),
+	longCactus(),
+	skeleton(),
+	treeBark(),
 }

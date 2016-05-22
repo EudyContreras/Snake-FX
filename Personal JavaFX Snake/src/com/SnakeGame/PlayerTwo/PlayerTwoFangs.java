@@ -77,25 +77,6 @@ public class PlayerTwoFangs extends AbstractObject {
 
 	}
 
-	// public void move() {
-	// if (OrgPlayer.DEAD == false) {
-	// this.index = sectManager.getSectionList().size() - 1;
-	// }
-	// super.move();
-	// if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
-	// this.y = (float) (snake.getY() - this.circle.getRadius() * 3);
-	// this.x = snake.getX();
-	// } else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-	// this.y = (float) (snake.getY() + this.circle.getRadius() * 3);
-	// this.x = snake.getX();
-	// } else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-	// this.x = (float) (snake.getX() - this.circle.getRadius() * 3);
-	// this.y = snake.getY();
-	// } else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-	// this.x = (float) (snake.getX() + this.circle.getRadius() * 3);
-	// this.y = snake.getY();
-	// }
-	// }
 	public void checkOffset() {
 		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
 			this.offsetY = -20;

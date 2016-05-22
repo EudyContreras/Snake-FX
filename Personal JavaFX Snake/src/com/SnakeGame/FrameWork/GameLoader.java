@@ -9,7 +9,7 @@ import com.SnakeGame.GameObjects.SpikeFence;
 import com.SnakeGame.GameObjects.WavingCactusOne;
 import com.SnakeGame.GameObjects.WavingCactusTwo;
 import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -30,7 +30,7 @@ import javafx.scene.shape.Circle;
  * @author Eudy Contreras
  *
  */
-public class GameLoader extends GameLoaderModel{
+public class GameLoader extends AbstractLoaderModel{
 
 	public GameLoader(SnakeGame game) {
 		this.game = game;
@@ -176,49 +176,49 @@ public class GameLoader extends GameLoaderModel{
 				if (red == 0 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 55.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}else if (red == 255 && green == 0 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addBlock(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
-							LevelObjectID.longCactus);
+							GameLevelObjectID.longCactus);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
-							LevelObjectID.skeleton);
+							GameLevelObjectID.skeleton);
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
 					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
-							LevelObjectID.cactus);
+							GameLevelObjectID.cactus);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}else if (red == 0 && green == 255 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
-							LevelObjectID.treeBark);
+							GameLevelObjectID.treeBark);
 					getTileManager().addTile(texture);
 					game.getEighthLayer().getChildren().add(texture.getView());
 				}
@@ -239,14 +239,14 @@ public class GameLoader extends GameLoaderModel{
 				if (red == 255 && green == 255 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 115 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTrap(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}
 				 if (red == 0 && green == 0 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTrap(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}
@@ -268,14 +268,14 @@ public class GameLoader extends GameLoaderModel{
 				if (red == 255 && green == 255 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 85 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTrap(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}
 				 if (red == 0 && green == 0 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 115 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTrap(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}
@@ -295,55 +295,55 @@ public class GameLoader extends GameLoaderModel{
 				if (red == 255 && green == 255 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 0 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
 					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
-							LevelObjectID.cactus);
+							GameLevelObjectID.cactus);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
-							LevelObjectID.LevelTile);
+							GameLevelObjectID.LevelTile);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				}
@@ -363,55 +363,55 @@ public class GameLoader extends GameLoaderModel{
 				if (red == 255 && green == 255 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 120 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.horizontalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 0 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50.5 / GameLoader.ResolutionScaleX),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.verticalFence,
-							LevelObjectID.fence);
+							GameLevelObjectID.fence);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
 							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
-							LevelObjectID.rock);
+							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
 					WavingCactusTwo texture = new WavingCactusTwo(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
-							LevelObjectID.cactus);
+							GameLevelObjectID.cactus);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
-							LevelObjectID.LevelTile);
+							GameLevelObjectID.LevelTile);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
 					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_flower,
-							LevelObjectID.flower);
+							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				}
@@ -430,7 +430,7 @@ public class GameLoader extends GameLoaderModel{
 
 				if (red == 0 && green == 100 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 40 / 2), (float) (col * 50 / 2), 0, 0,
-							GameLevelImage.desert_cactus_small, LevelObjectID.rock);
+							GameLevelImage.desert_cactus_small, GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				}
@@ -451,8 +451,8 @@ public class GameLoader extends GameLoaderModel{
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 0 && green == 0 && blue == 255) {
-					this.playerOne = new PlayerOne(game, game.getThirdLayer(), GameImageBank.snakeSphere, row * 20,
-							col * 20, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player,
+					this.playerOne = new PlayerOne(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
+							col * 20, 0, 0, 0, 0, Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.PlayerOne,
 							game.getObjectManager());
 					game.getObjectManager().addObject(playerOne);
 				}
@@ -563,11 +563,11 @@ public class GameLoader extends GameLoaderModel{
 	 * position.
 	 */
 	public void loadPlayerOne() {
-		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeSphere.getRadius());
+		float x = (float) (Settings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.50);
 		playerOne = new PlayerOne(game, game.getFourthLayer(),
-				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody)), x, y, 0, 0, 0, 0,
-				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.OrgPlayer, game.getObjectManager());
+				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
+				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
 		game.getObjectManager().addObject(playerOne);
 	}
 	/**
@@ -575,11 +575,11 @@ public class GameLoader extends GameLoaderModel{
 	 * position.
 	 */
 	public void loadPlayerTwo() {
-		float x = (float) (Settings.WIDTH / 2 + GameImageBank.snakeSphere2.getRadius());
+		float x = (float) (Settings.WIDTH / 2 + GameImageBank.snakeTwoSphere.getRadius());
 		float y = (float) (Settings.HEIGHT * 0.50);
 		playerTwo = new PlayerTwo(game, game.getFithLayer(),
-				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y, 0, 0, 0, 0,
-				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.Player2, game.getObjectManager());
+				new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
+				Settings.PLAYER_HEALTH, 0, Settings.PLAYER_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
 		game.getObjectManager().addObject(playerTwo);
 	}
 	/**
@@ -590,7 +590,7 @@ public class GameLoader extends GameLoaderModel{
 		float x = (float) (Settings.WIDTH / 2 + 25);
 		float y = (float) (Settings.HEIGHT * 0.55);
 		slither = new SlitherSnake(game, game.getFithLayer(), GameImageBank.slither, x, y, 0, 0, 0, 0,
-				Settings.PLAYER_HEALTH, 0, 0, GameObjectID.Player3, game.getSlitherManager());
+				Settings.PLAYER_HEALTH, 0, 0, GameObjectID.SlitherSnake, game.getSlitherManager());
 		game.getSlitherManager().addObject(slither);
 	}
 

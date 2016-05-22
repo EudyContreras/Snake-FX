@@ -330,7 +330,7 @@ public class ScreenOverlay {
 		setBloom = false;
 		setSoftBlur = false;
 		setIntenseBlur = false;
-		setToneOverlay = false;
+	//	setToneOverlay = false;
 		deathBlur = false;
 		clearLevel = false;
 		storm = false;

@@ -95,7 +95,7 @@ public class GameOverScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
-			game.addFadeScreen();
+			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(240, 150,0));
@@ -178,7 +178,7 @@ public class GameOverScreen {
 					confirmX = (float) (0 - confirmScreen.getWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
-					game.restartLevel();
+					game.getFadeScreenHandler().restart_fade_screen();
 					PlayerOne.LEVEL_COMPLETED = false;
 					PlayerTwo.LEVEL_COMPLETED = false;
 					center = false;
@@ -242,7 +242,7 @@ public class GameOverScreen {
 	}
 
 	public void fadeOut(){
-		game.renderFadeScreen();
+		game.getFadeScreenHandler().renderFadeScreen();
 	}
 
 	public void removeBlur() {

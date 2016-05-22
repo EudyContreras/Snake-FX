@@ -7,7 +7,6 @@ import com.SnakeGame.HudElements.HealthBarTwo;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
-import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
@@ -21,6 +20,7 @@ import com.SnakeGame.SlitherSnake.SlitherManager;
 import com.SnakeGame.SlitherSnake.SlitherSectionManager;
 import com.SnakeGame.Utilities.ImageUtility;
 import com.SnakeGame.Utilities.ScreenOverlay;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -43,7 +43,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -155,8 +154,8 @@ public class SnakeGame extends AbstractGameModel{
 				50/ScaleY, Color.RED);
 		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
 				50/ScaleY, Color.RED);
-		victoryScreen = new VictoryScreen(this, GameImageBank.levelCompleteSplash, 800/ScaleX, 450/ScaleY);
-		gameOverScreen = new GameOverScreen(this, GameImageBank.gameOverScreen, 800/ScaleX, 450/ScaleY);
+		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
+		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
@@ -192,7 +191,6 @@ public class SnakeGame extends AbstractGameModel{
 		mainRoot = new Group();
 		root = new Pane();
 		mainMenu = new MenuMain(this);
-		fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
 		backgroundImage = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), Settings.WIDTH, Settings.HEIGHT);
@@ -215,6 +213,7 @@ public class SnakeGame extends AbstractGameModel{
 		fourTeenthLayer = new Pane();
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
+		fadeHandler = new FadeScreenHandler(this);
 		objectManager = new GameObjectManager(this);
 		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
@@ -383,8 +382,9 @@ public class SnakeGame extends AbstractGameModel{
 
 						}
 						if (Settings.RENDER_GAME) {
-							fade();
 							drawOverlay(gc);
+							fadeHandler.innerFade_update();
+							fadeHandler.outer_fade_update();
 							gameHud.updateHudBars();
 							victoryScreen.swipeRight();
 							gameOverScreen.swipeDown();
@@ -552,9 +552,7 @@ public class SnakeGame extends AbstractGameModel{
 	}
 
 	public void restart() {
-	 //	fade = 0.0;
 		clearAll();
-		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
 		PlayerOne.MOUTH_CLOSE = true;
@@ -594,8 +592,6 @@ public class SnakeGame extends AbstractGameModel{
 	}
 	public void goToNext() {
 		clearAll();
-		fade = 1.0;
-		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
 		PlayerOne.MOUTH_CLOSE = true;
@@ -635,9 +631,6 @@ public class SnakeGame extends AbstractGameModel{
 	}
 	public void reset() {
 		clearAll();
-		fadeIn = false;
-		fade = 1.0;
-		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
 		PlayerOne.MOUTH_CLOSE = true;
@@ -704,122 +697,7 @@ public class SnakeGame extends AbstractGameModel{
 		sectManagerThree.clearAll();
 
 	}
-//	public void gameOver(Rectangle fadeScreen) {
-//		if (GameOverScreen.FAILED_LEVEL == false) {
-//			fadeScreenLayer.getChildren().remove(fadeScreen);
-//			thirdLayer.getChildren().clear();
-//			firstLayer.getChildren().clear();
-//			secondLayer.getChildren().clear();
-//			fithLayer.getChildren().clear();
-//			fourthLayer.getChildren().clear();
-//			levelLayer.getChildren().clear();
-//			sixthLayer.getChildren().clear();
-//			debrisManager.clearAll();
-//			objectManager.clearAll();
-//			sectManagerOne.clearAll();
-//			slitherManager.clearAll();
-//			sectManagerTwo.clearAll();
-//			sectManagerThree.clearAll();
-//			loader.clearTiles();
-//			fade = 0.0;
-//			fadeRect.setOpacity(fade);
-//			PlayerOne.NUMERIC_ID = 0;
-//			PlayerOne.DEAD = false;
-//			PlayerOne.MOUTH_CLOSE = true;
-//			PlayerOne.KEEP_MOVING = true;
-//			PlayerTwo.NUMERIC_ID = 0;
-//			PlayerTwo.DEAD = false;
-//			PlayerTwo.MOUTH_CLOSE = true;
-//			getGameRoot().setEffect(null);
-//			scoreBoardOne.resetScore();
-//			scoreBoardTwo.resetScore();
-//			scoreKeeper.resetCount();
-//			scoreKeeper.resetTimer();
-//			fadeIn = false;
-//			victoryScreen.removeBlur();
-//			victoryScreen.removeBoard();
-//			gameOverScreen.removeBlur();
-//			gameOverScreen.removeBoard();
-//			processGameInput();
-//			gameOverScreen.removeBoard();
-//			gameOverScreen.finishLevel();
-//			scoreKeeper.setPosition(1.5f);
-//			scoreKeeper.resetTimer();
-//			getGameHud().swipeDown();
-//			GameOverScreen.FAILED_LEVEL = true;
-//		}
-//	}
-	public void renderFadeScreen() {
-		if (!slowFade) {
-			fade = 0;
-			getFadeScreenLayer().getChildren().add(fadeRect);
-			slowFade = true;
-		}
 
-	}
-	public void addFadeScreen() {
-		if (!fadeIn) {
-			getMainRoot().getChildren().add(fadeRect);
-			fadeIn = true;
-			slowFade = false;
-		}
-	}
-	public void restartLevel() {
-		if (!fadeIn) {
-			fadeIn = true;
-			slowFade = false;
-		}
-	}
-	public void startNextLevel() {
-		if (!fadeIn) {
-			fade = 0;
-			getFadeScreenLayer().getChildren().add(fadeRect);
-			fadeIn = true;
-			slowFade = false;
-		}
-	}
-	public void fade() {
-		if (fadeIn) {
-			fade += 0.01;
-			fadeRect.setOpacity(fade);
-			if (fade >= 1.0f) {
-				fade = 1;
-				if(this.stateID == GameStateID.LEVEL_TRANSITIONING){
-					goToNext();
-					fadeOut = true;
-					fadeIn = false;
-				}
-				else if(this.stateID == GameStateID.MAIN_MENU){
-					reset();
-					getMainRoot().getChildren().remove(fadeRect);
-					fadeIn = false;
-				}
-				else if(this.stateID == GameStateID.LEVEL_RESTART){
-					restart();
-					fadeOut = true;
-					fadeIn = false;
-
-				}
-			}
-		}
-		if (fadeOut) {
-			fade -= 0.01f;
-			fadeRect.setOpacity(fade);
-			if (fade <= 0) {
-				fadeRect.setOpacity(0);
-				getFadeScreenLayer().getChildren().remove(fadeRect);
-				fadeOut = false;
-			}
-		}
-		if(slowFade){
-			fade += 0.002;
-			fadeRect.setOpacity(fade);
-			if (fade >= 1.0f) {
-				fadeRect.setOpacity(1);
-				fade = 1.0f;
-			}
-		}
-	}
 	public void allowMouseInput(boolean choice) {
 		if (choice)
 			mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);

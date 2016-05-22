@@ -1,7 +1,7 @@
 
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -29,7 +29,7 @@ public abstract class AbstractTile {
 	protected boolean status = true;
 	protected double width;
 	protected double height;
-	protected LevelObjectID id;
+	protected GameLevelObjectID id;
 
 	public AbstractTile(float x, float y) {
 		this.x = x;
@@ -47,7 +47,7 @@ public abstract class AbstractTile {
 		this.height = image.getHeight();
 	}
 
-	public AbstractTile(float x, float y, Image image, LevelObjectID id) {
+	public AbstractTile(float x, float y, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
@@ -56,7 +56,7 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-	public AbstractTile(float x, float y, double width, double height, Image image, LevelObjectID id) {
+	public AbstractTile(float x, float y, double width, double height, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
@@ -143,11 +143,11 @@ public abstract class AbstractTile {
 		this.y = y;
 	}
 
-	public void setId(LevelObjectID id) {
+	public void setId(GameLevelObjectID id) {
 		this.id = id;
 	}
 
-	public LevelObjectID getId() {
+	public GameLevelObjectID getId() {
 		return id;
 	}
 

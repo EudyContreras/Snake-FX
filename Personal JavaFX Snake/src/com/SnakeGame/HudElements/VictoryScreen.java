@@ -120,7 +120,7 @@ public class VictoryScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
-			game.addFadeScreen();
+			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(240, 150,0));
@@ -201,7 +201,7 @@ public class VictoryScreen {
 						PlayerTwo.LEVEL_COMPLETED = false;
 					}
 					if(proceed){
-						game.startNextLevel();
+						game.getFadeScreenHandler().continue_fade_screen();
 					}
 					center = false;
 				}

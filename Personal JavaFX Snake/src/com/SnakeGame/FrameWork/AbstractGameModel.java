@@ -31,7 +31,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -89,6 +88,7 @@ public abstract class AbstractGameModel extends Application {
 	protected AnimationTimer animationLoop;
 	protected AnimationTimer particleLoop;
 	protected GameOverScreen gameOverScreen;
+	protected FadeScreenHandler fadeHandler;
 	protected ScreenOverlay postEffects;
 	protected ScoreKeeper scoreKeeper;
 	protected ImageView backgroundImage;
@@ -96,20 +96,15 @@ public abstract class AbstractGameModel extends Application {
 	protected Rectangle2D bounds;
 	protected GameHud gameHud;
 	protected String title = "SNAKE";
-	protected Rectangle fadeRect;
-	protected boolean slowFade = false;
 	protected boolean isRunning = true;
 	protected boolean gameRunning = false;
-	protected boolean fadeIn = false;
-	protected boolean fadeOut = false;
 	protected boolean goToNext;
 	protected boolean goToMain;
 	protected int splashWidth;
 	protected int splashHeight;
 	protected int levelLenght;
-	public double fade = 0.0;
-	public double splashFadeDuration;
-	public double splashFadeDelay;
+	protected double splashFadeDuration;
+	protected double splashFadeDelay;
 	public static double ScaleX = GameLoader.ResolutionScaleX;
 	public static double ScaleY = GameLoader.ResolutionScaleY;
 
@@ -227,6 +222,10 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setDebrisManager(GameDebrisManager debrisManager) {
 		this.debrisManager = debrisManager;
+	}
+
+	public FadeScreenHandler getFadeScreenHandler(){
+		return fadeHandler;
 	}
 
 	public ScoreBoard getScoreBoardOne() {

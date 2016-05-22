@@ -11,7 +11,7 @@ import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
@@ -63,8 +63,8 @@ public class PlayerTwo extends AbstractObject {
 	private PlayerTwoHead snakeHead;
 	private PlayerTwoSection neighbor;
 	private PlayerTwoSectionManager sectManager;
-	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeEating2);
-	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeBlinking2);
+	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeTwoEating);
+	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeTwoBlinking);
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
@@ -84,7 +84,7 @@ public class PlayerTwo extends AbstractObject {
 		this.circle.setVisible(false);
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
-				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeHead2)), x, y,
+				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getObjectManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerTwo();
@@ -94,8 +94,8 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void loadImages() {
-		anim.addScene(GameImageBank.snakeHead2, 4000);
-		anim.addScene(GameImageBank.snakeBlinking2, 250);
+		anim.addScene(GameImageBank.snakeTwoHead, 4000);
+		anim.addScene(GameImageBank.snakeTwoBlinking, 250);
 		setAnimation(anim);
 	}
 
@@ -421,9 +421,9 @@ public class PlayerTwo extends AbstractObject {
 
 	public void checkCollision() {
 		if (!DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < game.getGameLoader().getTileManager().tile.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().tile.get(i);
-				if (tempTile.getId() == LevelObjectID.cactus) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
+				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
 							setCollision(true);
@@ -437,9 +437,9 @@ public class PlayerTwo extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
-				if (tempTile.getId() == LevelObjectID.rock) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
+				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
 							if (allowCollision) {
@@ -450,11 +450,13 @@ public class PlayerTwo extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().trap.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().trap.get(i);
-				if (tempTile.getId() == LevelObjectID.fence) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
+				if (tempTile.getId() == GameLevelObjectID.fence) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						die();
+						if(!DEAD){
+							die();
+						}
 					}
 				}
 			}
@@ -464,7 +466,7 @@ public class PlayerTwo extends AbstractObject {
 	public void addbaseSections() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y,
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
@@ -473,7 +475,7 @@ public class PlayerTwo extends AbstractObject {
 	public void addSection() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeBody2)), x, y,
+					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;

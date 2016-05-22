@@ -10,7 +10,7 @@ import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.Utilities.GameImageLoader;
 import com.SnakeGame.Utilities.GameTileManager;
 
-public abstract class GameLoaderModel {
+public abstract class AbstractLoaderModel {
 
 	protected BufferedImage border;
 	protected BufferedImage fence;

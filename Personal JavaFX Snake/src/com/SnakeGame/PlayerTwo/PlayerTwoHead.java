@@ -8,7 +8,7 @@ import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.FruitSplashTwo;
@@ -163,9 +163,9 @@ public class PlayerTwoHead extends AbstractObject {
 
 	public void checkCollision() {
 		if (Settings.DEBUG_MODE) {
-			for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
-				if (tempTile.getId() == LevelObjectID.rock) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
+				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
 							showVisualQue(Color.RED);
@@ -187,9 +187,9 @@ public class PlayerTwoHead extends AbstractObject {
 			}
 		}
 		if (!Settings.DEBUG_MODE) {
-			for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
-				if (tempTile.getId() == LevelObjectID.rock) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
+				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
 							displaceDirt(getBoundsLeft().getMinX(),getBoundsLeft().getMinY(),0,0);
@@ -213,8 +213,8 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public boolean allowLeftTurn() {
-		for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-			AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
+		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsLeft().intersects(tempTile.getBounds())) {
 				return false;
 
@@ -224,8 +224,8 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public boolean allowRightTurn() {
-		for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-			AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
+		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsRight().intersects(tempTile.getBounds())) {
 				return false;
 
@@ -235,8 +235,8 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public boolean allowUpTurn() {
-		for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-			AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
+		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsTop().intersects(tempTile.getBounds())) {
 				return false;
 			}
@@ -245,8 +245,8 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public boolean allowDownTurn() {
-		for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-			AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
+		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsBottom().intersects(tempTile.getBounds())) {
 				return false;
 
@@ -256,9 +256,9 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public void checkRadiusCollision() {
-		for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-			AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
-			if (tempTile.getId() == LevelObjectID.rock) {
+		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
+			if (tempTile.getId() == GameLevelObjectID.rock) {
 				if (getCollisionRadiusBounds().intersects(tempTile.getBounds()) == false) {
 					showVisualQue(Color.WHITE);
 				}

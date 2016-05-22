@@ -4,7 +4,7 @@ package com.SnakeGame.GameObjects;
 import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
@@ -26,7 +26,7 @@ public class SpikeFence extends AbstractTile {
 	Rectangle2D collisionBounds;
 	SnakeGame game;
 
-	public SpikeFence(SnakeGame game, float x, float y, float speed, float velY, Image image, LevelObjectID id) {
+	public SpikeFence(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;

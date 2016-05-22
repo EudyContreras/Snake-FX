@@ -7,7 +7,7 @@ import javafx.scene.paint.ImagePattern;
 
 /**
  * Class used for controlling and performing frame based animations
- * 
+ *
  * @author Eudy
  *
  */
@@ -39,7 +39,7 @@ public class Animation {
 
 	/**
 	 * Updates the animations by switching the frames
-	 * 
+	 *
 	 * @param timePassed
 	 */
 	public synchronized void update(long timePassed) {
@@ -57,7 +57,7 @@ public class Animation {
 
 	/**
 	 * Fetches the image
-	 * 
+	 *
 	 * @return
 	 */
 	public synchronized Image getImage() {
@@ -70,7 +70,7 @@ public class Animation {
 
 	/**
 	 * Fetches the image
-	 * 
+	 *
 	 * @return
 	 */
 	public synchronized ImagePattern getPattern() {
@@ -83,7 +83,7 @@ public class Animation {
 
 	/**
 	 * Fetches the frame
-	 * 
+	 *
 	 * @param x
 	 * @return
 	 */
@@ -93,14 +93,14 @@ public class Animation {
 
 	/**
 	 * Scene class holding one particular scene or frame
-	 * 
+	 *
 	 * @author Eudy Contreras
 	 *
 	 */
 	private class OneScene {
-		Image pic;
-		ImagePattern pattern;
-		long endTime;
+		private Image pic;
+		private ImagePattern pattern;
+		private long endTime;
 
 		public OneScene(Image pic, long endTime) {
 			this.pic = pic;

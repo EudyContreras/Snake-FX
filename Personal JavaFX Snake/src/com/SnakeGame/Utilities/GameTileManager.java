@@ -19,13 +19,13 @@ import com.SnakeGame.FrameWork.SnakeGame;
  */
 public class GameTileManager {
 
-	public List<AbstractTile> tile;
-	public List<AbstractTile> block;
-	public List<AbstractTile> trap;
-	public AbstractTile tempTile;
-	public AbstractTile tempTrap;
-	public AbstractTile tempBlock;
-	public SnakeGame game;
+	private List<AbstractTile> tile;
+	private List<AbstractTile> block;
+	private List<AbstractTile> trap;
+	private AbstractTile tempTile;
+	private AbstractTile tempTrap;
+	private AbstractTile tempBlock;
+	private SnakeGame game;
 
 	public GameTileManager(SnakeGame game) {
 		this.game = game;

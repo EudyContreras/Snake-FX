@@ -1,9 +1,8 @@
 package com.SnakeGame.IDenums;
 
 public enum GameModeID {
-
-	CampaingMode(),
 	SinglePlayer(),
+	CampaingMode(),
 	LocalMultiplayer(),
 	RemoteMultiplayer(),
 	TimeMode();

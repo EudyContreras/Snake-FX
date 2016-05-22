@@ -7,7 +7,7 @@ import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.LevelObjectID;
+import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
@@ -110,8 +110,8 @@ public class SlitherSnake extends SlitherMain {
 	float amountOfBlur = 2.0f;
 	SnakeGame game;
 	Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	ImagePattern pattern = new ImagePattern(GameImageBank.snakeEating);
-	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeBlinking);
+	ImagePattern pattern = new ImagePattern(GameImageBank.snakeOneEating);
+	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeOneBlinking);
 	Circle headBounds;
 	Circle skull;
 	SlitherManager gom;
@@ -151,8 +151,8 @@ public class SlitherSnake extends SlitherMain {
 	}
 
 	public void loadImages() {
-		anim.addScene(GameImageBank.snakeHead, 4000);
-		anim.addScene(GameImageBank.snakeBlinking, 250);
+		anim.addScene(GameImageBank.snakeOneHead, 4000);
+		anim.addScene(GameImageBank.snakeOneBlinking, 250);
 		setAnimation(anim);
 	}
 
@@ -318,9 +318,9 @@ public class SlitherSnake extends SlitherMain {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().tile.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().tile.get(i);
-				if (tempTile.getId() == LevelObjectID.cactus) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
+				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage) {
 							setCollision(true);
@@ -334,9 +334,9 @@ public class SlitherSnake extends SlitherMain {
 					}
 				}
 			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().block.size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().block.get(i);
-				if (tempTile.getId() == LevelObjectID.rock) {
+			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
+				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (Settings.ROCK_COLLISION) {
 							if (allowCollision) {
@@ -353,7 +353,7 @@ public class SlitherSnake extends SlitherMain {
 	public void addSection() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
-					new Circle(25, new ImagePattern(GameImageBank.snakeBody)),
+					new Circle(25, new ImagePattern(GameImageBank.snakeOneSkin)),
 					partBefore.getX() - (float) Math.cos(angle) * 20, partBefore.getY() - (float) Math.cos(angle) * 20,
 					GameObjectID.SnakeSection, NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
@@ -426,7 +426,7 @@ public class SlitherSnake extends SlitherMain {
 	public void addbaseSections() {
 		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
-					new Circle(25, new ImagePattern(GameImageBank.snakeBody)), x, y, GameObjectID.SnakeSection,
+					new Circle(25, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, GameObjectID.SnakeSection,
 					NUMERIC_ID));
 			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID += 1;

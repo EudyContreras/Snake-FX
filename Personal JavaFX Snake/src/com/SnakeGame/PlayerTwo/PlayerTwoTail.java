@@ -9,9 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 
 public class PlayerTwoTail extends AbstractObject {
-	PlayerTwoSection snakeSect;
-	PlayerTwoSection sectionToFollow;
-	PlayerTwoSectionManager sectManager;
+	private PlayerTwoSection sectionToFollow;
 
 	public PlayerTwoTail(PlayerTwoSection snake, SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {

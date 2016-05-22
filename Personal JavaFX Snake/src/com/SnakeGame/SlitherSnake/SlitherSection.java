@@ -126,7 +126,7 @@ public class SlitherSection extends SlitherSectionMain {
 					particleSize = Math.random() * (12 - 5 + 1) + 5;
 					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeDebris,
+				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 			}
 			blowUp = false;
