@@ -18,6 +18,7 @@ public class PlayerTwoTail extends AbstractObject {
 		super(game, layer, node, y, y, id);
 		this.velX = snake.getVelX();
 		this.velY = snake.getVelY();
+		this.circle.setVisible(false);
 		this.r = snake.getR();
 
 	}

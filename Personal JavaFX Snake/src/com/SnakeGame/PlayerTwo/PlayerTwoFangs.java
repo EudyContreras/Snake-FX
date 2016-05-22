@@ -141,6 +141,7 @@ public class PlayerTwoFangs extends AbstractObject {
 					}
 				}
 			}
+			if(Settings.ALLOW_SELF_COLLISION){
 			for (int i = 0; i < sectManager.getSectionList().size(); i++) {
 				AbstractSection tempObject = sectManager.getSectionList().get(i);
 				if (tempObject.getId() == GameObjectID.SnakeSection) {
@@ -155,7 +156,7 @@ public class PlayerTwoFangs extends AbstractObject {
 					}
 				}
 			}
-		}
+		}}
 	}
 
 	public void killTheSnake() {

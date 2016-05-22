@@ -17,29 +17,29 @@ public class GameGestureInputManager {
 	 * @param game
 	 */
 	public void processGestures(SnakeGame game) {
-		game.getGameRoot().setOnSwipeUp(new EventHandler<SwipeEvent>() {
+		game.getScene().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
-				game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
+				game.getGameLoader().getPlayerTwo().setDirection(PlayerMovement.MOVE_UP);
 				event.consume();
 			}
 		});
-		game.getGameRoot().setOnSwipeDown(new EventHandler<SwipeEvent>() {
+		game.getScene().setOnSwipeDown(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
-				game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
+				game.getGameLoader().getPlayerTwo().setDirection(PlayerMovement.MOVE_DOWN);
 				event.consume();
 			}
 		});
-		game.getGameRoot().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
+		game.getScene().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
 			public void handle(SwipeEvent event) {
-				game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
+				game.getGameLoader().getPlayerTwo().setDirection(PlayerMovement.MOVE_LEFT);
 				event.consume();
 			}
 		});
-		game.getGameRoot().setOnSwipeRight(new EventHandler<SwipeEvent>() {
+		game.getScene().setOnSwipeRight(new EventHandler<SwipeEvent>() {
 			public void handle(SwipeEvent event) {
-				game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);
+				game.getGameLoader().getPlayerTwo().setDirection(PlayerMovement.MOVE_RIGHT);
 				event.consume();
 			}
 		});

@@ -80,6 +80,9 @@ public class GameImageBank {
 	public static Image restart_button;
 	public static Image quit_button;
 	public static Image draw_game;
+	public static ImagePattern tailImage;
+	public static ImagePattern snakeOneBody;
+	public static ImagePattern snakeTwoBody;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +124,7 @@ public class GameImageBank {
 				Settings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		snakeSphere = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeHead));
 		slither = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeHead));
+		snakeOneBody = new ImagePattern(snakeBody);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/**
@@ -139,6 +143,8 @@ public class GameImageBank {
 		snakeDebris2 = ImageUtility.precreatedLightedImage("snake-skin3.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		snakeSphere2 = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeHead2));
+		tailImage = new ImagePattern(snakeTail);
+		snakeTwoBody = new ImagePattern(snakeBody2);
 		/**
 		 * Images used for other levels
 		 */

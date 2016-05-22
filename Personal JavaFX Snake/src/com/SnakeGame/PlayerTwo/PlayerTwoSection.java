@@ -173,7 +173,7 @@ public class PlayerTwoSection extends AbstractSection {
 
 	public void move() {
 		checkBounds();
-		hideLast();
+		disguiseLast();
 		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING)
 			super.move();
 		if (lastPosition.size() > 0) {
@@ -245,7 +245,14 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+	public void disguiseLast() {
+		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
+			this.circle.setFill(GameImageBank.tailImage);
+		} else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+			this.circle.setFill(GameImageBank.snakeTwoBody);
+		}
 
+	}
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (Settings.WIDTH + radius);

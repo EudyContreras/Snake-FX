@@ -217,7 +217,35 @@ public abstract class AbstractObject {
 		}
 
 	}
+	public AbstractObject(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+		this.layer = layer;
+		this.x = x;
+		this.y = y;
+		this.id = id;
+		if (node instanceof Rectangle) {
+			this.rect = (Rectangle) node;
+			this.rect.setCache(true);
+			this.rect.setCacheHint(CacheHint.SPEED);
+			this.rect.setTranslateX(x);
+			this.rect.setTranslateY(y);
+			this.rect.setRotate(r);
+			this.width = rect.getWidth();
+			this.height = rect.getHeight();
+			addToLayer(rect);
+		} else if (node instanceof Circle) {
+			this.circle = (Circle) node;
+			this.circle.setCache(true);
+			this.circle.setCacheHint(CacheHint.SPEED);
+			this.circle.setTranslateX(x);
+			this.circle.setTranslateY(y);
+			this.circle.setRotate(r);
+			this.radius = circle.getRadius();
+			addToLayer(circle);
+		} else if (node instanceof Rectangle) {
 
+		}
+
+	}
 	public AbstractObject(SnakeGame game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;

@@ -29,7 +29,7 @@ public class Settings {
 	public static final int SLITHER_SPEED = 5;
 	public static boolean LOAD_SPIKE_FENCE = false;
 
-	public static int APPLE_COUNT = 4;
+	public static int APPLE_COUNT = 100;
 	public static int SECTIONS_TO_ADD = 3;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
@@ -61,6 +61,7 @@ public class Settings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double AMBIENTLIGHT_OPACITY = 0.8;
 
+	public static boolean ALLOW_SELF_COLLISION = false;
 	public static boolean ROCK_COLLISION = true;
 	public static boolean AUTOMATIC_EATING = true;
 	public static boolean ALLOW_DIRT = true;

@@ -141,15 +141,18 @@ public class PlayerOneFangs extends AbstractObject {
 					}
 				}
 			}
-			for (int i = 0; i < sectManager.getSectionList().size(); i++) {
-				AbstractSection tempObject = sectManager.getSectionList().get(i);
-				if (tempObject.getId() == GameObjectID.SnakeSection) {
-					if (tempObject.getNumericID() > 1) {
-						if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-							if (tempObject.getNumericID() != 0 && tempObject.getNumericID() != 1 && tempObject.getNumericID() != 2
-									&& tempObject.getNumericID() != PlayerOne.NUMERIC_ID
-									&& tempObject.getNumericID() != PlayerOne.NUMERIC_ID - 1) {
-								snake.die();
+			if (Settings.ALLOW_SELF_COLLISION) {
+				for (int i = 0; i < sectManager.getSectionList().size(); i++) {
+					AbstractSection tempObject = sectManager.getSectionList().get(i);
+					if (tempObject.getId() == GameObjectID.SnakeSection) {
+						if (tempObject.getNumericID() > 1) {
+							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
+								if (tempObject.getNumericID() != 0 && tempObject.getNumericID() != 1
+										&& tempObject.getNumericID() != 2
+										&& tempObject.getNumericID() != PlayerOne.NUMERIC_ID
+										&& tempObject.getNumericID() != PlayerOne.NUMERIC_ID - 1) {
+									snake.die();
+								}
 							}
 						}
 					}

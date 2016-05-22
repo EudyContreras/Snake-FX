@@ -590,6 +590,7 @@ public class SnakeGame extends AbstractGameModel{
 		loader.loadPixelMap();
 		showCursor(false, getScene());
 		processGameInput();
+		processGestures();
 	}
 	public void goToNext() {
 		clearAll();
@@ -630,6 +631,7 @@ public class SnakeGame extends AbstractGameModel{
 		loader.switcLevel();
 		showCursor(false, getScene());
 		processGameInput();
+		processGestures();
 	}
 	public void reset() {
 		clearAll();
@@ -670,6 +672,7 @@ public class SnakeGame extends AbstractGameModel{
 		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.loadPixelMap();
 		processGameInput();
+		processGestures();
 		getMainMenu().setMainMenu();
 	}
 
