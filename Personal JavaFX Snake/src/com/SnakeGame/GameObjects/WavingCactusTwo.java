@@ -22,7 +22,6 @@ public class WavingCactusTwo extends AbstractTile {
 
 	SnakeGame game;
 	Rectangle bounds;
-	Rectangle2D collisionBounds;
 	float speed;
 	float oldX;
 
@@ -69,7 +68,7 @@ public class WavingCactusTwo extends AbstractTile {
 	 * Method which creates and draws a bounding box
 	 * for debugging purposes
 	 */
- void drawBoundingBox() {
+	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
 			bounds = new Rectangle(x, y+height/4, width/1.5, height/1.5);
@@ -85,7 +84,7 @@ public class WavingCactusTwo extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return collisionBounds;
+		return  new Rectangle2D(x, y+height/4, width/1.5, height/1.5);
 	}
 
 	public Rectangle2D getBoundsTop() {

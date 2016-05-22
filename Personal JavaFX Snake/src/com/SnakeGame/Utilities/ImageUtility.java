@@ -94,7 +94,7 @@ public class ImageUtility {
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
 		light.setX(-200);
-		light.setY(450);
+		light.setY(480);
 		light.setZ(180);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);

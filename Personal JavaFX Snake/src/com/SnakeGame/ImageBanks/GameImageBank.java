@@ -61,7 +61,7 @@ public class GameImageBank {
 	public static Image continueOpt;
 	public static Image quitOpt;
 	public static Image restartOpt;
-	public static Image continueOpt2;
+	public static Image continue_button_alt;
 	public static Image quitOpt2;
 	public static Image restartOpt2;
 	public static Image hud_bar;
@@ -153,12 +153,6 @@ public class GameImageBank {
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
 		levelCompleteSplash = new Image(ImageUtility.loadResource("levelComplete2.png"));
 		gameOverScreen = new Image(ImageUtility.loadResource("gameOver_board.png"));
-		continueOpt = new Image(ImageUtility.loadResource("continue.png"));
-		restartOpt = new Image(ImageUtility.loadResource("restart.png"));
-		quitOpt = new Image(ImageUtility.loadResource("quit.png"));
-		continueOpt2 = new Image(ImageUtility.loadResource("continue_button_alt.png"));
-		restartOpt2 = new Image(ImageUtility.loadResource("restartSelected.png"));
-		quitOpt2 = new Image(ImageUtility.loadResource("quitSelected.png"));
 		health_bar_green_one = new Image(ImageUtility.loadResource("health_bar_green.png"));
 		health_bar_green_two = new Image(ImageUtility.loadResource("health_bar_green_two.png"));
 		health_bar_red_one = new Image(ImageUtility.loadResource("health_bar_red_border.png"));
@@ -169,6 +163,7 @@ public class GameImageBank {
 		player_two_wins = new Image(ImageUtility.loadResource("player_two_wins.png"));
 		options_board = new Image(ImageUtility.loadResource("options_board.png"));
 		continue_button = new Image(ImageUtility.loadResource("continue_button.png"));
+		continue_button_alt = new Image(ImageUtility.loadResource("continue_button_alt.png"));
 		restart_button = new Image(ImageUtility.loadResource("restart_button.png"));
 		quit_button = new Image(ImageUtility.loadResource("quit_button.png"));
 		draw_game = new Image(ImageUtility.loadResource("game_draw_board.png"));

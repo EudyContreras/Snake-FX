@@ -26,7 +26,6 @@ public class GameHud {
 	private double swipeSpeed = 0;
 	private double y2 = Settings.HEIGHT;
 	private double swipeSpeed2;
-	private SnakeGame game;
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
 	private Rectangle hudBar = new Rectangle();
@@ -37,7 +36,6 @@ public class GameHud {
 		this.y = y;
 		this.width = width;
 		this.height = height+5;
-		this.game = game;
 		this.y2 = Settings.HEIGHT-height;
 		this.topHudBar.setWidth(width);
 		this.topHudBar.setHeight(height+40);

@@ -122,7 +122,7 @@ public class PlayerOne extends AbstractObject {
 		updateImmunity();
 		updateDirt();
 		checkTurns();
-		fadeOut();
+		//fadeOut();
 		overlay.updateEffect();
 
 	}
@@ -565,13 +565,13 @@ public class PlayerOne extends AbstractObject {
 
 	public void die() {
 		DEAD = true;
-		blurOut();
 		game.getHealthBarOne().drainAll();
+		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
 	}
 	public void fadeOut(){
 		if(ALLOW_FADE){
-		overlay.addFadeScreen(5, GameStateID.GAME_OVER);
+			overlay.addFadeScreen(5, GameStateID.GAME_OVER);
 		ALLOW_FADE = false;
 		}
 	}

@@ -2,6 +2,7 @@ package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -33,7 +34,7 @@ public class VictoryScreen {
 	private double height = 0;
 	private double confirmX = 0;
 	private double confirmXPosition = 0;
-	private double accelaration = 0.3f;
+	private double acceleration = 0.3f;
 	private boolean swipeRight = false;
 	private boolean swipeLeft = false;
 	private boolean center = true;
@@ -64,7 +65,7 @@ public class VictoryScreen {
 		confirmScreen.setFill(new ImagePattern(boardImage));
 		scoreLayer.setPrefSize(Settings.WIDTH, Settings.HEIGHT);
 		confirmX = 0 - confirmScreen.getWidth() - 50;
-		confirmScreen.setY(Settings.HEIGHT / 2 - confirmScreen.getHeight() / 2 - SnakeGame.ScaleX(30));
+		confirmScreen.setY(Settings.HEIGHT / 2 - confirmScreen.getHeight() / 2 - SnakeGame.ScaleY(30));
 		continue_btt = new ImageView(GameImageBank.continue_button);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
 		restart_btt = new ImageView(GameImageBank.restart_button);
@@ -107,6 +108,7 @@ public class VictoryScreen {
 		continue_btt.setOnMouseClicked(e -> {
 			restart = false;
 			proceed = true;
+			game.setStateID(GameStateID.LEVEL_TRANSITIONING);
 			restartLevel();
 		});
 		quitGame_btt.setOnMouseEntered(e -> {
@@ -117,6 +119,7 @@ public class VictoryScreen {
 			quitGame_btt.setEffect(null);
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
+			game.setStateID(GameStateID.MAIN_MENU);
 			game.addFadeScreen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
@@ -129,6 +132,7 @@ public class VictoryScreen {
 		restart_btt.setOnMouseClicked(e -> {
 			proceed = false;
 			restart = true;
+			game.setStateID(GameStateID.LEVEL_RESTART);
 			restartLevel();
 		});
 
@@ -139,12 +143,12 @@ public class VictoryScreen {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX += confirmXPosition;
-			confirmXPosition += accelaration;
+			confirmXPosition += acceleration;
 			if (center) {
-				accelaration -= 0.70;
-				if (accelaration <= 0) {
+				acceleration -= 0.70;
+				if (acceleration <= 0) {
 
-					accelaration = 0;
+					acceleration = 0;
 					confirmXPosition -= 1.17;
 					if (confirmXPosition <= 0.25) {
 						confirmXPosition = 0.25f;
@@ -176,12 +180,12 @@ public class VictoryScreen {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX -= confirmXPosition;
-			confirmXPosition += accelaration;
+			confirmXPosition += acceleration;
 			if (center) {
-				accelaration -= 0.50;
-				if (accelaration <= 0) {
+				acceleration -= 0.50;
+				if (acceleration <= 0) {
 					confirmXPosition -= 0.1;
-					accelaration = 0;
+					acceleration = 0;
 					if (confirmXPosition <= 0.001) {
 						confirmXPosition = 0.001f;
 					}
@@ -215,12 +219,13 @@ public class VictoryScreen {
 		overlay.removeBlur();
 		center = true;
 		swipeLeft = true;
-		accelaration = 6.0f;
+		acceleration = 6.0f;
 		confirmXPosition = 0.001f;
 	}
 
 	public void removeBoard() {
 		confirmScreen.setVisible(false);
+		optionsBoard.setVisible(false);
 		continue_btt.setVisible(false);
 		quitGame_btt.setVisible(false);
 		restart_btt.setVisible(false);
@@ -228,7 +233,7 @@ public class VictoryScreen {
 		LEVEL_COMPLETE = false;
 		confirmScreen.setX(0 - confirmScreen.getWidth() - 50);
 		confirmX = 0;
-		accelaration = 6.0f;
+		acceleration = 6.0f;
 		center = false;
 	}
 
@@ -243,13 +248,14 @@ public class VictoryScreen {
 		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth());
 		restart_btt.setY(continue_btt.getY());
 		confirmScreen.setVisible(true);
+		optionsBoard.setVisible(true);
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
 		restart_btt.setVisible(true);
 		game.getMainRoot().getChildren().add(scoreLayer);
 		center = true;
 		swipeRight = true;
-		accelaration = 8.0f;
+		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
 	}
 

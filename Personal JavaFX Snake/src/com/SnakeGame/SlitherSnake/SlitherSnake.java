@@ -475,7 +475,7 @@ public class SlitherSnake extends SlitherMain {
 				fadeRect.setOpacity(1);
 			}
 			if (fade >= 1.1f) {
-				game.gameOver();
+				game.gameOver(fadeRect);
 			}
 		}
 		if (showTheSkull == true) {

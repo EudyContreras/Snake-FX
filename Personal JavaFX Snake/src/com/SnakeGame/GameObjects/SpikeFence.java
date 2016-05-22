@@ -63,7 +63,7 @@ public class SpikeFence extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+5, y+5, width-45, height-10);
+			Rectangle bounds = new Rectangle(x, y, width, height);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -77,7 +77,7 @@ public class SpikeFence extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x+5, y+5, width-45, height-10);
+		return new Rectangle2D(x, y, width, height);
 	}
 
 	public Rectangle2D getBoundsTop() {

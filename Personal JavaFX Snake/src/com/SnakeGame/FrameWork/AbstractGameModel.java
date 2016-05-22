@@ -8,6 +8,7 @@ import com.SnakeGame.HudElements.HealthBarTwo;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
@@ -36,6 +37,7 @@ import javafx.stage.Stage;
 
 public abstract class AbstractGameModel extends Application{
 
+	protected GameStateID stateID;
 	protected GameLoader loader;
 	protected GameKeyInputManager keyInput;
 	protected GameMouseInputManager mouseInput;
@@ -90,6 +92,7 @@ public abstract class AbstractGameModel extends Application{
 	protected Rectangle2D bounds;
 	protected String title = "SNAKE";
 	protected Rectangle fadeRect;
+	protected boolean slowFade = false;
 	protected boolean isRunning = true;
 	protected boolean gameRunning = false;
 	protected boolean fadeIn = false;
@@ -334,6 +337,14 @@ public abstract class AbstractGameModel extends Application{
 
 	public ScoreKeeper getScoreKeeper() {
 		return scoreKeeper;
+	}
+
+	public GameStateID getStateID() {
+		return stateID;
+	}
+
+	public void setStateID(GameStateID stateID) {
+		this.stateID = stateID;
 	}
 
 	public void showCursor(boolean choice, Scene scene) {

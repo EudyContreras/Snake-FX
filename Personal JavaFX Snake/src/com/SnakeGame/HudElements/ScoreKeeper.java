@@ -4,6 +4,8 @@ import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.ImageBanks.GameImageBank;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -189,8 +191,10 @@ public class ScoreKeeper {
 			}
 		}
 		else {
+			if(!PlayerOne.DEAD && !PlayerTwo.DEAD){
 			swipeUp();
 			game.getGameHud().swipeUp();
+			}
 		}
 	}
 

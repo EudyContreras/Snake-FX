@@ -22,8 +22,8 @@ public class ScreenOverlay {
 	private GaussianBlur gaussianEffect = new GaussianBlur(7);
 	private GaussianBlur clearLevelBlur = new GaussianBlur(0);
 	private GaussianBlur stormBlur = new GaussianBlur(0);
-	private Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
 	private Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
+	private Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
@@ -148,7 +148,7 @@ public class ScreenOverlay {
 	 */
 	public void addDeathBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.addToneOverlay(Color.RED, 5, 0.05);
+			this.deathBlurLifetime = 0.0;
 			this.layer.setEffect(null);
 			this.layer.setEffect(deathEffect);
 			this.deathBlur = true;
@@ -179,12 +179,12 @@ public class ScreenOverlay {
 	 */
 	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
 		this.stateID = stateID;
-		this.game.getEighthLayer().getChildren().remove(fadeScreen);
+		this.game.getFadeScreenLayer().getChildren().remove(fadeScreen);
 		this.fade = 0.0;
 		this.fadeScreen.setOpacity(fade);
 		this.fadeScreen.setFill(Color.BLACK);
 		this.fadeSpeed = fadeSpeed/1000;
-		this.game.getEighthLayer().getChildren().add(fadeScreen);
+		this.game.getFadeScreenLayer().getChildren().add(fadeScreen);
 		this.setFadeOverlay = true;
 	}
 	public void updateEffect() {
@@ -265,7 +265,6 @@ public class ScreenOverlay {
 			}
 			if (fade >= 1.1f) {
 				if(stateID == GameStateID.GAME_OVER){
-					game.gameOver();
 					setFadeOverlay = false;
 				}
 				if(stateID == GameStateID.GAME_MENU){
@@ -310,9 +309,8 @@ public class ScreenOverlay {
 		}
 		if (deathBlurLifetime >= 10) {
 			if(!instanceCheck){
-			PlayerOne.ALLOW_FADE = true;
-			PlayerTwo.ALLOW_FADE = true;
-			instanceCheck = true;
+				game.getGameOverScreen().fadeOut();
+				instanceCheck = true;
 			}
 		}
 	}

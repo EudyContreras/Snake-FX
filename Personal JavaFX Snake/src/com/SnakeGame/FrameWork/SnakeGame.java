@@ -7,6 +7,7 @@ import com.SnakeGame.HudElements.HealthBarTwo;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
@@ -63,6 +64,7 @@ import javafx.util.Duration;
  *
  */
 public class SnakeGame extends AbstractGameModel{
+
 
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution();
@@ -376,6 +378,7 @@ public class SnakeGame extends AbstractGameModel{
 							gameHud.updateHudBars();
 							victoryScreen.swipeRight();
 							gameOverScreen.swipeDown();
+							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
 							slitherManager.updateAll(gc, timePassed);
 							slitherManager.checkCollisions();
@@ -538,8 +541,8 @@ public class SnakeGame extends AbstractGameModel{
 	}
 
 	public void restart() {
+	 //	fade = 0.0;
 		clearAll();
-		fade = 1.0;
 		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
@@ -548,19 +551,18 @@ public class SnakeGame extends AbstractGameModel{
 		PlayerTwo.NUMERIC_ID = 0;
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
-		scoreBoardOne.resetScore();
-		scoreBoardTwo.resetScore();
-		scoreKeeper.resetCount();
-		scoreKeeper.resetTimer();
-		gameHud.show();
-		gameHud.swipeUp();
-		scoreBoardOne.show();
-		scoreBoardTwo.show();
-		fadeIn = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
 		gameOverScreen.removeBlur();
 		gameOverScreen.removeBoard();
+		scoreBoardOne.resetScore();
+		scoreBoardTwo.resetScore();
+		scoreKeeper.resetCount();
+		scoreKeeper.resetTimer();
+		scoreBoardOne.show();
+		scoreBoardTwo.show();
+		gameHud.show();
+		gameHud.swipeUp();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
@@ -572,7 +574,10 @@ public class SnakeGame extends AbstractGameModel{
 		getHealthBarTwo().refill();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
+		PlayerOne.LEVEL_COMPLETED = false;
+		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.loadPixelMap();
+		showCursor(false, getScene());
 		processGameInput();
 	}
 	public void goToNext() {
@@ -612,11 +617,13 @@ public class SnakeGame extends AbstractGameModel{
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.switcLevel();
+		showCursor(false, getScene());
 		processGameInput();
 	}
 	public void reset() {
 		clearAll();
-		fade = 0.0;
+		fadeIn = false;
+		fade = 1.0;
 		fadeRect.setOpacity(fade);
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;
@@ -625,30 +632,31 @@ public class SnakeGame extends AbstractGameModel{
 		PlayerTwo.NUMERIC_ID = 0;
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
-		getGameRoot().setEffect(null);
-		scoreBoardOne.resetScore();
-		scoreBoardTwo.resetScore();
-		scoreKeeper.resetCount();
-		scoreKeeper.resetTimer();
-		gameHud.show();
-		gameHud.swipeUp();
-		scoreBoardOne.show();
-		scoreBoardTwo.show();
-		fadeIn = false;
 		victoryScreen.removeBlur();
 		victoryScreen.removeBoard();
 		gameOverScreen.removeBlur();
 		gameOverScreen.removeBoard();
+		scoreBoardOne.resetScore();
+		scoreBoardTwo.resetScore();
+		scoreKeeper.resetCount();
+		scoreKeeper.resetTimer();
+		scoreBoardOne.show();
+		scoreBoardTwo.show();
+		gameHud.show();
+		gameHud.swipeUp();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
 		loader.loadPlayerTwo();
+		getGameRoot().setEffect(null);
 		getHealthBarOne().show();
 		getHealthBarTwo().show();
 		getHealthBarOne().refill();
 		getHealthBarTwo().refill();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
+		PlayerOne.LEVEL_COMPLETED = false;
+		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.loadPixelMap();
 		processGameInput();
 		getMainMenu().setMainMenu();
@@ -669,7 +677,6 @@ public class SnakeGame extends AbstractGameModel{
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
 		loader.clearTiles();
-		//fadeScreenLayer.getChildren().clear();
 
 	}
 	public void removePlayers() {
@@ -681,9 +688,9 @@ public class SnakeGame extends AbstractGameModel{
 		sectManagerThree.clearAll();
 
 	}
-	public void gameOver() {
+	public void gameOver(Rectangle fadeScreen) {
 		if (GameOverScreen.FAILED_LEVEL == false) {
-
+			fadeScreenLayer.getChildren().remove(fadeScreen);
 			thirdLayer.getChildren().clear();
 			firstLayer.getChildren().clear();
 			secondLayer.getChildren().clear();
@@ -721,25 +728,33 @@ public class SnakeGame extends AbstractGameModel{
 			gameOverScreen.removeBoard();
 			gameOverScreen.finishLevel();
 			scoreKeeper.setPosition(1.5f);
+			scoreKeeper.resetTimer();
 			getGameHud().swipeDown();
 			GameOverScreen.FAILED_LEVEL = true;
 		}
 	}
+	public void renderFadeScreen() {
+		if (!slowFade) {
+			fade = 0;
+			getFadeScreenLayer().getChildren().add(fadeRect);
+			slowFade = true;
+		}
 
+	}
 	public void addFadeScreen() {
 		if (!fadeIn) {
 			getMainRoot().getChildren().add(fadeRect);
 			fadeIn = true;
-			goToMain = true;
-			goToNext = false;
+			slowFade = false;
 		}
 	}
+
 	public void startNextLevel() {
 		if (!fadeIn) {
+			fade = 0;
 			getFadeScreenLayer().getChildren().add(fadeRect);
 			fadeIn = true;
-			goToNext = true;
-			goToMain = false;
+			slowFade = false;
 		}
 	}
 	public void fade() {
@@ -747,18 +762,22 @@ public class SnakeGame extends AbstractGameModel{
 			fade += 0.01;
 			fadeRect.setOpacity(fade);
 			if (fade >= 1.0f) {
-				fadeRect.setOpacity(1);
-
-			}
-			if (fade >= 1.1f) {
-				if(goToNext){
+				fade = 1;
+				if(this.stateID == GameStateID.LEVEL_TRANSITIONING){
 					goToNext();
 					fadeOut = true;
 					fadeIn = false;
 				}
-				else if(goToMain){
+				else if(this.stateID == GameStateID.MAIN_MENU){
 					reset();
 					getMainRoot().getChildren().remove(fadeRect);
+					fadeIn = false;
+				}
+				else if(this.stateID == GameStateID.LEVEL_RESTART){
+					restart();
+					fadeOut = true;
+					fadeIn = false;
+
 				}
 			}
 		}
@@ -771,6 +790,14 @@ public class SnakeGame extends AbstractGameModel{
 				fadeOut = false;
 			}
 		}
+		if(slowFade){
+			fade += 0.002;
+			fadeRect.setOpacity(fade);
+			if (fade >= 1.0f) {
+				fadeRect.setOpacity(1);
+				fade = 1.0f;
+			}
+		}
 	}
 	public void allowMouseInput(boolean choice) {
 		if (choice)
@@ -779,5 +806,7 @@ public class SnakeGame extends AbstractGameModel{
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+
 
 }
