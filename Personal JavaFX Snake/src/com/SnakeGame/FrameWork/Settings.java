@@ -1,25 +1,21 @@
 package com.SnakeGame.FrameWork;
 
 import java.awt.Toolkit;
+
 /**
- * This class contains all global settings within the game which can be
- * easily modified.
+ * This class contains all global settings within the game which can be easily
+ * modified. The following settings can be used to increase the speed of the
+ * snake relative to the size of the snake. These are the valid values that can
+ * be used Good settings for speed and size : 4/24 4/28 5/25 5/30 6/24 6/30 7/28
+ * 8/32 9/27 10/30 11/33 12/24 12/36 13/26 14/28 15/30
+ *
  * @author Eudy Contreras
  *
  */
 public class Settings {
 
-
-	/**
-	 * The following settings can be used to increase the speed of the snake
-	 * relative to the size of the snake. These are the valid values that can be
-	 * used Good settings for speed and size : 4/24 4/28 5/25 5/30 6/24 6/30
-	 * 7/28 8/32 9/27 10/30 11/33 12/24 12/36 13/26 14/28 15/30
-	 */
-
-
 	public static double START_X = 1920;
-	public static double START_Y = 200;// 800
+	public static double START_Y = 200;
 	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static double SIZE_SCALE = 1.0;
@@ -62,6 +58,7 @@ public class Settings {
 	public static double AMBIENTLIGHT_OPACITY = 0.8;
 
 	public static boolean ALLOW_SELF_COLLISION = true;
+	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ROCK_COLLISION = true;
 	public static boolean AUTOMATIC_EATING = true;
 	public static boolean ALLOW_DIRT = true;
@@ -82,4 +79,5 @@ public class Settings {
 	public static boolean FAST_TURNS = false;
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
+
 }

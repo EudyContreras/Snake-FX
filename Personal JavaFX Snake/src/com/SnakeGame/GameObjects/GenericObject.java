@@ -36,7 +36,6 @@ public class GenericObject extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		draw();
-		adjustBounds();
 	}
 
 	public GenericObject(SnakeGame game, float x, float y, float velX, float velY, Image image) {
@@ -47,15 +46,6 @@ public class GenericObject extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		draw();
-		adjustBounds();
-	}
-	/**
-	 * Method which initializes bounds for a specific object
-	 */
-	public void adjustBounds() {
-		if (this.id == GameLevelObjectID.rock) {
-			collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
-		}
 	}
 
 	/**

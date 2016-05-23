@@ -18,6 +18,7 @@ public enum GameLevelObjectID {
 	cactus(),
 	trap(),
 	flower(),
+	bush(),
 	ramp(),
 	puddle(),
 	longCactus(),

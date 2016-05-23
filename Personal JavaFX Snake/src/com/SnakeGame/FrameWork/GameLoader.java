@@ -3,13 +3,15 @@ package com.SnakeGame.FrameWork;
 import java.awt.Toolkit;
 import java.util.Random;
 
+import com.SnakeGame.GameObjects.DesertBark;
+import com.SnakeGame.GameObjects.DesertRock;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.GameObjects.SnakeFood;
 import com.SnakeGame.GameObjects.SpikeFence;
 import com.SnakeGame.GameObjects.WavingCactusOne;
 import com.SnakeGame.GameObjects.WavingCactusTwo;
-import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -176,11 +178,11 @@ public class GameLoader extends AbstractLoaderModel{
 				if (red == 0 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 55.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
-							GameLevelObjectID.flower);
+							GameLevelObjectID.bush);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}else if (red == 255 && green == 0 && blue == 0) {
-					GenericObject texture = new GenericObject(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
+					DesertRock texture = new DesertRock(game, (float) (row * 55 / GameLoader.ResolutionScaleX),
 							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_rock,
 							GameLevelObjectID.rock);
 					getTileManager().addBlock(texture);
@@ -206,7 +208,7 @@ public class GameLoader extends AbstractLoaderModel{
 				} else if (red == 255 && green == 0 && blue == 255) {
 					WavingCactusOne texture = new WavingCactusOne((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
-							GameLevelObjectID.flower);
+							GameLevelObjectID.bush);
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 200 && blue == 255) {
@@ -216,8 +218,8 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				}else if (red == 0 && green == 255 && blue == 255) {
-					GenericObject texture = new GenericObject(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
-							(float) (col * 50 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
+					DesertBark texture = new DesertBark(game, (float) (row * 47 / GameLoader.ResolutionScaleX),
+							(float) (col * 56 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_bark,
 							GameLevelObjectID.treeBark);
 					getTileManager().addTile(texture);
 					game.getEighthLayer().getChildren().add(texture.getView());

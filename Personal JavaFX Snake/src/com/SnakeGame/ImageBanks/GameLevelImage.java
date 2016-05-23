@@ -53,8 +53,8 @@ public class GameLevelImage {
 			120 / GameLoader.ResolutionScaleY);
 	desert_rock = ImageUtility.precreatedLightedAndShadedImage("desert_rock.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
-	desert_bark = ImageUtility.precreatedLightedAndShadedImage("bark.png", Settings.GlOBAL_ILLUMINATION,
-			Settings.SPECULAR_MAP - 0.4, 400 / GameLoader.ResolutionScaleX, 220 / GameLoader.ResolutionScaleY);
+	desert_bark = ImageUtility.precreatedLightedAndShadedImage("desert_tree_bark_two.png", Settings.GlOBAL_ILLUMINATION,
+			Settings.SPECULAR_MAP - 0.4, 430 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
 	desert_cactus_big = ImageUtility.precreatedLightedAndShadedImage("big_cactus_thick2.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			190 / GameLoader.ResolutionScaleY);

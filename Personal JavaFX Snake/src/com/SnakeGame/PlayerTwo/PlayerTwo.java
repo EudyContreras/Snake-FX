@@ -426,7 +426,7 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (allowDamage) {
+						if (allowDamage && game.getStateID()!=GameStateID.GAME_MENU) {
 							setCollision(true);
 							if (!DEAD) {
 								this.overlay.addDistortion(15, 0.2);
