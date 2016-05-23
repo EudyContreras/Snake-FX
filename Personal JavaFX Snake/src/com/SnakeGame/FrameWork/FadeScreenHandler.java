@@ -76,6 +76,7 @@ public class FadeScreenHandler{
 					game.goToNext();
 					fadeOut = true;
 					fadeIn = false;
+					game.setStateID(GameStateID.GAMEPLAY);
 				}
 				else if(game.getStateID() == GameStateID.MAIN_MENU){
 					game.reset();
@@ -86,6 +87,7 @@ public class FadeScreenHandler{
 					game.restart();
 					fadeOut = true;
 					fadeIn = false;
+					game.setStateID(GameStateID.GAMEPLAY);
 
 				}
 			}

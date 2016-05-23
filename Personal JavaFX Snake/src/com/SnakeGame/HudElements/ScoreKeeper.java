@@ -188,6 +188,7 @@ public class ScoreKeeper {
 				setPosition(1.5f);
 				swipeDown();
 				game.getGameHud().swipeDown();
+				game.setStateID(GameStateID.LEVEL_COMPLETED);
 				VictoryScreen.LEVEL_COMPLETE = true;
 			}
 		}

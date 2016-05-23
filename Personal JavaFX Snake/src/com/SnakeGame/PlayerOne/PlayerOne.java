@@ -615,6 +615,7 @@ public class PlayerOne extends AbstractObject {
 	public void die() {
 		DEAD = true;
 		game.getHealthBarOne().drainAll();
+		game.setStateID(GameStateID.GAME_OVER);
 		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
 	}

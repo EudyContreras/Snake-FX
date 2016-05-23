@@ -86,7 +86,7 @@ public class GameKeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.ESCAPE) {
-					if (game.getStateID() != GameStateID.MAIN_MENU) {
+					if (game.getStateID() == GameStateID.GAMEPLAY || game.getStateID()==GameStateID.GAME_MENU) {
 						if (game.getStateID() != GameStateID.GAME_MENU) {
 							game.getPauseMenu().pauseGame();
 						} else {

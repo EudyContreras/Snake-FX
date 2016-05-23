@@ -596,6 +596,7 @@ public class SnakeGame extends AbstractGameModel{
 		showCursor(false, getScene());
 		processGameInput();
 		processGestures();
+		setStateID(GameStateID.GAMEPLAY);
 	}
 	public void goToNext() {
 		clearAll();
