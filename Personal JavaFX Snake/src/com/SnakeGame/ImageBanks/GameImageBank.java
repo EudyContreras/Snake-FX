@@ -68,6 +68,11 @@ public class GameImageBank {
 	public static Image continue_button_alt;
 	public static Image continue_button;
 	public static Image restart_button;
+	public static Image pause_menu;
+	public static Image pause_main;
+	public static Image pause_quit;
+	public static Image pause_continue;
+	public static Image pause_restart;
 	public static Image quit_button;
 	public static Image draw_game;
 	public static ImagePattern tailImage;
@@ -162,6 +167,11 @@ public class GameImageBank {
 		restart_button = new Image(ImageUtility.loadResource("restart_button.png"));
 		quit_button = new Image(ImageUtility.loadResource("quit_button.png"));
 		draw_game = new Image(ImageUtility.loadResource("game_draw_board.png"));
+		pause_menu = new Image(ImageUtility.loadResource("pause_menu_panel.png"));
+		pause_continue = new Image(ImageUtility.loadResource("pause_continue.png"));
+		pause_restart = new Image(ImageUtility.loadResource("pause_restart.png"));
+		pause_main = new Image(ImageUtility.loadResource("pause_main_menu.png"));
+		pause_quit = new Image(ImageUtility.loadResource("pause_quit.png"));
 
 
 		/**

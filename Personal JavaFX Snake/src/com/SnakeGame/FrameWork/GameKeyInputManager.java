@@ -1,5 +1,6 @@
 package com.SnakeGame.FrameWork;
 
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
@@ -75,6 +76,7 @@ public class GameKeyInputManager {
 					slither.thrust = true;
 				}
 				if (e.getCode() == KeyCode.P) {
+					game.setStateID(GameStateID.GAME_MENU);
 					game.pauseGame();
 				}
 				if (e.getCode() == KeyCode.R) {
@@ -84,7 +86,13 @@ public class GameKeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.ESCAPE) {
-					game.getMainMenu().setMainMenu();
+					if (game.getStateID() != GameStateID.MAIN_MENU) {
+						if (game.getStateID() != GameStateID.GAME_MENU) {
+							game.getPauseMenu().pauseGame();
+						} else {
+							game.getPauseMenu().resumeGame();
+						}
+					}
 				}
 				if (e.getCode() == KeyCode.ENTER) {
 

@@ -7,6 +7,7 @@ import com.SnakeGame.HudElements.HealthBarOne;
 import com.SnakeGame.HudElements.HealthBarTwo;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.HudElements.PauseMenu;
 import com.SnakeGame.HudElements.VictoryScreen;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -75,6 +76,7 @@ public abstract class AbstractGameModel extends Application {
 	protected Pane fourTeenthLayer;
 	protected Pane fadeScreenLayer;
 	protected Text TextFPS;
+	protected PauseMenu pauseMenu;
 	protected GameImageBank imageBank;
 	protected GameLevelImage levelImageBank;
 	protected HealthBarOne healthBarOne;
@@ -151,7 +153,9 @@ public abstract class AbstractGameModel extends Application {
 	public void setEnergyMeter(EnergyMeter energyMeter) {
 		this.energyMeter = energyMeter;
 	}
-
+	public PauseMenu getPauseMenu(){
+		return pauseMenu;
+	}
 	public MenuMain getMainMenu() {
 		return mainMenu;
 	}

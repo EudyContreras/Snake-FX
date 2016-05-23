@@ -68,7 +68,14 @@ public class HealthBarOne {
 		game.getEleventhLayer().getChildren().add(playerHead);
 		this.maxHealth = width;
 	}
-
+	/**
+	 * will reduce the health by the amount of damage
+	 * @param amountOfDamage
+	 */
+	public void reduceHealth(double amountOfDamage){
+		width -= amountOfDamage;
+		setDelay = true;
+	}
 	/**
 	 * This method depletes the health by a specific percentage and under
 	 * specific conditions

@@ -253,56 +253,57 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void setDirection(PlayerMovement direction) {
-		if (!Settings.ALLOW_SELF_COLLISION) {
-			setDirectCoordinates(direction);
-		}
-		if (Settings.ALLOW_SELF_COLLISION) {
-			KEEP_MOVING = true;
-			if (!LEVEL_COMPLETED && !DEAD) {
-				if (this.direction == direction) {
-					this.direction = direction;
-				} else {
-					switch (direction) {
-					case MOVE_UP:
-						if (this.direction != PlayerMovement.MOVE_DOWN) {
-							if (allowTurnUp) {
-								moveUp();
-								snakeHead.setR(180);
+		if (game.getStateID()!=GameStateID.GAME_MENU) {
+			if (!Settings.ALLOW_SELF_COLLISION) {
+				setDirectCoordinates(direction);
+			}
+			if (Settings.ALLOW_SELF_COLLISION) {
+				KEEP_MOVING = true;
+				if (!LEVEL_COMPLETED && !DEAD) {
+					if (this.direction == direction) {
+						this.direction = direction;
+					} else {
+						switch (direction) {
+						case MOVE_UP:
+							if (this.direction != PlayerMovement.MOVE_DOWN) {
+								if (allowTurnUp) {
+									moveUp();
+									snakeHead.setR(180);
+								}
 							}
-						}
-						break;
-					case MOVE_DOWN:
-						if (this.direction != PlayerMovement.MOVE_UP) {
-							if (allowTurnDown) {
-								moveDown();
-								snakeHead.setR(0);
+							break;
+						case MOVE_DOWN:
+							if (this.direction != PlayerMovement.MOVE_UP) {
+								if (allowTurnDown) {
+									moveDown();
+									snakeHead.setR(0);
+								}
 							}
-						}
-						break;
-					case MOVE_LEFT:
-						if (this.direction != PlayerMovement.MOVE_RIGHT) {
-							if (allowTurnLeft) {
-								moveLeft();
-								snakeHead.setR(89);
+							break;
+						case MOVE_LEFT:
+							if (this.direction != PlayerMovement.MOVE_RIGHT) {
+								if (allowTurnLeft) {
+									moveLeft();
+									snakeHead.setR(89);
+								}
 							}
-						}
-						break;
-					case MOVE_RIGHT:
-						if (this.direction != PlayerMovement.MOVE_LEFT) {
-							if (allowTurnRight) {
-								moveRight();
-								snakeHead.setR(-89);
+							break;
+						case MOVE_RIGHT:
+							if (this.direction != PlayerMovement.MOVE_LEFT) {
+								if (allowTurnRight) {
+									moveRight();
+									snakeHead.setR(-89);
+								}
 							}
+							break;
+						case STANDING_STILL:
+							break;
 						}
-						break;
-					case STANDING_STILL:
-						break;
 					}
 				}
 			}
 		}
 	}
-
 	public void setDirectCoordinates(PlayerMovement direction) {
 		if (!Settings.ALLOW_SELF_COLLISION) {
 			KEEP_MOVING = true;

@@ -159,7 +159,6 @@ public class VictoryScreen {
 					confirmX = (float) (Settings.WIDTH / 2 - confirmScreen.getWidth() / 2);
 					confirmXPosition = 0;
 					blurOut();
-					game.removePlayers();
 					swipeRight = false;
 					center = false;
 				}
@@ -216,6 +215,7 @@ public class VictoryScreen {
 	}
 
 	public void restartLevel() {
+		game.removePlayers();
 		overlay.removeBlur();
 		center = true;
 		swipeLeft = true;

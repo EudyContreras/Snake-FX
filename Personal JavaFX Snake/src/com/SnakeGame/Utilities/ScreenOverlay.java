@@ -32,10 +32,11 @@ public class ScreenOverlay {
 	private Boolean setIntenseBlur = false;
 	private Boolean setToneOverlay = false;
 	private Boolean deathBlur = false;
-	private Boolean clearLevel = false;
+	private Boolean blurLevel = false;
 	private Boolean storm = false;
 	private Boolean blurUp = true;
 	private Boolean blurDown = false;
+	private Boolean clearLevel = false;
 	private Boolean setFadeOverlay = false;
 	private Double clearLevelBluring = 0.0;
 	private Double stormBluring = 0.0;
@@ -160,6 +161,13 @@ public class ScreenOverlay {
 	public void levelCompleteBlur() {
 		this.clearLevelBluring = 0.0;
 		this.layer.setEffect(clearLevelBlur);
+		this.clearLevel = false;
+		this.blurLevel = true;
+	}
+	public void levelCompleteBlurOff() {
+		this.clearLevelBluring = 40.0;
+		this.layer.setEffect(clearLevelBlur);
+		this.blurLevel = false;
 		this.clearLevel = true;
 	}
 	/**
@@ -209,7 +217,7 @@ public class ScreenOverlay {
 		if (storm) {
 			setStormBlur();
 		}
-		if (clearLevel) {
+		if (blurLevel || clearLevel) {
 			setClearLevelBlur();
 		}
 		if (setFadeOverlay){
@@ -316,12 +324,21 @@ public class ScreenOverlay {
 	}
 
 	private void setClearLevelBlur() {
-		clearLevelBluring += 0.5;
-		this.layer.setEffect(clearLevelBlur);
-		this.clearLevelBlur.setRadius(clearLevelBluring);
+		if(blurLevel){
+			clearLevelBluring += 0.5;
 		if (clearLevelBluring >= 40) {
 			clearLevelBluring = 40.0;
 		}
+		}
+		if(clearLevel) {
+			clearLevelBluring -= 1.2;
+		if (clearLevelBluring <=0) {
+			clearLevelBluring = 0.0;
+			clearLevel = false;
+		}
+		}
+		this.layer.setEffect(clearLevelBlur);
+		this.clearLevelBlur.setRadius(clearLevelBluring);
 	}
 
 	public void removeBlur() {
@@ -332,7 +349,7 @@ public class ScreenOverlay {
 		setIntenseBlur = false;
 	//	setToneOverlay = false;
 		deathBlur = false;
-		clearLevel = false;
+		blurLevel = false;
 		storm = false;
 		blurUp = true;
 		blurDown = false;

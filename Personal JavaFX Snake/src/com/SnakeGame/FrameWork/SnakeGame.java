@@ -4,9 +4,11 @@ import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
 import com.SnakeGame.HudElements.HealthBarTwo;
+import com.SnakeGame.HudElements.PauseMenu;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
@@ -142,11 +144,12 @@ public class SnakeGame extends AbstractGameModel{
 		loader.loadPlayerOne();
 	//	loader.createSlither();
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-		gameHud = new GameHud(this, -5, -10, Settings.WIDTH + 10, 82 / ScaleY);
 		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,
 				350 / ScaleX, 40 / ScaleY));
 		setHealthBarTwo(new HealthBarTwo(this,Settings.WIDTH - 400 / ScaleX,
 				15 / ScaleY, 350 / ScaleX,40 / ScaleY));
+		pauseMenu = new PauseMenu(this,0,0,Settings.WIDTH,300);
+		gameHud = new GameHud(this, -5, -10, Settings.WIDTH + 10, 82 / ScaleY);
 		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, (Settings.WIDTH / 2) - 10/ ScaleX,
 				35 / ScaleY, Settings.WIDTH / 2 - 680/ScaleX / 2 , 10/ScaleY,
 				680/ScaleX,85 / ScaleY);
@@ -156,6 +159,7 @@ public class SnakeGame extends AbstractGameModel{
 				50/ScaleY, Color.RED);
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
+
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
@@ -239,6 +243,7 @@ public class SnakeGame extends AbstractGameModel{
 	public void resumeGame() {
 		if (Settings.RENDER_GAME == true)
 			return;
+		setStateID(GameStateID.GAMEPLAY);
 		Settings.RENDER_GAME = true;
 	}
 
@@ -267,6 +272,7 @@ public class SnakeGame extends AbstractGameModel{
 		keyInput.processInput(this, loader.getPlayerOne(), loader.getPlayerTwo(), loader.getSlither(), scene);
 	}
 	public void processGestures(){
+		pauseMenu.processTouch();
 		gestures.processGestures(this);
 	}
 	public void closeGame() {
@@ -385,6 +391,7 @@ public class SnakeGame extends AbstractGameModel{
 							drawOverlay(gc);
 							fadeHandler.innerFade_update();
 							fadeHandler.outer_fade_update();
+							pauseMenu.updateTouchPanel();
 							gameHud.updateHudBars();
 							victoryScreen.swipeRight();
 							gameOverScreen.swipeDown();

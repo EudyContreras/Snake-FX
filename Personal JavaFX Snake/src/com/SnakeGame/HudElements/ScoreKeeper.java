@@ -3,6 +3,7 @@ package com.SnakeGame.HudElements;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -191,7 +192,7 @@ public class ScoreKeeper {
 			}
 		}
 		else {
-			if(!PlayerOne.DEAD && !PlayerTwo.DEAD){
+			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && game.getStateID()!=GameStateID.GAME_MENU){
 			swipeUp();
 			game.getGameHud().swipeUp();
 			}
