@@ -100,8 +100,8 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(15);
+		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
+		shadow.setRadius(20);
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
@@ -112,7 +112,32 @@ public class ImageUtility {
 		img = ImageUtility.createImage(view);
 		return img;
 	}
-
+	public static Image precreatedLightedAndShadedImageTwo(String path, double diffused, double specularMap, double width,
+			double height) {
+		DropShadow shadow = new DropShadow(15, Color.BLACK);
+		Lighting lighting = new Lighting();
+		Light.Point light = new Light.Point();
+		Image img = new Image(loadResource(path), width, height, true, true);
+		ImageView view = new ImageView(img);
+		light.setX(-200);
+		light.setY(300);
+		light.setZ(140);
+		lighting.setDiffuseConstant(diffused);
+		lighting.setSpecularConstant(specularMap);
+		lighting.setSurfaceScale(10.0);
+		lighting.setLight(light);
+		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
+		shadow.setRadius(20);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
+		lighting.setContentInput(shadow);
+		if (Settings.ADD_LIGHTING)
+			view.setEffect(lighting);
+		view.setFitWidth(width);
+		view.setFitHeight(height);
+		img = ImageUtility.createImage(view);
+		return img;
+	}
 	public static Image precreatedLightedAndShadedSnake(String path, double diffused, double specularMap, double width,
 			double height) {
 		DropShadow shadow = new DropShadow(15, Color.BLACK);
@@ -122,15 +147,15 @@ public class ImageUtility {
 		ImageView view = new ImageView(img);
 		light.setX(-200);
 		light.setY(300);
-		light.setZ(150);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
-		shadow.setRadius(20);
-		shadow.setWidth(25);
-		shadow.setHeight(25);
+		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
+		shadow.setRadius(5);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
 		if (Settings.ADD_LIGHTING)
 			view.setEffect(lighting);

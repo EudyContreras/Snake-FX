@@ -13,7 +13,7 @@ import com.SnakeGame.Utilities.GameImageLoader;
 import com.SnakeGame.Utilities.GameTileManager;
 
 public abstract class AbstractLoaderModel {
-
+	public static int LEVEL = 1;
 	protected BufferedImage border;
 	protected BufferedImage fence;
 	protected BufferedImage levelMain;

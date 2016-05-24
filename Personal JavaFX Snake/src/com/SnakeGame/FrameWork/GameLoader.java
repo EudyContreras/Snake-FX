@@ -490,7 +490,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void switcLevel() {
 		Front_Distance_LOD = 512;
 		Rear_Distance_LOD = 511;
-		switch (GameLevelImage.LEVEL) {
+		switch (LEVEL) {
 		case 0:
 			setLevel(levelMain);
 			break;
@@ -529,7 +529,7 @@ public class GameLoader extends AbstractLoaderModel{
 		this.levelWidth = getLevel().getWidth();
 		this.levelHeight = getLevel().getHeight();
 		loadPixelMap();
-		GameLevelImage.LEVEL++;
+		LEVEL++;
 	}
 
 

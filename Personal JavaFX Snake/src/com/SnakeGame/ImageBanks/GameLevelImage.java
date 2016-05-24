@@ -16,7 +16,6 @@ import javafx.scene.image.Image;
  */
 
 public class GameLevelImage {
-	public static int LEVEL = 1;
 	public static boolean firstSectionLoaded = false;
 	public static boolean secondSectionLoaded = false;
 	public static boolean thirdSectionLoaded = false;
@@ -36,7 +35,7 @@ public class GameLevelImage {
 	public static Image desert_skull;
 	public static Image desert_sand;
 	public static Image desert_flower_two;
-	
+
 	public static Image jungle_rain;
 
 
@@ -55,8 +54,8 @@ public class GameLevelImage {
 			170 / GameLoader.ResolutionScaleY);
 	desert_rock = ImageUtility.precreatedLightedAndShadedImage("desert_rock.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
-	desert_bark = ImageUtility.precreatedLightedAndShadedImage("desert_tree_bark.png", Settings.GlOBAL_ILLUMINATION,
-			Settings.SPECULAR_MAP-0.2, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
+	desert_bark = ImageUtility.precreatedLightedAndShadedImageTwo("desert_tree_bark_three.png", Settings.GlOBAL_ILLUMINATION,
+			Settings.SPECULAR_MAP, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
 	desert_cactus_big = ImageUtility.precreatedLightedAndShadedImage("big_cactus_thick2.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			190 / GameLoader.ResolutionScaleY);
@@ -77,12 +76,12 @@ public class GameLevelImage {
 			92 / GameLoader.ResolutionScaleY);
 	desert_sand = ImageUtility.precreatedLightedImage("sandGrain.png",
 			Settings.GlOBAL_ILLUMINATION - 0.5, Settings.SPECULAR_MAP - 0.5, 5, 5);
-	
-	
+
+
 	/**
 	 * Jungle level images
 	 */
-	
+
 	jungle_rain = new Image(ImageUtility.loadResource("rainDrop.png"),10,10, true, true);
 	}
 
