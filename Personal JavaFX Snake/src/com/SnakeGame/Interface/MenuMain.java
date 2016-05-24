@@ -54,6 +54,7 @@ public class MenuMain {
 		this.game = game;
 		logo = new ImageView(MenuImageBank.gameLogo);
 		logo.setX(Settings.WIDTH/2-logo.getImage().getWidth()/2);
+		logo.setY(30);
 		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
 		y2 = 400;
 		x = (float) Settings.WIDTH / 3;
@@ -353,9 +354,9 @@ public class MenuMain {
 				if (currentChoice == 3) {
 					multiplayerMenu();
 				}
-				if (currentChoice == 3) { // highScore();
+				if (currentChoice == 4) { // highScore();
 				}
-				if (currentChoice == 4) {
+				if (currentChoice == 5) {
 					closeGame();
 				}
 			default:

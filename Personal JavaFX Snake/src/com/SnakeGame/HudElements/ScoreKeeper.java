@@ -80,7 +80,6 @@ public class ScoreKeeper {
 		game.getThirTeenthLayer().getChildren().add(apple);
 		game.getThirTeenthLayer().getChildren().add(text);
 		game.getThirTeenthLayer().getChildren().add(timer);
-		startTimer();
 		updateCount();
 	}
 
@@ -100,6 +99,7 @@ public class ScoreKeeper {
 		if (swipeUp) {
 			swipeSpeed = -1.5f;
 			if (y < oldY) {
+				startTimer();
 				swipeSpeed = 0;
 			}
 		}
@@ -172,7 +172,7 @@ public class ScoreKeeper {
 		startTimer = false;
 	}
 	public void resetTimer() {
-		startTimer = true;
+		startTimer = false;
 		seconds = 0;
 		minutes = 0;
 		hours = 0;

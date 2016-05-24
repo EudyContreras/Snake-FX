@@ -137,8 +137,6 @@ public class SnakeGame extends AbstractGameModel{
 		getGameRoot().getChildren().add(tenthLayer);
 		getGameRoot().getChildren().add(eleventhLayer);
 		getGameRoot().getChildren().add(twelfthLayer);
-//		getGameRoot().getChildren().add(thirTeenthLayer);
-		//getGameRoot().getChildren().add(tenthLayer);
 		mainRoot.getChildren().add(getGameRoot());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
@@ -366,8 +364,8 @@ public class SnakeGame extends AbstractGameModel{
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(Settings.FRAMECAP), // 60
-																				// FPS
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(Settings.FRAMECAP), // 60FPS
+
 				new EventHandler<ActionEvent>() {
 					long startTime = System.currentTimeMillis();
 					long cummulativeTime = startTime;
@@ -559,6 +557,7 @@ public class SnakeGame extends AbstractGameModel{
 		TextFPS = new Text("FPS : ");
 		TextFPS.setX(ScaleX(20));
 		TextFPS.setY(ScaleY(80));
+		TextFPS.setOpacity(0.5);
 		TextFPS.setFill(Color.WHITE);
 		TextFPS.setFont(Font.font("AERIAL", FontWeight.BOLD, ScaleX(20)));
 		rootPane.add(fadeScreenLayer);

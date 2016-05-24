@@ -17,9 +17,7 @@ import javafx.scene.paint.Color;
 
 
 public class PauseMenu {
-    SnakeGame game;
-    PlayerOne playerOne;
-    PlayerTwo playerTwo;
+    private SnakeGame game;
 	private ImageView mainBoard;
 	private ImageView leftTouchPanel;
 	private ImageView rightTouchPanel;
@@ -44,15 +42,6 @@ public class PauseMenu {
 	private double x;
 	private double y;
 
-	public PauseMenu(SnakeGame game, double x, double y, double width, double height, PlayerOne player) {
-		this.x = x;
-		this.y = y;
-		this.game = game;
-		this.width = width;
-		this.height = height;
-		this.playerOne = player;
-		this.initilialize();
-	}
 	public PauseMenu(SnakeGame game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;

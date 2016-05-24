@@ -82,6 +82,7 @@ public class GameOverScreen {
 	}
 	public void finishLevel() {
 		game.showCursor(true, game.getScene());
+		game.getScoreKeeper().stopTimer();
 		askConfirm();
 	}
 
