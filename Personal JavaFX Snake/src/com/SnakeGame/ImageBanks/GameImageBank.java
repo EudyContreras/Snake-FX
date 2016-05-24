@@ -152,7 +152,7 @@ public class GameImageBank {
 		score_keeper = new Image(ImageUtility.loadResource("hud_bar_info_thin.png"));
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
 		level_complete_board = new Image(ImageUtility.loadResource("levelComplete2.png"));
-		game_over_board = new Image(ImageUtility.loadResource("gameOver_board.png"));
+		game_over_board = new Image(ImageUtility.loadResource("gameover_board.png"));
 		health_bar_green_one = new Image(ImageUtility.loadResource("health_bar_green.png"));
 		health_bar_green_two = new Image(ImageUtility.loadResource("health_bar_green_two.png"));
 		health_bar_red_one = new Image(ImageUtility.loadResource("health_bar_red_border.png"));

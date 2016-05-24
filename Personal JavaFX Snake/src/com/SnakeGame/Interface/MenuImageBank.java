@@ -14,7 +14,7 @@ public class MenuImageBank {
 			Settings.HEIGHT, false, true);
 	public static Image modeMenuBackground = new Image(ImageUtility.loadResource("snake1.jpeg"), Settings.WIDTH,
 			Settings.HEIGHT, false, true);
-	public static Image controllsMenuBackground = new Image(ImageUtility.loadResource("green-snake.jpg"),
+	public static Image controllsMenuBackground = new Image(ImageUtility.loadResource("green-snake.JPG"),
 			Settings.WIDTH, Settings.HEIGHT, false, true);
 	public static Image start_game_button = new Image(ImageUtility.loadResource("startGame.png"));
 	public static Image startLogo = new Image(ImageUtility.loadResource("SnakeLogo.png"));

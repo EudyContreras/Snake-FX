@@ -75,16 +75,16 @@ public class MultiplayerClient extends Observable {
 	}
 
 	public MultiplayerClient(String IP_Address, int port, String userName, MenuMultiplayer GUI) {
-		this.inbox = new LinkedList<>();
-		this.groupOfUsers = new LinkedList<>();
-		this.onlineUsers = new LinkedList<>();
-		this.disconnectedUser = new LinkedList<>();
-		this.byteOutput = new ByteArrayOutputStream();
-		this.IP_Address = IP_Address;
-		this.userName = userName;
-		this.GUI = GUI;
-		this.port = port;
-		this.IP_Address = IP_Address;
+//		this.inbox = new LinkedList<>();
+//		this.groupOfUsers = new LinkedList<>();
+//		this.onlineUsers = new LinkedList<>();
+//		this.disconnectedUser = new LinkedList<>();
+//		this.byteOutput = new ByteArrayOutputStream();
+//		this.IP_Address = IP_Address;
+//		this.userName = userName;
+//		this.GUI = GUI;
+//		this.port = port;
+//		this.IP_Address = IP_Address;
 	}
 	// public void allowToRun(){
 	// if(run)

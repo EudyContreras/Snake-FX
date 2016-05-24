@@ -46,8 +46,8 @@ public class GameLevelImage {
 		 * Desert Level Images.
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	desertBackground = ImageUtility.preCreateShadedBackground("desert-level-sand-real.png",
-			Settings.GlOBAL_ILLUMINATION - 0.1, 0.0, Settings.WIDTH, Settings.HEIGHT);
+	desertBackground = ImageUtility.preCreateShadedBackground("desert-level-sand.png",
+			Settings.GlOBAL_ILLUMINATION, 1.0, Settings.WIDTH, Settings.HEIGHT);
 	horizontalFence = ImageUtility.precreatedLightedImage("horizontal_spike_fence.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);
 	verticalFence = ImageUtility.precreatedLightedAndShadedImage("vertical_spike_fence.png",
@@ -56,7 +56,7 @@ public class GameLevelImage {
 	desert_rock = ImageUtility.precreatedLightedAndShadedImage("desert_rock.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
 	desert_bark = ImageUtility.precreatedLightedAndShadedImage("desert_tree_bark.png", Settings.GlOBAL_ILLUMINATION,
-			Settings.SPECULAR_MAP, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
+			Settings.SPECULAR_MAP-0.2, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
 	desert_cactus_big = ImageUtility.precreatedLightedAndShadedImage("big_cactus_thick2.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			190 / GameLoader.ResolutionScaleY);

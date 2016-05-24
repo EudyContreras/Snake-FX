@@ -55,8 +55,8 @@ public class ImageUtility {
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
 		light.setX(-200);
-		light.setY(450);
-		light.setZ(200);
+		light.setY(300);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -94,8 +94,8 @@ public class ImageUtility {
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
 		light.setX(-200);
-		light.setY(480);
-		light.setZ(180);
+		light.setY(300);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -120,9 +120,9 @@ public class ImageUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-300);
-		light.setY(-100);
-		light.setZ(200);
+		light.setX(-200);
+		light.setY(300);
+		light.setZ(150);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -209,7 +209,7 @@ public class ImageUtility {
 		ImageView view = new ImageView(img);
 		light.setX(1000);
 		light.setY(1920);
-		light.setZ(1000);
+		light.setZ(700);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
