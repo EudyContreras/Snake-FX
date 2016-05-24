@@ -19,13 +19,13 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class LevelBouds extends AbstractTile {
+public class DesertLevelBounds extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;;
 	SnakeGame game;
 	float speed;
 
-	public LevelBouds(SnakeGame game, float x, float y, float speed, float velY, GameLevelObjectID id) {
+	public DesertLevelBounds(SnakeGame game, float x, float y, float speed, float velY, GameLevelObjectID id) {
 		super(x, y);
 		this.game = game;
 		this.velX = 0;
@@ -36,7 +36,7 @@ public class LevelBouds extends AbstractTile {
 		draw();
 	}
 
-	public LevelBouds(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public DesertLevelBounds(SnakeGame game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;

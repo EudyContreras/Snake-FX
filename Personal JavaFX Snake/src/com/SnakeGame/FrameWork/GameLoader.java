@@ -3,12 +3,12 @@ package com.SnakeGame.FrameWork;
 import java.awt.Toolkit;
 import java.util.Random;
 
-import com.SnakeGame.GameObjects.BigCactus;
+import com.SnakeGame.GameObjects.DesertCactusBig;
 import com.SnakeGame.GameObjects.DesertBark;
 import com.SnakeGame.GameObjects.DesertBush;
 import com.SnakeGame.GameObjects.DesertRock;
 import com.SnakeGame.GameObjects.GenericObject;
-import com.SnakeGame.GameObjects.LittleCactus;
+import com.SnakeGame.GameObjects.DesertCactusSmall;
 import com.SnakeGame.GameObjects.SnakeFood;
 import com.SnakeGame.GameObjects.SpikeFence;
 import com.SnakeGame.IDenums.GameLevelObjectID;
@@ -190,7 +190,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addBlock(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
-					BigCactus texture = new BigCactus((float) (row * 53 / GameLoader.ResolutionScaleX),
+					DesertCactusBig texture = new DesertCactusBig((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							GameLevelObjectID.longCactus);
 					getTileManager().addTile(texture);
@@ -202,7 +202,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					LittleCactus texture = new LittleCactus(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					DesertCactusSmall texture = new DesertCactusSmall(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
 							GameLevelObjectID.cactus);
 					getTileManager().addTile(texture);
@@ -327,7 +327,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
-					BigCactus texture = new BigCactus((float) (row * 53 / GameLoader.ResolutionScaleX),
+					DesertCactusBig texture = new DesertCactusBig((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
@@ -339,7 +339,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					LittleCactus texture = new LittleCactus(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					DesertCactusSmall texture = new DesertCactusSmall(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
 							GameLevelObjectID.cactus);
 					getTileManager().addTile(texture);
@@ -351,7 +351,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
-					BigCactus texture = new BigCactus((float) (row * 50 / GameLoader.ResolutionScaleX),
+					DesertCactusBig texture = new DesertCactusBig((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
 							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);
@@ -395,7 +395,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
-					BigCactus texture = new BigCactus((float) (row * 53 / GameLoader.ResolutionScaleX),
+					DesertCactusBig texture = new DesertCactusBig((float) (row * 53 / GameLoader.ResolutionScaleX),
 							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							GameLevelObjectID.rock);
 					getTileManager().addTile(texture);
@@ -407,7 +407,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 100 && blue == 0) {
-					LittleCactus texture = new LittleCactus(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
+					DesertCactusSmall texture = new DesertCactusSmall(game, (float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_cactus_small,
 							GameLevelObjectID.cactus);
 					getTileManager().addTile(texture);
@@ -419,7 +419,7 @@ public class GameLoader extends AbstractLoaderModel{
 					getTileManager().addTile(texture);
 					game.getThirdLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 0 && blue == 255) {
-					BigCactus texture = new BigCactus((float) (row * 50 / GameLoader.ResolutionScaleX),
+					DesertCactusBig texture = new DesertCactusBig((float) (row * 50 / GameLoader.ResolutionScaleX),
 							(float) (col * 47.5 / GameLoader.ResolutionScaleY), 0, GameLevelImage.desert_bush,
 							GameLevelObjectID.flower);
 					getTileManager().addTile(texture);

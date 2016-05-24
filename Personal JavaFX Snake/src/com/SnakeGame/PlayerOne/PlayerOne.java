@@ -258,7 +258,6 @@ public class PlayerOne extends AbstractObject {
 				setDirectCoordinates(direction);
 			}
 			if (Settings.ALLOW_SELF_COLLISION) {
-				KEEP_MOVING = true;
 				if (!LEVEL_COMPLETED && !DEAD) {
 					if (this.direction == direction) {
 						this.direction = direction;
@@ -267,6 +266,7 @@ public class PlayerOne extends AbstractObject {
 						case MOVE_UP:
 							if (this.direction != PlayerMovement.MOVE_DOWN) {
 								if (allowTurnUp) {
+									KEEP_MOVING = true;
 									moveUp();
 									snakeHead.setR(180);
 								}
@@ -275,6 +275,7 @@ public class PlayerOne extends AbstractObject {
 						case MOVE_DOWN:
 							if (this.direction != PlayerMovement.MOVE_UP) {
 								if (allowTurnDown) {
+									KEEP_MOVING = true;
 									moveDown();
 									snakeHead.setR(0);
 								}
@@ -283,6 +284,7 @@ public class PlayerOne extends AbstractObject {
 						case MOVE_LEFT:
 							if (this.direction != PlayerMovement.MOVE_RIGHT) {
 								if (allowTurnLeft) {
+									KEEP_MOVING = true;
 									moveLeft();
 									snakeHead.setR(89);
 								}
@@ -291,6 +293,7 @@ public class PlayerOne extends AbstractObject {
 						case MOVE_RIGHT:
 							if (this.direction != PlayerMovement.MOVE_LEFT) {
 								if (allowTurnRight) {
+									KEEP_MOVING = true;
 									moveRight();
 									snakeHead.setR(-89);
 								}
@@ -307,7 +310,6 @@ public class PlayerOne extends AbstractObject {
 
 	public void setDirectCoordinates(PlayerMovement direction) {
 		if (!Settings.ALLOW_SELF_COLLISION) {
-			KEEP_MOVING = true;
 			if (!LEVEL_COMPLETED && !DEAD) {
 				if (this.direction == direction) {
 					this.direction = direction;
@@ -315,6 +317,7 @@ public class PlayerOne extends AbstractObject {
 					switch (direction) {
 					case MOVE_UP:
 						if (allowTurnUp) {
+							KEEP_MOVING = true;
 							moveUp();
 							snakeHead.setR(180);
 						}
@@ -322,18 +325,21 @@ public class PlayerOne extends AbstractObject {
 					case MOVE_DOWN:
 
 						if (allowTurnDown) {
+							KEEP_MOVING = true;
 							moveDown();
 							snakeHead.setR(0);
 						}
 						break;
 					case MOVE_LEFT:
 						if (allowTurnLeft) {
+							KEEP_MOVING = true;
 							moveLeft();
 							snakeHead.setR(89);
 						}
 						break;
 					case MOVE_RIGHT:
 						if (allowTurnRight) {
+							KEEP_MOVING = true;
 							moveRight();
 							snakeHead.setR(-89);
 						}
@@ -530,26 +536,26 @@ public class PlayerOne extends AbstractObject {
 
 	public void headAdjustment() {
 		if (this.direction == PlayerMovement.MOVE_DOWN) {
-			if (y - neighbor.getY() > Settings.SECTION_SIZE) {
-				y = (float) (neighbor.getY() + Settings.SECTION_SIZE);
+			if (y - neighbor.getY() >= this.radius) {
+				y = (float) (neighbor.getY() + this.radius);
 				x = neighbor.getX();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_UP) {
-			if (neighbor.getY() - y > Settings.SECTION_SIZE) {
-				y = (float) (neighbor.getY() - Settings.SECTION_SIZE);
+			if (neighbor.getY() - y >= this.radius) {
+				y = (float) (neighbor.getY() - this.radius);
 				x = neighbor.getX();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_LEFT) {
-			if (neighbor.getX() - x > Settings.SECTION_SIZE) {
-				x = (float) (neighbor.getX() - Settings.SECTION_SIZE);
+			if (neighbor.getX() - x >= this.radius) {
+				x = (float) (neighbor.getX() - this.radius);
 				y = neighbor.getY();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_RIGHT) {
-			if (x - neighbor.getX() > Settings.SECTION_SIZE) {
-				x = (float) (neighbor.getX() + Settings.SECTION_SIZE);
+			if (x - neighbor.getX() >= this.radius) {
+				x = (float) (neighbor.getX() + this.radius);
 				y = neighbor.getY();
 			}
 		}

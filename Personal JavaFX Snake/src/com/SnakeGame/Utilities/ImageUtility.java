@@ -120,8 +120,8 @@ public class ImageUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-200);
-		light.setY(450);
+		light.setX(-300);
+		light.setY(-100);
 		light.setZ(200);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);

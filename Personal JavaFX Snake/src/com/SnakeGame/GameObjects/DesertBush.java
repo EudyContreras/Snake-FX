@@ -2,6 +2,7 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.FrameWork.AbstractTile;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameLevelObjectID;
@@ -26,7 +27,7 @@ public class DesertBush extends AbstractTile {
 	float oldX;
 	float speed;
 	private double count = 60;
-	private double threshold = Math.random()*(0.7 - -0.7 + 1) + -0.7;
+	private double threshold = 0;
 	private boolean playerCollision = false;
 	private boolean contact = true;
 
@@ -39,6 +40,7 @@ public class DesertBush extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.view.setRotationAxis(Rotate.Y_AXIS);
+		this.draw();
 	}
 	/**
 	 * Method which moves this object
@@ -90,7 +92,6 @@ public class DesertBush extends AbstractTile {
 			count--;
 			if(count<=0){
 				velX = 0;
-				threshold = Math.random()*(0.7 - -0.7 + 1) + -0.7;
 				playerCollision = false;
 				contact = true;
 				count = 60;
@@ -119,12 +120,24 @@ public class DesertBush extends AbstractTile {
 	public void checkCollision(){
 		if(this.getBounds().intersects(game.getGameLoader().getPlayerOne().getBounds())){
 			if(contact == true){
+				if(game.getGameLoader().getPlayerOne().getCurrentDirection()==PlayerMovement.MOVE_LEFT){
+					this.threshold = Math.random()*(-0.2 - 0.8 + 1) + -0.8;
+				}
+				else if(game.getGameLoader().getPlayerOne().getCurrentDirection()==PlayerMovement.MOVE_RIGHT){
+					this.threshold = Math.random()*(0.8 - 0.2 + 1) + 0.2;
+				}
 			playerCollision = true;
 			contact = false;
 			}
 		}
 		if(this.getBounds().intersects(game.getGameLoader().getPlayerTwo().getBounds())){
 			if(contact == true){
+				if(game.getGameLoader().getPlayerTwo().getCurrentDirection()==PlayerMovement.MOVE_LEFT){
+					this.threshold = Math.random()*(-0.2 - 0.8 + 1) + -0.8;
+				}
+				else if(game.getGameLoader().getPlayerTwo().getCurrentDirection()==PlayerMovement.MOVE_RIGHT){
+					this.threshold = Math.random()*(0.8 - 0.2 + 1) + 0.2;
+				}
 			playerCollision = true;
 			contact = false;
 			}
@@ -134,7 +147,7 @@ public class DesertBush extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			Rectangle bounds = new Rectangle(x+10, y + 50, width - 60, height - 90);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -146,7 +159,7 @@ public class DesertBush extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x, y, width, height);
+		return new Rectangle2D(x+10, y + 50, width - 60, height - 90);
 	}
 
 	public Rectangle2D getBoundsTop() {

@@ -5,14 +5,12 @@ import com.SnakeGame.FrameWork.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 /**
  * This class represents a cactus which creates a moving
@@ -20,18 +18,23 @@ import javafx.scene.transform.Rotate;
  * @author Eudy Contreras
  *
  */
-public class BigCactus extends AbstractTile {
-	GameTileManager tileManager;
-	SnakeGame game;
-	float speed;
+public class DesertCactusSmall extends AbstractTile {
 
-	public BigCactus(float x, float y, float velR, Image image, GameLevelObjectID id) {
+	SnakeGame game;
+	Rectangle bounds;
+	float speed;
+	float oldX;
+
+	public DesertCactusSmall(SnakeGame game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
+		this.oldX = x;
 		if (Settings.SAND_STORM)
-			this.velR = velR;
+			this.velX = velX;
+		this.velR = velR;
+		this.game = game;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		this.view.setRotationAxis(Rotate.Y_AXIS);
+		this.draw();
 	}
 	/**
 	 * Method which moves this object
@@ -42,17 +45,19 @@ public class BigCactus extends AbstractTile {
 			wave();
 	}
 	/**
-	 * Method which makes this object wave or rotate.
+	 * Method which makes this object
+	 * move or rotate
 	 */
 	public void wave() {
-		if (r > 4) {
-			velR -= Math.random() * (0.4 - 0.01 + 1) + 0.01;
+		if (x > oldX + Settings.WIND_FORCE) {
+			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
 		}
-		if (r <= 0) {
-			if (velR < 4)
-				velR += 0.5f;
+		if (x <= oldX) {
+			if (velX < Settings.WIND_FORCE)
+				velX += 0.4f;
 		}
 	}
+
 	/**
 	 * Methods which draws a bounding box
 	 */
@@ -66,11 +71,12 @@ public class BigCactus extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			bounds = new Rectangle(x, y+height/4, width/1.5, height/1.5);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
 			game.getSeventhLayer().getChildren().add(bounds);
+
 		}
 	}
 	/**
@@ -78,7 +84,7 @@ public class BigCactus extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x, y, width, height);
+		return  new Rectangle2D(x, y+height/4, width/1.5, height/1.5);
 	}
 
 	public Rectangle2D getBoundsTop() {
