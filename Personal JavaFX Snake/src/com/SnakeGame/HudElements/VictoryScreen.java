@@ -35,11 +35,12 @@ public class VictoryScreen {
 	private double confirmX = 0;
 	private double confirmXPosition = 0;
 	private double acceleration = 0.3f;
+	private boolean goToNext = false;
+	private boolean restartLevel = false;
 	private boolean swipeRight = false;
 	private boolean swipeLeft = false;
 	private boolean center = true;
-	private boolean proceed = false;
-	private boolean restart = false;
+
 
 	public VictoryScreen(SnakeGame game, Image boardImage, double width, double height) {
 		this.game = game;
@@ -106,10 +107,8 @@ public class VictoryScreen {
 			continue_btt.setEffect(null);
 		});
 		continue_btt.setOnMouseClicked(e -> {
-			restart = false;
-			proceed = true;
 			game.setStateID(GameStateID.LEVEL_TRANSITIONING);
-			restartLevel();
+			goToNext();
 		});
 		quitGame_btt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(240,0,0));
@@ -130,8 +129,7 @@ public class VictoryScreen {
 			restart_btt.setEffect(null);
 		});
 		restart_btt.setOnMouseClicked(e -> {
-			proceed = false;
-			restart = true;
+
 			game.setStateID(GameStateID.LEVEL_RESTART);
 			restartLevel();
 		});
@@ -194,12 +192,12 @@ public class VictoryScreen {
 					confirmX = (float) (0 - confirmScreen.getWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
-					if(restart){
+					if(restartLevel){
 						game.restart();
 						PlayerOne.LEVEL_COMPLETED = false;
 						PlayerTwo.LEVEL_COMPLETED = false;
 					}
-					if(proceed){
+					if(goToNext){
 						game.getFadeScreenHandler().continue_fade_screen();
 					}
 					center = false;
@@ -217,6 +215,18 @@ public class VictoryScreen {
 	public void restartLevel() {
 		game.removePlayers();
 		overlay.removeBlur();
+		restartLevel = true;
+		goToNext = false;
+		center = true;
+		swipeLeft = true;
+		acceleration = 6.0f;
+		confirmXPosition = 0.001f;
+	}
+	public void goToNext(){
+		game.removePlayers();
+		overlay.removeBlur();
+		goToNext = true;
+		restartLevel = false;
 		center = true;
 		swipeLeft = true;
 		acceleration = 6.0f;

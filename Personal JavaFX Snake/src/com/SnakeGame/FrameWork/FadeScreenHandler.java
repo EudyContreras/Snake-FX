@@ -67,9 +67,9 @@ public class FadeScreenHandler{
 		}
 	}
 	public void innerFade_update() {
+		innerFadeScreen.setOpacity(innerFadePercentage);
 		if (fadeIn) {
 			innerFadePercentage += 0.01;
-			innerFadeScreen.setOpacity(innerFadePercentage);
 			if (innerFadePercentage >= 1.0f) {
 				innerFadePercentage = 1;
 				if(game.getStateID() == GameStateID.LEVEL_TRANSITIONING){
