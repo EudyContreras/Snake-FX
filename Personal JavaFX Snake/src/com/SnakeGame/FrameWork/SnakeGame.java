@@ -14,6 +14,7 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
 import com.SnakeGame.Particles.GameDebrisManager;
+import com.SnakeGame.Particles.RainEmitter;
 import com.SnakeGame.Particles.SandEmitter;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
@@ -144,6 +145,7 @@ public class SnakeGame extends AbstractGameModel{
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
 	//	loader.createSlither();
+		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,
 				350 / ScaleX, 40 / ScaleY));
@@ -408,8 +410,14 @@ public class SnakeGame extends AbstractGameModel{
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
-							sandEmitter.move();
-							sandEmitter.emit();
+							if(Settings.SAND_STORM){
+								sandEmitter.move();
+								sandEmitter.emit();
+							}
+							if(Settings.RAIN_STORM){
+								rainEmitter.move();
+								rainEmitter.emit();
+							}
 							if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
 								getHealthBarOne().depleteHealth();
 								getHealthBarOne().regerateHealth();

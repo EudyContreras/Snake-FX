@@ -62,6 +62,7 @@ public class Settings {
 	public static boolean AUTOMATIC_EATING = true;
 	public static boolean ALLOW_DIRT = true;
 	public static boolean SAND_STORM = true;
+	public static boolean RAIN_STORM = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 	public static boolean LOAD_SPIKE_FENCE = false;
@@ -79,5 +80,6 @@ public class Settings {
 	public static boolean FAST_TURNS = false;
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
+
 
 }

@@ -36,6 +36,8 @@ public class GameLevelImage {
 	public static Image desert_skull;
 	public static Image desert_sand;
 	public static Image desert_flower_two;
+	
+	public static Image jungle_rain;
 
 
 	public GameLevelImage(){
@@ -75,6 +77,14 @@ public class GameLevelImage {
 			92 / GameLoader.ResolutionScaleY);
 	desert_sand = ImageUtility.precreatedLightedImage("sandGrain.png",
 			Settings.GlOBAL_ILLUMINATION - 0.5, Settings.SPECULAR_MAP - 0.5, 5, 5);
+	
+	
+	/**
+	 * Jungle level images
+	 */
+	
+	jungle_rain = new Image(ImageUtility.loadResource("rainDrop.png"),10,10, true, true);
 	}
+
 
 }

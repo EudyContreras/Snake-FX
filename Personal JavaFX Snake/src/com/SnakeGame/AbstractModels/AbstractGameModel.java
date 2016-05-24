@@ -20,6 +20,7 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
 import com.SnakeGame.Particles.GameDebrisManager;
+import com.SnakeGame.Particles.RainEmitter;
 import com.SnakeGame.Particles.SandEmitter;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
@@ -92,6 +93,7 @@ public abstract class AbstractGameModel extends Application {
 	protected ScoreBoard scoreBoardTwo;
 	protected EnergyMeter energyMeter;
 	protected SandEmitter sandEmitter;
+	protected RainEmitter rainEmitter;
 	protected VictoryScreen victoryScreen;
 	protected AnimationTimer gameLoop;
 	protected AnimationTimer animationLoop;
