@@ -6,7 +6,8 @@ import com.SnakeGame.Utilities.ImageUtility;
 import javafx.scene.image.Image;
 
 public class MenuImageBank {
-	public static Image mainMenuBackground = new Image(ImageUtility.loadResource("snake.jpg"), Settings.WIDTH,
+	public static Image gameLogo = new Image(ImageUtility.loadResource("SnakeLogo.png"));
+	public static Image mainMenuBackground = new Image(ImageUtility.loadResource("image.png"), Settings.WIDTH,
 			Settings.HEIGHT, false, true);
 	public static Image optionsMenuBackground = new Image(ImageUtility.loadResource("rattlesnake.jpg"), Settings.WIDTH,
 			Settings.HEIGHT, false, true);

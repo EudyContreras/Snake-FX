@@ -27,6 +27,7 @@ public class MenuMain {
 	private ImageView backgroundImage;
 	private ImageView parallaxObject1;
 	private ImageView parallaxObject2;
+	private ImageView logo;
 	private GaussianBlur blur = new GaussianBlur();
 	private Label gameTitle = new Label("Snake");
 	private Label startLabel = new Label("Start Game");
@@ -47,14 +48,12 @@ public class MenuMain {
 	private Pane menuRoot = new Pane();
 	private SnakeGame game;
 	private float x, y, velX, velY, x2, y2, velX2, velY2;
-	private MenuOptions optionsMenu;
-	private MenuMultiplayer multiplayerMenu;
 	private MediaPlayer music;
 
 	public MenuMain(SnakeGame game) {
 		this.game = game;
-		optionsMenu = new MenuOptions(this, game);
-		multiplayerMenu = new MenuMultiplayer(this, game);
+		logo = new ImageView(MenuImageBank.gameLogo);
+		logo.setX(Settings.WIDTH/2-logo.getImage().getWidth()/2);
 		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
 		y2 = 400;
 		x = (float) Settings.WIDTH / 3;
@@ -139,24 +138,24 @@ public class MenuMain {
 
 		r1 = new Rectangle(Settings.WIDTH / 2 - 250 / 2, menuBox.getTranslateY() / GameLoader.ResolutionScaleY, 250,
 				50 / GameLoader.ResolutionScaleY);
-		r1.setFill(Color.rgb(255, 0, 0, 0.5));
-		// r1.setFill(Color.TRANSPARENT);
+		//r1.setFill(Color.rgb(255, 0, 0, 0.5));
+		 r1.setFill(Color.TRANSPARENT);
 		r2 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r1.getY() + r1.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		r2.setFill(Color.rgb(255, 0, 0, 0.5));
-		// r2.setFill(Color.TRANSPARENT);
+		//r2.setFill(Color.rgb(255, 0, 0, 0.5));
+		 r2.setFill(Color.TRANSPARENT);
 		r3 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r2.getY() + r2.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		r3.setFill(Color.rgb(255, 0, 0, 0.5));
-		// r3.setFill(Color.TRANSPARENT);
+		//r3.setFill(Color.rgb(255, 0, 0, 0.5));
+		 r3.setFill(Color.TRANSPARENT);
 		r4 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r3.getY() + r3.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		r4.setFill(Color.rgb(255, 0, 0, 0.5));
-		// r4.setFill(Color.TRANSPARENT);
+		//r4.setFill(Color.rgb(255, 0, 0, 0.5));
+		 r4.setFill(Color.TRANSPARENT);
 		r5 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
 				r4.getY() + r4.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		r5.setFill(Color.rgb(255, 0, 0, 0.5));
-		// r4.setFill(Color.TRANSPARENT);
+		//r5.setFill(Color.rgb(255, 0, 0, 0.5));
+		r5.setFill(Color.TRANSPARENT);
 		showMenu = true;
 		titleBox.setTranslateX(Settings.WIDTH / 2 - titleBox.getPrefWidth() / 2);
 		titleBox.setTranslateY(0);
@@ -184,14 +183,12 @@ public class MenuMain {
 				20 / GameLoader.ResolutionScaleY));
 
 		fadeScreen.getChildren().add(clearUp);
-		menuRoot.getChildren().addAll(backgroundImage, titleBox, menuBox, boundBox, fadeScreen);
+		menuRoot.getChildren().addAll(backgroundImage, logo, menuBox, boundBox, fadeScreen);
 
 		game.setRoot(menuRoot);
 
 		setKeyInputHandler();
 		setMouseInputHandler();
-		optionsMenu.setupOptionsMenu();
-		multiplayerMenu.setupMultiplayerMenu();
 	}
 
 	public void transition() {
@@ -213,7 +210,7 @@ public class MenuMain {
 	}
 
 	public void addBackgroundImages() {
-		menuRoot.getChildren().addAll(backgroundImage, parallaxObject1, parallaxObject2, menuBox, r1, r2, r3, r4);
+		menuRoot.getChildren().addAll(backgroundImage, parallaxObject1, parallaxObject2, menuBox, r1, r2, r3, r4, r5);
 	}
 
 	public void setBackgroundObjects() {
@@ -235,7 +232,7 @@ public class MenuMain {
 
 	/**
 	 * Sets the standard style of the labels
-	 * 
+	 *
 	 * @param label
 	 */
 	private void setStyle(Label label) {
@@ -246,7 +243,7 @@ public class MenuMain {
 
 	/**
 	 * Sets the style for the title
-	 * 
+	 *
 	 * @param label
 	 */
 	public void setTitleStyle(Label label) {
@@ -551,15 +548,11 @@ public class MenuMain {
 	 * Sets up the optionsmenu
 	 */
 	private void OptionsMenu() {
-		menuRoot.getChildren().add(optionsMenu.getOptionsRoot());
-		optionsMenu.setKeyInputHandler();
-		optionsMenu.setMouseInputHandler();
+
 	}
 
 	private void multiplayerMenu() {
-		menuRoot.getChildren().add(multiplayerMenu.getMultiplayerRoot());
-		// multiplayerMenu.setKeyInputHandler();
-		// multiplayerMenu.setMouseInputHandler();
+
 	}
 
 	public void setCurrentChoice(int choice) {

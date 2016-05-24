@@ -134,12 +134,13 @@ public class GameLoader extends AbstractLoaderModel{
 		for (int i = 0; i < Settings.MAX_AMOUNT_OF_OBJECTS; i++) {
 			spawnBackgroundStuff(true);
 		}
-		loadDesertLevels(GameLevelImage.desertBackground);
+		
 		if(!Settings.LOAD_SPIKE_FENCE)
-		loadDesertBorder();
+			loadDesertBorder();
 		if(Settings.LOAD_SPIKE_FENCE){
 			loadSpikeFence();
 		}
+		loadDesertLevels(GameLevelImage.desertBackground);
 		game.setLevelLenght(128 * 64);
 	}
 
@@ -192,7 +193,7 @@ public class GameLoader extends AbstractLoaderModel{
 					game.getFirstLayer().getChildren().add(texture.getView());
 				} else if (red == 0 && green == 255 && blue == 0) {
 					DesertCactusBig texture = new DesertCactusBig((float) (row * 53 / GameLoader.ResolutionScaleX),
-							(float) (col * 52 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
+							(float) (col * 50 / GameLoader.ResolutionScaleY), 4, GameLevelImage.desert_cactus_big,
 							GameLevelObjectID.longCactus);
 					getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
@@ -275,26 +276,26 @@ public class GameLoader extends AbstractLoaderModel{
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, 1,GameLevelImage.horizontalFence,
 							GameLevelObjectID.fence);
 					getTileManager().addTrap(texture);
-					game.getThirdLayer().getChildren().add(texture.getView());
+					game.getFirstLayer().getChildren().add(texture.getView());
 				}
 				if (red == 0 && green == 0 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 50.5-5 / GameLoader.ResolutionScaleX),
 							(float) (col * 150 / GameLoader.ResolutionScaleY), 0, 0, 2,GameLevelImage.verticalFence,
 							GameLevelObjectID.fence);
 					getTileManager().addTrap(texture);
-					game.getThirdLayer().getChildren().add(texture.getView());
+					game.getFirstLayer().getChildren().add(texture.getView());
 				}
 				if (red == 255 && green == 0 && blue == 255) {
 					SpikeFence textureOne = new SpikeFence(game, (float) (row * 50.5-5 / GameLoader.ResolutionScaleX),
 							(float) (col * 150 / GameLoader.ResolutionScaleY), 0, 0, 2,GameLevelImage.verticalFence,
 							GameLevelObjectID.fence);
 					getTileManager().addTrap(textureOne);
-					game.getThirdLayer().getChildren().add(textureOne.getView());
+					game.getFirstLayer().getChildren().add(textureOne.getView());
 					SpikeFence textureTwo = new SpikeFence(game, (float) (row * 150 / GameLoader.ResolutionScaleX),
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, 1,GameLevelImage.horizontalFence,
 							GameLevelObjectID.fence);
 					getTileManager().addTrap(textureTwo);
-					game.getThirdLayer().getChildren().add(textureTwo.getView());
+					game.getFirstLayer().getChildren().add(textureTwo.getView());
 				}
 			}
 		}
