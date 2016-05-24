@@ -12,7 +12,6 @@ import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.FruitSplashTwo;
-
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;

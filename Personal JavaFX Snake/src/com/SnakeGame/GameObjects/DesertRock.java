@@ -14,50 +14,48 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * this class is an object which will kill the player
- * if the collision bounds of the player intersect the collision
- * bounds of this class
+ * Every static object or esthetic object in the game such as walls, boxes etc
+ * is considered a tile. This class is the main tile class and can be used for
+ * creating any level object.
  *
  * @author Eudy Contreras
  *
  */
-public class SpikeFence extends AbstractTile {
+public class DesertRock extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;
 	SnakeGame game;
-	int orientation;
+	float speed;
 
-	public SpikeFence(SnakeGame game, float x, float y, float speed, float velY, int orientation, Image image,GameLevelObjectID id) {
+	public DesertRock(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
+		this.speed = speed;
 		this.velY = velY;
-		this.orientation = orientation;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		adjustBounds();
 		draw();
+		adjustBounds();
 	}
 
-	public SpikeFence(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public DesertRock(SnakeGame game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		adjustBounds();
 		draw();
+		adjustBounds();
 	}
 	/**
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		if(orientation==1)
-			collisionBounds = new Rectangle2D(x, y+20, width, height-40);
-		if(orientation==2)
-			collisionBounds = new Rectangle2D(x+15, y, width-65, height);
+		collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
 	}
+
 	/**
 	 * Moves this object
 	 */
@@ -76,23 +74,14 @@ public class SpikeFence extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			if(orientation == 1){
-				Rectangle bounds = new Rectangle(x, y+20, width, height-40);
-				bounds.setStroke(Color.WHITE);
-				bounds.setFill(Color.TRANSPARENT);
-				bounds.setStrokeWidth(3);
-				game.getSeventhLayer().getChildren().add(bounds);
-			}
-			else if (orientation == 2){
-				Rectangle bounds = new Rectangle(x+15, y, width-65, height);
-				bounds.setStroke(Color.WHITE);
-				bounds.setFill(Color.TRANSPARENT);
-				bounds.setStrokeWidth(3);
-				game.getSeventhLayer().getChildren().add(bounds);
-			}
+			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			bounds.setStroke(Color.WHITE);
+			bounds.setFill(Color.TRANSPARENT);
+			bounds.setStrokeWidth(3);
+			game.getSeventhLayer().getChildren().add(bounds);
+
 		}
 	}
-
 	/**
 	 * This methods will return specified bounds of this object
 	 * based on coordinates and dimensions.

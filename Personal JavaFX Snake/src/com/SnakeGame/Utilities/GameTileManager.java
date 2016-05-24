@@ -74,8 +74,8 @@ public class GameTileManager {
 		for (Iterator<AbstractTile> tileList = tile.iterator(); tileList.hasNext();) {
 			AbstractTile tempTile = tileList.next();
 			tempTile.updateUI();
-			;
 			tempTile.move();
+			tempTile.checkCollision();
 			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
@@ -95,6 +95,7 @@ public class GameTileManager {
 			tempTile = tile.get(i);
 			tempTile.updateUI();
 			tempTile.move();
+			tempTile.checkCollision();
 		}
 	}
 
@@ -106,6 +107,7 @@ public class GameTileManager {
 			tempBlock = block.get(i);
 			tempBlock.updateUI();
 			tempBlock.move();
+			tempTile.checkCollision();
 		}
 	}
 
@@ -117,6 +119,7 @@ public class GameTileManager {
 			tempTrap = trap.get(i);
 			tempTrap.updateUI();
 			tempTrap.move();
+			tempTile.checkCollision();
 		}
 	}
 

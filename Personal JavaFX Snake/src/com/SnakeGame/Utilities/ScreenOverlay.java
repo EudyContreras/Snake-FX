@@ -23,7 +23,7 @@ public class ScreenOverlay {
 	private GaussianBlur clearLevelBlur = new GaussianBlur(0);
 	private GaussianBlur stormBlur = new GaussianBlur(0);
 	private Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	private Rectangle fadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
+	private Rectangle fadeScreen = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
@@ -144,6 +144,7 @@ public class ScreenOverlay {
 			this.setToneOverlay = true;
 		}
 	}
+
 	/**
 	 * Adds a blur to the screen after the snake dies
 	 */
@@ -155,21 +156,25 @@ public class ScreenOverlay {
 			this.deathBlur = true;
 		}
 	}
+
 	/**
 	 * Adds a blur to the screen after the level has been completed
 	 */
 	public void levelCompleteBlur() {
 		this.clearLevelBluring = 0.0;
+		this.layer.setEffect(null);
 		this.layer.setEffect(clearLevelBlur);
 		this.clearLevel = false;
 		this.blurLevel = true;
 	}
+
 	public void levelCompleteBlurOff() {
-		this.clearLevelBluring = 40.0;
+		// this.clearLevelBluring = 40.0;
 		this.layer.setEffect(clearLevelBlur);
 		this.blurLevel = false;
 		this.clearLevel = true;
 	}
+
 	/**
 	 * Adds random blurring during sand storms
 	 */
@@ -180,10 +185,13 @@ public class ScreenOverlay {
 			this.storm = true;
 		}
 	}
+
 	/**
-	 * Adds a fading screen to the game which leads to the main menu.
-	 * The fade speed determines the speed of the fade.
-	 * @param fadeSpeed: max 10, min 1;
+	 * Adds a fading screen to the game which leads to the main menu. The fade
+	 * speed determines the speed of the fade.
+	 *
+	 * @param fadeSpeed:
+	 *            max 10, min 1;
 	 */
 	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
 		this.stateID = stateID;
@@ -191,10 +199,11 @@ public class ScreenOverlay {
 		this.fade = 0.0;
 		this.fadeScreen.setOpacity(fade);
 		this.fadeScreen.setFill(Color.BLACK);
-		this.fadeSpeed = fadeSpeed/1000;
+		this.fadeSpeed = fadeSpeed / 1000;
 		this.game.getFadeScreenLayer().getChildren().add(fadeScreen);
 		this.setFadeOverlay = true;
 	}
+
 	public void updateEffect() {
 		if (setDistortion) {
 			setDistortionModifier();
@@ -220,7 +229,7 @@ public class ScreenOverlay {
 		if (blurLevel || clearLevel) {
 			setClearLevelBlur();
 		}
-		if (setFadeOverlay){
+		if (setFadeOverlay) {
 			setFadeModifier();
 		}
 	}
@@ -265,23 +274,23 @@ public class ScreenOverlay {
 		}
 	}
 
-	private void setFadeModifier(){
-			fade += fadeSpeed;
-			fadeScreen.setOpacity(fade);
-			if (fade >= 1.0f) {
-				fadeScreen.setOpacity(1);
+	private void setFadeModifier() {
+		fade += fadeSpeed;
+		fadeScreen.setOpacity(fade);
+		if (fade >= 1.0f) {
+			fadeScreen.setOpacity(1);
+		}
+		if (fade >= 1.1f) {
+			if (stateID == GameStateID.GAME_OVER) {
+				setFadeOverlay = false;
 			}
-			if (fade >= 1.1f) {
-				if(stateID == GameStateID.GAME_OVER){
-					setFadeOverlay = false;
-				}
-				if(stateID == GameStateID.GAME_MENU){
+			if (stateID == GameStateID.GAME_MENU) {
 
-				}
-				if(stateID == GameStateID.LEVEL_COMPLETED){
-
-				}
 			}
+			if (stateID == GameStateID.LEVEL_COMPLETED) {
+
+			}
+		}
 	}
 
 	private void setStormBlur() {
@@ -316,7 +325,7 @@ public class ScreenOverlay {
 			deathBlurLifetime = 63.0;
 		}
 		if (deathBlurLifetime >= 10) {
-			if(!instanceCheck){
+			if (!instanceCheck) {
 				game.getGameOverScreen().fadeOut();
 				instanceCheck = true;
 			}
@@ -324,18 +333,18 @@ public class ScreenOverlay {
 	}
 
 	private void setClearLevelBlur() {
-		if(blurLevel){
-			clearLevelBluring += 0.5;
-		if (clearLevelBluring >= 40) {
-			clearLevelBluring = 40.0;
+		if (blurLevel) {
+			clearLevelBluring += 0.2;
+			if (clearLevelBluring >= 25) {
+				clearLevelBluring = 25.0;
+			}
 		}
-		}
-		if(clearLevel) {
-			clearLevelBluring -= 1.2;
-		if (clearLevelBluring <=0) {
-			clearLevelBluring = 0.0;
-			clearLevel = false;
-		}
+		if (clearLevel) {
+			clearLevelBluring -= 1.0;
+			if (clearLevelBluring <= 0) {
+				clearLevelBluring = 0.0;
+				clearLevel = false;
+			}
 		}
 		this.layer.setEffect(clearLevelBlur);
 		this.clearLevelBlur.setRadius(clearLevelBluring);
@@ -347,7 +356,6 @@ public class ScreenOverlay {
 		setBloom = false;
 		setSoftBlur = false;
 		setIntenseBlur = false;
-	//	setToneOverlay = false;
 		deathBlur = false;
 		blurLevel = false;
 		storm = false;
@@ -355,6 +363,5 @@ public class ScreenOverlay {
 		blurDown = false;
 		layer.setEffect(null);
 	}
-
 
 }

@@ -99,7 +99,6 @@ public class PauseMenu {
 		processButtonGesture();
 	}
 	public void pauseGame(){
-		game.setStateID(GameStateID.GAME_MENU);
 		showTouchPanel();
 
 	}
@@ -130,9 +129,9 @@ public class PauseMenu {
 			game.getScoreKeeper().swipeDown();
 			game.getGameHud().swipeDown();
 			game.showCursor(true, game.getScene());
-			if(!allowTouch){
-				blurOut();
-			}
+//			if(!allowTouch){
+//				blurOut();
+//			}
 		}
 	}
 	public void hideTouchPanel(){
@@ -176,6 +175,7 @@ public class PauseMenu {
 				fadeLevel+=0.03;
 				showObjects(fadeLevel);
 				if(fadeLevel>=1.0){
+					blurOut();
 					fadeLevel = 1.0;
 					show=false;
 				}
@@ -272,10 +272,10 @@ public class PauseMenu {
 		PlayerTwo.LEVEL_COMPLETED = false;
 		resumeGame();
 	}
-	public void blurOut(){
+	public synchronized void blurOut(){
 		overlay.levelCompleteBlur();
 	}
-	public void blurOff(){
+	public synchronized void blurOff(){
 		overlay.levelCompleteBlurOff();
 	}
 	public boolean isAllowTouch() {

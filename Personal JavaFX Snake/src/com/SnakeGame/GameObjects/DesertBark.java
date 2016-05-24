@@ -12,65 +12,75 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 /**
- * This class represents a cactus which creates a moving
- * or wind caused waving illusion.
+ * Every static object or esthetic object in the game such as walls, boxes etc
+ * is considered a tile. This class is the main tile class and can be used for
+ * creating any level object.
+ *
  * @author Eudy Contreras
  *
  */
-public class WavingCactusOne extends AbstractTile {
+public class DesertBark extends AbstractTile {
 	GameTileManager tileManager;
+	Rectangle2D collisionBounds;
 	SnakeGame game;
 	float speed;
 
-	public WavingCactusOne(float x, float y, float velR, Image image, GameLevelObjectID id) {
+	public DesertBark(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
-		if (Settings.SAND_STORM)
-			this.velR = velR;
+		this.game = game;
+		this.velX = 0;
+		this.speed = speed;
+		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		this.view.setRotationAxis(Rotate.Y_AXIS);
+		draw();
+		adjustBounds();
+	}
+
+	public DesertBark(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+		super(x, y, image);
+		this.game = game;
+		this.velX = velX;
+		this.velY = velY;
+		this.view.setTranslateX(x);
+		this.view.setTranslateY(y);
+		draw();
+		adjustBounds();
 	}
 	/**
-	 * Method which moves this object
+	 * Method which initializes bounds for a specific object
+	 */
+	public void adjustBounds() {
+		collisionBounds = new Rectangle2D(x + 40, y + 140, width - 70, height * 0.3);
+
+	}
+
+	/**
+	 * Moves this object
 	 */
 	public void move() {
-		super.move();
-		if (Settings.SAND_STORM)
-			wave();
+		x = x + velX;
 	}
 	/**
-	 * Method which makes this object wave or rotate.
-	 */
-	public void wave() {
-		if (r > 4) {
-			velR -= Math.random() * (0.4 - 0.01 + 1) + 0.01;
-		}
-		if (r <= 0) {
-			if (velR < 4)
-				velR += 0.5f;
-		}
-	}
-	/**
-	 * Methods which draws a bounding box
+	 * Draws a bounding box
 	 */
 	public void draw() {
 		drawBoundingBox();
 	}
 	/**
-	 * Method which creates and draws a bounding box
-	 * for debugging purposes
+	 * Draws the bounding box of this object for debugging purposes
 	 */
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			Rectangle bounds = new Rectangle(x+40, y + 140, width - 70, height*0.3);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
 			game.getSeventhLayer().getChildren().add(bounds);
+
 		}
 	}
 	/**
@@ -78,7 +88,7 @@ public class WavingCactusOne extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x, y, width, height);
+		return collisionBounds;
 	}
 
 	public Rectangle2D getBoundsTop() {

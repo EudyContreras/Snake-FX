@@ -44,17 +44,17 @@ public class GameLevelImage {
 		 * Desert Level Images.
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	desertBackground = ImageUtility.preCreateShadedBackground("desert-sand10.png",
+	desertBackground = ImageUtility.preCreateShadedBackground("desert-level-sand-real.png",
 			Settings.GlOBAL_ILLUMINATION - 0.1, 0.0, Settings.WIDTH, Settings.HEIGHT);
-	horizontalFence = ImageUtility.precreatedLightedImage("fence.png", Settings.GlOBAL_ILLUMINATION,
-			Settings.SPECULAR_MAP, 120 / GameLoader.ResolutionScaleX, 50 / GameLoader.ResolutionScaleY);
-	verticalFence = ImageUtility.precreatedLightedAndShadedImage("fence2.png",
-			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 50 / GameLoader.ResolutionScaleX,
-			120 / GameLoader.ResolutionScaleY);
+	horizontalFence = ImageUtility.precreatedLightedImage("horizontal_spike_fence.png", Settings.GlOBAL_ILLUMINATION,
+			Settings.SPECULAR_MAP, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);
+	verticalFence = ImageUtility.precreatedLightedAndShadedImage("vertical_spike_fence.png",
+			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 55 / GameLoader.ResolutionScaleX,
+			170 / GameLoader.ResolutionScaleY);
 	desert_rock = ImageUtility.precreatedLightedAndShadedImage("desert_rock.png", Settings.GlOBAL_ILLUMINATION,
 			Settings.SPECULAR_MAP, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
-	desert_bark = ImageUtility.precreatedLightedAndShadedImage("desert_tree_bark_two.png", Settings.GlOBAL_ILLUMINATION,
-			Settings.SPECULAR_MAP - 0.4, 430 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
+	desert_bark = ImageUtility.precreatedLightedAndShadedImage("desert_tree_bark.png", Settings.GlOBAL_ILLUMINATION,
+			Settings.SPECULAR_MAP, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
 	desert_cactus_big = ImageUtility.precreatedLightedAndShadedImage("big_cactus_thick2.png",
 			Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			190 / GameLoader.ResolutionScaleY);
