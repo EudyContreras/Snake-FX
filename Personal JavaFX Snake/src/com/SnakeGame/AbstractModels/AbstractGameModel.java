@@ -1,13 +1,19 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.AbstractModels;
 
+import com.SnakeGame.FrameWork.FadeScreenHandler;
+import com.SnakeGame.FrameWork.GameGestureInputManager;
+import com.SnakeGame.FrameWork.GameKeyInputManager;
+import com.SnakeGame.FrameWork.GameLoader;
+import com.SnakeGame.FrameWork.GameMouseInputManager;
+import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
 import com.SnakeGame.HudElements.HealthBarTwo;
+import com.SnakeGame.HudElements.PauseMenu;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
-import com.SnakeGame.HudElements.PauseMenu;
 import com.SnakeGame.HudElements.VictoryScreen;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -20,6 +26,7 @@ import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
 import com.SnakeGame.SlitherSnake.SlitherManager;
 import com.SnakeGame.SlitherSnake.SlitherSectionManager;
 import com.SnakeGame.Utilities.ScreenOverlay;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;

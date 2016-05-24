@@ -1,8 +1,10 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.AbstractModels;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
+import com.SnakeGame.FrameWork.GameObjectManager;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;

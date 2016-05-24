@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.SnakeGame.FrameWork.AbstractGameStates;
+import com.SnakeGame.AbstractModels.AbstractGameStates;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameStateID;
 

@@ -1,6 +1,8 @@
 
 package com.SnakeGame.FrameWork;
 
+import com.SnakeGame.AbstractModels.AbstractTile;
+
 import javafx.scene.image.Image;
 
 /**

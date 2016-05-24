@@ -1,13 +1,13 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.FrameWork.AbstractObject;
-import com.SnakeGame.FrameWork.AbstractTile;
+import com.SnakeGame.AbstractModels.AbstractObject;
+import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.HudElements.ScoreKeeper;
-import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;

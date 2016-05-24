@@ -1,8 +1,11 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.AbstractModels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;

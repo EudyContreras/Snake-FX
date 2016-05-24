@@ -1,14 +1,14 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.AbstractObject;
-import com.SnakeGame.FrameWork.AbstractTile;
+import com.SnakeGame.AbstractModels.AbstractObject;
+import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
-import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.FruitSplashTwo;

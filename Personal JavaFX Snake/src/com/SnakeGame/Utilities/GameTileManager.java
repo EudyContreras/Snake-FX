@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.SnakeGame.FrameWork.AbstractTile;
+import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.SnakeGame;
 
 /**

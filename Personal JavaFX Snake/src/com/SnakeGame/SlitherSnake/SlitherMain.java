@@ -1,6 +1,6 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.FrameWork.AbstractObject;
+import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameObjectID;
 

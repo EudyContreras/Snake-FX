@@ -1,5 +1,7 @@
 package com.SnakeGame.FrameWork;
 
+import com.SnakeGame.AbstractModels.AbstractObject;
+
 import javafx.scene.image.ImageView;
 
 /**

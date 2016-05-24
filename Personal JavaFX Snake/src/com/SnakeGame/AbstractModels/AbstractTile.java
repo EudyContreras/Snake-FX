@@ -1,6 +1,7 @@
 
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.AbstractModels;
 
+import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 
 import javafx.geometry.Bounds;

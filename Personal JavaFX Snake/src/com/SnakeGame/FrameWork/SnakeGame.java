@@ -1,5 +1,6 @@
 package com.SnakeGame.FrameWork;
 
+import com.SnakeGame.AbstractModels.AbstractGameModel;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;

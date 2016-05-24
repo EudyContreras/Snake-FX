@@ -1,6 +1,6 @@
 package com.SnakeGame.PlayerTwo;
 
-import com.SnakeGame.FrameWork.AbstractObject;
+import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;

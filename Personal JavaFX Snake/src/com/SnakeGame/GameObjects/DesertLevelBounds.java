@@ -1,6 +1,6 @@
 package com.SnakeGame.GameObjects;
 
-import com.SnakeGame.FrameWork.AbstractTile;
+import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameLevelObjectID;

@@ -1,5 +1,7 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.AbstractModels;
 
+import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;

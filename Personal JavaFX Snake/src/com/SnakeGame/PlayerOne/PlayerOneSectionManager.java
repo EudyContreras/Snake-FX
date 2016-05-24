@@ -2,7 +2,7 @@ package com.SnakeGame.PlayerOne;
 
 import java.util.ArrayList;
 
-import com.SnakeGame.FrameWork.AbstractSection;
+import com.SnakeGame.AbstractModels.AbstractSection;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.SnakeGame;
 
