@@ -64,10 +64,14 @@ public class RainEmitter {
 		if (Settings.RAIN_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD && !PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED && game.getStateID()!=GameStateID.GAME_MENU) {
 			addRandomBlur(true);
 			interval++;
-			if (interval == Settings.SAND_SPAWN_DELAY) {
+			if (interval == Settings.SAND_SPAWN_DELAY && Settings.SAND_AMOUNT>1) {
 				for (int i = 0; i < Settings.SAND_AMOUNT; i++) {
 					game.getDebrisManager().addParticle(new RainStorm(game, GameLevelImage.jungle_rain, 5, x, y));
 				}
+				interval = 0;
+			}
+			else if (interval == Settings.SAND_SPAWN_DELAY){
+				game.getDebrisManager().addParticle(new RainStorm(game, GameLevelImage.jungle_rain, 5, x, y));
 				interval = 0;
 			}
 		}

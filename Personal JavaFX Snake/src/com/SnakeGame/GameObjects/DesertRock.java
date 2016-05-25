@@ -5,7 +5,6 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.Settings;
 import com.SnakeGame.FrameWork.SnakeGame;
 import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,9 +21,8 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class DesertRock extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	SnakeGame game;
+	private Rectangle2D collisionBounds;
+	private SnakeGame game;
 	float speed;
 
 	public DesertRock(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
@@ -53,7 +51,7 @@ public class DesertRock extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		collisionBounds = new Rectangle2D(x, y + 30, width - 30, height - 30);
+		collisionBounds = new Rectangle2D(x+12, y + 45, width - 60, height - 55);
 	}
 
 	/**
@@ -74,7 +72,7 @@ public class DesertRock extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			Rectangle bounds = new Rectangle(x+12, y + 45, width - 60, height - 55);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

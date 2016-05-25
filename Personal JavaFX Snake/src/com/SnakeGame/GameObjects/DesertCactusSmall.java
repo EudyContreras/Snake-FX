@@ -22,6 +22,7 @@ public class DesertCactusSmall extends AbstractTile {
 
 	SnakeGame game;
 	Rectangle bounds;
+	Rectangle2D bounds2D;
 	float speed;
 	float oldX;
 
@@ -35,6 +36,10 @@ public class DesertCactusSmall extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.draw();
+		this.setBounds(); 
+	}
+	public void setBounds(){
+		 bounds2D = new Rectangle2D(x+5, y+height*0.4, width*0.6, height*0.5);
 	}
 	/**
 	 * Method which moves this object
@@ -71,7 +76,7 @@ public class DesertCactusSmall extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (Settings.DEBUG_MODE) {
-			bounds = new Rectangle(x, y+height/4, width/1.5, height/1.5);
+			bounds = new Rectangle(x+5, y+height*0.4, width*0.6, height*0.5);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -84,7 +89,7 @@ public class DesertCactusSmall extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return  new Rectangle2D(x, y+height/4, width/1.5, height/1.5);
+		return bounds2D;
 	}
 
 	public Rectangle2D getBoundsTop() {

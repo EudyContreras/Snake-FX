@@ -47,8 +47,10 @@ public class Settings {
 	public static int MAX_AMOUNT_OF_OBJECTS = 30;
 	public static int DEBRIS_LIMIT = 120;
 	public static int PARTICLE_LIMIT = 20;
-	public static int SAND_AMOUNT = 4;
+	public static int SAND_AMOUNT = 2;
 	public static int SAND_SPAWN_DELAY = 1;
+	public static int RAIN_AMOUNT = 2;
+	public static int RAIN_SPAWN_DELAY = 1;
 
 	public static double SAND_SIZE = 4;
 	public static double WIND_FORCE = 0.8;
@@ -66,7 +68,7 @@ public class Settings {
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 	public static boolean LOAD_SPIKE_FENCE = false;
-	public static boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = true;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

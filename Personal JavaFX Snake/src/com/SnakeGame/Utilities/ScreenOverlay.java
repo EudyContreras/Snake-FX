@@ -297,7 +297,7 @@ public class ScreenOverlay {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			if (blurUp) {
 				stormBluring += 0.1;
-				if (stormBluring >= 4) {
+				if (stormBluring >= 3) {
 					blurDown = true;
 					blurUp = false;
 				}

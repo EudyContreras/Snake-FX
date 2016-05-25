@@ -408,12 +408,12 @@ public class SnakeGame extends AbstractGameModel{
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
+							sandEmitter.move();
+							rainEmitter.move();
 							if(Settings.SAND_STORM){
-								sandEmitter.move();
 								sandEmitter.emit();
 							}
 							if(Settings.RAIN_STORM){
-								rainEmitter.move();
 								rainEmitter.emit();
 							}
 							if (loader.getPlayerOne() != null && getHealthBarOne() != null) {

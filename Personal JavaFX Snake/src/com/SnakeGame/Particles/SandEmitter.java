@@ -62,10 +62,14 @@ public class SandEmitter {
 		if (Settings.SAND_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD && !PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED && game.getStateID()!=GameStateID.GAME_MENU) {
 			addRandomBlur(true);
 			interval++;
-			if (interval == Settings.SAND_SPAWN_DELAY) {
-				for (int i = 0; i < Settings.SAND_AMOUNT; i++) {
+			if (interval == Settings.RAIN_SPAWN_DELAY && Settings.RAIN_AMOUNT>1) {
+				for (int i = 0; i < Settings.RAIN_AMOUNT; i++) {
 					game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.desert_sand, 5, x, y));
 				}
+				interval = 0;
+			}
+			else if (interval == Settings.RAIN_SPAWN_DELAY) {
+				game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.desert_sand, 5, x, y));
 				interval = 0;
 			}
 		}
