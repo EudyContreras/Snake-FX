@@ -1,7 +1,7 @@
 package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
@@ -74,7 +74,7 @@ public abstract class SlitherMain {
 	 * @param damage
 	 * @param id
 	 */
-	public SlitherMain(SnakeGame game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
+	public SlitherMain(GameManager game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
 			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
@@ -100,7 +100,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+	public SlitherMain(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
 			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
@@ -132,7 +132,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
+	public SlitherMain(GameManager game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
@@ -154,7 +154,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Pane layer, float x, float y, float r, float velX, float velY, GameObjectID id) {
+	public SlitherMain(GameManager game, Pane layer, float x, float y, float r, float velX, float velY, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -166,7 +166,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Pane layer, Image image, float x, float y, GameObjectID id) {
+	public SlitherMain(GameManager game, Pane layer, Image image, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
@@ -183,7 +183,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public SlitherMain(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -213,7 +213,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+	public SlitherMain(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 		if (node instanceof Rectangle) {
@@ -254,7 +254,7 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(SnakeGame game, Pane layer, GameObjectID id) {
+	public SlitherMain(GameManager game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}

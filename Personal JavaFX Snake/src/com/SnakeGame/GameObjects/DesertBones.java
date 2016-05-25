@@ -2,8 +2,8 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
@@ -21,13 +21,13 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class GenericObject extends AbstractTile {
+public class DesertBones extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;
 	GameManager game;
 	float speed;
 
-	public GenericObject(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
+	public DesertBones(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -38,7 +38,7 @@ public class GenericObject extends AbstractTile {
 		draw();
 	}
 
-	public GenericObject(GameManager game, float x, float y, float velX, float velY, Image image) {
+	public DesertBones(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;

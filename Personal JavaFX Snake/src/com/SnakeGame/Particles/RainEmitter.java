@@ -2,8 +2,8 @@ package com.SnakeGame.Particles;
 
 import java.util.Random;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -27,11 +27,11 @@ public class RainEmitter {
 	private double velX;
 	private double speed;
 	private int interval = 0;
-	private SnakeGame game;
+	private GameManager game;
 	private Random rand;
 	private ScreenOverlay overlay;
 
-	public RainEmitter(SnakeGame game, double x, double y,  double speed, double width, double height) {
+	public RainEmitter(GameManager game, double x, double y,  double speed, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.velX = 5;
@@ -44,7 +44,7 @@ public class RainEmitter {
 	public void move() {
 		this.overlay.updateEffect();
 		x += velX;
-		if (x >= Settings.WIDTH) {
+		if (x >= GameSettings.WIDTH) {
 			goLeft = true;
 			goRight = false;
 		}
@@ -61,16 +61,16 @@ public class RainEmitter {
 	}
 
 	public void emit() {
-		if (Settings.RAIN_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD && !PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED && game.getStateID()!=GameStateID.GAME_MENU) {
+		if (GameSettings.RAIN_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD && !PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED && game.getStateID()!=GameStateID.GAME_MENU) {
 			addRandomBlur(true);
 			interval++;
-			if (interval == Settings.SAND_SPAWN_DELAY && Settings.SAND_AMOUNT>1) {
-				for (int i = 0; i < Settings.SAND_AMOUNT; i++) {
+			if (interval == GameSettings.SAND_SPAWN_DELAY && GameSettings.SAND_AMOUNT>1) {
+				for (int i = 0; i < GameSettings.SAND_AMOUNT; i++) {
 					game.getDebrisManager().addParticle(new RainStorm(game, GameLevelImage.jungle_rain, 5, x, y));
 				}
 				interval = 0;
 			}
-			else if (interval == Settings.SAND_SPAWN_DELAY){
+			else if (interval == GameSettings.SAND_SPAWN_DELAY){
 				game.getDebrisManager().addParticle(new RainStorm(game, GameLevelImage.jungle_rain, 5, x, y));
 				interval = 0;
 			}
@@ -78,7 +78,7 @@ public class RainEmitter {
 	}
 
 	public void addRandomBlur(boolean random) {
-		if (random && rand.nextInt(Settings.BLUR_RANDOMNESS) != 0) {
+		if (random && rand.nextInt(GameSettings.BLUR_RANDOMNESS) != 0) {
 			return;
 		}
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED)

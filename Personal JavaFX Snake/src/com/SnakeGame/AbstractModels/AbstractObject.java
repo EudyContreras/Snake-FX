@@ -1,7 +1,7 @@
 package com.SnakeGame.AbstractModels;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -76,7 +76,7 @@ public abstract class AbstractObject {
 	 * @param damage
 	 * @param id
 	 */
-	public AbstractObject(SnakeGame game, Pane layer, Image image, double x, double y, double r, double velX,
+	public AbstractObject(GameManager game, Pane layer, Image image, double x, double y, double r, double velX,
 			double velY, double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
@@ -102,7 +102,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
 			double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
@@ -138,7 +138,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(SnakeGame game, Image image, Pane layer, double x, double y, double r, double velX,
+	public AbstractObject(GameManager game, Image image, Pane layer, double x, double y, double r, double velX,
 			double velY, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
@@ -160,7 +160,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(SnakeGame game, Pane layer, double x, double y, double r, double velX, double velY,
+	public AbstractObject(GameManager game, Pane layer, double x, double y, double r, double velX, double velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
@@ -173,7 +173,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(SnakeGame game, Pane layer, Image image, double x, double y, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Image image, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
@@ -190,7 +190,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -219,7 +219,7 @@ public abstract class AbstractObject {
 		}
 
 	}
-	public AbstractObject(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -248,7 +248,7 @@ public abstract class AbstractObject {
 		}
 
 	}
-	public AbstractObject(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 		if (node instanceof Rectangle) {
@@ -289,7 +289,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(SnakeGame game, Pane layer, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -418,9 +418,9 @@ public abstract class AbstractObject {
 	public void move() {
 		if (!canMove)
 			return;
-		x = x + velX * Settings.FRAME_SCALE;
-		y = y + velY * Settings.FRAME_SCALE;
-		r = r + velR * Settings.FRAME_SCALE;
+		x = x + velX * GameSettings.FRAME_SCALE;
+		y = y + velY * GameSettings.FRAME_SCALE;
+		r = r + velR * GameSettings.FRAME_SCALE;
 	}
 
 	public boolean isAlive() {

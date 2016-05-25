@@ -3,8 +3,8 @@ package com.SnakeGame.SlitherSnake;
 import java.util.Random;
 
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
@@ -26,7 +26,7 @@ public class SlitherSection extends SlitherSectionMain {
 	float rotation;
 	float rotationDelay = 10;
 	int dirtDelay = 10;
-	SnakeGame game;
+	GameManager game;
 	SlitherTail tail;
 	Random rand;
 	Circle bones;
@@ -34,7 +34,7 @@ public class SlitherSection extends SlitherSectionMain {
 	SlitherSectionMain previousSect;
 	SlitherSectionManager sectManager;
 
-	public SlitherSection(SlitherSnake snake, SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id,
+	public SlitherSection(SlitherSnake snake, GameManager game, Pane layer, Node node, float x, float y, GameObjectID id,
 			float numericID) {
 		super(game, layer, node, id);
 		this.game = game;
@@ -43,8 +43,8 @@ public class SlitherSection extends SlitherSectionMain {
 		this.sectManager = game.getSectManagerThree();
 		this.x = x;
 		this.y = y;
-		this.velX = Settings.SLITHER_SPEED;
-		this.velY = Settings.SLITHER_SPEED;
+		this.velX = GameSettings.SLITHER_SPEED;
+		this.velY = GameSettings.SLITHER_SPEED;
 		this.speed = 0.7f;
 		if (this.numericID <= 1) {
 			this.circle.setVisible(false);
@@ -82,7 +82,7 @@ public class SlitherSection extends SlitherSectionMain {
 
 	public void updateUI() {
 		super.updateUI();
-		if (Settings.ALLOW_DIRT) {
+		if (GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
 				displaceDirt(x + width / 2, y + height / 2, 18, 18);
@@ -121,8 +121,8 @@ public class SlitherSection extends SlitherSectionMain {
 
 	public void blowUp() {
 		if (blowUp == true) {
-			for (int i = 0; i < Settings.PARTICLE_LIMIT; i++) {
-				if (Settings.ADD_VARIATION) {
+			for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+				if (GameSettings.ADD_VARIATION) {
 					particleSize = Math.random() * (12 - 5 + 1) + 5;
 					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
 				}
@@ -136,12 +136,12 @@ public class SlitherSection extends SlitherSectionMain {
 	public void teleport() {
 
 		if (x < 0 - radius * 2) {
-			x = (float) (Settings.WIDTH + radius);
-		} else if (x > Settings.WIDTH + radius * 2) {
+			x = (float) (GameSettings.WIDTH + radius);
+		} else if (x > GameSettings.WIDTH + radius * 2) {
 			x = (float) (0 - radius);
 		} else if (y < 0 - radius * 2) {
-			y = (float) (Settings.HEIGHT + radius);
-		} else if (y > Settings.HEIGHT + radius * 2) {
+			y = (float) (GameSettings.HEIGHT + radius);
+		} else if (y > GameSettings.HEIGHT + radius * 2) {
 			y = (float) (0 - radius);
 		}
 	}

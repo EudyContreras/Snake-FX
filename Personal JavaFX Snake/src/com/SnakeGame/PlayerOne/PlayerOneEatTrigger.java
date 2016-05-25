@@ -2,8 +2,8 @@ package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.scene.layout.Pane;
@@ -11,10 +11,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class PlayerOneEatTrigger extends AbstractObject {
-	private SnakeGame game;
+	private GameManager game;
 	private PlayerOne snake;
 
-	public PlayerOneEatTrigger(PlayerOneHead head, PlayerOne snake, SnakeGame game, Pane layer, Circle node, double x, double y,
+	public PlayerOneEatTrigger(PlayerOneHead head, PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;
@@ -45,7 +45,7 @@ public class PlayerOneEatTrigger extends AbstractObject {
 			this.velX = snake.getVelX();
 			this.velY = snake.getVelY();
 		}
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);
 		}
@@ -74,7 +74,7 @@ public class PlayerOneEatTrigger extends AbstractObject {
 			AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (PlayerOne.MOUTH_CLOSE && Settings.AUTOMATIC_EATING) {
+					if (PlayerOne.MOUTH_CLOSE && GameSettings.AUTOMATIC_EATING) {
 						snake.openMouth();
 						break;
 					}

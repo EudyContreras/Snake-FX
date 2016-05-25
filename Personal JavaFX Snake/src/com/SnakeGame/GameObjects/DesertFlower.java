@@ -5,7 +5,9 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Utilities.GameTileManager;
+import com.SnakeGame.Utilities.RandomGenerator;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -21,13 +23,13 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class GenericObject extends AbstractTile {
+public class DesertFlower extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;
 	GameManager game;
 	float speed;
 
-	public GenericObject(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
+	public DesertFlower(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -35,10 +37,13 @@ public class GenericObject extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
+		if(RandomGenerator.getRNG(1, 3) == 3){
+			this.view.setImage(GameLevelImage.desert_flower_alt);
+		}
 		draw();
 	}
 
-	public GenericObject(GameManager game, float x, float y, float velX, float velY, Image image) {
+	public DesertFlower(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;

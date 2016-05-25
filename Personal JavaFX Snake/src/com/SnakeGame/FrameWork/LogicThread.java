@@ -8,12 +8,12 @@ package com.SnakeGame.FrameWork;
  */
 public class LogicThread extends Thread {
 
-	private SnakeGame game;
+	private GameManager game;
 	private Boolean isRunning;
 	private Thread mainThread;
 	private Thread helperThread;
 
-	public LogicThread(SnakeGame game){
+	public LogicThread(GameManager game){
 		this.game = game;
 	}
 	public synchronized void startMainThread() {
@@ -57,7 +57,7 @@ public class LogicThread extends Thread {
 		long timer = System.currentTimeMillis();
 		while (isRunning) {
 			long now = System.nanoTime();
-			if (Settings.RENDER_GAME) {
+			if (GameSettings.RENDER_GAME) {
 				long timePassed = System.currentTimeMillis() - cummulativeTime;
 				cummulativeTime += timePassed;
 				delta1 += (now - lastTime) / ns / 100;
@@ -122,7 +122,7 @@ public class LogicThread extends Thread {
 			long timer = System.currentTimeMillis();
 			while (isRunning) {
 				long now = System.nanoTime();
-				if (Settings.RENDER_GAME) {
+				if (GameSettings.RENDER_GAME) {
 					long timePassed = System.currentTimeMillis() - cummulativeTime;
 					cummulativeTime += timePassed;
 					updateAnimation(timePassed);

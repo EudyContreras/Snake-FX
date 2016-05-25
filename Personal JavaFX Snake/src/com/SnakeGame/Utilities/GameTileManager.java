@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 
 /**
  * This manager class is responsible for managing, updating moving, displaying,
@@ -25,9 +25,9 @@ public class GameTileManager {
 	private AbstractTile tempTile;
 	private AbstractTile tempTrap;
 	private AbstractTile tempBlock;
-	private SnakeGame game;
+	private GameManager game;
 
-	public GameTileManager(SnakeGame game) {
+	public GameTileManager(GameManager game) {
 		this.game = game;
 		this.tile = new LinkedList<AbstractTile>();
 		this.block = new LinkedList<AbstractTile>();

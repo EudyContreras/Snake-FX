@@ -16,10 +16,10 @@ import javafx.scene.input.KeyEvent;
  * @author Eudy Contreras
  *
  */
-public class GameKeyInputManager {
+public class KeyInputManager {
 	private boolean[] keyDown = new boolean[6];
 
-	public GameKeyInputManager() {
+	public KeyInputManager() {
 		keyDown[0] = false;
 		keyDown[1] = false;
 		keyDown[2] = false;
@@ -36,7 +36,7 @@ public class GameKeyInputManager {
 	 * @param slither
 	 * @param scene
 	 */
-	public void processInput(SnakeGame game, PlayerOne playerOne, PlayerTwo playerTwo, SlitherSnake slither, Scene scene) {
+	public void processInput(GameManager game, PlayerOne playerOne, PlayerTwo playerTwo, SlitherSnake slither, Scene scene) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			public void handle(KeyEvent e) {

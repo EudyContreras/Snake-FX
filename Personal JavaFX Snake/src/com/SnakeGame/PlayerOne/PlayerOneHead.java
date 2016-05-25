@@ -3,10 +3,10 @@ package com.SnakeGame.PlayerOne;
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameObjectManager;
+import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -31,7 +31,7 @@ public class PlayerOneHead extends AbstractObject {
 	private int equivalence;
 	private Text text;
 	private Font font;
-	private SnakeGame game;
+	private GameManager game;
 	private Circle skull;
 	private PlayerOne snake;
 	private Rectangle headBoundsLeft;
@@ -39,10 +39,10 @@ public class PlayerOneHead extends AbstractObject {
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
-	private GameObjectManager gom;
+	private ObjectManager gom;
 	private PlayerMovement newDirection;
 
-	public PlayerOneHead(PlayerOne snake, SnakeGame game, Pane layer, Circle node, double x, double y, GameObjectID id,
+	public PlayerOneHead(PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.r = snake.getR();
@@ -53,17 +53,17 @@ public class PlayerOneHead extends AbstractObject {
 		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
-		this.text.setText(Settings.PLAYER_ONE_NAME);
-		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.text.setText(GameSettings.PLAYER_ONE_NAME);
+		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(Settings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			this.headBoundsRight.setFill(Color.BLUE);
 			this.headBoundsRight.setStroke(Color.WHITE);
 			this.layer.getChildren().add(headBoundsRight);
@@ -85,7 +85,7 @@ public class PlayerOneHead extends AbstractObject {
 	}
 
 	public void move() {
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			adjustBounds();
 		}
 		this.y = snake.getY();
@@ -176,48 +176,48 @@ public class PlayerOneHead extends AbstractObject {
 	}
 
 	public void checkCollision() {
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							showVisualQue(Color.RED);
 						}
 					} else if (getBoundsRight().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							showVisualQue(Color.BLUE);
 						}
 					} else if (getBoundsTop().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							showVisualQue(Color.GREEN);
 						}
 					} else if (getBoundsBottom().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							showVisualQue(Color.YELLOW);
 						}
 					}
 				}
 			}
 		}
-		if (!Settings.DEBUG_MODE) {
+		if (!GameSettings.DEBUG_MODE) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							displaceDirt(getBoundsLeft().getMinX(),getBoundsLeft().getMinY(),0,0);
 						}
 					} else if (getBoundsRight().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							displaceDirt(getBoundsRight().getMinX(),getBoundsRight().getMinY(),0,0);
 						}
 					} else if (getBoundsTop().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							displaceDirt(getBoundsTop().getMinX(),getBoundsTop().getMinY(),0,0);
 						}
 					} else if (getBoundsBottom().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							displaceDirt(getBoundsBottom().getMinX(),getBoundsBottom().getMinY(),0,0);
 						}
 					}

@@ -14,10 +14,10 @@ import javafx.scene.input.MouseEvent;
  * @author Eudy Contreras
  *
  */
-public class GameMouseInputManager {
+public class MouseInputManager {
 
 	public static int mouseX, mouseY;
-	SnakeGame game;
+	GameManager game;
 	/**
 	 * Method used to process all mouse input within a node. this method will assign
 	 * specific actions to the perform mouse actions.
@@ -26,15 +26,15 @@ public class GameMouseInputManager {
 	 * @param playerTwo
 	 * @param scene
 	 */
-	public void processInput(SnakeGame game, PlayerOne playerOne, PlayerTwo playerTwo, Scene scene) {
+	public void processInput(GameManager game, PlayerOne playerOne, PlayerTwo playerTwo, Scene scene) {
 		this.game = game;
 		scene.setOnMouseMoved(new EventHandler<MouseEvent>() {
 
 			public void handle(MouseEvent e) {
 
-				mouseX = (int) (e.getX() / Settings.SIZE_SCALE);
-				mouseY = (int) (e.getY() / Settings.SIZE_SCALE);
-				if (Settings.ALLOW_MOUSE_INPUT) {
+				mouseX = (int) (e.getX() / GameSettings.SIZE_SCALE);
+				mouseY = (int) (e.getY() / GameSettings.SIZE_SCALE);
+				if (GameSettings.ALLOW_MOUSE_INPUT) {
 
 				}
 			}
@@ -43,9 +43,9 @@ public class GameMouseInputManager {
 
 			public void handle(MouseEvent e) {
 
-				mouseX = (int) (e.getX() / Settings.SIZE_SCALE);
-				mouseY = (int) (e.getY() / Settings.SIZE_SCALE);
-				if (Settings.ALLOW_MOUSE_INPUT) {
+				mouseX = (int) (e.getX() / GameSettings.SIZE_SCALE);
+				mouseY = (int) (e.getY() / GameSettings.SIZE_SCALE);
+				if (GameSettings.ALLOW_MOUSE_INPUT) {
 
 				}
 			}

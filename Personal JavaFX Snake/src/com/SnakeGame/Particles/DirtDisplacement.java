@@ -1,8 +1,8 @@
 package com.SnakeGame.Particles;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Point2D;
@@ -21,7 +21,7 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	private double energyLoss = 0.9;
 	Point2D velocity = new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10 + 1) + -10);
 
-	public DirtDisplacement(SnakeGame game, Image image,double expireTime, double x, double y, Point2D velocity) {
+	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.shape = new Circle(x, y, radius);
@@ -58,7 +58,7 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	}
 
 	public boolean isAlive() {
-		return x < Settings.WIDTH && x > 0 && y < Settings.HEIGHT && y > 0 && lifeTime > 0;
+		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
 	public void draw(GraphicsContext gc) {

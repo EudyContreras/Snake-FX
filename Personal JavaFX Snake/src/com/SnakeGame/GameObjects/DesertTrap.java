@@ -5,7 +5,6 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -14,59 +13,69 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Every static object or esthetic object in the game such as walls, boxes etc
- * is considered a tile. This class is the main tile class and can be used for
- * creating any level object.
- *
+ * This class represents a cactus which creates a moving
+ * or wind caused waving illusion.
  * @author Eudy Contreras
  *
  */
-public class GenericObject extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
+public class DesertTrap extends AbstractTile {
+
 	GameManager game;
+	Rectangle bounds;
+	Rectangle2D bounds2D;
 	float speed;
+	float oldX;
 
-	public GenericObject(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
+	public DesertTrap(GameManager game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
+		this.oldX = x;
+		if (GameSettings.SAND_STORM)
+			this.velX = velX;
+		this.velR = velR;
 		this.game = game;
-		this.velX = 0;
-		this.speed = speed;
-		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		draw();
+		this.draw();
+		this.setBounds();
 	}
-
-	public GenericObject(GameManager game, float x, float y, float velX, float velY, Image image) {
-		super(x, y, image);
-		this.game = game;
-		this.velX = velX;
-		this.velY = velY;
-		this.view.setTranslateX(x);
-		this.view.setTranslateY(y);
-		draw();
+	public void setBounds(){
+		 bounds2D = new Rectangle2D(x+5, y+height*0.4, width*0.6, height*0.5);
 	}
-
 	/**
-	 * Moves this object
+	 * Method which moves this object
 	 */
 	public void move() {
-		x = x + velX;
+		super.move();
+
 	}
 	/**
-	 * Draws a bounding box
+	 * Method which makes this object
+	 * move or rotate
+	 */
+	public void wave() {
+		if (x > oldX + GameSettings.WIND_FORCE) {
+			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
+		}
+		if (x <= oldX) {
+			if (velX < GameSettings.WIND_FORCE)
+				velX += 0.4f;
+		}
+	}
+
+	/**
+	 * Methods which draws a bounding box
 	 */
 	public void draw() {
 		drawBoundingBox();
 	}
 	/**
-	 * Draws the bounding box of this object for debugging purposes
+	 * Method which creates and draws a bounding box
+	 * for debugging purposes
 	 */
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			bounds = new Rectangle(x+5, y+height*0.4, width*0.6, height*0.5);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -79,7 +88,7 @@ public class GenericObject extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return collisionBounds;
+		return bounds2D;
 	}
 
 	public Rectangle2D getBoundsTop() {

@@ -1,8 +1,8 @@
 package com.SnakeGame.Particles;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
@@ -18,7 +18,7 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	private double decay;
 	private double lifeTime = 1.0f;
 
-	public SectionDisintegration(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
+	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.shape = new Circle(radius, x, y);
@@ -54,7 +54,7 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 
 	public boolean isAlive() {
 
-		return x < Settings.WIDTH && x > 0 && y < Settings.HEIGHT && y > 0 && lifeTime > 0;
+		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
 	public void draw(GraphicsContext gc) {

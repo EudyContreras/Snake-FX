@@ -4,10 +4,10 @@ import java.util.LinkedList;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.GameObjectManager;
+import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
@@ -30,11 +30,11 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerOne extends AbstractObject {
 
-	private int turnDelay = Settings.TURN_DELAY;
+	private int turnDelay = GameSettings.TURN_DELAY;
 	private int dirtDelay = 10;
 	private int maxOpenTime = 0;
 	private int coolDown = 60;
-	private int immunity = Settings.IMMUNITY_TIME;
+	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private double bodyTrigger;
@@ -53,7 +53,7 @@ public class PlayerOne extends AbstractObject {
 	private boolean allowTurnRight = true;
 	private boolean allowTurnUp = true;
 	private boolean allowTurnDown = true;
-	private SnakeGame game;
+	private GameManager game;
 	private Animation anim;
 	private Rectangle bounds;
 	private ScreenOverlay overlay;
@@ -74,15 +74,15 @@ public class PlayerOne extends AbstractObject {
 	public static Boolean KEEP_MOVING = true;
 	public static Boolean ALLOW_FADE = false;
 
-	public PlayerOne(SnakeGame game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, double speed, GameObjectID id, GameObjectManager gom) {
+	public PlayerOne(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+			double velR, double health, double damage, double speed, GameObjectID id, ObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new PlayerOneHead(this, game, layer,
-				new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
+				new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getObjectManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerOne();
@@ -180,7 +180,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void updateBounds() {
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
 		}
@@ -200,7 +200,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void updateDirt() {
-		if (Settings.ALLOW_DIRT) {
+		if (GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
 				if (KEEP_MOVING) {
@@ -247,15 +247,15 @@ public class PlayerOne extends AbstractObject {
 		MOUTH_OPEN = false;
 		MOUTH_CLOSE = true;
 		notEating = true;
-		coolDown = Settings.BITE_DELAY;
+		coolDown = GameSettings.BITE_DELAY;
 	}
 
 	public void setDirection(PlayerMovement direction) {
 		if (game.getStateID()!=GameStateID.GAME_MENU) {
-			if (!Settings.ALLOW_SELF_COLLISION) {
+			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
-			if (Settings.ALLOW_SELF_COLLISION) {
+			if (GameSettings.ALLOW_SELF_COLLISION) {
 				if (!LEVEL_COMPLETED && !DEAD) {
 					if (this.direction == direction) {
 						this.direction = direction;
@@ -307,7 +307,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void setDirectCoordinates(PlayerMovement direction) {
-		if (!Settings.ALLOW_SELF_COLLISION) {
+		if (!GameSettings.ALLOW_SELF_COLLISION) {
 			if (!LEVEL_COMPLETED && !DEAD) {
 				if (this.direction == direction) {
 					this.direction = direction;
@@ -372,7 +372,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
-		velY = -Settings.SNAKE_SPEED;
+		velY = -GameSettings.SNAKE_SPEED;
 		velX = 0;
 		r = 180;
 		setCurrentDirection(PlayerMovement.MOVE_UP);
@@ -384,7 +384,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
-		velY = Settings.SNAKE_SPEED;
+		velY = GameSettings.SNAKE_SPEED;
 		velX = 0;
 		r = 0;
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
@@ -396,7 +396,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
-		velX = Settings.SNAKE_SPEED;
+		velX = GameSettings.SNAKE_SPEED;
 		velY = 0;
 		r = -89;
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
@@ -408,7 +408,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
-		velX = -Settings.SNAKE_SPEED;
+		velX = -GameSettings.SNAKE_SPEED;
 		velY = 0;
 		r = 89;
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
@@ -437,7 +437,7 @@ public class PlayerOne extends AbstractObject {
 								this.overlay.addDistortion(15, 0.2);
 								this.overlay.addToneOverlay(Color.rgb(220, 0, 0), 5, 1.0);
 							}
-							immunity = Settings.IMMUNITY_TIME;
+							immunity = GameSettings.IMMUNITY_TIME;
 							allowDamage = false;
 						}
 					}
@@ -447,7 +447,7 @@ public class PlayerOne extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
 								KEEP_MOVING = false;
 								allowCollision = false;
@@ -470,20 +470,20 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < Settings.SECTIONS_TO_ADD + 1; i++) {
+		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
+					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
 	}
 
 	public void addSection() {
-		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
+		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
-					new Circle(Settings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
+					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
-			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
+			GameManager.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 			appleCount++;
 		}
@@ -493,18 +493,18 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public boolean withinBounds() {
-		return x > 0 - radius - 1 && x < Settings.WIDTH + radius + 1 && y > 0 - radius - 1
-				&& y < Settings.HEIGHT + radius + 1;
+		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
+				&& y < GameSettings.HEIGHT + radius + 1;
 	}
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (Settings.WIDTH + radius);
-		} else if (x > Settings.WIDTH + radius) {
+			x = (float) (GameSettings.WIDTH + radius);
+		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
 		} else if (y < 0 - radius) {
-			y = (float) (Settings.HEIGHT + radius);
-		} else if (y > Settings.HEIGHT + radius) {
+			y = (float) (GameSettings.HEIGHT + radius);
+		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (0 - radius);
 		}
 	}
@@ -565,7 +565,7 @@ public class PlayerOne extends AbstractObject {
 
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.SnakeGame.AbstractModels.AbstractSection;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,7 +24,7 @@ public class PlayerOneSectionManager {
 	private ArrayList<AbstractSection> sectionList;
 	private AbstractSection tempSection;
 
-	public PlayerOneSectionManager(SnakeGame gameJavaFX) {
+	public PlayerOneSectionManager(GameManager gameJavaFX) {
 		initialize();
 	}
 

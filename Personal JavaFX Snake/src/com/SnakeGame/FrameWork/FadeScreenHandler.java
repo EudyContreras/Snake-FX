@@ -5,7 +5,7 @@ import com.SnakeGame.IDenums.GameStateID;
 import javafx.scene.shape.Rectangle;
 
 public class FadeScreenHandler{
-	private SnakeGame game;
+	private GameManager game;
 	private Rectangle mainFadeScreen;
 	private Rectangle innerFadeScreen;
 	private double innerFadePercentage = 0.0;
@@ -15,10 +15,10 @@ public class FadeScreenHandler{
 	private boolean fadeIn = false;
 	private boolean fadeOut = false;
 
-	public FadeScreenHandler(SnakeGame game){
+	public FadeScreenHandler(GameManager game){
 		this.game = game;
-		this.innerFadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
-		this.mainFadeScreen = new Rectangle(0,0, Settings.WIDTH, Settings.HEIGHT);
+		this.innerFadeScreen = new Rectangle(0,0, GameSettings.WIDTH, GameSettings.HEIGHT);
+		this.mainFadeScreen = new Rectangle(0,0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	}
 	public void renderFadeScreen() {
 		if (!slowFade) {

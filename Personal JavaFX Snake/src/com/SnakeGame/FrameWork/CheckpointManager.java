@@ -13,8 +13,8 @@ import javafx.scene.image.Image;
  * @author Eudy Contreras
  *
  */
-public class GameLevelCheckpoint extends AbstractTile {
-	SnakeGame game;
+public class CheckpointManager extends AbstractTile {
+	GameManager game;
 	boolean loadFirstSect = false;
 	boolean loadSecondSect = false;
 	boolean loadThirdSect = false;
@@ -35,7 +35,7 @@ public class GameLevelCheckpoint extends AbstractTile {
 	 * @param velY
 	 * @param image
 	 */
-	public GameLevelCheckpoint(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public CheckpointManager(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;

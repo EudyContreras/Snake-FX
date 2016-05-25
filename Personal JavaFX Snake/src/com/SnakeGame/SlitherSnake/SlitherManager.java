@@ -3,7 +3,7 @@ package com.SnakeGame.SlitherSnake;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -22,9 +22,9 @@ public class SlitherManager {
 
 	private LinkedList<SlitherMain> object;
 	private SlitherMain tempObject;
-	private SnakeGame game;
+	private GameManager game;
 
-	public SlitherManager(SnakeGame gameJavaFX) {
+	public SlitherManager(GameManager gameJavaFX) {
 		this.game = gameJavaFX;
 		initialize();
 	}

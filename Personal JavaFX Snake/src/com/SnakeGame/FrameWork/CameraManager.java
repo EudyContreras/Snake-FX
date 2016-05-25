@@ -13,10 +13,10 @@ import javafx.scene.image.ImageView;
  *
  */
 
-public class GameCamera {
+public class CameraManager {
 	private float x;
 	private float y;
-	private SnakeGame game;
+	private GameManager game;
 	/**
 	 * Main constructor which takes an instance of the game class
 	 * along with the coordinates to be used
@@ -24,7 +24,7 @@ public class GameCamera {
 	 * @param x: x coordinate
 	 * @param y: y coordinate
 	 */
-	public GameCamera(SnakeGame game,float x, float y) {
+	public CameraManager(GameManager game,float x, float y) {
 		this.x = x;
 		this.y = y;
 		this.game = game;
@@ -34,8 +34,8 @@ public class GameCamera {
 	 * @param player
 	 */
 	public void followPlayer(AbstractObject player) {
-		y = (float) (-player.getY() + Settings.HEIGHT - 300);
-		x = (float) (-player.getX() + Settings.WIDTH - 600);
+		y = (float) (-player.getY() + GameSettings.HEIGHT - 300);
+		x = (float) (-player.getX() + GameSettings.WIDTH - 600);
 	}
 	/**
 	 * Method used to scroll the map according to player movement.

@@ -2,8 +2,8 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
@@ -24,10 +24,10 @@ import javafx.scene.shape.Rectangle;
 public class DesertBark extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;
-	SnakeGame game;
+	GameManager game;
 	float speed;
 
-	public DesertBark(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
+	public DesertBark(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -39,7 +39,7 @@ public class DesertBark extends AbstractTile {
 		adjustBounds();
 	}
 
-	public DesertBark(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public DesertBark(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
@@ -74,7 +74,7 @@ public class DesertBark extends AbstractTile {
 	 */
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			Rectangle bounds = new Rectangle(x+80, y + 140, width - 130, height*0.3);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);

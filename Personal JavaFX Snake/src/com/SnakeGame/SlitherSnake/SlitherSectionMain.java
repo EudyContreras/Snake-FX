@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
@@ -68,7 +68,7 @@ public abstract class SlitherSectionMain {
 	 * different ways and with different attributes
 	 */
 
-	public SlitherSectionMain(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public SlitherSectionMain(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -98,7 +98,7 @@ public abstract class SlitherSectionMain {
 
 	}
 
-	public SlitherSectionMain(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+	public SlitherSectionMain(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 		if (node instanceof Rectangle) {
@@ -139,7 +139,7 @@ public abstract class SlitherSectionMain {
 
 	}
 
-	public SlitherSectionMain(SnakeGame game, Pane layer, GameObjectID id) {
+	public SlitherSectionMain(GameManager game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}

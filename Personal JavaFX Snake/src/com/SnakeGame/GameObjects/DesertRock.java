@@ -2,9 +2,11 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.ImageBanks.GameLevelImage;
+import com.SnakeGame.Utilities.RandomGenerator;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,10 +24,10 @@ import javafx.scene.shape.Rectangle;
  */
 public class DesertRock extends AbstractTile {
 	private Rectangle2D collisionBounds;
-	private SnakeGame game;
+	private GameManager game;
 	float speed;
 
-	public DesertRock(SnakeGame game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
+	public DesertRock(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -33,11 +35,14 @@ public class DesertRock extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
+		if(RandomGenerator.getRNG(1, 3) == 3){
+			this.view.setImage(GameLevelImage.desert_rock_alt);
+		}
 		draw();
 		adjustBounds();
 	}
 
-	public DesertRock(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public DesertRock(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
@@ -71,7 +76,7 @@ public class DesertRock extends AbstractTile {
 	 */
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			Rectangle bounds = new Rectangle(x+12, y + 45, width - 60, height - 55);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);

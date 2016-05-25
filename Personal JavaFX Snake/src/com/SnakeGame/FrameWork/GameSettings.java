@@ -12,7 +12,7 @@ import java.awt.Toolkit;
  * @author Eudy Contreras
  *
  */
-public class Settings {
+public class GameSettings {
 
 	public static double START_X = 1920;
 	public static double START_Y = 200;
@@ -25,7 +25,7 @@ public class Settings {
 	public static final int SLITHER_SPEED = 5;
 
 	public static int APPLE_COUNT = 75;
-	public static int SECTIONS_TO_ADD = 3;
+	public static int SECTIONS_TO_ADD = 2;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
 

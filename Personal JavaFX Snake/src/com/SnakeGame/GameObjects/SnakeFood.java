@@ -6,8 +6,8 @@ import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractSection;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -49,7 +49,7 @@ public class SnakeFood extends AbstractObject {
 	private Circle bounds;
 	private DropShadow borderGlow = new DropShadow();
 	private Random rand = new Random();
-	private SnakeGame game;
+	private GameManager game;
 	/**
 	 * Main constructor which can initialize an edible object
 	 *
@@ -60,7 +60,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 * @param id
 	 */
-	public SnakeFood(SnakeGame game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public SnakeFood(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 	}
@@ -75,7 +75,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param id
 	 */
 
-	public SnakeFood(SnakeGame game, Pane layer, Circle node, float x, float y, GameObjectID id) {
+	public SnakeFood(GameManager game, Pane layer, Circle node, float x, float y, GameObjectID id) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 		this.circle.setOpacity(fadeValue);
@@ -83,7 +83,7 @@ public class SnakeFood extends AbstractObject {
 		this.targetSize = size;
 		this.staticRadius = targetSize + 10;
 		this.addGLow();
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 			this.bounds.setStroke(Color.WHITE);
 			this.bounds.setStrokeWidth(3);
@@ -94,7 +94,7 @@ public class SnakeFood extends AbstractObject {
 	 * Adds a glowing aura around the node or image
 	 */
 	public void addGLow() {
-		if (Settings.ADD_GLOW) {
+		if (GameSettings.ADD_GLOW) {
 			borderGlow.setOffsetY(0f);
 			borderGlow.setOffsetX(0f);
 			borderGlow.setColor(Color.rgb(255, 255, 255, 1));
@@ -122,7 +122,7 @@ public class SnakeFood extends AbstractObject {
 	 * Method in charge of moving the node.
 	 */
 	public void move() {
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds.setCenterX(x);
 			bounds.setCenterY(y);
 			bounds.setRadius(size);
@@ -159,7 +159,7 @@ public class SnakeFood extends AbstractObject {
 	 * Method in charge of updating the glow of the object
 	 */
 	public void updateGlow() {
-		if (Settings.ADD_GLOW) {
+		if (GameSettings.ADD_GLOW) {
 			if (fadeValue == 1.0) {
 				if (noGlow) {
 					glowValue += 2;
@@ -193,7 +193,7 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void lookAtMe() {
 		if (minSize) {
-			size += 0.5 * Settings.FRAME_SCALE;
+			size += 0.5 * GameSettings.FRAME_SCALE;
 			circle.setRadius(size);
 			if (size >= targetSize + 10) {
 				minSize = false;
@@ -201,7 +201,7 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 		if (maxSize) {
-			size -= 0.5 * Settings.FRAME_SCALE;
+			size -= 0.5 * GameSettings.FRAME_SCALE;
 			circle.setRadius(size);
 			if (size <= targetSize - 5) {
 				maxSize = false;
@@ -242,8 +242,8 @@ public class SnakeFood extends AbstractObject {
 	 * this method will also assign a set of actions to collision events.
 	 */
 	public void checkCollision() {
-		float newX = (int) (rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3);
-		float newY = (int) (rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3);
+		float newX = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3);
+		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3);
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
 			if (tempTile.getId() == GameLevelObjectID.rock || tempTile.getId() == GameLevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
@@ -312,8 +312,8 @@ public class SnakeFood extends AbstractObject {
 	 * @return
 	 */
 	public boolean allowedLocation() {
-		double newX = rand.nextDouble() * ((Settings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3;
-		double newY = rand.nextDouble() * ((Settings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3;
+		double newX = rand.nextDouble() * ((GameSettings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3;
+		double newY = rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3;
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
 			if (tempTile.getId() == GameLevelObjectID.rock || tempTile.getId() == GameLevelObjectID.cactus) {
 				if (!new Rectangle2D(newX, newY, radius, radius).intersects(tempTile.getBounds())) {
@@ -333,8 +333,8 @@ public class SnakeFood extends AbstractObject {
 	 * Method which makes this object blow up into smaller pieces
 	 */
 	public void blowUp() {
-		for (int i = 0; i < Settings.PARTICLE_LIMIT; i++) {
-			if (Settings.ADD_VARIATION) {
+		for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+			if (GameSettings.ADD_VARIATION) {
 				particleSize = (Math.random() * (20 - 5 + 1) + 5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
@@ -348,8 +348,8 @@ public class SnakeFood extends AbstractObject {
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
 	public void altBlowUp() {
-		for (int i = 0; i < Settings.PARTICLE_LIMIT; i++) {
-			if (Settings.ADD_VARIATION) {
+		for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+			if (GameSettings.ADD_VARIATION) {
 				particleSize = (Math.random() * (40 - 10 + 1) + 10)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)

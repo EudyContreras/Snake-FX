@@ -1,7 +1,7 @@
 
 package com.SnakeGame.AbstractModels;
 
-import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
@@ -37,6 +37,18 @@ public abstract class AbstractTile {
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
+	}
+
+	public float getVelR() {
+		return velR;
+	}
+
+	public void setVelR(float velR) {
+		this.velR = velR;
+	}
+
+	public void setR(float r) {
+		this.r = r;
 	}
 
 	public AbstractTile(float x, float y, Image image) {
@@ -84,6 +96,9 @@ public abstract class AbstractTile {
 		return y;
 	}
 
+	public float getR() {
+		return r;
+	}
 	public void relocate(float x, float y) {
 		view.setTranslateX(x);
 		view.setTranslateY(y);
@@ -107,9 +122,9 @@ public abstract class AbstractTile {
 	}
 
 	public void move() {
-		x = x + velX * Settings.FRAME_SCALE;
-		y = y + velY * Settings.FRAME_SCALE;
-		r = r + velR * Settings.FRAME_SCALE;
+		x = x + velX * GameSettings.FRAME_SCALE;
+		y = y + velY * GameSettings.FRAME_SCALE;
+		r = r + velR * GameSettings.FRAME_SCALE;
 	}
 
 	public Image getImage() {
@@ -143,6 +158,7 @@ public abstract class AbstractTile {
 	public void setY(float y) {
 		this.y = y;
 	}
+
 
 	public void setId(GameLevelObjectID id) {
 		this.id = id;

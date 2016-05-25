@@ -3,8 +3,9 @@ package com.SnakeGame.AbstractModels;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import com.SnakeGame.FrameWork.GameObjectManager;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.ObjectManager;
+import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.LevelManager;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -28,13 +29,14 @@ public abstract class AbstractLoaderModel {
 	protected BufferedImage desertLevel_9;
 	protected BufferedImage desertLevel_10;
 	protected BufferedImage overlay;
-	protected GameObjectManager objectManger;
+	protected LevelManager levelManager;
+	protected ObjectManager objectManger;
 	protected GameTileManager tileManager;
 	protected GenericObject gameTile;
 	protected PlayerOne playerOne;
 	protected PlayerTwo playerTwo;
 	protected SlitherSnake slither;
-	protected SnakeGame game;
+	protected GameManager game;
 	protected Random rand;
 	protected int levelWidth;
 	protected int levelHeight;
@@ -53,8 +55,9 @@ public abstract class AbstractLoaderModel {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadDesertLevels() {
-		this.desertLevel_1 = GameImageLoader.loadImage("/desert-level1.png");
-		this.desertLevel_2 = GameImageLoader.loadImage("/desert-level2.png");
+		this.levelMain 	= GameImageLoader.loadImage("/desert-level-0.png");
+		this.desertLevel_1 = GameImageLoader.loadImage("/desert-level-1.png");
+		this.desertLevel_2 = GameImageLoader.loadImage("/desert-level-2.png");
 		this.desertLevel_3 = GameImageLoader.loadImage("/desert-level3.png");
 		this.desertLevel_4 = GameImageLoader.loadImage("/desert-level4.png");
 		this.desertLevel_5 = GameImageLoader.loadImage("/desert-level5.png");
@@ -72,6 +75,9 @@ public abstract class AbstractLoaderModel {
 	public void loadSeaLevels() {
 
 
+	}
+	public LevelManager getLevelManager(){
+		return levelManager;
 	}
 	public BufferedImage getLevel() {
 		return levelMain;
@@ -131,6 +137,24 @@ public abstract class AbstractLoaderModel {
 
 	public void killPlayerTwo() {
 		playerTwo = null;
+	}
+	public int getLevelWidth() {
+		return levelWidth;
+	}
+	public void setLevelWidth(int levelWidth) {
+		this.levelWidth = levelWidth;
+	}
+	public int getLevelHeight() {
+		return levelHeight;
+	}
+	public void setLevelHeight(int levelHeight) {
+		this.levelHeight = levelHeight;
+	}
+	public BufferedImage getOverlay() {
+		return overlay;
+	}
+	public void setOverlay(BufferedImage overlay) {
+		this.overlay = overlay;
 	}
 
 }

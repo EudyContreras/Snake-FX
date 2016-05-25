@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -13,9 +13,9 @@ public class GameDebrisManager {
 	private LinkedList<AbstractDebrisEffect> debris;
 	private LinkedList<AbstractDebrisEffect> particles;
 	private AbstractDebrisEffect tempDebris;
-	public SnakeGame game;
+	public GameManager game;
 
-	public GameDebrisManager(SnakeGame game) {
+	public GameDebrisManager(GameManager game) {
 		this.game = game;
 		this.debris = new LinkedList<AbstractDebrisEffect>();
 		this.particles = new LinkedList<AbstractDebrisEffect>();

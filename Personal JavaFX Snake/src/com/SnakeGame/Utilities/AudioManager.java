@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -40,19 +40,19 @@ public enum AudioManager {
 	public static final int SFX_ID_FAST = 7;
 	public static final int SFX_ID_SLOW = 8;
 
-	private String[] SFX_PATHS = { SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_die1.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_die2.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_die3.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_apple_spawn.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_apple_die.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_fast.wav").toExternalForm(),
-			SnakeGame.class.getResource("/com/Snake/sfx/sfx_slow.wav").toExternalForm() };
+	private String[] SFX_PATHS = { GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_die1.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_die2.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_die3.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_apple_spawn.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_apple_die.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_fast.wav").toExternalForm(),
+			GameManager.class.getResource("/com/Snake/sfx/sfx_slow.wav").toExternalForm() };
 
 	private final String PROPERTIES_COMMENT = "AUDIO SETTINGS";
 
-	private final String GAME_MUSIC_URL = SnakeGame.class.getResource("/com/Snake/sfx/sfx_default.wav")
+	private final String GAME_MUSIC_URL = GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav")
 			.toExternalForm();
 
 	private final String MUSIC_VOL = "MUSIC_VOL";

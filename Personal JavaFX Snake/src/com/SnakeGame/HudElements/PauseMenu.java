@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -17,7 +17,7 @@ import javafx.scene.paint.Color;
 
 
 public class PauseMenu {
-    private SnakeGame game;
+    private GameManager game;
 	private ImageView mainBoard;
 	private ImageView leftTouchPanel;
 	private ImageView rightTouchPanel;
@@ -42,7 +42,7 @@ public class PauseMenu {
 	private double x;
 	private double y;
 
-	public PauseMenu(SnakeGame game, double x, double y, double width, double height) {
+	public PauseMenu(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.game = game;
@@ -65,12 +65,12 @@ public class PauseMenu {
 		this.restartBtt = new ImageView(GameImageBank.pause_restart);
 		this.mainMenuBtt = new ImageView(GameImageBank.pause_main);
 		this.quitGameBtt = new ImageView(GameImageBank.pause_quit);
-		this.mainBoard.setFitWidth(continueBtt.getImage().getWidth()+SnakeGame.ScaleX(100));
+		this.mainBoard.setFitWidth(continueBtt.getImage().getWidth()+GameManager.ScaleX(100));
 		this.mainBoard.setFitHeight(mainBoard.getImage().getHeight()-140);
-		this.x = Settings.WIDTH/2 - mainBoard.getFitWidth()/2;
+		this.x = GameSettings.WIDTH/2 - mainBoard.getFitWidth()/2;
 		this.y = 0 - mainBoard.getImage().getHeight();
-		this.continueBtt.setX(Settings.WIDTH/2-continueBtt.getImage().getWidth()/2);
-		this.continueBtt.setY(mainBoard.getY()+SnakeGame.ScaleX(40));
+		this.continueBtt.setX(GameSettings.WIDTH/2-continueBtt.getImage().getWidth()/2);
+		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleX(40));
 		this.restartBtt.setX(continueBtt.getX());
 		this.restartBtt.setY(continueBtt.getY()+continueBtt.getImage().getHeight());
 		this.mainMenuBtt.setX(continueBtt.getX()-mainMenuBtt.getImage().getWidth());
@@ -141,7 +141,7 @@ public class PauseMenu {
 				x = x + showSpeedX;
 				mainBoard.setX(x);
 				mainBoard.setY(y);
-				if (mainBoard.getY()>=Settings.HEIGHT/2-mainBoard.getFitHeight()/2){
+				if (mainBoard.getY()>=GameSettings.HEIGHT/2-mainBoard.getFitHeight()/2){
 					blurOut();
 					show=false;
 				}
@@ -180,11 +180,11 @@ public class PauseMenu {
 
 				}
 			}
-			this.mainBoard.setY(Settings.HEIGHT/2-mainBoard.getFitHeight()/2);
+			this.mainBoard.setY(GameSettings.HEIGHT/2-mainBoard.getFitHeight()/2);
 			this.mainBoard.setX(x);
 
 		}
-		this.continueBtt.setY(mainBoard.getY()+SnakeGame.ScaleX(40));
+		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleX(40));
 		this.restartBtt.setX(continueBtt.getX());
 		this.restartBtt.setY(continueBtt.getY()+continueBtt.getImage().getHeight());
 		this.mainMenuBtt.setX(continueBtt.getX());

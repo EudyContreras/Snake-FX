@@ -8,16 +8,16 @@ import javafx.scene.input.SwipeEvent;
  * @author Eudy Contreras
  *
  */
-public class GameGestureInputManager {
-	public GameGestureInputManager(){
+public class GestureInputManager {
+	public GestureInputManager(){
 	}
 	/**
 	 * Method that will create an action according to the nature of the
 	 * gesture.
 	 * @param game
 	 */
-	public void processGestures(SnakeGame game) {
-		if(Settings.ALLOW_TOUCH_CONTROL){
+	public void processGestures(GameManager game) {
+		if(GameSettings.ALLOW_TOUCH_CONTROL){
 		game.getScene().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {

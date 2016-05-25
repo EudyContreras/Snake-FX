@@ -1,8 +1,8 @@
 package com.SnakeGame.Interface;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.Utilities.GameAudio;
 
 import javafx.geometry.Insets;
@@ -46,23 +46,23 @@ public class MenuMain {
 	private double opacity = 1.0;
 	private DropShadow borderGlow = new DropShadow();
 	private Pane menuRoot = new Pane();
-	private SnakeGame game;
+	private GameManager game;
 	private float x, y, velX, velY, x2, y2, velX2, velY2;
 	private MediaPlayer music;
 
-	public MenuMain(SnakeGame game) {
+	public MenuMain(GameManager game) {
 		this.game = game;
 		logo = new ImageView(MenuImageBank.gameLogo);
-		logo.setX(Settings.WIDTH/2-logo.getImage().getWidth()/2);
+		logo.setX(GameSettings.WIDTH/2-logo.getImage().getWidth()/2);
 		logo.setY(30);
 		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
 		y2 = 400;
-		x = (float) Settings.WIDTH / 3;
-		x2 = (float) (Settings.WIDTH);
+		x = (float) GameSettings.WIDTH / 3;
+		x2 = (float) (GameSettings.WIDTH);
 		velX = -1;
 		velX2 = -1;
 		fadeScreen = new Pane();
-		clearUp = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
+		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		clearUp.setFill(Color.BLACK);
 		// addMusic();
 	}
@@ -117,8 +117,8 @@ public class MenuMain {
 		menuBox.setPrefHeight(600);
 		menuBox.setMinHeight(600);
 		menuBox.setAlignment(Pos.CENTER);
-		menuBox.setTranslateX(Settings.WIDTH / 2 - menuBox.getPrefWidth() / 2);
-		menuBox.setTranslateY(Settings.HEIGHT / 2 - menuBox.getPrefHeight() / 2);
+		menuBox.setTranslateX(GameSettings.WIDTH / 2 - menuBox.getPrefWidth() / 2);
+		menuBox.setTranslateY(GameSettings.HEIGHT / 2 - menuBox.getPrefHeight() / 2);
 		VBox.setMargin(startLabel,
 				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(multiplayerLabel,
@@ -137,28 +137,28 @@ public class MenuMain {
 		highScoreLabel.setAlignment(Pos.CENTER);
 		exitLabel.setAlignment(Pos.CENTER);
 
-		r1 = new Rectangle(Settings.WIDTH / 2 - 250 / 2, menuBox.getTranslateY() / GameLoader.ResolutionScaleY, 250,
+		r1 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2, menuBox.getTranslateY() / GameLoader.ResolutionScaleY, 250,
 				50 / GameLoader.ResolutionScaleY);
 		//r1.setFill(Color.rgb(255, 0, 0, 0.5));
 		 r1.setFill(Color.TRANSPARENT);
-		r2 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
+		r2 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
 				r1.getY() + r1.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
 		//r2.setFill(Color.rgb(255, 0, 0, 0.5));
 		 r2.setFill(Color.TRANSPARENT);
-		r3 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
+		r3 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
 				r2.getY() + r2.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
 		//r3.setFill(Color.rgb(255, 0, 0, 0.5));
 		 r3.setFill(Color.TRANSPARENT);
-		r4 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
+		r4 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
 				r3.getY() + r3.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
 		//r4.setFill(Color.rgb(255, 0, 0, 0.5));
 		 r4.setFill(Color.TRANSPARENT);
-		r5 = new Rectangle(Settings.WIDTH / 2 - 250 / 2,
+		r5 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
 				r4.getY() + r4.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
 		//r5.setFill(Color.rgb(255, 0, 0, 0.5));
 		r5.setFill(Color.TRANSPARENT);
 		showMenu = true;
-		titleBox.setTranslateX(Settings.WIDTH / 2 - titleBox.getPrefWidth() / 2);
+		titleBox.setTranslateX(GameSettings.WIDTH / 2 - titleBox.getPrefWidth() / 2);
 		titleBox.setTranslateY(0);
 
 		boundBox.setPadding(new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
@@ -170,8 +170,8 @@ public class MenuMain {
 		boundBox.setPrefHeight(600);
 		boundBox.setMinHeight(600);
 		boundBox.setAlignment(Pos.CENTER);
-		boundBox.setTranslateX(Settings.WIDTH / 2 - boundBox.getPrefWidth() / 2);
-		boundBox.setTranslateY(Settings.HEIGHT / 2 - boundBox.getPrefHeight() / 2);
+		boundBox.setTranslateX(GameSettings.WIDTH / 2 - boundBox.getPrefWidth() / 2);
+		boundBox.setTranslateY(GameSettings.HEIGHT / 2 - boundBox.getPrefHeight() / 2);
 		VBox.setMargin(r1, new Insets(20 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
 				20 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(r2, new Insets(15 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
@@ -222,12 +222,12 @@ public class MenuMain {
 		parallaxObject1.setX(x);
 		parallaxObject1.setY(y);
 		if (x < 0 - parallaxObject1.getImage().getWidth()) {
-			x = (float) Settings.WIDTH;
+			x = (float) GameSettings.WIDTH;
 		}
 		parallaxObject2.setX(x2);
 		parallaxObject2.setY(y2);
 		if (x2 < 0 - parallaxObject2.getImage().getWidth()) {
-			x2 = (float) Settings.WIDTH;
+			x2 = (float) GameSettings.WIDTH;
 		}
 	}
 

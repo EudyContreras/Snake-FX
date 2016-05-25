@@ -2,8 +2,8 @@ package com.SnakeGame.Particles;
 
 import java.util.Random;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
@@ -33,7 +33,7 @@ public class FruitSplashTwo extends AbstractDebrisEffect {
 	int amount = 200;
 	double greenRange = Math.random() * (200 - 65 + 1) + 65;
 
-	public FruitSplashTwo(SnakeGame game, Paint fill, double expireTime, double radius, float x, float y) {
+	public FruitSplashTwo(GameManager game, Paint fill, double expireTime, double radius, float x, float y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.shape = new Circle();
@@ -68,7 +68,7 @@ public class FruitSplashTwo extends AbstractDebrisEffect {
 
 	public boolean isAlive() {
 
-		return x < Settings.WIDTH && x > 0 && y < Settings.HEIGHT && y > 0 && lifeTime > 0;
+		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
 	public void draw(GraphicsContext gc) {

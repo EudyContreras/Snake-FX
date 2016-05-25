@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -23,7 +23,7 @@ public class GameOverScreen {
 	public static boolean FAILED_LEVEL = false;
 	private ScreenOverlay overlay;
 	private DropShadow borderGlow;
-	private SnakeGame game;
+	private GameManager game;
 	private Rectangle confirmScreen;
 	private ImageView continue_btt;
 	private ImageView quitGame_btt;
@@ -40,7 +40,7 @@ public class GameOverScreen {
 	private boolean swipeLeft = false;
 	private boolean center = true;
 
-	public GameOverScreen(SnakeGame game, Image boardImage, double width, double height) {
+	public GameOverScreen(GameManager game, Image boardImage, double width, double height) {
 		this.game = game;
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.scoreLayer = new Pane();
@@ -62,19 +62,19 @@ public class GameOverScreen {
 		confirmScreen.setWidth(width);
 		confirmScreen.setHeight(height);
 		confirmScreen.setFill(new ImagePattern(boardImage));
-		scoreLayer.setPrefSize(Settings.WIDTH, Settings.HEIGHT);
+		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		confirmX = 0 - confirmScreen.getWidth() - 50;
-		confirmScreen.setY(Settings.HEIGHT / 2 - confirmScreen.getHeight() / 2 - SnakeGame.ScaleY(30));
+		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getHeight() / 2 - GameManager.ScaleY(30));
 		continue_btt = new ImageView(GameImageBank.continue_button_alt);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
 		restart_btt = new ImageView(GameImageBank.restart_button);
 		optionsBoard = new ImageView(GameImageBank.options_board);
 		optionsBoard.setFitWidth(width);
 		optionsBoard.setFitHeight((height/4));
-		continue_btt.setFitWidth(SnakeGame.ScaleX(240));
-		continue_btt.setFitHeight(SnakeGame.ScaleY(70));
-		quitGame_btt.setFitWidth(SnakeGame.ScaleX(240));
-		quitGame_btt.setFitHeight(SnakeGame.ScaleY(70));
+		continue_btt.setFitWidth(GameManager.ScaleX(240));
+		continue_btt.setFitHeight(GameManager.ScaleY(70));
+		quitGame_btt.setFitWidth(GameManager.ScaleX(240));
+		quitGame_btt.setFitHeight(GameManager.ScaleY(70));
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(confirmScreen,optionsBoard, continue_btt, quitGame_btt, restart_btt);
@@ -139,8 +139,8 @@ public class GameOverScreen {
 					}
 
 				}
-				if (confirmX >= Settings.WIDTH / 2 - confirmScreen.getWidth() / 2) {
-					confirmX = (float) (Settings.WIDTH / 2 - confirmScreen.getWidth() / 2);
+				if (confirmX >= GameSettings.WIDTH / 2 - confirmScreen.getWidth() / 2) {
+					confirmX = (float) (GameSettings.WIDTH / 2 - confirmScreen.getWidth() / 2);
 					confirmXPosition = 0;
 					blurOut();
 					fadeOut();
@@ -148,11 +148,11 @@ public class GameOverScreen {
 					center = false;
 				}
 			}
-			continue_btt.setX(optionsBoard.getX()+20/SnakeGame.ScaleX);
-			continue_btt.setY(optionsBoard.getY()+20/SnakeGame.ScaleY);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/SnakeGame.ScaleX);
-			quitGame_btt.setY(optionsBoard.getY()+20/SnakeGame.ScaleY);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/SnakeGame.ScaleX);
+			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
+			continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
+			quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
 			restart_btt.setY(continue_btt.getY());
 		}
 		overlay.updateEffect();

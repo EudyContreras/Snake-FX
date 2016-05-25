@@ -1,7 +1,7 @@
 package com.SnakeGame.Utilities;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -22,8 +22,8 @@ public class ScreenOverlay {
 	private GaussianBlur gaussianEffect = new GaussianBlur(7);
 	private GaussianBlur clearLevelBlur = new GaussianBlur(0);
 	private GaussianBlur stormBlur = new GaussianBlur(0);
-	private Rectangle toneOverlay = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
-	private Rectangle fadeScreen = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
+	private Rectangle toneOverlay = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	private Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
@@ -54,10 +54,10 @@ public class ScreenOverlay {
 	private Double fade;
 	private Double fadeSpeed;
 	private Pane layer;
-	private SnakeGame game;
+	private GameManager game;
 	private GameStateID stateID;
 
-	public ScreenOverlay(SnakeGame game, Pane layer) {
+	public ScreenOverlay(GameManager game, Pane layer) {
 		this.game = game;
 		this.layer = layer;
 		this.toneOverlay.setFill(Color.TRANSPARENT);

@@ -24,7 +24,7 @@ public class SecondExample {
 		Connection conn = null;
 		Statement stmt = null;
 		String selectSql;
-		String insertSql;
+	//	String insertSql;
 		try {
 			// STEP 2: Register JDBC driver
 			Class.forName("com.mysql.jdbc.Driver");
@@ -38,8 +38,8 @@ public class SecondExample {
 			System.out.println("Inserting records into the table...");
 			stmt = conn.createStatement();
 			selectSql = "SELECT id, name, email, age, score, date, country FROM user_record";
-			insertSql = "INSERT INTO user_record "+"VALUES (0, 'Markus Vasdekis', 'Markus@gmail.com', 28, 350,'"+dateFormat.format(date)+"', 'Sweden')";
-			stmt.executeUpdate(insertSql);
+//			insertSql = "INSERT INTO user_record "+"VALUES (0, 'Markus Vasdekis', 'Markus@gmail.com', 28, 350,'"+dateFormat.format(date)+"', 'Sweden')";
+//			stmt.executeUpdate(insertSql);
 			// insertSql = "INSERT INTO user_record "+"VALUES (0, 'Jessica
 			// Wernberg', 'JessicaWernberg@gmail.com', 25, 120,
 			// '"+dateFormat.format(date)+"', 'Sweden')";

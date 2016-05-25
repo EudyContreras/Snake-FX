@@ -66,7 +66,7 @@ import javafx.util.Duration;
  * @author Eudy Contreras
  *
  */
-public class SnakeGame extends AbstractGameModel{
+public class GameManager extends AbstractGameModel{
 
 
 	public void start(Stage primaryStage) {
@@ -147,12 +147,12 @@ public class SnakeGame extends AbstractGameModel{
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,
 				350 / ScaleX, 40 / ScaleY));
-		setHealthBarTwo(new HealthBarTwo(this,Settings.WIDTH - 400 / ScaleX,
+		setHealthBarTwo(new HealthBarTwo(this,GameSettings.WIDTH - 400 / ScaleX,
 				15 / ScaleY, 350 / ScaleX,40 / ScaleY));
-		pauseMenu = new PauseMenu(this,0,0,Settings.WIDTH,300);
-		gameHud = new GameHud(this, -5, -10, Settings.WIDTH + 10, 82 / ScaleY);
-		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, (Settings.WIDTH / 2) - 30/ ScaleX,
-				45 / ScaleY, Settings.WIDTH / 2 - 680/ScaleX / 2 , 20/ScaleY,
+		pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
+		gameHud = new GameHud(this, -5, -10, GameSettings.WIDTH + 10, 82 / ScaleY);
+		scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
+				45 / ScaleY, GameSettings.WIDTH / 2 - 680/ScaleX / 2 , 20/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
 				50/ScaleY, Color.RED);
@@ -165,8 +165,8 @@ public class SnakeGame extends AbstractGameModel{
 		processGestures();
 		mainMenu.setupMainMenu();
 		mainWindow.setScene(scene);
-		mainWindow.setWidth(Settings.WIDTH);
-		mainWindow.setHeight(Settings.HEIGHT);
+		mainWindow.setWidth(GameSettings.WIDTH);
+		mainWindow.setHeight(GameSettings.HEIGHT);
 		mainWindow.setResizable(false);
 		mainWindow.setFullScreen(true);
 		mainWindow.setFullScreenExitHint("");
@@ -197,8 +197,8 @@ public class SnakeGame extends AbstractGameModel{
 		root = new Pane();
 		mainMenu = new MenuMain(this);
 		backgroundImage = new ImageView(GameLevelImage.desertBackground);
-		canvas = new Canvas(Settings.WIDTH, Settings.HEIGHT);
-		scene = new Scene(mainMenu.getMenuRoot(), Settings.WIDTH, Settings.HEIGHT);
+		canvas = new Canvas(GameSettings.WIDTH, GameSettings.HEIGHT);
+		scene = new Scene(mainMenu.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		baseLayer = new Pane();
 		firstLayer = new Pane();
@@ -219,14 +219,14 @@ public class SnakeGame extends AbstractGameModel{
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
-		objectManager = new GameObjectManager(this);
+		objectManager = new ObjectManager(this);
 		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
 		sectManagerThree = new SlitherSectionManager(this);
-		keyInput = new GameKeyInputManager();
-		gestures = new GameGestureInputManager();
-		mouseInput = new GameMouseInputManager();
+		keyInput = new KeyInputManager();
+		gestures = new GestureInputManager();
+		mouseInput = new MouseInputManager();
 		debrisManager = new GameDebrisManager(this);
 		postEffects = new ScreenOverlay(this, getGameRoot());
 	}
@@ -242,23 +242,23 @@ public class SnakeGame extends AbstractGameModel{
 	}
 
 	public void resumeGame() {
-		if (Settings.RENDER_GAME == true)
+		if (GameSettings.RENDER_GAME == true)
 			return;
 		setStateID(GameStateID.GAMEPLAY);
-		Settings.RENDER_GAME = true;
+		GameSettings.RENDER_GAME = true;
 	}
 
 	public void pauseGame() {
-		if (Settings.RENDER_GAME == false)
+		if (GameSettings.RENDER_GAME == false)
 			return;
-		Settings.RENDER_GAME = false;
+		GameSettings.RENDER_GAME = false;
 	}
 
 	public void pauseAndResume() {
-		if (Settings.RENDER_GAME == false)
-			Settings.RENDER_GAME = true;
-		else if (Settings.RENDER_GAME == true)
-			Settings.RENDER_GAME = false;
+		if (GameSettings.RENDER_GAME == false)
+			GameSettings.RENDER_GAME = true;
+		else if (GameSettings.RENDER_GAME == true)
+			GameSettings.RENDER_GAME = false;
 	}
 
 	public void startThreads() {
@@ -307,11 +307,11 @@ public class SnakeGame extends AbstractGameModel{
 				FPS++;
 				currentTime = now;
 				delta += currentTime - lastTime;
-				if (!Settings.RENDER_GAME) {
+				if (!GameSettings.RENDER_GAME) {
 					mainMenu.transition();
 
 				}
-				if (Settings.RENDER_GAME) {
+				if (GameSettings.RENDER_GAME) {
 					drawOverlay(gc);
 					debrisManager.update(gc);
 					objectManager.updateAll(gc, now);
@@ -325,16 +325,16 @@ public class SnakeGame extends AbstractGameModel{
 						getHealthBarTwo().depleteHealth();
 						getHealthBarTwo().regerateHealth();
 					}
-					if (Settings.ALLOW_PHYSICS) {
+					if (GameSettings.ALLOW_PHYSICS) {
 						if (!firstLayer.getChildren().isEmpty()) {
-							if (firstLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
+							if (firstLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
 								firstLayer.getChildren().remove(50, 100);
 							}
 						}
 					}
-					if (!Settings.ALLOW_PHYSICS) {
+					if (!GameSettings.ALLOW_PHYSICS) {
 						if (!firstLayer.getChildren().isEmpty()) {
-							if (firstLayer.getChildren().size() > Settings.DEBRIS_LIMIT + 50) {
+							if (firstLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT + 50) {
 								firstLayer.getChildren().remove(50, 100);
 							}
 						}
@@ -364,7 +364,7 @@ public class SnakeGame extends AbstractGameModel{
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(Settings.FRAMECAP), // 60FPS
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
 
 				new EventHandler<ActionEvent>() {
 					long startTime = System.currentTimeMillis();
@@ -384,11 +384,11 @@ public class SnakeGame extends AbstractGameModel{
 						delta += currentTime - lastTime;
 						timePassed = System.currentTimeMillis() - cummulativeTime;
 						cummulativeTime += timePassed;
-						if (!Settings.RENDER_GAME) {
+						if (!GameSettings.RENDER_GAME) {
 							mainMenu.transition();
 
 						}
-						if (Settings.RENDER_GAME) {
+						if (GameSettings.RENDER_GAME) {
 							drawOverlay(gc);
 							fadeHandler.innerFade_update();
 							fadeHandler.outer_fade_update();
@@ -410,10 +410,10 @@ public class SnakeGame extends AbstractGameModel{
 							loader.updateLevelObjects();
 							sandEmitter.move();
 							rainEmitter.move();
-							if(Settings.SAND_STORM){
+							if(GameSettings.SAND_STORM){
 								sandEmitter.emit();
 							}
-							if(Settings.RAIN_STORM){
+							if(GameSettings.RAIN_STORM){
 								rainEmitter.emit();
 							}
 							if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
@@ -430,16 +430,16 @@ public class SnakeGame extends AbstractGameModel{
 							if (scoreBoardTwo != null) {
 								scoreBoardTwo.hide();
 							}
-							if (Settings.ALLOW_PHYSICS) {
+							if (GameSettings.ALLOW_PHYSICS) {
 								if (!sixthLayer.getChildren().isEmpty()) {
-									if (sixthLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
+									if (sixthLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
 										sixthLayer.getChildren().remove(0);
 									}
 								}
 							}
-							if (!Settings.ALLOW_PHYSICS) {
+							if (!GameSettings.ALLOW_PHYSICS) {
 								if (!sixthLayer.getChildren().isEmpty()) {
-									if (sixthLayer.getChildren().size() > Settings.DEBRIS_LIMIT) {
+									if (sixthLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
 										sixthLayer.getChildren().remove(0);
 									}
 								}
@@ -473,7 +473,7 @@ public class SnakeGame extends AbstractGameModel{
 				long timePassed = System.currentTimeMillis() - cummulativeTime;
 				cummulativeTime += timePassed;
 
-				if (Settings.RENDER_GAME) {
+				if (GameSettings.RENDER_GAME) {
 					objectManager.updateAnimation(timePassed);
 				}
 			}
@@ -488,7 +488,7 @@ public class SnakeGame extends AbstractGameModel{
 	public void physicsLoop() {
 		particleLoop = new AnimationTimer() {
 			public void handle(long now) {
-				if (Settings.RENDER_GAME) {
+				if (GameSettings.RENDER_GAME) {
 					objectManager.addPhysics();
 					objectManager.checkCollisions();
 
@@ -506,9 +506,9 @@ public class SnakeGame extends AbstractGameModel{
 	 *            is used to render the overlay on a canvas layer
 	 */
 	public void drawOverlay(GraphicsContext gc) {
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			gc.setFill(Color.WHITE);
-			gc.fillRect(0, 0, Settings.WIDTH, Settings.HEIGHT);
+			gc.fillRect(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		}
 	}
 

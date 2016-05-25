@@ -1,6 +1,6 @@
 package com.SnakeGame.Utilities;
 
-import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.GameSettings;
 
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -61,7 +61,7 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
@@ -78,7 +78,7 @@ public class ImageUtility {
 		shadow.setRadius(15);
 		// shadow.setOffsetX(20);
 		// shadow.setOffsetY(-15);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(shadow);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
@@ -105,7 +105,7 @@ public class ImageUtility {
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
@@ -131,7 +131,7 @@ public class ImageUtility {
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
@@ -157,7 +157,7 @@ public class ImageUtility {
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
@@ -190,7 +190,7 @@ public class ImageUtility {
 		lighting.setSurfaceScale(8.0);
 
 		lighting.setLight(light);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			circle.setEffect(lighting);
 		img = ImageUtility.createImage(circle);
 		return img;
@@ -219,7 +219,7 @@ public class ImageUtility {
 		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		lighting.setLight(light);
 		lighting.setContentInput(borderGlow);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			circle.setEffect(lighting);
 		img = ImageUtility.createImage(circle);
 		return img;
@@ -244,7 +244,7 @@ public class ImageUtility {
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
@@ -265,7 +265,7 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
-		if (Settings.ADD_LIGHTING)
+		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);

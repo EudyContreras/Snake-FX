@@ -30,7 +30,7 @@ public class IsKeyPressed {
             return dPressed;
         }
     }
-    public static void keyEventListener() {
+    public static void main(String[]args) {
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 
             public boolean dispatchKeyEvent(KeyEvent key) {

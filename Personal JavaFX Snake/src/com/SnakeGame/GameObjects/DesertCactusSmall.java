@@ -2,8 +2,8 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
@@ -20,23 +20,23 @@ import javafx.scene.shape.Rectangle;
  */
 public class DesertCactusSmall extends AbstractTile {
 
-	SnakeGame game;
+	GameManager game;
 	Rectangle bounds;
 	Rectangle2D bounds2D;
 	float speed;
 	float oldX;
 
-	public DesertCactusSmall(SnakeGame game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
+	public DesertCactusSmall(GameManager game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.oldX = x;
-		if (Settings.SAND_STORM)
+		if (GameSettings.SAND_STORM)
 			this.velX = velX;
 		this.velR = velR;
 		this.game = game;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.draw();
-		this.setBounds(); 
+		this.setBounds();
 	}
 	public void setBounds(){
 		 bounds2D = new Rectangle2D(x+5, y+height*0.4, width*0.6, height*0.5);
@@ -46,7 +46,7 @@ public class DesertCactusSmall extends AbstractTile {
 	 */
 	public void move() {
 		super.move();
-		if (Settings.SAND_STORM)
+		if (GameSettings.SAND_STORM)
 			wave();
 	}
 	/**
@@ -54,11 +54,11 @@ public class DesertCactusSmall extends AbstractTile {
 	 * move or rotate
 	 */
 	public void wave() {
-		if (x > oldX + Settings.WIND_FORCE) {
+		if (x > oldX + GameSettings.WIND_FORCE) {
 			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
 		}
 		if (x <= oldX) {
-			if (velX < Settings.WIND_FORCE)
+			if (velX < GameSettings.WIND_FORCE)
 				velX += 0.4f;
 		}
 	}
@@ -75,7 +75,7 @@ public class DesertCactusSmall extends AbstractTile {
 	 */
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x+5, y+height*0.4, width*0.6, height*0.5);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);

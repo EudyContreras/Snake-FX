@@ -14,7 +14,7 @@ import javafx.scene.image.Image;
  *
  */
 public class Destination extends AbstractTile {
-	SnakeGame game;
+	GameManager game;
 	boolean loadFirstSect = false;
 	boolean loadSecondSect = false;
 	boolean loadThirdSect = false;
@@ -35,7 +35,7 @@ public class Destination extends AbstractTile {
 	 * @param velY
 	 * @param image
 	 */
-	public Destination(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public Destination(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;

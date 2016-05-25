@@ -3,8 +3,8 @@ package com.SnakeGame.SlitherSnake;
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
@@ -85,7 +85,7 @@ public class SlitherSnake extends SlitherMain {
 	boolean allowTurnDown = true;
 	boolean allowMovement = true;
 	public boolean thrust = false;
-	int turnDelay = Settings.TURN_DELAY;
+	int turnDelay = GameSettings.TURN_DELAY;
 	int dirtDelay = 10;
 	int tailSize = 30;
 	int counter = 0;
@@ -95,7 +95,7 @@ public class SlitherSnake extends SlitherMain {
 	int shakeDuration = 30;
 	int maxOpenTime = 0;
 	int coolDown = 60;
-	int immunity = Settings.IMMUNITY_TIME;
+	int immunity = GameSettings.IMMUNITY_TIME;
 	int scroll = 0;
 	int moveDelay = 0;
 	int safeDistance = 0;
@@ -108,8 +108,8 @@ public class SlitherSnake extends SlitherMain {
 	float xChange;
 	float yChange;
 	float amountOfBlur = 2.0f;
-	SnakeGame game;
-	Rectangle fadeRect = new Rectangle(0, 0, Settings.WIDTH, Settings.HEIGHT);
+	GameManager game;
+	Rectangle fadeRect = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	ImagePattern pattern = new ImagePattern(GameImageBank.snakeOneEating);
 	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeOneBlinking);
 	Circle headBounds;
@@ -134,7 +134,7 @@ public class SlitherSnake extends SlitherMain {
 	public static Boolean MOUTH_CLOSE = true;
 	public static Boolean keepMoving = true;
 
-	public SlitherSnake(SnakeGame game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+	public SlitherSnake(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
 			float velR, double health, double damage, float speed, GameObjectID id, SlitherManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.gom = gom;
@@ -143,8 +143,8 @@ public class SlitherSnake extends SlitherMain {
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.anim = new Animation();
 		this.sectManager = game.getSectManagerThree();
-		this.velX = Settings.SLITHER_SPEED;
-		this.velY = Settings.SLITHER_SPEED;
+		this.velX = GameSettings.SLITHER_SPEED;
+		this.velY = GameSettings.SLITHER_SPEED;
 		this.speed = 0.7f;
 		addbaseSections();
 		loadImages();
@@ -229,7 +229,7 @@ public class SlitherSnake extends SlitherMain {
 
 	public void update() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
 		}
@@ -269,9 +269,9 @@ public class SlitherSnake extends SlitherMain {
 		} else {
 			velY -= 0.2;
 			velX -= 0.2;
-			if (velX <= Settings.SLITHER_SPEED) {
-				velX = Settings.SLITHER_SPEED;
-				velY = Settings.SLITHER_SPEED;
+			if (velX <= GameSettings.SLITHER_SPEED) {
+				velX = GameSettings.SLITHER_SPEED;
+				velY = GameSettings.SLITHER_SPEED;
 			}
 		}
 	}
@@ -282,25 +282,25 @@ public class SlitherSnake extends SlitherMain {
 	}
 
 	public void moveUp() {
-		velY = -Settings.SLITHER_SPEED;
+		velY = -GameSettings.SLITHER_SPEED;
 		;
 		velX = 0;
 	}
 
 	public void moveDown() {
-		velY = Settings.SLITHER_SPEED;
+		velY = GameSettings.SLITHER_SPEED;
 		;
 		velX = 0;
 	}
 
 	public void moveRight() {
-		velX = Settings.SLITHER_SPEED;
+		velX = GameSettings.SLITHER_SPEED;
 		;
 		velY = 0;
 	}
 
 	public void moveLeft() {
-		velX = -Settings.SLITHER_SPEED;
+		velX = -GameSettings.SLITHER_SPEED;
 		velY = 0;
 	}
 
@@ -328,7 +328,7 @@ public class SlitherSnake extends SlitherMain {
 								this.overlay.addDistortion(15, 0.2);
 								this.overlay.addToneOverlay(Color.RED, 5, 3.0);
 							}
-							immunity = Settings.IMMUNITY_TIME;
+							immunity = GameSettings.IMMUNITY_TIME;
 							allowDamage = false;
 						}
 					}
@@ -338,7 +338,7 @@ public class SlitherSnake extends SlitherMain {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (Settings.ROCK_COLLISION) {
+						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
 								keepMoving = false;
 								allowCollision = false;
@@ -351,12 +351,12 @@ public class SlitherSnake extends SlitherMain {
 	}
 
 	public void addSection() {
-		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
+		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
 					new Circle(25, new ImagePattern(GameImageBank.snakeOneSkin)),
 					partBefore.getX() - (float) Math.cos(angle) * 20, partBefore.getY() - (float) Math.cos(angle) * 20,
 					GameObjectID.SnakeSection, NUMERIC_ID));
-			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
+			GameManager.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID += 1;
 			ROTATION_OFFSET += 0.1;
 		}
@@ -424,11 +424,11 @@ public class SlitherSnake extends SlitherMain {
 	// }
 	// }
 	public void addbaseSections() {
-		for (int i = 0; i < Settings.SECTIONS_TO_ADD; i++) {
+		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
 					new Circle(25, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, GameObjectID.SnakeSection,
 					NUMERIC_ID));
-			SnakeGame.writeToLog("New section added " + NUMERIC_ID);
+			GameManager.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID += 1;
 		}
 	}
@@ -443,18 +443,18 @@ public class SlitherSnake extends SlitherMain {
 	}
 
 	public boolean withinBounds() {
-		return x > 0 - radius - 1 && x < Settings.WIDTH + radius + 1 && y > 0 - radius - 1
-				&& y < Settings.HEIGHT + radius + 1;
+		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
+				&& y < GameSettings.HEIGHT + radius + 1;
 	}
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (Settings.WIDTH + radius);
-		} else if (x > Settings.WIDTH + radius) {
+			x = (float) (GameSettings.WIDTH + radius);
+		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
 		} else if (y < 0 - radius) {
-			y = (float) (Settings.HEIGHT + radius);
-		} else if (y > Settings.HEIGHT + radius) {
+			y = (float) (GameSettings.HEIGHT + radius);
+		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (0 - radius);
 		}
 	}
@@ -511,7 +511,7 @@ public class SlitherSnake extends SlitherMain {
 		MOUTH_OPEN = false;
 		MOUTH_CLOSE = true;
 		notEating = true;
-		coolDown = Settings.BITE_DELAY;
+		coolDown = GameSettings.BITE_DELAY;
 	}
 
 	public boolean isApproximate(double tail_X, double sect_X, double tail_Y, double sect_Y) {
@@ -524,7 +524,7 @@ public class SlitherSnake extends SlitherMain {
 
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);

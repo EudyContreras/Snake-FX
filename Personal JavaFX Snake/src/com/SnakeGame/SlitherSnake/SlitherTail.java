@@ -1,6 +1,6 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.scene.layout.Pane;
@@ -10,7 +10,7 @@ public class SlitherTail extends SlitherMain {
 	SlitherSection slitherSect;
 	SlitherSection sectionToFollow;
 
-	public SlitherTail(SlitherSection section, SnakeGame game, Pane layer, Circle node, float x, float y,
+	public SlitherTail(SlitherSection section, GameManager game, Pane layer, Circle node, float x, float y,
 			GameObjectID id) {
 		super(game, layer, node, id);
 		this.slitherSect = section;

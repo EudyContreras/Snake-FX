@@ -1,8 +1,8 @@
 package com.SnakeGame.Particles;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
@@ -18,11 +18,11 @@ public class RainStorm extends AbstractDebrisEffect {
 	private double radius;
 	private double decay;
 	private double lifeTime = 4.0f;
-	private double width = Settings.SAND_SIZE;
-	private double height = Settings.SAND_SIZE;
+	private double width = GameSettings.SAND_SIZE;
+	private double height = GameSettings.SAND_SIZE;
 	private double expireTime = Math.random() * (1 - 0.01 + 1) + 0.01;
 
-	public RainStorm(SnakeGame game, Image image, double expireTime, double radius, double x, double y) {
+	public RainStorm(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.shape = new Circle(radius, x, y);
@@ -36,7 +36,7 @@ public class RainStorm extends AbstractDebrisEffect {
 		init();
 	}
 
-	public RainStorm(SnakeGame game, Image image, double expireTime, double x, double y) {
+	public RainStorm(GameManager game, Image image, double expireTime, double x, double y) {
 		this.game = game;
 		this.view = new ImageView(image);
 		this.view.setFitWidth(width);
@@ -62,7 +62,7 @@ public class RainStorm extends AbstractDebrisEffect {
 	public void update() {
 		super.move();
 		lifeTime -= decay;
-		velY += Settings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		velY += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		velX -= 0.002;
 	}
 
@@ -84,7 +84,7 @@ public class RainStorm extends AbstractDebrisEffect {
 
 	public boolean isAlive() {
 
-		return x < Settings.WIDTH && y < Settings.HEIGHT  && lifeTime > 0;
+		return x < GameSettings.WIDTH && y < GameSettings.HEIGHT  && lifeTime > 0;
 	}
 
 	public void draw(GraphicsContext gc) {

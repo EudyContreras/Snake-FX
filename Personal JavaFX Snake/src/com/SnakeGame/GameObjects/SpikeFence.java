@@ -2,8 +2,8 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
@@ -24,10 +24,10 @@ import javafx.scene.shape.Rectangle;
 public class SpikeFence extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;
-	SnakeGame game;
+	GameManager game;
 	int orientation;
 
-	public SpikeFence(SnakeGame game, float x, float y, float speed, float velY, int orientation, Image image,GameLevelObjectID id) {
+	public SpikeFence(GameManager game, float x, float y, float speed, float velY, int orientation, Image image,GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
@@ -39,7 +39,7 @@ public class SpikeFence extends AbstractTile {
 		draw();
 	}
 
-	public SpikeFence(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public SpikeFence(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
@@ -75,7 +75,7 @@ public class SpikeFence extends AbstractTile {
 	 */
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			if(orientation == 1){
 				Rectangle bounds = new Rectangle(x, y+20, width, height-40);
 				bounds.setStroke(Color.WHITE);

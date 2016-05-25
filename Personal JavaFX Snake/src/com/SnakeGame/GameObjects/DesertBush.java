@@ -3,8 +3,8 @@ package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
@@ -23,7 +23,7 @@ import javafx.scene.transform.Rotate;
  */
 public class DesertBush extends AbstractTile {
 	GameTileManager tileManager;
-	SnakeGame game;
+	GameManager game;
 	float oldX;
 	float speed;
 	private double count = 60;
@@ -31,9 +31,9 @@ public class DesertBush extends AbstractTile {
 	private boolean playerCollision = false;
 	private boolean contact = true;
 
-	public DesertBush(SnakeGame game,float x, float y, float velR, Image image, GameLevelObjectID id) {
+	public DesertBush(GameManager game,float x, float y, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
-		if (Settings.SAND_STORM)
+		if (GameSettings.SAND_STORM)
 			this.velR = velR;
 		this.oldX = x;
 		this.game = game;
@@ -49,7 +49,7 @@ public class DesertBush extends AbstractTile {
 		super.move();
 		displace();
 		checkDisplacement();
-		if (Settings.SAND_STORM)
+		if (GameSettings.SAND_STORM)
 			wave();
 	}
 	/**
@@ -146,7 +146,7 @@ public class DesertBush extends AbstractTile {
 	}
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			Rectangle bounds = new Rectangle(x+10, y + 50, width - 60, height - 90);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);

@@ -2,10 +2,10 @@ package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractSection;
-import com.SnakeGame.FrameWork.GameObjectManager;
+import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
@@ -19,13 +19,13 @@ public class PlayerOneFangs extends AbstractObject {
 	private boolean stop = false;
 	private float offsetX = 0;
 	private float offsetY = 0;
-	private SnakeGame game;
+	private GameManager game;
 	private PlayerOne snake;
 	private PlayerOneSectionManager sectManager;
 	private PlayerOneHead snakeHead;
-	private GameObjectManager gom;
+	private ObjectManager gom;
 
-	public PlayerOneFangs(PlayerOneHead snakeHead, PlayerOne snake, SnakeGame game, Pane layer, Circle node, double x,
+	public PlayerOneFangs(PlayerOneHead snakeHead, PlayerOne snake, GameManager game, Pane layer, Circle node, double x,
 			double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.snakeHead = snakeHead;
@@ -59,7 +59,7 @@ public class PlayerOneFangs extends AbstractObject {
 			this.velX = snake.getVelX();
 			this.velY = snake.getVelY();
 		}
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);
 		}
@@ -122,7 +122,7 @@ public class PlayerOneFangs extends AbstractObject {
 					}
 				}
 			}
-			if (Settings.ALLOW_SELF_COLLISION) {
+			if (GameSettings.ALLOW_SELF_COLLISION) {
 				for (int i = 0; i < sectManager.getSectionList().size(); i++) {
 					AbstractSection tempObject = sectManager.getSectionList().get(i);
 					if (tempObject.getId() == GameObjectID.SnakeSection) {

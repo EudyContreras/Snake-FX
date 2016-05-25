@@ -1,8 +1,8 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
@@ -22,10 +22,10 @@ import javafx.scene.shape.Rectangle;
 public class DesertLevelBounds extends AbstractTile {
 	GameTileManager tileManager;
 	Rectangle2D collisionBounds;;
-	SnakeGame game;
+	GameManager game;
 	float speed;
 
-	public DesertLevelBounds(SnakeGame game, float x, float y, float speed, float velY, GameLevelObjectID id) {
+	public DesertLevelBounds(GameManager game, float x, float y, float speed, float velY, GameLevelObjectID id) {
 		super(x, y);
 		this.game = game;
 		this.velX = 0;
@@ -36,7 +36,7 @@ public class DesertLevelBounds extends AbstractTile {
 		draw();
 	}
 
-	public DesertLevelBounds(SnakeGame game, float x, float y, float velX, float velY, Image image) {
+	public DesertLevelBounds(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;
@@ -57,7 +57,7 @@ public class DesertLevelBounds extends AbstractTile {
 
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
 			bounds.setStroke(Color.BLACK);
 			bounds.setFill(Color.TRANSPARENT);

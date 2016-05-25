@@ -1,7 +1,7 @@
 package com.SnakeGame.ImageBanks;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.Utilities.ImageUtility;
 
 import javafx.scene.image.Image;
@@ -87,18 +87,18 @@ public class GameImageBank {
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		glowingCircleOne = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
-		fruit = ImageUtility.precreatedLightedAndShadedImage("apple.png", Settings.GlOBAL_ILLUMINATION, 0,
+		fruit = ImageUtility.precreatedLightedAndShadedImage("apple.png", GameSettings.GlOBAL_ILLUMINATION, 0,
 				150 / GameLoader.ResolutionScaleX, 192 / GameLoader.ResolutionScaleY);
-		fruitDebrisOne = ImageUtility.preCreateShadedCircle(Color.RED, Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP+0.4,
+		fruitDebrisOne = ImageUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP+0.4,
 				10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
-		fruitDebrisTwo = ImageUtility.preCreateShadedGlowingCircle(Color.RED, Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
-		dirt = ImageUtility.precreatedLightedImage("sand-grain.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
-		snakeBones = ImageUtility.precreatedLightedAndShadedSnake("snake-bones.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		snakeSkull = ImageUtility.precreatedLightedImage("snake-skull.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		fruitDebrisTwo = ImageUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
+		dirt = ImageUtility.precreatedLightedImage("sand-grain.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
+		snakeBones = ImageUtility.precreatedLightedImage("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP-0.5, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
+		snakeSkull = ImageUtility.precreatedLightedImage("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP-0.5, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
@@ -106,21 +106,21 @@ public class GameImageBank {
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		snakeOneHead = ImageUtility.precreatedLightedImage("desert-snake-head3.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		snakeOneHead = ImageUtility.precreatedLightedImage("desert-snake-head3.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 		snakeOneBlinking = ImageUtility.precreatedLightedImage("desert-snake-head-blink3.png",
-				Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX,
+				GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX,
 				97 / GameLoader.ResolutionScaleY);
-		snakeOneEating = ImageUtility.precreatedLightedImage("desert-snake-head-eat3.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
-		snakeOneSkin = ImageUtility.precreatedLightedAndShadedSnake("snake_skin_one.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 114 / GameLoader.ResolutionScaleX, 243 / GameLoader.ResolutionScaleY);
-		snakeOneDebris = ImageUtility.precreatedLightedImage("snake_skin_one_debris.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
-		snakeOneSphere = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeOneHead));
-		slither = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeOneHead));
+		snakeOneEating = ImageUtility.precreatedLightedImage("desert-snake-head-eat3.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		snakeOneSkin = ImageUtility.precreatedLightedAndShadedSnake("snake_skin_one.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
+		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 114 / GameLoader.ResolutionScaleX, 243 / GameLoader.ResolutionScaleY);
+		snakeOneDebris = ImageUtility.precreatedLightedImage("snake_skin_one_debris.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
+		snakeOneSphere = new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(snakeOneHead));
+		slither = new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(snakeOneHead));
 		snakeOneBody = new ImagePattern(snakeOneSkin);
 
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,18 +128,18 @@ public class GameImageBank {
 		 * Player 2
 		 */
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		snakeTwoHead = ImageUtility.precreatedLightedImage("desert-snake-head5.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		snakeTwoHead = ImageUtility.precreatedLightedImage("desert-snake-head5.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 		snakeTwoBlinking = ImageUtility.precreatedLightedImage("desert-snake-head-blink5.png",
-				Settings.GlOBAL_ILLUMINATION, Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX,
+				GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX,
 				97 / GameLoader.ResolutionScaleY);
-		snakeTwoEating = ImageUtility.precreatedLightedImage("desert-snake-head-eat5.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
-		snakeTwoSkin = ImageUtility.precreatedLightedAndShadedSnake("snake_skin_two.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		snakeTwoDebris = ImageUtility.precreatedLightedImage("snake_skin_two_debris.png", Settings.GlOBAL_ILLUMINATION,
-				Settings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
-		snakeTwoSphere = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeTwoHead));
+		snakeTwoEating = ImageUtility.precreatedLightedImage("desert-snake-head-eat5.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		snakeTwoSkin = ImageUtility.precreatedLightedAndShadedSnake("snake_skin_two.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
+		snakeTwoDebris = ImageUtility.precreatedLightedImage("snake_skin_two_debris.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
+		snakeTwoSphere = new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(snakeTwoHead));
 		tailImage = new ImagePattern(snakeTail);
 		snakeTwoBody = new ImagePattern(snakeTwoSkin);
 		/**

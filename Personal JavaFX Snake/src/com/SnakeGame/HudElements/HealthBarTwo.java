@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -29,14 +29,14 @@ public class HealthBarTwo {
 	private double width = 0;
 	private double height = 0;
 	private int delay = 0;
-	private SnakeGame game;
+	private GameManager game;
 	private PlayerTwo player;
 	private Rectangle healthBar = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
 	private Rectangle playerHud = new Rectangle();
 	private Circle playerHead = new Circle();
 
-	public HealthBarTwo(SnakeGame game, double x, double y, double width, double height) {
+	public HealthBarTwo(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
 		this.oldX = this.x;
 		this.width = width;
@@ -54,7 +54,7 @@ public class HealthBarTwo {
 		this.playerHud.setHeight(height*2);
 		this.playerHud.setTranslateX(x-width+width/2);
 		this.playerHud.setTranslateY(0);
-		this.playerHead.setRadius(SnakeGame.ScaleX(30));
+		this.playerHead.setRadius(GameManager.ScaleX(30));
 		this.playerHead.setCenterX(x-width+width-playerHead.getRadius()*1.5);
 		this.playerHead.setCenterY(y+playerHead.getRadius());
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeTwoEating));
@@ -82,8 +82,8 @@ public class HealthBarTwo {
 	public void depleteHealth() {
 
 		if (player.isCollision() == true) {
-			width -= Settings.DAMAGE_AMOUNT;
-			x += Settings.DAMAGE_AMOUNT;
+			width -= GameSettings.DAMAGE_AMOUNT;
+			x += GameSettings.DAMAGE_AMOUNT;
 			setDelay = true;
 			player.setCollision(false);
 		}
@@ -121,8 +121,8 @@ public class HealthBarTwo {
 			if (player.isCollision() == false) {
 				if (width < maxHealth) {
 					if (delay <= 0) {
-						width += Settings.HEALTH_REGENERATION_SPEED;
-						x -= Settings.HEALTH_REGENERATION_SPEED;
+						width += GameSettings.HEALTH_REGENERATION_SPEED;
+						x -= GameSettings.HEALTH_REGENERATION_SPEED;
 					}
 					if (x <= oldX) {
 						x = oldX;

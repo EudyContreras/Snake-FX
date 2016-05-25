@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -29,14 +29,14 @@ public class HealthBarOne {
 	private double y;
 	private double height;
 	private int delay = 0;
-	private SnakeGame game;
+	private GameManager game;
 	private PlayerOne player;
 	private Rectangle healthBar = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
 	private Rectangle playerHud = new Rectangle();
 	private Circle playerHead = new Circle();
 
-	public HealthBarOne(SnakeGame game, double x, double y, double width, double height) {
+	public HealthBarOne(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -55,7 +55,7 @@ public class HealthBarOne {
 		this.playerHud.setHeight(height*2);
 		this.playerHud.setTranslateX(x+width);
 		this.playerHud.setTranslateY(0);
-		this.playerHead.setRadius(SnakeGame.ScaleX(30));
+		this.playerHead.setRadius(GameManager.ScaleX(30));
 		this.playerHead.setCenterX(x+width+playerHead.getRadius()*1.5);
 		this.playerHead.setCenterY(y+playerHead.getRadius());
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeOneEating));
@@ -83,7 +83,7 @@ public class HealthBarOne {
 	public void depleteHealth() {
 
 		if (player.isCollision() == true) {
-			width -= Settings.DAMAGE_AMOUNT;
+			width -= GameSettings.DAMAGE_AMOUNT;
 			setDelay = true;
 			player.setCollision(false);
 		}
@@ -118,7 +118,7 @@ public class HealthBarOne {
 			if (player.isCollision() == false) {
 				if (width < maxHealth) {
 					if (delay <= 0)
-						width += Settings.HEALTH_REGENERATION_SPEED;
+						width += GameSettings.HEALTH_REGENERATION_SPEED;
 				}
 			}
 		}

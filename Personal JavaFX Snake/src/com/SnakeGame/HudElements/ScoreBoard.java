@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
@@ -26,7 +26,7 @@ public class ScoreBoard {
 	private Text text;
 	private Font theFont;
 
-	public ScoreBoard(String text, SnakeGame game, double x, double y, Color color) {
+	public ScoreBoard(String text, GameManager game, double x, double y, Color color) {
 		this.message = text;
 		this.text = new Text();
 		this.theFont = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);

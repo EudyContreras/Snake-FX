@@ -1,6 +1,6 @@
 package com.SnakeGame.Particles;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Point2D;
@@ -21,7 +21,7 @@ public class DebrisEffectOne extends AbstractDebrisEffect{
 	private float lifeTime = 1.0f;
 	private Point2D velocity = new Point2D((Math.random()*(15 - -15 + 1) + -15), Math.random()*(15 - -15 + 1) + -15);
 
-	public DebrisEffectOne(SnakeGame game,Image image, double expireTime, double radius, float x, float y,  Point2D velocity) {
+	public DebrisEffectOne(GameManager game,Image image, double expireTime, double radius, float x, float y,  Point2D velocity) {
 		this.game = game;
 		this.radius = radius/2;
 		this.imagePattern = new ImagePattern(image);
@@ -60,7 +60,7 @@ public class DebrisEffectOne extends AbstractDebrisEffect{
 
 	}
 	public boolean isAlive() {
-		return x<Settings.WIDTH && x>0 && y<Settings.HEIGHT  && y>0 && lifeTime>0;
+		return x<GameSettings.WIDTH && x>0 && y<GameSettings.HEIGHT  && y>0 && lifeTime>0;
 	}
 	public void draw(GraphicsContext gc) {
 		shape.setOpacity(lifeTime);

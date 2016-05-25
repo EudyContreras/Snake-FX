@@ -3,7 +3,7 @@ package com.SnakeGame.SlitherSnake;
 import java.util.ArrayList;
 
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -22,7 +22,7 @@ public class SlitherSectionManager {
 	private ArrayList<SlitherSectionMain> sectionList;
 	private SlitherSectionMain tempSection;
 
-	public SlitherSectionManager(SnakeGame gameJavaFX) {
+	public SlitherSectionManager(GameManager gameJavaFX) {
 		initialize();
 	}
 

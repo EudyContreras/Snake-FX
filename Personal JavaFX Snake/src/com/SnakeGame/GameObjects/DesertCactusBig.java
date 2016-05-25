@@ -2,10 +2,12 @@
 package com.SnakeGame.GameObjects;
 
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Utilities.GameTileManager;
+import com.SnakeGame.Utilities.RandomGenerator;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,23 +24,26 @@ import javafx.scene.transform.Rotate;
  */
 public class DesertCactusBig extends AbstractTile {
 	GameTileManager tileManager;
-	SnakeGame game;
+	GameManager game;
 	float speed;
 
 	public DesertCactusBig(float x, float y, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
-		if (Settings.SAND_STORM)
+		if (GameSettings.SAND_STORM)
 			this.velR = velR;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.view.setRotationAxis(Rotate.Y_AXIS);
+		if(RandomGenerator.getRNG(1, 3) == 3){
+			this.view.setImage(GameLevelImage.desert_cactus_big_alt);
+		}
 	}
 	/**
 	 * Method which moves this object
 	 */
 	public void move() {
 		super.move();
-		if (Settings.SAND_STORM)
+		if (GameSettings.SAND_STORM)
 			wave();
 	}
 	/**
@@ -65,7 +70,7 @@ public class DesertCactusBig extends AbstractTile {
 	 */
 	public void drawBoundingBox() {
 
-		if (Settings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);

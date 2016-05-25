@@ -1,11 +1,11 @@
 package com.SnakeGame.AbstractModels;
 
 import com.SnakeGame.FrameWork.FadeScreenHandler;
-import com.SnakeGame.FrameWork.GameGestureInputManager;
-import com.SnakeGame.FrameWork.GameKeyInputManager;
+import com.SnakeGame.FrameWork.GestureInputManager;
+import com.SnakeGame.FrameWork.KeyInputManager;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameMouseInputManager;
-import com.SnakeGame.FrameWork.GameObjectManager;
+import com.SnakeGame.FrameWork.MouseInputManager;
+import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
@@ -47,11 +47,11 @@ public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
 	protected GameLoader loader;
-	protected GameKeyInputManager keyInput;
-	protected GameMouseInputManager mouseInput;
-	protected GameGestureInputManager gestures;
+	protected KeyInputManager keyInput;
+	protected MouseInputManager mouseInput;
+	protected GestureInputManager gestures;
 	protected GraphicsContext gc;
-	protected GameObjectManager objectManager;
+	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
 	protected GameDebrisManager debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
@@ -205,11 +205,11 @@ public abstract class AbstractGameModel extends Application {
 		return postEffects;
 	}
 
-	public GameObjectManager getObjectManager() {
+	public ObjectManager getObjectManager() {
 		return objectManager;
 	}
 
-	public void setObjectManager(GameObjectManager objectManager) {
+	public void setObjectManager(ObjectManager objectManager) {
 		this.objectManager = objectManager;
 	}
 
@@ -265,11 +265,11 @@ public abstract class AbstractGameModel extends Application {
 		this.scoreBoardTwo = scoreBoard;
 	}
 
-	public GameKeyInputManager getKeyInput() {
+	public KeyInputManager getKeyInput() {
 		return keyInput;
 	}
 
-	public void setKeyInput(GameKeyInputManager keyInput) {
+	public void setKeyInput(KeyInputManager keyInput) {
 		this.keyInput = keyInput;
 	}
 

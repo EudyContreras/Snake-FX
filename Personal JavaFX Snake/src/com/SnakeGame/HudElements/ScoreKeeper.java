@@ -1,8 +1,8 @@
 package com.SnakeGame.HudElements;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
 public class ScoreKeeper {
 
 	public static int APPLE_COUNT = 50;
-	private SnakeGame game;
+	private GameManager game;
 	private ImageView apple;
 	private Rectangle board;
 	private Boolean startTimer = false;
@@ -44,7 +44,7 @@ public class ScoreKeeper {
 	private int minutes = 00;
 	private int hours = 00;
 
-	public ScoreKeeper(SnakeGame game, int count, double x1, double y1, double x, double y, double width,
+	public ScoreKeeper(GameManager game, int count, double x1, double y1, double x, double y, double width,
 			double height) {
 		APPLE_COUNT = count;
 		this.x = x;
@@ -58,12 +58,12 @@ public class ScoreKeeper {
 		this.timer = new Text();
 		this.apple = new ImageView(GameImageBank.apple);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Helvetica", FontWeight.BOLD, SnakeGame.ScaleX(18) / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Helvetica", FontWeight.BOLD, GameManager.ScaleX(18) / GameLoader.ResolutionScaleX);
 		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
 		this.apple.setFitWidth(35 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(35 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(Settings.WIDTH/2);
+		this.apple.setX(GameSettings.WIDTH/2);
 		this.apple.setY(y1+10);
 		this.text.setX(apple.getX() + apple.getFitWidth()+10);
 		this.text.setY(y1-20);
@@ -92,7 +92,7 @@ public class ScoreKeeper {
 		y1 = y1 + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5f;
-			if (y >= SnakeGame.ScaleX(100)) {
+			if (y >= GameManager.ScaleX(100)) {
 				swipeSpeed = 0;
 			}
 		}

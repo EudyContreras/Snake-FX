@@ -18,13 +18,13 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class GameObjectManager {
+public class ObjectManager {
 
 	private LinkedList<AbstractObject> object;
 	private AbstractObject tempObject;
-	private SnakeGame game;
+	private GameManager game;
 
-	public GameObjectManager(SnakeGame gameJavaFX) {
+	public ObjectManager(GameManager gameJavaFX) {
 		this.game = gameJavaFX;
 		initialize();
 	}

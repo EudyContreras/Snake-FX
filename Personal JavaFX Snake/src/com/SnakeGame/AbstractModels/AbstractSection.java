@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
@@ -68,7 +68,7 @@ public abstract class AbstractSection {
 	 * different ways and with different attributes
 	 */
 
-	public AbstractSection(SnakeGame game, Pane layer, Node node, double x, double y, GameObjectID id) {
+	public AbstractSection(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -98,7 +98,7 @@ public abstract class AbstractSection {
 
 	}
 
-	public AbstractSection(SnakeGame game, Pane layer, Node node, GameObjectID id) {
+	public AbstractSection(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 		if (node instanceof Rectangle) {
@@ -139,7 +139,7 @@ public abstract class AbstractSection {
 
 	}
 
-	public AbstractSection(SnakeGame game, Pane layer, GameObjectID id) {
+	public AbstractSection(GameManager game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -266,9 +266,9 @@ public abstract class AbstractSection {
 	public void move() {
 		if (!canMove)
 			return;
-		x = x + velX * Settings.FRAME_SCALE;
-		y = y + velY * Settings.FRAME_SCALE;
-		r = r + velR * Settings.FRAME_SCALE;
+		x = x + velX * GameSettings.FRAME_SCALE;
+		y = y + velY * GameSettings.FRAME_SCALE;
+		r = r + velR * GameSettings.FRAME_SCALE;
 	}
 
 	public boolean isAlive() {

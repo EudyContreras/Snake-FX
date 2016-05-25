@@ -1,7 +1,7 @@
 package com.SnakeGame.Particles;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
@@ -15,7 +15,7 @@ import javafx.scene.shape.Circle;
 
 public abstract class AbstractDebrisEffect {
 
-	protected SnakeGame game;
+	protected GameManager game;
 	protected Circle shape;
 	protected ImageView view;
 	protected ImagePattern imagePattern;
@@ -34,9 +34,9 @@ public abstract class AbstractDebrisEffect {
 	public abstract void draw(GraphicsContext gc);
 
 	public void move() {
-		x = x + velX * Settings.FRAME_SCALE;
-		y = y + velY * Settings.FRAME_SCALE;
-		r = r + velR * Settings.FRAME_SCALE;
+		x = x + velX * GameSettings.FRAME_SCALE;
+		y = y + velY * GameSettings.FRAME_SCALE;
+		r = r + velR * GameSettings.FRAME_SCALE;
 	}
 
 	public abstract void collide();

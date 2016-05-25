@@ -1,7 +1,7 @@
 package com.SnakeGame.HudElements;
 
-import com.SnakeGame.FrameWork.Settings;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -24,19 +24,19 @@ public class GameHud {
 	private double width = 0;
 	private double height = 0;
 	private double swipeSpeed = 0;
-	private double y2 = Settings.HEIGHT;
+	private double y2 = GameSettings.HEIGHT;
 	private double swipeSpeed2;
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
 	private Rectangle hudBar = new Rectangle();
 
 
-	public GameHud(SnakeGame game, double x, double y, double width, double height) {
+	public GameHud(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height+5;
-		this.y2 = Settings.HEIGHT-height;
+		this.y2 = GameSettings.HEIGHT-height;
 		this.topHudBar.setWidth(width);
 		this.topHudBar.setHeight(height+40);
 		this.topHudBar.setTranslateX(x);
@@ -85,13 +85,13 @@ public class GameHud {
 		y2 = y2 + swipeSpeed2;
 		if (swipeDown) {
 			swipeSpeed2 = -1.5;
-			if (y2 < Settings.HEIGHT-bottomHudBar.getHeight()+SnakeGame.ScaleY(15)) {
+			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(15)) {
 				swipeSpeed2 = 0;
 			}
 		}
 		if (swipeUp) {
 			swipeSpeed2 = 1.5;
-			if (y2 > Settings.HEIGHT) {
+			if (y2 > GameSettings.HEIGHT) {
 				swipeSpeed2 = 0;
 			}
 		}

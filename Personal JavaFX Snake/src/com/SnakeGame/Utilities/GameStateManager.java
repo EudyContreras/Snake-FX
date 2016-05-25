@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.SnakeGame.AbstractModels.AbstractGameStates;
-import com.SnakeGame.FrameWork.SnakeGame;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameStateID;
 
 /**
@@ -20,9 +20,9 @@ public class GameStateManager {
 
 	private Map<GameStateID, AbstractGameStates> map;
 	private AbstractGameStates currentState;
-	public SnakeGame game;
+	public GameManager game;
 
-	public GameStateManager(SnakeGame game) {
+	public GameStateManager(GameManager game) {
 		this.game = game;
 		map = new HashMap<GameStateID, AbstractGameStates>();
 	}
