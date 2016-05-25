@@ -26,9 +26,12 @@ import javafx.scene.text.Text;
 
 public class PlayerTwoHead extends AbstractObject {
 	private double targetRotation;
+	private double fadeValue = 1.0;
+	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
 	private Font font;
+	private Circle skull;
 	private SnakeGame game;
 	private PlayerTwo snake;
 	private Rectangle headBoundsLeft;
@@ -90,7 +93,15 @@ public class PlayerTwoHead extends AbstractObject {
 		this.text.setX(x-50);
 		this.text.setY(y-40);
 	}
-
+	public void logicUpdate(){
+		if (showTheSkull == true) {
+			fadeValue -= 0.01;
+			this.circle.setOpacity(fadeValue);
+			if (fadeValue <= 0) {
+				fadeValue = 0;
+			}
+		}
+	}
 	public void rotate() {
 		if (r == 0 && newDirection == PlayerMovement.MOVE_LEFT) {
 			velR = 8;
@@ -283,6 +294,20 @@ public class PlayerTwoHead extends AbstractObject {
 
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
+	}
+
+	public void addBones() {
+		skull = new Circle(x, y, this.radius*0.8, new ImagePattern(GameImageBank.snakeSkull));
+		skull.setRotate(r);
+		game.getSecondLayer().getChildren().add(skull);
+	}
+
+	public boolean isShowTheSkull() {
+		return showTheSkull;
+	}
+
+	public void setShowTheSkull(boolean showTheSkull) {
+		this.showTheSkull = showTheSkull;
 	}
 
 	public void adjustBounds() {

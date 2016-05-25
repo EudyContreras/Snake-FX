@@ -81,8 +81,9 @@ public class GameImageBank {
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/*
+		 /*
 		 * Game objects
+		 *
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		glowingCircleOne = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
@@ -94,10 +95,11 @@ public class GameImageBank {
 				Settings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
 		dirt = ImageUtility.precreatedLightedImage("sand-grain.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
-		snakeBones = ImageUtility.precreatedLightedAndShadedSnake("snake-skeleton.png", Settings.GlOBAL_ILLUMINATION,
+		snakeBones = ImageUtility.precreatedLightedAndShadedSnake("snake-bones.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		snakeSkull = ImageUtility.precreatedLightedAndShadedSnake("snake-skull.png", Settings.GlOBAL_ILLUMINATION,
+		snakeSkull = ImageUtility.precreatedLightedImage("snake-skull.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
 		 * Player one

@@ -151,8 +151,8 @@ public class SnakeGame extends AbstractGameModel{
 				15 / ScaleY, 350 / ScaleX,40 / ScaleY));
 		pauseMenu = new PauseMenu(this,0,0,Settings.WIDTH,300);
 		gameHud = new GameHud(this, -5, -10, Settings.WIDTH + 10, 82 / ScaleY);
-		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, (Settings.WIDTH / 2) - 10/ ScaleX,
-				35 / ScaleY, Settings.WIDTH / 2 - 680/ScaleX / 2 , 10/ScaleY,
+		scoreKeeper = new ScoreKeeper(this, Settings.APPLE_COUNT, (Settings.WIDTH / 2) - 30/ ScaleX,
+				45 / ScaleY, Settings.WIDTH / 2 - 680/ScaleX / 2 , 20/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
 				50/ScaleY, Color.RED);

@@ -202,7 +202,6 @@ public class PlayerOneSection extends AbstractSection {
 					r = -89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
-
 			}
 		}
 		if(Settings.ALLOW_DIRT)

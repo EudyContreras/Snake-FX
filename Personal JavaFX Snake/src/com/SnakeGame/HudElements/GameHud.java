@@ -70,13 +70,13 @@ public class GameHud {
 		y = y + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5;
-			if (y >= hudBar.getTranslateY()) {
+			if (y >= hudBar.getTranslateY() - 5) {
 				swipeSpeed = 0;
 			}
 		}
 		if (swipeUp) {
 			swipeSpeed = -1.5;
-			if (y < hudBar.getTranslateY() - height-10) {
+			if (y < hudBar.getTranslateY() - height) {
 				swipeSpeed = 0;
 			}
 		}

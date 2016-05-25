@@ -199,7 +199,7 @@ public class GameLoader extends AbstractLoaderModel{
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					GenericObject texture = new GenericObject(game, (float) (row * 58 / GameLoader.ResolutionScaleX),
-							(float) (col * 57 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
+							(float) (col * 53 / GameLoader.ResolutionScaleY), 0, 0, GameLevelImage.desert_skull,
 							GameLevelObjectID.skeleton);
 					getTileManager().addTile(texture);
 					game.getFirstLayer().getChildren().add(texture.getView());

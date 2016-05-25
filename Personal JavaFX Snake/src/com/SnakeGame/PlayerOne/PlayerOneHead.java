@@ -25,11 +25,14 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class PlayerOneHead extends AbstractObject {
-	private double targetRotation;
+	private double targetRotation = 0.0;
+	private double fadeValue = 1.0;
+	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
 	private Font font;
 	private SnakeGame game;
+	private Circle skull;
 	private PlayerOne snake;
 	private Rectangle headBoundsLeft;
 	private Rectangle headBoundsRight;
@@ -89,8 +92,20 @@ public class PlayerOneHead extends AbstractObject {
 		this.x = snake.getX();
 		this.text.setX(x-50);
 		this.text.setY(y-40);
-	}
 
+	}
+	public void logicUpdate(){
+		showTheSkull();
+	}
+	public void showTheSkull() {
+		if (showTheSkull == true) {
+			fadeValue -= 0.01;
+			this.circle.setOpacity(fadeValue);
+			if (fadeValue <= 0) {
+				fadeValue = 0;
+			}
+		}
+	}
 	public void rotate() {
 		if (r == 0 && newDirection == PlayerMovement.MOVE_LEFT) {
 			velR = 8;
@@ -282,6 +297,18 @@ public class PlayerOneHead extends AbstractObject {
 
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
+	}
+	public void addBones() {
+		skull = new Circle(x, y, this.radius*0.8, new ImagePattern(GameImageBank.snakeSkull));
+		skull.setRotate(r);
+		game.getSecondLayer().getChildren().add(skull);
+	}
+	public boolean isShowTheSkull() {
+		return showTheSkull;
+	}
+
+	public void setShowTheSkull(boolean showTheSkull) {
+		this.showTheSkull = showTheSkull;
 	}
 
 	public void adjustBounds() {

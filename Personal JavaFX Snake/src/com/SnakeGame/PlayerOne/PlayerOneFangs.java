@@ -154,8 +154,8 @@ public class PlayerOneFangs extends AbstractObject {
 					if (index <= 0) {
 						index = 0;
 						if (!stop) {
-							snake.setShowTheSkull(true);
-							snake.addBones();
+							snake.getHead().setShowTheSkull(true);
+							snake.getHead().addBones();
 							stop = true;
 						}
 					}
@@ -163,8 +163,8 @@ public class PlayerOneFangs extends AbstractObject {
 			} else {
 				if (!stop) {
 					index = 0;
-					snake.setShowTheSkull(true);
-					snake.addBones();
+					snake.getHead().setShowTheSkull(true);
+					snake.getHead().addBones();
 					stop = true;
 				}
 			}

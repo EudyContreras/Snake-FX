@@ -42,7 +42,6 @@ public class PlayerOne extends AbstractObject {
 	private double offsetY = 0;
 	private boolean isDead = false;
 	private boolean collision = false;
-	private boolean showTheSkull = false;
 	private boolean notEating = true;
 	private boolean allowOpen = true;
 	private boolean eatCoolDown = false;
@@ -55,7 +54,6 @@ public class PlayerOne extends AbstractObject {
 	private boolean allowTurnUp = true;
 	private boolean allowTurnDown = true;
 	private SnakeGame game;
-	private Circle skull;
 	private Animation anim;
 	private Rectangle bounds;
 	private ScreenOverlay overlay;
@@ -584,16 +582,6 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
-
-	public void addBones() {
-		isDead = true;
-		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
-		skull.setRotate(r);
-		game.getFirstLayer().getChildren().add(skull);
-
-
-	}
-
 	public Image getAnimationImage() {
 		return anim.getImage();
 	}
@@ -684,13 +672,8 @@ public class PlayerOne extends AbstractObject {
 
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
-
-	public boolean isShowTheSkull() {
-		return showTheSkull;
-	}
-
-	public void setShowTheSkull(boolean showTheSkull) {
-		this.showTheSkull = showTheSkull;
+	public PlayerOneHead getHead(){
+		return snakeHead;
 	}
 
 	public boolean isAllowOpen() {
