@@ -20,11 +20,11 @@ public class Settings {
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static double SIZE_SCALE = 1.0;
 
-	public static int SNAKE_SPEED = 75; // must be a number which the size of the result remains whole
+	public static int SNAKE_SPEED = 6; // must be a number which the size of the result remains whole
 	public static double SECTION_SIZE = 30; // Could now be any number I think!!
 	public static final int SLITHER_SPEED = 5;
 
-	public static int APPLE_COUNT = 4;
+	public static int APPLE_COUNT = 75;
 	public static int SECTIONS_TO_ADD = 3;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;

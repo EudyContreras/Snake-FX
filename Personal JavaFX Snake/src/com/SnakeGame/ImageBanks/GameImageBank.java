@@ -99,7 +99,7 @@ public class GameImageBank {
 				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
 		snakeSkull = ImageUtility.precreatedLightedImage("snake-skull.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
-		
+
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
 		 * Player one
@@ -117,7 +117,7 @@ public class GameImageBank {
 				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
 		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 114 / GameLoader.ResolutionScaleX, 243 / GameLoader.ResolutionScaleY);
-		snakeOneDebris = ImageUtility.precreatedLightedImage("snake-skin2.png", Settings.GlOBAL_ILLUMINATION,
+		snakeOneDebris = ImageUtility.precreatedLightedImage("snake_skin_one_debris.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		snakeOneSphere = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeOneHead));
 		slither = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeOneHead));
@@ -137,7 +137,7 @@ public class GameImageBank {
 				Settings.SPECULAR_MAP, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 		snakeTwoSkin = ImageUtility.precreatedLightedAndShadedSnake("snake_skin_two.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		snakeTwoDebris = ImageUtility.precreatedLightedImage("snake-skin3.png", Settings.GlOBAL_ILLUMINATION,
+		snakeTwoDebris = ImageUtility.precreatedLightedImage("snake_skin_two_debris.png", Settings.GlOBAL_ILLUMINATION,
 				Settings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		snakeTwoSphere = new Circle(Settings.SECTION_SIZE * 1.4, new ImagePattern(snakeTwoHead));
 		tailImage = new ImagePattern(snakeTail);
