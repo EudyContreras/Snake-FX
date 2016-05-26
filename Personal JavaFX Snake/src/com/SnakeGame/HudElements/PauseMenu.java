@@ -28,6 +28,7 @@ public class PauseMenu {
 	private ImageView quitGameBtt;
 	private DropShadow borderGlow;
 	private ScreenOverlay overlay;
+	private int currentChoice = 1;
 	private boolean allowTouch = false;
 	private boolean hide = true;
 	private boolean show = false;
@@ -41,6 +42,7 @@ public class PauseMenu {
 	private double height = 0.0;
 	private double x;
 	private double y;
+
 
 	public PauseMenu(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
@@ -86,6 +88,7 @@ public class PauseMenu {
 			dimObjects();
 		}
 		processButtonGesture();
+		processKeyHandling();
 	}
 	public void pauseGame(){
 		showTouchPanel();
@@ -118,9 +121,10 @@ public class PauseMenu {
 			game.getScoreKeeper().swipeDown();
 			game.getGameHud().swipeDown();
 			game.showCursor(true, game.getScene());
-//			if(!allowTouch){
-//				blurOut();
-//			}
+			processKeyHandling();
+			borderGlow.setColor(Color.rgb(0,240,0));
+			continueBtt.setEffect(borderGlow);
+			currentChoice = 1;
 		}
 	}
 	public void hideTouchPanel(){
@@ -207,38 +211,41 @@ public class PauseMenu {
 				event.consume();
 			}
 		});
-		processButtonGesture();
+//		processButtonGesture();
 	}
 	public void processButtonGesture(){
 		continueBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(0,240,0));
 			continueBtt.setEffect(borderGlow);
+			restartBtt.setEffect(null);
+			quitGameBtt.setEffect(null);
+			mainMenuBtt.setEffect(null);
+			currentChoice = 1;
 		});
-		continueBtt.setOnMouseExited(e -> {
-			continueBtt.setEffect(null);
-		});
-		continueBtt.setOnMouseClicked(e -> {
+		continueBtt.setOnMousePressed(e -> {
 			resumeGame();
 		});
 		restartBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(255,150,0));
 			restartBtt.setEffect(borderGlow);
+			continueBtt.setEffect(null);
+			quitGameBtt.setEffect(null);
+			mainMenuBtt.setEffect(null);
+			currentChoice = 2;
 		});
-		restartBtt.setOnMouseExited(e -> {
-			restartBtt.setEffect(null);
-		});
-		restartBtt.setOnMouseClicked(e -> {
+		restartBtt.setOnMousePressed(e -> {
 			game.setStateID(GameStateID.LEVEL_RESTART);
 			restartLevel();
 		});
 		mainMenuBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(255,80,0));
 			mainMenuBtt.setEffect(borderGlow);
+			continueBtt.setEffect(null);
+			quitGameBtt.setEffect(null);
+			restartBtt.setEffect(null);
+			currentChoice = 3;
 		});
-		mainMenuBtt.setOnMouseExited(e -> {
-			mainMenuBtt.setEffect(null);
-		});
-		mainMenuBtt.setOnMouseClicked(e -> {
+		mainMenuBtt.setOnMousePressed(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
 			game.getFadeScreenHandler().menu_fade_screen();
 			resumeGame();
@@ -246,14 +253,127 @@ public class PauseMenu {
 		quitGameBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(255,0,0));
 			quitGameBtt.setEffect(borderGlow);
+			continueBtt.setEffect(null);
+			restartBtt.setEffect(null);
+			mainMenuBtt.setEffect(null);
+			currentChoice = 4;
 		});
-		quitGameBtt.setOnMouseExited(e -> {
-			quitGameBtt.setEffect(null);
-		});
-		quitGameBtt.setOnMouseClicked(e -> {
+		quitGameBtt.setOnMousePressed(e -> {
 			game.closeGame();
 		});
 	}
+	/**
+	 * Sets the key input handling for the labels
+	 * Code below determines what will happen if the user presses enter or
+	 * space on the different choices
+	 */
+	private void processKeyHandling() {
+		
+		game.getScene().setOnKeyPressed(e -> {
+			switch (e.getCode()) {
+			case UP:
+				currentChoice -= 1;
+				if (currentChoice < 1) {
+					currentChoice = 4;
+				}
+				break;
+			case DOWN:
+				currentChoice += 1;
+				if (currentChoice > 4) {
+					currentChoice = 1;
+				}
+				break;
+			case W:
+				currentChoice -= 1;
+				if (currentChoice < 1) {
+					currentChoice = 4;
+				}
+				break;
+			case S:
+				currentChoice += 1;
+				if (currentChoice > 4) {
+					currentChoice = 1;
+				}
+				break;
+			case ENTER:
+				if (currentChoice == 1) {
+					resumeGame();
+				}
+				if (currentChoice == 2) {
+					game.setStateID(GameStateID.LEVEL_RESTART);
+				}
+				if (currentChoice == 3) {
+					game.setStateID(GameStateID.MAIN_MENU);
+					game.getFadeScreenHandler().menu_fade_screen();
+					resumeGame();
+				}
+				if (currentChoice == 4) {
+					game.closeGame();
+				}
+				break;
+			case SPACE:
+				if (currentChoice == 1) {
+					resumeGame();
+				}
+				if (currentChoice == 2) {
+					game.setStateID(GameStateID.LEVEL_RESTART);
+				}
+				if (currentChoice == 3) {
+					game.setStateID(GameStateID.MAIN_MENU);
+					game.getFadeScreenHandler().menu_fade_screen();
+					resumeGame();
+				}
+				if (currentChoice == 4) {
+					game.closeGame();
+				}
+				break;
+			case ESCAPE:
+				hideTouchPanel();
+				game.processGameInput();
+				continueBtt.setEffect(null);
+				restartBtt.setEffect(null);
+				quitGameBtt.setEffect(null);
+				mainMenuBtt.setEffect(null);
+				currentChoice = 1;
+				break;
+			default:
+				break;
+			}
+			updateSelections();
+		});
+	
+		}
+	public void updateSelections(){
+		if(currentChoice==1){
+			borderGlow.setColor(Color.rgb(0,240,0));
+			continueBtt.setEffect(borderGlow);
+			quitGameBtt.setEffect(null);
+			restartBtt.setEffect(null);
+			mainMenuBtt.setEffect(null);
+		}
+		if(currentChoice==2){
+			borderGlow.setColor(Color.rgb(255,150,0));
+			restartBtt.setEffect(borderGlow);
+			continueBtt.setEffect(null);
+			quitGameBtt.setEffect(null);
+			mainMenuBtt.setEffect(null);
+		}
+		if(currentChoice==3){
+			borderGlow.setColor(Color.rgb(255,80,0));
+			mainMenuBtt.setEffect(borderGlow);
+			continueBtt.setEffect(null);
+			restartBtt.setEffect(null);
+			quitGameBtt.setEffect(null);
+		}
+		if(currentChoice==4){
+			borderGlow.setColor(Color.rgb(255,0,0));
+			quitGameBtt.setEffect(borderGlow);
+			continueBtt.setEffect(null);
+			restartBtt.setEffect(null);
+			mainMenuBtt.setEffect(null);
+		}
+	}
+
 	public void restartLevel() {
 		game.removePlayers();
 		game.restart();
@@ -265,6 +385,7 @@ public class PauseMenu {
 		overlay.levelCompleteBlur();
 	}
 	public synchronized void blurOff(){
+
 		overlay.levelCompleteBlurOff();
 	}
 	public boolean isAllowTouch() {
