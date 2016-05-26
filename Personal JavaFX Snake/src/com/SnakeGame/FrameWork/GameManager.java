@@ -124,6 +124,11 @@ public class GameManager extends AbstractGameModel{
 		splashScene = null;
 		getGameRoot().getChildren().add(backgroundImage);
 		getGameRoot().getChildren().add(baseLayer);
+		getGameRoot().getChildren().add(dirtLayer);
+		getGameRoot().getChildren().add(debrisLayer);
+		getGameRoot().getChildren().add(innerParticleLayer);
+		getGameRoot().getChildren().add(snakeOneLayer);
+		getGameRoot().getChildren().add(snakeTwoLayer);
 		getGameRoot().getChildren().add(firstLayer);
 		getGameRoot().getChildren().add(secondLayer);
 		getGameRoot().getChildren().add(thirdLayer);
@@ -133,6 +138,7 @@ public class GameManager extends AbstractGameModel{
 		getGameRoot().getChildren().add(seventhLayer);
 		getGameRoot().getChildren().add(eighthLayer);
 		getGameRoot().getChildren().add(ninthLayer);
+		getGameRoot().getChildren().add(outerParticleLayer);
 		getGameRoot().getChildren().add(tenthLayer);
 		getGameRoot().getChildren().add(eleventhLayer);
 		getGameRoot().getChildren().add(twelfthLayer);
@@ -200,6 +206,10 @@ public class GameManager extends AbstractGameModel{
 		scene = new Scene(mainMenu.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
 		gc = canvas.getGraphicsContext2D();
 		baseLayer = new Pane();
+		dirtLayer = new Pane();
+		debrisLayer = new Pane();
+		snakeOneLayer = new Pane();
+		snakeTwoLayer = new Pane();
 		firstLayer = new Pane();
 		secondLayer = new Pane();
 		thirdLayer = new Pane();
@@ -215,6 +225,8 @@ public class GameManager extends AbstractGameModel{
 		twelfthLayer = new Pane();
 		thirTeenthLayer = new Pane();
 		fourTeenthLayer = new Pane();
+		innerParticleLayer = new Pane();
+		outerParticleLayer = new Pane();
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
@@ -429,20 +441,14 @@ public class GameManager extends AbstractGameModel{
 							if (scoreBoardTwo != null) {
 								scoreBoardTwo.hide();
 							}
-							if (GameSettings.ALLOW_PHYSICS) {
-								if (!sixthLayer.getChildren().isEmpty()) {
-									if (sixthLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
-										firstLayer.getChildren().remove(GameSettings.DEBRIS_LIMIT);
-										sixthLayer.getChildren().remove(0);
-									}
+							if (!debrisLayer.getChildren().isEmpty()) {
+								if (debrisLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT) {
+									debrisLayer.getChildren().remove(0,10);
 								}
 							}
-							if (!GameSettings.ALLOW_PHYSICS) {
-								if (!sixthLayer.getChildren().isEmpty()) {
-									if (sixthLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
-										firstLayer.getChildren().remove(GameSettings.DEBRIS_LIMIT);
-										sixthLayer.getChildren().remove(0);
-									}
+							if (!innerParticleLayer.getChildren().isEmpty()) {
+								if (innerParticleLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT*0.7) {
+									innerParticleLayer.getChildren().remove(0);
 								}
 							}
 						}
@@ -687,7 +693,13 @@ public class GameManager extends AbstractGameModel{
 	}
 
 	public void clearAll() {
-
+		baseLayer.getChildren().clear();
+		dirtLayer.getChildren().clear();
+		debrisLayer.getChildren().clear();
+		innerParticleLayer.getChildren().clear();
+		outerParticleLayer.getChildren().clear();
+		snakeOneLayer.getChildren().clear();
+		snakeTwoLayer.getChildren().clear();
 		firstLayer.getChildren().clear();
 		secondLayer.getChildren().clear();
 		thirdLayer.getChildren().clear();

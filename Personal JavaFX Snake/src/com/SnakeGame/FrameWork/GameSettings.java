@@ -44,7 +44,7 @@ public class GameSettings {
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;
-	public static int MAX_AMOUNT_OF_OBJECTS = 30;
+	public static int MAX_AMOUNT_OF_OBJECTS = 200;
 	public static int DEBRIS_LIMIT = 120;
 	public static int PARTICLE_LIMIT = 20;
 	public static int SAND_AMOUNT = 5;
@@ -63,7 +63,7 @@ public class GameSettings {
 	public static boolean DAMAGE_IMMUNITY = false;
 	public static boolean ROCK_COLLISION = true;
 	public static boolean AUTOMATIC_EATING = true;
-	public static boolean ALLOW_DIRT = false;
+	public static boolean ALLOW_DIRT = true;
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 	public static boolean RENDER_GAME = true;

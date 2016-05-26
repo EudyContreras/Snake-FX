@@ -337,7 +337,7 @@ public class SnakeFood extends AbstractObject {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = (Math.random() * (20 - 5 + 1) + 5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
+				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
 			game.getDebrisManager().addObject(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),

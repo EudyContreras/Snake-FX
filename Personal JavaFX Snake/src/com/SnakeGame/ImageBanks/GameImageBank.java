@@ -89,7 +89,7 @@ public class GameImageBank {
 		glowingCircleOne = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
 		fruit = ImageUtility.precreatedLightedAndShadedImage("apple.png", GameSettings.GlOBAL_ILLUMINATION, 0,
 				150 / GameLoader.ResolutionScaleX, 192 / GameLoader.ResolutionScaleY);
-		fruitDebrisOne = ImageUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP+0.4,
+		fruitDebrisOne = ImageUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION-0.8, GameSettings.SPECULAR_MAP,
 				10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
 		fruitDebrisTwo = ImageUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);

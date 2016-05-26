@@ -9,12 +9,14 @@ import com.SnakeGame.GameObjects.SnakeFood;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
+import com.SnakeGame.Particles.BackgroundDirt;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.Utilities.GameImageLoader;
 import com.SnakeGame.Utilities.GameTileManager;
 
+import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -265,7 +267,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadPlayerOne() {
 		float x = (float) (GameSettings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius());
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		playerOne = new PlayerOne(game, game.getFourthLayer(),
+		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
 				new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
 				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
 		game.getObjectManager().addObject(playerOne);
@@ -277,7 +279,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadPlayerTwo() {
 		float x = (float) (GameSettings.WIDTH / 2 + GameImageBank.snakeTwoSphere.getRadius());
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		playerTwo = new PlayerTwo(game, game.getFithLayer(),
+		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
 				new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
 				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
 		game.getObjectManager().addObject(playerTwo);
@@ -301,7 +303,9 @@ public class GameLoader extends AbstractLoaderModel{
 	 * @param random
 	 */
 	public void spawnBackgroundStuff(boolean random) {
-		// randomOpacity = rand.nextFloat() * (0.5 - 0.2 + 1) + 0.2;
+		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - 30 + 1) + 30);
+		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.dirt,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
 	}
 
 	/**

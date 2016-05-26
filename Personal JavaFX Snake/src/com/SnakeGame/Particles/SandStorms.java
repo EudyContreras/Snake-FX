@@ -17,7 +17,7 @@ public class SandStorms extends AbstractDebrisEffect {
 	private GameDebrisID id;
 	private double radius;
 	private double decay;
-	private double lifeTime = 4.0f;
+	private double lifeTime = 6.0f;
 	private double width = GameSettings.SAND_SIZE;
 	private double height = GameSettings.SAND_SIZE;
 	private double expireTime = Math.random() * (1 - 0.01 + 1) + 0.01;
@@ -50,18 +50,18 @@ public class SandStorms extends AbstractDebrisEffect {
 	}
 
 	public void init() {
-		if (shape != null) {
+		if (getShape() != null) {
 			shape.setFill(imagePattern);
-			game.getSixthLayer().getChildren().add(shape);
+			game.getOuterParticleLayer().getChildren().add(getShape());
 		}
 		if (getView() != null) {
-			game.getSixthLayer().getChildren().add(getView());
+			game.getOuterParticleLayer().getChildren().add(getView());
 		}
 	}
 
 	public void update() {
 		super.move();
-		//lifeTime -= decay;
+		lifeTime -= decay;
 		velX += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		velY -= 0.002;
 	}

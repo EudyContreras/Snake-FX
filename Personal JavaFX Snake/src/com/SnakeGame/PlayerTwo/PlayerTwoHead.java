@@ -299,7 +299,7 @@ public class PlayerTwoHead extends AbstractObject {
 	public void addBones() {
 		skull = new Circle(x, y, this.radius*0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
-		game.getSecondLayer().getChildren().add(skull);
+		game.getBaseLayer().getChildren().add(skull);
 	}
 
 	public boolean isShowTheSkull() {

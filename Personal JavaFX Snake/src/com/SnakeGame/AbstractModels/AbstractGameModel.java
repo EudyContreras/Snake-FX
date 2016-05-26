@@ -67,7 +67,13 @@ public abstract class AbstractGameModel extends Application {
 	protected Pane root;
 	protected Pane splashLayout;
 	protected Pane levelLayer;
+	protected Pane snakeOneLayer;
+	protected Pane snakeTwoLayer;
 	protected Pane baseLayer;
+	protected Pane dirtLayer;
+	protected Pane innerParticleLayer;
+	protected Pane outerParticleLayer;
+	protected Pane debrisLayer;
 	protected Pane firstLayer;
 	protected Pane secondLayer;
 	protected Pane thirdLayer;
@@ -197,6 +203,22 @@ public abstract class AbstractGameModel extends Application {
 		scene.setRoot(root);
 	}
 
+	public Pane getSnakeOneLayer() {
+		return snakeOneLayer;
+	}
+
+	public void setSnakeOneLayer(Pane snakeOneLayer) {
+		this.snakeOneLayer = snakeOneLayer;
+	}
+
+	public Pane getSnakeTwoLayer() {
+		return snakeTwoLayer;
+	}
+
+	public void setSnakeTwoLayer(Pane snakeTwoLayer) {
+		this.snakeTwoLayer = snakeTwoLayer;
+	}
+
 	public Pane getLevelLayer() {
 		return levelLayer;
 	}
@@ -275,6 +297,38 @@ public abstract class AbstractGameModel extends Application {
 
 	public Pane getBaseLayer() {
 		return baseLayer;
+	}
+
+	public Pane getDirtLayer() {
+		return dirtLayer;
+	}
+
+	public void setDirtLayer(Pane dirtLayer) {
+		this.dirtLayer = dirtLayer;
+	}
+
+	public Pane getInnerParticleLayer() {
+		return innerParticleLayer;
+	}
+
+	public void setInnerParticleLayer(Pane particleLayer) {
+		this.innerParticleLayer = particleLayer;
+	}
+
+	public Pane getOuterParticleLayer() {
+		return outerParticleLayer;
+	}
+
+	public void setOuterParticleLayer(Pane outerParticleLayer) {
+		this.outerParticleLayer = outerParticleLayer;
+	}
+
+	public Pane getDebrisLayer() {
+		return debrisLayer;
+	}
+
+	public void setDebrisLayer(Pane debrisLayer) {
+		this.debrisLayer = debrisLayer;
 	}
 
 	public void setBaseLayer(Pane baseLayer) {

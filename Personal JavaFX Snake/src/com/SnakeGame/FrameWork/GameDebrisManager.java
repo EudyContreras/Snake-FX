@@ -49,10 +49,10 @@ public class GameDebrisManager {
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getFirstLayer().getChildren().remove(tempDebris.getView());
-				game.getSecondLayer().getChildren().remove(tempDebris.getView());
-				game.getFirstLayer().getChildren().remove(tempDebris.getShape());
-				game.getSecondLayer().getChildren().remove(tempDebris.getShape());
+				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
+				game.getDebrisLayer().getChildren().remove(tempDebris.getShape());
+				game.getInnerParticleLayer().getChildren().remove(tempDebris.getView());
+				game.getInnerParticleLayer().getChildren().remove(tempDebris.getShape());
 				debrisList.remove();
 				continue;
 			}
@@ -67,10 +67,10 @@ public class GameDebrisManager {
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getFirstLayer().getChildren().remove(tempDebris.getView());
-				game.getSecondLayer().getChildren().remove(tempDebris.getView());
-				game.getFirstLayer().getChildren().remove(tempDebris.getShape());
-				game.getSecondLayer().getChildren().remove(tempDebris.getShape());
+				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
+				game.getDebrisLayer().getChildren().remove(tempDebris.getShape());
+				game.getInnerParticleLayer().getChildren().remove(tempDebris.getView());
+				game.getInnerParticleLayer().getChildren().remove(tempDebris.getShape());
 				debris.remove(i);
 			}
 		}
@@ -84,8 +84,8 @@ public class GameDebrisManager {
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getSixthLayer().getChildren().remove(tempDebris.getShape());
-				game.getSixthLayer().getChildren().remove(tempDebris.getView());
+				game.getOuterParticleLayer().getChildren().remove(tempDebris.getShape());
+				game.getOuterParticleLayer().getChildren().remove(tempDebris.getView());
 				particles.remove(i);
 			}
 		}

@@ -207,19 +207,22 @@ public class PlayerOneSection extends AbstractSection {
 		if(GameSettings.ALLOW_DIRT)
 		updateDirt();
 	}
+
 	public void updateDirt() {
-		dirtDelay--;
-		if (dirtDelay <= 0) {
-			if (PlayerOne.KEEP_MOVING) {
-				displaceDirt(x + width / 2, y + height / 2, 18, 18);
-				dirtDelay = 10;
+		if ((this.numericID & 1) == 0) {
+			dirtDelay--;
+			if (dirtDelay <= 0) {
+				if (PlayerOne.KEEP_MOVING) {
+					displaceDirt(x + width / 2, y + height / 2, 18, 18);
+					dirtDelay = 10;
+				}
 			}
 		}
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
 			for (int i = 0; i <2; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,0.5, x, y,
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -262,7 +265,7 @@ public class PlayerOneSection extends AbstractSection {
 	}
 	public void loadBones() {
 		bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-		game.getFirstLayer().getChildren().add(bones);
+		game.getBaseLayer().getChildren().add(bones);
 		bones.setRotate(r-90);
 	}
 

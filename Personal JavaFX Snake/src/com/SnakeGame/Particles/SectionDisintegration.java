@@ -34,7 +34,7 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 
 	public void init() {
 		shape.setFill(imagePattern);
-		game.getSixthLayer().getChildren().add(shape);
+		game.getOuterParticleLayer().getChildren().add(shape);
 	}
 
 	public void update() {
