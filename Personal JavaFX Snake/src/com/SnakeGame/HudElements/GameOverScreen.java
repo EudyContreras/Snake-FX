@@ -83,6 +83,7 @@ public class GameOverScreen {
 	public void finishLevel() {
 		game.showCursor(true, game.getScene());
 		game.getScoreKeeper().stopTimer();
+		GameSettings.DAMAGE_IMMUNITY = true;
 		askConfirm();
 	}
 
@@ -96,6 +97,7 @@ public class GameOverScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
+			GameSettings.DAMAGE_IMMUNITY = false;
 			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
@@ -107,6 +109,7 @@ public class GameOverScreen {
 		});
 		restart_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.LEVEL_RESTART);
+			GameSettings.DAMAGE_IMMUNITY = false;
 			restartLevel();
 		});
 

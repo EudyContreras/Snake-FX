@@ -41,7 +41,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void initializeMain(){
 		this.border = GameImageLoader.loadImage("/desert-level-border.png");
 		this.fence = GameImageLoader.loadImage("/desert-level-fence.png");
-		this.setLevel(this.desertLevel_2);
+		this.setLevel(this.levelMain);
 		this.setLevelWidth(getLevel().getWidth());
 		this.setLevelHeight(getLevel().getHeight());
 		this.game.setLevelLenght(128 * 64);

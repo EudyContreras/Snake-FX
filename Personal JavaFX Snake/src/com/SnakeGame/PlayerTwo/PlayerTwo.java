@@ -429,14 +429,16 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (allowDamage && game.getStateID()!=GameStateID.GAME_MENU) {
-							setCollision(true);
-							if (!DEAD) {
-								this.overlay.addDistortion(15, 0.2);
-								this.overlay.addToneOverlay(Color.rgb(220, 0, 0), 5, 1.0);
+						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
+							if (!GameSettings.DAMAGE_IMMUNITY) {
+								setCollision(true);
+								if (!DEAD) {
+									this.overlay.addDistortion(15, 0.2);
+									this.overlay.addToneOverlay(Color.rgb(220, 0, 0), 5, 1.0);
+								}
+								immunity = GameSettings.IMMUNITY_TIME;
+								allowDamage = false;
 							}
-							immunity = GameSettings.IMMUNITY_TIME;
-							allowDamage = false;
 						}
 					}
 				}
@@ -458,8 +460,17 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
 				if (tempTile.getId() == GameLevelObjectID.fence) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if(!DEAD){
-							die();
+						if (!DEAD) {
+							if (!GameSettings.DAMAGE_IMMUNITY)
+								die();
+						}
+					}
+				}
+				if (tempTile.getId() == GameLevelObjectID.trap) {
+					if (getBounds().intersects(tempTile.getBounds())) {
+						if (!DEAD) {
+							if (!GameSettings.DAMAGE_IMMUNITY)
+								die();
 						}
 					}
 				}

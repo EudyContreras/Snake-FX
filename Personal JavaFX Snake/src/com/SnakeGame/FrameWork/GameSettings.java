@@ -47,12 +47,12 @@ public class GameSettings {
 	public static int MAX_AMOUNT_OF_OBJECTS = 30;
 	public static int DEBRIS_LIMIT = 120;
 	public static int PARTICLE_LIMIT = 20;
-	public static int SAND_AMOUNT = 2;
+	public static int SAND_AMOUNT = 5;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_AMOUNT = 2;
 	public static int RAIN_SPAWN_DELAY = 1;
 
-	public static double SAND_SIZE = 4;
+	public static double SAND_SIZE = 6;
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;
@@ -60,6 +60,7 @@ public class GameSettings {
 
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
+	public static boolean DAMAGE_IMMUNITY = false;
 	public static boolean ROCK_COLLISION = true;
 	public static boolean AUTOMATIC_EATING = true;
 	public static boolean ALLOW_DIRT = false;
