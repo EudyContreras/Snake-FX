@@ -1,6 +1,7 @@
 package com.SnakeGame.AbstractModels;
 
 import com.SnakeGame.FrameWork.FadeScreenHandler;
+import com.SnakeGame.FrameWork.GameDebrisManager;
 import com.SnakeGame.FrameWork.GestureInputManager;
 import com.SnakeGame.FrameWork.KeyInputManager;
 import com.SnakeGame.FrameWork.GameLoader;
@@ -19,7 +20,6 @@ import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
-import com.SnakeGame.Particles.GameDebrisManager;
 import com.SnakeGame.Particles.RainEmitter;
 import com.SnakeGame.Particles.SandEmitter;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;

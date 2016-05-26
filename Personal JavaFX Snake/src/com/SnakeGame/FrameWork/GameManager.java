@@ -13,7 +13,6 @@ import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
-import com.SnakeGame.Particles.GameDebrisManager;
 import com.SnakeGame.Particles.RainEmitter;
 import com.SnakeGame.Particles.SandEmitter;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -433,6 +432,7 @@ public class GameManager extends AbstractGameModel{
 							if (GameSettings.ALLOW_PHYSICS) {
 								if (!sixthLayer.getChildren().isEmpty()) {
 									if (sixthLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
+										firstLayer.getChildren().remove(GameSettings.DEBRIS_LIMIT);
 										sixthLayer.getChildren().remove(0);
 									}
 								}
@@ -440,6 +440,7 @@ public class GameManager extends AbstractGameModel{
 							if (!GameSettings.ALLOW_PHYSICS) {
 								if (!sixthLayer.getChildren().isEmpty()) {
 									if (sixthLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
+										firstLayer.getChildren().remove(GameSettings.DEBRIS_LIMIT);
 										sixthLayer.getChildren().remove(0);
 									}
 								}
@@ -563,7 +564,7 @@ public class GameManager extends AbstractGameModel{
 		rootPane.add(fadeScreenLayer);
 		rootPane.add(thirTeenthLayer);
 		rootPane.add(fourTeenthLayer);
-		rootPane.add(TextFPS);
+		mainRoot.getChildren().add(TextFPS);
 	}
 
 	public void restart() {

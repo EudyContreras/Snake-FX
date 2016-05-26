@@ -17,7 +17,7 @@ public abstract class AbstractDebrisEffect {
 
 	protected GameManager game;
 	protected Circle shape;
-	protected ImageView view;
+	private ImageView view;
 	protected ImagePattern imagePattern;
 	protected DropShadow borderGlow;
 	protected Bloom bloom;
@@ -57,5 +57,13 @@ public abstract class AbstractDebrisEffect {
 
 	public Circle getShape() {
 		return shape;
+	}
+
+	public ImageView getView() {
+		return view;
+	}
+
+	public void setView(ImageView view) {
+		this.view = view;
 	}
 }

@@ -127,7 +127,6 @@ public class GameLoader extends AbstractLoaderModel{
 		for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_OBJECTS; i++) {
 			spawnBackgroundStuff(true);
 		}
-
 		if(!GameSettings.LOAD_SPIKE_FENCE)
 			levelManager.loadDesertBorder();
 		if(GameSettings.LOAD_SPIKE_FENCE){
@@ -328,7 +327,7 @@ public class GameLoader extends AbstractLoaderModel{
 				+ fruit.getRadius() * 3);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - fruit.getRadius() * 5 + 1)
 				+ fruit.getRadius() * 5);
-		SnakeFood food = new SnakeFood(game, game.getThirdLayer(), fruit, x, y, GameObjectID.Fruit);
+		SnakeFood food = new SnakeFood(game, game.getSecondLayer(), fruit, x, y, GameObjectID.Fruit);
 		game.getObjectManager().addObject(food);
 	}
 

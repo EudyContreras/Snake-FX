@@ -1,10 +1,10 @@
-package com.SnakeGame.Particles;
+package com.SnakeGame.FrameWork;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.Particles.AbstractDebrisEffect;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -49,10 +49,10 @@ public class GameDebrisManager {
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getFirstLayer().getChildren().remove(tempDebris.view);
-				game.getSecondLayer().getChildren().remove(tempDebris.view);
-				game.getFirstLayer().getChildren().remove(tempDebris.shape);
-				game.getSecondLayer().getChildren().remove(tempDebris.shape);
+				game.getFirstLayer().getChildren().remove(tempDebris.getView());
+				game.getSecondLayer().getChildren().remove(tempDebris.getView());
+				game.getFirstLayer().getChildren().remove(tempDebris.getShape());
+				game.getSecondLayer().getChildren().remove(tempDebris.getShape());
 				debrisList.remove();
 				continue;
 			}
@@ -67,10 +67,10 @@ public class GameDebrisManager {
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getFirstLayer().getChildren().remove(tempDebris.view);
-				game.getSecondLayer().getChildren().remove(tempDebris.view);
-				game.getFirstLayer().getChildren().remove(tempDebris.shape);
-				game.getSecondLayer().getChildren().remove(tempDebris.shape);
+				game.getFirstLayer().getChildren().remove(tempDebris.getView());
+				game.getSecondLayer().getChildren().remove(tempDebris.getView());
+				game.getFirstLayer().getChildren().remove(tempDebris.getShape());
+				game.getSecondLayer().getChildren().remove(tempDebris.getShape());
 				debris.remove(i);
 			}
 		}
@@ -84,8 +84,8 @@ public class GameDebrisManager {
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getSixthLayer().getChildren().remove(tempDebris.shape);
-				game.getSixthLayer().getChildren().remove(tempDebris.view);
+				game.getSixthLayer().getChildren().remove(tempDebris.getShape());
+				game.getSixthLayer().getChildren().remove(tempDebris.getView());
 				particles.remove(i);
 			}
 		}
@@ -102,10 +102,10 @@ public class GameDebrisManager {
 		for (int i = 0; i < debris.size(); i++) {
 			tempDebris = debris.get(i);
 			if (!tempDebris.isAlive()) {
-				game.getFirstLayer().getChildren().remove(tempDebris.shape);
+				game.getFirstLayer().getChildren().remove(tempDebris.getShape());
 				debris.remove(i);
 			}
-			if (tempDebris.shape == null) {
+			if (tempDebris.getShape() == null) {
 				debris.remove(i);
 
 			}
