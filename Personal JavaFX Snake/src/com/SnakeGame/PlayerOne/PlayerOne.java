@@ -494,7 +494,6 @@ public class PlayerOne extends AbstractObject {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
-			GameManager.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 			appleCount++;
 		}

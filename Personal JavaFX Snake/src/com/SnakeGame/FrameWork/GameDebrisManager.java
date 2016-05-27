@@ -119,7 +119,12 @@ public class GameDebrisManager {
 	public LinkedList<AbstractDebrisEffect> getParticleList() {
 		return particles;
 	}
-
+	public void clearDebris(){
+		this.debris.clear();
+	}
+	public void clearParticles(){
+		this.particles.clear();
+	}
 	public void clearAll() {
 		this.debris.clear();
 		this.particles.clear();

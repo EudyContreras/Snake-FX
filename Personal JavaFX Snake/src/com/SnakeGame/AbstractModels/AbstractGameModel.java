@@ -1,5 +1,7 @@
 package com.SnakeGame.AbstractModels;
 
+import java.util.concurrent.CountDownLatch;
+
 import com.SnakeGame.FrameWork.FadeScreenHandler;
 import com.SnakeGame.FrameWork.GameDebrisManager;
 import com.SnakeGame.FrameWork.GestureInputManager;
@@ -30,7 +32,11 @@ import com.SnakeGame.Utilities.ScreenOverlay;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -47,6 +53,7 @@ public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
 	protected GameLoader loader;
+	protected Timeline frameGameLoop;
 	protected KeyInputManager keyInput;
 	protected MouseInputManager mouseInput;
 	protected GestureInputManager gestures;
@@ -470,9 +477,39 @@ public abstract class AbstractGameModel extends Application {
 	public int getLevelLenght() {
 		return levelLenght;
 	}
-
+	public Timeline getGameLoop(){
+		return frameGameLoop;
+	}
 	public void setLevelLenght(int levelLenght) {
 		this.levelLenght = levelLenght;
+	}
+	public void backgroundWorker(){
+		Service<Void> service = new Service<Void>() {
+	        @Override
+	        protected Task<Void> createTask() {
+	            return new Task<Void>() {
+	                @Override
+	                protected Void call() throws Exception {
+	                    //Background work
+	                    final CountDownLatch latch = new CountDownLatch(1);
+	                    Platform.runLater(new Runnable() {
+	                        @Override
+	                        public void run() {
+	                            try{
+	                                //FX Stuff done here
+	                            }finally{
+	                                latch.countDown();
+	                            }
+	                        }
+	                    });
+	                    latch.await();
+	                    //Keep with the background work
+	                    return null;
+	                }
+	            };
+	        }
+	    };
+	    service.start();
 	}
 
 }

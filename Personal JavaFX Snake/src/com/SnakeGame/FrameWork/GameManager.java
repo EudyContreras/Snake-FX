@@ -32,6 +32,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -181,7 +182,11 @@ public class GameManager extends AbstractGameModel{
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
+		snakeLoop();
 		frameBaseGameLoop();
+
+		//objectChecker();
+
 	}
 
 	public Image copyBackground(Group content) {
@@ -196,6 +201,7 @@ public class GameManager extends AbstractGameModel{
 
 	private void initialize() {
 		initSplash();
+		frameGameLoop = new Timeline();
 		imageBank = new GameImageBank();
 		levelImageBank = new GameLevelImage();
 		mainRoot = new Group();
@@ -226,7 +232,13 @@ public class GameManager extends AbstractGameModel{
 		thirTeenthLayer = new Pane();
 		fourTeenthLayer = new Pane();
 		innerParticleLayer = new Pane();
+		innerParticleLayer.setCache(true);
+		innerParticleLayer.setCacheShape(true);
+		innerParticleLayer.setCacheHint(CacheHint.SPEED);
 		outerParticleLayer = new Pane();
+		outerParticleLayer.setCache(true);
+		outerParticleLayer.setCacheShape(true);
+		outerParticleLayer.setCacheHint(CacheHint.SPEED);
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
@@ -240,6 +252,7 @@ public class GameManager extends AbstractGameModel{
 		mouseInput = new MouseInputManager();
 		debrisManager = new GameDebrisManager(this);
 		postEffects = new ScreenOverlay(this, getGameRoot());
+
 	}
 
 	public static double ScaleX(double value) {
@@ -324,10 +337,32 @@ public class GameManager extends AbstractGameModel{
 				}
 				if (GameSettings.RENDER_GAME) {
 					drawOverlay(gc);
-					debrisManager.update(gc);
+					fadeHandler.innerFade_update();
+					fadeHandler.outer_fade_update();
+					pauseMenu.updateTouchPanel();
+					gameHud.updateHudBars();
+					victoryScreen.swipeRight();
+					gameOverScreen.swipeDown();
+					gameOverScreen.checkStatus();
+					scoreKeeper.keepCount();
+					slitherManager.updateAll(gc, now);
+					slitherManager.checkCollisions();
 					objectManager.updateAll(gc, now);
-					sectManagerTwo.updateAll(gc, now);
 					objectManager.checkCollisions();
+					sectManagerTwo.updateAll(gc, now);
+					sectManagerThree.updateAll(gc, now);
+					sectManagerOne.updateAll(gc, now);
+					debrisManager.updateDebris(gc);
+					debrisManager.updateParticles(gc);
+					loader.updateLevelObjects();
+					sandEmitter.move();
+					rainEmitter.move();
+					if(GameSettings.SAND_STORM){
+						sandEmitter.emit();
+					}
+					if(GameSettings.RAIN_STORM){
+						rainEmitter.emit();
+					}
 					if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
 						getHealthBarOne().depleteHealth();
 						getHealthBarOne().regerateHealth();
@@ -336,18 +371,20 @@ public class GameManager extends AbstractGameModel{
 						getHealthBarTwo().depleteHealth();
 						getHealthBarTwo().regerateHealth();
 					}
-					if (GameSettings.ALLOW_PHYSICS) {
-						if (!firstLayer.getChildren().isEmpty()) {
-							if (firstLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT) {
-								firstLayer.getChildren().remove(50, 100);
-							}
+					if (scoreBoardOne != null) {
+						scoreBoardOne.hide();
+					}
+					if (scoreBoardTwo != null) {
+						scoreBoardTwo.hide();
+					}
+					if (!debrisLayer.getChildren().isEmpty()) {
+						if (debrisLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT) {
+							debrisLayer.getChildren().remove(0,10);
 						}
 					}
-					if (!GameSettings.ALLOW_PHYSICS) {
-						if (!firstLayer.getChildren().isEmpty()) {
-							if (firstLayer.getChildren().size() > GameSettings.DEBRIS_LIMIT + 50) {
-								firstLayer.getChildren().remove(50, 100);
-							}
+					if (!innerParticleLayer.getChildren().isEmpty()) {
+						if (innerParticleLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT*0.7) {
+							innerParticleLayer.getChildren().remove(0);
 						}
 					}
 				}
@@ -409,13 +446,13 @@ public class GameManager extends AbstractGameModel{
 							gameOverScreen.swipeDown();
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
-							slitherManager.updateAll(gc, timePassed);
-							slitherManager.checkCollisions();
-							objectManager.updateAll(gc, timePassed);
-							objectManager.checkCollisions();
-							sectManagerTwo.updateAll(gc, timePassed);
-							sectManagerThree.updateAll(gc, timePassed);
-							sectManagerOne.updateAll(gc, timePassed);
+//							slitherManager.updateAll(gc, timePassed);
+//							slitherManager.checkCollisions();
+//							objectManager.updateAll(gc, timePassed);
+//							objectManager.checkCollisions();
+//							sectManagerTwo.updateAll(gc, timePassed);
+//							sectManagerThree.updateAll(gc, timePassed);
+//							sectManagerOne.updateAll(gc, timePassed);
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
@@ -462,6 +499,32 @@ public class GameManager extends AbstractGameModel{
 				});
 		gameLoop.getKeyFrames().add(keyFrame);
 		gameLoop.play();
+	}
+
+	public void snakeLoop() {
+		frameGameLoop.setCycleCount(Timeline.INDEFINITE);
+		frameGameLoop.setRate(1.0);
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
+
+				new EventHandler<ActionEvent>() {
+					long startTime = System.currentTimeMillis();
+					long cummulativeTime = startTime;
+					long timePassed = 0;
+
+					public void handle(ActionEvent e) {
+						timePassed = System.currentTimeMillis() - cummulativeTime;
+						cummulativeTime += timePassed;
+						if (GameSettings.RENDER_GAME) {
+							objectManager.updateAll(gc, timePassed);
+							objectManager.checkCollisions();
+							sectManagerOne.updateAll(gc, timePassed);
+							sectManagerTwo.updateAll(gc, timePassed);
+							sectManagerThree.updateAll(gc, timePassed);
+						}
+					}
+				});
+		frameGameLoop.getKeyFrames().add(keyFrame);
+		frameGameLoop.play();
 	}
 
 
@@ -526,24 +589,28 @@ public class GameManager extends AbstractGameModel{
 	 * each list This thread can also be used to procedurally create a level
 	 * which will then put objects on the level based on the set speed
 	 */
-	public void levelThread() {
+	public void objectChecker() {
 		Timeline levelUpdateLoop = new Timeline();
 		levelUpdateLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.256), new EventHandler<ActionEvent>() {
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.512), new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent ae) {
 
 				// loader.procedurallyCreateLevel();
-				System.out.println("Amount of objects in debris layer: " + firstLayer.getChildren().size());
-				System.out.println("Amount of objects in game layer: " + thirdLayer.getChildren().size());
-				System.out.println("Amount of objects in bottom layer: " + secondLayer.getChildren().size());
-				System.out.println("Amount of objects in radar layer: " + seventhLayer.getChildren().size());
-				System.out.println("Amount of objects in level layer: " + getGameRoot().getChildren().size());
+				System.out.println("Amount of objects in dirt layer: " + dirtLayer.getChildren().size());
+				System.out.println("Amount of objects in debris layer: " 	+ debrisLayer.getChildren().size());
+				System.out.println("Amount of objects in lower particle layer: " + innerParticleLayer.getChildren().size());
+				System.out.println("Amount of objects in higher particle layer: " + outerParticleLayer.getChildren().size());
+				System.out.println("Amount of objects in all layers: " + getGameRoot().getChildren().size());
 				System.out.println();
 				System.out.println();
 				System.out.println("Amount of objects in object manager: " + objectManager.getObjectList().size());
 				System.out.println("Amount of objects in debris manager: " + debrisManager.getDebrisList().size());
-				System.out.println();
+				System.out.println("Amount of objects in particle manager: " + debrisManager.getParticleList().size());
+				System.out.println("Amount of objects in tile manager: " + loader.getTileManager().getTile().size());
+				System.out.println("Amount of objects in block manager: " + loader.getTileManager().getBlock().size());
+				System.out.println("Amount of objects in trap manager: " +loader.getTileManager().getTrap().size());
+
 				System.out.println();
 				System.out.println("---------------------------------------------------------------------------");
 

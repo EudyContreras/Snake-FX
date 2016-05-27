@@ -262,9 +262,16 @@ public class PlayerTwoSection extends AbstractSection {
 		}
 	}
 	public void loadBones() {
-		bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-		game.getBaseLayer().getChildren().add(bones);
-		bones.setRotate(r-90);
+		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
+			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
+			game.getBaseLayer().getChildren().add(bones);
+			bones.setRotate(r-90);
+		}
+		else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+			bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
+			game.getBaseLayer().getChildren().add(bones);
+			bones.setRotate(r-90);
+		}
 	}
 
 	public void blowUp() {

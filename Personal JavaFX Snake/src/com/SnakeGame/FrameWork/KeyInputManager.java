@@ -72,8 +72,9 @@ public class KeyInputManager {
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
+					game.getGameLoop().setRate(2.0);
 					keyDown[5] = true;
-					slither.thrust = true;
+					//slither.thrust = true;
 				}
 				if (e.getCode() == KeyCode.P) {
 					game.setStateID(GameStateID.GAME_MENU);
@@ -148,6 +149,7 @@ public class KeyInputManager {
 					keyDown[4] = false;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
+					game.getGameLoop().setRate(1.0);
 					keyDown[5] = false;
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
@@ -157,10 +159,10 @@ public class KeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-					slither.rotateLeft = false;
+					//slither.rotateLeft = false;
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
-					slither.rotateRight = false;
+					//slither.rotateRight = false;
 				}
 				if (!keyDown[0] && !keyDown[1]) {
 				}

@@ -259,7 +259,18 @@ public class GameLoader extends AbstractLoaderModel{
 		if (image.isBackgroundLoading())
 			game.getGameRoot().getChildren().add(texture.getView());
 	}
-
+	/**
+	 * Method responsible for spawning the food on the level
+	 */
+	public void spawnSnakeFood() {
+		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
+		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
+				+ fruit.getRadius() * 3);
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - fruit.getRadius() * 5 + 1)
+				+ fruit.getRadius() * 5);
+		SnakeFood food = new SnakeFood(game, game.getDirtLayer(), fruit, x, y, GameObjectID.Fruit);
+		game.getObjectManager().addObject(food);
+	}
 	/**
 	 * Method used to create the player one and position the player at a specified
 	 * position.
@@ -322,18 +333,5 @@ public class GameLoader extends AbstractLoaderModel{
 		// TODO: object to spawn and add
 		// game.getDebrisManager().addObject(object);
 	}
-	/**
-	 * Method responsible for spawning the food on the level
-	 */
-	public void spawnSnakeFood() {
-		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
-		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - fruit.getRadius() * 5 + 1)
-				+ fruit.getRadius() * 5);
-		SnakeFood food = new SnakeFood(game, game.getSecondLayer(), fruit, x, y, GameObjectID.Fruit);
-		game.getObjectManager().addObject(food);
-	}
-
 
 }

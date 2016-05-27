@@ -38,19 +38,6 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-
-	public float getVelR() {
-		return velR;
-	}
-
-	public void setVelR(float velR) {
-		this.velR = velR;
-	}
-
-	public void setR(float r) {
-		this.r = r;
-	}
-
 	public AbstractTile(float x, float y, Image image) {
 		this.x = x;
 		this.y = y;
@@ -99,6 +86,19 @@ public abstract class AbstractTile {
 	public float getR() {
 		return r;
 	}
+
+	public void setR(float r) {
+		this.r = r;
+	}
+
+	public float getVelR() {
+		return velR;
+	}
+
+	public void setVelR(float velR) {
+		this.velR = velR;
+	}
+
 	public void relocate(float x, float y) {
 		view.setTranslateX(x);
 		view.setTranslateY(y);

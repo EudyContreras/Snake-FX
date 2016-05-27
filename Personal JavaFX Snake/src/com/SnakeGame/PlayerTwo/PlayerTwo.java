@@ -492,7 +492,6 @@ public class PlayerTwo extends AbstractObject {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
-			GameManager.writeToLog("New section added " + NUMERIC_ID);
 			NUMERIC_ID++;
 			appleCount++;
 		}

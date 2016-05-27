@@ -29,7 +29,7 @@ public class GameSettings {
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
 
-	public static int TURN_DELAY = 5;
+	public static int TURN_DELAY = 10;
 	public static int BITE_DELAY = 10;
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;

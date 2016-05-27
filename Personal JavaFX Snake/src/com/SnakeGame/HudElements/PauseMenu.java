@@ -91,10 +91,12 @@ public class PauseMenu {
 		processKeyHandling();
 	}
 	public void pauseGame(){
+		selectionReset();
 		showTouchPanel();
 
 	}
 	public void resumeGame(){
+		selectionReset();
 		hideTouchPanel();
 
 	}
@@ -122,9 +124,11 @@ public class PauseMenu {
 			game.getGameHud().swipeDown();
 			game.showCursor(true, game.getScene());
 			processKeyHandling();
+			selectionReset();
 			borderGlow.setColor(Color.rgb(0,240,0));
 			continueBtt.setEffect(borderGlow);
 			currentChoice = 1;
+			GameSettings.ALLOW_DIRT = false;
 		}
 	}
 	public void hideTouchPanel(){
@@ -135,6 +139,7 @@ public class PauseMenu {
 			game.showCursor(false, game.getScene());
 			hide = true;
 			show = false;
+			GameSettings.ALLOW_DIRT = true;
 	}
 	public void updateTouchPanel(){
 		overlay.updateEffect();
@@ -211,7 +216,7 @@ public class PauseMenu {
 				event.consume();
 			}
 		});
-//		processButtonGesture();
+		processButtonGesture();
 	}
 	public void processButtonGesture(){
 		continueBtt.setOnMouseEntered(e -> {
@@ -268,7 +273,7 @@ public class PauseMenu {
 	 * space on the different choices
 	 */
 	private void processKeyHandling() {
-		
+		updateSelections();
 		game.getScene().setOnKeyPressed(e -> {
 			switch (e.getCode()) {
 			case UP:
@@ -301,6 +306,7 @@ public class PauseMenu {
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
+					restartLevel();
 				}
 				if (currentChoice == 3) {
 					game.setStateID(GameStateID.MAIN_MENU);
@@ -317,6 +323,7 @@ public class PauseMenu {
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
+					restartLevel();
 				}
 				if (currentChoice == 3) {
 					game.setStateID(GameStateID.MAIN_MENU);
@@ -334,14 +341,13 @@ public class PauseMenu {
 				restartBtt.setEffect(null);
 				quitGameBtt.setEffect(null);
 				mainMenuBtt.setEffect(null);
-				currentChoice = 1;
 				break;
 			default:
 				break;
 			}
 			updateSelections();
 		});
-	
+
 		}
 	public void updateSelections(){
 		if(currentChoice==1){
@@ -373,7 +379,11 @@ public class PauseMenu {
 			mainMenuBtt.setEffect(null);
 		}
 	}
-
+	public void selectionReset(){
+		quitGameBtt.setEffect(null);
+		restartBtt.setEffect(null);
+		mainMenuBtt.setEffect(null);
+	}
 	public void restartLevel() {
 		game.removePlayers();
 		game.restart();
@@ -382,10 +392,11 @@ public class PauseMenu {
 		resumeGame();
 	}
 	public synchronized void blurOut(){
+		game.getOuterParticleLayer().getChildren().clear();
+		game.getDebrisManager().clearParticles();
 		overlay.levelCompleteBlur();
 	}
 	public synchronized void blurOff(){
-
 		overlay.levelCompleteBlurOff();
 	}
 	public boolean isAllowTouch() {

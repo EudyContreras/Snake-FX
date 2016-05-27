@@ -239,7 +239,8 @@ public class PlayerOneSection extends AbstractSection {
 		if (!PlayerOne.DEAD) {
 			if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
 				this.circle.setFill(GameImageBank.tailImage);
-			} else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
+			}
+			else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
 				this.circle.setFill(GameImageBank.snakeOneBody);
 			}
 		}
@@ -264,9 +265,18 @@ public class PlayerOneSection extends AbstractSection {
 		}
 	}
 	public void loadBones() {
-		bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-		game.getBaseLayer().getChildren().add(bones);
-		bones.setRotate(r-90);
+		if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
+			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
+			game.getBaseLayer().getChildren().add(bones);
+			bones.setRotate(r-90);
+		}
+		else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
+			bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
+			game.getBaseLayer().getChildren().add(bones);
+			bones.setRotate(r-90);
+		}
+
+
 	}
 
 	public void blowUp() {
