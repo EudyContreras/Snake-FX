@@ -183,8 +183,9 @@ public class GameManager extends AbstractGameModel{
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
 		objectChecker();
-		playerMovementLoop();
 		frameBaseGameLoop();
+		playerMovementLoop();
+		
 
 
 	}
@@ -785,7 +786,6 @@ public class GameManager extends AbstractGameModel{
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
 		loader.clearTiles();
-		System.gc();
 
 	}
 	public void removePlayers() {

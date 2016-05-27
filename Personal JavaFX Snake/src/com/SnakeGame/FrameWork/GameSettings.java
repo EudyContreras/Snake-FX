@@ -36,11 +36,11 @@ public class GameSettings {
 	public static double HEALTH_REGENERATION_SPEED = 0.1;
 	public static double DAMAGE_AMOUNT = 50;
 
-	public static float PLAYER_SPEED = 4.0f;
+	public static float PLAYER_SPEED = 6.0f;
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double SPECULAR_MAP = 1.8;
+	public static double SPECULAR_MAP = 2.0;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;
@@ -64,7 +64,7 @@ public class GameSettings {
 	public static boolean DAMAGE_IMMUNITY = false;
 	public static boolean ROCK_COLLISION = true;
 	public static boolean AUTOMATIC_EATING = true;
-	public static boolean ALLOW_DIRT = true;
+	public static boolean ALLOW_DIRT = false;
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 	public static boolean RENDER_GAME = true;

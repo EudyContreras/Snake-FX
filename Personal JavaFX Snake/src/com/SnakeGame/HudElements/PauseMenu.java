@@ -128,7 +128,6 @@ public class PauseMenu {
 			borderGlow.setColor(Color.rgb(0,240,0));
 			continueBtt.setEffect(borderGlow);
 			currentChoice = 1;
-			GameSettings.ALLOW_DIRT = false;
 		}
 	}
 	public void hideTouchPanel(){
@@ -139,7 +138,6 @@ public class PauseMenu {
 			game.showCursor(false, game.getScene());
 			hide = true;
 			show = false;
-			GameSettings.ALLOW_DIRT = true;
 	}
 	public void updateTouchPanel(){
 		overlay.updateEffect();
