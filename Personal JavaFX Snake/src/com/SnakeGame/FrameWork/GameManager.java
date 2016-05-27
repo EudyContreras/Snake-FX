@@ -215,7 +215,13 @@ public class GameManager extends AbstractGameModel{
 		dirtLayer = new Pane();
 		debrisLayer = new Pane();
 		snakeOneLayer = new Pane();
+		snakeOneLayer.setCache(true);
+		snakeOneLayer.setCacheShape(true);
+		snakeOneLayer.setCacheHint(CacheHint.SPEED);
 		snakeTwoLayer = new Pane();
+		snakeTwoLayer.setCache(true);
+		snakeTwoLayer.setCacheShape(true);
+		snakeTwoLayer.setCacheHint(CacheHint.SPEED);
 		firstLayer = new Pane();
 		secondLayer = new Pane();
 		thirdLayer = new Pane();
@@ -243,7 +249,8 @@ public class GameManager extends AbstractGameModel{
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
 		objectManager = new ObjectManager(this);
-		playerManager = new PlayerOneManager(this);
+		playerOneManager = new PlayerOneManager(this);
+		playerTwoManager = new PlayerTwoManager(this);
 		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
@@ -347,14 +354,19 @@ public class GameManager extends AbstractGameModel{
 					scoreKeeper.keepCount();
 					slitherManager.updateAll(gc, now);
 					slitherManager.checkCollisions();
-					for (int speed = 0; speed < GameSettings.PLAYER_SPEED; speed += 1) {
-						playerManager.updateAllMovement();
+					for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
+						playerOneManager.updateAllMovement();
 						sectManagerOne.updateAllMovement(gc, now);
-						sectManagerTwo.updateAllMovement(gc, now);
-						sectManagerThree.updateAll(gc, now);
+
 					}
+					for (int speed = 0; speed < GameSettings.PLAYER_TWO_SPEED; speed += 1) {
+						playerTwoManager.updateAllMovement();
+						sectManagerTwo.updateAllMovement(gc, now);
+					}
+					sectManagerThree.updateAll(gc, now);
 					objectManager.updateAll(gc, now);
-					playerManager.updateAllLogic(gc, now);
+					playerOneManager.updateAllLogic(gc, now);
+					playerTwoManager.updateAllLogic(gc, now);
 					sectManagerTwo.updateAllLogic(gc, now);
 					sectManagerThree.updateAll(gc, now);
 					sectManagerOne.updateAllLogic(gc, now);
@@ -455,16 +467,18 @@ public class GameManager extends AbstractGameModel{
 							objectManager.updateAll(gc, timePassed);
 							slitherManager.updateAll(gc, now);
 							slitherManager.checkCollisions();
-							for (int speed = 0; speed < GameSettings.PLAYER_SPEED; speed += 1) {
-								playerManager.updateAllMovement();
+							for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
+								playerOneManager.updateAllMovement();
 								sectManagerOne.updateAllMovement(gc, timePassed);
-								sectManagerTwo.updateAllMovement(gc, timePassed);
-								sectManagerThree.updateAll(gc, timePassed);
 							}
-							playerManager.updateAllLogic(gc, timePassed);
+							for (int speed = 0; speed < GameSettings.PLAYER_TWO_SPEED; speed += 1) {
+								playerTwoManager.updateAllMovement();
+								sectManagerTwo.updateAllMovement(gc, timePassed);
+							}
+							playerOneManager.updateAllLogic(gc, timePassed);
+							playerTwoManager.updateAllLogic(gc, timePassed);
 							sectManagerOne.updateAllLogic(gc, timePassed);
 							sectManagerTwo.updateAllLogic(gc, timePassed);
-							sectManagerThree.updateAll(gc, timePassed);
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
@@ -528,8 +542,8 @@ public class GameManager extends AbstractGameModel{
 					long timePassed = System.currentTimeMillis() - cummulativeTime;
 					cummulativeTime += timePassed;
 					if (GameSettings.RENDER_GAME) {
-						for (int speed = 0; speed < GameSettings.PLAYER_SPEED; speed += 1) {
-							playerManager.updateAllMovement();
+						for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
+							playerOneManager.updateAllMovement();
 							sectManagerOne.updateAllMovement(gc, timePassed);
 							sectManagerTwo.updateAllMovement(gc, timePassed);
 							sectManagerThree.updateAll(gc, timePassed);
@@ -557,7 +571,7 @@ public class GameManager extends AbstractGameModel{
 				cummulativeTime += timePassed;
 
 				if (GameSettings.RENDER_GAME) {
-					playerManager.updateAnimation(timePassed);
+					playerOneManager.updateAnimation(timePassed);
 				}
 			}
 		};
@@ -618,7 +632,7 @@ public class GameManager extends AbstractGameModel{
 				System.out.println("Amount of objects in all layers: " + getGameRoot().getChildren().size());
 				System.out.println();
 				System.out.println();
-				System.out.println("Amount of objects in player manager: " + playerManager.getObjectList().size());
+				System.out.println("Amount of objects in player manager: " + playerOneManager.getObjectList().size());
 				System.out.println("Amount of objects in object manager: " + objectManager.getObjectList().size());
 				System.out.println("Amount of objects in debris manager: " + debrisManager.getDebrisList().size());
 				System.out.println("Amount of objects in particle manager: " + debrisManager.getParticleList().size());
@@ -791,7 +805,8 @@ public class GameManager extends AbstractGameModel{
 		seventhLayer.getChildren().clear();
 		eighthLayer.getChildren().clear();
 		levelLayer.getChildren().clear();
-		playerManager.clearAll();
+		playerOneManager.clearAll();
+		playerTwoManager.clearAll();
 		debrisManager.clearAll();
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
@@ -803,7 +818,8 @@ public class GameManager extends AbstractGameModel{
 	public void removePlayers() {
 		fithLayer.getChildren().clear();
 		fourthLayer.getChildren().clear();
-		playerManager.clearAll();
+		playerOneManager.clearAll();
+		playerTwoManager.clearAll();
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();

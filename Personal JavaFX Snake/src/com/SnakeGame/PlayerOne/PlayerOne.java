@@ -82,9 +82,9 @@ public class PlayerOne extends AbstractObject {
 		this.circle.setVisible(false);
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new PlayerOneHead(this, game, layer,
-				new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
+				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getPlayerManager().addObject(snakeHead);
+		this.game.getPlayerOneManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerOne();
 		this.loadImages();
 		this.drawBoundingBox();
@@ -111,7 +111,7 @@ public class PlayerOne extends AbstractObject {
 	public void move() {
 		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
-		this.circle.setRadius(GameSettings.SECTION_SIZE);
+		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 	}
 
 	public void logicUpdate() {
@@ -375,7 +375,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
-		velY = -GameSettings.SNAKE_SPEED;
+		velY = -GameSettings.SNAKE_ONE_SPEED;
 		velX = 0;
 		r = 180;
 		setCurrentDirection(PlayerMovement.MOVE_UP);
@@ -387,7 +387,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
-		velY = GameSettings.SNAKE_SPEED;
+		velY = GameSettings.SNAKE_ONE_SPEED;
 		velX = 0;
 		r = 0;
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
@@ -399,7 +399,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
-		velX = GameSettings.SNAKE_SPEED;
+		velX = GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
 		r = -89;
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
@@ -411,7 +411,7 @@ public class PlayerOne extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
-		velX = -GameSettings.SNAKE_SPEED;
+		velX = -GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
 		r = 89;
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
@@ -486,7 +486,7 @@ public class PlayerOne extends AbstractObject {
 	public void addbaseSections() {
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
-					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
+					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
@@ -496,11 +496,11 @@ public class PlayerOne extends AbstractObject {
 		counter++;
 		if (counter >= 15) {
 			counter = 0;
-			GameSettings.SECTION_SIZE++;
+			GameSettings.PLAYER_ONE_SIZE++;
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
-					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
+					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 			appleCount++;

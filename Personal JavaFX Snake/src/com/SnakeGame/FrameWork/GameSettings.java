@@ -21,8 +21,12 @@ public class GameSettings {
 	public static double SIZE_SCALE = 1.0;
 
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
+	public static int SLITHER_SPEED = 5;
+	public static int SNAKE_ONE_SPEED = 1;
+	public static int SNAKE_TWO_SPEED = 1;
 	public static double SECTION_SIZE = 25; // Could now be any number I think!!
-	public static final int SLITHER_SPEED = 5;
+	public static double PLAYER_ONE_SIZE = 26;
+	public static double PLAYER_TWO_SIZE = 26;
 
 	public static int APPLE_COUNT = 75;
 	public static int SECTIONS_TO_ADD = 2;
@@ -36,11 +40,12 @@ public class GameSettings {
 	public static double HEALTH_REGENERATION_SPEED = 0.1;
 	public static double DAMAGE_AMOUNT = 50;
 
-	public static float PLAYER_SPEED = 6.0f;
+	public static float PLAYER_ONE_SPEED = 6.0f;
+	public static float PLAYER_TWO_SPEED = 6.0f;
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double SPECULAR_MAP = 2.0;
+	public static double SPECULAR_MAP = 1.8;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;
@@ -70,7 +75,7 @@ public class GameSettings {
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 	public static boolean LOAD_SPIKE_FENCE = false;
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

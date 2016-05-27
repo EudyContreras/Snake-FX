@@ -5,8 +5,8 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.FrameWork.PlayerOneManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.FrameWork.PlayerTwoManager;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
@@ -26,21 +26,21 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class PlayerTwoHead extends AbstractObject {
-	private double targetRotation;
+	private double targetRotation = 0.0;
 	private double fadeValue = 1.0;
 	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
 	private Font font;
-	private Circle skull;
 	private GameManager game;
+	private Circle skull;
 	private PlayerTwo snake;
 	private Rectangle headBoundsLeft;
 	private Rectangle headBoundsRight;
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
-	private PlayerOneManager playerManager;
+	private PlayerTwoManager playerManager;
 	private PlayerMovement newDirection;
 
 	public PlayerTwoHead(PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
@@ -49,15 +49,15 @@ public class PlayerTwoHead extends AbstractObject {
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
-		this.playerManager = game.getPlayerManager();
+		this.playerManager = game.getPlayerTwoManager();
 		this.text = new Text();
 		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
-		this.text.setText(GameSettings.PLAYER_TWO_NAME);
-		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.text.setText(GameSettings.PLAYER_ONE_NAME);
+		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
@@ -86,17 +86,23 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public void move() {
-		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU){
-		if (GameSettings.DEBUG_MODE) {
-			adjustBounds();
+		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
+			if (GameSettings.DEBUG_MODE) {
+				adjustBounds();
+			}
+			this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE*1.4);
+			this.radius = circle.getRadius();
+			this.y = snake.getY();
+			this.x = snake.getX();
+			this.text.setX(x - 50);
+			this.text.setY(y - 40);
 		}
-		this.y = snake.getY();
-		this.x = snake.getX();
-		this.text.setX(x-50);
-		this.text.setY(y-40);
-	}
+
 	}
 	public void logicUpdate(){
+		showTheSkull();
+	}
+	public void showTheSkull() {
 		if (showTheSkull == true) {
 			fadeValue -= 0.01;
 			this.circle.setOpacity(fadeValue);
@@ -165,7 +171,6 @@ public class PlayerTwoHead extends AbstractObject {
 	public void checkRemovability() {
 
 	}
-
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (!PlayerTwo.DEAD) {
 			for (int i = 0; i < 2; i++) {
@@ -298,13 +303,11 @@ public class PlayerTwoHead extends AbstractObject {
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
 	}
-
 	public void addBones() {
 		skull = new Circle(x, y, this.radius*0.8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setRotate(r);
 		game.getBaseLayer().getChildren().add(skull);
 	}
-
 	public boolean isShowTheSkull() {
 		return showTheSkull;
 	}
@@ -314,7 +317,6 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public void adjustBounds() {
-		//this.positionFangs();
 		this.headBoundsLeft.setX(x - radius - headBoundsLeft.getWidth() / 2);
 		this.headBoundsLeft.setY(y + radius / 2 - headBoundsLeft.getHeight() * 1.5);
 		this.headBoundsRight.setX(x + radius - headBoundsRight.getWidth() / 2);

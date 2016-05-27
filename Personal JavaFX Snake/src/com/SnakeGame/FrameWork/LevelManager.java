@@ -16,6 +16,7 @@ import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.image.Image;
 
@@ -346,7 +347,7 @@ public class LevelManager extends AbstractLoaderModel{
 	 * Will load the player at a specified positions according to a color code
 	 * found within the level image.
 	 */
-	public void loadPlayer() {
+	public void loadPlayers() {
 		for (int row = 0; row < loader.getLevelWidth(); row++) {
 			for (int col = 0; col < loader.getLevelHeight(); col++) {
 				pixel = loader.getLevel().getRGB(row, col);
@@ -354,10 +355,14 @@ public class LevelManager extends AbstractLoaderModel{
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 0 && green == 0 && blue == 255) {
-					this.playerOne = new PlayerOne(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
-							col * 20, 0, 0, 0, 0, GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerOne,
-						game.getObjectManager());
-						game.getPlayerManager().addObject(playerOne);
+						this.playerOne = new PlayerOne(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
+								col * 20, 0, 0, 0, 0, GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne,
+							game.getObjectManager());
+							game.getPlayerOneManager().addObject(playerOne);
+						this.playerTwo = new PlayerTwo(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
+								col * 20, 0, 0, 0, 0, GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne,
+							game.getObjectManager());
+							game.getPlayerTwoManager().addObject(playerOne);
 				}
 			}
 		}

@@ -49,15 +49,15 @@ public class PlayerOneHead extends AbstractObject {
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
-		this.playerManager = game.getPlayerManager();
+		this.playerManager = game.getPlayerOneManager();
 		this.text = new Text();
 		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
 		this.text.setText(GameSettings.PLAYER_ONE_NAME);
-		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
@@ -90,7 +90,7 @@ public class PlayerOneHead extends AbstractObject {
 			if (GameSettings.DEBUG_MODE) {
 				adjustBounds();
 			}
-			this.circle.setRadius(GameSettings.SECTION_SIZE*1.4);
+			this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE*1.4);
 			this.radius = circle.getRadius();
 			this.y = snake.getY();
 			this.x = snake.getX();

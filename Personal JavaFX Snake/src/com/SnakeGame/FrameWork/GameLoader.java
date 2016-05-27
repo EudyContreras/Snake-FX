@@ -70,45 +70,45 @@ public class GameLoader extends AbstractLoaderModel{
 	 * able to be divided by the speed and the result must always be a whole number
 	 */
 	public static void scaleSpeedAndSize() {
-		int newSize = (int) (GameSettings.SECTION_SIZE / GameLoader.ResolutionScaleX);
-		int newSpeed = (int) (GameSettings.SNAKE_SPEED / GameLoader.ResolutionScaleX);
-		boolean divisible = newSize % newSpeed == 0;
-		if (divisible) {
-			GameSettings.SECTION_SIZE = newSize;
-			GameSettings.SNAKE_SPEED = newSpeed;
-		} else {
-
-			if (reScale(newSize + 1, newSpeed) == true) {
-				GameSettings.SECTION_SIZE = newSize + 1;
-				GameSettings.SNAKE_SPEED = newSpeed;
-				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-
-			} else if (reScale(newSize + 2, newSpeed) == true) {
-				GameSettings.SECTION_SIZE = newSize + 2;
-				GameSettings.SNAKE_SPEED = newSpeed;
-				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-
-			} else if (reScale(newSize + 3, newSpeed) == true) {
-				GameSettings.SECTION_SIZE = newSize + 3;
-				GameSettings.SNAKE_SPEED = newSpeed;
-				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-
-			} else if (reScale(newSize - 1, newSpeed) == true) {
-				GameSettings.SECTION_SIZE = newSize - 1;
-				GameSettings.SNAKE_SPEED = newSpeed;
-				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-
-			} else if (reScale(newSize - 2, newSpeed) == true) {
-				GameSettings.SECTION_SIZE = newSize - 2;
-				GameSettings.SNAKE_SPEED = newSpeed;
-				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-
-			} else if (reScale(newSize - 3, newSpeed) == true) {
-				GameSettings.SECTION_SIZE = newSize - 3;
-				GameSettings.SNAKE_SPEED = newSpeed;
-				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-			}
-		}
+//		int newSize = (int) (GameSettings.SECTION_SIZE / GameLoader.ResolutionScaleX);
+//		int newSpeed = (int) (GameSettings.SNAKE_SPEED / GameLoader.ResolutionScaleX);
+//		boolean divisible = newSize % newSpeed == 0;
+//		if (divisible) {
+//			GameSettings.SECTION_SIZE = newSize;
+//			GameSettings.SNAKE_SPEED = newSpeed;
+//		} else {
+//
+//			if (reScale(newSize + 1, newSpeed) == true) {
+//				GameSettings.SECTION_SIZE = newSize + 1;
+//				GameSettings.SNAKE_SPEED = newSpeed;
+//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+//
+//			} else if (reScale(newSize + 2, newSpeed) == true) {
+//				GameSettings.SECTION_SIZE = newSize + 2;
+//				GameSettings.SNAKE_SPEED = newSpeed;
+//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+//
+//			} else if (reScale(newSize + 3, newSpeed) == true) {
+//				GameSettings.SECTION_SIZE = newSize + 3;
+//				GameSettings.SNAKE_SPEED = newSpeed;
+//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+//
+//			} else if (reScale(newSize - 1, newSpeed) == true) {
+//				GameSettings.SECTION_SIZE = newSize - 1;
+//				GameSettings.SNAKE_SPEED = newSpeed;
+//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+//
+//			} else if (reScale(newSize - 2, newSpeed) == true) {
+//				GameSettings.SECTION_SIZE = newSize - 2;
+//				GameSettings.SNAKE_SPEED = newSpeed;
+//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+//
+//			} else if (reScale(newSize - 3, newSpeed) == true) {
+//				GameSettings.SECTION_SIZE = newSize - 3;
+//				GameSettings.SNAKE_SPEED = newSpeed;
+//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+//			}
+//		}
 	}
 
 	/*
@@ -282,9 +282,9 @@ public class GameLoader extends AbstractLoaderModel{
 		float x = (float) (GameSettings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius());
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
-				new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
-		game.getPlayerManager().addObject(playerOne);
+				new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
+		game.getPlayerOneManager().addObject(playerOne);
 	}
 	/**
 	 * Method used to create the player two and position the player at a specified
@@ -294,9 +294,9 @@ public class GameLoader extends AbstractLoaderModel{
 		float x = (float) (GameSettings.WIDTH / 2 + GameImageBank.snakeTwoSphere.getRadius());
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
-				new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
-		game.getPlayerManager().addObject(playerTwo);
+				new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_TWO_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
+		game.getPlayerTwoManager().addObject(playerTwo);
 	}
 	/**
 	 * Method used to create the Slither snake and position the player at a specified

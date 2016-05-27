@@ -31,12 +31,13 @@ import javafx.scene.shape.Rectangle;
 public class PlayerTwo extends AbstractObject {
 
 	private int turnDelay = GameSettings.TURN_DELAY;
+	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int dirtDelay = 10;
 	private int maxOpenTime = 0;
 	private int coolDown = 60;
-	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int moveDelay = 0;
 	private int appleCount = 0;
+	private int counter = 0;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -57,7 +58,6 @@ public class PlayerTwo extends AbstractObject {
 	private Animation anim;
 	private Rectangle bounds;
 	private ScreenOverlay overlay;
-	private PlayerTwoTail tail;
 	private PlayerTwoHead snakeHead;
 	private PlayerTwoSection neighbor;
 	private PlayerTwoSectionManager sectManager;
@@ -82,9 +82,9 @@ public class PlayerTwo extends AbstractObject {
 		this.circle.setVisible(false);
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
-				new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
+				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getPlayerManager().addObject(snakeHead);
+		this.game.getPlayerTwoManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerTwo();
 		this.loadImages();
 		this.drawBoundingBox();
@@ -105,18 +105,19 @@ public class PlayerTwo extends AbstractObject {
 
 	public void updateUI() {
 		super.updateUI();
+		updateBounds();
 	}
 
 	public void move() {
 		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
+		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
 	}
 
 	public void logicUpdate() {
 		controlEating();
 		hinderMovement();
 		positionBody();
-		updateBounds();
 		updateImmunity();
 		updateDirt();
 		checkTurns();
@@ -180,6 +181,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void updateBounds() {
+		checkBounds();
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
@@ -203,7 +205,7 @@ public class PlayerTwo extends AbstractObject {
 		if (GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
-				if (KEEP_MOVING) {
+				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
 					displaceDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
@@ -251,7 +253,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()!=GameStateID.GAME_MENU) {
+		if (game.getStateID() != GameStateID.GAME_MENU) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
@@ -305,6 +307,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void setDirectCoordinates(PlayerMovement direction) {
 		if (!GameSettings.ALLOW_SELF_COLLISION) {
 			if (!LEVEL_COMPLETED && !DEAD) {
@@ -320,6 +323,7 @@ public class PlayerTwo extends AbstractObject {
 						}
 						break;
 					case MOVE_DOWN:
+
 						if (allowTurnDown) {
 							KEEP_MOVING = true;
 							moveDown();
@@ -347,6 +351,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void turnDelay(PlayerMovement newDirection) {
 		turns.add(newDirection);
 	}
@@ -370,7 +375,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
-		velY = -GameSettings.SNAKE_SPEED;
+		velY = -GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 180;
 		setCurrentDirection(PlayerMovement.MOVE_UP);
@@ -382,7 +387,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
-		velY = GameSettings.SNAKE_SPEED;
+		velY = GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 0;
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
@@ -394,7 +399,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
-		velX = GameSettings.SNAKE_SPEED;
+		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = -89;
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
@@ -406,7 +411,7 @@ public class PlayerTwo extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
-		velX = -GameSettings.SNAKE_SPEED;
+		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = 89;
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
@@ -481,16 +486,21 @@ public class PlayerTwo extends AbstractObject {
 	public void addbaseSections() {
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
-					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
+					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
 	}
 
 	public void addSection() {
+		counter++;
+		if (counter >= 15) {
+			counter = 0;
+			GameSettings.PLAYER_TWO_SIZE++;
+		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
-					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
+					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 			appleCount++;
@@ -585,13 +595,26 @@ public class PlayerTwo extends AbstractObject {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < 15; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1, x, y,
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
 	}
 
+	public void die() {
+		DEAD = true;
+		game.getHealthBarTwo().drainAll();
+		game.setStateID(GameStateID.GAME_OVER);
+		overlay.addToneOverlay(Color.RED, 5, 0.05);
+		isDead = true;
+	}
 
+	public void fadeOut() {
+		if (ALLOW_FADE) {
+			overlay.addFadeScreen(5, GameStateID.GAME_OVER);
+			ALLOW_FADE = false;
+		}
+	}
 
 	public Image getAnimationImage() {
 		return anim.getImage();
@@ -606,7 +629,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void draw(GraphicsContext gc) {
-		checkBounds();
+
 	}
 
 	public boolean isCollision() {
@@ -615,20 +638,6 @@ public class PlayerTwo extends AbstractObject {
 
 	public void setCollision(boolean collision) {
 		this.collision = collision;
-	}
-
-	public void die() {
-		DEAD = true;
-		game.getHealthBarTwo().drainAll();
-		game.setStateID(GameStateID.GAME_OVER);
-		overlay.addToneOverlay(Color.RED, 5, 0.05);
-		isDead = true;
-	}
-	public void fadeOut(){
-		if(ALLOW_FADE){
-		overlay.addFadeScreen(5, GameStateID.GAME_OVER);
-		ALLOW_FADE = false;
-		}
 	}
 
 	public void blurOut() {
@@ -655,17 +664,6 @@ public class PlayerTwo extends AbstractObject {
 
 	}
 
-	public void setTail(PlayerTwoTail tail) {
-		this.tail = tail;
-
-	}
-	public PlayerTwoHead getHead(){
-		return snakeHead;
-	}
-	public PlayerTwoTail getTail() {
-		return tail;
-	}
-
 	public Rectangle2D getBoundsTop() {
 
 		return new Rectangle2D(x + 40, y + 55, width - 60, height * 0.24);
@@ -686,6 +684,10 @@ public class PlayerTwo extends AbstractObject {
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
 
+	public PlayerTwoHead getHead() {
+		return snakeHead;
+	}
+
 	public boolean isAllowOpen() {
 		return allowOpen;
 	}
@@ -693,7 +695,8 @@ public class PlayerTwo extends AbstractObject {
 	public void setAllowOpen(boolean allowOpen) {
 		this.allowOpen = allowOpen;
 	}
-	public double getAppleCount(){
+
+	public double getAppleCount() {
 		return appleCount;
 	}
 

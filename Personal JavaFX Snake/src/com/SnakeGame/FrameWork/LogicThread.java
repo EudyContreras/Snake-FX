@@ -175,7 +175,7 @@ public class LogicThread extends Thread {
 	}
 
 	protected void updateAt60() {
-		game.getPlayerManager().updateAllLogic(null, 0);
+		game.getPlayerOneManager().updateAllLogic(null, 0);
 		game.getSectManagerOne().updateAllLogic(null, 0);
 		game.getSectManagerTwo().updateAllLogic(null, 0);
 	}

@@ -11,6 +11,7 @@ import com.SnakeGame.FrameWork.LogicThread;
 import com.SnakeGame.FrameWork.MouseInputManager;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerOneManager;
+import com.SnakeGame.FrameWork.PlayerTwoManager;
 import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
@@ -63,7 +64,8 @@ public abstract class AbstractGameModel extends Application {
 	protected GraphicsContext gc;
 	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
-	protected PlayerOneManager playerManager;
+	protected PlayerOneManager playerOneManager;
+	protected PlayerTwoManager playerTwoManager;
 	protected GameDebrisManager debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
@@ -145,12 +147,20 @@ public abstract class AbstractGameModel extends Application {
 		return healthBarTwo;
 	}
 
-	public PlayerOneManager getPlayerManager() {
-		return playerManager;
+	public PlayerOneManager getPlayerOneManager() {
+		return playerOneManager;
 	}
 
-	public void setPlayerManager(PlayerOneManager playerManager) {
-		this.playerManager = playerManager;
+	public void setPlayerOneManager(PlayerOneManager playerManager) {
+		this.playerOneManager = playerManager;
+	}
+
+	public PlayerTwoManager getPlayerTwoManager() {
+		return playerTwoManager;
+	}
+
+	public void setPlayerTwoManager(PlayerTwoManager playerManager) {
+		this.playerTwoManager = playerManager;
 	}
 
 	public void setHealthBarOne(HealthBarOne healthBarOne) {

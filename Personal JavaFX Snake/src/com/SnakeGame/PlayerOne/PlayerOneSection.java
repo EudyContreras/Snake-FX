@@ -135,7 +135,7 @@ public class PlayerOneSection extends AbstractSection {
 	}
 
 	public void move() {
-		this.circle.setRadius(GameSettings.SECTION_SIZE);
+		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 		checkBounds();
 		disguiseLast();
 		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
@@ -147,28 +147,28 @@ public class PlayerOneSection extends AbstractSection {
 					setLastDirection(PlayerMovement.MOVE_UP);
 					removeLatestDirection();
 					velX = 0;
-					velY = -GameSettings.SNAKE_SPEED;
+					velY = -GameSettings.SNAKE_ONE_SPEED;
 					r = 180;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_DOWN) {
 					setLastDirection(PlayerMovement.MOVE_DOWN);
 					removeLatestDirection();
 					velX = 0;
-					velY = GameSettings.SNAKE_SPEED;
+					velY = GameSettings.SNAKE_ONE_SPEED;
 					r = 0;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_LEFT) {
 					setLastDirection(PlayerMovement.MOVE_LEFT);
 					removeLatestDirection();
 					velY = 0;
-					velX = -GameSettings.SNAKE_SPEED;
+					velX = -GameSettings.SNAKE_ONE_SPEED;
 					r = 89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
 					removeLatestDirection();
 					velY = 0;
-					velX = GameSettings.SNAKE_SPEED;
+					velX = GameSettings.SNAKE_ONE_SPEED;
 					r = -89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
@@ -254,8 +254,8 @@ public class PlayerOneSection extends AbstractSection {
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
 				if (GameSettings.ADD_VARIATION) {
-					particleSize = Math.random() * (12 - 5 + 1) + 5;
-					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
+					particleSize = Math.random() * (10 - 5 + 1) + 5;
+					particleLife = Math.random() * (1.5 - 0.5 + 1) + 0.5;
 				}
 				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));

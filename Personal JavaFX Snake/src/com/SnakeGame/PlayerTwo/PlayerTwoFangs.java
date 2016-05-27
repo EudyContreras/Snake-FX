@@ -78,7 +78,7 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 
 	public void checkOffset() {
-		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
+		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
 			this.offsetY = -20;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
@@ -122,22 +122,24 @@ public class PlayerTwoFangs extends AbstractObject {
 					}
 				}
 			}
-			if(GameSettings.ALLOW_SELF_COLLISION){
-			for (int i = 0; i < sectManager.getSectionList().size(); i++) {
-				AbstractSection tempObject = sectManager.getSectionList().get(i);
-				if (tempObject.getId() == GameObjectID.SnakeSection) {
-					if (tempObject.getNumericID() > 1) {
-						if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-							if (tempObject.getNumericID() != 0 && tempObject.getNumericID() != 1 && tempObject.getNumericID() != 2
-									&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID
-									&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID - 1) {
-								snake.die();
+			if (GameSettings.ALLOW_SELF_COLLISION) {
+				for (int i = 0; i < sectManager.getSectionList().size(); i++) {
+					AbstractSection tempObject = sectManager.getSectionList().get(i);
+					if (tempObject.getId() == GameObjectID.SnakeSection) {
+						if (tempObject.getNumericID() > 1) {
+							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
+								if (tempObject.getNumericID() != 0 && tempObject.getNumericID() != 1
+										&& tempObject.getNumericID() != 2
+										&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID
+										&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID - 1) {
+										snake.die();
+								}
 							}
 						}
 					}
 				}
 			}
-		}}
+		}
 	}
 
 	public void killTheSnake() {
