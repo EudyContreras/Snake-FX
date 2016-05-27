@@ -31,10 +31,10 @@ import javafx.scene.shape.Rectangle;
 public class PlayerOne extends AbstractObject {
 
 	private int turnDelay = GameSettings.TURN_DELAY;
+	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int dirtDelay = 10;
 	private int maxOpenTime = 0;
 	private int coolDown = 60;
-	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;

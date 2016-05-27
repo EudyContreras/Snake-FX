@@ -184,9 +184,7 @@ public class GameManager extends AbstractGameModel{
 		pauseGame();
 		objectChecker();
 		frameBaseGameLoop();
-		playerMovementLoop();
-		
-
+		//playerMovementLoop();
 
 	}
 
@@ -349,6 +347,12 @@ public class GameManager extends AbstractGameModel{
 					scoreKeeper.keepCount();
 					slitherManager.updateAll(gc, now);
 					slitherManager.checkCollisions();
+					for (int speed = 0; speed < GameSettings.PLAYER_SPEED; speed += 1) {
+						playerManager.updateAllMovement();
+						sectManagerOne.updateAllMovement(gc, now);
+						sectManagerTwo.updateAllMovement(gc, now);
+						sectManagerThree.updateAll(gc, now);
+					}
 					objectManager.updateAll(gc, now);
 					playerManager.updateAllLogic(gc, now);
 					sectManagerTwo.updateAllLogic(gc, now);
@@ -449,6 +453,14 @@ public class GameManager extends AbstractGameModel{
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
 							objectManager.updateAll(gc, timePassed);
+							slitherManager.updateAll(gc, now);
+							slitherManager.checkCollisions();
+							for (int speed = 0; speed < GameSettings.PLAYER_SPEED; speed += 1) {
+								playerManager.updateAllMovement();
+								sectManagerOne.updateAllMovement(gc, timePassed);
+								sectManagerTwo.updateAllMovement(gc, timePassed);
+								sectManagerThree.updateAll(gc, timePassed);
+							}
 							playerManager.updateAllLogic(gc, timePassed);
 							sectManagerOne.updateAllLogic(gc, timePassed);
 							sectManagerTwo.updateAllLogic(gc, timePassed);
