@@ -243,7 +243,7 @@ public class GameManager extends AbstractGameModel{
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
 		objectManager = new ObjectManager(this);
-		playerManager = new PlayerManager(this);
+		playerManager = new PlayerOneManager(this);
 		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);

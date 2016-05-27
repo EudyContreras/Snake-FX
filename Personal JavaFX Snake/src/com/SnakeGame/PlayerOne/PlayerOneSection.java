@@ -27,7 +27,6 @@ public class PlayerOneSection extends AbstractSection {
 	private int dirtDelay = 10;
 	private GameManager game;
 	private Circle bones;
-	private PlayerOneTail tail;
 	private PlayerOneSectionManager sectManager;
 
 	public PlayerOneSection(PlayerOne snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
@@ -44,12 +43,6 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, layer,
-						new Circle(GameSettings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
-						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
-				this.tail.setWhoToFollow(this);
-				game.getObjectManager().addObject(tail);
-				snake.setTail(tail);
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
@@ -58,12 +51,6 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, layer,
-						new Circle(GameSettings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
-						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
-				this.tail.setWhoToFollow(this);
-				game.getObjectManager().addObject(tail);
-				snake.setTail(tail);
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
@@ -72,12 +59,6 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, layer,
-						new Circle(GameSettings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
-						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
-				this.tail.setWhoToFollow(this);
-				game.getObjectManager().addObject(tail);
-				snake.setTail(tail);
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
@@ -86,12 +67,6 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, layer,
-						new Circle(GameSettings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
-						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
-				this.tail.setWhoToFollow(this);
-				game.getObjectManager().addObject(tail);
-				snake.setTail(tail);
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
@@ -100,12 +75,6 @@ public class PlayerOneSection extends AbstractSection {
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
 				this.velY = snake.getVelY();
-				this.tail = new PlayerOneTail(this, game, layer,
-						new Circle(GameSettings.SECTION_SIZE - 5, new ImagePattern(GameImageBank.snakeTail)), this.x,
-						this.y, GameObjectID.SnakeTail, PlayerMovement.MOVE_UP);
-				this.tail.setWhoToFollow(this);
-				game.getObjectManager().addObject(tail);
-				snake.setTail(tail);
 				snake.setNeighbor(this);
 			}
 		} else if (this.numericID > 0) {
@@ -120,7 +89,7 @@ public class PlayerOneSection extends AbstractSection {
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
-						snake.getTail().setWhoToFollow(this);
+
 						break;
 					case MOVE_DOWN:
 						setLastDirection(PlayerMovement.MOVE_DOWN);
@@ -129,7 +98,7 @@ public class PlayerOneSection extends AbstractSection {
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
-						snake.getTail().setWhoToFollow(this);
+
 						break;
 					case MOVE_LEFT:
 						setLastDirection(PlayerMovement.MOVE_LEFT);
@@ -138,7 +107,7 @@ public class PlayerOneSection extends AbstractSection {
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
-						snake.getTail().setWhoToFollow(this);
+
 						break;
 					case MOVE_RIGHT:
 						setLastDirection(PlayerMovement.MOVE_RIGHT);
@@ -147,7 +116,7 @@ public class PlayerOneSection extends AbstractSection {
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
-						snake.getTail().setWhoToFollow(this);
+
 						break;
 					case STANDING_STILL:
 						setLastDirection(PlayerMovement.STANDING_STILL);
@@ -156,7 +125,7 @@ public class PlayerOneSection extends AbstractSection {
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
 						this.velY = previousSect.getVelY();
-						snake.getTail().setWhoToFollow(this);
+
 						break;
 
 					}

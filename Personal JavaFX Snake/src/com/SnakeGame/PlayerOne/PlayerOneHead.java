@@ -5,7 +5,7 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.FrameWork.PlayerManager;
+import com.SnakeGame.FrameWork.PlayerOneManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
@@ -40,7 +40,7 @@ public class PlayerOneHead extends AbstractObject {
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
-	private PlayerManager playerManager;
+	private PlayerOneManager playerManager;
 	private PlayerMovement newDirection;
 
 	public PlayerOneHead(PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
@@ -91,6 +91,7 @@ public class PlayerOneHead extends AbstractObject {
 				adjustBounds();
 			}
 			this.circle.setRadius(GameSettings.SECTION_SIZE*1.4);
+			this.radius = circle.getRadius();
 			this.y = snake.getY();
 			this.x = snake.getX();
 			this.text.setX(x - 50);
@@ -316,7 +317,6 @@ public class PlayerOneHead extends AbstractObject {
 	}
 
 	public void adjustBounds() {
-		//this.positionFangs();
 		this.headBoundsLeft.setX(x - radius - headBoundsLeft.getWidth() / 2);
 		this.headBoundsLeft.setY(y + radius / 2 - headBoundsLeft.getHeight() * 1.5);
 		this.headBoundsRight.setX(x + radius - headBoundsRight.getWidth() / 2);

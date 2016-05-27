@@ -112,7 +112,6 @@ public class PlayerOneFangs extends AbstractObject {
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						if (PlayerOne.MOUTH_OPEN) {
-						//	GameSettings.SECTION_SIZE-- ;
 							snake.addSection();
 							snake.closeMouth();
 							game.getScoreKeeper().decreaseCount();
@@ -133,7 +132,7 @@ public class PlayerOneFangs extends AbstractObject {
 										&& tempObject.getNumericID() != 2
 										&& tempObject.getNumericID() != PlayerOne.NUMERIC_ID
 										&& tempObject.getNumericID() != PlayerOne.NUMERIC_ID - 1) {
-									snake.die();
+										snake.die();
 								}
 							}
 						}

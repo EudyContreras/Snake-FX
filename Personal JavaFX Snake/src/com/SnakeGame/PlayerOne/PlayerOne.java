@@ -58,7 +58,6 @@ public class PlayerOne extends AbstractObject {
 	private Animation anim;
 	private Rectangle bounds;
 	private ScreenOverlay overlay;
-	private PlayerOneTail tail;
 	private PlayerOneHead snakeHead;
 	private PlayerOneSection neighbor;
 	private PlayerOneSectionManager sectManager;
@@ -112,14 +111,13 @@ public class PlayerOne extends AbstractObject {
 	public void move() {
 		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
-			this.circle.setRadius(GameSettings.SECTION_SIZE);
+		this.circle.setRadius(GameSettings.SECTION_SIZE);
 	}
 
 	public void logicUpdate() {
 		controlEating();
 		hinderMovement();
 		positionBody();
-//		updateBounds();
 		updateImmunity();
 		updateDirt();
 		checkTurns();
@@ -207,7 +205,7 @@ public class PlayerOne extends AbstractObject {
 		if (GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
-				if (KEEP_MOVING) {
+				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
 					displaceDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
@@ -255,7 +253,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()!=GameStateID.GAME_MENU) {
+		if (game.getStateID() != GameStateID.GAME_MENU) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
@@ -353,6 +351,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void turnDelay(PlayerMovement newDirection) {
 		turns.add(newDirection);
 	}
@@ -495,9 +494,9 @@ public class PlayerOne extends AbstractObject {
 
 	public void addSection() {
 		counter++;
-		if(counter>=15){
-		counter = 0;
-		GameSettings.SECTION_SIZE++;
+		if (counter >= 15) {
+			counter = 0;
+			GameSettings.SECTION_SIZE++;
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
@@ -596,11 +595,27 @@ public class PlayerOne extends AbstractObject {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < 15; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1, x, y,
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
 	}
+
+	public void die() {
+		DEAD = true;
+		game.getHealthBarOne().drainAll();
+		game.setStateID(GameStateID.GAME_OVER);
+		overlay.addToneOverlay(Color.RED, 5, 0.05);
+		isDead = true;
+	}
+
+	public void fadeOut() {
+		if (ALLOW_FADE) {
+			overlay.addFadeScreen(5, GameStateID.GAME_OVER);
+			ALLOW_FADE = false;
+		}
+	}
+
 	public Image getAnimationImage() {
 		return anim.getImage();
 	}
@@ -623,20 +638,6 @@ public class PlayerOne extends AbstractObject {
 
 	public void setCollision(boolean collision) {
 		this.collision = collision;
-	}
-
-	public void die() {
-		DEAD = true;
-		game.getHealthBarOne().drainAll();
-		game.setStateID(GameStateID.GAME_OVER);
-		overlay.addToneOverlay(Color.RED, 5, 0.05);
-		isDead = true;
-	}
-	public void fadeOut(){
-		if(ALLOW_FADE){
-			overlay.addFadeScreen(5, GameStateID.GAME_OVER);
-		ALLOW_FADE = false;
-		}
 	}
 
 	public void blurOut() {
@@ -663,15 +664,6 @@ public class PlayerOne extends AbstractObject {
 
 	}
 
-	public void setTail(PlayerOneTail tail) {
-		this.tail = tail;
-
-	}
-
-	public PlayerOneTail getTail() {
-		return tail;
-	}
-
 	public Rectangle2D getBoundsTop() {
 
 		return new Rectangle2D(x + 40, y + 55, width - 60, height * 0.24);
@@ -691,7 +683,8 @@ public class PlayerOne extends AbstractObject {
 
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
-	public PlayerOneHead getHead(){
+
+	public PlayerOneHead getHead() {
 		return snakeHead;
 	}
 
@@ -702,7 +695,8 @@ public class PlayerOne extends AbstractObject {
 	public void setAllowOpen(boolean allowOpen) {
 		this.allowOpen = allowOpen;
 	}
-	public double getAppleCount(){
+
+	public double getAppleCount() {
 		return appleCount;
 	}
 

@@ -182,6 +182,7 @@ public class PauseMenu {
 				if(fadeLevel<=0){
 					game.getScoreKeeper().startTimer();
 					game.setStateID(GameStateID.GAMEPLAY);
+					game.processGameInput();
 					fadeLevel = 0;
 					hide = false;
 

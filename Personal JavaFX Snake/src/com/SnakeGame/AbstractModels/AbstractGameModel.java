@@ -10,7 +10,7 @@ import com.SnakeGame.FrameWork.KeyInputManager;
 import com.SnakeGame.FrameWork.LogicThread;
 import com.SnakeGame.FrameWork.MouseInputManager;
 import com.SnakeGame.FrameWork.ObjectManager;
-import com.SnakeGame.FrameWork.PlayerManager;
+import com.SnakeGame.FrameWork.PlayerOneManager;
 import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
@@ -63,7 +63,7 @@ public abstract class AbstractGameModel extends Application {
 	protected GraphicsContext gc;
 	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
-	protected PlayerManager playerManager;
+	protected PlayerOneManager playerManager;
 	protected GameDebrisManager debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
@@ -145,11 +145,11 @@ public abstract class AbstractGameModel extends Application {
 		return healthBarTwo;
 	}
 
-	public PlayerManager getPlayerManager() {
+	public PlayerOneManager getPlayerManager() {
 		return playerManager;
 	}
 
-	public void setPlayerManager(PlayerManager playerManager) {
+	public void setPlayerManager(PlayerOneManager playerManager) {
 		this.playerManager = playerManager;
 	}
 
