@@ -84,7 +84,7 @@ public class PlayerTwo extends AbstractObject {
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getObjectManager().addObject(snakeHead);
+		this.game.getPlayerManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerTwo();
 		this.loadImages();
 		this.drawBoundingBox();

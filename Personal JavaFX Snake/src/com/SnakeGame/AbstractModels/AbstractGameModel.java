@@ -4,11 +4,13 @@ import java.util.concurrent.CountDownLatch;
 
 import com.SnakeGame.FrameWork.FadeScreenHandler;
 import com.SnakeGame.FrameWork.GameDebrisManager;
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GestureInputManager;
 import com.SnakeGame.FrameWork.KeyInputManager;
-import com.SnakeGame.FrameWork.GameLoader;
+import com.SnakeGame.FrameWork.LogicThread;
 import com.SnakeGame.FrameWork.MouseInputManager;
 import com.SnakeGame.FrameWork.ObjectManager;
+import com.SnakeGame.FrameWork.PlayerManager;
 import com.SnakeGame.HudElements.EnergyMeter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
@@ -54,17 +56,20 @@ public abstract class AbstractGameModel extends Application {
 	protected GameStateID stateID;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
+	protected AnimationTimer playerMovementLoop;
 	protected KeyInputManager keyInput;
 	protected MouseInputManager mouseInput;
 	protected GestureInputManager gestures;
 	protected GraphicsContext gc;
 	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
+	protected PlayerManager playerManager;
 	protected GameDebrisManager debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
 	protected SlitherSectionManager sectManagerThree;
 	protected FadeTransition fadeSplash;
+	protected LogicThread thread;
 	protected MenuMain mainMenu;
 	protected Scene scene;
 	protected Scene splashScene;
@@ -138,6 +143,14 @@ public abstract class AbstractGameModel extends Application {
 
 	public HealthBarTwo getHealthBarTwo() {
 		return healthBarTwo;
+	}
+
+	public PlayerManager getPlayerManager() {
+		return playerManager;
+	}
+
+	public void setPlayerManager(PlayerManager playerManager) {
+		this.playerManager = playerManager;
 	}
 
 	public void setHealthBarOne(HealthBarOne healthBarOne) {
@@ -477,12 +490,15 @@ public abstract class AbstractGameModel extends Application {
 	public int getLevelLenght() {
 		return levelLenght;
 	}
+
 	public Timeline getGameLoop(){
 		return frameGameLoop;
 	}
+
 	public void setLevelLenght(int levelLenght) {
 		this.levelLenght = levelLenght;
 	}
+
 	public void backgroundWorker(){
 		Service<Void> service = new Service<Void>() {
 	        @Override

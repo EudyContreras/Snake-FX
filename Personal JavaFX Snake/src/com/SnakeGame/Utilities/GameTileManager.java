@@ -22,9 +22,11 @@ public class GameTileManager {
 	private List<AbstractTile> tile;
 	private List<AbstractTile> block;
 	private List<AbstractTile> trap;
+	private List<AbstractTile> edible;
 	private AbstractTile tempTile;
 	private AbstractTile tempTrap;
 	private AbstractTile tempBlock;
+	private AbstractTile tempEdible;
 	private GameManager game;
 
 	public GameTileManager(GameManager game) {
@@ -32,6 +34,22 @@ public class GameTileManager {
 		this.tile = new LinkedList<AbstractTile>();
 		this.block = new LinkedList<AbstractTile>();
 		this.trap = new LinkedList<AbstractTile>();
+		this.edible = new LinkedList<AbstractTile>();
+	}
+	public List<AbstractTile> getTile() {
+		return tile;
+	}
+
+	public List<AbstractTile> getBlock() {
+		return block;
+	}
+
+	public List<AbstractTile> getTrap() {
+		return trap;
+	}
+
+	public List<AbstractTile> getEdible() {
+		return edible;
 	}
 
 	public void addTile(AbstractTile tile) {
@@ -45,17 +63,11 @@ public class GameTileManager {
 	public void addTrap(AbstractTile tile) {
 		this.trap.add(tile);
 	}
-	public List<AbstractTile> getTile() {
-		return tile;
+
+	public void addEdible(AbstractTile tile) {
+		this.edible.add(tile);
 	}
 
-	public List<AbstractTile> getBlock() {
-		return block;
-	}
-
-	public List<AbstractTile> getTrap() {
-		return trap;
-	}
 	public void addObjectAsArray(AbstractTile... tl) {
 		if (tl.length > 1) {
 			tile.addAll(Arrays.asList(tl));
@@ -85,6 +97,48 @@ public class GameTileManager {
 			}
 
 		}
+		for (Iterator<AbstractTile> blockList = block.iterator(); blockList.hasNext();) {
+			AbstractTile tempTile = blockList.next();
+			tempTile.updateUI();
+			tempTile.move();
+			tempTile.checkCollision();
+			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				blockList.remove();
+				continue;
+			}
+
+		}
+		for (Iterator<AbstractTile> trapList = trap.iterator(); trapList.hasNext();) {
+			AbstractTile tempTile = trapList.next();
+			tempTile.updateUI();
+			tempTile.move();
+			tempTile.checkCollision();
+			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				trapList.remove();
+				continue;
+			}
+
+		}
+		for (Iterator<AbstractTile> edibleList = edible.iterator(); edibleList.hasNext();) {
+			AbstractTile tempTile = edibleList.next();
+			tempTile.updateUI();
+			tempTile.move();
+			tempTile.checkCollision();
+			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				edibleList.remove();
+				continue;
+			}
+
+		}
 	}
 
 	/**
@@ -102,24 +156,35 @@ public class GameTileManager {
 	/**
 	 * Individually updates the blocks
 	 */
-	public void updateBlock() {
+	public void updateBlocks() {
 		for (int i = 0; i < block.size(); i++) {
 			tempBlock = block.get(i);
 			tempBlock.updateUI();
 			tempBlock.move();
-			tempTile.checkCollision();
+			tempBlock.checkCollision();
 		}
 	}
 
 	/**
 	 * Individually updates the traps
 	 */
-	public void updateTrap() {
+	public void updateTraps() {
 		for (int i = 0; i < trap.size(); i++) {
 			tempTrap = trap.get(i);
 			tempTrap.updateUI();
 			tempTrap.move();
-			tempTile.checkCollision();
+			tempTrap.checkCollision();
+		}
+	}
+	/**
+	 * Individually updates the traps
+	 */
+	public void updateEdibles() {
+		for (int i = 0; i < edible.size(); i++) {
+			tempEdible = edible.get(i);
+			tempEdible.updateUI();
+			tempEdible.move();
+			tempEdible.checkCollision();
 		}
 	}
 
@@ -152,12 +217,32 @@ public class GameTileManager {
 				block.remove(i);
 			}
 		}
+		for (int i = 0; i < edible.size(); i++) {
+			tempEdible = edible.get(i);
+			if (tempEdible.isBehindCharacter() || !tempEdible.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempEdible.getView());
+				game.getSecondLayer().getChildren().remove(tempEdible.getView());
+				edible.remove(i);
+			}
+		}
 	}
-
+	public void clearTiles() {
+		tile.clear();
+	}
+	public void clearBlocks() {
+		block.clear();
+	}
+	public void clearTraps() {
+		trap.clear();
+	}
+	public void clearEdibles() {
+		trap.clear();
+	}
 	public void clearAll() {
 		tile.clear();
 		block.clear();
 		trap.clear();
+		edible.clear();
 	}
 
 }

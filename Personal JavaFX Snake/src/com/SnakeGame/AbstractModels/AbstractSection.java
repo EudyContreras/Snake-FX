@@ -289,6 +289,10 @@ public abstract class AbstractSection {
 		circle.setRotate(r);
 	}
 
+	public void logicUpdate(){
+
+
+	}
 	public void createLevel() {
 
 	}

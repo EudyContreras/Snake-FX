@@ -205,8 +205,10 @@ public class PlayerTwoSection extends AbstractSection {
 
 			}
 		}
+	}
+	public void logicUpdate(){
 		if(GameSettings.ALLOW_DIRT)
-		updateDirt();
+			updateDirt();
 	}
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {

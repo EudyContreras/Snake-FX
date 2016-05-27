@@ -6,8 +6,8 @@ import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractSection;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -291,6 +291,9 @@ public class SnakeFood extends AbstractObject {
 						this.fadeValue = 0;
 						lifeTime = 0;
 					}
+					else{
+						this.bounce(object, object.getX(), object.getY());
+					}
 				}
 			}
 		}
@@ -302,6 +305,9 @@ public class SnakeFood extends AbstractObject {
 						this.y = newY;
 						this.fadeValue = 0;
 						lifeTime = 0;
+					}
+					else{
+						this.bounce(object, object.getX(), object.getY());
 					}
 				}
 			}
@@ -365,7 +371,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param x
 	 * @param y
 	 */
-	public void bounce(PlayerOne snake, float x, float y) {
+	public void bounce(PlayerOne snake, double x, double y) {
 		if (snake.getVelX() == 0) {
 			this.velX = (float) (snake.getVelX() + (Math.random() * (13 - 8 + 1) - 8));
 			this.velY = (float) (snake.getVelY() + (Math.random() * (7 - 4 + 1) - 4));
@@ -381,6 +387,21 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerTwo snake, double x, double y) {
+		if (snake.getVelX() == 0) {
+			this.velX = (float) (snake.getVelX() + (Math.random() * (13 - 8 + 1) - 8));
+			this.velY = (float) (snake.getVelY() + (Math.random() * (7 - 4 + 1) - 4));
+		} else if (snake.getVelY() == 0) {
+			this.velX = (float) (snake.getVelX() + (Math.random() * (7 - 4 + 1) - 4));
+			this.velY = (float) (snake.getVelY() + (Math.random() * (13 - 8 + 1) - 8));
+		}
+	}
+	/**
+	 * Method which will make this objects bounce from another object
+	 * @param snake
+	 * @param x
+	 * @param y
+	 */
+	public void bounce(AbstractSection snake, double x, double y) {
 		if (snake.getVelX() == 0) {
 			this.velX = (float) (snake.getVelX() + (Math.random() * (13 - 8 + 1) - 8));
 			this.velY = (float) (snake.getVelY() + (Math.random() * (7 - 4 + 1) - 4));

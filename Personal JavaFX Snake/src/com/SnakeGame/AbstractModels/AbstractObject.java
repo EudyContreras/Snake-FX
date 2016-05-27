@@ -4,7 +4,9 @@ import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerOne.PlayerOneSection;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
+import com.SnakeGame.PlayerTwo.PlayerTwoSection;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -517,6 +519,13 @@ public abstract class AbstractObject {
 
 	}
 
+	public void bounce(PlayerOneSection section, double x, double y) {
+
+	}
+
+	public void bounce(PlayerTwoSection section, double x, double y) {
+
+	}
 	public void blowUp() {
 
 	}

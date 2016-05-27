@@ -20,8 +20,8 @@ public class GameSettings {
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static double SIZE_SCALE = 1.0;
 
-	public static int SNAKE_SPEED = 6; // must be a number which the size of the result remains whole
-	public static double SECTION_SIZE = 30; // Could now be any number I think!!
+	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
+	public static double SECTION_SIZE = 25; // Could now be any number I think!!
 	public static final int SLITHER_SPEED = 5;
 
 	public static int APPLE_COUNT = 75;
@@ -58,6 +58,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double AMBIENTLIGHT_OPACITY = 0.8;
 
+	public static boolean OBJECT_TRACKER = false;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean DAMAGE_IMMUNITY = false;
@@ -83,6 +84,7 @@ public class GameSettings {
 	public static boolean FAST_TURNS = false;
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
+
 
 
 }

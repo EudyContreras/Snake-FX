@@ -9,7 +9,7 @@ package com.SnakeGame.FrameWork;
 public class LogicThread extends Thread {
 
 	private GameManager game;
-	private Boolean isRunning;
+	private Boolean isRunning = false;
 	private Thread mainThread;
 	private Thread helperThread;
 
@@ -175,7 +175,9 @@ public class LogicThread extends Thread {
 	}
 
 	protected void updateAt60() {
-		game.drawOverlay(null);
+		game.getPlayerManager().updateAllLogic(null, 0);
+		game.getSectManagerOne().updateAllLogic(null, 0);
+		game.getSectManagerTwo().updateAllLogic(null, 0);
 	}
 
 	protected void updateAt120() {

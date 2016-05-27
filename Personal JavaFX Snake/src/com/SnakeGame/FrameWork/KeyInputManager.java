@@ -72,8 +72,8 @@ public class KeyInputManager {
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					game.getGameLoop().setRate(2.0);
-					keyDown[5] = true;
+					GameSettings.PLAYER_SPEED = 8;
+ 					keyDown[5] = true;
 					//slither.thrust = true;
 				}
 				if (e.getCode() == KeyCode.P) {
@@ -149,7 +149,7 @@ public class KeyInputManager {
 					keyDown[4] = false;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					game.getGameLoop().setRate(1.0);
+					GameSettings.PLAYER_SPEED = 4;
 					keyDown[5] = false;
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {

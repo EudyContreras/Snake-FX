@@ -37,6 +37,7 @@ public class PlayerOne extends AbstractObject {
 	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int moveDelay = 0;
 	private int appleCount = 0;
+	private int counter = 0;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -84,7 +85,7 @@ public class PlayerOne extends AbstractObject {
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.SECTION_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getObjectManager().addObject(snakeHead);
+		this.game.getPlayerManager().addObject(snakeHead);
 		this.sectManager = game.getSectManagerOne();
 		this.loadImages();
 		this.drawBoundingBox();
@@ -105,18 +106,20 @@ public class PlayerOne extends AbstractObject {
 
 	public void updateUI() {
 		super.updateUI();
+		updateBounds();
 	}
 
 	public void move() {
 		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
+			this.circle.setRadius(GameSettings.SECTION_SIZE);
 	}
 
 	public void logicUpdate() {
 		controlEating();
 		hinderMovement();
 		positionBody();
-		updateBounds();
+//		updateBounds();
 		updateImmunity();
 		updateDirt();
 		checkTurns();
@@ -180,6 +183,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void updateBounds() {
+		checkBounds();
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
@@ -490,6 +494,11 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addSection() {
+		counter++;
+		if(counter>=15){
+		counter = 0;
+		GameSettings.SECTION_SIZE++;
+		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
@@ -605,7 +614,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void draw(GraphicsContext gc) {
-		checkBounds();
+
 	}
 
 	public boolean isCollision() {

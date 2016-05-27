@@ -237,6 +237,9 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void updateLevelObjects() {
 		getTileManager().updateTiles();
+		getTileManager().updateBlocks();
+		getTileManager().updateTraps();
+		getTileManager().updateEdibles();
 		getTileManager().checkIfRemovable();
 	}
 	/**
@@ -281,7 +284,7 @@ public class GameLoader extends AbstractLoaderModel{
 		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
 				new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
 				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
-		game.getObjectManager().addObject(playerOne);
+		game.getPlayerManager().addObject(playerOne);
 	}
 	/**
 	 * Method used to create the player two and position the player at a specified
@@ -293,7 +296,7 @@ public class GameLoader extends AbstractLoaderModel{
 		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
 				new Circle(GameSettings.SECTION_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
 				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
-		game.getObjectManager().addObject(playerTwo);
+		game.getPlayerManager().addObject(playerTwo);
 	}
 	/**
 	 * Method used to create the Slither snake and position the player at a specified

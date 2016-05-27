@@ -357,7 +357,7 @@ public class LevelManager extends AbstractLoaderModel{
 					this.playerOne = new PlayerOne(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
 							col * 20, 0, 0, 0, 0, GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_SPEED, GameObjectID.PlayerOne,
 						game.getObjectManager());
-						game.getObjectManager().addObject(playerOne);
+						game.getPlayerManager().addObject(playerOne);
 				}
 			}
 		}

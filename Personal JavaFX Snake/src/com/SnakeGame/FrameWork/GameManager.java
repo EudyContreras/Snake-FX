@@ -182,10 +182,10 @@ public class GameManager extends AbstractGameModel{
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
-		snakeLoop();
+		objectChecker();
+		playerMovementLoop();
 		frameBaseGameLoop();
 
-		//objectChecker();
 
 	}
 
@@ -206,6 +206,7 @@ public class GameManager extends AbstractGameModel{
 		levelImageBank = new GameLevelImage();
 		mainRoot = new Group();
 		root = new Pane();
+		thread = new LogicThread(this);
 		mainMenu = new MenuMain(this);
 		backgroundImage = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(GameSettings.WIDTH, GameSettings.HEIGHT);
@@ -243,6 +244,7 @@ public class GameManager extends AbstractGameModel{
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
 		objectManager = new ObjectManager(this);
+		playerManager = new PlayerManager(this);
 		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
@@ -302,7 +304,6 @@ public class GameManager extends AbstractGameModel{
 	}
 	public void closeGame() {
 		pauseGame();
-		this.getObjectManager().clearAll();
 		Platform.exit();
 	}
 
@@ -317,7 +318,7 @@ public class GameManager extends AbstractGameModel{
 	 * rate according to the performance of the machine is running on. This
 	 * method also keeps track of the frame rate
 	 */
-	public void gameLoop() {
+	public synchronized void gameLoop() {
 
 		gameLoop = new AnimationTimer() {
 
@@ -327,7 +328,7 @@ public class GameManager extends AbstractGameModel{
 			double delta = 0;
 			double FPS = 0;
 
-			public void handle(long now) {
+			public synchronized void handle(long now) {
 				FPS++;
 				currentTime = now;
 				delta += currentTime - lastTime;
@@ -348,10 +349,10 @@ public class GameManager extends AbstractGameModel{
 					slitherManager.updateAll(gc, now);
 					slitherManager.checkCollisions();
 					objectManager.updateAll(gc, now);
-					objectManager.checkCollisions();
-					sectManagerTwo.updateAll(gc, now);
+					playerManager.updateAllLogic(gc, now);
+					sectManagerTwo.updateAllLogic(gc, now);
 					sectManagerThree.updateAll(gc, now);
-					sectManagerOne.updateAll(gc, now);
+					sectManagerOne.updateAllLogic(gc, now);
 					debrisManager.updateDebris(gc);
 					debrisManager.updateParticles(gc);
 					loader.updateLevelObjects();
@@ -408,7 +409,7 @@ public class GameManager extends AbstractGameModel{
 	 * specify the speed, delays and more. this loop gives a bit more control to
 	 * the user.
 	 */
-	public void frameBaseGameLoop() {
+	public synchronized void frameBaseGameLoop() {
 		Timeline gameLoop = new Timeline();
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 
@@ -425,7 +426,7 @@ public class GameManager extends AbstractGameModel{
 					double delta = 0;
 					double FPS = 0;
 
-					public void handle(ActionEvent e) {
+					public synchronized void handle(ActionEvent e) {
 						FPS++;
 						now = System.nanoTime();
 						currentTime = now;
@@ -446,13 +447,11 @@ public class GameManager extends AbstractGameModel{
 							gameOverScreen.swipeDown();
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
-//							slitherManager.updateAll(gc, timePassed);
-//							slitherManager.checkCollisions();
-//							objectManager.updateAll(gc, timePassed);
-//							objectManager.checkCollisions();
-//							sectManagerTwo.updateAll(gc, timePassed);
-//							sectManagerThree.updateAll(gc, timePassed);
-//							sectManagerOne.updateAll(gc, timePassed);
+							objectManager.updateAll(gc, timePassed);
+							playerManager.updateAllLogic(gc, timePassed);
+							sectManagerOne.updateAllLogic(gc, timePassed);
+							sectManagerTwo.updateAllLogic(gc, timePassed);
+							sectManagerThree.updateAll(gc, timePassed);
 							debrisManager.updateDebris(gc);
 							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
@@ -500,34 +499,35 @@ public class GameManager extends AbstractGameModel{
 		gameLoop.getKeyFrames().add(keyFrame);
 		gameLoop.play();
 	}
-
-	public void snakeLoop() {
-		frameGameLoop.setCycleCount(Timeline.INDEFINITE);
-		frameGameLoop.setRate(1.0);
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
-
-				new EventHandler<ActionEvent>() {
-					long startTime = System.currentTimeMillis();
-					long cummulativeTime = startTime;
-					long timePassed = 0;
-
-					public void handle(ActionEvent e) {
-						timePassed = System.currentTimeMillis() - cummulativeTime;
-						cummulativeTime += timePassed;
-						if (GameSettings.RENDER_GAME) {
-							objectManager.updateAll(gc, timePassed);
-							objectManager.checkCollisions();
-							sectManagerOne.updateAll(gc, timePassed);
-							sectManagerTwo.updateAll(gc, timePassed);
-							sectManagerThree.updateAll(gc, timePassed);
-						}
-					}
-				});
-		frameGameLoop.getKeyFrames().add(keyFrame);
-		frameGameLoop.play();
+	public void playerMovementLoop(){
+		new SpeedController().playerMovementLoop();
 	}
 
+	public class SpeedController {
+		public void playerMovementLoop() {
 
+			playerMovementLoop = new AnimationTimer() {
+
+				private long startTime = System.currentTimeMillis();
+				private long cummulativeTime = startTime;
+
+				public void handle(long now) {
+					long timePassed = System.currentTimeMillis() - cummulativeTime;
+					cummulativeTime += timePassed;
+					if (GameSettings.RENDER_GAME) {
+						for (int speed = 0; speed < GameSettings.PLAYER_SPEED; speed += 1) {
+							playerManager.updateAllMovement();
+							sectManagerOne.updateAllMovement(gc, timePassed);
+							sectManagerTwo.updateAllMovement(gc, timePassed);
+							sectManagerThree.updateAll(gc, timePassed);
+
+						}
+					}
+				}
+			};
+			playerMovementLoop.start();
+		}
+	}
 	/**
 	 * This method is used to perform a frame base animation on a sequence of
 	 * images.
@@ -544,7 +544,7 @@ public class GameManager extends AbstractGameModel{
 				cummulativeTime += timePassed;
 
 				if (GameSettings.RENDER_GAME) {
-					objectManager.updateAnimation(timePassed);
+					playerManager.updateAnimation(timePassed);
 				}
 			}
 		};
@@ -590,6 +590,7 @@ public class GameManager extends AbstractGameModel{
 	 * which will then put objects on the level based on the set speed
 	 */
 	public void objectChecker() {
+		if(GameSettings.OBJECT_TRACKER){
 		Timeline levelUpdateLoop = new Timeline();
 		levelUpdateLoop.setCycleCount(Timeline.INDEFINITE);
 
@@ -604,13 +605,13 @@ public class GameManager extends AbstractGameModel{
 				System.out.println("Amount of objects in all layers: " + getGameRoot().getChildren().size());
 				System.out.println();
 				System.out.println();
+				System.out.println("Amount of objects in player manager: " + playerManager.getObjectList().size());
 				System.out.println("Amount of objects in object manager: " + objectManager.getObjectList().size());
 				System.out.println("Amount of objects in debris manager: " + debrisManager.getDebrisList().size());
 				System.out.println("Amount of objects in particle manager: " + debrisManager.getParticleList().size());
 				System.out.println("Amount of objects in tile manager: " + loader.getTileManager().getTile().size());
 				System.out.println("Amount of objects in block manager: " + loader.getTileManager().getBlock().size());
 				System.out.println("Amount of objects in trap manager: " +loader.getTileManager().getTrap().size());
-
 				System.out.println();
 				System.out.println("---------------------------------------------------------------------------");
 
@@ -618,6 +619,7 @@ public class GameManager extends AbstractGameModel{
 		});
 		levelUpdateLoop.getKeyFrames().add(keyFrame);
 		levelUpdateLoop.play();
+		}
 	}
 
 
@@ -776,21 +778,25 @@ public class GameManager extends AbstractGameModel{
 		seventhLayer.getChildren().clear();
 		eighthLayer.getChildren().clear();
 		levelLayer.getChildren().clear();
+		playerManager.clearAll();
 		debrisManager.clearAll();
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
 		loader.clearTiles();
+		System.gc();
 
 	}
 	public void removePlayers() {
 		fithLayer.getChildren().clear();
 		fourthLayer.getChildren().clear();
+		playerManager.clearAll();
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
+
 
 	}
 

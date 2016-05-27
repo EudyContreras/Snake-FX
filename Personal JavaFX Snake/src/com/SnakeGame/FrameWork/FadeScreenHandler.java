@@ -23,6 +23,7 @@ public class FadeScreenHandler{
 	public void renderFadeScreen() {
 		if (!slowFade) {
 			innerFadePercentage = 0;
+			game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
 			game.getFadeScreenLayer().getChildren().add(innerFadeScreen);
 			slowFade = true;
 		}

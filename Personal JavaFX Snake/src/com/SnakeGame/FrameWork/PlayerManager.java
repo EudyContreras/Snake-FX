@@ -18,13 +18,13 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class ObjectManager {
+public class PlayerManager {
 
 	private LinkedList<AbstractObject> object;
 	private AbstractObject tempObject;
 	private GameManager game;
 
-	public ObjectManager(GameManager gameJavaFX) {
+	public PlayerManager(GameManager gameJavaFX) {
 		this.game = gameJavaFX;
 		initialize();
 	}
@@ -36,12 +36,12 @@ public class ObjectManager {
 	}
 
 	/**
-	 * This method updates the objects using and iterator which only iterates
+	 * This method updates the logic of all objects using and iterator which only iterates
 	 * through every object once. faster in some cases but it makes it so the
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void update(GraphicsContext gc, long timePassed) {
+	public void updateAllLogicI(GraphicsContext gc, long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = object.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
@@ -60,18 +60,29 @@ public class ObjectManager {
 			}
 		}
 	}
+	/**
+	 * This method moves the objects using and iterator which only iterates
+	 * through every object once. faster in some cases but it makes it so the
+	 * list can only be modified through this method or else an exception will
+	 * be thrown
+	 */
+	public void updateAllMovementI(GraphicsContext gc, long timePassed) {
+		Iterator<? extends AbstractObject> objectIterator = object.iterator();
+		while (objectIterator.hasNext()) {
+			AbstractObject tempObject = objectIterator.next();
+			tempObject.move();
+			tempObject.updateUI();
+		}
+	}
 
 	/**
-	 * Method used to update every object in the game. this method uses a
+	 * Method used to update every the logic object in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAll(GraphicsContext gc, long timePassed) {
-
+	public void updateAllLogic(GraphicsContext gc, long timePassed) {
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
-			tempObject.move();
-			tempObject.updateUI();
 			tempObject.checkCollision();
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
@@ -82,6 +93,18 @@ public class ObjectManager {
 				tempObject.removeFromLayer();
 				object.remove(i);
 			}
+		}
+	}
+	/**
+	 * Method used to update the movement of every object in the game. this method uses a
+	 * conventional for loop and allows the list to be modified from an outside
+	 * source without provoking a break.
+	 */
+	public void updateAllMovement(){
+		for (int i = 0; i < object.size(); i++) {
+			tempObject = object.get(i);
+			tempObject.move();
+			tempObject.updateUI();
 		}
 	}
 
@@ -139,7 +162,15 @@ public class ObjectManager {
 			tempObject.addPhysics();
 		}
 	}
-
+	/**
+	 * Method used to check if the object has collied with another object
+	 */
+	public void updateLogic() {
+		for (int i = 0; i < object.size(); i++) {
+			tempObject = object.get(i);
+			tempObject.logicUpdate();
+		}
+	}
 	/**
 	 * Method used to check if the object should be removed
 	 */

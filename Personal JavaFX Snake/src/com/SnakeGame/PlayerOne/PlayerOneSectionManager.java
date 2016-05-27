@@ -57,20 +57,28 @@ public class PlayerOneSectionManager {
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAll(GraphicsContext gc, long timePassed) {
+	public void updateAllLogic(GraphicsContext gc, long timePassed) {
 
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
-			tempSection.updateUI();
+			tempSection.checkCollision();
+			tempSection.logicUpdate();
 			tempSection.addPhysics();
 			tempSection.updateAnimation(timePassed);
 			tempSection.draw(gc);
-			tempSection.move();
 			tempSection.checkRemovability();
 			if (tempSection.isRemovable() || !tempSection.isAlive()) {
 				tempSection.removeFromLayer();
 				sectionList.remove(i);
 			}
+		}
+	}
+	public void updateAllMovement(GraphicsContext gc, long timePassed) {
+
+		for (int i = 0; i < sectionList.size(); i++) {
+			tempSection = sectionList.get(i);
+			tempSection.move();
+			tempSection.updateUI();
 		}
 	}
 	/**

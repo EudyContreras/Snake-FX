@@ -166,6 +166,7 @@ public class PlayerOneSection extends AbstractSection {
 	}
 
 	public void move() {
+		this.circle.setRadius(GameSettings.SECTION_SIZE);
 		checkBounds();
 		disguiseLast();
 		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
@@ -204,10 +205,11 @@ public class PlayerOneSection extends AbstractSection {
 				}
 			}
 		}
+	}
+	public void logicUpdate(){
 		if(GameSettings.ALLOW_DIRT)
 		updateDirt();
 	}
-
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;

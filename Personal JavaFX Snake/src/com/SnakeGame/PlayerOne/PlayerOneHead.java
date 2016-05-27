@@ -3,12 +3,13 @@ package com.SnakeGame.PlayerOne;
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.ObjectManager;
-import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.PlayerManager;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Particles.FruitSplashTwo;
@@ -39,7 +40,7 @@ public class PlayerOneHead extends AbstractObject {
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
-	private ObjectManager gom;
+	private PlayerManager playerManager;
 	private PlayerMovement newDirection;
 
 	public PlayerOneHead(PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
@@ -48,15 +49,15 @@ public class PlayerOneHead extends AbstractObject {
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
-		this.gom = game.getObjectManager();
+		this.playerManager = game.getPlayerManager();
 		this.text = new Text();
 		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
 		this.text.setText(GameSettings.PLAYER_ONE_NAME);
-		this.gom.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.gom.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.SECTION_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
@@ -85,13 +86,16 @@ public class PlayerOneHead extends AbstractObject {
 	}
 
 	public void move() {
-		if (GameSettings.DEBUG_MODE) {
-			adjustBounds();
+		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
+			if (GameSettings.DEBUG_MODE) {
+				adjustBounds();
+			}
+			this.circle.setRadius(GameSettings.SECTION_SIZE*1.4);
+			this.y = snake.getY();
+			this.x = snake.getX();
+			this.text.setX(x - 50);
+			this.text.setY(y - 40);
 		}
-		this.y = snake.getY();
-		this.x = snake.getX();
-		this.text.setX(x-50);
-		this.text.setY(y-40);
 
 	}
 	public void logicUpdate(){

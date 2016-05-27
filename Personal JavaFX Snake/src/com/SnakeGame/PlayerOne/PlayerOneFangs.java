@@ -112,6 +112,7 @@ public class PlayerOneFangs extends AbstractObject {
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						if (PlayerOne.MOUTH_OPEN) {
+						//	GameSettings.SECTION_SIZE-- ;
 							snake.addSection();
 							snake.closeMouth();
 							game.getScoreKeeper().decreaseCount();

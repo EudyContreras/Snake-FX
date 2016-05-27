@@ -85,7 +85,7 @@ public class GameHud {
 		y2 = y2 + swipeSpeed2;
 		if (swipeDown) {
 			swipeSpeed2 = -1.5;
-			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(15)) {
+			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(25)) {
 				swipeSpeed2 = 0;
 			}
 		}
