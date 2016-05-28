@@ -71,7 +71,7 @@ public class GameManager extends AbstractGameModel{
 
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution();
-		GameLoader.scaleSpeedAndSize();
+		GameLoader.scalePlayerSize();
 		ScaleX = GameLoader.ResolutionScaleX;
 		ScaleY = GameLoader.ResolutionScaleY;
 		mainWindow = primaryStage;
@@ -166,7 +166,6 @@ public class GameManager extends AbstractGameModel{
 				50/ScaleY, Color.RED);
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
-
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
@@ -215,13 +214,13 @@ public class GameManager extends AbstractGameModel{
 		dirtLayer = new Pane();
 		debrisLayer = new Pane();
 		snakeOneLayer = new Pane();
-		snakeOneLayer.setCache(true);
-		snakeOneLayer.setCacheShape(true);
-		snakeOneLayer.setCacheHint(CacheHint.SPEED);
+//		snakeOneLayer.setCache(true);
+//		snakeOneLayer.setCacheShape(true);
+//		snakeOneLayer.setCacheHint(CacheHint.SPEED);
 		snakeTwoLayer = new Pane();
-		snakeTwoLayer.setCache(true);
-		snakeTwoLayer.setCacheShape(true);
-		snakeTwoLayer.setCacheHint(CacheHint.SPEED);
+//		snakeTwoLayer.setCache(true);
+//		snakeTwoLayer.setCacheShape(true);
+//		snakeTwoLayer.setCacheHint(CacheHint.SPEED);
 		firstLayer = new Pane();
 		secondLayer = new Pane();
 		thirdLayer = new Pane();
@@ -238,13 +237,13 @@ public class GameManager extends AbstractGameModel{
 		thirTeenthLayer = new Pane();
 		fourTeenthLayer = new Pane();
 		innerParticleLayer = new Pane();
-		innerParticleLayer.setCache(true);
-		innerParticleLayer.setCacheShape(true);
-		innerParticleLayer.setCacheHint(CacheHint.SPEED);
+//		innerParticleLayer.setCache(true);
+//		innerParticleLayer.setCacheShape(true);
+//		innerParticleLayer.setCacheHint(CacheHint.SPEED);
 		outerParticleLayer = new Pane();
-		outerParticleLayer.setCache(true);
-		outerParticleLayer.setCacheShape(true);
-		outerParticleLayer.setCacheHint(CacheHint.SPEED);
+//		outerParticleLayer.setCache(true);
+//		outerParticleLayer.setCacheShape(true);
+//		outerParticleLayer.setCacheHint(CacheHint.SPEED);
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
 		fadeHandler = new FadeScreenHandler(this);
@@ -307,6 +306,11 @@ public class GameManager extends AbstractGameModel{
 	public void processGestures(){
 		pauseMenu.processTouch();
 		gestures.processGestures(this);
+	}
+	public void setPerformance(Pane pane){
+		pane.setCache(true);
+		pane.setCacheShape(true);
+		pane.setCacheHint(CacheHint.SPEED);
 	}
 	public void closeGame() {
 		pauseGame();

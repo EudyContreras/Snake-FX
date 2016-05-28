@@ -15,25 +15,26 @@ import java.awt.Toolkit;
 public class GameSettings {
 
 	public static double START_X = 1920;
-	public static double START_Y = 200;
+	public static double START_Y = 80;
 	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static double SIZE_SCALE = 1.0;
 
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
+	public static int SECTION_SIZE = 30;
 	public static int SNAKE_ONE_SPEED = 1;
 	public static int SNAKE_TWO_SPEED = 1;
 	public static int SLITHER_SPEED = 5;
-	public static double SLITHER_SIZE = 30;
-	public static double PLAYER_ONE_SIZE = 26;
-	public static double PLAYER_TWO_SIZE = 26;
+	public static int SLITHER_SIZE = 30;
+	public static double PLAYER_ONE_SIZE = 24; // Must be even or divisible by two
+	public static double PLAYER_TWO_SIZE = 24; // Must be even or divisible by two
 
 	public static int APPLE_COUNT = 75;
 	public static int SECTIONS_TO_ADD = 2;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
 
-	public static int TURN_DELAY = 5;
+	public static int TURN_DELAY = 6;
 	public static int BITE_DELAY = 10;
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;

@@ -70,45 +70,59 @@ public class GameLoader extends AbstractLoaderModel{
 	 * able to be divided by the speed and the result must always be a whole number
 	 */
 	public static void scaleSpeedAndSize() {
-//		int newSize = (int) (GameSettings.SECTION_SIZE / GameLoader.ResolutionScaleX);
-//		int newSpeed = (int) (GameSettings.SNAKE_SPEED / GameLoader.ResolutionScaleX);
-//		boolean divisible = newSize % newSpeed == 0;
-//		if (divisible) {
-//			GameSettings.SECTION_SIZE = newSize;
-//			GameSettings.SNAKE_SPEED = newSpeed;
-//		} else {
-//
-//			if (reScale(newSize + 1, newSpeed) == true) {
-//				GameSettings.SECTION_SIZE = newSize + 1;
-//				GameSettings.SNAKE_SPEED = newSpeed;
-//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-//
-//			} else if (reScale(newSize + 2, newSpeed) == true) {
-//				GameSettings.SECTION_SIZE = newSize + 2;
-//				GameSettings.SNAKE_SPEED = newSpeed;
-//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-//
-//			} else if (reScale(newSize + 3, newSpeed) == true) {
-//				GameSettings.SECTION_SIZE = newSize + 3;
-//				GameSettings.SNAKE_SPEED = newSpeed;
-//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-//
-//			} else if (reScale(newSize - 1, newSpeed) == true) {
-//				GameSettings.SECTION_SIZE = newSize - 1;
-//				GameSettings.SNAKE_SPEED = newSpeed;
-//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-//
-//			} else if (reScale(newSize - 2, newSpeed) == true) {
-//				GameSettings.SECTION_SIZE = newSize - 2;
-//				GameSettings.SNAKE_SPEED = newSpeed;
-//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-//
-//			} else if (reScale(newSize - 3, newSpeed) == true) {
-//				GameSettings.SECTION_SIZE = newSize - 3;
-//				GameSettings.SNAKE_SPEED = newSpeed;
-//				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
-//			}
-//		}
+		int newSize = (int) (GameSettings.SECTION_SIZE / GameLoader.ResolutionScaleX);
+		int newSpeed = (int) (GameSettings.SNAKE_SPEED / GameLoader.ResolutionScaleX);
+		boolean divisible = newSize % newSpeed == 0;
+		if (divisible) {
+			GameSettings.SECTION_SIZE = newSize;
+			GameSettings.SNAKE_SPEED = newSpeed;
+		} else {
+
+			if (reScale(newSize + 1, newSpeed) == true) {
+				GameSettings.SECTION_SIZE = newSize + 1;
+				GameSettings.SNAKE_SPEED = newSpeed;
+				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+
+			} else if (reScale(newSize + 2, newSpeed) == true) {
+				GameSettings.SECTION_SIZE = newSize + 2;
+				GameSettings.SNAKE_SPEED = newSpeed;
+				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+
+			} else if (reScale(newSize + 3, newSpeed) == true) {
+				GameSettings.SECTION_SIZE = newSize + 3;
+				GameSettings.SNAKE_SPEED = newSpeed;
+				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+
+			} else if (reScale(newSize - 1, newSpeed) == true) {
+				GameSettings.SECTION_SIZE = newSize - 1;
+				GameSettings.SNAKE_SPEED = newSpeed;
+				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+
+			} else if (reScale(newSize - 2, newSpeed) == true) {
+				GameSettings.SECTION_SIZE = newSize - 2;
+				GameSettings.SNAKE_SPEED = newSpeed;
+				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+
+			} else if (reScale(newSize - 3, newSpeed) == true) {
+				GameSettings.SECTION_SIZE = newSize - 3;
+				GameSettings.SNAKE_SPEED = newSpeed;
+				System.out.println("Width " + GameSettings.SECTION_SIZE + " Speed " + newSpeed);
+			}
+		}
+	}
+
+	/**
+	 * Method which will attempt to scale the speed and the size of the snake according
+	 * to the new scaled resolution, The size and the speed are relative. The size must be
+	 * able to be divided by the speed and the result must always be a whole number
+	 */
+
+	public static void scalePlayerSize() {
+		int newSizeOne = (int) (GameSettings.PLAYER_ONE_SIZE / GameLoader.ResolutionScaleX);
+		int newSizeTwo = (int) (GameSettings.PLAYER_TWO_SIZE / GameLoader.ResolutionScaleX);
+		GameSettings.PLAYER_ONE_SIZE = newSizeOne;
+		GameSettings.PLAYER_TWO_SIZE = newSizeTwo;
+		System.out.println("new player radius: " + GameSettings.PLAYER_ONE_SIZE );
 	}
 
 	/*
@@ -269,8 +283,8 @@ public class GameLoader extends AbstractLoaderModel{
 		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
 				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - fruit.getRadius() * 5 + 1)
-				+ fruit.getRadius() * 5);
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y + 1)
+				+ GameSettings.START_Y);
 		SnakeFood food = new SnakeFood(game, game.getDirtLayer(), fruit, x, y, GameObjectID.Fruit);
 		game.getObjectManager().addObject(food);
 	}

@@ -42,22 +42,22 @@ public class KeyInputManager {
 
 			public void handle(KeyEvent e) {
 
-				if (e.getCode() == KeyCode.W) {
+				if (e.getCode() == KeyCode.W && e.getCode()!= KeyCode.A && e.getCode()!=KeyCode.D) {
 					keyDown[0] = true;
 					// slither.moveUp();
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
 				}
-				if (e.getCode() == KeyCode.S) {
+				if (e.getCode() == KeyCode.S && e.getCode()!=KeyCode.A && e.getCode()!=KeyCode.D) {
 					keyDown[1] = true;
 					// slither.moveDown();
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
 				}
-				if (e.getCode() == KeyCode.A) {
+				if (e.getCode() == KeyCode.A && e.getCode()!=KeyCode.W && e.getCode()!=KeyCode.S) {
 					keyDown[2] = true;
 					// slither.rotateLeft = true;
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
 				}
-				if (e.getCode() == KeyCode.D) {
+				if (e.getCode() == KeyCode.D && e.getCode()!=KeyCode.W && e.getCode()!=KeyCode.S) {
 					keyDown[3] = true;
 					// slither.rotateRight = true;
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);

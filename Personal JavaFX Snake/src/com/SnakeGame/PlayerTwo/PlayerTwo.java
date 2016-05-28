@@ -532,7 +532,7 @@ public class PlayerTwo extends AbstractObject {
 		counter++;
 		if (counter >= 15) {
 			counter = 0;
-			GameSettings.PLAYER_TWO_SIZE++;
+			GameSettings.PLAYER_TWO_SIZE+=2;
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
@@ -556,10 +556,10 @@ public class PlayerTwo extends AbstractObject {
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-		} else if (y < 0 - radius) {
+		} else if (y < GameSettings.START_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (0 - radius);
+			y = (float) (GameSettings.START_Y - radius);
 		}
 	}
 

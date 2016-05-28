@@ -84,7 +84,7 @@ public class GameLevelImage {
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 160 / GameLoader.ResolutionScaleX,
 			140 / GameLoader.ResolutionScaleY);
 	desert_cactus_small = ImageUtility.precreatedLightedAndShadedImage("little_cactus.png",
-			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 92 / GameLoader.ResolutionScaleX,
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 95 / GameLoader.ResolutionScaleX,
 			92 / GameLoader.ResolutionScaleY);
 	desert_trap = ImageUtility.precreatedLightedAndShadedImage("desert_trap.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,

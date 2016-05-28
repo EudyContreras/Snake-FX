@@ -243,7 +243,7 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void checkCollision() {
 		float newX = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3);
-		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3);
+		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 3) - (GameSettings.START_Y) + 1) + GameSettings.START_Y);
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
 			if (tempTile.getId() == GameLevelObjectID.rock || tempTile.getId() == GameLevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
