@@ -38,6 +38,10 @@ public class PlayerTwo extends AbstractObject {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
+	private double accelaration = 0.5;
+	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
+	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2;
+	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/2;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -54,6 +58,8 @@ public class PlayerTwo extends AbstractObject {
 	private boolean allowTurnRight = true;
 	private boolean allowTurnUp = true;
 	private boolean allowTurnDown = true;
+	private boolean goSlow = false;
+	private boolean thrust = false;
 	private GameManager game;
 	private Animation anim;
 	private Rectangle bounds;
@@ -121,8 +127,12 @@ public class PlayerTwo extends AbstractObject {
 		positionBody();
 		updateTurns();
 		updateImmunity();
+		updateSpeedDirt();
 		updateDirt();
 		checkTurns();
+		speedUp();
+		speedDown();
+		slowDown();
 		fadeOut();
 		overlay.updateEffect();
 
@@ -208,7 +218,17 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
-
+	public void updateSpeedDirt() {
+		if (thrust) {
+			dirtDelay--;
+			if (dirtDelay <= 0) {
+				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
+					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
+					dirtDelay = 10;
+				}
+			}
+		}
+	}
 	public void updateTurns() {
 		if (turns.size() > 0) {
 			turnDelay--;
@@ -241,6 +261,30 @@ public class PlayerTwo extends AbstractObject {
 		coolDown = GameSettings.BITE_DELAY;
 	}
 
+	public void speedUp(){
+		if(thrust){
+			GameSettings.PLAYER_TWO_SPEED+=accelaration;
+			if(GameSettings.PLAYER_TWO_SPEED>=maxSpeed){
+				GameSettings.PLAYER_TWO_SPEED = maxSpeed;
+			}
+		}
+	}
+	public void speedDown(){
+		if(!thrust){
+			GameSettings.PLAYER_TWO_SPEED-=(accelaration/2);
+			if(GameSettings.PLAYER_TWO_SPEED<=normalSpeed){
+				GameSettings.PLAYER_TWO_SPEED = normalSpeed;
+			}
+		}
+	}
+	public void slowDown(){
+		if(!thrust && goSlow){
+			GameSettings.PLAYER_TWO_SPEED-=accelaration;
+			if(GameSettings.PLAYER_TWO_SPEED<= minimumSpeed){
+				GameSettings.PLAYER_TWO_SPEED = minimumSpeed;
+			}
+		}
+	}
 	public void setDirection(PlayerMovement direction) {
 		if (game.getStateID() != GameStateID.GAME_MENU) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
@@ -529,10 +573,12 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void addSection() {
-		counter++;
-		if (counter >= 15) {
-			counter = 0;
-			GameSettings.PLAYER_TWO_SIZE+=2;
+		if (GameSettings.PLAYER_TWO_SIZE < 30) {
+			counter++;
+			if (counter >= 15) {
+				counter = 0;
+				GameSettings.PLAYER_TWO_SIZE += 2;
+			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
@@ -630,13 +676,20 @@ public class PlayerTwo extends AbstractObject {
 
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < 15; i++) {
+			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
 	}
-
+	public void displaceSpeedDirt(double x, double y, double low, double high) {
+		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
+			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
+			}
+		}
+	}
 	public void die() {
 		DEAD = true;
 		game.getHealthBarTwo().drainAll();
@@ -676,6 +729,12 @@ public class PlayerTwo extends AbstractObject {
 		this.collision = collision;
 	}
 
+	public void setSpeedThrust(boolean thrust){
+		this.thrust = thrust;
+	}
+	public boolean getSpeedThrust(){
+		return thrust;
+	}
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}
@@ -697,7 +756,8 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void setSpeedBump(boolean b) {
-
+		this.goSlow = true;
+		this.thrust = false;
 	}
 
 	public Rectangle2D getBoundsTop() {

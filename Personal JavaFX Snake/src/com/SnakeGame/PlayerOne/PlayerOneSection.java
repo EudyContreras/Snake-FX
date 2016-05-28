@@ -24,6 +24,7 @@ public class PlayerOneSection extends AbstractSection {
 	private boolean fade = false;
 	private boolean blowUp = true;
 	private int dirtDelay = 10;
+	private PlayerOne playerOne;
 	private GameManager game;
 	private Circle bones;
 	private AbstractSection previousSection;
@@ -33,6 +34,7 @@ public class PlayerOneSection extends AbstractSection {
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
+		this.playerOne = snake;
 		this.numericID = numericID;
 		this.sectManager = game.getSectManagerOne();
 		if (this.numericID <= 0) {
@@ -173,7 +175,9 @@ public class PlayerOneSection extends AbstractSection {
 	}
 	public void logicUpdate(){
 		if(GameSettings.ALLOW_DIRT)
-		updateDirt();
+			updateDirt();
+		if(playerOne.getSpeedThrust())
+			updateSpeedDirt();
 	}
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
@@ -186,11 +190,31 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+	public void updateSpeedDirt() {
+		if ((this.numericID & 1) == 0) {
+			dirtDelay--;
+			if (dirtDelay <= 0) {
+				if (PlayerOne.KEEP_MOVING) {
+					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
+					dirtDelay = 10;
+				}
+			}
+		}
+	}
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
 			for (int i = 0; i <2; i++) {
 				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+			}
+		}
+	}
+	
+	public void displaceSpeedDirt(double x, double y, double low, double high) {
+		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
+			for (int i = 0; i <2; i++) {
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
 		}
 	}
@@ -249,8 +273,8 @@ public class PlayerOneSection extends AbstractSection {
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_LEFT) {
-					if (previousSection.getX() - x >= this.radius) {
-						x = previousSection.getX() - this.radius;
+					if (x - previousSection.getX() >= this.radius) {
+						x = previousSection.getX() + this.radius;
 						y = previousSection.getY();
 					}
 				}

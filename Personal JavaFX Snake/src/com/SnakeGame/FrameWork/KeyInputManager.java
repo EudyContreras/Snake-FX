@@ -72,7 +72,7 @@ public class KeyInputManager {
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					GameSettings.PLAYER_ONE_SPEED = 10;
+					playerOne.setSpeedThrust(true);
  					keyDown[5] = true;
 					//slither.thrust = true;
 				}
@@ -96,10 +96,10 @@ public class KeyInputManager {
 					}
 				}
 				if (e.getCode() == KeyCode.ENTER) {
-					GameSettings.PLAYER_TWO_SPEED = 10;
+					playerTwo.setSpeedThrust(true);
 				}
-				if (e.getCode() == KeyCode.ENTER) {
-					GameSettings.PLAYER_TWO_SPEED = 10;
+				if (e.getCode() == KeyCode.CONTROL) {
+					playerTwo.setSpeedThrust(true);
 				}
 				if (e.getCode() == KeyCode.UP) {
 					playerTwo.setDirection(PlayerMovement.MOVE_UP);
@@ -152,14 +152,14 @@ public class KeyInputManager {
 					keyDown[4] = false;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					GameSettings.PLAYER_ONE_SPEED = 6;
+					playerOne.setSpeedThrust(false);
 					keyDown[5] = false;
 				}
 				if (e.getCode() == KeyCode.ENTER) {
-					GameSettings.PLAYER_TWO_SPEED = 6;
+					playerTwo.setSpeedThrust(false);
 				}
-				if (e.getCode() == KeyCode.ENTER) {
-					GameSettings.PLAYER_TWO_SPEED = 6;
+				if (e.getCode() == KeyCode.CONTROL) {
+					playerTwo.setSpeedThrust(false);
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
 

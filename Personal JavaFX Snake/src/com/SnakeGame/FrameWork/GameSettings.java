@@ -41,8 +41,8 @@ public class GameSettings {
 	public static double HEALTH_REGENERATION_SPEED = 0.1;
 	public static double DAMAGE_AMOUNT = 50;
 
-	public static float PLAYER_ONE_SPEED = 6.0f;
-	public static float PLAYER_TWO_SPEED = 6.0f;
+	public static double PLAYER_ONE_SPEED = 6.0;
+	public static double PLAYER_TWO_SPEED = 6.0;
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;
@@ -58,6 +58,7 @@ public class GameSettings {
 	public static int RAIN_AMOUNT = 2;
 	public static int RAIN_SPAWN_DELAY = 1;
 
+	public static int DIRT_AMOUNT = 12;
 	public static double SAND_SIZE = 6;
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
@@ -90,6 +91,7 @@ public class GameSettings {
 	public static boolean FAST_TURNS = false;
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
+
 
 
 
