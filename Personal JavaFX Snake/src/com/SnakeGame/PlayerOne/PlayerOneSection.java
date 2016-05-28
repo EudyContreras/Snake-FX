@@ -18,7 +18,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class PlayerOneSection extends AbstractSection {
-	private PlayerMovement direction;
+//	private PlayerMovement direction;
 	private double particleLife;
 	private double particleSize;
 	private double fadeValue = 1.0;
@@ -27,6 +27,7 @@ public class PlayerOneSection extends AbstractSection {
 	private int dirtDelay = 10;
 	private GameManager game;
 	private Circle bones;
+	private AbstractSection neighbor;
 	private PlayerOneSectionManager sectManager;
 
 	public PlayerOneSection(PlayerOne snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
@@ -81,6 +82,7 @@ public class PlayerOneSection extends AbstractSection {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
 				AbstractSection previousSect = sectManager.getSectionList().get(i);
 				if (previousSect.getNumericID() == this.numericID - 1) {
+					neighbor = previousSect;
 					switch (previousSect.getLastDirection()) {
 					case MOVE_UP:
 						setLastDirection(PlayerMovement.MOVE_UP);
@@ -138,6 +140,7 @@ public class PlayerOneSection extends AbstractSection {
 		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 		checkBounds();
 		disguiseLast();
+		sectionAdjustment();
 		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
@@ -233,6 +236,37 @@ public class PlayerOneSection extends AbstractSection {
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (0 - radius);
+		}
+	}
+
+	public void sectionAdjustment() {
+		if(neighbor!=null){
+			if(x>0+radius && x<GameSettings.WIDTH-radius && y>0+radius && y<GameSettings.HEIGHT-radius){
+		if (this.direction == PlayerMovement.MOVE_DOWN) {
+			if (y - neighbor.getY() >= this.radius) {
+				y = (float) (neighbor.getY() + this.radius);
+				x = neighbor.getX();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_UP) {
+			if (neighbor.getY() - y >= this.radius) {
+				y = (float) (neighbor.getY() - this.radius);
+				x = neighbor.getX();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_LEFT) {
+			if (neighbor.getX() - x >= this.radius) {
+				x = (float) (neighbor.getX() - this.radius);
+				y = neighbor.getY();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_RIGHT) {
+			if (x - neighbor.getX() >= this.radius) {
+				x = (float) (neighbor.getX() + this.radius);
+				y = neighbor.getY();
+			}
+		}
+		}
 		}
 	}
 	public void loadBones() {

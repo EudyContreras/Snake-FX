@@ -18,7 +18,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class PlayerTwoSection extends AbstractSection {
-	private PlayerMovement direction;
+//	private PlayerMovement direction;
 	private double particleLife;
 	private double particleSize;
 	private double fadeValue = 1.0;
@@ -27,6 +27,7 @@ public class PlayerTwoSection extends AbstractSection {
 	private int dirtDelay = 10;
 	private GameManager game;
 	private Circle bones;
+	private AbstractSection neighbor;
 	private PlayerTwoSectionManager sectManager;
 
 	public PlayerTwoSection(PlayerTwo snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
@@ -81,6 +82,7 @@ public class PlayerTwoSection extends AbstractSection {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
 				AbstractSection previousSect = sectManager.getSectionList().get(i);
 				if (previousSect.getNumericID() == this.numericID - 1) {
+					neighbor = previousSect;
 					switch (previousSect.getLastDirection()) {
 					case MOVE_UP:
 						setLastDirection(PlayerMovement.MOVE_UP);
@@ -135,9 +137,10 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 
 	public void move() {
-		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
+		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 		checkBounds();
 		disguiseLast();
+		sectionAdjustment();
 		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
@@ -147,28 +150,28 @@ public class PlayerTwoSection extends AbstractSection {
 					setLastDirection(PlayerMovement.MOVE_UP);
 					removeLatestDirection();
 					velX = 0;
-					velY = -GameSettings.SNAKE_TWO_SPEED;
+					velY = -GameSettings.SNAKE_ONE_SPEED;
 					r = 180;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_DOWN) {
 					setLastDirection(PlayerMovement.MOVE_DOWN);
 					removeLatestDirection();
 					velX = 0;
-					velY = GameSettings.SNAKE_TWO_SPEED;
+					velY = GameSettings.SNAKE_ONE_SPEED;
 					r = 0;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_LEFT) {
 					setLastDirection(PlayerMovement.MOVE_LEFT);
 					removeLatestDirection();
 					velY = 0;
-					velX = -GameSettings.SNAKE_TWO_SPEED;
+					velX = -GameSettings.SNAKE_ONE_SPEED;
 					r = 89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
 					removeLatestDirection();
 					velY = 0;
-					velX = GameSettings.SNAKE_TWO_SPEED;
+					velX = GameSettings.SNAKE_ONE_SPEED;
 					r = -89;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
@@ -235,6 +238,37 @@ public class PlayerTwoSection extends AbstractSection {
 			y = (float) (0 - radius);
 		}
 	}
+
+	public void sectionAdjustment() {
+		if(neighbor!=null){
+			if(x>0+radius && x<GameSettings.WIDTH-radius && y>0+radius && y<GameSettings.HEIGHT-radius){
+		if (this.direction == PlayerMovement.MOVE_DOWN) {
+			if (y - neighbor.getY() >= this.radius) {
+				y = (float) (neighbor.getY() + this.radius);
+				x = neighbor.getX();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_UP) {
+			if (neighbor.getY() - y >= this.radius) {
+				y = (float) (neighbor.getY() - this.radius);
+				x = neighbor.getX();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_LEFT) {
+			if (neighbor.getX() - x >= this.radius) {
+				x = (float) (neighbor.getX() - this.radius);
+				y = neighbor.getY();
+			}
+		}
+		if (this.direction == PlayerMovement.MOVE_RIGHT) {
+			if (x - neighbor.getX() >= this.radius) {
+				x = (float) (neighbor.getX() + this.radius);
+				y = neighbor.getY();
+			}
+		}
+		}
+		}
+	}
 	public void loadBones() {
 		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
 			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
@@ -257,7 +291,7 @@ public class PlayerTwoSection extends AbstractSection {
 					particleSize = Math.random() * (10 - 5 + 1) + 5;
 					particleLife = Math.random() * (1.5 - 0.5 + 1) + 0.5;
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeTwoDebris,
+				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 			}
 			blowUp = false;

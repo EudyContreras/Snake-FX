@@ -24,7 +24,7 @@ public class GameSettings {
 	public static int SLITHER_SPEED = 5;
 	public static int SNAKE_ONE_SPEED = 1;
 	public static int SNAKE_TWO_SPEED = 1;
-	public static double SECTION_SIZE = 25; // Could now be any number I think!!
+	public static double SLITHER_SIZE = 30;
 	public static double PLAYER_ONE_SIZE = 26;
 	public static double PLAYER_TWO_SIZE = 26;
 
