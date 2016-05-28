@@ -1,8 +1,8 @@
 package com.SnakeGame.Interface;
 
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.Utilities.GameAudio;
 
 import javafx.geometry.Insets;

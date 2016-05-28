@@ -1,7 +1,7 @@
 package com.SnakeGame.AbstractModels;
 
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSection;
@@ -10,7 +10,6 @@ import com.SnakeGame.PlayerTwo.PlayerTwoSection;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
@@ -93,8 +92,6 @@ public abstract class AbstractObject {
 		this.health = health;
 		this.damage = damage;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.imageView.setTranslateX(x);
 		this.imageView.setTranslateY(y);
 		this.imageView.setRotate(r);
@@ -119,8 +116,6 @@ public abstract class AbstractObject {
 		this.damage = damage;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -129,8 +124,6 @@ public abstract class AbstractObject {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -151,8 +144,6 @@ public abstract class AbstractObject {
 		this.velY = velY;
 		this.id = id;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.imageView.setTranslateX(x);
 		this.imageView.setTranslateY(y);
 		this.imageView.setRotate(r);
@@ -182,8 +173,6 @@ public abstract class AbstractObject {
 		this.y = y;
 		this.id = id;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.imageView.setTranslateX(x);
 		this.imageView.setTranslateY(y);
 		this.width = image.getWidth();
@@ -199,8 +188,6 @@ public abstract class AbstractObject {
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -209,8 +196,6 @@ public abstract class AbstractObject {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -228,8 +213,6 @@ public abstract class AbstractObject {
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -238,8 +221,6 @@ public abstract class AbstractObject {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -255,8 +236,6 @@ public abstract class AbstractObject {
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -265,8 +244,6 @@ public abstract class AbstractObject {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -283,8 +260,6 @@ public abstract class AbstractObject {
 		this.x = x;
 		this.y = y;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 		// addToLayer();

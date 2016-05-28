@@ -1,6 +1,7 @@
 package com.SnakeGame.Particles;
-import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameDebrisID;
 
 import javafx.geometry.Point2D;

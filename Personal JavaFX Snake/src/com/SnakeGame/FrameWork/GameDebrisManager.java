@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.Particles.AbstractDebrisEffect;
+import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
 
 import javafx.scene.canvas.GraphicsContext;
 

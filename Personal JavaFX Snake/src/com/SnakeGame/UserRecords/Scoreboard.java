@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;

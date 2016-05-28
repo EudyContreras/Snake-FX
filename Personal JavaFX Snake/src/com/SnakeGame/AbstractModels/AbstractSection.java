@@ -3,15 +3,14 @@ package com.SnakeGame.AbstractModels;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
@@ -75,8 +74,6 @@ public abstract class AbstractSection {
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -85,8 +82,6 @@ public abstract class AbstractSection {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -103,8 +98,6 @@ public abstract class AbstractSection {
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -113,8 +106,6 @@ public abstract class AbstractSection {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -131,8 +122,6 @@ public abstract class AbstractSection {
 		this.x = x;
 		this.y = y;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 		// addToLayer();

@@ -586,7 +586,7 @@ public class PlayerTwo extends AbstractObject {
 			NUMERIC_ID++;
 			appleCount++;
 		}
-		game.getScoreBoardOne().increaseScore();
+		game.getScoreBoardTwo().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
 			game.getGameLoader().spawnSnakeFood();
 	}
