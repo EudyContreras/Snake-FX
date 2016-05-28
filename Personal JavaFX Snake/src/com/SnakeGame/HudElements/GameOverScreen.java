@@ -42,7 +42,7 @@ public class GameOverScreen {
 
 	public GameOverScreen(GameManager game, Image boardImage, double width, double height) {
 		this.game = game;
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 		this.scoreLayer = new Pane();
 		this.boardImage = boardImage;
 		this.width = width;
@@ -158,7 +158,6 @@ public class GameOverScreen {
 			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
 			restart_btt.setY(continue_btt.getY());
 		}
-		overlay.updateEffect();
 		hide();
 	}
 

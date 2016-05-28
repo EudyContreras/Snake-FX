@@ -1,10 +1,9 @@
 package com.SnakeGame.SlitherSnake;
 
-import java.util.Random;
-
-import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.AbstractModels.AbstractSlitherSection;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
@@ -16,42 +15,34 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class SlitherSection extends SlitherSectionMain {
-	double particleLife;
-	double particleSize;
-	double fadeValue = 1.0;
-	boolean fade = false;
-	boolean blowUp = true;
-	boolean stopped = false;
-	float rotation;
-	float rotationDelay = 10;
-	int dirtDelay = 10;
-	GameManager game;
-	SlitherTail tail;
-	Random rand;
-	Circle bones;
-	SlitherSnake snake;
-	SlitherSectionMain previousSect;
-	SlitherSectionManager sectManager;
+public class SlitherSection extends AbstractSlitherSection {
+	private double particleLife;
+	private double particleSize;
+	private double fadeValue = 1.0;
+	private boolean fade = false;
+	private boolean blowUp = true;
+	private int dirtDelay = 10;
+	private GameManager game;
+	private Circle bones;
+	private AbstractSlitherSection previousSect;
+	private SlitherSectionManager sectManager;
 
-	public SlitherSection(SlitherSnake snake, GameManager game, Pane layer, Node node, float x, float y, GameObjectID id,
-			float numericID) {
+	public SlitherSection(SlitherSnake snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+			int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
-		this.snake = snake;
 		this.numericID = numericID;
 		this.sectManager = game.getSectManagerThree();
 		this.x = x;
 		this.y = y;
 		this.velX = GameSettings.SLITHER_SPEED;
 		this.velY = GameSettings.SLITHER_SPEED;
-		this.speed = 0.7f;
 		if (this.numericID <= 1) {
 			this.circle.setVisible(false);
 		}
 		if (numericID > 0) {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
-				SlitherSectionMain previousSect = sectManager.getSectionList().get(i);
+				AbstractSlitherSection previousSect = sectManager.getSectionList().get(i);
 				if (previousSect.getNumericID() == this.numericID - 1) {
 					this.previousSect = previousSect;
 					this.r = previousSect.getR();
@@ -79,9 +70,12 @@ public class SlitherSection extends SlitherSectionMain {
 			}
 		}
 	}
-
 	public void updateUI() {
 		super.updateUI();
+		 teleport();
+		 if(x>0+radius && x<GameSettings.WIDTH-radius && y>GameSettings.START_Y && y<GameSettings.START_Y-radius){
+			 teleporting = false;
+		 }
 		if (GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
@@ -111,7 +105,7 @@ public class SlitherSection extends SlitherSectionMain {
 	}
 
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (!SlitherSnake.killSlither) {
+		if (!SlitherSnake.DEAD) {
 			for (int i = 0; i < 8; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,1, (double) x, (double) y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
@@ -136,18 +130,22 @@ public class SlitherSection extends SlitherSectionMain {
 	public void teleport() {
 
 		if (x < 0 - radius * 2) {
+			teleporting = true;
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius * 2) {
+			teleporting = true;
 			x = (float) (0 - radius);
-		} else if (y < 0 - radius * 2) {
+		} else if (y < GameSettings.START_Y - radius * 2) {
+			teleporting = true;
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius * 2) {
+			teleporting = true;
 			y = (float) (0 - radius);
 		}
 	}
 
 	public void checkRemovability() {
-		// teleport();
+
 	}
 
 	public void checkCollision() {

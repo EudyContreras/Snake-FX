@@ -38,11 +38,10 @@ public class RainEmitter {
 		this.speed = speed;
 		this.game = game;
 		this.rand = new Random();
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 	}
 
 	public void move() {
-		this.overlay.updateEffect();
 		x += velX;
 		if (x >= GameSettings.WIDTH) {
 			goLeft = true;

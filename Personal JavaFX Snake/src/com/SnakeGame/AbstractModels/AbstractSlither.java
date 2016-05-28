@@ -1,12 +1,15 @@
-package com.SnakeGame.SlitherSnake;
+package com.SnakeGame.AbstractModels;
 
-import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameObjectID;
+import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerOne.PlayerOneSection;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
+import com.SnakeGame.PlayerTwo.PlayerTwoSection;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
@@ -20,34 +23,35 @@ import javafx.scene.shape.Rectangle;
  * This class is the game object super class and is the class that every game
  * object or mob extends. Actions performed within this class will reflect on
  * the children of this class.
- * 
+ *
  * @author Eudy Contreras
  *
  */
-public abstract class SlitherMain {
+public abstract class AbstractSlither {
 
-	GameObjectID id;
+	protected GameObjectID id;
 	protected Image image;
 	protected ImageView imageView = new ImageView();
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
-	protected float x;
-	protected float y;
-	protected float r;
-	protected float velX;
-	protected float velY;
-	protected float velR;
+	protected double x;
+	protected double y;
+	protected double r;
+	protected double velX;
+	protected double velY;
+	protected double velR;
 	protected double width;
 	protected double height;
 	protected double radius;
-	public double health = 50;
-	public double damage;
-	public float accelarationX;
-	public float accelarationY;
-	protected float stopX;
-	protected float stopY;
+	protected double health = 50;
+	protected double damage;
+	protected double rotation;
+	protected double accelarationX;
+	protected double accelarationY;
+	protected double stopX;
+	protected double stopY;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -60,7 +64,7 @@ public abstract class SlitherMain {
 	/**
 	 * The constructors used in this class allows objects to be created in
 	 * different ways and with different attributes
-	 * 
+	 *
 	 * @param game
 	 * @param layer
 	 * @param image
@@ -74,8 +78,8 @@ public abstract class SlitherMain {
 	 * @param damage
 	 * @param id
 	 */
-	public SlitherMain(GameManager game, Pane layer, Image image, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, GameObjectID id) {
+	public AbstractSlither(GameManager game, Pane layer, Image image, double x, double y, double r, double velX,
+			double velY, double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.image = image;
@@ -89,8 +93,6 @@ public abstract class SlitherMain {
 		this.health = health;
 		this.damage = damage;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.imageView.setTranslateX(x);
 		this.imageView.setTranslateY(y);
 		this.imageView.setRotate(r);
@@ -100,8 +102,8 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, GameObjectID id) {
+	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+			double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.x = x;
@@ -132,30 +134,29 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(GameManager game, Image image, Pane layer, float x, float y, float r, float velX, float velY,
+	public AbstractSlither(GameManager game, Image image, Pane layer, double x, double y, double r, double velX,
+			double velY, GameObjectID id) {
+		this.layer = layer;
+		this.image = image;
+		this.x = x;
+		this.y = y;
+		this.r = r;
+		this.velX = velX;
+		this.velY = velY;
+		this.id = id;
+		this.imageView.setImage(image);
+		this.imageView.setTranslateX(x);
+		this.imageView.setTranslateY(y);
+		this.imageView.setRotate(r);
+		this.width = image.getWidth();
+		this.height = image.getHeight();
+		addToLayer();
+
+	}
+
+	public AbstractSlither(GameManager game, Pane layer, double x, double y, double r, double velX, double velY,
 			GameObjectID id) {
 		this.layer = layer;
-		this.image = image;
-		this.x = x;
-		this.y = y;
-		this.r = r;
-		this.velX = velX;
-		this.velY = velY;
-		this.id = id;
-		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
-		this.imageView.setTranslateX(x);
-		this.imageView.setTranslateY(y);
-		this.imageView.setRotate(r);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-		addToLayer();
-
-	}
-
-	public SlitherMain(GameManager game, Pane layer, float x, float y, float r, float velX, float velY, GameObjectID id) {
-		this.layer = layer;
 		this.x = x;
 		this.y = y;
 		this.r = r;
@@ -166,15 +167,13 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(GameManager game, Pane layer, Image image, float x, float y, GameObjectID id) {
+	public AbstractSlither(GameManager game, Pane layer, Image image, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
 		this.y = y;
 		this.id = id;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.imageView.setTranslateX(x);
 		this.imageView.setTranslateY(y);
 		this.width = image.getWidth();
@@ -183,15 +182,13 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -200,8 +197,54 @@ public abstract class SlitherMain {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
+			this.circle.setTranslateX(x);
+			this.circle.setTranslateY(y);
+			this.circle.setRotate(r);
+			this.radius = circle.getRadius();
+			addToLayer(circle);
+		} else if (node instanceof Rectangle) {
+
+		}
+
+	}
+	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+		this.layer = layer;
+		this.x = x;
+		this.y = y;
+		this.id = id;
+		if (node instanceof Rectangle) {
+			this.rect = (Rectangle) node;
+			this.rect.setTranslateX(x);
+			this.rect.setTranslateY(y);
+			this.rect.setRotate(r);
+			this.width = rect.getWidth();
+			this.height = rect.getHeight();
+			addToLayer(rect);
+		} else if (node instanceof Circle) {
+			this.circle = (Circle) node;
+			this.circle.setTranslateX(x);
+			this.circle.setTranslateY(y);
+			this.circle.setRotate(r);
+			this.radius = circle.getRadius();
+			addToLayer(circle);
+		} else if (node instanceof Rectangle) {
+
+		}
+
+	}
+	public AbstractSlither(GameManager game, Pane layer, Node node, GameObjectID id) {
+		this.layer = layer;
+		this.id = id;
+		if (node instanceof Rectangle) {
+			this.rect = (Rectangle) node;
+			this.rect.setTranslateX(x);
+			this.rect.setTranslateY(y);
+			this.rect.setRotate(r);
+			this.width = rect.getWidth();
+			this.height = rect.getHeight();
+			addToLayer(rect);
+		} else if (node instanceof Circle) {
+			this.circle = (Circle) node;
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -213,48 +256,17 @@ public abstract class SlitherMain {
 
 	}
 
-	public SlitherMain(GameManager game, Pane layer, Node node, GameObjectID id) {
-		this.layer = layer;
-		this.id = id;
-		if (node instanceof Rectangle) {
-			this.rect = (Rectangle) node;
-			this.rect.setCache(true);
-			this.rect.setCacheHint(CacheHint.SPEED);
-			this.rect.setTranslateX(x);
-			this.rect.setTranslateY(y);
-			this.rect.setRotate(r);
-			this.width = rect.getWidth();
-			this.height = rect.getHeight();
-			addToLayer(rect);
-		} else if (node instanceof Circle) {
-			this.circle = (Circle) node;
-			this.circle.setCache(true);
-			this.circle.setCacheHint(CacheHint.SPEED);
-			this.circle.setTranslateX(x);
-			this.circle.setTranslateY(y);
-			this.circle.setRotate(r);
-			this.radius = circle.getRadius();
-			addToLayer(circle);
-		} else if (node instanceof Rectangle) {
-
-		}
-
-	}
-
-	public SlitherMain(Image image, float x, float y) {
+	public AbstractSlither(Image image, double x, double y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		// addToLayer();
 
 	}
 
-	public SlitherMain(GameManager game, Pane layer, GameObjectID id) {
+	public AbstractSlither(GameManager game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -272,7 +284,7 @@ public abstract class SlitherMain {
 	}
 
 	public void addToLayer(Node node) {
-		this.layer.getChildren().add(0, node);
+		this.layer.getChildren().add(node);
 	}
 
 	public void addToCanvas() {
@@ -292,25 +304,25 @@ public abstract class SlitherMain {
 		this.layer = layer;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
 	/**
 	 * This method will relocate the object to specific point
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 */
@@ -319,35 +331,35 @@ public abstract class SlitherMain {
 		imageView.setTranslateY(point.getY());
 	}
 
-	public float getR() {
+	public double getR() {
 		return r;
 	}
 
-	public void setR(float r) {
+	public void setR(double r) {
 		this.r = r;
 	}
 
-	public float getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(float velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 
-	public float getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(float velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
 
-	public float getVelR() {
+	public double getVelR() {
 		return velR;
 	}
 
-	public void setVelR(float velR) {
+	public void setVelR(double velR) {
 		this.velR = velR;
 	}
 
@@ -374,16 +386,18 @@ public abstract class SlitherMain {
 	public void setRemovable(boolean removable) {
 		this.removable = removable;
 	}
+	public void logicUpdate(){
 
+	}
 	/**
 	 * This method is responsible for moving and rotating the object
 	 */
 	public void move() {
 		if (!canMove)
 			return;
-		x = x + velX;
-		y = y + velY;
-		r = r + velR;
+		x = x + velX * GameSettings.FRAME_SCALE;
+		y = y + velY * GameSettings.FRAME_SCALE;
+		r = r + velR * GameSettings.FRAME_SCALE;
 	}
 
 	public boolean isAlive() {
@@ -460,7 +474,7 @@ public abstract class SlitherMain {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public void getDamagedBy(AbstractObject object) {
+	public void getDamagedBy(AbstractSlither object) {
 		health -= object.getDamage();
 	}
 
@@ -472,16 +486,41 @@ public abstract class SlitherMain {
 		setRemovable(true);
 	}
 
+	public void bounce(PlayerOne snake, double x, double y) {
+
+	}
+
+	public void bounce(PlayerTwo snake, double x, double y) {
+
+	}
+
+	public void bounce(PlayerOneSection section, double x, double y) {
+
+	}
+
+	public void bounce(PlayerTwoSection section, double x, double y) {
+
+	}
+	public void blowUp() {
+
+	}
+
 	public void stopMovement() {
 		this.canMove = false;
 	}
 
-	/**
-	 * Abstract methods every object must have in order to determined the
-	 * condition in which the object will be removed and the objects collision
-	 * boundaries
-	 */
-	public abstract void checkRemovability();
+	public void checkRemovability() {
 
-	public abstract void checkCollision();
+	}
+
+	public void checkCollision() {
+
+	}
+	public void setRotation(double rotation){
+		this.rotation = rotation;
+	}
+	public double getRotation() {
+
+		return rotation;
+	}
 }

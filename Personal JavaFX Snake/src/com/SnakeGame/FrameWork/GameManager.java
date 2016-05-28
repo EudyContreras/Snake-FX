@@ -19,9 +19,6 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
-import com.SnakeGame.SlitherSnake.SlitherManager;
-import com.SnakeGame.SlitherSnake.SlitherSectionManager;
-import com.SnakeGame.Utilities.ImageUtility;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
 import javafx.animation.AnimationTimer;
@@ -82,7 +79,7 @@ public class GameManager extends AbstractGameModel{
 	public void initSplash() {
 		splashFadeDelay = 0;
 		splashFadeDuration = 1;
-		splash = new ImageView(new Image(ImageUtility.loadResource("SplashScreen5.png")));
+		splash = new ImageView(GameImageBank.splash_screen);
 		splashWidth = (int) splash.getImage().getWidth();
 		splashHeight = (int) splash.getImage().getHeight();
 		splashLayout = new StackPane();
@@ -148,7 +145,7 @@ public class GameManager extends AbstractGameModel{
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
-	//	loader.createSlither();
+	
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,
@@ -198,9 +195,9 @@ public class GameManager extends AbstractGameModel{
 	}
 
 	private void initialize() {
-		initSplash();
 		frameGameLoop = new Timeline();
 		imageBank = new GameImageBank();
+		initSplash();
 		levelImageBank = new GameLevelImage();
 		mainRoot = new Group();
 		root = new Pane();
@@ -214,13 +211,7 @@ public class GameManager extends AbstractGameModel{
 		dirtLayer = new Pane();
 		debrisLayer = new Pane();
 		snakeOneLayer = new Pane();
-//		snakeOneLayer.setCache(true);
-//		snakeOneLayer.setCacheShape(true);
-//		snakeOneLayer.setCacheHint(CacheHint.SPEED);
 		snakeTwoLayer = new Pane();
-//		snakeTwoLayer.setCache(true);
-//		snakeTwoLayer.setCacheShape(true);
-//		snakeTwoLayer.setCacheHint(CacheHint.SPEED);
 		firstLayer = new Pane();
 		secondLayer = new Pane();
 		thirdLayer = new Pane();
@@ -237,28 +228,20 @@ public class GameManager extends AbstractGameModel{
 		thirTeenthLayer = new Pane();
 		fourTeenthLayer = new Pane();
 		innerParticleLayer = new Pane();
-//		innerParticleLayer.setCache(true);
-//		innerParticleLayer.setCacheShape(true);
-//		innerParticleLayer.setCacheHint(CacheHint.SPEED);
 		outerParticleLayer = new Pane();
-//		outerParticleLayer.setCache(true);
-//		outerParticleLayer.setCacheShape(true);
-//		outerParticleLayer.setCacheHint(CacheHint.SPEED);
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
+		overlayEffect = new ScreenOverlay(this,getGameRoot());
 		fadeHandler = new FadeScreenHandler(this);
 		objectManager = new ObjectManager(this);
 		playerOneManager = new PlayerOneManager(this);
 		playerTwoManager = new PlayerTwoManager(this);
-		slitherManager = new SlitherManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
-		sectManagerThree = new SlitherSectionManager(this);
 		keyInput = new KeyInputManager();
 		gestures = new GestureInputManager();
 		mouseInput = new MouseInputManager();
 		debrisManager = new GameDebrisManager(this);
-		postEffects = new ScreenOverlay(this, getGameRoot());
 
 	}
 
@@ -356,8 +339,6 @@ public class GameManager extends AbstractGameModel{
 					gameOverScreen.swipeDown();
 					gameOverScreen.checkStatus();
 					scoreKeeper.keepCount();
-					slitherManager.updateAll(gc, now);
-					slitherManager.checkCollisions();
 					for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
 						playerOneManager.updateAllMovement();
 						sectManagerOne.updateAllMovement(gc, now);
@@ -367,12 +348,10 @@ public class GameManager extends AbstractGameModel{
 						playerTwoManager.updateAllMovement();
 						sectManagerTwo.updateAllMovement(gc, now);
 					}
-					sectManagerThree.updateAll(gc, now);
 					objectManager.updateAll(gc, now);
 					playerOneManager.updateAllLogic(gc, now);
 					playerTwoManager.updateAllLogic(gc, now);
 					sectManagerTwo.updateAllLogic(gc, now);
-					sectManagerThree.updateAll(gc, now);
 					sectManagerOne.updateAllLogic(gc, now);
 					debrisManager.updateDebris(gc);
 					debrisManager.updateParticles(gc);
@@ -454,12 +433,14 @@ public class GameManager extends AbstractGameModel{
 						delta += currentTime - lastTime;
 						timePassed = System.currentTimeMillis() - cummulativeTime;
 						cummulativeTime += timePassed;
+
 						if (!GameSettings.RENDER_GAME) {
 							mainMenu.transition();
 
 						}
 						if (GameSettings.RENDER_GAME) {
 							drawOverlay(gc);
+							overlayEffect.updateEffect();
 							fadeHandler.innerFade_update();
 							fadeHandler.outer_fade_update();
 							pauseMenu.updateTouchPanel();
@@ -469,8 +450,6 @@ public class GameManager extends AbstractGameModel{
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
 							objectManager.updateAll(gc, timePassed);
-							slitherManager.updateAll(gc, now);
-							slitherManager.checkCollisions();
 							for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
 								playerOneManager.updateAllMovement();
 								sectManagerOne.updateAllMovement(gc, timePassed);
@@ -550,7 +529,6 @@ public class GameManager extends AbstractGameModel{
 							playerOneManager.updateAllMovement();
 							sectManagerOne.updateAllMovement(gc, timePassed);
 							sectManagerTwo.updateAllMovement(gc, timePassed);
-							sectManagerThree.updateAll(gc, timePassed);
 
 						}
 					}
@@ -815,11 +793,14 @@ public class GameManager extends AbstractGameModel{
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
-		sectManagerThree.clearAll();
 		loader.clearTiles();
 
 	}
 	public void removePlayers() {
+		GameSettings.PLAYER_ONE_SIZE = 30;
+		GameSettings.PLAYER_TWO_SIZE = 30;
+		GameSettings.PLAYER_ONE_SPEED = 6.0;
+		GameSettings.PLAYER_TWO_SPEED = 6.0;
 		fithLayer.getChildren().clear();
 		fourthLayer.getChildren().clear();
 		playerOneManager.clearAll();
@@ -827,7 +808,7 @@ public class GameManager extends AbstractGameModel{
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
-		sectManagerThree.clearAll();
+
 
 
 	}

@@ -87,7 +87,7 @@ public class PlayerTwo extends AbstractObject {
 		this.anim = new Animation();
 		this.circle.setVisible(false);
 		this.bodyTrigger = y + 20;
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
@@ -134,7 +134,6 @@ public class PlayerTwo extends AbstractObject {
 		speedDown();
 		slowDown();
 		fadeOut();
-		overlay.updateEffect();
 
 	}
 
@@ -567,7 +566,7 @@ public class PlayerTwo extends AbstractObject {
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
-					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
+					GameObjectID.SnakeSection, PlayerMovement.MOVE_DOWN, NUMERIC_ID));
 			NUMERIC_ID++;
 		}
 	}

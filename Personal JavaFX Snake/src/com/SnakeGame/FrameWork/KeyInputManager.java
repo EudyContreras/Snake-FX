@@ -125,10 +125,12 @@ public class KeyInputManager {
 
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-					slither.rotateLeft = true;
+					if(slither!=null)
+					slither.setRotateLeft(true);
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
-					slither.rotateRight = true;
+					if(slither!=null)
+					slither.setRotateRight(true);
 				}
 			}
 		});
@@ -176,8 +178,10 @@ public class KeyInputManager {
 				if (!keyDown[0] && !keyDown[1]) {
 				}
 				if (!keyDown[2] && !keyDown[3]) {
-					// slither.rotateLeft = false;
-					// slither.rotateRight = false;
+					if(slither!=null){
+					 slither.setRotateLeft(false);
+					 slither.setRotateRight(false);
+					}
 				}
 				if (!keyDown[4]) {
 				}

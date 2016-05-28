@@ -50,7 +50,7 @@ public class GameLevelImage {
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	desertBackground = ImageUtility.preCreateShadedBackground("desert-level-sand-v-flipped.png",
-			GameSettings.GlOBAL_ILLUMINATION, 1.0, GameSettings.WIDTH, GameSettings.HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	horizontalFence = ImageUtility.precreatedLightedImage("horizontal_spike_fence.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.SPECULAR_MAP, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);
 	verticalFence = ImageUtility.precreatedLightedAndShadedImage("vertical_spike_fence.png",
@@ -90,7 +90,7 @@ public class GameLevelImage {
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			75 / GameLoader.ResolutionScaleY);
 	desert_sand = ImageUtility.precreatedLightedImage("sandGrain.png",
-			GameSettings.GlOBAL_ILLUMINATION - 0.5, GameSettings.SPECULAR_MAP - 0.5, 5, 5);
+			GameSettings.GlOBAL_ILLUMINATION - 0.5, GameSettings.SPECULAR_MAP - 1.2, 5, 5);
 
 
 	/**

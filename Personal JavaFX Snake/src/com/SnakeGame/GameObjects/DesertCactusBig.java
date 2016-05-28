@@ -36,7 +36,13 @@ public class DesertCactusBig extends AbstractTile {
 		this.view.setRotationAxis(Rotate.Y_AXIS);
 		if(RandomGenerator.getRNG(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_cactus_big_alt);
+			this.width = image.getWidth()+20;
+			this.height = image.getHeight()+30;
+			this.view.setFitWidth(width);
+			this.view.setFitHeight(height);
+			this.y = y-30;
 		}
+
 	}
 	/**
 	 * Method which moves this object

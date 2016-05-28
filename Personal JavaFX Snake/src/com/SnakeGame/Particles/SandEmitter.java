@@ -2,10 +2,10 @@ package com.SnakeGame.Particles;
 
 import java.util.Random;
 
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameStateID;
-import com.SnakeGame.ImageBanks.GameLevelImage;
+import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.Utilities.ScreenOverlay;
@@ -36,11 +36,10 @@ public class SandEmitter {
 		this.velY = 5;
 		this.game = game;
 		this.rand = new Random();
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 	}
 
 	public void move() {
-		this.overlay.updateEffect();
 		y += velY;
 		if (y >= GameSettings.HEIGHT) {
 			goUp = true;
@@ -62,14 +61,14 @@ public class SandEmitter {
 		if (GameSettings.SAND_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD && !PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED && game.getStateID()!=GameStateID.GAME_MENU) {
 			addRandomBlur(true);
 			interval++;
-			if (interval == GameSettings.RAIN_SPAWN_DELAY && GameSettings.RAIN_AMOUNT>1) {
-				for (int i = 0; i < GameSettings.RAIN_AMOUNT; i++) {
-					game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.desert_sand, 5, x, y));
+			if (interval == GameSettings.SAND_SPAWN_DELAY && GameSettings.SAND_AMOUNT>1) {
+				for (int i = 0; i < GameSettings.SAND_AMOUNT; i++) {
+					game.getDebrisManager().addParticle(new SandStorms(game, GameImageBank.sand_grain, 5, x, y));
 				}
 				interval = 0;
 			}
-			else if (interval == GameSettings.RAIN_SPAWN_DELAY) {
-				game.getDebrisManager().addParticle(new SandStorms(game, GameLevelImage.desert_sand, 5, x, y));
+			else if (interval == GameSettings.SAND_SPAWN_DELAY) {
+				game.getDebrisManager().addParticle(new SandStorms(game, GameImageBank.sand_grain, 5, x, y));
 				interval = 0;
 			}
 		}

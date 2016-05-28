@@ -1,16 +1,16 @@
-package com.SnakeGame.SlitherSnake;
+package com.SnakeGame.AbstractModels;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 
-import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDenums.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
@@ -28,35 +28,36 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public abstract class SlitherSectionMain {
+public abstract class AbstractSlitherSection {
 
-	GameObjectID id;
-	PlayerMovement direction;
+	protected GameObjectID id;
+	protected PlayerMovement direction ;
 	protected Image image;
-	protected ImageView imageView = new ImageView();
-	protected LinkedList<Point2D> lastPosition = new LinkedList<>();
-	protected LinkedList<Enum<PlayerMovement>> lastDirection = new LinkedList<>();
+	protected ImageView imageView;
+	protected ArrayList<Point2D> lastPosition = new ArrayList<>();
+	protected ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
+	protected Point2D position;
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
-	protected float x;
-	protected float y;
-	protected float r;
-	protected float velX;
-	protected float velY;
-	protected float velR;
-	protected float degree;
-	protected float speed;
+	protected double x;
+	protected double y;
+	protected double r;
+	protected double velX;
+	protected double velY;
+	protected double velR;
 	protected double width;
 	protected double height;
 	protected double radius;
-	public double health = 50;
-	public double damage;
-	public float numericID;
+	protected double health = 50;
+	protected double damage;
+	protected double rotation;
+	protected int numericID;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
+	protected boolean teleporting = false;
 	protected boolean drawBounds = false;
 	protected boolean hitBounds = false;
 	protected boolean hitBoundsTop = false;
@@ -68,15 +69,13 @@ public abstract class SlitherSectionMain {
 	 * different ways and with different attributes
 	 */
 
-	public SlitherSectionMain(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractSlitherSection(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			// this.rect.setCache(true);
-			// this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -85,8 +84,6 @@ public abstract class SlitherSectionMain {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			// this.circle.setCache(true);
-			// this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -95,16 +92,13 @@ public abstract class SlitherSectionMain {
 		} else if (node instanceof Rectangle) {
 
 		}
-
 	}
 
-	public SlitherSectionMain(GameManager game, Pane layer, Node node, GameObjectID id) {
+	public AbstractSlitherSection(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 		if (node instanceof Rectangle) {
 			this.rect = (Rectangle) node;
-			// this.rect.setCache(true);
-			// this.rect.setCacheHint(CacheHint.SPEED);
 			this.rect.setTranslateX(x);
 			this.rect.setTranslateY(y);
 			this.rect.setRotate(r);
@@ -113,8 +107,6 @@ public abstract class SlitherSectionMain {
 			addToLayer(rect);
 		} else if (node instanceof Circle) {
 			this.circle = (Circle) node;
-			// this.circle.setCache(true);
-			// this.circle.setCacheHint(CacheHint.SPEED);
 			this.circle.setTranslateX(x);
 			this.circle.setTranslateY(y);
 			this.circle.setRotate(r);
@@ -123,23 +115,18 @@ public abstract class SlitherSectionMain {
 		} else if (node instanceof Rectangle) {
 
 		}
-
 	}
 
-	public SlitherSectionMain(Image image, float x, float y) {
+	public AbstractSlitherSection(Image image, double x, double y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
 		this.imageView.setImage(image);
-		this.imageView.setCache(true);
-		this.imageView.setCacheHint(CacheHint.SPEED);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		// addToLayer();
-
 	}
 
-	public SlitherSectionMain(GameManager game, Pane layer, GameObjectID id) {
+	public AbstractSlitherSection(GameManager game, Pane layer, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
 	}
@@ -177,28 +164,20 @@ public abstract class SlitherSectionMain {
 		this.layer = layer;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
-	}
-
-	public float getSpeed() {
-		return speed;
-	}
-
-	public float getRotation() {
-		return degree;
 	}
 
 	/**
@@ -212,35 +191,35 @@ public abstract class SlitherSectionMain {
 		imageView.setTranslateY(point.getY());
 	}
 
-	public float getR() {
+	public double getR() {
 		return r;
 	}
 
-	public void setR(float r) {
+	public void setR(double r) {
 		this.r = r;
 	}
 
-	public float getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(float velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 
-	public float getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(float velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
 
-	public float getVelR() {
+	public double getVelR() {
 		return velR;
 	}
 
-	public void setVelR(float velR) {
+	public void setVelR(double velR) {
 		this.velR = velR;
 	}
 
@@ -267,6 +246,9 @@ public abstract class SlitherSectionMain {
 	public void setRemovable(boolean removable) {
 		this.removable = removable;
 	}
+	public boolean getTeleporting(){
+		return teleporting;
+	}
 
 	/**
 	 * This method is responsible for moving and rotating the object
@@ -274,9 +256,9 @@ public abstract class SlitherSectionMain {
 	public void move() {
 		if (!canMove)
 			return;
-		x = x + velX;
-		y = y + velY;
-		r = r + velR;
+		x = x + velX * GameSettings.FRAME_SCALE;
+		y = y + velY * GameSettings.FRAME_SCALE;
+		r = r + velR * GameSettings.FRAME_SCALE;
 	}
 
 	public boolean isAlive() {
@@ -292,11 +274,15 @@ public abstract class SlitherSectionMain {
 	 *
 	 */
 	public void updateUI() {
-		circle.setTranslateX(x);
-		circle.setTranslateY(y);
+		circle.setCenterX(x);
+		circle.setCenterY(y);
 		circle.setRotate(r);
 	}
 
+	public void logicUpdate(){
+
+
+	}
 	public void createLevel() {
 
 	}
@@ -353,7 +339,7 @@ public abstract class SlitherSectionMain {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public void getDamagedBy(SlitherMain object) {
+	public void getDamagedBy(AbstractSlitherSection object) {
 		health -= object.getDamage();
 	}
 
@@ -374,24 +360,26 @@ public abstract class SlitherSectionMain {
 	 * condition in which the object will be removed and the objects collision
 	 * boundaries
 	 */
-	public abstract void checkRemovability();
+	public void checkRemovability(){
 
-	public abstract void checkCollision();
+	}
+	public void checkCollision(){
 
+	}
 	protected void removePerformedCoordinateChange() {
-		lastPosition.remove();
-		lastDirection.remove();
+		lastPosition.remove(0);
+		lastDirection.remove(0);
 	}
 
 	protected void removeLatestLocation() {
-		lastPosition.remove();
+		lastPosition.remove(0);
 	}
 
 	protected void removeLatestDirection() {
-		lastDirection.remove();
+		lastDirection.remove(0);
 	}
 
-	protected void setNewLocation(Point2D... location) {
+	public void setNewLocation(Point2D... location) {
 		if (location.length > 1) {
 			lastPosition.addAll(Arrays.asList(location));
 		} else {
@@ -400,7 +388,7 @@ public abstract class SlitherSectionMain {
 
 	}
 
-	protected void setNewDirection(PlayerMovement... direction) {
+	public void setNewDirection(PlayerMovement... direction) {
 		if (direction.length > 1) {
 			lastDirection.addAll(Arrays.asList(direction));
 		} else {
@@ -412,19 +400,34 @@ public abstract class SlitherSectionMain {
 		this.direction = direction;
 	}
 
-	protected PlayerMovement getLastDirection() {
+	public PlayerMovement getLastDirection() {
 		return direction;
+	}
+
+	protected void setLastPosition(Point2D position) {
+		this.position = position;
+	}
+
+	protected Point2D getLastPosition() {
+		return position;
 	}
 
 	protected void setNumericID(int SECTION_COUNT) {
 		this.numericID = SECTION_COUNT;
 	}
 
-	protected float getNumericID() {
+	public int getNumericID() {
 		return numericID;
 	}
 
-	public void setRotation(float rotation) {
-		this.degree = rotation;
+	public void die() {
+
+	}
+	public void setRotation(double rotation){
+		this.rotation = rotation;
+	}
+	public double getRotation() {
+
+		return rotation;
 	}
 }

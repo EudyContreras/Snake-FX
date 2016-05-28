@@ -5,14 +5,12 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.Utilities.RandomGenerator;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 
 /**
  * Every static object or esthetic object in the game such as walls, boxes etc
@@ -33,12 +31,12 @@ public class DesertBones extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		if(RandomGenerator.getRNG(1, 3) == 3){
-			this.view.setRotationAxis(Rotate.Y_AXIS);
-			this.setR(180);
-			this.setX(x -40);
-			this.setY(y +10);
-		}
+//		if(RandomGenerator.getRNG(1, 3) == 3){
+//			this.view.setRotationAxis(Rotate.Y_AXIS);
+//			this.setR(180);
+//			this.setX(x -40);
+//			this.setY(y +10);
+//		}
 		draw();
 	}
 

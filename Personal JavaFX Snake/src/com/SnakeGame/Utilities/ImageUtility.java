@@ -54,7 +54,7 @@ public class ImageUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-200);
+		light.setX(-180);
 		light.setY(300);
 		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
@@ -76,8 +76,8 @@ public class ImageUtility {
 		ImageView view = new ImageView(img);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.8));
 		shadow.setRadius(15);
-		// shadow.setOffsetX(20);
-		// shadow.setOffsetY(-15);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(shadow);
 		view.setFitWidth(width);
@@ -94,8 +94,8 @@ public class ImageUtility {
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
 		light.setX(-200);
-		light.setY(300);
-		light.setZ(140);
+		light.setY(400);
+		light.setZ(180);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -119,7 +119,7 @@ public class ImageUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-200);
+		light.setX(-180);
 		light.setY(300);
 		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
@@ -145,7 +145,7 @@ public class ImageUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-200);
+		light.setX(-180);
 		light.setY(300);
 		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
@@ -234,7 +234,7 @@ public class ImageUtility {
 		ImageView view = new ImageView(img);
 		light.setX(1000);
 		light.setY(1920);
-		light.setZ(700);
+		light.setZ(800);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);

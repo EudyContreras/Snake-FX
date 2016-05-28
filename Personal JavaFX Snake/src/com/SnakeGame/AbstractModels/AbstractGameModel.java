@@ -62,6 +62,7 @@ public abstract class AbstractGameModel extends Application {
 	protected MouseInputManager mouseInput;
 	protected GestureInputManager gestures;
 	protected GraphicsContext gc;
+	protected ScreenOverlay overlayEffect;
 	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
 	protected PlayerOneManager playerOneManager;
@@ -120,7 +121,6 @@ public abstract class AbstractGameModel extends Application {
 	protected AnimationTimer particleLoop;
 	protected GameOverScreen gameOverScreen;
 	protected FadeScreenHandler fadeHandler;
-	protected ScreenOverlay postEffects;
 	protected ScoreKeeper scoreKeeper;
 	protected ImageView backgroundImage;
 	protected ImageView splash;
@@ -251,10 +251,6 @@ public abstract class AbstractGameModel extends Application {
 
 	public Pane getLevelLayer() {
 		return levelLayer;
-	}
-
-	public ScreenOverlay getPostEffects() {
-		return postEffects;
 	}
 
 	public ObjectManager getObjectManager() {
@@ -487,6 +483,10 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setStateID(GameStateID stateID) {
 		this.stateID = stateID;
+	}
+
+	public ScreenOverlay getOverlayEffect(){
+		return overlayEffect;
 	}
 
 	public void showCursor(boolean choice, Scene scene) {

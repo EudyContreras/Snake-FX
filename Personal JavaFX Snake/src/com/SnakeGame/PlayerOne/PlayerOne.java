@@ -87,7 +87,7 @@ public class PlayerOne extends AbstractObject {
 		this.anim = new Animation();
 		this.circle.setVisible(false);
 		this.bodyTrigger = y + 20;
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
@@ -134,7 +134,6 @@ public class PlayerOne extends AbstractObject {
 		speedUp();
 		speedDown();
 		slowDown();
-		overlay.updateEffect();
 
 	}
 

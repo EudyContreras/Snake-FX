@@ -34,9 +34,6 @@ public class GameImageBank {
 	public static Image snakeOneDebris;
 	public static Image snakeOneBlinking;
 	public static Image snakeOneEating;
-	public static Circle slither;
-	public static Circle snakeOneSphere;
-	public static Circle snakeTwoSphere;
 	public static Image snakeTail;
 	public static Image snakeBones;
 	public static Image snakeSkull;
@@ -60,6 +57,7 @@ public class GameImageBank {
 	public static Image health_bar_green_one;
 	public static Image health_bar_red_two;
 	public static Image hud_timer;
+	public static Image splash_screen;
 	public static Image player_one_hud;
 	public static Image player_two_hud;
 	public static Image player_one_wins;
@@ -75,6 +73,11 @@ public class GameImageBank {
 	public static Image pause_restart;
 	public static Image quit_button;
 	public static Image draw_game;
+	public static Image dirt_grain;
+	public static Image sand_grain;
+	public static Circle slither;
+	public static Circle snakeOneSphere;
+	public static Circle snakeTwoSphere;
 	public static ImagePattern tailImage;
 	public static ImagePattern snakeOneBody;
 	public static ImagePattern snakeTwoBody;
@@ -93,7 +96,7 @@ public class GameImageBank {
 				10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
 		fruitDebrisTwo = ImageUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
-		dirt = ImageUtility.precreatedLightedImage("sand-grain.png", GameSettings.GlOBAL_ILLUMINATION,
+		sand_grain = ImageUtility.precreatedLightedImage("sand_grain.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
 		snakeBones = ImageUtility.precreatedLightedImage("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP-0.5, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
@@ -101,7 +104,10 @@ public class GameImageBank {
 				GameSettings.SPECULAR_MAP-0.5, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP, 114 / GameLoader.ResolutionScaleX, 243 / GameLoader.ResolutionScaleY);
-
+		dirt_grain = ImageUtility.precreatedLightedImage("dirt_grain.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP-0.8, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
+		dirt = ImageUtility.precreatedLightedImage("dirt_grain.png", GameSettings.GlOBAL_ILLUMINATION,
+				GameSettings.SPECULAR_MAP-0.8, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
 		 * Player one
@@ -153,6 +159,7 @@ public class GameImageBank {
 		hud_bar_cover = new Image(ImageUtility.loadResource("hud_bar_cover.png"));
 		score_keeper = new Image(ImageUtility.loadResource("hud_bar_info_thin.png"));
 		hud_timer = new Image(ImageUtility.loadResource("hud_timer.png"));
+		splash_screen = new Image(ImageUtility.loadResource("SplashScreen5.png"));
 		level_complete_board = new Image(ImageUtility.loadResource("levelComplete2.png"));
 		game_over_board = new Image(ImageUtility.loadResource("gameover_board.png"));
 		health_bar_green_one = new Image(ImageUtility.loadResource("health_bar_green.png"));

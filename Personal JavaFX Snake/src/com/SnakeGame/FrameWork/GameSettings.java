@@ -24,12 +24,12 @@ public class GameSettings {
 	public static int SECTION_SIZE = 30;
 	public static int SNAKE_ONE_SPEED = 1;
 	public static int SNAKE_TWO_SPEED = 1;
-	public static int SLITHER_SPEED = 5;
+	public static int SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
-	public static double PLAYER_ONE_SIZE = 24; // Must be even or divisible by two
-	public static double PLAYER_TWO_SIZE = 24; // Must be even or divisible by two
+	public static double PLAYER_ONE_SIZE = 30; // Must be even or divisible by two
+	public static double PLAYER_TWO_SIZE = 30; // Must be even or divisible by two
 
-	public static int APPLE_COUNT = 75;
+	public static int APPLE_COUNT = 20;
 	public static int SECTIONS_TO_ADD = 2;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
@@ -46,7 +46,7 @@ public class GameSettings {
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double SPECULAR_MAP = 1.8;
+	public static double SPECULAR_MAP = 2.0;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;
@@ -59,11 +59,10 @@ public class GameSettings {
 	public static int RAIN_SPAWN_DELAY = 1;
 
 	public static int DIRT_AMOUNT = 12;
-	public static double SAND_SIZE = 6;
+	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;
-	public static double AMBIENTLIGHT_OPACITY = 0.8;
 
 	public static boolean OBJECT_TRACKER = false;
 	public static boolean ALLOW_SELF_COLLISION = true;

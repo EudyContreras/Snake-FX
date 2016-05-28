@@ -53,7 +53,7 @@ public class PauseMenu {
 		this.initilialize();
 	}
 	public void initilialize(){
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 		this.borderGlow = new DropShadow();
 		this.borderGlow.setOffsetY(0f);
 		this.borderGlow.setOffsetX(0f);
@@ -140,7 +140,6 @@ public class PauseMenu {
 			show = false;
 	}
 	public void updateTouchPanel(){
-		overlay.updateEffect();
 		if(allowTouch){
 			if(show){
 				showSpeedY+=acceleration;

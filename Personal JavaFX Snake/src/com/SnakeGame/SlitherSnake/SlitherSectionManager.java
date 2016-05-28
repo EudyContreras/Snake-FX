@@ -2,8 +2,9 @@ package com.SnakeGame.SlitherSnake;
 
 import java.util.ArrayList;
 
-import com.SnakeGame.FrameWork.PlayerMovement;
+import com.SnakeGame.AbstractModels.AbstractSlitherSection;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.PlayerMovement;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -14,13 +15,13 @@ import javafx.scene.canvas.GraphicsContext;
  * and checking whether the sections is alive or not meaning no longer used. the
  * sections updated by this class are mob sections meaning sections that move,
  * interact and collide.
- * 
+ *
  * @author Eudy Contreras
  *
  */
 public class SlitherSectionManager {
-	private ArrayList<SlitherSectionMain> sectionList;
-	private SlitherSectionMain tempSection;
+	private ArrayList<AbstractSlitherSection> sectionList;
+	private AbstractSlitherSection tempSection;
 
 	public SlitherSectionManager(GameManager gameJavaFX) {
 		initialize();
@@ -53,19 +54,19 @@ public class SlitherSectionManager {
 	}
 
 	public void addNewDirection(PlayerMovement direction) {
-		for (SlitherSectionMain sect : sectionList) {
+		for (AbstractSlitherSection sect : sectionList) {
 			sect.setNewDirection(direction);
 		}
 	}
 
 	public void addNewLocation(Point2D location) {
-		for (SlitherSectionMain sect : sectionList) {
+		for (AbstractSlitherSection sect : sectionList) {
 			sect.setNewLocation(location);
 		}
 	}
 
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID) {
-		for (SlitherSectionMain sect : sectionList) {
+		for (AbstractSlitherSection sect : sectionList) {
 			if (sect.getNumericID() == ID) {
 				sect.setNewDirection(direction);
 				sect.setNewLocation(location);
@@ -151,15 +152,15 @@ public class SlitherSectionManager {
 	/**
 	 * Procedurally places the sections in the level
 	 */
-	public ArrayList<SlitherSectionMain> getSectionList() {
+	public ArrayList<AbstractSlitherSection> getSectionList() {
 		return sectionList;
 	}
 
-	public void addSection(SlitherSectionMain sect) {
+	public void addSection(AbstractSlitherSection sect) {
 		sectionList.add(sect);
 	}
 
-	public void removeSection(SlitherSectionMain section) {
+	public void removeSection(AbstractSlitherSection section) {
 		this.sectionList.remove(section);
 	}
 

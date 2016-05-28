@@ -1,13 +1,16 @@
 package com.SnakeGame.SlitherSnake;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
+import com.SnakeGame.AbstractModels.AbstractSlither;
+import com.SnakeGame.AbstractModels.AbstractSlitherSection;
 import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
+import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
@@ -24,130 +27,84 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class SlitherSnake extends SlitherMain {
+public class SlitherSnake extends AbstractSlither {
 
-	double minX;
-	double maxX;
-	double minY;
-	double maxY;
-	double clearUp;
-	double fade = 0.0;
-	double fadeAway = 1.0f;
-	double bodyTrigger;
-	double lightOpacity = 0.8;
-	double vibrationUp = 1.0f;
-	double vibrationDown = 1.0f;
-	double amountOfGlow = 0;
-	double offsetX = 0;
-	double offsetY = 0;
-	boolean isDead = false;
-	boolean showTheSkull = false;
-	boolean cantShoot = true;
-	boolean notShooting = false;
-	boolean lampOff = false;
-	boolean glowing = false;
-	boolean up = true;
-	boolean down = false;
-	boolean shake = false;
-	boolean applyRecoil = false;
-	boolean left = true;
-	boolean right = false;
-	boolean vibrate = false;
-	boolean collision = false;
-	public boolean rotateLeft = false;
-	public boolean rotateRight = false;
-	boolean checkVibrate = true;
-	boolean hitBounds = false;
-	boolean movingUp = false;
-	boolean movingDown = false;
-	boolean movingLeft = false;
-	boolean movingRight = false;
-	boolean standingStill = false;
-	boolean standingStillY = false;
-	boolean notMovingToTheSides = false;
-	boolean loopingAudio = false;
-	boolean increaseGlow = true;
-	boolean decreaseGlow = false;
-	boolean introduceSpaceship = true;
-	boolean firstBite = false;
-	boolean notEating = true;
-	boolean allowOpen = true;
-	boolean eatCoolDown = false;
-	boolean setDelay = false;
-	boolean allowToTurn = true;
-	boolean allowDamage = true;
-	boolean noCollisionZone = true;
-	boolean allowCollision = true;
-	boolean hasBaseBody = false;
-	boolean allowTurnLeft = true;
-	boolean allowTurnRight = true;
-	boolean allowTurnUp = true;
-	boolean allowTurnDown = true;
-	boolean allowMovement = true;
-	public boolean thrust = false;
-	int turnDelay = GameSettings.TURN_DELAY;
-	int dirtDelay = 10;
-	int tailSize = 30;
-	int counter = 0;
-	int shootingLag;
-	int rightBoundary;
-	int recoilDuration = 30;
-	int shakeDuration = 30;
-	int maxOpenTime = 0;
-	int coolDown = 60;
-	int immunity = GameSettings.IMMUNITY_TIME;
-	int scroll = 0;
-	int moveDelay = 0;
-	int safeDistance = 0;
-	int snakeLength;
-	float speed;
-	float rotation = 0;
-	float glowLevel = 0;
-	float angle;
-	float rChange;
-	float xChange;
-	float yChange;
-	float amountOfBlur = 2.0f;
-	GameManager game;
-	Rectangle fadeRect = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-	ImagePattern pattern = new ImagePattern(GameImageBank.snakeOneEating);
-	ImagePattern pattern2 = new ImagePattern(GameImageBank.snakeOneBlinking);
-	Circle headBounds;
-	Circle skull;
-	SlitherManager gom;
-	Animation anim;
-	SlitherSectionMain thisPart;
-	SlitherSectionMain partBefore;
-	SlitherSectionMain snakeTail;
-	SlitherSectionManager sectManager;
-	SlitherTail tail;
-	Rectangle bounds;
-	ScreenOverlay overlay;
-	SlitherSection neighbor;
-	PlayerMovement direction;
-	public static float NUMERIC_ID = 0;
-	public static float ROTATION_OFFSET = 1;;
-	public static Boolean killSlither = false;
-	public static Boolean levelComplete = false;
-	public static Boolean stopMovement = false;
+	private int immunity = GameSettings.IMMUNITY_TIME;
+	private int dirtDelay = 10;
+	private int maxOpenTime = 0;
+	private int coolDown = 60;
+	private int moveDelay = 0;
+	private int appleCount = 0;
+	private int counter = 0;
+	private double accelaration = 0.5;
+	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
+	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2;
+	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
+	private double bodyTrigger;
+	private double offsetX = 0;
+	private double offsetY = 0;
+	private boolean isDead = false;
+	private boolean collision = false;
+	private boolean notEating = true;
+	private boolean allowOpen = true;
+	private boolean eatCoolDown = false;
+	private boolean setDelay = false;
+	private boolean allowDamage = true;
+	private boolean allowCollision = true;
+	private boolean hasBaseBody = false;
+	private boolean allowTurnLeft = true;
+	private boolean allowTurnRight = true;
+	private boolean allowTurnUp = true;
+	private boolean allowTurnDown = true;
+	private boolean goSlow = false;
+	private boolean thrust = false;
+	private double fadeAway = 1.0f;
+	private boolean showTheSkull = false;
+	private boolean allowMovement = true;
+	private boolean rotateLeft = false;
+	private boolean rotateRight = false;
+	private int snakeLength;
+	private double speed;
+	private double rotation = 0;
+	private double angle;
+	private double xChange;
+	private double yChange;
+	private Circle skull;
+	private GameManager game;
+	private Animation anim;
+	private Rectangle bounds;
+	private ScreenOverlay overlay;
+	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
+	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
+	private AbstractSlitherSection thisPart;
+	private AbstractSlitherSection partBefore;
+	private SlitherSectionManager sectManager;
+	private PlayerMovement direction;
+	public static int NUMERIC_ID = 0;
+	public static double ROTATION_OFFSET = 1;;
+	public static Boolean DEAD = false;
+	public static Boolean LEVEL_COMPLETED = false;
+	public static Boolean STOP_MOVEMENT = false;
 	public static Boolean MOUTH_OPEN = false;
 	public static Boolean MOUTH_CLOSE = true;
-	public static Boolean keepMoving = true;
+	public static Boolean KEEP_MOVING = true;
 
-	public SlitherSnake(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, float speed, GameObjectID id, SlitherManager gom) {
+	public SlitherSnake(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+			double velR, double health, double damage, double speed, GameObjectID id, SlitherManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
-		this.gom = gom;
 		this.speed = speed;
 		this.game = game;
-		this.overlay = new ScreenOverlay(game, game.getGameRoot());
+		this.overlay = game.getOverlayEffect();
 		this.anim = new Animation();
 		this.sectManager = game.getSectManagerThree();
 		this.velX = GameSettings.SLITHER_SPEED;
 		this.velY = GameSettings.SLITHER_SPEED;
 		this.speed = 0.7f;
-		addbaseSections();
-		loadImages();
+		this.bodyTrigger = y + 20;
+		this.overlay = game.getOverlayEffect();
+		this.loadImages();
+		this.drawBoundingBox();
+		this.spawnBody();
 	}
 
 	public void loadImages() {
@@ -156,25 +113,76 @@ public class SlitherSnake extends SlitherMain {
 		setAnimation(anim);
 	}
 
+	public void updateUI() {
+		super.updateUI();
+		updateBounds();
+		logicUpdate();
+	}
+
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
 	}
 
 	public void spawnBody() {
 		addbaseSections();
-		keepMoving = false;
+		KEEP_MOVING = false;
 	}
 
-	public void updateUI() {
-		overlay.updateEffect();
-		super.updateUI();
-		if (!killSlither) {
+	public void logicUpdate() {
+		rotateLeft();
+		rotateRight();
+		accelarate();
+		controlEating();
+		hinderMovement();
+		updateImmunity();
+		updateSpeedDirt();
+		updateDirt();
+		speedUp();
+		speedDown();
+		slowDown();
+
+	}
+
+	public void move() {
+		if (allowMovement) {
+			if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING && game.getStateID()==GameStateID.GAMEPLAY){
+			this.circle.setRadius(GameSettings.SLITHER_SIZE*1.4);
+			x = (double) (getX() + Math.sin(Math.toRadians(rotation)) * velX * speed);
+			y = (double) (getY() + Math.cos(Math.toRadians(rotation)) * velY * speed);
+			r = -rotation;
+			if(sectManager.getSectionList().size()>0){
+			AbstractSlitherSection snakeHead = sectManager.getSectionList().get(0);
+			snakeLength = sectManager.getSectionList().size() - 1;
+
+
+			snakeHead.setX((double) (snakeHead.getX() + Math.sin(Math.toRadians(rotation)) * velX * speed));
+			snakeHead.setY((double) (snakeHead.getY() + Math.cos(Math.toRadians(rotation)) * velY * speed));
+			snakeHead.setR(-rotation);
+			}
+			for (int i = 1; i <= snakeLength; i++) {
+
+				partBefore = sectManager.getSectionList().get(i - 1);
+				thisPart = sectManager.getSectionList().get(i);
+
+				xChange = partBefore.getX() - thisPart.getX();
+				yChange = partBefore.getY() - thisPart.getY();
+				angle = (double) Math.atan2(yChange, xChange);
+
+				thisPart.setX(partBefore.getX() - (double) Math.cos(angle) * 15);
+				thisPart.setY(partBefore.getY() - (double) Math.sin(angle) * 15);
+				}
+			}
+		}
+	}
+
+	public void controlEating() {
+		if (!DEAD) {
 			maxOpenTime--;
 			coolDown--;
 			if (notEating) {
 				this.setAnim(anim.getPattern());
 			}
-			if (allowOpen == false) {
+			if (isAllowOpen() == false) {
 				if (setDelay == true) {
 					if (maxOpenTime <= 0) {
 						maxOpenTime = 0;
@@ -187,77 +195,133 @@ public class SlitherSnake extends SlitherMain {
 			if (eatCoolDown == true) {
 				if (coolDown <= 0) {
 					coolDown = 0;
-					allowOpen = true;
+					setAllowOpen(true);
 					eatCoolDown = false;
 				}
 			}
 		} else {
-			setAnim(pattern2);
-		}
-		rotateLeft();
-		rotateRight();
-		accelarate();
-	}
-
-	public void move() {
-		if (allowMovement) {
-			x = (float) (getX() + Math.sin(Math.toRadians(rotation)) * velX * speed);
-			y = (float) (getY() + Math.cos(Math.toRadians(rotation)) * velY * speed);
-			r = -rotation;
-			SlitherSectionMain snakeHead = sectManager.getSectionList().get(0);
-			snakeLength = sectManager.getSectionList().size() - 1;
-			snakeTail = sectManager.getSectionList().get(snakeLength);
-
-			snakeHead.setX((float) (snakeHead.getX() + Math.sin(Math.toRadians(rotation)) * velX * speed));
-			snakeHead.setY((float) (snakeHead.getY() + Math.cos(Math.toRadians(rotation)) * velY * speed));
-			snakeHead.setR(-rotation);
-
-			for (int i = 1; i <= snakeLength; i++) {
-				partBefore = sectManager.getSectionList().get(i - 1);
-				thisPart = sectManager.getSectionList().get(i);
-
-				xChange = partBefore.getX() - thisPart.getX();
-				yChange = partBefore.getY() - thisPart.getY();
-				rChange = partBefore.getR() - thisPart.getR();
-				angle = (float) Math.atan2(yChange, xChange);
-
-				thisPart.setX(partBefore.getX() - (float) Math.cos(angle) * 15);
-				thisPart.setY(partBefore.getY() - (float) Math.sin(angle) * 15);
-			}
+			this.setAnim(blinkingFrame);
 		}
 	}
 
-	public void update() {
-
-		if (GameSettings.DEBUG_MODE) {
-			bounds.setX(x - radius / 2 + offsetX);
-			bounds.setY(y - radius / 2 + offsetY);
-		}
-		dirtDelay--;
-		if (dirtDelay <= 0) {
-			if (keepMoving) {
-				displaceDirt(x + width / 2, y + height / 2, 18, 18);
-				dirtDelay = 10;
-			}
-		}
-		if (keepMoving) {
+	public void hinderMovement() {
+		if (KEEP_MOVING) {
 			moveDelay--;
 			if (moveDelay <= 0) {
 				moveDelay = 0;
 				allowCollision = true;
 			}
 		}
+	}
 
+	public void positionBody() {
+		if (!hasBaseBody) {
+			if (y >= bodyTrigger) {
+				spawnBody();
+				hasBaseBody = true;
+			}
+		}
+	}
+
+	public void updateBounds() {
+		checkBounds();
+		if (GameSettings.DEBUG_MODE) {
+			bounds.setX(x - radius / 2 + offsetX);
+			bounds.setY(y - radius / 2 + offsetY);
+		}
+	}
+
+	public void updateImmunity() {
+		if (allowDamage == false) {
+			immunity--;
+			if (immunity <= 0) {
+				immunity = 0;
+				allowDamage = true;
+			}
+		}
+	}
+
+	public void updateDirt() {
+		if (GameSettings.ALLOW_DIRT) {
+			dirtDelay--;
+			if (dirtDelay <= 0) {
+				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
+					displaceDirt(x + width / 2, y + height / 2, 18, 18);
+					dirtDelay = 10;
+				}
+			}
+		}
+	}
+	public void updateSpeedDirt() {
+		if (thrust) {
+			dirtDelay--;
+			if (dirtDelay <= 0) {
+				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
+					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
+					dirtDelay = 10;
+				}
+			}
+		}
+	}
+
+	public void updateAnimation(long timePassed) {
+		anim.update(timePassed);
+	}
+
+	public void openMouth() {
+		if (direction != PlayerMovement.STANDING_STILL) {
+			notEating = false;
+			MOUTH_CLOSE = false;
+			MOUTH_OPEN = true;
+			setAnim(eatingFrame);
+			setAllowOpen(false);
+			setDelay = true;
+			maxOpenTime = 30;
+		}
+	}
+
+	public void closeMouth() {
+		MOUTH_OPEN = false;
+		MOUTH_CLOSE = true;
+		notEating = true;
+		coolDown = GameSettings.BITE_DELAY;
+	}
+
+	public void speedUp(){
+		if(thrust){
+			GameSettings.PLAYER_ONE_SPEED+=accelaration;
+			if(GameSettings.PLAYER_ONE_SPEED>=maxSpeed){
+				GameSettings.PLAYER_ONE_SPEED = maxSpeed;
+			}
+		}
+	}
+	public void speedDown(){
+		if(!thrust){
+			GameSettings.PLAYER_ONE_SPEED-=(accelaration/2);
+			if(GameSettings.PLAYER_ONE_SPEED<=normalSpeed){
+				GameSettings.PLAYER_ONE_SPEED = normalSpeed;
+			}
+		}
+	}
+	public void slowDown(){
+		if(!thrust && goSlow){
+			GameSettings.PLAYER_ONE_SPEED-=accelaration;
+			if(GameSettings.PLAYER_ONE_SPEED<= minimumSpeed){
+				GameSettings.PLAYER_ONE_SPEED = minimumSpeed;
+			}
+		}
 	}
 
 	public void rotateLeft() {
-		if (rotateLeft) {
+		if (isRotateLeft()) {
+			KEEP_MOVING = true;
 			rotation += 5;
 		}
 	}
 
 	public void rotateRight() {
-		if (rotateRight) {
+		if (isRotateRight()) {
+			KEEP_MOVING = true;
 			rotation -= 5;
 		}
 	}
@@ -276,36 +340,42 @@ public class SlitherSnake extends SlitherMain {
 		}
 	}
 
-	public void setDirection(float direction) {
+	public void setDirection(double direction) {
 		allowMovement = true;
+		KEEP_MOVING = true;
 		this.rotation = direction;
 	}
 
 	public void moveUp() {
-		velY = -GameSettings.SLITHER_SPEED;
-		;
-		velX = 0;
+		if(allowTurnUp){
+			KEEP_MOVING = true;
+			rotation = 180;
+		}
 	}
 
 	public void moveDown() {
-		velY = GameSettings.SLITHER_SPEED;
-		;
-		velX = 0;
+		if(allowTurnDown){
+			KEEP_MOVING = true;
+			rotation = 0;
+	}
 	}
 
 	public void moveRight() {
-		velX = GameSettings.SLITHER_SPEED;
-		;
-		velY = 0;
+		if(allowTurnRight) {
+			KEEP_MOVING = true;
+			rotation = 90;
+		}
 	}
 
 	public void moveLeft() {
-		velX = -GameSettings.SLITHER_SPEED;
-		velY = 0;
+		if (allowTurnLeft){
+			KEEP_MOVING = true;
+			rotation = -90;
+		}
 	}
 
 	public void checkCollision() {
-		if (isDead == false) {
+		if (!DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < game.getObjectManager().getObjectList().size(); i++) {
 				AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
@@ -322,14 +392,16 @@ public class SlitherSnake extends SlitherMain {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (allowDamage) {
-							setCollision(true);
-							if (!killSlither) {
-								this.overlay.addDistortion(15, 0.2);
-								this.overlay.addToneOverlay(Color.RED, 5, 3.0);
+						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
+							if (!GameSettings.DAMAGE_IMMUNITY) {
+								setCollision(true);
+								if (!DEAD) {
+									this.overlay.addDistortion(15, 0.2);
+									this.overlay.addToneOverlay(Color.rgb(220, 0, 0), 5, 1.0);
+								}
+								immunity = GameSettings.IMMUNITY_TIME;
+								allowDamage = false;
 							}
-							immunity = GameSettings.IMMUNITY_TIME;
-							allowDamage = false;
 						}
 					}
 				}
@@ -340,47 +412,71 @@ public class SlitherSnake extends SlitherMain {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
-								keepMoving = false;
+								KEEP_MOVING = false;
 								allowCollision = false;
 							}
 						}
 					}
 				}
 			}
+			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
+				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
+				if (tempTile.getId() == GameLevelObjectID.fence) {
+					if (getBounds().intersects(tempTile.getBounds())) {
+						if (!DEAD) {
+							if (!GameSettings.DAMAGE_IMMUNITY)
+								die();
+						}
+					}
+				}
+				if (tempTile.getId() == GameLevelObjectID.trap) {
+					if (getBounds().intersects(tempTile.getBounds())) {
+						if (!DEAD) {
+							if (!GameSettings.DAMAGE_IMMUNITY)
+								die();
+						}
+					}
+				}
+			}
 		}
 	}
-
 	public void addSection() {
+		if (GameSettings.SLITHER_SIZE < 30) {
+			counter++;
+			if (counter >= 15) {
+				counter = 0;
+				GameSettings.SLITHER_SIZE += 2;
+			}
+		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
-					new Circle(25, new ImagePattern(GameImageBank.snakeOneSkin)),
-					partBefore.getX() - (float) Math.cos(angle) * 20, partBefore.getY() - (float) Math.cos(angle) * 20,
+			sectManager.addSection(new SlitherSection(this, game, layer,
+					new Circle(GameSettings.SLITHER_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x,y,
 					GameObjectID.SnakeSection, NUMERIC_ID));
-			GameManager.writeToLog("New section added " + NUMERIC_ID);
-			NUMERIC_ID += 1;
-			ROTATION_OFFSET += 0.1;
+			NUMERIC_ID++;
+			appleCount++;
 		}
 		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
 			game.getGameLoader().spawnSnakeFood();
 	}
 
-	public void setScroller() {
-		this.imageView.translateXProperty().addListener((v, oldValue, newValue) -> {
-
-			int offSet = newValue.intValue();
-			if (offSet > 100 && offSet < game.getLevelLenght() - 1900) {
-				game.getGameRoot().setTranslateX(-(offSet - 100));
-			}
-		});
-
+	public void addbaseSections() {
+		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
+			sectManager.addSection(new SlitherSection(this, game, layer,
+					new Circle(GameSettings.SLITHER_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y-radius*NUMERIC_ID, GameObjectID.SnakeSection,
+					NUMERIC_ID));
+			NUMERIC_ID += 1;
+		}
 	}
 
-	public void setRotation(float rotation) {
+
+
+	public void setRotation(double rotation) {
+		KEEP_MOVING = true;
 		this.rotation = rotation;
 	}
 
-	public float getRotation() {
+	public double getRotation() {
 		return rotation;
 	}
 
@@ -396,88 +492,23 @@ public class SlitherSnake extends SlitherMain {
 
 	}
 
-	public void updateAnimation(long timePassed) {
-		anim.update(timePassed);
-	}
-
-	//
-	// public void checkTurns() {
-	// if (snakeHead.allowLeftTurn()) {
-	// this.allowTurnLeft = true;
-	// } else {
-	// this.allowTurnLeft = false;
-	// }
-	// if (snakeHead.allowRightTurn()) {
-	// this.allowTurnRight = true;
-	// } else {
-	// this.allowTurnRight = false;
-	// }
-	// if (snakeHead.allowUpTurn()) {
-	// this.allowTurnUp = true;
-	// } else {
-	// this.allowTurnUp = false;
-	// }
-	// if (snakeHead.allowDownTurn()) {
-	// this.allowTurnDown = true;
-	// } else {
-	// this.allowTurnDown = false;
-	// }
-	// }
-	public void addbaseSections() {
-		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new SlitherSection(this, game, game.getFourthLayer(),
-					new Circle(25, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, GameObjectID.SnakeSection,
-					NUMERIC_ID));
-			GameManager.writeToLog("New section added " + NUMERIC_ID);
-			NUMERIC_ID += 1;
-		}
-	}
-
-	public void displaceDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !killSlither && !levelComplete) {
-			for (int i = 0; i < 15; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1, x, y,
-						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
-			}
-		}
-	}
-
 	public boolean withinBounds() {
 		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
 				&& y < GameSettings.HEIGHT + radius + 1;
 	}
-
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-		} else if (y < 0 - radius) {
+		} else if (y < GameSettings.START_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (0 - radius);
+			y = (float) (GameSettings.START_Y - radius);
 		}
 	}
 
 	public void draw(GraphicsContext gc) {
-		// checkBounds();
-		if (allowDamage == false) {
-			immunity--;
-			if (immunity <= 0) {
-				immunity = 0;
-				allowDamage = true;
-			}
-		}
-		if (isDead) {
-			fade += 0.003;
-			fadeRect.setOpacity(fade);
-			if (fade >= 1.0f) {
-				fadeRect.setOpacity(1);
-			}
-			if (fade >= 1.1f) {
-				//game.gameOver(fadeRect);
-			}
-		}
 		if (showTheSkull == true) {
 			fadeAway -= 0.005;
 			if (fadeAway <= 0) {
@@ -488,30 +519,6 @@ public class SlitherSnake extends SlitherMain {
 
 	public void blurOut() {
 		this.overlay.addDeathBlur();
-	}
-
-	public void openMouth() {
-		if (direction != PlayerMovement.STANDING_STILL) {
-			// this.overlay.addDistortion(30, 0.5);
-			// this.overlay.addToneOverlay(Color.GREEN, 8, 0.5);
-			// this.overlay.addSoftBlur(20, 0.2);
-			// this.overlay.addIntenseBlur(20, 0.5);
-			// this.overlay.addBloom(8, 1);
-			notEating = false;
-			MOUTH_CLOSE = false;
-			MOUTH_OPEN = true;
-			setAnim(this.pattern);
-			allowOpen = false;
-			setDelay = true;
-			maxOpenTime = 30;
-		}
-	}
-
-	public void closeMouth() {
-		MOUTH_OPEN = false;
-		MOUTH_CLOSE = true;
-		notEating = true;
-		coolDown = GameSettings.BITE_DELAY;
 	}
 
 	public boolean isApproximate(double tail_X, double sect_X, double tail_Y, double sect_Y) {
@@ -530,10 +537,26 @@ public class SlitherSnake extends SlitherMain {
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
 			game.getSeventhLayer().getChildren().add(bounds);
-
 		}
 	}
 
+	public void displaceDirt(double x, double y, double low, double high) {
+		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
+			for (int i = 0; i < 15; i++) {
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+			}
+		}
+	}
+
+	public void displaceSpeedDirt(double x, double y, double low, double high) {
+		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
+			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
+				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
+			}
+		}
+	}
 	public Rectangle2D getBoundsTop() {
 
 		return new Rectangle2D(x + 40, y + 55, width - 60, height * 0.24);
@@ -553,51 +576,12 @@ public class SlitherSnake extends SlitherMain {
 
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
-
-	public boolean isCollision() {
-		return collision;
-	}
-
-	public void setCollision(boolean collision) {
-		this.collision = collision;
-	}
-
 	public void die() {
-		killSlither = true;
-		blurOut();
+		DEAD = true;
 		game.getHealthBarOne().drainAll();
-	}
-
-	public void addBones() {
+		game.setStateID(GameStateID.GAME_OVER);
+		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
-		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
-		skull.setRotate(r);
-		game.getFirstLayer().getChildren().add(skull);
-		fadeAndEnd();
-
-	}
-
-	public void fadeAndEnd() {
-		game.getFadeScreenLayer().getChildren().add(fadeRect);
-	}
-
-	// public SnakeOneMouth getMouth(){
-	// return mouth;
-	// }
-	public boolean isNotMovingFast() {
-		return false;
-	}
-
-	public void setSpeedBump(boolean b) {
-
-	}
-
-	public void setTail(SlitherTail tail) {
-		this.tail = tail;
-	}
-
-	public SlitherTail getTail() {
-		return tail;
 	}
 
 	public Image getAnimationImage() {
@@ -612,7 +596,55 @@ public class SlitherSnake extends SlitherMain {
 		this.anim = anim;
 	}
 
-	public void setNeighbor(SlitherSection slitherSection) {
-		this.neighbor = slitherSection;
+	public boolean isCollision() {
+		return collision;
 	}
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
+
+	public void setSpeedThrust(boolean thrust){
+		this.thrust = thrust;
+	}
+	public boolean getSpeedThrust(){
+		return thrust;
+	}
+
+	public boolean isAllowOpen() {
+		return allowOpen;
+	}
+
+	public void setAllowOpen(boolean allowOpen) {
+		this.allowOpen = allowOpen;
+	}
+
+	public double getAppleCount() {
+		return appleCount;
+	}
+
+	public void addBones() {
+		isDead = true;
+		skull = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeSkull));
+		skull.setRotate(r);
+		game.getFirstLayer().getChildren().add(skull);
+
+	}
+
+	public boolean isRotateLeft() {
+		return rotateLeft;
+	}
+
+	public void setRotateLeft(boolean rotateLeft) {
+		this.rotateLeft = rotateLeft;
+	}
+
+	public boolean isRotateRight() {
+		return rotateRight;
+	}
+
+	public void setRotateRight(boolean rotateRight) {
+		this.rotateRight = rotateRight;
+	}
+
 }

@@ -333,7 +333,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - 30 + 1) + 30);
-		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.dirt,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
+		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.dirt_grain,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
 	}
 
 	/**

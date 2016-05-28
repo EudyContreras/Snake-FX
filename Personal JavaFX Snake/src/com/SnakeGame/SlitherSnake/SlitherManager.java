@@ -3,6 +3,7 @@ package com.SnakeGame.SlitherSnake;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.SnakeGame.AbstractModels.AbstractSlither;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDenums.GameObjectID;
 
@@ -14,14 +15,14 @@ import javafx.scene.canvas.GraphicsContext;
  * and checking whether the objects is alive or not meaning no longer used. the
  * objects updated by this class are mob objects meaning objects that move,
  * interact and collide.
- * 
+ *
  * @author Eudy Contreras
  *
  */
 public class SlitherManager {
 
-	private LinkedList<SlitherMain> object;
-	private SlitherMain tempObject;
+	private LinkedList<AbstractSlither> object;
+	private AbstractSlither tempObject;
 	private GameManager game;
 
 	public SlitherManager(GameManager gameJavaFX) {
@@ -30,7 +31,7 @@ public class SlitherManager {
 	}
 
 	public void initialize() {
-		this.object = new LinkedList<SlitherMain>();
+		this.object = new LinkedList<AbstractSlither>();
 	}
 
 	/**
@@ -40,9 +41,9 @@ public class SlitherManager {
 	 * be thrown
 	 */
 	public void update(GraphicsContext gc, long timePassed) {
-		Iterator<? extends SlitherMain> spriteIter = object.iterator();
+		Iterator<? extends AbstractSlither> spriteIter = object.iterator();
 		while (spriteIter.hasNext()) {
-			SlitherMain sprite = spriteIter.next();
+			AbstractSlither sprite = spriteIter.next();
 			sprite.updateUI();
 			sprite.addPhysics();
 			sprite.updateAnimation(timePassed);
@@ -167,22 +168,23 @@ public class SlitherManager {
 	 * Procedurally places the objects in the level
 	 */
 	public void procedurallyCreateLevel() {
-		Iterator<? extends SlitherMain> spriteIter = object.iterator();
+		Iterator<? extends AbstractSlither> spriteIter = object.iterator();
 		while (spriteIter.hasNext()) {
-			SlitherMain sprite = spriteIter.next();
+			AbstractSlither sprite = spriteIter.next();
 			sprite.createLevel();
 		}
 	}
 
-	public LinkedList<SlitherMain> getObjectList() {
+	public LinkedList<AbstractSlither> getObjectList() {
 		return object;
 	}
 
-	public void addObject(SlitherMain object) {
+	public void addObject(AbstractSlither object) {
 		this.object.add(object);
+
 	}
 
-	public void removeObject(SlitherMain object) {
+	public void removeObject(AbstractSlither object) {
 		this.object.remove(object);
 	}
 
@@ -190,8 +192,8 @@ public class SlitherManager {
 		this.object.clear();
 	}
 
-	public SlitherMain findObject(GameObjectID id) {
-		for (SlitherMain go : object) {
+	public AbstractSlither findObject(GameObjectID id) {
+		for (AbstractSlither go : object) {
 			if (go.getId() == id) {
 				return go;
 			}
