@@ -4,10 +4,10 @@ import java.util.LinkedList;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
+import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
@@ -80,6 +80,7 @@ public class PlayerOne extends AbstractObject {
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
+		this.bodyTrigger = y + 20;
 		this.overlay = new ScreenOverlay(game, game.getGameRoot());
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
@@ -118,6 +119,7 @@ public class PlayerOne extends AbstractObject {
 		controlEating();
 		hinderMovement();
 		positionBody();
+		updateTurns();
 		updateImmunity();
 		updateDirt();
 		checkTurns();
@@ -156,12 +158,6 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void hinderMovement() {
-		if (turns.size() > 0) {
-			turnDelay--;
-			if (turnDelay <= 0) {
-				makeTurn();
-			}
-		}
 		if (KEEP_MOVING) {
 			moveDelay--;
 			if (moveDelay <= 0) {
@@ -220,13 +216,6 @@ public class PlayerOne extends AbstractObject {
 				makeTurn();
 			}
 		}
-		if (KEEP_MOVING) {
-			moveDelay--;
-			if (moveDelay <= 0) {
-				moveDelay = 0;
-				allowCollision = true;
-			}
-		}
 	}
 
 	public void updateAnimation(long timePassed) {
@@ -265,37 +254,45 @@ public class PlayerOne extends AbstractObject {
 						switch (direction) {
 						case MOVE_UP:
 							if (this.direction != PlayerMovement.MOVE_DOWN) {
-								if (allowTurnUp) {
-									KEEP_MOVING = true;
-									moveUp();
-									snakeHead.setR(180);
+								if (!GameSettings.FAST_TURNS) {
+									if (allowTurnUp)
+										turnDelay(PlayerMovement.MOVE_UP);
+								} else {
+									if (allowTurnUp)
+										moveUp();
 								}
 							}
 							break;
 						case MOVE_DOWN:
 							if (this.direction != PlayerMovement.MOVE_UP) {
-								if (allowTurnDown) {
-									KEEP_MOVING = true;
-									moveDown();
-									snakeHead.setR(0);
+								if (!GameSettings.FAST_TURNS) {
+									if (allowTurnDown)
+										turnDelay(PlayerMovement.MOVE_DOWN);
+								} else {
+									if (allowTurnDown)
+										moveDown();
 								}
 							}
 							break;
 						case MOVE_LEFT:
 							if (this.direction != PlayerMovement.MOVE_RIGHT) {
-								if (allowTurnLeft) {
-									KEEP_MOVING = true;
-									moveLeft();
-									snakeHead.setR(89);
+								if (!GameSettings.FAST_TURNS) {
+									if (allowTurnLeft)
+										turnDelay(PlayerMovement.MOVE_LEFT);
+								} else {
+									if (allowTurnLeft)
+										moveLeft();
 								}
 							}
 							break;
 						case MOVE_RIGHT:
 							if (this.direction != PlayerMovement.MOVE_LEFT) {
-								if (allowTurnRight) {
-									KEEP_MOVING = true;
-									moveRight();
-									snakeHead.setR(-89);
+								if (!GameSettings.FAST_TURNS) {
+									if (allowTurnRight)
+										turnDelay(PlayerMovement.MOVE_RIGHT);
+								} else {
+									if (allowTurnRight)
+										moveRight();
 								}
 							}
 							break;
@@ -316,32 +313,39 @@ public class PlayerOne extends AbstractObject {
 				} else {
 					switch (direction) {
 					case MOVE_UP:
-						if (allowTurnUp) {
-							KEEP_MOVING = true;
-							moveUp();
-							snakeHead.setR(180);
+						if (!GameSettings.FAST_TURNS) {
+							if (allowTurnUp)
+								turnDelay(PlayerMovement.MOVE_UP);
+						} else {
+							if (allowTurnUp)
+								moveUp();
 						}
 						break;
 					case MOVE_DOWN:
-
-						if (allowTurnDown) {
-							KEEP_MOVING = true;
-							moveDown();
-							snakeHead.setR(0);
+						if (!GameSettings.FAST_TURNS) {
+							if (allowTurnDown)
+								turnDelay(PlayerMovement.MOVE_DOWN);
+						} else {
+							if (allowTurnDown)
+								moveDown();
 						}
 						break;
 					case MOVE_LEFT:
-						if (allowTurnLeft) {
-							KEEP_MOVING = true;
-							moveLeft();
-							snakeHead.setR(89);
+						if (!GameSettings.FAST_TURNS) {
+							if (allowTurnLeft)
+								turnDelay(PlayerMovement.MOVE_LEFT);
+						} else {
+							if (allowTurnLeft)
+								moveLeft();
 						}
 						break;
 					case MOVE_RIGHT:
-						if (allowTurnRight) {
-							KEEP_MOVING = true;
-							moveRight();
-							snakeHead.setR(-89);
+						if (!GameSettings.FAST_TURNS) {
+							if (allowTurnRight)
+								turnDelay(PlayerMovement.MOVE_RIGHT);
+						} else {
+							if (allowTurnRight)
+								moveRight();
 						}
 						break;
 					case STANDING_STILL:
@@ -378,6 +382,14 @@ public class PlayerOne extends AbstractObject {
 		velY = -GameSettings.SNAKE_ONE_SPEED;
 		velX = 0;
 		r = 180;
+		snakeHead.setR(180);
+		if (!GameSettings.FAST_TURNS)
+			turns.remove(0);
+		turnDelay = GameSettings.TURN_DELAY;
+		if (KEEP_MOVING == false) {
+			moveDelay = GameSettings.COLLISION_DELAY;
+			KEEP_MOVING = true;
+		}
 		setCurrentDirection(PlayerMovement.MOVE_UP);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, 0);
@@ -390,6 +402,14 @@ public class PlayerOne extends AbstractObject {
 		velY = GameSettings.SNAKE_ONE_SPEED;
 		velX = 0;
 		r = 0;
+		snakeHead.setR(0);
+		if (!GameSettings.FAST_TURNS)
+			turns.remove(0);
+		turnDelay = GameSettings.TURN_DELAY;
+		if (KEEP_MOVING == false) {
+			moveDelay = GameSettings.COLLISION_DELAY;
+			KEEP_MOVING = true;
+		}
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, 0);
@@ -402,6 +422,14 @@ public class PlayerOne extends AbstractObject {
 		velX = GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
 		r = -89;
+		snakeHead.setR(-89);
+		if (!GameSettings.FAST_TURNS)
+			turns.remove(0);
+		turnDelay = GameSettings.TURN_DELAY;
+		if (KEEP_MOVING == false) {
+			moveDelay = GameSettings.COLLISION_DELAY;
+			KEEP_MOVING = true;
+		}
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, 0);
@@ -414,6 +442,14 @@ public class PlayerOne extends AbstractObject {
 		velX = -GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
 		r = 89;
+		snakeHead.setR(89);
+		if (!GameSettings.FAST_TURNS)
+			turns.remove(0);
+		turnDelay = GameSettings.TURN_DELAY;
+		if (KEEP_MOVING == false) {
+			moveDelay = GameSettings.COLLISION_DELAY;
+			KEEP_MOVING = true;
+		}
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
 		if (sectManager.getSectionList().size() > 0) {
 			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, 0);

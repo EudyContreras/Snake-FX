@@ -1,4 +1,4 @@
-package com.SnakeGame.PlayerRecords;
+package com.SnakeGame.UserRecords;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;

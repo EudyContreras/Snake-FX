@@ -1,4 +1,4 @@
-package com.SnakeGame.PlayerRecords;
+package com.SnakeGame.UserRecords;
 
 //STEP 1. Import required packages
 import java.sql.Connection;
