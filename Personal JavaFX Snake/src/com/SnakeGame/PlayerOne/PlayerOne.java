@@ -86,7 +86,7 @@ public class PlayerOne extends AbstractObject {
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
-		this.bodyTrigger = y + 5;
+		//this.bodyTrigger = y + 5;
 		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
@@ -95,7 +95,7 @@ public class PlayerOne extends AbstractObject {
 		this.sectManager = game.getSectManagerOne();
 		this.loadImages();
 		this.drawBoundingBox();
-		this.setDirection(PlayerMovement.MOVE_DOWN);
+		this.moveDown();
 	}
 
 	public void loadImages() {
@@ -426,8 +426,10 @@ public class PlayerOne extends AbstractObject {
 		velX = 0;
 		r = 180;
 		snakeHead.setR(180);
-		if (!GameSettings.FAST_TURNS)
-			turns.remove(0);
+		if (!GameSettings.FAST_TURNS){
+			if(turns.size()>0)
+				turns.remove(0);
+		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
@@ -446,8 +448,10 @@ public class PlayerOne extends AbstractObject {
 		velX = 0;
 		r = 0;
 		snakeHead.setR(0);
-		if (!GameSettings.FAST_TURNS)
-			turns.remove(0);
+		if (!GameSettings.FAST_TURNS){
+			if(turns.size()>0)
+				turns.remove(0);
+		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
@@ -466,8 +470,10 @@ public class PlayerOne extends AbstractObject {
 		velY = 0;
 		r = -90;
 		snakeHead.setR(-90);
-		if (!GameSettings.FAST_TURNS)
-			turns.remove(0);
+		if (!GameSettings.FAST_TURNS){
+			if(turns.size()>0)
+				turns.remove(0);
+		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
@@ -486,8 +492,10 @@ public class PlayerOne extends AbstractObject {
 		velY = 0;
 		r = 90;
 		snakeHead.setR(90);
-		if (!GameSettings.FAST_TURNS)
-			turns.remove(0);
+		if (!GameSettings.FAST_TURNS){
+			if(turns.size()>0)
+				turns.remove(0);
+		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
