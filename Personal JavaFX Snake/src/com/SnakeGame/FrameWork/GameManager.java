@@ -1,6 +1,8 @@
 package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.AbstractModels.AbstractGameModel;
+import com.SnakeGame.DebrisEffects.RainEmitter;
+import com.SnakeGame.DebrisEffects.SandEmitter;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
@@ -13,8 +15,6 @@ import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.Interface.MenuMain;
-import com.SnakeGame.Particles.RainEmitter;
-import com.SnakeGame.Particles.SandEmitter;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;

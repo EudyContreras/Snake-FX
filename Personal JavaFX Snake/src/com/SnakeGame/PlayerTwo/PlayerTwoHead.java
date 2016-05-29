@@ -2,6 +2,8 @@ package com.SnakeGame.PlayerTwo;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
+import com.SnakeGame.DebrisEffects.DirtDisplacement;
+import com.SnakeGame.DebrisEffects.FruitSplashTwo;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
@@ -11,8 +13,6 @@ import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.Particles.DirtDisplacement;
-import com.SnakeGame.Particles.FruitSplashTwo;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -303,7 +303,7 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 
 	public void showVisualQue(Color color) {
-		game.getDebrisManager().addObject(
+		game.getDebrisManager().addParticle(
 				new FruitSplashTwo(game, color, 1, 10, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 	}
 

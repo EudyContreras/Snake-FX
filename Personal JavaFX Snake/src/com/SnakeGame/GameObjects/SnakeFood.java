@@ -5,18 +5,19 @@ import java.util.Random;
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractSection;
 import com.SnakeGame.AbstractModels.AbstractTile;
+import com.SnakeGame.DebrisEffects.FruitSplashOne;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.Particles.FruitSplashOne;
-import com.SnakeGame.Particles.FruitSplashTwo;
+import com.SnakeGame.ParticleEffects.GlowParticle;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.Utilities.RandomGenerator;
 
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.effect.BlurType;
@@ -118,10 +119,7 @@ public class SnakeFood extends AbstractObject {
 	 * Updates methods which do not involve movement
 	 */
 	public void logicUpdate() {
-		fadeValue += 0.01;
-		if (fadeValue >= 1.0) {
-			fadeValue = 1.0;
-		}
+		fadeUpdate();
 		fruitFadein();
 		lookAtMe();
 		updateGlow();
@@ -165,6 +163,12 @@ public class SnakeFood extends AbstractObject {
 				lifeTime = 80;
 				remainStatic = true;
 			}
+		}
+	}
+	public void fadeUpdate(){
+		fadeValue += 0.01;
+		if (fadeValue >= 1.0) {
+			fadeValue = 1.0;
 		}
 	}
 
@@ -399,7 +403,7 @@ public class SnakeFood extends AbstractObject {
 				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 			}
-			game.getDebrisManager().addObject(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
+			game.getDebrisManager().addDebris(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 		}
 	}
@@ -407,16 +411,22 @@ public class SnakeFood extends AbstractObject {
 	/**
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
-	public void altBlowUp() {
+	public void altblowUp() {
 		for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
 			if (GameSettings.ADD_VARIATION) {
-				particleSize = (Math.random() * (40 - 10 + 1) + 10)
-						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
-						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+//				particleSize = (Math.random() * (40 - 10 + 1) + 10)
+//						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+//				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
+//						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+//			}
+//			game.getDebrisManager().addObject(new FruitSplashTwo(game, new ImagePattern(GameImageBank.glowingCircleOne),
+//					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
+//
+				particleSize = Math.random()*(200 - 40 +1)+40;
+				particleLife = Math.random()*(0.5 - 0.1+1)+0.1;
+
+				game.getDebrisManager().addParticle(new GlowParticle(game,GameImageBank.glowingCircleOne, particleLife,particleSize,(float) (x+width/2), (float) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12)));
 			}
-			game.getDebrisManager().addObject(new FruitSplashTwo(game, new ImagePattern(GameImageBank.glowingCircleOne),
-					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 		}
 	}
 

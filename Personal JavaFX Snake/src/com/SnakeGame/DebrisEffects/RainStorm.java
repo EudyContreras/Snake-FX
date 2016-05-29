@@ -1,4 +1,4 @@
-package com.SnakeGame.Particles;
+package com.SnakeGame.DebrisEffects;
 
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
 import com.SnakeGame.FrameWork.GameLoader;

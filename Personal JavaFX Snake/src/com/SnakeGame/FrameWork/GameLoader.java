@@ -4,12 +4,12 @@ import java.awt.Toolkit;
 import java.util.Random;
 
 import com.SnakeGame.AbstractModels.AbstractLoaderModel;
+import com.SnakeGame.DebrisEffects.BackgroundDirt;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.GameObjects.SnakeFood;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
-import com.SnakeGame.Particles.BackgroundDirt;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;

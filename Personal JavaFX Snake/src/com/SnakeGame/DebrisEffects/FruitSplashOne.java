@@ -1,4 +1,4 @@
-package com.SnakeGame.Particles;
+package com.SnakeGame.DebrisEffects;
 
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
 import com.SnakeGame.FrameWork.GameLoader;
@@ -6,59 +6,73 @@ import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameDebrisID;
 
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class DirtDisplacement extends AbstractDebrisEffect {
+public class FruitSplashOne extends AbstractDebrisEffect {
 
 	private GameDebrisID id;
-	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
+	private Paint color;
+	private double radius;
 	private double decay;
 	private double lifeTime = 1.0f;
 	private double energyLoss = 0.9;
-	Point2D velocity = new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10 + 1) + -10);
 
-	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
+	public FruitSplashOne(GameManager game, Paint fill, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.imagePattern = new ImagePattern(image);
-		this.shape = new Circle(x, y, radius);
-		this.shape.setRadius(radius);
-		this.shape.setFill(imagePattern);
-		this.velocity = velocity;
-		this.decay = 0.026/expireTime;
-		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
-		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX)*0.8;
+		this.radius = radius / 2;
+		this.shape = new Circle();
+		this.shape.setRadius(this.radius);
+		this.decay = 0.016 / expireTime;
+		this.color = fill;
+		this.velX = (Math.random() * (10 - -10 + 1) + -10)
+				/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velY = (Math.random() * (10 - -10 + 1) + -10)
+				/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		this.x = x;
 		this.y = y;
+		this.shape.setFill(color);
+		init();
+	}
+
+	public FruitSplashOne(GameManager game, Image image, double expireTime, double radius, double x, double y) {
+		this.game = game;
+		this.radius = radius / 2;
+		this.imagePattern = new ImagePattern(image);
+		this.shape.setRadius(this.radius);
+		this.decay = 0.016 / expireTime;
+		this.x = x;
+		this.y = y;
+		this.shape.setFill(imagePattern);
 		init();
 	}
 
 	public void init() {
-		game.getDebrisLayer().getChildren().add(shape);
+		game.getInnerParticleLayer().getChildren().add(shape);
 	}
 
 	public void update() {
-		shape.setCenterX(x);
-		shape.setCenterY(y);
-		shape.setOpacity(lifeTime);
+		super.move();
 		lifeTime -= decay;
-		velX *= energyLoss;
-		velY *= energyLoss;
 	}
 
 	public void move() {
-		super.move();
+		velX *= energyLoss;
+		velY *= energyLoss;
+		shape.setCenterX(x);
+		shape.setCenterY(y);
+		shape.setOpacity(lifeTime);
 	}
 
 	public void collide() {
-
 	}
 
 	public boolean isAlive() {
+
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 

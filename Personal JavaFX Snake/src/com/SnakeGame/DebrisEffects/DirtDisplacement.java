@@ -1,7 +1,6 @@
-package com.SnakeGame.Particles;
+package com.SnakeGame.DebrisEffects;
 
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
-import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
@@ -11,40 +10,41 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class BackgroundDirt extends AbstractDebrisEffect {
+public class DirtDisplacement extends AbstractDebrisEffect {
 
 	private GameDebrisID id;
 	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
 	private double decay;
 	private double lifeTime = 1.0f;
 	private double energyLoss = 0.9;
-	private Pane layer;
+	Point2D velocity = new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10 + 1) + -10);
 
-	public BackgroundDirt(GameManager game, Pane layer, Image image,double expireTime, double x, double y, Point2D velocity) {
+	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.shape = new Circle(x, y, radius);
 		this.shape.setRadius(radius);
 		this.shape.setFill(imagePattern);
+		this.velocity = velocity;
 		this.decay = 0.026/expireTime;
-		this.layer = layer;
-		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX);
-		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX);
+		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
+		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX)*0.8;
 		this.x = x;
 		this.y = y;
-		this.init();
+		init();
 	}
+
 	public void init() {
-		layer.getChildren().add(shape);
+		game.getDebrisLayer().getChildren().add(shape);
 	}
 
 	public void update() {
 		shape.setCenterX(x);
 		shape.setCenterY(y);
+		shape.setOpacity(lifeTime);
 		lifeTime -= decay;
 		velX *= energyLoss;
 		velY *= energyLoss;
@@ -52,15 +52,10 @@ public class BackgroundDirt extends AbstractDebrisEffect {
 
 	public void move() {
 		super.move();
-
 	}
 
 	public void collide() {
-		for(AbstractTile block: game.getGameLoader().getTileManager().getBlock()){
-			if(getBounds().intersects(block.getBounds())){
-				this.layer.getChildren().remove(this.shape);
-			}
-		}
+
 	}
 
 	public boolean isAlive() {
@@ -73,7 +68,7 @@ public class BackgroundDirt extends AbstractDebrisEffect {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x,y,radius,radius);
+		return null;
 	}
 
 	public Rectangle2D getBoundsTop() {

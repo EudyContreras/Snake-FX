@@ -27,6 +27,7 @@ public class GameImageBank {
 	public static Image glowingImage;
 	public static Image glowingCircleOne;
 	public static Image glowingCircleTwo;
+	public static Image glowingCircleThree;
 	public static Image shadedImage;
 	public static Image preLightedDebris;
 	public static Image snakeOneHead;
@@ -90,6 +91,8 @@ public class GameImageBank {
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		glowingCircleOne = ImageUtility.preCreateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
+		glowingCircleTwo= ImageUtility.preCreateAlternateGlowingCircle(Color.RED,1, 500, 0.8, 0, 0);
+		glowingCircleThree= ImageUtility.preCreateAlternateGlowingCircleTwo(Color.RED,1, 500, 0.8, 0, 0);
 		fruit = ImageUtility.precreatedLightedAndShadedImage("apple.png", GameSettings.GlOBAL_ILLUMINATION, 0,
 				150 / GameLoader.ResolutionScaleX, 192 / GameLoader.ResolutionScaleY);
 		fruitDebrisOne = ImageUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION-0.8, GameSettings.SPECULAR_MAP,

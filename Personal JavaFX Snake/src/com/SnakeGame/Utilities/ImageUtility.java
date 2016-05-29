@@ -296,25 +296,23 @@ public class ImageUtility {
 		return img;
 	}
 
-	public static Image preCreateGlowingCircle(Color color, double opacity, double depth, double spread, double width,
-			double height) {
+	public static Image preCreateGlowingCircle(Color color, double opacity,double depth, double spread, double width, double height) {
 		Image img;
 		Circle circle = new Circle();
-		circle.setFill(color);
-		circle.setRadius(depth);
-		borderGlow.setOffsetY(0f);
-		borderGlow.setOffsetX(0f);
-		borderGlow.setSpread(spread);
-		borderGlow.setColor(color);
-		borderGlow.setWidth(depth);
-		borderGlow.setHeight(depth);
-		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
-		circle.setOpacity(opacity);
-		circle.setEffect(borderGlow);
+		circle.setFill(Color.rgb(255, 200, 0, 1.0));
+		circle.setRadius(20);
+        borderGlow.setOffsetY(0f);
+        borderGlow.setOffsetX(0f);
+        borderGlow.setSpread(spread);
+        borderGlow.setColor(color);
+        borderGlow.setWidth(depth);
+        borderGlow.setHeight(depth);
+        borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
+        circle.setOpacity(opacity);
+        circle.setEffect(borderGlow);
 		img = ImageUtility.createImage(circle);
 		return img;
 	}
-
 	public static Image preCreateAlternateGlowingCircle(Color color, double opacity, double depth, double spread,
 			double width, double height) {
 		Image img;
@@ -333,7 +331,24 @@ public class ImageUtility {
 		img = ImageUtility.createImage(circle);
 		return img;
 	}
-
+	public static Image preCreateAlternateGlowingCircleTwo(Color color, double opacity, double depth, double spread,
+			double width, double height) {
+		Image img;
+		Circle circle = new Circle();
+		circle.setFill(Color.rgb(255, 50, 0, 1.0));
+		circle.setRadius(20);
+		borderGlow.setOffsetY(0f);
+		borderGlow.setOffsetX(0f);
+		borderGlow.setSpread(spread);
+		borderGlow.setColor(color);
+		borderGlow.setWidth(depth);
+		borderGlow.setHeight(depth);
+		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
+		circle.setOpacity(opacity);
+		circle.setEffect(borderGlow);
+		img = ImageUtility.createImage(circle);
+		return img;
+	}
 	public static Image preCreateImageWithBloom(String path, double threshold, double width, double height) {
 		Image img = new Image(path, width, height, true, false, false);
 		ImageView view = new ImageView(img);

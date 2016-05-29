@@ -1,14 +1,14 @@
 package com.SnakeGame.PlayerTwo;
 
 import com.SnakeGame.AbstractModels.AbstractSection;
+import com.SnakeGame.DebrisEffects.DirtDisplacement;
+import com.SnakeGame.DebrisEffects.SectionDisintegration;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.Particles.DirtDisplacement;
-import com.SnakeGame.Particles.SectionDisintegration;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -204,7 +204,7 @@ public class PlayerTwoSection extends AbstractSection {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <2; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -213,7 +213,7 @@ public class PlayerTwoSection extends AbstractSection {
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <2; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
 		}

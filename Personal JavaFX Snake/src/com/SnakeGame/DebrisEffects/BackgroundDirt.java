@@ -1,71 +1,79 @@
-package com.SnakeGame.Particles;
+package com.SnakeGame.DebrisEffects;
 
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
+import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDenums.GameDebrisID;
 
+import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class SectionDisintegration extends AbstractDebrisEffect {
+public class BackgroundDirt extends AbstractDebrisEffect {
 
 	private GameDebrisID id;
-	private double radius;
+	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
 	private double decay;
 	private double lifeTime = 1.0f;
+	private double energyLoss = 0.9;
+	private Pane layer;
 
-	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
+	public BackgroundDirt(GameManager game, Pane layer, Image image,double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
-		this.radius = radius / 2;
-		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
-		this.shape.setRadius(this.radius);
-		this.decay = 0.016 / expireTime;
+		this.shape = new Circle(x, y, radius);
+		this.shape.setRadius(radius);
+		this.shape.setFill(imagePattern);
+		this.decay = 0.026/expireTime;
+		this.layer = layer;
+		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX);
+		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX);
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (2 - -2 + 1) + -2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velY = Math.random() * (2 - -2 + 1) + -2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		init();
+		this.init();
 	}
-
 	public void init() {
-		shape.setFill(imagePattern);
-		game.getOuterParticleLayer().getChildren().add(shape);
+		layer.getChildren().add(shape);
 	}
 
 	public void update() {
-		super.move();
+		shape.setCenterX(x);
+		shape.setCenterY(y);
 		lifeTime -= decay;
-		velX += 0.05 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		velY -= 0.002;
+		velX *= energyLoss;
+		velY *= energyLoss;
 	}
 
 	public void move() {
-		shape.setCenterX(x);
-		shape.setCenterY(y);
+		super.move();
+
 	}
 
 	public void collide() {
+		for(AbstractTile block: game.getGameLoader().getTileManager().getBlock()){
+			if(getBounds().intersects(block.getBounds())){
+				this.layer.getChildren().remove(this.shape);
+			}
+		}
 	}
 
 	public boolean isAlive() {
-
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
 	public void draw(GraphicsContext gc) {
 
-		shape.setOpacity(lifeTime);
 	}
 
 	public Rectangle2D getBounds() {
 
-		return null;
+		return new Rectangle2D(x,y,radius,radius);
 	}
 
 	public Rectangle2D getBoundsTop() {

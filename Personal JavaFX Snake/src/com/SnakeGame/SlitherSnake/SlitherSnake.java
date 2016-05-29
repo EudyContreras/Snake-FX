@@ -4,6 +4,7 @@ import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractSlither;
 import com.SnakeGame.AbstractModels.AbstractSlitherSection;
 import com.SnakeGame.AbstractModels.AbstractTile;
+import com.SnakeGame.DebrisEffects.DirtDisplacement;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
@@ -12,7 +13,6 @@ import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.Particles.DirtDisplacement;
 import com.SnakeGame.Utilities.Animation;
 import com.SnakeGame.Utilities.ScreenOverlay;
 
@@ -543,7 +543,7 @@ public class SlitherSnake extends AbstractSlither {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < 15; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -552,7 +552,7 @@ public class SlitherSnake extends AbstractSlither {
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
 		}
