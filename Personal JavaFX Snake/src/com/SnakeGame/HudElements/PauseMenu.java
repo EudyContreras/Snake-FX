@@ -6,7 +6,7 @@ import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.event.EventHandler;
 import javafx.scene.effect.BlurType;
@@ -27,7 +27,7 @@ public class PauseMenu {
 	private ImageView mainMenuBtt;
 	private ImageView quitGameBtt;
 	private DropShadow borderGlow;
-	private ScreenOverlay overlay;
+	private ScreenEffectUtility overlay;
 	private int currentChoice = 1;
 	private boolean allowTouch = false;
 	private boolean hide = true;

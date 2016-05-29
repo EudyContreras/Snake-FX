@@ -13,8 +13,8 @@ import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.Utilities.Animation;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.AnimationUtility;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -71,9 +71,9 @@ public class SlitherSnake extends AbstractSlither {
 	private double yChange;
 	private Circle skull;
 	private GameManager game;
-	private Animation anim;
+	private AnimationUtility anim;
 	private Rectangle bounds;
-	private ScreenOverlay overlay;
+	private ScreenEffectUtility overlay;
 	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
 	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
 	private AbstractSlitherSection thisPart;
@@ -95,7 +95,7 @@ public class SlitherSnake extends AbstractSlither {
 		this.speed = speed;
 		this.game = game;
 		this.overlay = game.getOverlayEffect();
-		this.anim = new Animation();
+		this.anim = new AnimationUtility();
 		this.sectManager = game.getSlitherSectManager();
 		this.velX = GameSettings.SLITHER_SPEED;
 		this.velY = GameSettings.SLITHER_SPEED;
@@ -588,11 +588,11 @@ public class SlitherSnake extends AbstractSlither {
 		return anim.getImage();
 	}
 
-	public Animation getAnimation() {
+	public AnimationUtility getAnimation() {
 		return anim;
 	}
 
-	public void setAnimation(Animation anim) {
+	public void setAnimation(AnimationUtility anim) {
 		this.anim = anim;
 	}
 

@@ -11,14 +11,14 @@ import javafx.scene.paint.ImagePattern;
  * @author Eudy
  *
  */
-public class Animation {
+public class AnimationUtility {
 
 	private LinkedList<Object> scenes = new LinkedList<Object>();
 	private int sceneIndex;
 	private long movieTime;
 	private long totalTime;
 
-	public Animation() {
+	public AnimationUtility() {
 		totalTime = 0;
 		start();
 	}

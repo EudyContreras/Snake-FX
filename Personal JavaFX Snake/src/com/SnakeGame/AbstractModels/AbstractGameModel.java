@@ -31,7 +31,7 @@ import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
 import com.SnakeGame.SlitherSnake.SlitherManager;
 import com.SnakeGame.SlitherSnake.SlitherSectionManager;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -62,7 +62,7 @@ public abstract class AbstractGameModel extends Application {
 	protected MouseInputManager mouseInput;
 	protected GestureInputManager gestures;
 	protected GraphicsContext gc;
-	protected ScreenOverlay overlayEffect;
+	protected ScreenEffectUtility overlayEffect;
 	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
 	protected PlayerOneManager playerOneManager;
@@ -485,7 +485,7 @@ public abstract class AbstractGameModel extends Application {
 		this.stateID = stateID;
 	}
 
-	public ScreenOverlay getOverlayEffect(){
+	public ScreenEffectUtility getOverlayEffect(){
 		return overlayEffect;
 	}
 

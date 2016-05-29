@@ -8,7 +8,7 @@ import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 /**
  * This class is used to keep track of energy used by the player if there's is
@@ -29,7 +29,7 @@ public class RainEmitter {
 	private int interval = 0;
 	private GameManager game;
 	private Random rand;
-	private ScreenOverlay overlay;
+	private ScreenEffectUtility overlay;
 
 	public RainEmitter(GameManager game, double x, double y,  double speed, double width, double height) {
 		this.x = x;

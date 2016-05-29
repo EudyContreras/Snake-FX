@@ -20,14 +20,14 @@ import javax.imageio.ImageIO;
  *
  * @author Eudy Contreras
  */
-public class GameImageLoader {
+public class ImageLoadingUtility {
 
 	private static String path;
 	private static BufferedImage Image;
 	private static int width, height;
 	private final static Map<String, BufferedImage> textureMap = new HashMap<String, BufferedImage>();
 
-	public GameImageLoader() {
+	public ImageLoadingUtility() {
 
 	}
 
@@ -37,8 +37,8 @@ public class GameImageLoader {
 	 *
 	 * @param path
 	 */
-	public GameImageLoader(String path) {
-		GameImageLoader.path = path;
+	public ImageLoadingUtility(String path) {
+		ImageLoadingUtility.path = path;
 		BufferedImage oldImage = textureMap.get(path);
 		if (oldImage != null) {
 			Image = oldImage;
@@ -62,13 +62,13 @@ public class GameImageLoader {
 	 * @param path
 	 */
 	public static BufferedImage loadImage(String path) {
-		GameImageLoader.path = path;
+		ImageLoadingUtility.path = path;
 		BufferedImage oldImage = textureMap.get(path);
 		if (oldImage != null) {
 			Image = oldImage;
 		} else {
 			try {
-				Image = ImageIO.read(GameImageLoader.class.getResourceAsStream("/com/SnakeGame/Images" + path));
+				Image = ImageIO.read(ImageLoadingUtility.class.getResourceAsStream("/com/SnakeGame/Images" + path));
 				textureMap.put(path, Image);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -96,7 +96,7 @@ public class GameImageLoader {
 	}
 
 	public static void setImage(BufferedImage Image) {
-		GameImageLoader.Image = Image;
+		ImageLoadingUtility.Image = Image;
 	}
 
 	public static String getPath() {
@@ -104,7 +104,7 @@ public class GameImageLoader {
 	}
 
 	public static void setPath(String path) {
-		GameImageLoader.path = path;
+		ImageLoadingUtility.path = path;
 	}
 
 	public static int getWidth() {

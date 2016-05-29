@@ -13,7 +13,7 @@ import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.Utilities.GameImageLoader;
+import com.SnakeGame.Utilities.ImageLoadingUtility;
 import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Point2D;
@@ -41,8 +41,8 @@ public class GameLoader extends AbstractLoaderModel{
 		initializeMain();
 	}
 	public void initializeMain(){
-		this.border = GameImageLoader.loadImage("/desert-level-border.png");
-		this.fence = GameImageLoader.loadImage("/desert-level-fence.png");
+		this.border = ImageLoadingUtility.loadImage("/desert-level-border.png");
+		this.fence = ImageLoadingUtility.loadImage("/desert-level-fence.png");
 		this.setLevel(this.levelMain);
 		this.setLevelWidth(getLevel().getWidth());
 		this.setLevelHeight(getLevel().getHeight());

@@ -10,7 +10,7 @@ import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.Utilities.GameImageLoader;
+import com.SnakeGame.Utilities.ImageLoadingUtility;
 import com.SnakeGame.Utilities.GameTileManager;
 
 public abstract class AbstractLoaderModel {
@@ -56,17 +56,17 @@ public abstract class AbstractLoaderModel {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadDesertLevels() {
-		this.levelMain 	= GameImageLoader.loadImage("/desert-level-0.png");
-		this.desertLevel_1 = GameImageLoader.loadImage("/desert-level-1.png");
-		this.desertLevel_2 = GameImageLoader.loadImage("/desert-level-2.png");
-		this.desertLevel_3 = GameImageLoader.loadImage("/desert-level3.png");
-		this.desertLevel_4 = GameImageLoader.loadImage("/desert-level4.png");
-		this.desertLevel_5 = GameImageLoader.loadImage("/desert-level5.png");
-		this.desertLevel_6 = GameImageLoader.loadImage("/desert-level6.png");
-		this.desertLevel_7 = GameImageLoader.loadImage("/image.png");
-		this.desertLevel_8 = GameImageLoader.loadImage("/image.png");
-		this.desertLevel_9 = GameImageLoader.loadImage("/image.png");
-		this.desertLevel_10 = GameImageLoader.loadImage("/image.png");
+		this.levelMain 	= ImageLoadingUtility.loadImage("/desert-level-0.png");
+		this.desertLevel_1 = ImageLoadingUtility.loadImage("/desert-level-1.png");
+		this.desertLevel_2 = ImageLoadingUtility.loadImage("/desert-level-2.png");
+		this.desertLevel_3 = ImageLoadingUtility.loadImage("/desert-level3.png");
+		this.desertLevel_4 = ImageLoadingUtility.loadImage("/desert-level4.png");
+		this.desertLevel_5 = ImageLoadingUtility.loadImage("/desert-level5.png");
+		this.desertLevel_6 = ImageLoadingUtility.loadImage("/desert-level6.png");
+		this.desertLevel_7 = ImageLoadingUtility.loadImage("/image.png");
+		this.desertLevel_8 = ImageLoadingUtility.loadImage("/image.png");
+		this.desertLevel_9 = ImageLoadingUtility.loadImage("/image.png");
+		this.desertLevel_10 = ImageLoadingUtility.loadImage("/image.png");
 
 	}
 	public void loadJungleLevels() {

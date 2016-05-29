@@ -1,10 +1,10 @@
 package com.SnakeGame.AbstractModels;
 
-public class AbstractRotatingMoveable {
+public class AbstractObjectR {
 	   private float x;
 	   private float y;
 
-	   public AbstractRotatingMoveable(float x, float y) {
+	   public AbstractObjectR(float x, float y) {
 	      this.x = x;
 	      this.y = y;
 	   }

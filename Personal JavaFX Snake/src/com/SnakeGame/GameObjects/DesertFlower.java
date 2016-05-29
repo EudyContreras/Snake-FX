@@ -40,7 +40,8 @@ public class DesertFlower extends AbstractTile {
 		if(RandomGenerator.getRNG(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_flower_alt);
 		}
-		draw();
+		this.adjustBounds();
+		this.draw();
 	}
 
 	public DesertFlower(GameManager game, float x, float y, float velX, float velY, Image image) {
@@ -50,7 +51,8 @@ public class DesertFlower extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		draw();
+		this.adjustBounds();
+		this.draw();
 	}
 
 	/**
@@ -59,6 +61,14 @@ public class DesertFlower extends AbstractTile {
 	public void move() {
 		x = x + velX;
 	}
+	/**
+	 * Method which initializes bounds for a specific object
+	 */
+	public void adjustBounds() {
+		collisionBounds = new Rectangle2D(x+10, y + 45, width - 70, height - 45);
+
+	}
+
 	/**
 	 * Draws a bounding box
 	 */
@@ -71,7 +81,7 @@ public class DesertFlower extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			Rectangle bounds = new Rectangle(x+10, y + 45, width - 70, height - 45);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

@@ -6,7 +6,7 @@ import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -20,7 +20,7 @@ import javafx.scene.shape.Rectangle;
 public class VictoryScreen {
 
 	public static boolean LEVEL_COMPLETE = false;
-	private ScreenOverlay overlay;
+	private ScreenEffectUtility overlay;
 	private DropShadow borderGlow;
 	private GameManager game;
 	private Rectangle confirmScreen;

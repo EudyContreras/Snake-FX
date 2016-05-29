@@ -19,7 +19,7 @@ import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -230,7 +230,7 @@ public class GameManager extends AbstractGameModel{
 		outerParticleLayer = new Pane();
 		levelLayer = new Pane();
 		loader = new GameLoader(this);
-		overlayEffect = new ScreenOverlay(this,getGameRoot());
+		overlayEffect = new ScreenEffectUtility(this,getGameRoot());
 		fadeHandler = new FadeScreenHandler(this);
 		objectManager = new ObjectManager(this);
 		playerOneManager = new PlayerOneManager(this);

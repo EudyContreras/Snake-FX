@@ -14,8 +14,8 @@ import com.SnakeGame.IDenums.GameLevelObjectID;
 import com.SnakeGame.IDenums.GameObjectID;
 import com.SnakeGame.IDenums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.Utilities.Animation;
-import com.SnakeGame.Utilities.ScreenOverlay;
+import com.SnakeGame.Utilities.AnimationUtility;
+import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -52,6 +52,7 @@ public class PlayerOne extends AbstractObject {
 	private boolean eatCoolDown = false;
 	private boolean setDelay = false;
 	private boolean allowDamage = true;
+	private boolean allowScreenShake = true;
 	private boolean allowCollision = true;
 	private boolean hasBaseBody = false;
 	private boolean allowTurnLeft = true;
@@ -61,9 +62,9 @@ public class PlayerOne extends AbstractObject {
 	private boolean goSlow = false;
 	private boolean thrust = false;
 	private GameManager game;
-	private Animation anim;
+	private AnimationUtility anim;
 	private Rectangle bounds;
-	private ScreenOverlay overlay;
+	private ScreenEffectUtility overlay;
 	private PlayerOneHead snakeHead;
 	private PlayerOneSection neighbor;
 	private PlayerOneSectionManager sectManager;
@@ -84,7 +85,7 @@ public class PlayerOne extends AbstractObject {
 			double velR, double health, double damage, double speed, GameObjectID id, ObjectManager gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
-		this.anim = new Animation();
+		this.anim = new AnimationUtility();
 		this.circle.setVisible(false);
 		//this.bodyTrigger = y + 5;
 		this.overlay = game.getOverlayEffect();
@@ -168,6 +169,7 @@ public class PlayerOne extends AbstractObject {
 
 	public void hinderMovement() {
 		if (KEEP_MOVING) {
+			allowScreenShake = true;
 			moveDelay--;
 			if (moveDelay <= 0) {
 				moveDelay = 0;
@@ -542,6 +544,10 @@ public class PlayerOne extends AbstractObject {
 						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
 								KEEP_MOVING = false;
+								if (allowScreenShake) {
+									overlay.addScreenShake(0.5, true, true);
+									allowScreenShake = false;
+								}
 								allowCollision = false;
 							}
 						}
@@ -717,11 +723,11 @@ public class PlayerOne extends AbstractObject {
 		return anim.getImage();
 	}
 
-	public Animation getAnimation() {
+	public AnimationUtility getAnimation() {
 		return anim;
 	}
 
-	public void setAnimation(Animation anim) {
+	public void setAnimation(AnimationUtility anim) {
 		this.anim = anim;
 	}
 
