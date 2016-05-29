@@ -2,7 +2,7 @@ package com.SnakeGame.DebrisEffects;
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDenums.GameDebrisID;
+import com.SnakeGame.IDEnums.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

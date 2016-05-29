@@ -5,7 +5,7 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDenums.GameDebrisID;
+import com.SnakeGame.IDEnums.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

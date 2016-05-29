@@ -1,6 +1,6 @@
 package com.SnakeGame.AbstractModels;
 
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.Utilities.GameStateManager;
 
 /**

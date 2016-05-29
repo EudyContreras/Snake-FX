@@ -390,7 +390,7 @@ public class ImageUtility {
 	}
 
 	public static String loadResource(String image) {
-		String url = "com/SnakeGame/Images/" + image;
+		String url = "com/SnakeGame/ImageFiles/" + image;
 		return url;
 	}
 }

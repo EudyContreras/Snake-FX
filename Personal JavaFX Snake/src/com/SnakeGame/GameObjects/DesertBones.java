@@ -4,7 +4,7 @@ package com.SnakeGame.GameObjects;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.IDEnums.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;

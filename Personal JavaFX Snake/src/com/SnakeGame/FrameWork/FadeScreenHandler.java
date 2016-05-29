@@ -1,6 +1,6 @@
 package com.SnakeGame.FrameWork;
 
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameStateID;
 
 import javafx.scene.shape.Rectangle;
 

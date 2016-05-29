@@ -10,9 +10,9 @@ import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.HudElements.ScoreKeeper;
-import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameLevelObjectID;
+import com.SnakeGame.IDEnums.GameObjectID;
+import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Utilities.AnimationUtility;
 import com.SnakeGame.Utilities.ScreenEffectUtility;
@@ -165,7 +165,7 @@ public class PlayerTwo extends AbstractObject {
 		} else {
 			this.snakeHead.setAnim(blinkingFrame);
 		}
-	}
+	} 
 
 	public void hinderMovement() {
 		if (KEEP_MOVING) {
@@ -545,7 +545,7 @@ public class PlayerTwo extends AbstractObject {
 							if (allowCollision) {
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
-									overlay.addScreenShake(0.5, true, true);
+									overlay.addScreenShake(0.4, true, true);
 									allowScreenShake = false;
 								}
 								allowCollision = false;
@@ -559,16 +559,26 @@ public class PlayerTwo extends AbstractObject {
 				if (tempTile.getId() == GameLevelObjectID.fence) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
-							if (!GameSettings.DAMAGE_IMMUNITY)
+							if (!GameSettings.DAMAGE_IMMUNITY){
+								if (allowScreenShake) {
+									overlay.addScreenShake(1.2, true, true);
+									allowScreenShake = false;
+								}
 								die();
+							}
 						}
 					}
 				}
 				if (tempTile.getId() == GameLevelObjectID.trap) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
-							if (!GameSettings.DAMAGE_IMMUNITY)
+							if (!GameSettings.DAMAGE_IMMUNITY){
+								if (allowScreenShake) {
+									overlay.addScreenShake(1.2, true, true);
+									allowScreenShake = false;
+								}
 								die();
+							}
 						}
 					}
 				}

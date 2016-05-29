@@ -9,9 +9,9 @@ import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.PlayerTwoManager;
-import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameLevelObjectID;
+import com.SnakeGame.IDEnums.GameObjectID;
+import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 
 import javafx.geometry.Point2D;
@@ -103,6 +103,10 @@ public class PlayerTwoHead extends AbstractObject {
 			this.text.setY(y - 40);
 		}
 
+	}
+	public void updateUI(){
+		if(!PlayerTwo.DEAD)
+		super.updateUI();
 	}
 	public void logicUpdate(){
 		showTheSkull();

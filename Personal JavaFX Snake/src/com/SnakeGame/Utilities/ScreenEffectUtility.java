@@ -2,7 +2,7 @@ package com.SnakeGame.Utilities;
 
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 

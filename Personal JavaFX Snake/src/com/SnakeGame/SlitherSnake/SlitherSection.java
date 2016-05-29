@@ -6,7 +6,7 @@ import com.SnakeGame.DebrisEffects.SectionDisintegration;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDenums.GameObjectID;
+import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 
 import javafx.geometry.Point2D;

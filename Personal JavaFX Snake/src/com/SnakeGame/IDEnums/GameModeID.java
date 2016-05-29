@@ -1,4 +1,4 @@
-package com.SnakeGame.IDenums;
+package com.SnakeGame.IDEnums;
 
 public enum GameModeID {
 	SinglePlayer(),

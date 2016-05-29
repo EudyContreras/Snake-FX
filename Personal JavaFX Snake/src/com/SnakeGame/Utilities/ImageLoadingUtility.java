@@ -68,7 +68,7 @@ public class ImageLoadingUtility {
 			Image = oldImage;
 		} else {
 			try {
-				Image = ImageIO.read(ImageLoadingUtility.class.getResourceAsStream("/com/SnakeGame/Images" + path));
+				Image = ImageIO.read(ImageLoadingUtility.class.getResourceAsStream("/com/SnakeGame/ImageFiles" + path));
 				textureMap.put(path, Image);
 			} catch (IOException e) {
 				e.printStackTrace();

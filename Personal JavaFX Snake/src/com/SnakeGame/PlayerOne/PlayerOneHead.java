@@ -9,9 +9,9 @@ import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.FrameWork.PlayerOneManager;
-import com.SnakeGame.IDenums.GameLevelObjectID;
-import com.SnakeGame.IDenums.GameObjectID;
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameLevelObjectID;
+import com.SnakeGame.IDEnums.GameObjectID;
+import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 
 import javafx.geometry.Point2D;
@@ -105,6 +105,7 @@ public class PlayerOneHead extends AbstractObject {
 
 	}
 	public void updateUI(){
+		if(!PlayerOne.DEAD)
 		super.updateUI();
 	}
 	public void logicUpdate(){

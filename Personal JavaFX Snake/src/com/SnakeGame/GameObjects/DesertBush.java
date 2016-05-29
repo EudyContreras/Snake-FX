@@ -5,7 +5,7 @@ import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDenums.GameLevelObjectID;
+import com.SnakeGame.IDEnums.GameLevelObjectID;
 import com.SnakeGame.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;

@@ -11,14 +11,14 @@ import com.SnakeGame.HudElements.PauseMenu;
 import com.SnakeGame.HudElements.ScoreBoard;
 import com.SnakeGame.HudElements.ScoreKeeper;
 import com.SnakeGame.HudElements.VictoryScreen;
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
-import com.SnakeGame.Interface.MenuMain;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
+import com.SnakeGame.UserInterface.MenuMain;
 import com.SnakeGame.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;

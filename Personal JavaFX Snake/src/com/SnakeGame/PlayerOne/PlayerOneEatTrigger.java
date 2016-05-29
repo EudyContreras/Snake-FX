@@ -4,7 +4,7 @@ import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDenums.GameObjectID;
+import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

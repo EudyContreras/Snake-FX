@@ -1,4 +1,4 @@
-package com.SnakeGame.Interface;
+package com.SnakeGame.UserInterface;
 
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;

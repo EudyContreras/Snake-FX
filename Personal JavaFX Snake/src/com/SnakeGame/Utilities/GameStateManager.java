@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.SnakeGame.AbstractModels.AbstractGameStates;
 import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.IDenums.GameStateID;
+import com.SnakeGame.IDEnums.GameStateID;
 
 /**
  * Class used for updating, switching, and removing states This class may be

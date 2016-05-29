@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import com.SnakeGame.AbstractModels.AbstractSlither;
 import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.IDenums.GameObjectID;
+import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;
 
