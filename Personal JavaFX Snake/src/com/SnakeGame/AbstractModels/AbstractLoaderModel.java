@@ -38,6 +38,7 @@ public abstract class AbstractLoaderModel {
 	protected SlitherSnake slither;
 	protected GameManager game;
 	protected Random rand;
+	protected int appleNumber = 0;
 	protected int levelWidth;
 	protected int levelHeight;
 	protected int pixel;

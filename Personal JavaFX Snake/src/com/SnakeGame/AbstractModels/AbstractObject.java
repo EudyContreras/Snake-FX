@@ -36,6 +36,7 @@ public abstract class AbstractObject {
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
+	protected int numericCode;
 	protected double x;
 	protected double y;
 	protected double r;
@@ -295,6 +296,15 @@ public abstract class AbstractObject {
 		this.layer.getChildren().remove(this.imageView);
 		this.layer.getChildren().remove(this.circle);
 	}
+
+	public int getNumericCode() {
+		return numericCode;
+	}
+
+	public void setNumericCode(int numericCode) {
+		this.numericCode = numericCode;
+	}
+
 
 	public Pane getLayer() {
 		return layer;
