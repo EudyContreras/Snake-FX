@@ -128,7 +128,7 @@ public class GameImageBank {
 				GameSettings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
 		snakeOneDebris = ImageUtility.precreatedLightedImage("snake_skin_one_debris.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
-		snakeOneSphere = new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(snakeOneHead));
+		snakeOneSphere = new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(snakeOneHead));
 		slither = new Circle(GameSettings.SLITHER_SIZE * 1.4, new ImagePattern(snakeOneHead));
 		snakeOneBody = new ImagePattern(snakeOneSkin);
 
@@ -148,7 +148,7 @@ public class GameImageBank {
 				GameSettings.SPECULAR_MAP, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
 		snakeTwoDebris = ImageUtility.precreatedLightedImage("snake_skin_two_debris.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
-		snakeTwoSphere = new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(snakeTwoHead));
+		snakeTwoSphere = new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(snakeTwoHead));
 		tailImage = new ImagePattern(snakeTail);
 		snakeTwoBody = new ImagePattern(snakeTwoSkin);
 		/**

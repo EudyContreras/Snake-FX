@@ -96,7 +96,7 @@ public class SlitherSnake extends AbstractSlither {
 		this.game = game;
 		this.overlay = game.getOverlayEffect();
 		this.anim = new Animation();
-		this.sectManager = game.getSectManagerThree();
+		this.sectManager = game.getSlitherSectManager();
 		this.velX = GameSettings.SLITHER_SPEED;
 		this.velY = GameSettings.SLITHER_SPEED;
 		this.speed = 0.7f;

@@ -273,8 +273,8 @@ public abstract class AbstractSection {
 	 *
 	 */
 	public void updateUI() {
-		circle.setCenterX(x);
-		circle.setCenterY(y);
+		circle.setTranslateX(x);
+		circle.setTranslateY(y);
 		circle.setRotate(r);
 	}
 

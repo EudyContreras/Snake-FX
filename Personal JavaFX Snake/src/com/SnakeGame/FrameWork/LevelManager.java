@@ -91,7 +91,7 @@ public class LevelManager extends AbstractLoaderModel{
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
 					DesertBones texture = new DesertBones(game, (float) (row * 58 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
-							(float) (col * 53 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_skull,
+							(float) (col * 55 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_skull,
 							GameLevelObjectID.skeleton);
 					loader.getTileManager().addTile(texture);
 					game.getDirtLayer().getChildren().add(texture.getView());

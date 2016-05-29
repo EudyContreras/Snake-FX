@@ -104,6 +104,9 @@ public class PlayerOneHead extends AbstractObject {
 		}
 
 	}
+	public void updateUI(){
+		super.updateUI();
+	}
 	public void logicUpdate(){
 		showTheSkull();
 		updateBounds();

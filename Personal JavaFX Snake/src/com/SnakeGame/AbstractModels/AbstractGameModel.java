@@ -70,7 +70,7 @@ public abstract class AbstractGameModel extends Application {
 	protected GameDebrisManager debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
-	protected SlitherSectionManager sectManagerThree;
+	protected SlitherSectionManager slitherSectManager;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected MenuMain mainMenu;
@@ -277,8 +277,8 @@ public abstract class AbstractGameModel extends Application {
 		return sectManagerTwo;
 	}
 
-	public SlitherSectionManager getSectManagerThree() {
-		return sectManagerThree;
+	public SlitherSectionManager getSlitherSectManager() {
+		return slitherSectManager;
 	}
 
 	public void setDebrisManager(GameDebrisManager debrisManager) {

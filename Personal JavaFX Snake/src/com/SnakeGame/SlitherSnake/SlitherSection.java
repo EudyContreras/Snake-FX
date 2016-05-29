@@ -32,7 +32,7 @@ public class SlitherSection extends AbstractSlitherSection {
 		super(game, layer, node, id);
 		this.game = game;
 		this.numericID = numericID;
-		this.sectManager = game.getSectManagerThree();
+		this.sectManager = game.getSlitherSectManager();
 		this.x = x;
 		this.y = y;
 		this.velX = GameSettings.SLITHER_SPEED;

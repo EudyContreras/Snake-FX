@@ -145,7 +145,6 @@ public class GameManager extends AbstractGameModel{
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
-
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,

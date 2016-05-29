@@ -81,8 +81,8 @@ public class GameLevelImage {
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 72 / GameLoader.ResolutionScaleX,
 			123 / GameLoader.ResolutionScaleY);
 	desert_skull = ImageUtility.precreatedLightedAndShadedImage("desert_bison_skull.png",
-			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 160 / GameLoader.ResolutionScaleX,
-			140 / GameLoader.ResolutionScaleY);
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 140 / GameLoader.ResolutionScaleX,
+			120 / GameLoader.ResolutionScaleY);
 	desert_cactus_small = ImageUtility.precreatedLightedAndShadedImage("little_cactus.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 95 / GameLoader.ResolutionScaleX,
 			92 / GameLoader.ResolutionScaleY);
