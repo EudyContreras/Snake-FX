@@ -98,9 +98,9 @@ public class GameImageBank {
 				GameSettings.SPECULAR_MAP + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
 		sand_grain = ImageUtility.precreatedLightedImage("sand_grain.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
-		snakeBones = ImageUtility.precreatedLightedImage("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
+		snakeBones = ImageUtility.precreatedLightedAndShadedSnake("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP-0.5, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		snakeSkull = ImageUtility.precreatedLightedImage("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
+		snakeSkull = ImageUtility.precreatedLightedAndShadedSnake("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP-0.5, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 		snakeTail = ImageUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.SPECULAR_MAP, 114 / GameLoader.ResolutionScaleX, 243 / GameLoader.ResolutionScaleY);

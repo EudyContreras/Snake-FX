@@ -31,7 +31,7 @@ import javafx.scene.shape.Rectangle;
 public abstract class AbstractSection {
 
 	protected GameObjectID id;
-	protected PlayerMovement direction ;
+	protected PlayerMovement direction = PlayerMovement.STANDING_STILL;
 	protected Image image;
 	protected ImageView imageView;
 	protected ArrayList<Point2D> lastPosition = new ArrayList<>();

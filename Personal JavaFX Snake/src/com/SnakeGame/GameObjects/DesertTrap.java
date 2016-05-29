@@ -39,7 +39,7 @@ public class DesertTrap extends AbstractTile {
 		this.setBounds();
 	}
 	public void setBounds(){
-		 bounds2D = new Rectangle2D(x+5, y+height*0.4, width*0.6, height*0.5);
+		 bounds2D = new Rectangle2D(x+width*0.15, y+height*0.45, width*0.5, height*0.45);
 	}
 	/**
 	 * Method which moves this object
@@ -75,7 +75,7 @@ public class DesertTrap extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			bounds = new Rectangle(x+5, y+height*0.4, width*0.6, height*0.5);
+			bounds = new Rectangle(x+width*0.15, y+height*0.45, width*0.5, height*0.45);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

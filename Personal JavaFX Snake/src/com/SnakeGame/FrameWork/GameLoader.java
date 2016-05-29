@@ -283,8 +283,8 @@ public class GameLoader extends AbstractLoaderModel{
 		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
 				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y + 1)
-				+ GameSettings.START_Y);
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
+				+ GameSettings.START_Y+fruit.getRadius());
 		SnakeFood food = new SnakeFood(game, game.getDirtLayer(), fruit, x, y, GameObjectID.Fruit);
 		game.getObjectManager().addObject(food);
 	}
@@ -332,7 +332,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - 30 + 1) + 30);
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.START_Y+10 + 1) + GameSettings.START_Y+10);
 		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.dirt_grain,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
 	}
 

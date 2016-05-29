@@ -160,14 +160,14 @@ public class PlayerOneSection extends AbstractSection {
 					removeLatestDirection();
 					velY = 0;
 					velX = -GameSettings.SNAKE_ONE_SPEED;
-					r = 89;
+					r = 90;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
 					removeLatestDirection();
 					velY = 0;
 					velX = GameSettings.SNAKE_ONE_SPEED;
-					r = -89;
+					r = -90;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
 			}
@@ -209,7 +209,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
-	
+
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
 			for (int i = 0; i <2; i++) {

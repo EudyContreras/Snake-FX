@@ -28,6 +28,8 @@ import javafx.scene.text.Text;
 public class PlayerOneHead extends AbstractObject {
 	private double targetRotation = 0.0;
 	private double fadeValue = 1.0;
+	private double offsetX = 0;
+	private double offsetY = 0;
 	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
@@ -35,6 +37,7 @@ public class PlayerOneHead extends AbstractObject {
 	private GameManager game;
 	private Circle skull;
 	private PlayerOne snake;
+	private Rectangle bounds;
 	private Rectangle headBoundsLeft;
 	private Rectangle headBoundsRight;
 	private Rectangle headBoundsTop;
@@ -81,7 +84,9 @@ public class PlayerOneHead extends AbstractObject {
 			this.clearFromCollision.setStroke(Color.WHITE);
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
+			this.drawBoundingBox();
 		}
+
 		this.layer.getChildren().add(text);
 	}
 
@@ -101,6 +106,13 @@ public class PlayerOneHead extends AbstractObject {
 	}
 	public void logicUpdate(){
 		showTheSkull();
+		updateBounds();
+	}
+	public void updateBounds() {
+		if (GameSettings.DEBUG_MODE) {
+			bounds.setX(x - radius / 2 + offsetX);
+			bounds.setY(y - radius / 2 + offsetY);
+		}
 	}
 	public void showTheSkull() {
 		if (showTheSkull == true) {
@@ -314,6 +326,16 @@ public class PlayerOneHead extends AbstractObject {
 
 	public void setShowTheSkull(boolean showTheSkull) {
 		this.showTheSkull = showTheSkull;
+	}
+	public void drawBoundingBox() {
+
+		if (GameSettings.DEBUG_MODE) {
+			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
+			bounds.setStroke(Color.WHITE);
+			bounds.setStrokeWidth(3);
+			bounds.setFill(Color.TRANSPARENT);
+			game.getSeventhLayer().getChildren().add(bounds);
+		}
 	}
 
 	public void adjustBounds() {

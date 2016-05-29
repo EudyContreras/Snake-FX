@@ -527,8 +527,8 @@ public class MenuMain {
 		showMenu = true;
 		opacity = 1;
 		clearUp.setOpacity(opacity);
-		setKeyInputHandler();
 		setMouseInputHandler();
+		setKeyInputHandler();
 		game.showCursor(true, game.getScene());
 		game.setRoot(menuRoot);
 		game.pauseGame();

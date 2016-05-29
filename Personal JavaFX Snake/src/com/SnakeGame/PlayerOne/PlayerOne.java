@@ -86,7 +86,7 @@ public class PlayerOne extends AbstractObject {
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
-		this.bodyTrigger = y + 20;
+		this.bodyTrigger = y + 5;
 		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
@@ -464,8 +464,8 @@ public class PlayerOne extends AbstractObject {
 		offsetY = 0;
 		velX = GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
-		r = -89;
-		snakeHead.setR(-89);
+		r = -90;
+		snakeHead.setR(-90);
 		if (!GameSettings.FAST_TURNS)
 			turns.remove(0);
 		turnDelay = GameSettings.TURN_DELAY;
@@ -484,8 +484,8 @@ public class PlayerOne extends AbstractObject {
 		offsetY = 0;
 		velX = -GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
-		r = 89;
-		snakeHead.setR(89);
+		r = 90;
+		snakeHead.setR(90);
 		if (!GameSettings.FAST_TURNS)
 			turns.remove(0);
 		turnDelay = GameSettings.TURN_DELAY;
@@ -512,7 +512,7 @@ public class PlayerOne extends AbstractObject {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
-					if (getBounds().intersects(tempTile.getBounds())) {
+					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
 							if (!GameSettings.DAMAGE_IMMUNITY) {
 								setCollision(true);
@@ -543,7 +543,7 @@ public class PlayerOne extends AbstractObject {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
 				if (tempTile.getId() == GameLevelObjectID.fence) {
-					if (getBounds().intersects(tempTile.getBounds())) {
+					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.DAMAGE_IMMUNITY)
 								die();
@@ -551,7 +551,7 @@ public class PlayerOne extends AbstractObject {
 					}
 				}
 				if (tempTile.getId() == GameLevelObjectID.trap) {
-					if (getBounds().intersects(tempTile.getBounds())) {
+					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.DAMAGE_IMMUNITY)
 								die();

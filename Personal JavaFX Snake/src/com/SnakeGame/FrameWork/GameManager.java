@@ -145,7 +145,7 @@ public class GameManager extends AbstractGameModel{
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
-	
+
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,
@@ -771,6 +771,12 @@ public class GameManager extends AbstractGameModel{
 	}
 
 	public void clearAll() {
+		GameSettings.PLAYER_ONE_SIZE = 30;
+		GameSettings.PLAYER_TWO_SIZE = 30;
+		GameSettings.PLAYER_ONE_SPEED = 6.0;
+		GameSettings.PLAYER_TWO_SPEED = 6.0;
+		GameLoader.scaleResolution();
+		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();
 		debrisLayer.getChildren().clear();
@@ -797,10 +803,7 @@ public class GameManager extends AbstractGameModel{
 
 	}
 	public void removePlayers() {
-		GameSettings.PLAYER_ONE_SIZE = 30;
-		GameSettings.PLAYER_TWO_SIZE = 30;
-		GameSettings.PLAYER_ONE_SPEED = 6.0;
-		GameSettings.PLAYER_TWO_SPEED = 6.0;
+
 		fithLayer.getChildren().clear();
 		fourthLayer.getChildren().clear();
 		playerOneManager.clearAll();

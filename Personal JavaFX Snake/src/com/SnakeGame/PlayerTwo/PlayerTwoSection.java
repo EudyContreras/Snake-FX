@@ -160,14 +160,14 @@ public class PlayerTwoSection extends AbstractSection {
 					removeLatestDirection();
 					velY = 0;
 					velX = -GameSettings.SNAKE_TWO_SPEED;
-					r = 89;
+					r = 90;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
 					removeLatestDirection();
 					velY = 0;
 					velX = GameSettings.SNAKE_TWO_SPEED;
-					r = -89;
+					r = -90;
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
 			}
@@ -195,7 +195,7 @@ public class PlayerTwoSection extends AbstractSection {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
 				if (PlayerTwo.KEEP_MOVING) {
-					displaceDirt(x + width / 2, y + height / 2, 18, 18);
+					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
 			}
@@ -209,6 +209,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <2; i++) {
@@ -308,7 +309,7 @@ public class PlayerTwoSection extends AbstractSection {
 					particleSize = Math.random() * (10 - 5 + 1) + 5;
 					particleLife = Math.random() * (1.5 - 0.5 + 1) + 0.5;
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
+				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeTwoDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 			}
 			blowUp = false;

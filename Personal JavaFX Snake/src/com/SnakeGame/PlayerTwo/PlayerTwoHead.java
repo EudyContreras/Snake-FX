@@ -28,6 +28,8 @@ import javafx.scene.text.Text;
 public class PlayerTwoHead extends AbstractObject {
 	private double targetRotation = 0.0;
 	private double fadeValue = 1.0;
+	private double offsetX = 0;
+	private double offsetY = 0;
 	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
@@ -35,6 +37,7 @@ public class PlayerTwoHead extends AbstractObject {
 	private GameManager game;
 	private Circle skull;
 	private PlayerTwo snake;
+	private Rectangle bounds;
 	private Rectangle headBoundsLeft;
 	private Rectangle headBoundsRight;
 	private Rectangle headBoundsTop;
@@ -54,7 +57,7 @@ public class PlayerTwoHead extends AbstractObject {
 		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
-		this.text.setText(GameSettings.PLAYER_ONE_NAME);
+		this.text.setText(GameSettings.PLAYER_TWO_NAME);
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
@@ -81,7 +84,9 @@ public class PlayerTwoHead extends AbstractObject {
 			this.clearFromCollision.setStroke(Color.WHITE);
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
+			this.drawBoundingBox();
 		}
+
 		this.layer.getChildren().add(text);
 	}
 
@@ -101,6 +106,13 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 	public void logicUpdate(){
 		showTheSkull();
+		updateBounds();
+	}
+	public void updateBounds() {
+		if (GameSettings.DEBUG_MODE) {
+			bounds.setX(x - radius / 2 + offsetX);
+			bounds.setY(y - radius / 2 + offsetY);
+		}
 	}
 	public void showTheSkull() {
 		if (showTheSkull == true) {
@@ -314,6 +326,16 @@ public class PlayerTwoHead extends AbstractObject {
 
 	public void setShowTheSkull(boolean showTheSkull) {
 		this.showTheSkull = showTheSkull;
+	}
+	public void drawBoundingBox() {
+
+		if (GameSettings.DEBUG_MODE) {
+			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
+			bounds.setStroke(Color.WHITE);
+			bounds.setStrokeWidth(3);
+			bounds.setFill(Color.TRANSPARENT);
+			game.getSeventhLayer().getChildren().add(bounds);
+		}
 	}
 
 	public void adjustBounds() {

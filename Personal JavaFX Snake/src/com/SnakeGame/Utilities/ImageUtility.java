@@ -96,6 +96,11 @@ public class ImageUtility {
 		light.setX(-130);
 		light.setY(315);
 		light.setZ(130);
+
+//		light.setX(-200);
+//		light.setY(300);
+//		light.setZ(140);
+//
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);

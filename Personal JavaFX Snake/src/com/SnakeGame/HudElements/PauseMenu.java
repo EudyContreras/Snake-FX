@@ -32,6 +32,7 @@ public class PauseMenu {
 	private boolean allowTouch = false;
 	private boolean hide = true;
 	private boolean show = false;
+	private boolean goToMain = false;
 	private double fadeLevel = 0.0;
 	private double hideSpeedX = 0.0;
 	private double hideSpeedY = -20.0;
@@ -100,6 +101,10 @@ public class PauseMenu {
 		hideTouchPanel();
 
 	}
+	public void goToMainMenu(){
+		selectionReset();
+		hideAndGoToMain();
+	}
 	public void dimObjects(){
 		this.mainBoard.setOpacity(0);
 		this.continueBtt.setOpacity(0);
@@ -137,6 +142,16 @@ public class PauseMenu {
 			game.getGameHud().swipeUp();
 			game.showCursor(false, game.getScene());
 			hide = true;
+			show = false;
+	}
+	public void hideAndGoToMain(){
+		if(!hide)
+			blurOff();
+			game.getScoreKeeper().swipeUp();
+			game.getGameHud().swipeUp();
+			game.showCursor(false, game.getScene());
+			hide = false;
+			goToMain = true;
 			show = false;
 	}
 	public void updateTouchPanel(){
@@ -184,6 +199,15 @@ public class PauseMenu {
 					game.processGameInput();
 					fadeLevel = 0;
 					hide = false;
+
+				}
+			}
+			if(goToMain){
+				fadeLevel-=0.03;
+				showObjects(fadeLevel);
+				if(fadeLevel<=0){
+					fadeLevel = 0;
+					goToMain = false;
 
 				}
 			}
@@ -251,7 +275,7 @@ public class PauseMenu {
 		mainMenuBtt.setOnMousePressed(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
 			game.getFadeScreenHandler().menu_fade_screen();
-			resumeGame();
+			goToMainMenu();
 		});
 		quitGameBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(255,0,0));
@@ -309,7 +333,7 @@ public class PauseMenu {
 				if (currentChoice == 3) {
 					game.setStateID(GameStateID.MAIN_MENU);
 					game.getFadeScreenHandler().menu_fade_screen();
-					resumeGame();
+					goToMainMenu();
 				}
 				if (currentChoice == 4) {
 					game.closeGame();
@@ -326,7 +350,7 @@ public class PauseMenu {
 				if (currentChoice == 3) {
 					game.setStateID(GameStateID.MAIN_MENU);
 					game.getFadeScreenHandler().menu_fade_screen();
-					resumeGame();
+					goToMainMenu();
 				}
 				if (currentChoice == 4) {
 					game.closeGame();

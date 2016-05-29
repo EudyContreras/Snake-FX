@@ -86,7 +86,7 @@ public class PlayerTwo extends AbstractObject {
 		this.game = game;
 		this.anim = new Animation();
 		this.circle.setVisible(false);
-		this.bodyTrigger = y + 20;
+		this.bodyTrigger = y + 5;
 		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
@@ -130,10 +130,10 @@ public class PlayerTwo extends AbstractObject {
 		updateSpeedDirt();
 		updateDirt();
 		checkTurns();
+		fadeOut();
 		speedUp();
 		speedDown();
 		slowDown();
-		fadeOut();
 
 	}
 
@@ -464,8 +464,8 @@ public class PlayerTwo extends AbstractObject {
 		offsetY = 0;
 		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
-		r = -89;
-		snakeHead.setR(-89);
+		r = -90;
+		snakeHead.setR(-90);
 		if (!GameSettings.FAST_TURNS)
 			turns.remove(0);
 		turnDelay = GameSettings.TURN_DELAY;
@@ -484,8 +484,8 @@ public class PlayerTwo extends AbstractObject {
 		offsetY = 0;
 		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
-		r = 89;
-		snakeHead.setR(89);
+		r = 90;
+		snakeHead.setR(90);
 		if (!GameSettings.FAST_TURNS)
 			turns.remove(0);
 		turnDelay = GameSettings.TURN_DELAY;
@@ -512,7 +512,7 @@ public class PlayerTwo extends AbstractObject {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
-					if (getBounds().intersects(tempTile.getBounds())) {
+					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
 							if (!GameSettings.DAMAGE_IMMUNITY) {
 								setCollision(true);
@@ -543,7 +543,7 @@ public class PlayerTwo extends AbstractObject {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
 				if (tempTile.getId() == GameLevelObjectID.fence) {
-					if (getBounds().intersects(tempTile.getBounds())) {
+					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.DAMAGE_IMMUNITY)
 								die();
@@ -551,7 +551,7 @@ public class PlayerTwo extends AbstractObject {
 					}
 				}
 				if (tempTile.getId() == GameLevelObjectID.trap) {
-					if (getBounds().intersects(tempTile.getBounds())) {
+					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.DAMAGE_IMMUNITY)
 								die();
@@ -566,7 +566,7 @@ public class PlayerTwo extends AbstractObject {
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
-					GameObjectID.SnakeSection, PlayerMovement.MOVE_DOWN, NUMERIC_ID));
+					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
 	}
@@ -675,12 +675,13 @@ public class PlayerTwo extends AbstractObject {
 
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
+			for (int i = 0; i < 15; i++) {
 				game.getDebrisManager().addObject(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
 	}
+
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {

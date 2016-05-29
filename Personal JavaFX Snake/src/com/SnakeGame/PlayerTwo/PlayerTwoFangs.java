@@ -120,6 +120,10 @@ public class PlayerTwoFangs extends AbstractObject {
 							break;
 						}
 					}
+					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
+						tempObject.bounce(snake, snake.getX(), snake.getY());
+						break;
+					}
 				}
 			}
 			if (GameSettings.ALLOW_SELF_COLLISION) {

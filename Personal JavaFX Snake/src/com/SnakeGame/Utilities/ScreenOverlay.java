@@ -162,6 +162,7 @@ public class ScreenOverlay {
 	 */
 	public void levelCompleteBlur() {
 		this.clearLevelBluring = 0.0;
+		this.clearLevelBlur.setRadius(clearLevelBluring);
 		this.layer.setEffect(null);
 		this.layer.setEffect(clearLevelBlur);
 		this.clearLevel = false;
