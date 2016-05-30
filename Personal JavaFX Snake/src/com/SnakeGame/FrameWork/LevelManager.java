@@ -8,6 +8,7 @@ import com.SnakeGame.GameObjects.DesertCactusBig;
 import com.SnakeGame.GameObjects.DesertCactusSmall;
 import com.SnakeGame.GameObjects.DesertFlower;
 import com.SnakeGame.GameObjects.DesertRock;
+import com.SnakeGame.GameObjects.DesertSkull;
 import com.SnakeGame.GameObjects.DesertTrap;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.GameObjects.SpikeFence;
@@ -90,12 +91,18 @@ public class LevelManager extends AbstractLoaderModel{
 					loader.getTileManager().addTile(texture);
 					game.getSecondLayer().getChildren().add(texture.getView());
 				} else if (red == 255 && green == 255 && blue == 0) {
-					DesertBones texture = new DesertBones(game, (float) (row * 58 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
-							(float) (col * 55 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_skull,
+					DesertSkull texture = new DesertSkull(game, (float) (row * 57 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
+							(float) (col * 57 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_skull,
 							GameLevelObjectID.skeleton);
 					loader.getTileManager().addTile(texture);
 					game.getDirtLayer().getChildren().add(texture.getView());
-				} else if (red == 0 && green == 100 && blue == 0) {
+				} else if (red == 255 && green == 140 && blue == 0) {
+					DesertBones texture = new DesertBones(game, (float) (row * 57 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
+							(float) (col * 57 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_bones,
+							GameLevelObjectID.skeleton);
+					loader.getTileManager().addTile(texture);
+					game.getDirtLayer().getChildren().add(texture.getView());
+				}else if (red == 0 && green == 100 && blue == 0) {
 					DesertCactusSmall texture = new DesertCactusSmall(game, (float) (row * 50 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_cactus_small,
 							GameLevelObjectID.cactus);

@@ -20,11 +20,11 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class DesertBones extends AbstractTile {
+public class DesertSkull extends AbstractTile {
 	private Rectangle2D collisionBounds;
 	private GameManager game;
 
-	public DesertBones(GameManager game, float x, float y, float velX, float velY, Image image, GameLevelObjectID id) {
+	public DesertSkull(GameManager game, float x, float y, float velX, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = velX;
@@ -39,7 +39,7 @@ public class DesertBones extends AbstractTile {
 		draw();
 	}
 
-	public DesertBones(GameManager game, float x, float y, float velX, float velY, Image image) {
+	public DesertSkull(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
 		this.game = game;
 		this.velX = velX;

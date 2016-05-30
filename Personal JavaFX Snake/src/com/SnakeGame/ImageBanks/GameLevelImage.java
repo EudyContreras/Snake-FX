@@ -33,13 +33,15 @@ public class GameLevelImage {
 	public static Image desert_flower;
 	public static Image desert_flower_alt;
 	public static Image desert_bush;
+	public static Image desert_bones;
+	public static Image desert_bones_alt;
 	public static Image desert_rock;
 	public static Image desert_rock_alt;
 	public static Image desert_bark;
 	public static Image desert_skull;
+	public static Image desert_bones_bridge;
 	public static Image desert_sand;
 	public static Image desert_flower_two;
-
 	public static Image jungle_rain;
 
 
@@ -82,7 +84,16 @@ public class GameLevelImage {
 			123 / GameLoader.ResolutionScaleY);
 	desert_skull = ImageUtility.precreatedLightedAndShadedImage("desert_bison_skull.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 140 / GameLoader.ResolutionScaleX,
-			120 / GameLoader.ResolutionScaleY);
+			105 / GameLoader.ResolutionScaleY);
+	desert_bones = ImageUtility.precreatedLightedAndShadedImage("desert_bones.png",
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 140 / GameLoader.ResolutionScaleX,
+			105 / GameLoader.ResolutionScaleY);
+	desert_bones_alt = ImageUtility.precreatedLightedAndShadedImage("desert_bones_alt.png",
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 200 / GameLoader.ResolutionScaleX,
+			95 / GameLoader.ResolutionScaleY);
+	desert_bones_bridge = ImageUtility.precreatedLightedAndShadedImage("desert_bones_bridge.png",
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 200 / GameLoader.ResolutionScaleX,
+			95 / GameLoader.ResolutionScaleY);
 	desert_cactus_small = ImageUtility.precreatedLightedAndShadedImage("little_cactus.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 95 / GameLoader.ResolutionScaleX,
 			92 / GameLoader.ResolutionScaleY);
