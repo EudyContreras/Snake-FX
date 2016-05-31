@@ -166,9 +166,9 @@ public class GameManager extends AbstractGameModel{
 				45 / ScaleY, GameSettings.WIDTH / 2 - 680/ScaleX / 2 , 15/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
-				50/ScaleY, Color.RED);
+				48/ScaleY, Color.rgb(255, 150, 0));
 		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
-				50/ScaleY, Color.RED);
+				48/ScaleY, Color.rgb(255, 150, 0));
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
 		processGameInput();

@@ -57,10 +57,10 @@ public class HealthBarOne {
 		this.playerHud.setWidth(width/2);
 		this.playerHud.setHeight(height*2);
 		this.playerHud.setTranslateX(x+width);
-		this.playerHud.setTranslateY(0);
+		this.playerHud.setTranslateY(10);
 		this.playerHead.setRadius(GameManager.ScaleX(30));
 		this.playerHead.setCenterX(x+width+playerHead.getRadius()*1.5);
-		this.playerHead.setCenterY(y+playerHead.getRadius());
+		this.playerHead.setCenterY(y+3);
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeOneEating));
 		this.playerHud.setFill(new ImagePattern(GameImageBank.player_one_hud));
 		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_one));

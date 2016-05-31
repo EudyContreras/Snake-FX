@@ -14,10 +14,10 @@ import java.awt.Toolkit;
  */
 public class GameSettings {
 
-	public static double START_X = 1920;
-	public static double START_Y = 80/GameLoader.ResolutionScaleX;
-	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/GameLoader.ResolutionScaleX;
-	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/GameLoader.ResolutionScaleY;
+	public static int START_X = 1920;
+	public static int START_Y = 80; //This number must be a whole number
+	public static int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/GameLoader.ResolutionScaleX);
+	public static int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/GameLoader.ResolutionScaleY);
 	public static double SIZE_SCALE = 1.0;
 
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole

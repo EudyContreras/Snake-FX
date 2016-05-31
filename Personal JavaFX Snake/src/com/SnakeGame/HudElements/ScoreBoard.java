@@ -29,7 +29,7 @@ public class ScoreBoard {
 	public ScoreBoard(String text, GameManager game, double x, double y, Color color) {
 		this.message = text;
 		this.text = new Text();
-		this.theFont = Font.font("Helvetica", FontWeight.BOLD, 20 / GameLoader.ResolutionScaleX);
+		this.theFont = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
 		this.text.setTranslateX(x);
 		this.text.setTranslateY(y);
 		this.text.setFill(color);

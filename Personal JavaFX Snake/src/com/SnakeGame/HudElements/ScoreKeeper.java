@@ -8,6 +8,10 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -58,22 +62,22 @@ public class ScoreKeeper {
 		this.timer = new Text();
 		this.apple = new ImageView(GameImageBank.apple);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Helvetica", FontWeight.BOLD, GameManager.ScaleX(18) / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Plain", FontWeight.EXTRA_BOLD, GameManager.ScaleX(30) / GameLoader.ResolutionScaleX);
 		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
-		this.apple.setFitWidth(35 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(35 / GameLoader.ResolutionScaleY);
+		this.apple.setFitWidth(45 / GameLoader.ResolutionScaleX);
+		this.apple.setFitHeight(45 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(GameSettings.WIDTH/2);
-		this.apple.setY(y1+10);
-		this.text.setX(apple.getX() + apple.getFitWidth()+10);
-		this.text.setY(y1-20);
+		this.apple.setX(GameSettings.WIDTH/2+10);
+		this.apple.setY(y1-40);
+		this.text.setX(apple.getX() + apple.getFitWidth());
+		this.text.setY(y1-25);
 		this.text.setFill(Color.RED);
 		this.text.setEffect(null);
-		this.text.setFont(font);
-		this.text.setText(" x " + APPLE_COUNT);
-		this.timer.setX(x+width*0.37);
-		this.timer.setY(y1-20);
-		this.timer.setFill(Color.RED);
+		this.text.setFont( Font.font("",FontWeight.EXTRA_BOLD, GameManager.ScaleX(30)));
+		this.text.setText("x " + APPLE_COUNT);
+		this.timer.setX(x+width*0.31);
+		this.timer.setY(y1-25);
+		this.timer.setFill(Color.WHITE);
 		this.timer.setFont(font);
 		this.timer.setText("00:00:00");
 		game.getThirTeenthLayer().getChildren().add(board);
@@ -104,7 +108,7 @@ public class ScoreKeeper {
 			}
 		}
 		board.setY(y);
-		apple.setY(y1-5);
+		apple.setY(y1-15);
 		text.setTranslateY(y1);
 		timer.setTranslateY(y1);
 	}
