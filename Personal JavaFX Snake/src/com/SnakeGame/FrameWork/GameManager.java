@@ -154,16 +154,16 @@ public class GameManager extends AbstractGameModel{
 		loader.loadPlayerOne();
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-		setEnergyBarOne(new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY));
-		setHealthBarOne(new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,
-				350 / ScaleX, 30 / ScaleY));
-		setEnergyBarTwo(new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY));
-		setHealthBarTwo(new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,
-				35 / ScaleY, 350 / ScaleX,30 / ScaleY));
+		energyBarOne = new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY);
+		healthBarOne = new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,
+				350 / ScaleX, 30 / ScaleY);
+		energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
+		healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,
+				35 / ScaleY, 350 / ScaleX,30 / ScaleY);
 		pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
 		gameHud = new GameHud(this, -5, -10, GameSettings.WIDTH + 10, 100 / ScaleY);
 		scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
-				45 / ScaleY, GameSettings.WIDTH / 2 - 680/ScaleX / 2 , 15/ScaleY,
+				45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 15/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
 				48/ScaleY, Color.rgb(255, 150, 0));

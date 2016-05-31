@@ -62,7 +62,7 @@ public class ScoreKeeper {
 		this.timer = new Text();
 		this.apple = new ImageView(GameImageBank.apple);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Plain", FontWeight.EXTRA_BOLD, GameManager.ScaleX(30) / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Plain", FontWeight.EXTRA_BOLD, GameManager.ScaleX(30));
 		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
 		this.apple.setFitWidth(45 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(45 / GameLoader.ResolutionScaleY);
@@ -70,13 +70,13 @@ public class ScoreKeeper {
 		this.apple.setX(GameSettings.WIDTH/2+10);
 		this.apple.setY(y1-40);
 		this.text.setX(apple.getX() + apple.getFitWidth());
-		this.text.setY(y1-25);
+		this.text.setY(y1-GameManager.ScaleY(25));
 		this.text.setFill(Color.RED);
 		this.text.setEffect(null);
 		this.text.setFont( Font.font("",FontWeight.EXTRA_BOLD, GameManager.ScaleX(30)));
 		this.text.setText("x " + APPLE_COUNT);
 		this.timer.setX(x+width*0.31);
-		this.timer.setY(y1-25);
+		this.timer.setY(y1-GameManager.ScaleY(25));
 		this.timer.setFill(Color.WHITE);
 		this.timer.setFont(font);
 		this.timer.setText("00:00:00");
@@ -108,7 +108,7 @@ public class ScoreKeeper {
 			}
 		}
 		board.setY(y);
-		apple.setY(y1-15);
+		apple.setY(y1-GameManager.ScaleY(15));
 		text.setTranslateY(y1);
 		timer.setTranslateY(y1);
 	}
