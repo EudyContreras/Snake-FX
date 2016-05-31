@@ -458,11 +458,11 @@ public class GameManager extends AbstractGameModel{
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
 							objectManager.updateAll(gc, timePassed);
-							for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
+							for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
 								playerOneManager.updateAllMovement();
 								sectManagerOne.updateAllMovement(gc, timePassed);
 							}
-							for (int speed = 0; speed < GameSettings.PLAYER_TWO_SPEED; speed += 1) {
+							for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
 								playerTwoManager.updateAllMovement();
 								sectManagerTwo.updateAllMovement(gc, timePassed);
 							}
@@ -541,11 +541,11 @@ public class GameManager extends AbstractGameModel{
 					long timePassed = System.currentTimeMillis() - cummulativeTime;
 					cummulativeTime += timePassed;
 					if (GameSettings.RENDER_GAME) {
-						for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
+						for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
 							playerOneManager.updateAllMovement();
 							sectManagerOne.updateAllMovement(gc, timePassed);
 						}
-						for (int speed = 0; speed < GameSettings.PLAYER_TWO_SPEED; speed += 1) {
+						for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
 							playerTwoManager.updateAllMovement();
 							sectManagerTwo.updateAllMovement(gc, timePassed);
 						}
@@ -791,8 +791,8 @@ public class GameManager extends AbstractGameModel{
 	public void clearAll() {
 		GameSettings.PLAYER_ONE_SIZE = 30;
 		GameSettings.PLAYER_TWO_SIZE = 30;
-		GameSettings.PLAYER_ONE_SPEED = 6.0;
-		GameSettings.PLAYER_TWO_SPEED = 6.0;
+		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
+		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
 		GameLoader.scaleResolution();
 		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();

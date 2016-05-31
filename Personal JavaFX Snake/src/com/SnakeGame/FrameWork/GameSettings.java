@@ -15,7 +15,7 @@ import java.awt.Toolkit;
 public class GameSettings {
 
 	public static double START_X = 1920;
-	public static double START_Y = 80;
+	public static double START_Y = 80/GameLoader.ResolutionScaleX;
 	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/GameLoader.ResolutionScaleX;
 	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/GameLoader.ResolutionScaleY;
 	public static double SIZE_SCALE = 1.0;
@@ -38,13 +38,13 @@ public class GameSettings {
 	public static int BITE_DELAY = 10;
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;
-	public static double HEALTH_REGENERATION_SPEED = 0.1;
-	public static double ENERGY_COMSUMPTION_SPEED = 7;
-	public static double ENERGY_REGENRATION_SPEED = 0.5;
+	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX;
+	public static double ENERGY_COMSUMPTION_SPEED = 7/GameLoader.ResolutionScaleX;
+	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX;
 	public static double DAMAGE_AMOUNT = 50;
 
 	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX;
-	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleY;
+	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX;
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;

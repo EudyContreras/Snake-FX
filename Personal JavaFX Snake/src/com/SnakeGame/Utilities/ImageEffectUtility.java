@@ -28,7 +28,7 @@ import javafx.scene.shape.Circle;
  * @author Eudy Contreras
  *
  */
-public class ImageUtility {
+public class ImageEffectUtility {
 	public static WritableImage wi;
 	public static DropShadow borderGlow = new DropShadow();
 	public static MotionBlur motionBlur = new MotionBlur();
@@ -65,7 +65,7 @@ public class ImageUtility {
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -82,7 +82,7 @@ public class ImageUtility {
 			view.setEffect(shadow);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -105,7 +105,7 @@ public class ImageUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.65));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.60));
 		shadow.setRadius(20);
 		shadow.setOffsetX(25);
 		shadow.setOffsetY(-20);
@@ -114,7 +114,7 @@ public class ImageUtility {
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 	public static Image precreatedLightedAndShadedImageTwo(String path, double diffused, double specularMap, double width,
@@ -140,7 +140,7 @@ public class ImageUtility {
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 	public static Image precreatedLightedAndShadedSnake(String path, double diffused, double specularMap, double width,
@@ -166,7 +166,7 @@ public class ImageUtility {
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -175,7 +175,7 @@ public class ImageUtility {
 		ImageView view = new ImageView(img);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -197,7 +197,7 @@ public class ImageUtility {
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
 			circle.setEffect(lighting);
-		img = ImageUtility.createImage(circle);
+		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
 
@@ -226,7 +226,7 @@ public class ImageUtility {
 		lighting.setContentInput(borderGlow);
 		if (GameSettings.ADD_LIGHTING)
 			circle.setEffect(lighting);
-		img = ImageUtility.createImage(circle);
+		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
 
@@ -253,7 +253,7 @@ public class ImageUtility {
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -274,7 +274,7 @@ public class ImageUtility {
 			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -292,7 +292,7 @@ public class ImageUtility {
 		view.setEffect(borderGlow);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -310,7 +310,7 @@ public class ImageUtility {
         borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
         circle.setOpacity(opacity);
         circle.setEffect(borderGlow);
-		img = ImageUtility.createImage(circle);
+		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
 	public static Image preCreateAlternateGlowingCircle(Color color, double opacity, double depth, double spread,
@@ -328,7 +328,7 @@ public class ImageUtility {
 		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		circle.setOpacity(opacity);
 		circle.setEffect(borderGlow);
-		img = ImageUtility.createImage(circle);
+		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
 	public static Image preCreateAlternateGlowingCircleTwo(Color color, double opacity, double depth, double spread,
@@ -346,7 +346,7 @@ public class ImageUtility {
 		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		circle.setOpacity(opacity);
 		circle.setEffect(borderGlow);
-		img = ImageUtility.createImage(circle);
+		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
 	public static Image preCreateImageWithBloom(String path, double threshold, double width, double height) {
@@ -356,7 +356,7 @@ public class ImageUtility {
 		view.setEffect(bloom);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -367,7 +367,7 @@ public class ImageUtility {
 		view.setEffect(gaussianBlur);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
@@ -378,14 +378,14 @@ public class ImageUtility {
 		view.setEffect(glow);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 
 	public static Image snapShotImage(String path, double width, double height) {
 		Image img = new Image(path);
 		ImageView view = new ImageView(img);
-		img = ImageUtility.createImage(view);
+		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
 

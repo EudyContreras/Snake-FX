@@ -23,9 +23,9 @@ public class GameHud {
 	private double y = 0;
 	private double width = 0;
 	private double height = 0;
-	private double swipeSpeed = 0;
+	private double swipeSpeedTop = 0;
 	private double y2 = GameSettings.HEIGHT;
-	private double swipeSpeed2;
+	private double swipeSpeedBottom = 0;
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
 	private Rectangle hudBar = new Rectangle();
@@ -46,7 +46,7 @@ public class GameHud {
 		this.bottomHudBar.setWidth(width);
 		this.bottomHudBar.setHeight(height+40);
 		this.bottomHudBar.setTranslateX(x);
-		this.bottomHudBar.setTranslateY(y2);
+		this.bottomHudBar.setTranslateY(y2+20);
 		this.bottomHudBar.setRotate(180);
 		this.bottomHudBar.setArcHeight(20);
 		this.bottomHudBar.setArcWidth(20);
@@ -67,34 +67,29 @@ public class GameHud {
 	 * Method which updates the movement of the hudbar
 	 */
 	public void updateHudBars() {
-		y = y + swipeSpeed;
+		y = y + swipeSpeedTop;
+		y2 = y2 + swipeSpeedBottom;
 		if (swipeDown) {
-			swipeSpeed = 1.5;
+			swipeSpeedTop = 1.5;
 			if (y >= hudBar.getTranslateY() - 21) {
-				swipeSpeed = 0;
+				swipeSpeedTop = 0;
+			}
+			swipeSpeedBottom = -1.5;
+			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+40) {
+				swipeSpeedBottom = 0;
 			}
 		}
 		if (swipeUp) {
-			swipeSpeed = -1.5;
+			swipeSpeedTop = -1.55;
 			if (y < hudBar.getTranslateY() - height) {
-				swipeSpeed = 0;
+				swipeSpeedTop = 0;
+			}
+			swipeSpeedBottom = 1.55;
+			if (y2 > GameSettings.HEIGHT) {
+				swipeSpeedBottom = 0;
 			}
 		}
 		topHudBar.setTranslateY(y);
-
-		y2 = y2 + swipeSpeed2;
-		if (swipeDown) {
-			swipeSpeed2 = -1.5;
-			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(25)) {
-				swipeSpeed2 = 0;
-			}
-		}
-		if (swipeUp) {
-			swipeSpeed2 = 1.5;
-			if (y2 > GameSettings.HEIGHT) {
-				swipeSpeed2 = 0;
-			}
-		}
 		bottomHudBar.setTranslateY(y2);
 	}
 	/**

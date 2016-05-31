@@ -1,5 +1,6 @@
 package com.SnakeGame.HudElements;
 
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.ImageBanks.GameImageBank;
@@ -102,7 +103,7 @@ public class HealthBarOne {
 	public void setDelay() {
 
 		if (setDelay == true) {
-			delay = 100;
+			delay = (int) (100/(GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY/2));
 			setDelay = false;
 		}
 	}

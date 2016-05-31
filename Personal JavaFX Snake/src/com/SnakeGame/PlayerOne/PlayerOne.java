@@ -77,6 +77,7 @@ public class PlayerOne extends AbstractObject {
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
 	public static boolean DEAD = false;
+	public static double SPEED = 6;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;
 	public static Boolean MOUTH_OPEN = false;
@@ -267,26 +268,26 @@ public class PlayerOne extends AbstractObject {
 	public void speedUp(){
 		if(thrust){
 			this.addMotionBlur();
-			GameSettings.PLAYER_ONE_SPEED+=accelaration;
-			if(GameSettings.PLAYER_ONE_SPEED>=maxSpeed){
-				GameSettings.PLAYER_ONE_SPEED = maxSpeed;
+			SPEED+=accelaration;
+			if(SPEED>=maxSpeed){
+				SPEED = maxSpeed;
 			}
 		}
 	}
 	public void speedDown(){
 		if(!thrust){
-			GameSettings.PLAYER_ONE_SPEED-=(accelaration/2);
-			if(GameSettings.PLAYER_ONE_SPEED<=normalSpeed){
-				GameSettings.PLAYER_ONE_SPEED = normalSpeed;
+			SPEED-=(accelaration/2);
+			if(SPEED<=normalSpeed){
+				SPEED = normalSpeed;
 				this.removeMotionBlur();
 			}
 		}
 	}
 	public void slowDown(){
 		if(!thrust && goSlow){
-			GameSettings.PLAYER_ONE_SPEED-=accelaration;
-			if(GameSettings.PLAYER_ONE_SPEED<= minimumSpeed){
-				GameSettings.PLAYER_ONE_SPEED = minimumSpeed;
+			SPEED-=accelaration;
+			if(SPEED<= minimumSpeed){
+				SPEED = minimumSpeed;
 			}
 		}
 	}
