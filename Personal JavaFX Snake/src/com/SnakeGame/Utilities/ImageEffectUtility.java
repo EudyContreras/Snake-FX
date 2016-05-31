@@ -232,23 +232,17 @@ public class ImageEffectUtility {
 
 	public static Image preCreateShadedBackground(String path, double diffused, double specularMap, double width,
 			double height) {
-		DropShadow shadow = new DropShadow(15, Color.BLACK);
 		Lighting lighting = new Lighting();
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, false, true);
 		ImageView view = new ImageView(img);
-		light.setX(1000);
-		light.setY(1920);
-		light.setZ(800);
+		light.setX(0);
+		light.setY(1000);
+		light.setZ(850);
 		lighting.setDiffuseConstant(diffused);
-		lighting.setSpecularConstant(specularMap);
+		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(15);
-		shadow.setOffsetX(20);
-		shadow.setOffsetY(-15);
-		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
 		view.setFitWidth(width);
