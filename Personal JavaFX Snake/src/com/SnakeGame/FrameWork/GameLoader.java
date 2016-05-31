@@ -13,8 +13,8 @@ import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.Utilities.ImageLoadingUtility;
 import com.SnakeGame.Utilities.GameTileManager;
+import com.SnakeGame.Utilities.ImageLoadingUtility;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -59,6 +59,8 @@ public class GameLoader extends AbstractLoaderModel{
 		double baseResolutionY = 1080;
 		ResolutionScaleX = baseResolutionX / resolutionX;
 		ResolutionScaleY = baseResolutionY / resolutionY;
+//		ResolutionScaleX = 1.5;
+//		ResolutionScaleY = 1.5;
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
 

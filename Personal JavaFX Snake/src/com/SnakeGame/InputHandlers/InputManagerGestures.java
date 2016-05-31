@@ -1,4 +1,8 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.InputHandlers;
+
+import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
+import com.SnakeGame.FrameWork.PlayerMovement;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.SwipeEvent;
@@ -8,8 +12,8 @@ import javafx.scene.input.SwipeEvent;
  * @author Eudy Contreras
  *
  */
-public class GestureInputManager {
-	public GestureInputManager(){
+public class InputManagerGestures {
+	public InputManagerGestures(){
 	}
 	/**
 	 * Method that will create an action according to the nature of the

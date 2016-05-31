@@ -19,13 +19,13 @@ public class RainStorm extends AbstractDebrisEffect {
 	private double radius;
 	private double decay;
 	private double lifeTime = 4.0f;
-	private double width = GameSettings.SAND_SIZE;
-	private double height = GameSettings.SAND_SIZE;
+	private double width = GameSettings.SAND_SIZE/GameLoader.ResolutionScaleX;
+	private double height = GameSettings.SAND_SIZE/GameLoader.ResolutionScaleY;
 	private double expireTime = Math.random() * (1 - 0.01 + 1) + 0.01;
 
 	public RainStorm(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.radius = radius / 2;
+		this.radius = (radius / 2)/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);

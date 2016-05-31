@@ -16,8 +16,8 @@ public class GameSettings {
 
 	public static double START_X = 1920;
 	public static double START_Y = 80;
-	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static double WIDTH = Toolkit.getDefaultToolkit().getScreenSize().getWidth()/GameLoader.ResolutionScaleX;
+	public static double HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().getHeight()/GameLoader.ResolutionScaleY;
 	public static double SIZE_SCALE = 1.0;
 
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
@@ -43,8 +43,8 @@ public class GameSettings {
 	public static double ENERGY_REGENRATION_SPEED = 0.5;
 	public static double DAMAGE_AMOUNT = 50;
 
-	public static double PLAYER_ONE_SPEED = 6.0;
-	public static double PLAYER_TWO_SPEED = 6.0;
+	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX;
+	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleY;
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;

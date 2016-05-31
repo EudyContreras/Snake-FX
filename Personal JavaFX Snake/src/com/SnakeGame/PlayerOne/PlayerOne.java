@@ -21,6 +21,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -69,6 +70,7 @@ public class PlayerOne extends AbstractObject {
 	private PlayerOneHead snakeHead;
 	private PlayerOneSection neighbor;
 	private PlayerOneSectionManager sectManager;
+	private BoxBlur motionBlur = new BoxBlur();
 	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
 	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
@@ -88,7 +90,7 @@ public class PlayerOne extends AbstractObject {
 		this.game = game;
 		this.anim = new AnimationUtility();
 		this.circle.setVisible(false);
-		//this.bodyTrigger = y + 5;
+		this.motionBlur.setIterations(1);
 		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
@@ -99,7 +101,6 @@ public class PlayerOne extends AbstractObject {
 		this.drawBoundingBox();
 		this.moveDown();
 	}
-
 	public void loadImages() {
 		anim.addScene(GameImageBank.snakeOneHead, 4000);
 		anim.addScene(GameImageBank.snakeOneBlinking, 250);
@@ -265,6 +266,7 @@ public class PlayerOne extends AbstractObject {
 
 	public void speedUp(){
 		if(thrust){
+			this.addMotionBlur();
 			GameSettings.PLAYER_ONE_SPEED+=accelaration;
 			if(GameSettings.PLAYER_ONE_SPEED>=maxSpeed){
 				GameSettings.PLAYER_ONE_SPEED = maxSpeed;
@@ -276,6 +278,7 @@ public class PlayerOne extends AbstractObject {
 			GameSettings.PLAYER_ONE_SPEED-=(accelaration/2);
 			if(GameSettings.PLAYER_ONE_SPEED<=normalSpeed){
 				GameSettings.PLAYER_ONE_SPEED = normalSpeed;
+				this.removeMotionBlur();
 			}
 		}
 	}
@@ -286,6 +289,12 @@ public class PlayerOne extends AbstractObject {
 				GameSettings.PLAYER_ONE_SPEED = minimumSpeed;
 			}
 		}
+	}
+	public void addMotionBlur(){
+		this.layer.setEffect(motionBlur);
+	}
+	public void removeMotionBlur(){
+		this.layer.setEffect(null);
 	}
 	public void setDirection(PlayerMovement direction) {
 		if (game.getStateID() != GameStateID.GAME_MENU) {
@@ -794,11 +803,11 @@ public class PlayerOne extends AbstractObject {
 	public void setAllowThrust(boolean state) {
 		this.allowThrust = state;
 	}
-	
+
 	public boolean isAllowThrust(){
-		return allowThrust; 
+		return allowThrust;
 	}
-	
+
 	public Rectangle2D getBoundsTop() {
 
 		return new Rectangle2D(x + 40, y + 55, width - 60, height * 0.24);

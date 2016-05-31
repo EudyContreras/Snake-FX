@@ -76,7 +76,9 @@ public class PlayerTwoFangs extends AbstractObject {
 		y = (float) (snakeHead.getY() + offsetY);
 
 	}
-
+	public void logicUpdate(){
+		killTheSnake();
+	}
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
 			this.offsetY = -20;
@@ -102,7 +104,7 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 
 	public void checkRemovability() {
-		killTheSnake();
+
 	}
 
 	public void checkCollision() {
@@ -150,7 +152,7 @@ public class PlayerTwoFangs extends AbstractObject {
 		if (PlayerTwo.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
-				if (counter == 5) {
+				if (counter >= 7) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;

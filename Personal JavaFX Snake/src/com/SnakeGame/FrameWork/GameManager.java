@@ -16,9 +16,14 @@ import com.SnakeGame.HudElements.VictoryScreen;
 import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
+import com.SnakeGame.InputHandlers.InputManagerGestures;
+import com.SnakeGame.InputHandlers.InputManagerKey;
+import com.SnakeGame.InputHandlers.InputManagerMouse;
 import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerOne.PlayerOneManager;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
+import com.SnakeGame.PlayerTwo.PlayerTwoManager;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
 import com.SnakeGame.UserInterface.MenuMain;
 import com.SnakeGame.Utilities.ScreenEffectUtility;
@@ -241,9 +246,9 @@ public class GameManager extends AbstractGameModel{
 		playerTwoManager = new PlayerTwoManager(this);
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
-		keyInput = new KeyInputManager();
-		gestures = new GestureInputManager();
-		mouseInput = new MouseInputManager();
+		keyInput = new InputManagerKey();
+		gestures = new InputManagerGestures();
+		mouseInput = new InputManagerMouse();
 		debrisManager = new GameDebrisManager(this);
 
 	}

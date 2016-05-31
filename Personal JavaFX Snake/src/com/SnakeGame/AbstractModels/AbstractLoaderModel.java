@@ -10,8 +10,8 @@ import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.Utilities.ImageLoadingUtility;
 import com.SnakeGame.Utilities.GameTileManager;
+import com.SnakeGame.Utilities.ImageLoadingUtility;
 
 public abstract class AbstractLoaderModel {
 	public static int LEVEL = 1;

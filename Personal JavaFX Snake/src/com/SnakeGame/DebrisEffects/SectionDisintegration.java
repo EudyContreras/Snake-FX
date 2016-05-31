@@ -21,7 +21,7 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 
 	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.radius = radius / 2;
+		this.radius = (radius / 2)/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);

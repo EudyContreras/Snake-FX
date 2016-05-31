@@ -1,5 +1,7 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.InputHandlers;
 
+import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
@@ -14,7 +16,7 @@ import javafx.scene.input.MouseEvent;
  * @author Eudy Contreras
  *
  */
-public class MouseInputManager {
+public class InputManagerMouse {
 
 	public static int mouseX, mouseY;
 	GameManager game;

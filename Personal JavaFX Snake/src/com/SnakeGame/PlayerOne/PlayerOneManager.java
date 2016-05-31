@@ -1,9 +1,10 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.PlayerOne;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;

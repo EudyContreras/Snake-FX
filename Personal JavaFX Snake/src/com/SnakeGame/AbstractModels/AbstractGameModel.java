@@ -7,13 +7,8 @@ import com.SnakeGame.DebrisEffects.SandEmitter;
 import com.SnakeGame.FrameWork.FadeScreenHandler;
 import com.SnakeGame.FrameWork.GameDebrisManager;
 import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GestureInputManager;
-import com.SnakeGame.FrameWork.KeyInputManager;
 import com.SnakeGame.FrameWork.LogicThread;
-import com.SnakeGame.FrameWork.MouseInputManager;
 import com.SnakeGame.FrameWork.ObjectManager;
-import com.SnakeGame.FrameWork.PlayerOneManager;
-import com.SnakeGame.FrameWork.PlayerTwoManager;
 import com.SnakeGame.HudElements.EnergyBarOne;
 import com.SnakeGame.HudElements.EnergyBarTwo;
 import com.SnakeGame.HudElements.GameHud;
@@ -27,7 +22,12 @@ import com.SnakeGame.HudElements.VictoryScreen;
 import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
+import com.SnakeGame.InputHandlers.InputManagerGestures;
+import com.SnakeGame.InputHandlers.InputManagerKey;
+import com.SnakeGame.InputHandlers.InputManagerMouse;
+import com.SnakeGame.PlayerOne.PlayerOneManager;
 import com.SnakeGame.PlayerOne.PlayerOneSectionManager;
+import com.SnakeGame.PlayerTwo.PlayerTwoManager;
 import com.SnakeGame.PlayerTwo.PlayerTwoSectionManager;
 import com.SnakeGame.SlitherSnake.SlitherManager;
 import com.SnakeGame.SlitherSnake.SlitherSectionManager;
@@ -59,9 +59,9 @@ public abstract class AbstractGameModel extends Application {
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
 	protected AnimationTimer playerMovementLoop;
-	protected KeyInputManager keyInput;
-	protected MouseInputManager mouseInput;
-	protected GestureInputManager gestures;
+	protected InputManagerKey keyInput;
+	protected InputManagerMouse mouseInput;
+	protected InputManagerGestures gestures;
 	protected GraphicsContext gc;
 	protected ScreenEffectUtility overlayEffect;
 	protected ObjectManager objectManager;
@@ -324,11 +324,11 @@ public abstract class AbstractGameModel extends Application {
 		this.scoreBoardTwo = scoreBoard;
 	}
 
-	public KeyInputManager getKeyInput() {
+	public InputManagerKey getKeyInput() {
 		return keyInput;
 	}
 
-	public void setKeyInput(KeyInputManager keyInput) {
+	public void setKeyInput(InputManagerKey keyInput) {
 		this.keyInput = keyInput;
 	}
 

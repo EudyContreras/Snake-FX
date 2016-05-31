@@ -8,7 +8,6 @@ import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.FrameWork.PlayerOneManager;
 import com.SnakeGame.IDEnums.GameLevelObjectID;
 import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.IDEnums.GameStateID;

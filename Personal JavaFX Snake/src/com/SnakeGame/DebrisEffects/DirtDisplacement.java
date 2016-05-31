@@ -26,7 +26,7 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.shape = new Circle(x, y, radius);
-		this.shape.setRadius(radius);
+		this.shape.setRadius(radius/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2));
 		this.shape.setFill(imagePattern);
 		this.velocity = velocity;
 		this.decay = 0.026/expireTime;

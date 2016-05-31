@@ -1,5 +1,7 @@
-package com.SnakeGame.FrameWork;
+package com.SnakeGame.InputHandlers;
 
+import com.SnakeGame.FrameWork.GameManager;
+import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -17,10 +19,10 @@ import javafx.scene.input.KeyEvent;
  * @author Eudy Contreras
  *
  */
-public class KeyInputManager {
+public class InputManagerKey {
 	private boolean[] keyDown = new boolean[6];
 
-	public KeyInputManager() {
+	public InputManagerKey() {
 		keyDown[0] = false;
 		keyDown[1] = false;
 		keyDown[2] = false;

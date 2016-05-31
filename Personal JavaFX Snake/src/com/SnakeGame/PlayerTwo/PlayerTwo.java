@@ -21,6 +21,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -69,6 +70,7 @@ public class PlayerTwo extends AbstractObject {
 	private PlayerTwoHead snakeHead;
 	private PlayerTwoSection neighbor;
 	private PlayerTwoSectionManager sectManager;
+	private BoxBlur motionBlur = new BoxBlur();
 	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeTwoEating);
 	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeTwoBlinking);
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
@@ -88,7 +90,7 @@ public class PlayerTwo extends AbstractObject {
 		this.game = game;
 		this.anim = new AnimationUtility();
 		this.circle.setVisible(false);
-		//this.bodyTrigger = y + 5;
+		this.motionBlur.setIterations(1);
 		this.overlay = game.getOverlayEffect();
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
@@ -99,7 +101,6 @@ public class PlayerTwo extends AbstractObject {
 		this.drawBoundingBox();
 		this.moveDown();
 	}
-
 	public void loadImages() {
 		anim.addScene(GameImageBank.snakeTwoHead, 4000);
 		anim.addScene(GameImageBank.snakeTwoBlinking, 250);
@@ -265,6 +266,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public void speedUp(){
 		if(thrust){
+			this.addMotionBlur();
 			GameSettings.PLAYER_TWO_SPEED+=accelaration;
 			if(GameSettings.PLAYER_TWO_SPEED>=maxSpeed){
 				GameSettings.PLAYER_TWO_SPEED = maxSpeed;
@@ -276,6 +278,7 @@ public class PlayerTwo extends AbstractObject {
 			GameSettings.PLAYER_TWO_SPEED-=(accelaration/2);
 			if(GameSettings.PLAYER_TWO_SPEED<=normalSpeed){
 				GameSettings.PLAYER_TWO_SPEED = normalSpeed;
+				this.removeMotionBlur();
 			}
 		}
 	}
@@ -286,6 +289,12 @@ public class PlayerTwo extends AbstractObject {
 				GameSettings.PLAYER_TWO_SPEED = minimumSpeed;
 			}
 		}
+	}
+	public void addMotionBlur(){
+		this.layer.setEffect(motionBlur);
+	}
+	public void removeMotionBlur(){
+		this.layer.setEffect(null);
 	}
 	public void setDirection(PlayerMovement direction) {
 		if (game.getStateID() != GameStateID.GAME_MENU) {

@@ -178,6 +178,8 @@ public class PlayerTwoSection extends AbstractSection {
 			updateDirt();
 		if(playerTwo.getSpeedThrust())
 			updateSpeedDirt();
+
+		fadeToBones();
 	}
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
@@ -235,15 +237,16 @@ public class PlayerTwoSection extends AbstractSection {
 				this.circle.setFill(GameImageBank.snakeTwoBody);
 			}
 		}
+	}
+	public void fadeToBones(){
 		if (fade == true) {
-			fadeValue -= 0.01;
+			fadeValue -= 0.03;
 			this.circle.setOpacity(fadeValue);
 			if (fadeValue <= 0) {
 				fadeValue = 0;
 			}
 		}
 	}
-
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
