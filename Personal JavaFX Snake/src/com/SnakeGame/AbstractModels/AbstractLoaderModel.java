@@ -132,9 +132,6 @@ public abstract class AbstractLoaderModel {
 		return slither;
 	}
 
-//	public SnakeOne getSnakeOne(){
-//		return snakeOne;
-//	}
 	public void killPlayerOne() {
 		playerOne = null;
 	}

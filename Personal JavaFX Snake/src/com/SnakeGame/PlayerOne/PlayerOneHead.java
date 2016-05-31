@@ -57,9 +57,9 @@ public class PlayerOneHead extends AbstractObject {
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
 		this.text.setText(GameSettings.PLAYER_ONE_NAME);
-		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.2 / GameLoader.ResolutionScaleX, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.2, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);

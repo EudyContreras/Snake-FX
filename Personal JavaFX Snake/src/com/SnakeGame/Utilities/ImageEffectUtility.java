@@ -99,8 +99,8 @@ public class ImageEffectUtility {
 
 //		light.setX(-200);
 //		light.setY(300);
-//		light.setZ(140);
-//
+//		light.setZ(145);
+
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -237,8 +237,8 @@ public class ImageEffectUtility {
 		Image img = new Image(loadResource(path), width, height, false, true);
 		ImageView view = new ImageView(img);
 		light.setX(0);
-		light.setY(1000);
-		light.setZ(850);
+		light.setY(0);
+		light.setZ(900);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);

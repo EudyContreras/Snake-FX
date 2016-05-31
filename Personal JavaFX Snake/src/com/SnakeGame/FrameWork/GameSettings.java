@@ -65,6 +65,7 @@ public class GameSettings {
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;
+	public static double MANUAL_SIZE_SCALE = 1.5;
 
 	public static boolean OBJECT_TRACKER = false;
 	public static boolean ALLOW_SELF_COLLISION = true;
