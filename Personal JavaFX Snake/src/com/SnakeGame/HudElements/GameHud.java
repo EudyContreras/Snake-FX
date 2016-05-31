@@ -35,7 +35,7 @@ public class GameHud {
 		this.x = x;
 		this.y = y;
 		this.width = width;
-		this.height = height+5;
+		this.height = height+10;
 		this.y2 = GameSettings.HEIGHT-height;
 		this.topHudBar.setWidth(width);
 		this.topHudBar.setHeight(height+40);
@@ -70,7 +70,7 @@ public class GameHud {
 		y = y + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 1.5;
-			if (y >= hudBar.getTranslateY() - 5) {
+			if (y >= hudBar.getTranslateY() - 21) {
 				swipeSpeed = 0;
 			}
 		}

@@ -24,6 +24,7 @@ import javafx.scene.shape.Circle;
 public class GameImageBank {
 
 
+
 	public static Image glowingImage;
 	public static Image glowingCircleOne;
 	public static Image glowingCircleTwo;
@@ -82,6 +83,10 @@ public class GameImageBank {
 	public static ImagePattern tailImage;
 	public static ImagePattern snakeOneBody;
 	public static ImagePattern snakeTwoBody;
+	public static Image energy_bar_one;
+	public static Image energy_bar_one_border;
+	public static Image energy_bar_two;
+	public static Image energy_bar_two_border;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,8 +174,12 @@ public class GameImageBank {
 		health_bar_green_two = new Image(ImageUtility.loadResource("health_bar_green_two.png"));
 		health_bar_red_one = new Image(ImageUtility.loadResource("health_bar_red_border.png"));
 		health_bar_red_two = new Image(ImageUtility.loadResource("health_bar_red_border_two.png"));
-		player_one_hud = new Image(ImageUtility.loadResource("player_one_hud.png"));
-		player_two_hud = new Image(ImageUtility.loadResource("player_two_hud.png"));
+		energy_bar_one = new Image(ImageUtility.loadResource("energy_bar_one.png"));
+		energy_bar_two = new Image(ImageUtility.loadResource("energy_bar_two.png"));
+		energy_bar_one_border = new Image(ImageUtility.loadResource("energy_bar_one_border.png"));
+		energy_bar_two_border = new Image(ImageUtility.loadResource("energy_bar_two_border.png"));
+		player_one_hud = new Image(ImageUtility.loadResource("score_board_one.png"));
+		player_two_hud = new Image(ImageUtility.loadResource("score_board_two.png"));
 		player_one_wins = new Image(ImageUtility.loadResource("player_one_wins.png"));
 		player_two_wins = new Image(ImageUtility.loadResource("player_two_wins.png"));
 		options_board = new Image(ImageUtility.loadResource("options_board.png"));

@@ -72,9 +72,9 @@ public class KeyInputManager {
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
+					if(playerOne.isAllowThrust())
 					playerOne.setSpeedThrust(true);
  					keyDown[5] = true;
-					//slither.thrust = true;
 				}
 				if (e.getCode() == KeyCode.P) {
 					game.setStateID(GameStateID.GAME_MENU);
@@ -96,9 +96,11 @@ public class KeyInputManager {
 					}
 				}
 				if (e.getCode() == KeyCode.ENTER) {
+					if(playerTwo.isAllowThrust())
 					playerTwo.setSpeedThrust(true);
 				}
 				if (e.getCode() == KeyCode.CONTROL) {
+					if(playerTwo.isAllowThrust())
 					playerTwo.setSpeedThrust(true);
 				}
 				if (e.getCode() == KeyCode.UP) {

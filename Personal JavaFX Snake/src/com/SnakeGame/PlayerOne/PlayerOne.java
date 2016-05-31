@@ -61,6 +61,7 @@ public class PlayerOne extends AbstractObject {
 	private boolean allowTurnDown = true;
 	private boolean goSlow = false;
 	private boolean thrust = false;
+	private boolean allowThrust = true;
 	private GameManager game;
 	private AnimationUtility anim;
 	private Rectangle bounds;
@@ -134,7 +135,7 @@ public class PlayerOne extends AbstractObject {
 		fadeOut();
 		speedUp();
 		speedDown();
-		slowDown();
+		//slowDown();
 
 	}
 
@@ -755,6 +756,17 @@ public class PlayerOne extends AbstractObject {
 
 	public void setSpeedThrust(boolean thrust){
 		this.thrust = thrust;
+		if(thrust==true){
+			this.game.getEnergyBarOne().setSpeedThrust(true);
+		}
+		if (thrust==false){
+			this.game.getEnergyBarOne().setDelay();
+			this.game.getEnergyBarOne().setSpeedThrust(false);
+		}
+
+	}
+	public void setThrustState(boolean state){
+		this.thrust = state;
 	}
 	public boolean getSpeedThrust(){
 		return thrust;
@@ -779,11 +791,14 @@ public class PlayerOne extends AbstractObject {
 		return false;
 	}
 
-	public void setSpeedBump(boolean b) {
-		this.goSlow = true;
-		this.thrust = false;
+	public void setAllowThrust(boolean state) {
+		this.allowThrust = state;
 	}
-
+	
+	public boolean isAllowThrust(){
+		return allowThrust; 
+	}
+	
 	public Rectangle2D getBoundsTop() {
 
 		return new Rectangle2D(x + 40, y + 55, width - 60, height * 0.24);
@@ -815,7 +830,7 @@ public class PlayerOne extends AbstractObject {
 	public void setAllowOpen(boolean allowOpen) {
 		this.allowOpen = allowOpen;
 	}
-	
+
 	public boolean isAllowScreenShake() {
 		return allowScreenShake;
 	}

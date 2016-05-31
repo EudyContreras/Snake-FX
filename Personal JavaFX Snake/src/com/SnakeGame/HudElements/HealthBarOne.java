@@ -44,13 +44,15 @@ public class HealthBarOne {
 		this.player = game.getGameLoader().getPlayerOne();
 		this.game = game;
 		this.healthBar.setWidth(width);
-		this.healthBar.setHeight(height);
+		this.healthBar.setHeight(height+4);
 		this.healthBar.setTranslateX(x);
-		this.healthBar.setTranslateY(y);
+		this.healthBar.setTranslateY(y-2);
+		this.healthBar.setRotate(1);
 		this.healthBarBorder.setWidth(width+4);
 		this.healthBarBorder.setHeight(height+3);
 		this.healthBarBorder.setTranslateX(x-1);
 		this.healthBarBorder.setTranslateY(y-1);
+		this.healthBarBorder.setRotate(1);
 		this.playerHud.setWidth(width/2);
 		this.playerHud.setHeight(height*2);
 		this.playerHud.setTranslateX(x+width);

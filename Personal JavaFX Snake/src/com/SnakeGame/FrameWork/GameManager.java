@@ -3,6 +3,8 @@ package com.SnakeGame.FrameWork;
 import com.SnakeGame.AbstractModels.AbstractGameModel;
 import com.SnakeGame.DebrisEffects.RainEmitter;
 import com.SnakeGame.DebrisEffects.SandEmitter;
+import com.SnakeGame.HudElements.EnergyBarOne;
+import com.SnakeGame.HudElements.EnergyBarTwo;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
@@ -147,14 +149,16 @@ public class GameManager extends AbstractGameModel{
 		loader.loadPlayerOne();
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-		setHealthBarOne(new HealthBarOne(this, 55 / ScaleX, 15/ScaleY,
-				350 / ScaleX, 40 / ScaleY));
-		setHealthBarTwo(new HealthBarTwo(this,GameSettings.WIDTH - 400 / ScaleX,
-				15 / ScaleY, 350 / ScaleX,40 / ScaleY));
+		setEnergyBarOne(new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY));
+		setHealthBarOne(new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,
+				350 / ScaleX, 30 / ScaleY));
+		setEnergyBarTwo(new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY));
+		setHealthBarTwo(new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,
+				35 / ScaleY, 350 / ScaleX,30 / ScaleY));
 		pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
-		gameHud = new GameHud(this, -5, -10, GameSettings.WIDTH + 10, 82 / ScaleY);
+		gameHud = new GameHud(this, -5, -10, GameSettings.WIDTH + 10, 100 / ScaleY);
 		scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
-				45 / ScaleY, GameSettings.WIDTH / 2 - 680/ScaleX / 2 , 20/ScaleY,
+				45 / ScaleY, GameSettings.WIDTH / 2 - 680/ScaleX / 2 , 15/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
 				50/ScaleY, Color.RED);
@@ -479,6 +483,14 @@ public class GameManager extends AbstractGameModel{
 							if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
 								getHealthBarTwo().depleteHealth();
 								getHealthBarTwo().regerateHealth();
+							}
+							if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
+								getEnergyBarOne().deplete();
+								getEnergyBarOne().regerate();
+							}
+							if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
+								getEnergyBarTwo().deplete();
+								getEnergyBarTwo().regerate();
 							}
 							if (scoreBoardOne != null) {
 								scoreBoardOne.hide();

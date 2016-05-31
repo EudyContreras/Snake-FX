@@ -1,0 +1,23 @@
+#root {
+        -fx-background-color:  linear-gradient(darkgray, gray);
+}
+
+#FX2 {
+        -fx-fill:  linear-gradient(cyan , dodgerblue);
+}
+
+#Java{
+        -fx-fill: linear-gradient(orange, orangered);
+}
+
+#JavaFX2{
+        -fx-fill:linear-gradient(palegreen, seagreen);
+    }
+
+#text2{
+        -fx-fill: linear-gradient(#ffd65b, #e68400),
+                linear-gradient(#ffea6a, #efaa22),
+                linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%),
+                linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+        -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.9) , 1, 0.0 , 0 , 10 );
+ }

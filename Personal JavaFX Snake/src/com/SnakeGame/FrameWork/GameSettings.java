@@ -39,6 +39,8 @@ public class GameSettings {
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;
 	public static double HEALTH_REGENERATION_SPEED = 0.1;
+	public static double ENERGY_COMSUMPTION_SPEED = 7;
+	public static double ENERGY_REGENRATION_SPEED = 0.5;
 	public static double DAMAGE_AMOUNT = 50;
 
 	public static double PLAYER_ONE_SPEED = 6.0;
@@ -90,6 +92,7 @@ public class GameSettings {
 	public static boolean FAST_TURNS = false;
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
+
 
 
 

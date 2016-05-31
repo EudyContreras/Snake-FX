@@ -14,7 +14,8 @@ import com.SnakeGame.FrameWork.MouseInputManager;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerOneManager;
 import com.SnakeGame.FrameWork.PlayerTwoManager;
-import com.SnakeGame.HudElements.EnergyMeter;
+import com.SnakeGame.HudElements.EnergyBarOne;
+import com.SnakeGame.HudElements.EnergyBarTwo;
 import com.SnakeGame.HudElements.GameHud;
 import com.SnakeGame.HudElements.GameOverScreen;
 import com.SnakeGame.HudElements.HealthBarOne;
@@ -112,7 +113,8 @@ public abstract class AbstractGameModel extends Application {
 	protected HealthBarTwo healthBarTwo;
 	protected ScoreBoard scoreBoardOne;
 	protected ScoreBoard scoreBoardTwo;
-	protected EnergyMeter energyMeter;
+	protected EnergyBarOne energyBarOne;
+	protected EnergyBarTwo energyBarTwo;
 	protected SandEmitter sandEmitter;
 	protected RainEmitter rainEmitter;
 	protected VictoryScreen victoryScreen;
@@ -191,13 +193,22 @@ public abstract class AbstractGameModel extends Application {
 		this.gameOverScreen = gameOverScreen;
 	}
 
-	public EnergyMeter getEnergyMeter() {
-		return energyMeter;
+	public EnergyBarOne getEnergyBarOne() {
+		return energyBarOne;
 	}
 
-	public void setEnergyMeter(EnergyMeter energyMeter) {
-		this.energyMeter = energyMeter;
+	public void setEnergyBarOne(EnergyBarOne energyBarOne) {
+		this.energyBarOne = energyBarOne;
 	}
+
+	public EnergyBarTwo getEnergyBarTwo() {
+		return energyBarTwo;
+	}
+
+	public void setEnergyBarTwo(EnergyBarTwo energyBarTwo) {
+		this.energyBarTwo = energyBarTwo;
+	}
+
 	public PauseMenu getPauseMenu(){
 		return pauseMenu;
 	}

@@ -61,6 +61,7 @@ public class PlayerTwo extends AbstractObject {
 	private boolean allowTurnDown = true;
 	private boolean goSlow = false;
 	private boolean thrust = false;
+	private boolean allowThrust = true;
 	private GameManager game;
 	private AnimationUtility anim;
 	private Rectangle bounds;
@@ -134,7 +135,7 @@ public class PlayerTwo extends AbstractObject {
 		fadeOut();
 		speedUp();
 		speedDown();
-		slowDown();
+		//slowDown();
 
 	}
 
@@ -165,7 +166,7 @@ public class PlayerTwo extends AbstractObject {
 		} else {
 			this.snakeHead.setAnim(blinkingFrame);
 		}
-	} 
+	}
 
 	public void hinderMovement() {
 		if (KEEP_MOVING) {
@@ -755,6 +756,17 @@ public class PlayerTwo extends AbstractObject {
 
 	public void setSpeedThrust(boolean thrust){
 		this.thrust = thrust;
+		if(thrust==true){
+			this.game.getEnergyBarTwo().setSpeedThrust(true);
+		}
+		if (thrust==false){
+			this.game.getEnergyBarTwo().setDelay();
+			this.game.getEnergyBarTwo().setSpeedThrust(false);
+		}
+
+	}
+	public void setThrustState(boolean state){
+		this.thrust = state;
 	}
 	public boolean getSpeedThrust(){
 		return thrust;
@@ -779,9 +791,12 @@ public class PlayerTwo extends AbstractObject {
 		return false;
 	}
 
-	public void setSpeedBump(boolean b) {
-		this.goSlow = true;
-		this.thrust = false;
+	public void setAllowThrust(boolean state) {
+		this.allowThrust = state;
+	}
+
+	public boolean isAllowThrust(){
+		return allowThrust;
 	}
 
 	public Rectangle2D getBoundsTop() {
@@ -814,6 +829,14 @@ public class PlayerTwo extends AbstractObject {
 
 	public void setAllowOpen(boolean allowOpen) {
 		this.allowOpen = allowOpen;
+	}
+
+	public boolean isAllowScreenShake() {
+		return allowScreenShake;
+	}
+
+	public void setAllowScreenShake(boolean allowScreenShake) {
+		this.allowScreenShake = allowScreenShake;
 	}
 
 	public double getAppleCount() {
