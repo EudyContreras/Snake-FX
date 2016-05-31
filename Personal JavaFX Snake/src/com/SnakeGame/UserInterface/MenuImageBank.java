@@ -9,5 +9,6 @@ public class MenuImageBank {
 	public static Image gameLogo = new Image(ImageUtility.loadResource("SnakeLogo.png"));
 	public static Image mainMenuBackground = new Image(ImageUtility.loadResource("menu-background.png"), GameSettings.WIDTH,
 			GameSettings.HEIGHT, false, true);
-	public static Image startLogo = new Image(ImageUtility.loadResource("SnakeLogo.png"));
+	public static Image startLogo = new Image(ImageUtility.loadResource("SnakeLogo.png"), GameSettings.WIDTH,
+			GameSettings.HEIGHT, false, true);
 }

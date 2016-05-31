@@ -1,5 +1,6 @@
 package com.SnakeGame.HudElements;
 
+import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDEnums.GameStateID;
@@ -46,11 +47,11 @@ public class PauseMenu {
 
 
 	public PauseMenu(GameManager game, double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
+		this.x = x/GameLoader.ResolutionScaleX;
+		this.y = y/GameLoader.ResolutionScaleY;
 		this.game = game;
-		this.width = width;
-		this.height = height;
+		this.width = width/GameLoader.ResolutionScaleX;
+		this.height = height/GameLoader.ResolutionScaleY;
 		this.initilialize();
 	}
 	public void initilialize(){
@@ -65,21 +66,29 @@ public class PauseMenu {
 		this.borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		this.mainBoard = new ImageView(GameImageBank.pause_menu);
 		this.continueBtt = new ImageView(GameImageBank.pause_continue);
+		this.continueBtt.setFitWidth(this.continueBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
+		this.continueBtt.setFitHeight(this.continueBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
 		this.restartBtt = new ImageView(GameImageBank.pause_restart);
+		this.restartBtt.setFitWidth(this.restartBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
+		this.restartBtt.setFitHeight(this.restartBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
 		this.mainMenuBtt = new ImageView(GameImageBank.pause_main);
+		this.mainMenuBtt.setFitWidth(this.mainMenuBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
+		this.mainMenuBtt.setFitHeight(this.mainMenuBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
 		this.quitGameBtt = new ImageView(GameImageBank.pause_quit);
-		this.mainBoard.setFitWidth(continueBtt.getImage().getWidth()+GameManager.ScaleX(100));
-		this.mainBoard.setFitHeight(mainBoard.getImage().getHeight()-140);
+		this.quitGameBtt.setFitWidth(this.quitGameBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
+		this.quitGameBtt.setFitHeight(this.quitGameBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
+		this.mainBoard.setFitWidth((this.continueBtt.getImage().getWidth()+GameManager.ScaleX(100))/GameLoader.ResolutionScaleX);
+		this.mainBoard.setFitHeight(((this.continueBtt.getFitHeight()*4)+GameManager.ScaleY(90)));
 		this.x = GameSettings.WIDTH/2 - mainBoard.getFitWidth()/2;
 		this.y = 0 - mainBoard.getImage().getHeight();
 		this.continueBtt.setX(GameSettings.WIDTH/2-continueBtt.getImage().getWidth()/2);
 		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleX(40));
 		this.restartBtt.setX(continueBtt.getX());
-		this.restartBtt.setY(continueBtt.getY()+continueBtt.getImage().getHeight());
-		this.mainMenuBtt.setX(continueBtt.getX()-mainMenuBtt.getImage().getWidth());
-		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getImage().getHeight()/2+5);
-		this.quitGameBtt.setX(continueBtt.getX()+continueBtt.getImage().getWidth());
-		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getImage().getHeight()/2+5);
+		this.restartBtt.setY(continueBtt.getY()+continueBtt.getFitHeight());
+		this.mainMenuBtt.setX(continueBtt.getX()-mainMenuBtt.getFitWidth());
+		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+5);
+		this.quitGameBtt.setX(continueBtt.getX()+continueBtt.getFitWidth());
+		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+5);
 		this.game.getFourTeenthLayer().getChildren().add(mainBoard);
 		this.game.getFourTeenthLayer().getChildren().add(continueBtt);
 		this.game.getFourTeenthLayer().getChildren().add(restartBtt);
@@ -215,13 +224,14 @@ public class PauseMenu {
 			this.mainBoard.setX(x);
 
 		}
+		this.continueBtt.setX(GameSettings.WIDTH/2-this.continueBtt.getFitWidth()/2);
 		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleX(40));
 		this.restartBtt.setX(continueBtt.getX());
-		this.restartBtt.setY(continueBtt.getY()+continueBtt.getImage().getHeight());
+		this.restartBtt.setY(continueBtt.getY()+continueBtt.getFitHeight());
 		this.mainMenuBtt.setX(continueBtt.getX());
-		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getImage().getHeight()*2);
+		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()*2);
 		this.quitGameBtt.setX(continueBtt.getX());
-		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getImage().getHeight()*3);
+		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()*3);
 	}
 	public void processTouch(){
 		game.getScene().setOnSwipeUp(new EventHandler<SwipeEvent>() {

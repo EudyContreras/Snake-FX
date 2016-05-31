@@ -19,6 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class MenuMain {
@@ -27,7 +28,8 @@ public class MenuMain {
 	private ImageView backgroundImage;
 	private ImageView parallaxObject1;
 	private ImageView parallaxObject2;
-	private ImageView logo;
+//	private Rectangle background
+	private Rectangle logo;
 	private GaussianBlur blur = new GaussianBlur();
 	private Label gameTitle = new Label("Snake");
 	private Label startLabel = new Label("Start Game");
@@ -52,8 +54,11 @@ public class MenuMain {
 
 	public MenuMain(GameManager game) {
 		this.game = game;
-		logo = new ImageView(MenuImageBank.gameLogo);
-		logo.setX(GameSettings.WIDTH/2-logo.getImage().getWidth()/2);
+		logo = new Rectangle();
+		logo.setFill(new ImagePattern(MenuImageBank.gameLogo));
+		logo.setWidth(MenuImageBank.gameLogo.getWidth()/GameLoader.ResolutionScaleX);
+		logo.setHeight(MenuImageBank.gameLogo.getHeight()/GameLoader.ResolutionScaleY);
+		logo.setX(GameSettings.WIDTH/2-logo.getWidth()/2);
 		logo.setY(30);
 		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
 		y2 = 400;
@@ -99,8 +104,6 @@ public class MenuMain {
 		setStyle(exitLabel);
 
 		titleBox.getChildren().add(gameTitle);
-		// titleBox.getChildren().add(new Rectangle(900,200,new
-		// ImagePattern(MenuImageBank.startLogo)));
 		titleBox.setBackground(Background.EMPTY);
 		titleBox.setPrefWidth(900);
 		titleBox.maxWidth(900);

@@ -544,8 +544,10 @@ public class GameManager extends AbstractGameModel{
 						for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
 							playerOneManager.updateAllMovement();
 							sectManagerOne.updateAllMovement(gc, timePassed);
+						}
+						for (int speed = 0; speed < GameSettings.PLAYER_TWO_SPEED; speed += 1) {
+							playerTwoManager.updateAllMovement();
 							sectManagerTwo.updateAllMovement(gc, timePassed);
-
 						}
 					}
 				}
@@ -827,8 +829,6 @@ public class GameManager extends AbstractGameModel{
 		objectManager.clearAll();
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
-
-
 
 	}
 

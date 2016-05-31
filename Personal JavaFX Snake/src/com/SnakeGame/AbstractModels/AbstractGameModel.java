@@ -50,6 +50,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -241,6 +242,7 @@ public abstract class AbstractGameModel extends Application {
 	}
 
 	public void setRoot(Parent root) {
+		scene.setFill(Color.BLACK);
 		scene.setRoot(root);
 	}
 

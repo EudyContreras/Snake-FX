@@ -59,8 +59,8 @@ public class GameLoader extends AbstractLoaderModel{
 		double baseResolutionY = 1080;
 		ResolutionScaleX = baseResolutionX / resolutionX;
 		ResolutionScaleY = baseResolutionY / resolutionY;
-//		ResolutionScaleX = 1.5;
-//		ResolutionScaleY = 1.5;
+		ResolutionScaleX = 1.5;
+		ResolutionScaleY = 1.5;
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
 
