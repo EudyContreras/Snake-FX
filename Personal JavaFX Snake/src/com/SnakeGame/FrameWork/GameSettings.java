@@ -48,7 +48,7 @@ public class GameSettings {
 	public static float PLAYER_HEALTH = 100.0f;
 	public static float GLOBAL_ACCELARATION = 0.01f;
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double SPECULAR_MAP = 2.0;
+	public static double SPECULAR_MAP = 1.5;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;

@@ -238,8 +238,8 @@ public class ImageEffectUtility {
 		Image img = new Image(loadResource(path), width, height, false, true);
 		ImageView view = new ImageView(img);
 		light.setX(0);
-		light.setY(0);
-		light.setZ(900);
+		light.setY(1300);
+		light.setZ(850);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
