@@ -1,4 +1,4 @@
-package com.SnakeGame.HudElements;
+package com.SnakeGame.HUDElements;
 
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
@@ -30,6 +30,7 @@ public class VictoryScreen {
 	private ImageView optionsBoard;
 	private Pane scoreLayer;
 	private Image boardImage;
+	private int currentChoice = 1;
 	private double width = 0;
 	private double height = 0;
 	private double confirmX = 0;
@@ -40,6 +41,7 @@ public class VictoryScreen {
 	private boolean swipeRight = false;
 	private boolean swipeLeft = false;
 	private boolean center = true;
+
 
 
 	public VictoryScreen(GameManager game, Image boardImage, double width, double height) {
@@ -80,7 +82,7 @@ public class VictoryScreen {
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(confirmScreen,optionsBoard, continue_btt, quitGame_btt, restart_btt);
-		processInput();
+		processMouseHandling();
 	}
 	public void finishLevel() {
 		game.showCursor(true, game.getScene());
@@ -98,8 +100,10 @@ public class VictoryScreen {
 		askConfirm();
 	}
 
-	private void processInput() {
+	private void processMouseHandling() {
 		continue_btt.setOnMouseEntered(e -> {
+			selectionReset();
+			currentChoice = 1;
 			borderGlow.setColor(Color.rgb(0,240,0));
 			continue_btt.setEffect(borderGlow);
 		});
@@ -111,6 +115,8 @@ public class VictoryScreen {
 			goToNext();
 		});
 		quitGame_btt.setOnMouseEntered(e -> {
+			selectionReset();
+			currentChoice = 2;
 			borderGlow.setColor(Color.rgb(240,0,0));
 			quitGame_btt.setEffect(borderGlow);
 		});
@@ -122,6 +128,8 @@ public class VictoryScreen {
 			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
+			currentChoice = 3;
+			selectionReset();
 			borderGlow.setColor(Color.rgb(240, 150,0));
 			restart_btt.setEffect(borderGlow);
 		});
@@ -129,13 +137,103 @@ public class VictoryScreen {
 			restart_btt.setEffect(null);
 		});
 		restart_btt.setOnMouseClicked(e -> {
-
 			game.setStateID(GameStateID.LEVEL_RESTART);
 			restartLevel();
 		});
-
 	}
+	/**
+	 * Sets the key input handling for the labels
+	 * Code below determines what will happen if the user presses enter or
+	 * space on the different choices
+	 */
+	private void processKeyHandling() {
+		updateSelections();
+		game.getScene().setOnKeyPressed(e -> {
+			switch (e.getCode()) {
+			case LEFT:
+				currentChoice -= 1;
+				if (currentChoice <= 1) {
+					currentChoice = 1;
+				}
+				break;
+			case RIGHT:
+				currentChoice += 1;
+				if (currentChoice >= 3) {
+					currentChoice = 3;
+				}
+				break;
+			case A:
+				currentChoice -= 1;
+				if (currentChoice <= 1) {
+					currentChoice = 1;
+				}
+				break;
+			case D:
+				currentChoice += 1;
+				if (currentChoice >= 3) {
+					currentChoice = 3;
+				}
+				break;
+			case ENTER:
+				if (currentChoice == 1) {
+					game.setStateID(GameStateID.LEVEL_TRANSITIONING);
+					goToNext();
+				}
+				if (currentChoice == 2) {
+					game.setStateID(GameStateID.LEVEL_RESTART);
+					restartLevel();
+				}
+				if (currentChoice == 3) {
+					game.setStateID(GameStateID.MAIN_MENU);
+					game.getFadeScreenHandler().menu_fade_screen();
+				}
+				break;
+			case SPACE:
+				if (currentChoice == 1) {
+					game.setStateID(GameStateID.LEVEL_TRANSITIONING);
+					goToNext();
+				}
+				if (currentChoice == 2) {
+					game.setStateID(GameStateID.LEVEL_RESTART);
+					restartLevel();
+				}
+				if (currentChoice == 3) {
+					game.setStateID(GameStateID.MAIN_MENU);
+					game.getFadeScreenHandler().menu_fade_screen();
+				}
+				break;
+			default:
+				break;
+			}
+			updateSelections();
+		});
 
+		}
+	public void updateSelections(){
+		if(currentChoice==1){
+			borderGlow.setColor(Color.rgb(0,240,0));
+			continue_btt.setEffect(borderGlow);
+			restart_btt.setEffect(null);
+			quitGame_btt.setEffect(null);
+		}
+		if(currentChoice==2){
+			borderGlow.setColor(Color.rgb(240,150,0));
+			restart_btt.setEffect(borderGlow);
+			quitGame_btt.setEffect(null);
+			continue_btt.setEffect(null);
+		}
+		if(currentChoice==3){
+			borderGlow.setColor(Color.rgb(240,0,0));
+			quitGame_btt.setEffect(borderGlow);
+			restart_btt.setEffect(null);
+			continue_btt.setEffect(null);
+		}
+	}
+	public void selectionReset(){
+		continue_btt.setEffect(null);
+		restart_btt.setEffect(null);
+		quitGame_btt.setEffect(null);
+	}
 	public void swipeRight() {
 		if (swipeRight == true) {
 			confirmScreen.setX(confirmX);
@@ -156,6 +254,8 @@ public class VictoryScreen {
 				if (confirmX >= GameSettings.WIDTH / 2 - confirmScreen.getWidth() / 2) {
 					confirmX = (float) (GameSettings.WIDTH / 2 - confirmScreen.getWidth() / 2);
 					confirmXPosition = 0;
+					processKeyHandling();
+					currentChoice = 1;
 					blurOut();
 					swipeRight = false;
 					center = false;
@@ -191,6 +291,7 @@ public class VictoryScreen {
 					confirmX = (float) (0 - confirmScreen.getWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
+					game.processGameInput();
 					if(restartLevel){
 						game.restart();
 						PlayerOne.LEVEL_COMPLETED = false;

@@ -8,7 +8,7 @@ import com.SnakeGame.DebrisEffects.DirtDisplacement;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.HUDElements.ScoreKeeper;
 import com.SnakeGame.IDEnums.GameLevelObjectID;
 import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.IDEnums.GameStateID;

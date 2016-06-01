@@ -21,6 +21,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 
 public class MenuMain {
 
@@ -188,7 +189,8 @@ public class MenuMain {
 
 		fadeScreen.getChildren().add(clearUp);
 		menuRoot.getChildren().addAll(backgroundImage, logo, menuBox, boundBox, fadeScreen);
-
+		menuRoot.setTranslateX(Screen.getPrimary().getBounds().getWidth()/2-GameSettings.WIDTH/2);
+		menuRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		game.setRoot(menuRoot);
 
 		setKeyInputHandler();

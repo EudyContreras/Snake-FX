@@ -3,16 +3,16 @@ package com.SnakeGame.FrameWork;
 import com.SnakeGame.AbstractModels.AbstractGameModel;
 import com.SnakeGame.DebrisEffects.RainEmitter;
 import com.SnakeGame.DebrisEffects.SandEmitter;
-import com.SnakeGame.HudElements.EnergyBarOne;
-import com.SnakeGame.HudElements.EnergyBarTwo;
-import com.SnakeGame.HudElements.GameHud;
-import com.SnakeGame.HudElements.GameOverScreen;
-import com.SnakeGame.HudElements.HealthBarOne;
-import com.SnakeGame.HudElements.HealthBarTwo;
-import com.SnakeGame.HudElements.PauseMenu;
-import com.SnakeGame.HudElements.ScoreBoard;
-import com.SnakeGame.HudElements.ScoreKeeper;
-import com.SnakeGame.HudElements.VictoryScreen;
+import com.SnakeGame.HUDElements.EnergyBarOne;
+import com.SnakeGame.HUDElements.EnergyBarTwo;
+import com.SnakeGame.HUDElements.GameHud;
+import com.SnakeGame.HUDElements.GameOverScreen;
+import com.SnakeGame.HUDElements.HealthBarOne;
+import com.SnakeGame.HUDElements.HealthBarTwo;
+import com.SnakeGame.HUDElements.PauseMenu;
+import com.SnakeGame.HUDElements.ScoreBoard;
+import com.SnakeGame.HUDElements.ScoreKeeper;
+import com.SnakeGame.HUDElements.VictoryScreen;
 import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
@@ -74,7 +74,7 @@ public class GameManager extends AbstractGameModel{
 
 
 	public void start(Stage primaryStage) {
-		GameLoader.scaleResolution();
+		GameLoader.scaleResolution(1.1,1.1,true);
 		GameLoader.scalePlayerSize();
 		ScaleX = GameLoader.ResolutionScaleX;
 		ScaleY = GameLoader.ResolutionScaleY;
@@ -82,7 +82,9 @@ public class GameManager extends AbstractGameModel{
 		initialize();
 		showSplashScreen();
 	}
-
+	public void fullScreenOff(){
+		getMainWindow().setFullScreen(false);
+	}
 	public void initSplash() {
 		splashFadeDelay = 0;
 		splashFadeDuration = 1;
@@ -148,6 +150,8 @@ public class GameManager extends AbstractGameModel{
 		getGameRoot().getChildren().add(eleventhLayer);
 		getGameRoot().getChildren().add(twelfthLayer);
 		mainRoot.getChildren().add(getGameRoot());
+		mainRoot.setTranslateX(Screen.getPrimary().getBounds().getWidth()/2-GameSettings.WIDTH/2);
+		mainRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
@@ -155,20 +159,18 @@ public class GameManager extends AbstractGameModel{
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
 		energyBarOne = new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY);
-		healthBarOne = new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,
-				350 / ScaleX, 30 / ScaleY);
+		healthBarOne = new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,350 / ScaleX, 30 / ScaleY);
 		energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
-		healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,
-				35 / ScaleY, 350 / ScaleX,30 / ScaleY);
+		healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,35 / ScaleY, 350 / ScaleX,30 / ScaleY);
 		pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
 		gameHud = new GameHud(this, -5, -10, GameSettings.WIDTH + 10, 100 / ScaleY);
 		scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
 				45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 15/ScaleY,
 				680/ScaleX,85 / ScaleY);
 		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
-				48/ScaleY, Color.rgb(255, 150, 0));
+				50/ScaleY, Color.rgb(255, 150, 0));
 		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
-				48/ScaleY, Color.rgb(255, 150, 0));
+				50/ScaleY, Color.rgb(255, 150, 0));
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
 		processGameInput();
@@ -789,11 +791,11 @@ public class GameManager extends AbstractGameModel{
 	}
 
 	public void clearAll() {
-		GameSettings.PLAYER_ONE_SIZE = 30;
-		GameSettings.PLAYER_TWO_SIZE = 30;
+		GameSettings.PLAYER_ONE_SIZE = 28;
+		GameSettings.PLAYER_TWO_SIZE = 28;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
-		GameLoader.scaleResolution();
+		GameLoader.scaleResolution(1.1,1.1,true);
 		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();

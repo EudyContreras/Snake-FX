@@ -1,6 +1,5 @@
 package com.SnakeGame.FrameWork;
 
-import java.awt.Toolkit;
 import java.util.Random;
 
 import com.SnakeGame.AbstractModels.AbstractLoaderModel;
@@ -20,6 +19,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Screen;
 
 /**
  * The GameLoader class is the class responsible for creating and loading the
@@ -52,20 +52,23 @@ public class GameLoader extends AbstractLoaderModel{
 	/**
 	 * Method which creates a resolution scale base on the systems's current resolution
 	 */
-	public static void scaleResolution() {
-		double resolutionX = Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-		double resolutionY = Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static void scaleResolution(double scaleX, double scaleY, boolean manualScaling) {
+		double resolutionX = Screen.getPrimary().getBounds().getWidth();
+		double resolutionY = Screen.getPrimary().getBounds().getHeight();
 		double baseResolutionX = 1920;
 		double baseResolutionY = 1080;
 		ResolutionScaleX = baseResolutionX / resolutionX;
 		ResolutionScaleY = baseResolutionY / resolutionY;
-//		ResolutionScaleX = 1.5;
-//		ResolutionScaleY = 1.5;
+
+		if(manualScaling==true){
+			ResolutionScaleX = scaleX;
+			ResolutionScaleY = scaleY;
+			FullScreen = false;
+		}
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
 
 	}
-
 	/**
 	 * Method which will attempt to scale the speed and the size of the snake according
 	 * to the new scaled resolution, The size and the speed are relative. The size must be

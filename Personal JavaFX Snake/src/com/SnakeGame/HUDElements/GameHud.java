@@ -1,4 +1,4 @@
-package com.SnakeGame.HudElements;
+package com.SnakeGame.HUDElements;
 
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;

@@ -1,5 +1,6 @@
 package com.SnakeGame.Utilities;
 
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 
 import javafx.scene.Node;
@@ -54,9 +55,9 @@ public class ImageEffectUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+		light.setX(-100);
+		light.setY(200);
+		light.setZ(100);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -106,9 +107,9 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.60));
-		shadow.setRadius(20);
-		shadow.setOffsetX(25);
-		shadow.setOffsetY(-20);
+		shadow.setRadius(20/(GameManager.ScaleX+GameManager.ScaleY/2));
+		shadow.setOffsetX(GameManager.ScaleX(25));
+		shadow.setOffsetY(GameManager.ScaleY(-20));
 		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -124,9 +125,9 @@ public class ImageEffectUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+		light.setX(-100);
+		light.setY(300);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -150,9 +151,9 @@ public class ImageEffectUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+		light.setX(-100);
+		light.setY(200);
+		light.setZ(100);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);

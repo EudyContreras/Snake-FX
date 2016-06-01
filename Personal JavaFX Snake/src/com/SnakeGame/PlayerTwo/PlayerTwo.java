@@ -9,7 +9,7 @@ import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.HudElements.ScoreKeeper;
+import com.SnakeGame.HUDElements.ScoreKeeper;
 import com.SnakeGame.IDEnums.GameLevelObjectID;
 import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.IDEnums.GameStateID;
@@ -554,6 +554,8 @@ public class PlayerTwo extends AbstractObject {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
+								allowThrust = false;
+								thrust = false;
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
 									overlay.addScreenShake(0.4, true, true);
@@ -781,6 +783,13 @@ public class PlayerTwo extends AbstractObject {
 	public boolean getSpeedThrust(){
 		return thrust;
 	}
+	public boolean isAllowCollision() {
+		return allowCollision;
+	}
+	public void setAllowCollision(boolean allowCollision) {
+		this.allowCollision = allowCollision;
+	}
+
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}

@@ -1,9 +1,9 @@
-package com.SnakeGame.HudElements;
+package com.SnakeGame.HUDElements;
 
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.ImageBanks.GameImageBank;
-import com.SnakeGame.PlayerOne.PlayerOne;
+import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class EnergyBarOne {
+public class EnergyBarTwo {
 
 
 
@@ -24,33 +24,35 @@ public class EnergyBarOne {
 	private boolean speedThrust = false;
 	private boolean setDelay = false;
 	private double maxEnergyLevel = 100;
+	private double initialX;
 	private double x = 0;
 	private double y = 0;
 	private double width = 0;
 	private double height = 0;
 	private double delay = 0;
-	private PlayerOne player;
+	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
 	private Rectangle energyBarBorder = new Rectangle();
 
-	public EnergyBarOne(GameManager game, double x, double y, double width, double height) {
+	public EnergyBarTwo(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
+		this.initialX = x;
 		this.width = width;
 		this.height = height;
-		this.player = game.getGameLoader().getPlayerOne();
+		this.player = game.getGameLoader().getPlayerTwo();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);
 		this.energyBar.setTranslateY(y);
-		this.energyBar.setRotate(1);
-		this.energyBar.setFill(new ImagePattern(GameImageBank.energy_bar_one));
+		this.energyBar.setRotate(-1);
+		this.energyBar.setFill(new ImagePattern(GameImageBank.energy_bar_two));
 		this.energyBarBorder.setWidth(width);
 		this.energyBarBorder.setHeight(height);
 		this.energyBarBorder.setTranslateX(x);
 		this.energyBarBorder.setTranslateY(y);
-		this.energyBarBorder.setRotate(1);
-		this.energyBarBorder.setFill(new ImagePattern(GameImageBank.energy_bar_one_border));
+		this.energyBarBorder.setRotate(-1);
+		this.energyBarBorder.setFill(new ImagePattern(GameImageBank.energy_bar_two_border));
 		game.getEleventhLayer().getChildren().add(energyBarBorder);
 		game.getEleventhLayer().getChildren().add(energyBar);
 		this.maxEnergyLevel = width;
@@ -61,6 +63,7 @@ public class EnergyBarOne {
 	 */
 	public void deplete() {
 		if (speedThrust == true) {
+			x+=GameSettings.ENERGY_COMSUMPTION_SPEED;
 			width -= GameSettings.ENERGY_COMSUMPTION_SPEED;
 		}
 
@@ -68,9 +71,11 @@ public class EnergyBarOne {
 			player.setAllowThrust(false);
 			player.setThrustState(false);
 			width = 0;
+			x = initialX + maxEnergyLevel;
 			setDelay = true;
 		}
 		this.energyBar.setWidth(width);
+		this.energyBar.setTranslateX(x);
 	}
 
 	/**
@@ -91,10 +96,12 @@ public class EnergyBarOne {
 				if (delay <= 0){
 					delay = 0;
 					width += GameSettings.ENERGY_REGENRATION_SPEED;
+					x-=GameSettings.ENERGY_REGENRATION_SPEED;
 				}
 			}
 		}
 		if (width >= 25) {
+			if(player.isAllowCollision())
 			player.setAllowThrust(true);
 		}
 	}
@@ -175,11 +182,11 @@ public class EnergyBarOne {
 		this.delay = delay;
 	}
 
-	public PlayerOne getPlayer() {
+	public PlayerTwo getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(PlayerOne player) {
+	public void setPlayer(PlayerTwo player) {
 		this.player = player;
 	}
 

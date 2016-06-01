@@ -1,6 +1,6 @@
 package com.SnakeGame.FrameWork;
 
-import java.awt.Toolkit;
+import javafx.stage.Screen;
 
 /**
  * This class contains all global settings within the game which can be easily
@@ -16,8 +16,8 @@ public class GameSettings {
 
 	public static int START_X = 1920;
 	public static int START_Y = 80; //This number must be a whole number
-	public static int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth()/GameLoader.ResolutionScaleX);
-	public static int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight()/GameLoader.ResolutionScaleY);
+	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
+	public static int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
 	public static double SIZE_SCALE = 1.0;
 
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
@@ -65,8 +65,9 @@ public class GameSettings {
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 	public static double FRAMECAP = 1.0 / 60.0;
-	public static double MANUAL_SIZE_SCALE = 1.5;
+	public static double MANUAL_SIZE_SCALE = 1.1;
 
+	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
