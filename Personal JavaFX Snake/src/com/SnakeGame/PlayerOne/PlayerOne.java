@@ -554,8 +554,10 @@ public class PlayerOne extends AbstractObject {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
-								allowThrust = false;
-								thrust = false;
+								this.allowThrust = false;
+								this.thrust = false;
+								this.game.getEnergyBarOne().setDelay();
+								this.game.getEnergyBarOne().setSpeedThrust(false);
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
 									overlay.addScreenShake(0.4, true, true);
@@ -767,11 +769,14 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void setSpeedThrust(boolean thrust){
-		this.thrust = thrust;
-		if(thrust==true && allowThrust){
-			this.game.getEnergyBarOne().setSpeedThrust(true);
+		if (allowThrust) {
+			if (thrust == true) {
+				this.thrust = thrust;
+				this.game.getEnergyBarOne().setSpeedThrust(true);
+			}
 		}
-		else{
+		if (thrust == false) {
+			this.thrust = thrust;
 			this.game.getEnergyBarOne().setDelay();
 			this.game.getEnergyBarOne().setSpeedThrust(false);
 		}

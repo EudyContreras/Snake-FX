@@ -554,8 +554,10 @@ public class PlayerTwo extends AbstractObject {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ROCK_COLLISION) {
 							if (allowCollision) {
-								allowThrust = false;
-								thrust = false;
+								this.allowThrust = false;
+								this.thrust = false;
+								this.game.getEnergyBarTwo().setDelay();
+								this.game.getEnergyBarTwo().setSpeedThrust(false);
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
 									overlay.addScreenShake(0.4, true, true);
@@ -767,11 +769,14 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void setSpeedThrust(boolean thrust){
-		this.thrust = thrust;
-		if(thrust==true){
-			this.game.getEnergyBarTwo().setSpeedThrust(true);
+		if (allowThrust) {
+			if (thrust == true) {
+				this.thrust = thrust;
+				this.game.getEnergyBarTwo().setSpeedThrust(true);
+			}
 		}
-		if (thrust==false){
+		if (thrust == false) {
+			this.thrust = thrust;
 			this.game.getEnergyBarTwo().setDelay();
 			this.game.getEnergyBarTwo().setSpeedThrust(false);
 		}
@@ -783,13 +788,6 @@ public class PlayerTwo extends AbstractObject {
 	public boolean getSpeedThrust(){
 		return thrust;
 	}
-	public boolean isAllowCollision() {
-		return allowCollision;
-	}
-	public void setAllowCollision(boolean allowCollision) {
-		this.allowCollision = allowCollision;
-	}
-
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}
@@ -816,6 +814,14 @@ public class PlayerTwo extends AbstractObject {
 
 	public boolean isAllowThrust(){
 		return allowThrust;
+	}
+
+	public boolean isAllowCollision() {
+		return allowCollision;
+	}
+
+	public void setAllowCollision(boolean allowCollision) {
+		this.allowCollision = allowCollision;
 	}
 
 	public Rectangle2D getBoundsTop() {

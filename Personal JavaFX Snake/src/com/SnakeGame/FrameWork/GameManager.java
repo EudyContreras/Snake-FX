@@ -701,8 +701,12 @@ public class GameManager extends AbstractGameModel{
 		getHealthBarTwo().show();
 		getHealthBarOne().refill();
 		getHealthBarTwo().refill();
+		getEnergyBarOne().refill();
+		getEnergyBarTwo().refill();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
+		getEnergyBarOne().setPlayer();
+		getEnergyBarTwo().setPlayer();
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.loadPixelMap();
@@ -741,8 +745,12 @@ public class GameManager extends AbstractGameModel{
 		getHealthBarTwo().show();
 		getHealthBarOne().refill();
 		getHealthBarTwo().refill();
+		getEnergyBarOne().refill();
+		getEnergyBarTwo().refill();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
+		getEnergyBarOne().setPlayer();
+		getEnergyBarTwo().setPlayer();
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.switcLevel();
@@ -780,8 +788,12 @@ public class GameManager extends AbstractGameModel{
 		getHealthBarTwo().show();
 		getHealthBarOne().refill();
 		getHealthBarTwo().refill();
+		getEnergyBarOne().refill();
+		getEnergyBarTwo().refill();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
+		getEnergyBarOne().setPlayer();
+		getEnergyBarTwo().setPlayer();
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
 		loader.loadPixelMap();

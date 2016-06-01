@@ -30,6 +30,7 @@ public class EnergyBarTwo {
 	private double width = 0;
 	private double height = 0;
 	private double delay = 0;
+	private GameManager game;
 	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
 	private Rectangle energyBarBorder = new Rectangle();
@@ -40,6 +41,7 @@ public class EnergyBarTwo {
 		this.initialX = x;
 		this.width = width;
 		this.height = height;
+		this.game = game;
 		this.player = game.getGameLoader().getPlayerTwo();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
@@ -82,7 +84,7 @@ public class EnergyBarTwo {
 	 * sets a regeneration delay by a constant percentage
 	 */
 	public void setDelay() {
-		delay = 90;
+		delay = 60;
 		setDelay = false;
 	}
 
@@ -186,8 +188,9 @@ public class EnergyBarTwo {
 		return player;
 	}
 
-	public void setPlayer(PlayerTwo player) {
-		this.player = player;
+	public void setPlayer() {
+		this.player = null;
+		this.player = game.getGameLoader().getPlayerTwo();
 	}
 
 	public Rectangle getEnergyBar() {

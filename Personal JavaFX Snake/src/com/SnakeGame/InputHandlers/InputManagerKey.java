@@ -74,9 +74,8 @@ public class InputManagerKey {
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					if(playerOne.isAllowThrust()){
+					if(playerOne.isAllowThrust())
 					playerOne.setSpeedThrust(true);
-					}
  					keyDown[5] = true;
 				}
 				if (e.getCode() == KeyCode.P) {

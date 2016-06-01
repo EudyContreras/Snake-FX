@@ -29,6 +29,7 @@ public class EnergyBarOne {
 	private double width = 0;
 	private double height = 0;
 	private double delay = 0;
+	private GameManager game;
 	private PlayerOne player;
 	private Rectangle energyBar = new Rectangle();
 	private Rectangle energyBarBorder = new Rectangle();
@@ -38,6 +39,7 @@ public class EnergyBarOne {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.game = game;
 		this.player = game.getGameLoader().getPlayerOne();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
@@ -77,7 +79,7 @@ public class EnergyBarOne {
 	 * sets a regeneration delay by a constant percentage
 	 */
 	public void setDelay() {
-		delay = 90;
+		delay = 60;
 		setDelay = false;
 	}
 
@@ -95,14 +97,16 @@ public class EnergyBarOne {
 			}
 		}
 		if (width >= 25) {
-			if(player.isAllowCollision())
-			player.setAllowThrust(true);
+			if(PlayerOne.KEEP_MOVING){
+				player.setAllowThrust(true);
+			}
 		}
 	}
 
 	public void refill() {
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
+		this.player.setAllowThrust(true);
 	}
 	public boolean isDepleated() {
 		return depleated;
@@ -180,8 +184,9 @@ public class EnergyBarOne {
 		return player;
 	}
 
-	public void setPlayer(PlayerOne player) {
-		this.player = player;
+	public void setPlayer() {
+		this.player = null;
+		this.player = game.getGameLoader().getPlayerOne();
 	}
 
 	public Rectangle getEnergyBar() {

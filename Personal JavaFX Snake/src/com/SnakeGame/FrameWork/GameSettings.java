@@ -29,7 +29,7 @@ public class GameSettings {
 	public static double PLAYER_ONE_SIZE = 28; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
 	public static double PLAYER_TWO_SIZE = 28; // Must be even or divisible by two
 
-	public static int APPLE_COUNT = 20;
+	public static int APPLE_COUNT = 5;
 	public static int SECTIONS_TO_ADD = 2;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
