@@ -30,8 +30,8 @@ public class GameSettings {
 	public static double PLAYER_ONE_SIZE = 28; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
 	public static double PLAYER_TWO_SIZE = 28; // Must be even or divisible by two
 
-	public static int APPLE_COUNT = 5;
-	public static int SECTIONS_TO_ADD = 2;
+	public static int APPLE_COUNT = 70;
+	public static int SECTIONS_TO_ADD = 1;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 	public static float FRAME_SCALE = 1.0f;
 
@@ -56,7 +56,7 @@ public class GameSettings {
 	public static int MAX_AMOUNT_OF_OBJECTS = 200;
 	public static int DEBRIS_LIMIT = 120;
 	public static int PARTICLE_LIMIT = 20;
-	public static int SAND_AMOUNT = 5;
+	public static int SAND_AMOUNT = 0;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_AMOUNT = 2;
 	public static int RAIN_SPAWN_DELAY = 1;

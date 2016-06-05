@@ -181,6 +181,14 @@ public class PlayerOneSection extends AbstractSection {
 
 		fadeToBones();
 	}
+	public void setMotionBlur(){
+		if(playerOne.getSpeedThrust()){
+			this.circle.setFill(GameImageBank.speedPatternOne);
+		}
+		else{
+			this.circle.setFill(GameImageBank.normalPatternOne);
+		}
+	}
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -214,7 +222,7 @@ public class PlayerOneSection extends AbstractSection {
 
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
-			for (int i = 0; i <6; i++) {
+			for (int i = 0; i <2; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
@@ -234,7 +242,7 @@ public class PlayerOneSection extends AbstractSection {
 				this.circle.setFill(GameImageBank.tailImage);
 			}
 			else if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
-				this.circle.setFill(GameImageBank.snakeOneBody);
+				setMotionBlur();
 			}
 		}
 	}

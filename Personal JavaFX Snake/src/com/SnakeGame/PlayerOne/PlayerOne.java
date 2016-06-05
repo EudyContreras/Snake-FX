@@ -267,7 +267,6 @@ public class PlayerOne extends AbstractObject {
 
 	public void speedUp(){
 		if(thrust){
-			this.addMotionBlur();
 			SPEED+=accelaration;
 			if(SPEED>=maxSpeed){
 				SPEED = maxSpeed;
@@ -279,7 +278,6 @@ public class PlayerOne extends AbstractObject {
 			SPEED-=(accelaration/2);
 			if(SPEED<=normalSpeed){
 				SPEED = normalSpeed;
-				this.removeMotionBlur();
 			}
 		}
 	}
@@ -602,7 +600,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD + 1; i++) {
+		for (int i = 0; i < 3 + 1; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));

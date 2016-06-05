@@ -1,10 +1,11 @@
 package com.SnakeGame.HUDElements;
 
-import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -24,22 +25,34 @@ public class ScoreBoard {
 	private int score = 0;
 	private String message;
 	private Text text;
-	private Font theFont;
+	private GameManager game;
+	private DropShadow textGlow;
 
 	public ScoreBoard(String text, GameManager game, double x, double y, Color color) {
 		this.message = text;
+		this.game = game;
 		this.text = new Text();
-		this.theFont = Font.font("Helvetica", FontWeight.BOLD, 25 / GameLoader.ResolutionScaleX);
 		this.text.setTranslateX(x);
 		this.text.setTranslateY(y);
-		this.text.setFill(color);
-		this.text.setEffect(null);
-		this.text.setFont(theFont);
 		this.text.setText(message + " 00" + score);
+		this.setupText();
 		game.getTwelfthLayer().getChildren().add(this.text);
 	}
 
 	public void showScore() {
+
+	}
+	public void setupText(){
+		this.text.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(25)));
+//		this.text.setStroke(Color.ORANGERED);
+        this.textGlow = new DropShadow();
+        this.textGlow.setColor(Color.ORANGE);
+//        this.textGlow.setRadius(25);
+//        this.textGlow.setSpread(0.15);
+        this.textGlow.setBlurType(BlurType.GAUSSIAN);
+        this.text.setEffect(textGlow);
+        this.text.setId("PlayerScore");
+        game.getScene().getStylesheets().add(ScoreBoard.class.getResource("text.css").toExternalForm());
 
 	}
 

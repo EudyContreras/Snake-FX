@@ -8,16 +8,15 @@ import com.SnakeGame.Utilities.GameAudio;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -29,50 +28,55 @@ public class MenuMain {
 	private ImageView backgroundImage;
 	private ImageView parallaxObject1;
 	private ImageView parallaxObject2;
-//	private Rectangle background
-	private Rectangle logo;
+	private DropShadow dropShadowOne = new DropShadow();
+	private DropShadow dropShadowTwo = new DropShadow();
 	private GaussianBlur blur = new GaussianBlur();
+	private Pane menuRoot = new Pane();
+	private VBox menuBox = new VBox();
+	private VBox boundBox = new VBox();
+	private VBox titleBox = new VBox();
 	private Label gameTitle = new Label("Snake");
 	private Label startLabel = new Label("Start Game");
 	private Label optionsLabel = new Label("Options");
 	private Label multiplayerLabel = new Label("Multiplayer");
 	private Label highScoreLabel = new Label("High Score");
 	private Label exitLabel = new Label("Exit");
-	private Rectangle r1, r2, r3, r4, r5;
-	private VBox menuBox = new VBox();
-	private VBox boundBox = new VBox();
-	private VBox titleBox = new VBox();
-	private Rectangle clearUp;
+	private Rectangle r1, r2, r3, r4, r5, clearUp, logo;
 	private Pane fadeScreen;
 	private Double radius = 63.0;
-	private boolean showMenu = false;
-	private double opacity = 1.0;
-	private DropShadow borderGlow = new DropShadow();
-	private Pane menuRoot = new Pane();
+	private Double opacity = 1.0;
+	private Boolean showMenu = false;
 	private GameManager game;
 	private float x, y, velX, velY, x2, y2, velX2, velY2;
+
 	private MediaPlayer music;
 
 	public MenuMain(GameManager game) {
 		this.game = game;
+		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
+//		y2 = 400;
+//		x = (float) GameSettings.WIDTH / 3;
+//		x2 = (float) (GameSettings.WIDTH);
+//		velX = -1;
+//		velX2 = -1;
+        dropShadowTwo.setColor(Color.LIME);
+        dropShadowTwo.setRadius(15);
+        dropShadowTwo.setSpread(0.15);
+        dropShadowTwo.setBlurType(BlurType.TWO_PASS_BOX);
+		fadeScreen = new Pane();
+		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+		clearUp.setFill(Color.BLACK);
+		setupLogo();
+	}
+	public void setupLogo(){
 		logo = new Rectangle();
+		logo.setEffect(dropShadowTwo);
 		logo.setFill(new ImagePattern(MenuImageBank.gameLogo));
 		logo.setWidth(MenuImageBank.gameLogo.getWidth()/GameLoader.ResolutionScaleX);
 		logo.setHeight(MenuImageBank.gameLogo.getHeight()/GameLoader.ResolutionScaleY);
 		logo.setX(GameSettings.WIDTH/2-logo.getWidth()/2);
 		logo.setY(30);
-		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
-		y2 = 400;
-		x = (float) GameSettings.WIDTH / 3;
-		x2 = (float) (GameSettings.WIDTH);
-		velX = -1;
-		velX2 = -1;
-		fadeScreen = new Pane();
-		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		clearUp.setFill(Color.BLACK);
-		// addMusic();
 	}
-
 	public void addMusic() {
 		music = GameAudio.getAudio("AudioResources/Jungle Loop.wav");
 		music.play();
@@ -80,24 +84,23 @@ public class MenuMain {
 	}
 
 	public void playMusic() {
-		// if(music.getStatus() == Status.STOPPED){
+		if(music.getStatus() == Status.STOPPED){
 		music = GameAudio.getAudio("AudioResources/Jungle Loop.wav");
 		music.play();
 		music.setCycleCount(MediaPlayer.INDEFINITE);
-		// }
+		}
 	}
 
 	public void stopMusic() {
-		// if(music.getStatus() == Status.PLAYING){
+		if(music.getStatus() == Status.PLAYING){
 		music.stop();
-		// }
+		}
 	}
 
 	/**
 	 * Sets up the main menu
 	 */
 	public void setupMainMenu() {
-		setTitleStyle(gameTitle);
 		setStyle(startLabel);
 		setStyle(optionsLabel);
 		setStyle(multiplayerLabel);
@@ -134,8 +137,7 @@ public class MenuMain {
 		VBox.setMargin(exitLabel,
 				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 
-		startLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-				+ 36 / GameLoader.ResolutionScaleY + "px");
+		setStyleOn(startLabel);
 		startLabel.setAlignment(Pos.CENTER);
 		optionsLabel.setAlignment(Pos.CENTER);
 		highScoreLabel.setAlignment(Pos.CENTER);
@@ -202,7 +204,7 @@ public class MenuMain {
 			opacity -= 0.01;
 			clearUp.setOpacity(opacity);
 			if (opacity <= 0) {
-				opacity = 0;
+				opacity = 0.0;
 				menuRoot.getChildren().remove(fadeScreen);
 				showMenu = false;
 			}
@@ -242,62 +244,19 @@ public class MenuMain {
 	 * @param label
 	 */
 	private void setStyle(Label label) {
-		label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
+		label.setStyle("-fx-text-fill: limegreen; -fx-font-family: Impact; -fx-font-size: "
 				+ 36 / GameLoader.ResolutionScaleY + "px;");
-		label.setEffect(borderGlow);
+		label.setEffect(dropShadowOne);
 	}
-
-	/**
-	 * Sets the style for the title
-	 *
-	 * @param label
-	 */
-	public void setTitleStyle(Label label) {
-		Blend blend = new Blend();
-		blend.setMode(BlendMode.MULTIPLY);
-
-		DropShadow ds = new DropShadow();
-		ds.setColor(Color.GREEN);
-		ds.setOffsetX(3);
-		ds.setOffsetY(3);
-		ds.setRadius(5);
-		ds.setSpread(0.2);
-
-		blend.setBottomInput(ds);
-
-		DropShadow ds1 = new DropShadow();
-		ds1.setColor(Color.LIGHTGREEN);
-		ds1.setRadius(100);
-		ds1.setSpread(0.6);
-
-		Blend blend2 = new Blend();
-		blend2.setMode(BlendMode.MULTIPLY);
-
-		InnerShadow is = new InnerShadow();
-		is.setColor(Color.LIGHTGREEN);
-		is.setRadius(9);
-		is.setChoke(0.8);
-		blend2.setBottomInput(is);
-
-		InnerShadow is1 = new InnerShadow();
-		is1.setColor(Color.LIGHTGREEN);
-		is1.setRadius(5);
-		is1.setChoke(0.4);
-		blend2.setTopInput(is1);
-
-		Blend blend1 = new Blend();
-		blend1.setMode(BlendMode.MULTIPLY);
-		blend1.setBottomInput(ds1);
-		blend1.setTopInput(blend2);
-
-		blend.setTopInput(blend1);
-
-		label.setEffect(blend);
-		label.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-				+ 170 / GameLoader.ResolutionScaleY + "px;");
-		label.setPadding(new Insets(0, 30, 30, 30));
+	private void setStyleOn(Label label){
+		label.setStyle("-fx-text-fill: limegreen; -fx-font-family: Impact; -fx-font-size: "
+				+ 48 / GameLoader.ResolutionScaleY + "px");
 	}
+	private void setStyleOff(Label label){
+		label.setStyle("-fx-text-fill: limegreen; -fx-font-family: Impact; -fx-font-size: "
+				+ 36 / GameLoader.ResolutionScaleY + "px;");
 
+	}
 	/**
 	 * Sets the key input handling for the labels
 	 */
@@ -343,7 +302,8 @@ public class MenuMain {
 				if (currentChoice == 3) {
 					multiplayerMenu();
 				}
-				if (currentChoice == 4) { // highScore();
+				if (currentChoice == 4) {
+					// highScore();
 				}
 				if (currentChoice == 5) {
 					closeGame();
@@ -359,7 +319,8 @@ public class MenuMain {
 				if (currentChoice == 3) {
 					multiplayerMenu();
 				}
-				if (currentChoice == 4) { // highScore();
+				if (currentChoice == 4) {
+					// highScore();
 				}
 				if (currentChoice == 5) {
 					closeGame();
@@ -373,63 +334,37 @@ public class MenuMain {
 			 * user has toggled to that choice
 			 */
 			if (currentChoice == 1) {
-				startLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
+				setStyleOn(startLabel);
+				setStyleOff(optionsLabel);
+				setStyleOff(multiplayerLabel);
+				setStyleOff(highScoreLabel);
+				setStyleOff(exitLabel);
 			} else if (currentChoice == 2) {
-				optionsLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
+				setStyleOff(startLabel);
+				setStyleOn(optionsLabel);
+				setStyleOff(multiplayerLabel);
+				setStyleOff(highScoreLabel);
+				setStyleOff(exitLabel);
 			} else if (currentChoice == 3) {
-				multiplayerLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
+				setStyleOff(startLabel);
+				setStyleOff(optionsLabel);
+				setStyleOn(multiplayerLabel);
+				setStyleOff(highScoreLabel);
+				setStyleOff(exitLabel);
 			} else if (currentChoice == 4) {
-				highScoreLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
+				setStyleOff(startLabel);
+				setStyleOff(optionsLabel);
+				setStyleOff(multiplayerLabel);
+				setStyleOn(highScoreLabel);
+				setStyleOff(exitLabel);
 			} else if (currentChoice == 5) {
-				exitLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
-				optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-						+ 36 / GameLoader.ResolutionScaleY + "px");
+				setStyleOff(startLabel);
+				setStyleOff(optionsLabel);
+				setStyleOff(multiplayerLabel);
+				setStyleOff(highScoreLabel);
+				setStyleOn(exitLabel);
 			}
 		});
-
 	}
 
 	/**
@@ -461,64 +396,39 @@ public class MenuMain {
 		 * of the rectangles
 		 */
 		r1.setOnMouseEntered(e -> {
-			startLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
+			setStyleOn(startLabel);
+			setStyleOff(optionsLabel);
+			setStyleOff(multiplayerLabel);
+			setStyleOff(highScoreLabel);
+			setStyleOff(exitLabel);
 		});
 		r2.setOnMouseEntered(e -> {
-			optionsLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
+			setStyleOff(startLabel);
+			setStyleOn(optionsLabel);
+			setStyleOff(multiplayerLabel);
+			setStyleOff(highScoreLabel);
+			setStyleOff(exitLabel);
 		});
 		r3.setOnMouseEntered(e -> {
-			multiplayerLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
+			setStyleOff(startLabel);
+			setStyleOff(optionsLabel);
+			setStyleOn(multiplayerLabel);
+			setStyleOff(highScoreLabel);
+			setStyleOff(exitLabel);
 		});
 		r4.setOnMouseEntered(e -> {
-			highScoreLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			exitLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
+			setStyleOff(startLabel);
+			setStyleOff(optionsLabel);
+			setStyleOff(multiplayerLabel);
+			setStyleOn(highScoreLabel);
+			setStyleOff(exitLabel);
 		});
 		r5.setOnMouseEntered(e -> {
-			exitLabel.setStyle("-fx-text-fill: #A5DF00; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			multiplayerLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			startLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			optionsLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
-			highScoreLabel.setStyle("-fx-text-fill: #E1F5A9; -fx-font-family: Impact; -fx-font-size: "
-					+ 36 / GameLoader.ResolutionScaleY + "px");
+			setStyleOff(startLabel);
+			setStyleOff(optionsLabel);
+			setStyleOff(multiplayerLabel);
+			setStyleOff(highScoreLabel);
+			setStyleOn(exitLabel);
 		});
 	}
 
@@ -530,7 +440,7 @@ public class MenuMain {
 	public void setMainMenu() {
 		menuRoot.getChildren().add(fadeScreen);
 		showMenu = true;
-		opacity = 1;
+		opacity = 1.0;
 		clearUp.setOpacity(opacity);
 		setMouseInputHandler();
 		setKeyInputHandler();

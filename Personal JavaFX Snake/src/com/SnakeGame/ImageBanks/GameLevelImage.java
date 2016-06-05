@@ -100,7 +100,7 @@ public class GameLevelImage {
 	desert_trap = ImageEffectUtility.precreatedLightedAndShadedImage("desert_trap.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			75 / GameLoader.ResolutionScaleY);
-	desert_sand = ImageEffectUtility.precreatedLightedImage("sand_Grain.png",
+	desert_sand = ImageEffectUtility.precreatedLightedImage("sand_grain.png",
 			GameSettings.GlOBAL_ILLUMINATION - 0.5, GameSettings.SPECULAR_MAP - 1.2, 5, 5);
 
 

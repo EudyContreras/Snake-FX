@@ -8,6 +8,11 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -16,9 +21,12 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+
 public class ScoreKeeper {
 
 	public static int APPLE_COUNT = 50;
+	private DropShadow dropShadowOne;
+	private DropShadow dropShadowTwo;
 	private GameManager game;
 	private ImageView apple;
 	private Rectangle board;
@@ -28,7 +36,6 @@ public class ScoreKeeper {
 	private String hoursS = "00";
 	private Text text;
 	private Text timer;
-	private Font font;
 	private boolean swipeUp = true;
 	private boolean swipeDown = false;
 	private double swipeSpeed = 0;
@@ -58,31 +65,90 @@ public class ScoreKeeper {
 		this.timer = new Text();
 		this.apple = new ImageView(GameImageBank.apple);
 		this.board = new Rectangle(x, y, width, height);
-		this.font = Font.font("Plain", FontWeight.EXTRA_BOLD, GameManager.ScaleX(27));
 		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
 		this.apple.setFitWidth(45 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(45 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(GameSettings.WIDTH/2+10);
+		this.apple.setX(GameSettings.WIDTH/2+15);
 		this.apple.setY(y1-40);
-		this.text.setX(apple.getX() + apple.getFitWidth());
-		this.text.setY(y1-GameManager.ScaleY(25));
-		this.text.setFill(Color.RED);
-		this.text.setEffect(null);
-		this.text.setFont( Font.font("",FontWeight.EXTRA_BOLD, GameManager.ScaleX(27)));
-		this.text.setText("x " + APPLE_COUNT);
-		this.timer.setX(x+width*0.33);
-		this.timer.setY(y1-GameManager.ScaleY(25));
-		this.timer.setFill(Color.RED);
-		this.timer.setFont(font);
-		this.timer.setText("00:00:00");
+		setupTextTwo();
 		game.getThirTeenthLayer().getChildren().add(board);
 		game.getThirTeenthLayer().getChildren().add(apple);
 		game.getThirTeenthLayer().getChildren().add(text);
 		game.getThirTeenthLayer().getChildren().add(timer);
 		updateCount();
 	}
+	public void setUpText(){
+	        this.text.setId("fancytext");
+	        this.timer.setId("fancytext");
+	        Blend blend = new Blend();
+	        blend.setMode(BlendMode.MULTIPLY);
 
+	        DropShadow ds = new DropShadow();
+	        ds.setColor(Color.rgb(254, 235, 66, 0.3));
+	        ds.setOffsetX(2);
+	        ds.setOffsetY(2);
+	        ds.setRadius(3);
+	        ds.setSpread(0.1);
+
+	        blend.setBottomInput(ds);
+
+	        DropShadow ds1 = new DropShadow();
+	        ds1.setColor(Color.web("#f13a00"));
+	        ds1.setRadius(5);
+	        ds1.setSpread(0.1);
+
+	        Blend blend2 = new Blend();
+	        blend2.setMode(BlendMode.MULTIPLY);
+
+	        InnerShadow is = new InnerShadow();
+	        is.setColor(Color.web("#feeb42"));
+	        is.setRadius(3);
+	        is.setChoke(0.2);
+	        blend2.setBottomInput(is);
+
+	        InnerShadow is1 = new InnerShadow();
+	        is1.setColor(Color.web("#f13a00"));
+	        is1.setRadius(2);
+	        is1.setChoke(0.2);
+	        blend2.setTopInput(is1);
+
+	        Blend blend1 = new Blend();
+	        blend1.setMode(BlendMode.MULTIPLY);
+	        blend1.setBottomInput(ds1);
+	        blend1.setTopInput(blend2);
+
+	        blend.setTopInput(blend1);
+	        timer.setEffect(blend);
+	        text.setEffect(blend);
+	        game.getScene().getStylesheets().add(ScoreKeeper.class.getResource("brickStyle.css").toExternalForm());
+	}
+	public void setupTextTwo(){
+		this.text.setX(apple.getX() + apple.getFitWidth()-5);
+		this.text.setY(y1-GameManager.ScaleY(25));
+		this.timer.setX(x+width*0.33);
+		this.timer.setY(y1-GameManager.ScaleY(25));
+		this.timer.setFont(Font.font(null,FontWeight.BOLD, GameManager.ScaleX(27)));
+		this.text.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(27)));
+		this.text.setText("x " + APPLE_COUNT);
+		this.timer.setText("00:00:00");
+        this.dropShadowOne = new DropShadow();
+        this.dropShadowTwo = new DropShadow();
+        this.dropShadowOne.setColor(Color.DODGERBLUE);
+        this.dropShadowOne.setRadius(25);
+        this.dropShadowOne.setSpread(0.15);
+        this.dropShadowOne.setBlurType(BlurType.TWO_PASS_BOX);
+        this.dropShadowTwo.setColor(Color.RED);
+        this.dropShadowTwo.setRadius(25);
+        this.dropShadowTwo.setSpread(0.15);
+        this.dropShadowTwo.setBlurType(BlurType.TWO_PASS_BOX);
+        this.text.setEffect(dropShadowTwo);
+        this.timer.setEffect(dropShadowOne);
+        this.timer.setId("MainTimer");
+        this.text.setId("MainScore");
+        game.getScene().getStylesheets().add(ScoreKeeper.class.getResource("text.css").toExternalForm());
+
+	}
 	public void decreaseCount() {
 		APPLE_COUNT -= 1;
 		updateCount();
@@ -91,13 +157,13 @@ public class ScoreKeeper {
 		y = y + swipeSpeed;
 		y1 = y1 + swipeSpeed;
 		if (swipeDown) {
-			swipeSpeed = 1.5f;
-			if (y >= GameManager.ScaleX(100)) {
+			swipeSpeed = 2.5f;
+			if (y >= GameManager.ScaleX(105)) {
 				swipeSpeed = 0;
 			}
 		}
 		if (swipeUp) {
-			swipeSpeed = -1.5f;
+			swipeSpeed = -2.5f;
 			if (y < oldY) {
 				startTimer();
 				swipeSpeed = 0;

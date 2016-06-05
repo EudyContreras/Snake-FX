@@ -354,6 +354,34 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+	public static Image preCreateImageWithMotionBlur(String path, double width, double height) {
+		Image img = new Image(loadResource(path), width, height, true, true, false);
+		ImageView view = new ImageView(img);
+		MotionBlur blur = new MotionBlur();
+		DropShadow shadow = new DropShadow(15, Color.BLACK);
+		Lighting lighting = new Lighting();
+		Light.Point light = new Light.Point();
+		light.setX(-100);
+		light.setY(200);
+		light.setZ(100);
+//		blur.setIterations(1);
+		lighting.setDiffuseConstant(GameSettings.GlOBAL_ILLUMINATION);
+		lighting.setSpecularConstant(GameSettings.SPECULAR_MAP);
+		lighting.setSurfaceScale(10.0);
+		lighting.setLight(light);
+		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
+		shadow.setRadius(5);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
+		shadow.setInput(blur);
+		lighting.setContentInput(shadow);
+		if(GameSettings.ADD_LIGHTING)
+		view.setEffect(lighting);
+		view.setFitWidth(width);
+		view.setFitHeight(height);
+		img = ImageEffectUtility.createImage(view);
+		return img;
+	}
 
 	public static Image preCreateImageWithBlur(String path, double radius, double width, double height) {
 		Image img = new Image(path, width, height, true, false, false);

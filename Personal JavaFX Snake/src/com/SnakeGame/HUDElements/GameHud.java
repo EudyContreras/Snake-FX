@@ -6,6 +6,8 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
@@ -26,6 +28,7 @@ public class GameHud {
 	private double swipeSpeedTop = 0;
 	private double y2 = GameSettings.HEIGHT;
 	private double swipeSpeedBottom = 0;
+	private DropShadow shadow = new DropShadow();
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
 	private Rectangle hudBar = new Rectangle();
@@ -37,6 +40,10 @@ public class GameHud {
 		this.width = width;
 		this.height = height+10;
 		this.y2 = GameSettings.HEIGHT-height;
+		this.shadow.setColor(Color.rgb(0, 0, 0, 0.5));
+		this.shadow.setRadius(5);
+		this.shadow.setOffsetX(0);
+		this.shadow.setOffsetY(15);
 		this.topHudBar.setWidth(width);
 		this.topHudBar.setHeight(height+40);
 		this.topHudBar.setTranslateX(x);
@@ -56,6 +63,7 @@ public class GameHud {
 		this.hudBar.setTranslateY(y);
 		this.hudBar.setArcWidth(20);
 		this.hudBar.setArcHeight(20);
+		this.hudBar.setEffect(shadow);
 		this.hudBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
@@ -70,21 +78,21 @@ public class GameHud {
 		y = y + swipeSpeedTop;
 		y2 = y2 + swipeSpeedBottom;
 		if (swipeDown) {
-			swipeSpeedTop = 1.5;
+			swipeSpeedTop = 2.5;
 			if (y >= hudBar.getTranslateY() - 21) {
 				swipeSpeedTop = 0;
 			}
-			swipeSpeedBottom = -1.5;
+			swipeSpeedBottom = -2.5;
 			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+40) {
 				swipeSpeedBottom = 0;
 			}
 		}
 		if (swipeUp) {
-			swipeSpeedTop = -1.55;
+			swipeSpeedTop = -2.55;
 			if (y < hudBar.getTranslateY() - height) {
 				swipeSpeedTop = 0;
 			}
-			swipeSpeedBottom = 1.55;
+			swipeSpeedBottom = 2.55;
 			if (y2 > GameSettings.HEIGHT) {
 				swipeSpeedBottom = 0;
 			}

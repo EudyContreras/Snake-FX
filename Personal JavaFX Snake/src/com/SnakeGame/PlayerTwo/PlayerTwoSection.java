@@ -181,6 +181,14 @@ public class PlayerTwoSection extends AbstractSection {
 
 		fadeToBones();
 	}
+	public void setMotionBlur(){
+		if(playerTwo.getSpeedThrust()){
+			this.circle.setFill(GameImageBank.speedPatternTwo);
+		}
+		else{
+			this.circle.setFill(GameImageBank.normalPatternTwo);
+		}
+	}
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -214,7 +222,7 @@ public class PlayerTwoSection extends AbstractSection {
 
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
-			for (int i = 0; i <6; i++) {
+			for (int i = 0; i <2; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
