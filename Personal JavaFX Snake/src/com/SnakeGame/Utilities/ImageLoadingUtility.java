@@ -1,12 +1,13 @@
 package com.SnakeGame.Utilities;
 
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 /**
  * This is the image loading class. this class takes care of loading images and
@@ -22,89 +23,106 @@ import javax.imageio.ImageIO;
  */
 public class ImageLoadingUtility {
 
-	private static String path;
-	private static BufferedImage Image;
+	private static Image image;
+	private static String name;
+	private static WritableImage wImage;
+	private static PixelReader reader;
+	private static PixelWriter writer;
 	private static int width, height;
-	private final static Map<String, BufferedImage> textureMap = new HashMap<String, BufferedImage>();
+	private final static Map<String, Image> textureMap = new HashMap<String, Image>();
 
 	public ImageLoadingUtility() {
 
 	}
 
 	/**
-	 * constructor which creates a bufferedImage from a given path and will then
+	 * constructor which creates a bufferedImage from a given name and will then
 	 * store the image inside a hashMap.
 	 *
-	 * @param path
+	 * @param name
 	 */
-	public ImageLoadingUtility(String path) {
-		ImageLoadingUtility.path = path;
-		BufferedImage oldImage = textureMap.get(path);
+	public ImageLoadingUtility(String name) {
+		ImageLoadingUtility.name = name;
+		Image oldImage = textureMap.get(name);
 		if (oldImage != null) {
-			Image = oldImage;
+			image = oldImage;
 		} else {
-			try {
-				Image = ImageIO.read(getClass().getResourceAsStream("/com/SnakeGame/Images" + path));
-				textureMap.put(path, Image);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+
+			image = new Image(loadResource(name));
+			textureMap.put(name, image);
+
 		}
-		width = Image.getWidth();
-		height = Image.getHeight();
-		Image.flush();
+		width = (int)image.getWidth();
+		height = (int)image.getHeight();
 	}
 
 	/**
-	 * method which creates a bufferedImage from a given path and returns that
+	 * method which creates a bufferedImage from a given name and returns that
 	 * image ready to be used
 	 *
-	 * @param path
+	 * @param name
 	 */
-	public static BufferedImage loadImage(String path) {
-		ImageLoadingUtility.path = path;
-		BufferedImage oldImage = textureMap.get(path);
+	public static WritableImage loadImage(String name) {
+		ImageLoadingUtility.name = name;
+		Image oldImage = textureMap.get(name);
 		if (oldImage != null) {
-			Image = oldImage;
+			image = oldImage;
 		} else {
-			try {
-				Image = ImageIO.read(ImageLoadingUtility.class.getResourceAsStream("/com/SnakeGame/ImageFiles" + path));
-				textureMap.put(path, Image);
-			} catch (IOException e) {
-				e.printStackTrace();
+
+			image = new Image(loadResource(name));
+			textureMap.put(name, image);
+
+		}
+		reader = image.getPixelReader();
+
+		width = (int) image.getWidth();
+		height = (int) image.getHeight();
+
+		wImage = new WritableImage(width, height);
+		writer = wImage.getPixelWriter();
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				Color color = reader.getColor(x, y);
+				writer.setColor(x, y, color);
 			}
 		}
-		width = Image.getWidth();
-		height = Image.getHeight();
-		return Image;
+		return wImage;
 	}
 
-	public void render(Graphics g, float x, float y) {
-		g.drawImage(getImage(), (int) x, (int) y, null);
+	public void render(GraphicsContext gc, float positionX, float positionY) {
+		gc.drawImage(image, positionX, positionY);
 	}
 
-	public static BufferedImage getImage() {
-		return Image;
+	public static String loadResource(String image) {
+		String url = "com/SnakeGame/ImageFiles/" + image;
+		return url;
+	}
+	public static Image getImage(){
+		return image;
+	}
+	public static WritableImage getWImage() {
+		return wImage;
 	}
 
-	public static BufferedImage getLevelImage() {
-		return Image;
+	public static WritableImage getLevelWImage() {
+		return wImage;
 	}
 
 	public static void clear() {
 		textureMap.clear();
 	}
 
-	public static void setImage(BufferedImage Image) {
-		ImageLoadingUtility.Image = Image;
+	public static void setWImage(WritableImage Image) {
+		ImageLoadingUtility.wImage = Image;
 	}
 
 	public static String getPath() {
-		return path;
+		return name;
 	}
 
-	public static void setPath(String path) {
-		ImageLoadingUtility.path = path;
+	public static void setPath(String name) {
+		ImageLoadingUtility.name = name;
 	}
 
 	public static int getWidth() {

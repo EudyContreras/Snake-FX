@@ -18,7 +18,6 @@ import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
-
 import javafx.scene.image.Image;
 
 /**
@@ -68,7 +67,7 @@ public class LevelManager extends AbstractLoaderModel{
 		changeBackground(image);
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
-				pixel = loader.getLevel().getRGB((int) row, (int) col);
+				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -135,7 +134,6 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		loader.getLevel().flush();
 	}
 	/**
 	 * This method will load the border of the desert level if there is any.
@@ -143,7 +141,7 @@ public class LevelManager extends AbstractLoaderModel{
 	public void loadDesertBorder() {
 		for (double row = loader.getLevelWidth() - 1; row >= 0; row--) {
 			for (double col = loader.getLevelHeight() - 1; col >= 0; col--) {
-				pixel = loader.getBorder().getRGB((int) row, (int) col);
+				pixel = loader.getBorder().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -163,7 +161,6 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		loader.getBorder().flush();
 	}
 	/**
 	 * This method will load a spike fence along the border of the screen
@@ -172,7 +169,7 @@ public class LevelManager extends AbstractLoaderModel{
 	public void loadSpikeFence() {
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
-				pixel = loader.getSpikeFence().getRGB((int) row, (int) col);
+				pixel = loader.getSpikeFence().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -204,14 +201,13 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		loader.getSpikeFence().flush();
 	}
 
 	public void loadJungleLevels(Image image) {
 		changeBackground(image);
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
-				pixel = loader.getLevel().getRGB((int) row, (int) col);
+				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -266,14 +262,13 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		loader.getLevel().flush();
 	}
 
 	public void loadSeaLevels(Image image) {
 		changeBackground(image);
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
-				pixel = loader.getLevel().getRGB((int) row, (int) col);
+				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -328,13 +323,12 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		loader.getLevel().flush();
 	}
 
 	public void loadLevelOverlay() {
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
-				pixel = loader.getOverlay().getRGB((int) row, (int) col);
+				pixel = loader.getOverlay().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -347,7 +341,6 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		getOverlay().flush();
 	}
 
 	/**
@@ -357,7 +350,7 @@ public class LevelManager extends AbstractLoaderModel{
 	public void loadPlayers() {
 		for (int row = 0; row < loader.getLevelWidth(); row++) {
 			for (int col = 0; col < loader.getLevelHeight(); col++) {
-				pixel = loader.getLevel().getRGB(row, col);
+				pixel = loader.getLevel().getPixelReader().getArgb(row, col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
@@ -373,7 +366,6 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-		getLevel().flush();
 	}
 
 	public void levelTransition() {

@@ -1,5 +1,6 @@
 package com.SnakeGame.FrameWork;
 
+
 import java.util.Random;
 
 import com.SnakeGame.AbstractModels.AbstractLoaderModel;
@@ -14,7 +15,6 @@ import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.Utilities.GameTileManager;
 import com.SnakeGame.Utilities.ImageLoadingUtility;
-
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -41,11 +41,11 @@ public class GameLoader extends AbstractLoaderModel{
 		initializeMain();
 	}
 	public void initializeMain(){
-		this.border = ImageLoadingUtility.loadImage("/desert-level-border.png");
-		this.fence = ImageLoadingUtility.loadImage("/desert-level-fence.png");
+		this.border = ImageLoadingUtility.loadImage("desert-level-border.png");
+		this.fence = ImageLoadingUtility.loadImage("desert-level-fence.png");
 		this.setLevel(this.levelMain);
-		this.setLevelWidth(getLevel().getWidth());
-		this.setLevelHeight(getLevel().getHeight());
+		this.setLevelWidth((int) getLevel().getWidth());
+		this.setLevelHeight((int) getLevel().getHeight());
 		this.game.setLevelLenght(128 * 64);
 		System.out.print("loaded");
 	}
@@ -230,8 +230,8 @@ public class GameLoader extends AbstractLoaderModel{
 			break;
 		}
 
-		this.setLevelWidth(getLevel().getWidth());
-		this.setLevelHeight(getLevel().getHeight());
+		this.setLevelWidth((int) getLevel().getWidth());
+		this.setLevelHeight((int) getLevel().getHeight());
 		loadPixelMap();
 		LEVEL++;
 	}

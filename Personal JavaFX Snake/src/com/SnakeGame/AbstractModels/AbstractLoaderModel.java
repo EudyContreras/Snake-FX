@@ -1,8 +1,6 @@
 package com.SnakeGame.AbstractModels;
 
-import java.awt.image.BufferedImage;
 import java.util.Random;
-
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.LevelManager;
 import com.SnakeGame.FrameWork.ObjectManager;
@@ -12,23 +10,24 @@ import com.SnakeGame.PlayerTwo.PlayerTwo;
 import com.SnakeGame.SlitherSnake.SlitherSnake;
 import com.SnakeGame.Utilities.GameTileManager;
 import com.SnakeGame.Utilities.ImageLoadingUtility;
+import javafx.scene.image.WritableImage;
 
 public abstract class AbstractLoaderModel {
 	public static int LEVEL = 1;
-	protected BufferedImage border;
-	protected BufferedImage fence;
-	protected BufferedImage levelMain;
-	protected BufferedImage desertLevel_1;
-	protected BufferedImage desertLevel_2;
-	protected BufferedImage desertLevel_3;
-	protected BufferedImage desertLevel_4;
-	protected BufferedImage desertLevel_5;
-	protected BufferedImage desertLevel_6;
-	protected BufferedImage desertLevel_7;
-	protected BufferedImage desertLevel_8;
-	protected BufferedImage desertLevel_9;
-	protected BufferedImage desertLevel_10;
-	protected BufferedImage overlay;
+	protected WritableImage border;
+	protected WritableImage fence;
+	protected WritableImage levelMain;
+	protected WritableImage desertLevel_1;
+	protected WritableImage desertLevel_2;
+	protected WritableImage desertLevel_3;
+	protected WritableImage desertLevel_4;
+	protected WritableImage desertLevel_5;
+	protected WritableImage desertLevel_6;
+	protected WritableImage desertLevel_7;
+	protected WritableImage desertLevel_8;
+	protected WritableImage desertLevel_9;
+	protected WritableImage desertLevel_10;
+	protected WritableImage overlay;
 	protected LevelManager levelManager;
 	protected ObjectManager objectManger;
 	protected GameTileManager tileManager;
@@ -57,17 +56,17 @@ public abstract class AbstractLoaderModel {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadDesertLevels() {
-		this.levelMain 	= ImageLoadingUtility.loadImage("/desert-level-0.png");
-		this.desertLevel_1 = ImageLoadingUtility.loadImage("/desert-level-1.png");
-		this.desertLevel_2 = ImageLoadingUtility.loadImage("/desert-level-2.png");
-		this.desertLevel_3 = ImageLoadingUtility.loadImage("/desert-level3.png");
-		this.desertLevel_4 = ImageLoadingUtility.loadImage("/desert-level4.png");
-		this.desertLevel_5 = ImageLoadingUtility.loadImage("/desert-level5.png");
-		this.desertLevel_6 = ImageLoadingUtility.loadImage("/desert-level6.png");
-		this.desertLevel_7 = ImageLoadingUtility.loadImage("/image.png");
-		this.desertLevel_8 = ImageLoadingUtility.loadImage("/image.png");
-		this.desertLevel_9 = ImageLoadingUtility.loadImage("/image.png");
-		this.desertLevel_10 = ImageLoadingUtility.loadImage("/image.png");
+		this.levelMain 	= ImageLoadingUtility.loadImage("desert-level-0.png");
+		this.desertLevel_1 = ImageLoadingUtility.loadImage("desert-level-1.png");
+		this.desertLevel_2 = ImageLoadingUtility.loadImage("desert-level-2.png");
+		this.desertLevel_3 = ImageLoadingUtility.loadImage("desert-level3.png");
+		this.desertLevel_4 = ImageLoadingUtility.loadImage("desert-level4.png");
+		this.desertLevel_5 = ImageLoadingUtility.loadImage("desert-level5.png");
+		this.desertLevel_6 = ImageLoadingUtility.loadImage("desert-level6.png");
+		this.desertLevel_7 = ImageLoadingUtility.loadImage("image.png");
+		this.desertLevel_8 = ImageLoadingUtility.loadImage("image.png");
+		this.desertLevel_9 = ImageLoadingUtility.loadImage("image.png");
+		this.desertLevel_10 = ImageLoadingUtility.loadImage("image.png");
 
 	}
 	public void loadJungleLevels() {
@@ -81,11 +80,11 @@ public abstract class AbstractLoaderModel {
 	public LevelManager getLevelManager(){
 		return levelManager;
 	}
-	public BufferedImage getLevel() {
+	public WritableImage getLevel() {
 		return levelMain;
 	}
 
-	public void setLevel(BufferedImage level) {
+	public void setLevel(WritableImage level) {
 		this.levelMain = level;
 	}
 
@@ -97,19 +96,19 @@ public abstract class AbstractLoaderModel {
 		this.tileManager = tileManager;
 	}
 
-	public BufferedImage getBorder() {
+	public WritableImage getBorder() {
 		return border;
 	}
 
-	public BufferedImage getSpikeFence() {
+	public WritableImage getSpikeFence() {
 		return fence;
 	}
 
-	public void setBorder(BufferedImage border) {
+	public void setBorder(WritableImage border) {
 		this.border = border;
 	}
 
-	public void setSpikeFence(BufferedImage fence) {
+	public void setSpikeFence(WritableImage fence) {
 		this.fence = fence;
 	}
 
@@ -152,10 +151,10 @@ public abstract class AbstractLoaderModel {
 	public void setLevelHeight(int levelHeight) {
 		this.levelHeight = levelHeight;
 	}
-	public BufferedImage getOverlay() {
+	public WritableImage getOverlay() {
 		return overlay;
 	}
-	public void setOverlay(BufferedImage overlay) {
+	public void setOverlay(WritableImage overlay) {
 		this.overlay = overlay;
 	}
 
