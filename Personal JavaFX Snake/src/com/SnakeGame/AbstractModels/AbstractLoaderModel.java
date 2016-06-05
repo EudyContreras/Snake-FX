@@ -47,9 +47,9 @@ public abstract class AbstractLoaderModel {
 	protected int blue;
 	protected double Front_Distance_LOD = 1;
 	protected double Rear_Distance_LOD = 0;
-	public static boolean FullScreen = true;
 	public static double ResolutionScaleX = 1.0;
 	public static double ResolutionScaleY = 1.0;
+	public static boolean FullScreen = true;
 
 	/**
 	 * this method will load all the level images in to memory and make them

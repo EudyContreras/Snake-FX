@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 /**
  * This class is in charge of managing the logic surrounding the spawning of
@@ -50,6 +51,7 @@ public class SnakeFood extends AbstractObject {
 	private boolean maxGlow = false;
 	private boolean noGlow = true;
 	private Circle bounds;
+	private Rectangle rectBounds;
 	private DropShadow borderGlow = new DropShadow();
 	private Random rand = new Random();
 	private GameManager game;
@@ -89,9 +91,13 @@ public class SnakeFood extends AbstractObject {
 		this.circle.setOpacity(fadeValue);
 		this.size = circle.getRadius();
 		this.targetSize = size;
-		this.staticRadius = targetSize + 10;
+		this.staticRadius = (targetSize *2)+5;
 		this.addGLow();
 		if (GameSettings.DEBUG_MODE) {
+			this.rectBounds = new Rectangle(x,y, staticRadius+5, staticRadius+5);
+			this.rectBounds.setFill(Color.TRANSPARENT);
+			this.rectBounds.setStroke(Color.WHITE);
+			this.layer.getChildren().add(rectBounds);
 			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 			this.bounds.setStroke(Color.WHITE);
 			this.bounds.setStrokeWidth(3);
@@ -135,6 +141,8 @@ public class SnakeFood extends AbstractObject {
 			bounds.setCenterX(x);
 			bounds.setCenterY(y);
 			bounds.setRadius(size);
+			rectBounds.setX(x - staticRadius/2);
+			rectBounds.setY(y - staticRadius/2);
 		}
 		super.move();
 		if (velX > 0) {

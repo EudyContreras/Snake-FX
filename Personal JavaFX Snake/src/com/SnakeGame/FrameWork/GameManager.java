@@ -807,7 +807,7 @@ public class GameManager extends AbstractGameModel{
 		GameSettings.PLAYER_TWO_SIZE = 28;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
-		GameLoader.scaleResolution(1.1,1.1,true);
+		GameLoader.scaleResolution(1.0,1.0,true);
 		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();
