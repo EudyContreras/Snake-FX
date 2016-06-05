@@ -46,7 +46,11 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-
+	public AbstractTile(float x, float y,GameLevelObjectID id) {
+		this.x = x;
+		this.y = y;
+		this.id = id;
+	}
 	public AbstractTile(float x, float y, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;

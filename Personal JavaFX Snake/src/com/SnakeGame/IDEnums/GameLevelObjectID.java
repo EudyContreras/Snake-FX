@@ -24,4 +24,5 @@ public enum GameLevelObjectID {
 	longCactus(),
 	skeleton(),
 	treeBark(),
+	noSpawnZone(),
 }

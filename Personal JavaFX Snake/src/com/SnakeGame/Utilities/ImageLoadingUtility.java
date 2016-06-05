@@ -2,6 +2,9 @@ package com.SnakeGame.Utilities;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.SnakeGame.FrameWork.GameSettings;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
@@ -95,7 +98,7 @@ public class ImageLoadingUtility {
 	}
 
 	public static String loadResource(String image) {
-		String url = "com/SnakeGame/ImageFiles/" + image;
+		String url = GameSettings.IMAGE_SOURCE_DIRECTORY + image;
 		return url;
 	}
 	public static Image getImage(){

@@ -341,6 +341,13 @@ public class SnakeFood extends AbstractObject {
 					break;
 				}
 			}
+			if (tempTile.getId() == GameLevelObjectID.noSpawnZone) {
+				if (getBounds().intersects(tempTile.getBounds())) {
+					this.x = newX;
+					this.y = newY;
+					this.fadeValue = 0;
+				}
+			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTrap()) {
 			if (tempTile.getId() == GameLevelObjectID.fence) {

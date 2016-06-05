@@ -6,7 +6,9 @@ import java.util.Random;
 import com.SnakeGame.AbstractModels.AbstractLoaderModel;
 import com.SnakeGame.DebrisEffects.BackgroundDirt;
 import com.SnakeGame.GameObjects.GenericObject;
+import com.SnakeGame.GameObjects.NoSpawnZone;
 import com.SnakeGame.GameObjects.SnakeFood;
+import com.SnakeGame.IDEnums.GameLevelObjectID;
 import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
@@ -328,6 +330,18 @@ public class GameLoader extends AbstractLoaderModel{
 		slither = new SlitherSnake(game, game.getFithLayer(), GameImageBank.slither, x, y, 0, 0, 0, 0,
 				GameSettings.PLAYER_HEALTH, 0, 0, GameObjectID.SlitherSnake, game.getSlitherManager());
 		game.getSlitherManager().addObject(slither);
+	}
+	/**
+	 * Loads a no spawn zone used to prevent objects such as apples from spawning at a desire location
+	 */
+	public void loadNoSpawnZone(){
+		double width = 160/ResolutionScaleX;
+		double height = 180/ResolutionScaleY;
+		float x = (float)(GameSettings.WIDTH/2-width/2);
+		float y = (float)((GameSettings.HEIGHT/2-height/2)-15/ResolutionScaleY);
+		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.noSpawnZone);
+		getTileManager().addTile(noSpawnZone);
+		game.getDirtLayer().getChildren().add(noSpawnZone.getDebugBounds());
 	}
 
 	/**

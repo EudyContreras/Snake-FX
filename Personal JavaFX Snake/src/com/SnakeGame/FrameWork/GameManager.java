@@ -74,7 +74,7 @@ public class GameManager extends AbstractGameModel{
 
 
 	public void start(Stage primaryStage) {
-		GameLoader.scaleResolution(1.1,1.1,true);
+		GameLoader.scaleResolution(1.1,1.1,false);
 		GameLoader.scalePlayerSize();
 		ScaleX = GameLoader.ResolutionScaleX;
 		ScaleY = GameLoader.ResolutionScaleY;
@@ -154,6 +154,7 @@ public class GameManager extends AbstractGameModel{
 		mainRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
+		loader.loadNoSpawnZone();
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
@@ -807,7 +808,7 @@ public class GameManager extends AbstractGameModel{
 		GameSettings.PLAYER_TWO_SIZE = 28;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
-		GameLoader.scaleResolution(1.0,1.0,true);
+		GameLoader.scaleResolution(1.1,1.1,false);
 		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();

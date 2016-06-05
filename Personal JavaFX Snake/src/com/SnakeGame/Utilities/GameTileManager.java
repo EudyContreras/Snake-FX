@@ -88,10 +88,11 @@ public class GameTileManager {
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
-			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+			if (!tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				game.getDirtLayer().getChildren().remove(tempTile.getView());
 				tileList.remove();
 				continue;
 			}
@@ -102,7 +103,7 @@ public class GameTileManager {
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
-			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+			if (!tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
@@ -116,7 +117,7 @@ public class GameTileManager {
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
-			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+			if (!tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
@@ -130,10 +131,11 @@ public class GameTileManager {
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
-			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+			if (!tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				game.getDirtLayer().getChildren().remove(tempTile.getView());
 				edibleList.remove();
 				continue;
 			}
@@ -195,15 +197,16 @@ public class GameTileManager {
 	public void checkIfRemovable() {
 		for (int i = 0; i < tile.size(); i++) {
 			tempTile = tile.get(i);
-			if (tempTile.isBehindCharacter() || !tempTile.isAlive()) {
+			if (!tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				game.getDirtLayer().getChildren().remove(tempTile.getView());
 				tile.remove(i);
 			}
 		}
 		for (int i = 0; i < trap.size(); i++) {
 			tempTrap = trap.get(i);
-			if (tempTrap.isBehindCharacter() || !tempTrap.isAlive()) {
+			if (!tempTrap.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTrap.getView());
 				game.getSecondLayer().getChildren().remove(tempTrap.getView());
 				trap.remove(i);
@@ -211,7 +214,7 @@ public class GameTileManager {
 		}
 		for (int i = 0; i < block.size(); i++) {
 			tempBlock = block.get(i);
-			if (tempBlock.isBehindCharacter() || !tempBlock.isAlive()) {
+			if (!tempBlock.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempBlock.getView());
 				game.getSecondLayer().getChildren().remove(tempBlock.getView());
 				block.remove(i);
@@ -219,7 +222,7 @@ public class GameTileManager {
 		}
 		for (int i = 0; i < edible.size(); i++) {
 			tempEdible = edible.get(i);
-			if (tempEdible.isBehindCharacter() || !tempEdible.isAlive()) {
+			if (!tempEdible.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempEdible.getView());
 				game.getSecondLayer().getChildren().remove(tempEdible.getView());
 				edible.remove(i);

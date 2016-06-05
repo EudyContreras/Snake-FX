@@ -14,6 +14,7 @@ import javafx.stage.Screen;
  */
 public class GameSettings {
 
+	public static final String IMAGE_SOURCE_DIRECTORY = "com/SnakeGame/Images/";
 	public static int START_X = 1920;
 	public static int START_Y = 80; //This number must be a whole number
 	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);

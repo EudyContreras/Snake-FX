@@ -100,7 +100,7 @@ public class LevelManager extends AbstractLoaderModel{
 							(float) (col * 57 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_bones,
 							GameLevelObjectID.skeleton);
 					loader.getTileManager().addTile(texture);
-					game.getDirtLayer().getChildren().add(texture.getView());
+					game.getBaseLayer().getChildren().add(texture.getView());
 				}else if (red == 0 && green == 100 && blue == 0) {
 					DesertCactusSmall texture = new DesertCactusSmall(game, (float) (row * 50 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
 							(float) (col * 48.5 / GameLoader.ResolutionScaleY)-(float)(GameManager.ScaleX(15)), 0, 0, GameLevelImage.desert_cactus_small,

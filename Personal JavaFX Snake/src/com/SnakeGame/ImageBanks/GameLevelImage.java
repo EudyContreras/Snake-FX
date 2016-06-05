@@ -51,7 +51,7 @@ public class GameLevelImage {
 		 * Desert Level Images.
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	desertBackground = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-v-half.png",
+	desertBackground = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-two.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	horizontalFence = ImageEffectUtility.precreatedLightedImage("horizontal_spike_fence.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.SPECULAR_MAP, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);
@@ -100,7 +100,7 @@ public class GameLevelImage {
 	desert_trap = ImageEffectUtility.precreatedLightedAndShadedImage("desert_trap.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.SPECULAR_MAP, 130 / GameLoader.ResolutionScaleX,
 			75 / GameLoader.ResolutionScaleY);
-	desert_sand = ImageEffectUtility.precreatedLightedImage("sandGrain.png",
+	desert_sand = ImageEffectUtility.precreatedLightedImage("sand_Grain.png",
 			GameSettings.GlOBAL_ILLUMINATION - 0.5, GameSettings.SPECULAR_MAP - 1.2, 5, 5);
 
 

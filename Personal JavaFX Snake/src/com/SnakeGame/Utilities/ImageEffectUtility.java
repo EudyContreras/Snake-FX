@@ -385,7 +385,7 @@ public class ImageEffectUtility {
 	}
 
 	public static String loadResource(String image) {
-		String url = "com/SnakeGame/ImageFiles/" + image;
+		String url = GameSettings.IMAGE_SOURCE_DIRECTORY + image;
 		return url;
 	}
 }

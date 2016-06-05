@@ -86,6 +86,12 @@ public class GameOverScreen {
 	public void finishLevel() {
 		game.showCursor(true, game.getScene());
 		game.getScoreKeeper().stopTimer();
+		if(PlayerOne.DEAD){
+			this.boardImage = GameImageBank.player_one_loses;
+		}
+		else if(PlayerTwo.DEAD){
+			this.boardImage = GameImageBank.player_two_loses;
+		}
 		GameSettings.DAMAGE_IMMUNITY = true;
 		askConfirm();
 	}

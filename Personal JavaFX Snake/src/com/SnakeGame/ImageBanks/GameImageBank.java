@@ -64,6 +64,8 @@ public class GameImageBank {
 	public static Image player_two_hud;
 	public static Image player_one_wins;
 	public static Image player_two_wins;
+	public static Image player_two_loses;
+	public static Image player_one_loses;
 	public static Image options_board;
 	public static Image continue_button_alt;
 	public static Image continue_button;
@@ -168,7 +170,7 @@ public class GameImageBank {
 		score_keeper = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 		hud_timer = new Image(ImageEffectUtility.loadResource("hud_timer.png"));
 		splash_screen = new Image(ImageEffectUtility.loadResource("SplashScreen5.png"));
-		level_complete_board = new Image(ImageEffectUtility.loadResource("levelComplete2.png"));
+		level_complete_board = new Image(ImageEffectUtility.loadResource("level_completed_board.png"));
 		game_over_board = new Image(ImageEffectUtility.loadResource("gameover_board.png"));
 		health_bar_green_one = new Image(ImageEffectUtility.loadResource("health_bar_green.png"));
 		health_bar_green_two = new Image(ImageEffectUtility.loadResource("health_bar_green_two.png"));
@@ -182,6 +184,8 @@ public class GameImageBank {
 		player_two_hud = new Image(ImageEffectUtility.loadResource("score_board_two.png"));
 		player_one_wins = new Image(ImageEffectUtility.loadResource("player_one_wins.png"));
 		player_two_wins = new Image(ImageEffectUtility.loadResource("player_two_wins.png"));
+		player_one_loses = new Image(ImageEffectUtility.loadResource("player_one_lost.png"));
+		player_two_loses = new Image(ImageEffectUtility.loadResource("player_two_lost.png"));
 		options_board = new Image(ImageEffectUtility.loadResource("options_board.png"));
 		continue_button = new Image(ImageEffectUtility.loadResource("continue_button.png"));
 		continue_button_alt = new Image(ImageEffectUtility.loadResource("continue_button_alt.png"));
