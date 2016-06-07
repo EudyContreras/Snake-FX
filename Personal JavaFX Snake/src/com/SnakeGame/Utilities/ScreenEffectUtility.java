@@ -1,10 +1,10 @@
 package com.SnakeGame.Utilities;
 
-import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.EnumIDs.GameStateID;
-import com.SnakeGame.PlayerOne.PlayerOne;
-import com.SnakeGame.PlayerTwo.PlayerTwo;
+import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.PlayerOne.PlayerOne;
+import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;

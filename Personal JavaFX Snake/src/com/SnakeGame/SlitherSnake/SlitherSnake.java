@@ -1,18 +1,18 @@
 package com.SnakeGame.SlitherSnake;
 
-import com.SnakeGame.AbstractModels.AbstractObject;
-import com.SnakeGame.AbstractModels.AbstractSlither;
-import com.SnakeGame.AbstractModels.AbstractSlitherSection;
-import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.DebrisEffects.DirtDisplacement;
-import com.SnakeGame.EnumIDs.GameLevelObjectID;
-import com.SnakeGame.EnumIDs.GameObjectID;
-import com.SnakeGame.EnumIDs.GameStateID;
-import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.HUDElements.ScoreKeeper;
-import com.SnakeGame.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.AbstractModels.AbstractObject;
+import com.EudyContreras.Snake.AbstractModels.AbstractSlither;
+import com.EudyContreras.Snake.AbstractModels.AbstractSlitherSection;
+import com.EudyContreras.Snake.AbstractModels.AbstractTile;
+import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
+import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
+import com.EudyContreras.Snake.EnumIDs.GameObjectID;
+import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
+import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.SnakeGame.Utilities.AnimationUtility;
 import com.SnakeGame.Utilities.ScreenEffectUtility;
 

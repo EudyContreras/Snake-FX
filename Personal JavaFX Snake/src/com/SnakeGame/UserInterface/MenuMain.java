@@ -1,10 +1,9 @@
 package com.SnakeGame.UserInterface;
 
-import com.SnakeGame.FrameWork.GameLoader;
-import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.FrameWork.GameSettings;
+import com.EudyContreras.Snake.FrameWork.GameLoader;
+import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.SnakeGame.Utilities.GameAudio;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -32,16 +31,17 @@ public class MenuMain {
 	private DropShadow dropShadowTwo = new DropShadow();
 	private GaussianBlur blur = new GaussianBlur();
 	private Pane menuRoot = new Pane();
-	private VBox menuBox = new VBox();
-	private VBox boundBox = new VBox();
+	private Pane mainMenu = new Pane();
 	private VBox titleBox = new VBox();
+	private VBox menuBox = new VBox();
 	private Label gameTitle = new Label("Snake");
 	private Label startLabel = new Label("Start Game");
+	private Label gameModeLabel = new Label("Mode");
 	private Label optionsLabel = new Label("Options");
 	private Label multiplayerLabel = new Label("Multiplayer");
 	private Label highScoreLabel = new Label("High Score");
 	private Label exitLabel = new Label("Exit");
-	private Rectangle r1, r2, r3, r4, r5, clearUp, logo;
+	private Rectangle clearUp, logo;
 	private Pane fadeScreen;
 	private Double radius = 63.0;
 	private Double opacity = 1.0;
@@ -101,8 +101,9 @@ public class MenuMain {
 	 * Sets up the main menu
 	 */
 	public void setupMainMenu() {
-		setStyle(startLabel);
+		setStyleOn(startLabel);
 		setStyle(optionsLabel);
+		setStyle(gameModeLabel);
 		setStyle(multiplayerLabel);
 		setStyle(highScoreLabel);
 		setStyle(exitLabel);
@@ -117,7 +118,7 @@ public class MenuMain {
 		gameTitle.setPrefWidth(900);
 
 		menuBox.setPadding(new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
-		menuBox.getChildren().addAll(startLabel, optionsLabel, multiplayerLabel, highScoreLabel, exitLabel);
+		menuBox.getChildren().addAll(startLabel, optionsLabel, gameModeLabel, multiplayerLabel, highScoreLabel, exitLabel);
 		menuBox.setBackground(Background.EMPTY);
 		menuBox.setPrefWidth(500);
 		menuBox.setMinWidth(500);
@@ -126,7 +127,10 @@ public class MenuMain {
 		menuBox.setAlignment(Pos.CENTER);
 		menuBox.setTranslateX(GameSettings.WIDTH / 2 - menuBox.getPrefWidth() / 2);
 		menuBox.setTranslateY(GameSettings.HEIGHT / 2 - menuBox.getPrefHeight() / 2);
+
 		VBox.setMargin(startLabel,
+				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+		VBox.setMargin(gameModeLabel,
 				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(multiplayerLabel,
 				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
@@ -137,60 +141,22 @@ public class MenuMain {
 		VBox.setMargin(exitLabel,
 				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
 
-		setStyleOn(startLabel);
+
 		startLabel.setAlignment(Pos.CENTER);
 		optionsLabel.setAlignment(Pos.CENTER);
+		gameModeLabel.setAlignment(Pos.CENTER);
+		multiplayerLabel.setAlignment(Pos.CENTER);
 		highScoreLabel.setAlignment(Pos.CENTER);
 		exitLabel.setAlignment(Pos.CENTER);
 
-		r1 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2, menuBox.getTranslateY() / GameLoader.ResolutionScaleY, 250,
-				50 / GameLoader.ResolutionScaleY);
-		//r1.setFill(Color.rgb(255, 0, 0, 0.5));
-		 r1.setFill(Color.TRANSPARENT);
-		r2 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
-				r1.getY() + r1.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		//r2.setFill(Color.rgb(255, 0, 0, 0.5));
-		 r2.setFill(Color.TRANSPARENT);
-		r3 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
-				r2.getY() + r2.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		//r3.setFill(Color.rgb(255, 0, 0, 0.5));
-		 r3.setFill(Color.TRANSPARENT);
-		r4 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
-				r3.getY() + r3.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		//r4.setFill(Color.rgb(255, 0, 0, 0.5));
-		 r4.setFill(Color.TRANSPARENT);
-		r5 = new Rectangle(GameSettings.WIDTH / 2 - 250 / 2,
-				r4.getY() + r4.getHeight() + (20 / GameLoader.ResolutionScaleY), 250, 50 / GameLoader.ResolutionScaleY);
-		//r5.setFill(Color.rgb(255, 0, 0, 0.5));
-		r5.setFill(Color.TRANSPARENT);
 		showMenu = true;
 		titleBox.setTranslateX(GameSettings.WIDTH / 2 - titleBox.getPrefWidth() / 2);
 		titleBox.setTranslateY(0);
 
-		boundBox.setPadding(new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
-
-		boundBox.getChildren().addAll(r1, r2, r3, r4, r5);
-		boundBox.setBackground(Background.EMPTY);
-		boundBox.setPrefWidth(500);
-		boundBox.setMinWidth(500);
-		boundBox.setPrefHeight(600);
-		boundBox.setMinHeight(600);
-		boundBox.setAlignment(Pos.CENTER);
-		boundBox.setTranslateX(GameSettings.WIDTH / 2 - boundBox.getPrefWidth() / 2);
-		boundBox.setTranslateY(GameSettings.HEIGHT / 2 - boundBox.getPrefHeight() / 2);
-		VBox.setMargin(r1, new Insets(20 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
-				20 / GameLoader.ResolutionScaleY));
-		VBox.setMargin(r2, new Insets(15 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
-				20 / GameLoader.ResolutionScaleY));
-		VBox.setMargin(r3, new Insets(15 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
-				20 / GameLoader.ResolutionScaleY));
-		VBox.setMargin(r4, new Insets(15 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
-				20 / GameLoader.ResolutionScaleY));
-		VBox.setMargin(r5, new Insets(15 / GameLoader.ResolutionScaleY, 20 / GameLoader.ResolutionScaleY, 20,
-				20 / GameLoader.ResolutionScaleY));
 
 		fadeScreen.getChildren().add(clearUp);
-		menuRoot.getChildren().addAll(backgroundImage, logo, menuBox, boundBox, fadeScreen);
+		mainMenu.getChildren().addAll(menuBox);
+		menuRoot.getChildren().addAll(backgroundImage, logo, mainMenu, fadeScreen);
 		menuRoot.setTranslateX(Screen.getPrimary().getBounds().getWidth()/2-GameSettings.WIDTH/2);
 		menuRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		game.setRoot(menuRoot);
@@ -218,7 +184,7 @@ public class MenuMain {
 	}
 
 	public void addBackgroundImages() {
-		menuRoot.getChildren().addAll(backgroundImage, parallaxObject1, parallaxObject2, menuBox, r1, r2, r3, r4, r5);
+		menuRoot.getChildren().addAll(backgroundImage, parallaxObject1, parallaxObject2);
 	}
 
 	public void setBackgroundObjects() {
@@ -271,25 +237,25 @@ public class MenuMain {
 			case UP:
 				currentChoice -= 1;
 				if (currentChoice < 1) {
-					currentChoice = 5;
+					currentChoice = 1;
 				}
 				break;
 			case DOWN:
 				currentChoice += 1;
-				if (currentChoice > 5) {
-					currentChoice = 1;
+				if (currentChoice > 6) {
+					currentChoice = 6;
 				}
 				break;
 			case W:
 				currentChoice -= 1;
 				if (currentChoice < 1) {
-					currentChoice = 5;
+					currentChoice = 1;
 				}
 				break;
 			case S:
 				currentChoice += 1;
-				if (currentChoice > 5) {
-					currentChoice = 1;
+				if (currentChoice > 6) {
+					currentChoice = 6;
 				}
 				break;
 			case ENTER:
@@ -297,15 +263,18 @@ public class MenuMain {
 					startSelected();
 				}
 				if (currentChoice == 2) {
-					OptionsMenu();
+
 				}
 				if (currentChoice == 3) {
-					multiplayerMenu();
+
 				}
 				if (currentChoice == 4) {
 					// highScore();
 				}
 				if (currentChoice == 5) {
+
+				}
+				if (currentChoice == 6) {
 					closeGame();
 				}
 				break;
@@ -323,6 +292,9 @@ public class MenuMain {
 					// highScore();
 				}
 				if (currentChoice == 5) {
+
+				}
+				if (currentChoice == 6) {
 					closeGame();
 				}
 			default:
@@ -339,29 +311,41 @@ public class MenuMain {
 				setStyleOff(multiplayerLabel);
 				setStyleOff(highScoreLabel);
 				setStyleOff(exitLabel);
+				setStyleOff(gameModeLabel);
 			} else if (currentChoice == 2) {
 				setStyleOff(startLabel);
 				setStyleOn(optionsLabel);
 				setStyleOff(multiplayerLabel);
 				setStyleOff(highScoreLabel);
 				setStyleOff(exitLabel);
+				setStyleOff(gameModeLabel);
 			} else if (currentChoice == 3) {
+				setStyleOn(gameModeLabel);
 				setStyleOff(startLabel);
 				setStyleOff(optionsLabel);
-				setStyleOn(multiplayerLabel);
+				setStyleOff(multiplayerLabel);
 				setStyleOff(highScoreLabel);
 				setStyleOff(exitLabel);
 			} else if (currentChoice == 4) {
 				setStyleOff(startLabel);
 				setStyleOff(optionsLabel);
-				setStyleOff(multiplayerLabel);
-				setStyleOn(highScoreLabel);
+				setStyleOn(multiplayerLabel);
+				setStyleOff(highScoreLabel);
 				setStyleOff(exitLabel);
+				setStyleOff(gameModeLabel);
 			} else if (currentChoice == 5) {
 				setStyleOff(startLabel);
 				setStyleOff(optionsLabel);
 				setStyleOff(multiplayerLabel);
+				setStyleOn(highScoreLabel);
+				setStyleOff(exitLabel);
+				setStyleOff(gameModeLabel);
+			} else if (currentChoice == 6) {
+				setStyleOff(startLabel);
+				setStyleOff(optionsLabel);
+				setStyleOff(multiplayerLabel);
 				setStyleOff(highScoreLabel);
+				setStyleOff(gameModeLabel);
 				setStyleOn(exitLabel);
 			}
 		});
@@ -375,19 +359,22 @@ public class MenuMain {
 		 * Code below determines what will happen if the mouse presses one of
 		 * the different rectangles
 		 */
-		r1.setOnMousePressed(e -> {
+		startLabel.setOnMousePressed(e -> {
 			startSelected();
 		});
-		r2.setOnMousePressed(e -> {
+		optionsLabel.setOnMousePressed(e -> {
 			OptionsMenu();
 		});
-		r3.setOnMousePressed(e -> {
+		gameModeLabel.setOnMousePressed(e -> {
+
+		});
+		multiplayerLabel.setOnMousePressed(e -> {
 			multiplayerMenu();
 		});
-		r4.setOnMousePressed(e -> {
-			multiplayerMenu();
+		highScoreLabel.setOnMousePressed(e -> {
+
 		});
-		r5.setOnMousePressed(e -> {
+		exitLabel.setOnMousePressed(e -> {
 			closeGame();
 		});
 
@@ -395,39 +382,52 @@ public class MenuMain {
 		 * Code below determines the style of the labels if the mouse enters one
 		 * of the rectangles
 		 */
-		r1.setOnMouseEntered(e -> {
+		startLabel.setOnMouseEntered(e -> {
 			setStyleOn(startLabel);
 			setStyleOff(optionsLabel);
 			setStyleOff(multiplayerLabel);
 			setStyleOff(highScoreLabel);
 			setStyleOff(exitLabel);
+			setStyleOff(gameModeLabel);
 		});
-		r2.setOnMouseEntered(e -> {
+		optionsLabel.setOnMouseEntered(e -> {
 			setStyleOff(startLabel);
 			setStyleOn(optionsLabel);
 			setStyleOff(multiplayerLabel);
 			setStyleOff(highScoreLabel);
 			setStyleOff(exitLabel);
+			setStyleOff(gameModeLabel);
 		});
-		r3.setOnMouseEntered(e -> {
+		gameModeLabel.setOnMouseEntered(e -> {
+			setStyleOff(startLabel);
+			setStyleOff(optionsLabel);
+			setStyleOff(multiplayerLabel);
+			setStyleOff(highScoreLabel);
+			setStyleOff(exitLabel);
+			setStyleOn(gameModeLabel);
+		});
+		multiplayerLabel.setOnMouseEntered(e -> {
 			setStyleOff(startLabel);
 			setStyleOff(optionsLabel);
 			setStyleOn(multiplayerLabel);
 			setStyleOff(highScoreLabel);
 			setStyleOff(exitLabel);
+			setStyleOff(gameModeLabel);
 		});
-		r4.setOnMouseEntered(e -> {
+		highScoreLabel.setOnMouseEntered(e -> {
 			setStyleOff(startLabel);
 			setStyleOff(optionsLabel);
 			setStyleOff(multiplayerLabel);
 			setStyleOn(highScoreLabel);
 			setStyleOff(exitLabel);
+			setStyleOff(gameModeLabel);
 		});
-		r5.setOnMouseEntered(e -> {
+		exitLabel.setOnMouseEntered(e -> {
 			setStyleOff(startLabel);
 			setStyleOff(optionsLabel);
 			setStyleOff(multiplayerLabel);
 			setStyleOff(highScoreLabel);
+			setStyleOff(gameModeLabel);
 			setStyleOn(exitLabel);
 		});
 	}

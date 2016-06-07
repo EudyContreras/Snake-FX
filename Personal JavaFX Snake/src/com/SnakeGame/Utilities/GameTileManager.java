@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.SnakeGame.AbstractModels.AbstractTile;
-import com.SnakeGame.FrameWork.GameManager;
+import com.EudyContreras.Snake.AbstractModels.AbstractTile;
+import com.EudyContreras.Snake.FrameWork.GameManager;
 
 /**
  * This manager class is responsible for managing, updating moving, displaying,

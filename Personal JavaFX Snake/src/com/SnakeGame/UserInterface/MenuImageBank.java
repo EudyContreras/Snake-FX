@@ -1,6 +1,6 @@
 package com.SnakeGame.UserInterface;
 
-import com.SnakeGame.FrameWork.GameSettings;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.SnakeGame.Utilities.ImageEffectUtility;
 
 import javafx.scene.image.Image;

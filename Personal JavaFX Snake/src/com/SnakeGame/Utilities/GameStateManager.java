@@ -4,9 +4,9 @@ import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.SnakeGame.AbstractModels.AbstractGameStates;
-import com.SnakeGame.EnumIDs.GameStateID;
-import com.SnakeGame.FrameWork.GameManager;
+import com.EudyContreras.Snake.AbstractModels.AbstractGameStates;
+import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.FrameWork.GameManager;
 
 /**
  * Class used for updating, switching, and removing states This class may be

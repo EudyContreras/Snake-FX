@@ -3,9 +3,9 @@ package com.SnakeGame.SlitherSnake;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.SnakeGame.AbstractModels.AbstractSlither;
-import com.SnakeGame.EnumIDs.GameObjectID;
-import com.SnakeGame.FrameWork.GameManager;
+import com.EudyContreras.Snake.AbstractModels.AbstractSlither;
+import com.EudyContreras.Snake.EnumIDs.GameObjectID;
+import com.EudyContreras.Snake.FrameWork.GameManager;
 
 import javafx.scene.canvas.GraphicsContext;
 

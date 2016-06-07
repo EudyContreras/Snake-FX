@@ -3,7 +3,7 @@ package com.SnakeGame.Utilities;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.SnakeGame.FrameWork.GameSettings;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;

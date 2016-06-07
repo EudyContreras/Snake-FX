@@ -2,9 +2,9 @@ package com.SnakeGame.SlitherSnake;
 
 import java.util.ArrayList;
 
-import com.SnakeGame.AbstractModels.AbstractSlitherSection;
-import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.AbstractModels.AbstractSlitherSection;
+import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
