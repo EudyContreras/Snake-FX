@@ -39,10 +39,10 @@ public class PlayerOne extends AbstractObject {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
-	private double accelaration = 0.5;
+	private double accelaration = 0.5/GameManager.ScaleX_ScaleY;
 	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
 	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
-	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2;
+	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
 	private double bodyTrigger;
 	private double offsetX = 0;
@@ -601,7 +601,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < 3 + 1; i++) {
+		for (int i = 0; i < 2 + 1; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
@@ -614,7 +614,8 @@ public class PlayerOne extends AbstractObject {
 			counter++;
 			if (counter >= 15) {
 				counter = 0;
-				GameSettings.PLAYER_ONE_SIZE += 2;
+				if(GameSettings.ALLOW_SNAKE_GROWTH)
+					GameSettings.PLAYER_ONE_SIZE += 2;
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {

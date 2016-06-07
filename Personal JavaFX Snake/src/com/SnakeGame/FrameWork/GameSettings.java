@@ -27,8 +27,8 @@ public class GameSettings {
 	public static int SNAKE_TWO_SPEED = 1;
 	public static int SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
-	public static double PLAYER_ONE_SIZE = 28; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
-	public static double PLAYER_TWO_SIZE = 28; // Must be even or divisible by two
+	public static double PLAYER_ONE_SIZE = 30; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
+	public static double PLAYER_TWO_SIZE = 30; // Must be even or divisible by two
 
 	public static int APPLE_COUNT = 70;
 	public static int SECTIONS_TO_ADD = 1;
@@ -70,6 +70,7 @@ public class GameSettings {
 
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
+	public static boolean ALLOW_SNAKE_GROWTH = false;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean DAMAGE_IMMUNITY = false;
@@ -81,7 +82,7 @@ public class GameSettings {
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 	public static boolean LOAD_SPIKE_FENCE = false;
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

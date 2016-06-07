@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 
 public class ScreenEffectUtility {
 
-	private MotionBlur motionEffect = new MotionBlur(0, 50);
+	private BoxBlur motionEffect = new BoxBlur(20,20, 1);
 	private BoxBlur blurEffect = new BoxBlur(25, 25, 2);
 	private GaussianBlur deathEffect = new GaussianBlur(0);
 	private GaussianBlur gaussianEffect = new GaussianBlur(7);
@@ -77,7 +77,6 @@ public class ScreenEffectUtility {
 	public synchronized void addDistortion(double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			this.layer.setEffect(motionEffect);
-			this.motionEffect.setAngle(10);
 			this.setDistortion = true;
 			this.distortionLifetime = lifetime;
 			this.speedDistortion = speed;
@@ -260,7 +259,8 @@ public class ScreenEffectUtility {
 	private void setDistortionModifier() {
 		if (distortionLifetime >= 0) {
 			distortionLifetime -= speedDistortion;
-			this.motionEffect.setRadius(distortionLifetime);
+			this.motionEffect.setWidth(distortionLifetime);
+			this.motionEffect.setHeight(distortionLifetime);
 		}
 	}
 

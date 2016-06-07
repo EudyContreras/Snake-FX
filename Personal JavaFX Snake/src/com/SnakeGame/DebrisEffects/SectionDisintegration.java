@@ -1,7 +1,6 @@
 package com.SnakeGame.DebrisEffects;
 
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
-import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDEnums.GameDebrisID;
@@ -15,21 +14,19 @@ import javafx.scene.shape.Circle;
 public class SectionDisintegration extends AbstractDebrisEffect {
 
 	private GameDebrisID id;
-	private double radius;
 	private double decay;
 	private double lifeTime = 1.0f;
 
 	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.radius = (radius / 2)/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
-		this.shape.setRadius(this.radius);
+		this.shape.setRadius(radius/2);
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (2 - -2 + 1) + -2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velY = Math.random() * (2 - -2 + 1) + -2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
+		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
 		init();
 	}
 
@@ -41,8 +38,8 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	public void update() {
 		super.move();
 		lifeTime -= decay;
-		velX += 0.05 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		velY -= 0.002;
+		velX += 0.05/GameManager.ScaleX;
+		velY -= 0.002/GameManager.ScaleY;
 	}
 
 	public void move() {

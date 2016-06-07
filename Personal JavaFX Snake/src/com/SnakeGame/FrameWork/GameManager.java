@@ -72,8 +72,8 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel{
 
-	private double manualScale = 1.0;
-	
+	private double manualScale = 1.4;
+
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution(manualScale,manualScale,true);
 		GameLoader.scalePlayerSize();
@@ -806,8 +806,8 @@ public class GameManager extends AbstractGameModel{
 	}
 
 	public void clearAll() {
-		GameSettings.PLAYER_ONE_SIZE = 28;
-		GameSettings.PLAYER_TWO_SIZE = 28;
+		GameSettings.PLAYER_ONE_SIZE = 30;
+		GameSettings.PLAYER_TWO_SIZE = 30;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
 		GameLoader.scaleResolution(manualScale,manualScale,true);
