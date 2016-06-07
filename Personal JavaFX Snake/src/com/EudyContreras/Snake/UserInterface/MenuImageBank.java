@@ -7,6 +7,9 @@ import javafx.scene.image.Image;
 
 public class MenuImageBank {
 	public static Image gameLogo = new Image(ImageEffectUtility.loadResource("menu-logo.png"));
+	public static Image main_logo = new Image(ImageEffectUtility.loadResource("main_logo.png"));
+	public static Image options_logo = new Image(ImageEffectUtility.loadResource("options_logo.png"));
+	public static Image game_mode_logo = new Image(ImageEffectUtility.loadResource("game_mode_logo.png"));
 	public static Image menuStart = new Image(ImageEffectUtility.loadResource("menu-start.png"));
 	public static Image menuOptions= new Image(ImageEffectUtility.loadResource("menu-options.png"));
 	public static Image menuMultiplayer = new Image(ImageEffectUtility.loadResource("menu-multiplayer.png"));

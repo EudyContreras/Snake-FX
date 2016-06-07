@@ -5,6 +5,7 @@ public enum GameModeID {
 	CampaingMode(),
 	LocalMultiplayer(),
 	RemoteMultiplayer(),
+	ClassicMode(),
 	TimeMode();
 
 }

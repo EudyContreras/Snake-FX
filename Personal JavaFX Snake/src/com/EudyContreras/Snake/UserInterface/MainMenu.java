@@ -20,9 +20,8 @@ import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 
-public class MenuMain {
+public class MainMenu {
 
 	private int currentChoice = 1;
 	private ImageView backgroundImage;
@@ -52,7 +51,7 @@ public class MenuMain {
 
 	private MediaPlayer music;
 
-	public MenuMain(GameManager game) {
+	public MainMenu(GameManager game) {
 		this.game = game;
 		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
 //		y2 = 400;
@@ -127,20 +126,20 @@ public class MenuMain {
 		menuBox.setMinHeight(600);
 		menuBox.setAlignment(Pos.CENTER);
 		menuBox.setTranslateX(GameSettings.WIDTH / 2 - menuBox.getPrefWidth() / 2);
-		menuBox.setTranslateY(GameSettings.HEIGHT / 2 - menuBox.getPrefHeight() / 2);
+		menuBox.setTranslateY(GameSettings.HEIGHT / 2 - menuBox.getPrefHeight() / 2+50/GameManager.ScaleY);
 
 		VBox.setMargin(startLabel,
-				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+				new Insets(40 / GameLoader.ResolutionScaleY, 20, 20, 15 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(gameModeLabel,
-				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+				new Insets(15 / GameLoader.ResolutionScaleY, 20, 20, 15 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(multiplayerLabel,
-				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+				new Insets(15 / GameLoader.ResolutionScaleY, 20, 20, 15 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(optionsLabel,
-				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+				new Insets(15 / GameLoader.ResolutionScaleY, 20, 20, 15 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(highScoreLabel,
-				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+				new Insets(15 / GameLoader.ResolutionScaleY, 20, 20, 15 / GameLoader.ResolutionScaleY));
 		VBox.setMargin(exitLabel,
-				new Insets(20 / GameLoader.ResolutionScaleY, 20, 20, 20 / GameLoader.ResolutionScaleY));
+				new Insets(15 / GameLoader.ResolutionScaleY, 20, 20, 15 / GameLoader.ResolutionScaleY));
 
 
 		startLabel.setAlignment(Pos.CENTER);
@@ -158,8 +157,6 @@ public class MenuMain {
 		fadeScreen.getChildren().add(clearUp);
 		mainMenu.getChildren().addAll(menuBox);
 		menuRoot.getChildren().addAll(backgroundImage, logo, mainMenu, fadeScreen);
-		menuRoot.setTranslateX(Screen.getPrimary().getBounds().getWidth()/2-GameSettings.WIDTH/2);
-		menuRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		game.setRoot(menuRoot);
 
 		setKeyInputHandler();

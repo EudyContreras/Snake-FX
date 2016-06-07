@@ -31,7 +31,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.SlitherSnake.SlitherManager;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSectionManager;
-import com.EudyContreras.Snake.UserInterface.MenuMain;
+import com.EudyContreras.Snake.UserInterface.MainMenu;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -75,7 +75,7 @@ public abstract class AbstractGameModel extends Application {
 	protected SlitherSectionManager slitherSectManager;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
-	protected MenuMain mainMenu;
+	protected MainMenu mainMenu;
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Group mainRoot;
@@ -214,11 +214,11 @@ public abstract class AbstractGameModel extends Application {
 	public PauseMenu getPauseMenu(){
 		return pauseMenu;
 	}
-	public MenuMain getMainMenu() {
+	public MainMenu getMainMenu() {
 		return mainMenu;
 	}
 
-	public void setMainMenu(MenuMain mainMenu) {
+	public void setMainMenu(MainMenu mainMenu) {
 		this.mainMenu = mainMenu;
 	}
 

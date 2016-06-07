@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.Language;
+package com.EudyContreras.Snake.LangUtility;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

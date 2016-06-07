@@ -25,7 +25,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.UserInterface.MenuMain;
+import com.EudyContreras.Snake.UserInterface.MainMenu;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -72,7 +72,7 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel{
 
-	private double manualScale = 1.4;
+	private double manualScale = 1.2;
 
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution(manualScale,manualScale,true);
@@ -152,8 +152,6 @@ public class GameManager extends AbstractGameModel{
 		getGameRoot().getChildren().add(eleventhLayer);
 		getGameRoot().getChildren().add(twelfthLayer);
 		mainRoot.getChildren().add(getGameRoot());
-		mainRoot.setTranslateX(Screen.getPrimary().getBounds().getWidth()/2-GameSettings.WIDTH/2);
-		mainRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
@@ -180,9 +178,9 @@ public class GameManager extends AbstractGameModel{
 		mainMenu.setupMainMenu();
 		mainWindow.setScene(scene);
 		mainWindow.setWidth(GameSettings.WIDTH);
-		mainWindow.setHeight(GameSettings.HEIGHT);
-		mainWindow.setResizable(false);
-		mainWindow.setFullScreen(true);
+		mainWindow.setHeight(GameSettings.HEIGHT+45);
+		mainWindow.setResizable(true);
+		mainWindow.setFullScreen(false);
 		mainWindow.setFullScreenExitHint("");
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		mainWindow.setTitle(title);
@@ -192,7 +190,6 @@ public class GameManager extends AbstractGameModel{
 		pauseGame();
 		objectChecker();
 		frameBaseGameLoop();
-		//playerMovementLoop();
 
 	}
 
@@ -214,7 +211,7 @@ public class GameManager extends AbstractGameModel{
 		mainRoot = new Group();
 		root = new Pane();
 		thread = new LogicThread(this);
-		mainMenu = new MenuMain(this);
+		mainMenu = new MainMenu(this);
 		backgroundImage = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(GameSettings.WIDTH, GameSettings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
