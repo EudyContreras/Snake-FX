@@ -1,6 +1,8 @@
 package com.SnakeGame.FrameWork;
 
 import com.SnakeGame.AbstractModels.AbstractLoaderModel;
+import com.SnakeGame.EnumIDs.GameLevelObjectID;
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.GameObjects.DesertBark;
 import com.SnakeGame.GameObjects.DesertBones;
 import com.SnakeGame.GameObjects.DesertBush;
@@ -12,8 +14,6 @@ import com.SnakeGame.GameObjects.DesertSkull;
 import com.SnakeGame.GameObjects.DesertTrap;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.GameObjects.SpikeFence;
-import com.SnakeGame.IDEnums.GameLevelObjectID;
-import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
@@ -139,8 +139,8 @@ public class LevelManager extends AbstractLoaderModel{
 	 * This method will load the border of the desert level if there is any.
 	 */
 	public void loadDesertBorder() {
-		for (double row = loader.getLevelWidth() - 1; row >= 0; row--) {
-			for (double col = loader.getLevelHeight() - 1; col >= 0; col--) {
+		for (double row = loader.getBorder().getWidth() - 1; row >= 0; row--) {
+			for (double col = loader.getBorder().getHeight() - 1; col >= 0; col--) {
 				pixel = loader.getBorder().getPixelReader().getArgb((int) row, (int) col);
 				red = (pixel >> 16) & 0xff;
 				green = (pixel >> 8) & 0xff;

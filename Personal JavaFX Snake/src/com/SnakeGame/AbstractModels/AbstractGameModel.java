@@ -4,6 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import com.SnakeGame.DebrisEffects.RainEmitter;
 import com.SnakeGame.DebrisEffects.SandEmitter;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.FadeScreenHandler;
 import com.SnakeGame.FrameWork.GameDebrisManager;
 import com.SnakeGame.FrameWork.GameLoader;
@@ -19,7 +20,6 @@ import com.SnakeGame.HUDElements.PauseMenu;
 import com.SnakeGame.HUDElements.ScoreBoard;
 import com.SnakeGame.HUDElements.ScoreKeeper;
 import com.SnakeGame.HUDElements.VictoryScreen;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.InputHandlers.InputManagerGestures;

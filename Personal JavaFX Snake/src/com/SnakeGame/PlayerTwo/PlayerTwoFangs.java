@@ -2,11 +2,11 @@ package com.SnakeGame.PlayerTwo;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractSection;
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;

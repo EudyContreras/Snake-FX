@@ -1,8 +1,8 @@
 package com.SnakeGame.HUDElements;
 
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -92,7 +92,7 @@ public class GameOverScreen {
 		else if(PlayerTwo.DEAD){
 			this.boardImage = GameImageBank.player_two_loses;
 		}
-		GameSettings.DAMAGE_IMMUNITY = true;
+		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 		askConfirm();
 	}
 
@@ -108,7 +108,7 @@ public class GameOverScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
-			GameSettings.DAMAGE_IMMUNITY = false;
+			GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
@@ -122,7 +122,7 @@ public class GameOverScreen {
 		});
 		restart_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.LEVEL_RESTART);
-			GameSettings.DAMAGE_IMMUNITY = false;
+			GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 			restartLevel();
 		});
 
@@ -163,24 +163,24 @@ public class GameOverScreen {
 			case ENTER:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
-					GameSettings.DAMAGE_IMMUNITY = false;
+					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					restartLevel();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.MAIN_MENU);
-					GameSettings.DAMAGE_IMMUNITY = false;
+					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;
 			case SPACE:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
-					GameSettings.DAMAGE_IMMUNITY = false;
+					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					restartLevel();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.MAIN_MENU);
-					GameSettings.DAMAGE_IMMUNITY = false;
+					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;

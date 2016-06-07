@@ -5,11 +5,11 @@ import java.util.Random;
 
 import com.SnakeGame.AbstractModels.AbstractLoaderModel;
 import com.SnakeGame.DebrisEffects.BackgroundDirt;
+import com.SnakeGame.EnumIDs.GameLevelObjectID;
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.GameObjects.GenericObject;
 import com.SnakeGame.GameObjects.NoSpawnZone;
 import com.SnakeGame.GameObjects.SnakeFood;
-import com.SnakeGame.IDEnums.GameLevelObjectID;
-import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;

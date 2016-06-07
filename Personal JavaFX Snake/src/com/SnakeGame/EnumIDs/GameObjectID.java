@@ -1,4 +1,4 @@
-package com.SnakeGame.IDEnums;
+package com.SnakeGame.EnumIDs;
 
 /**
  * Keeps a database of the IDs used by different sorts of objects that can be

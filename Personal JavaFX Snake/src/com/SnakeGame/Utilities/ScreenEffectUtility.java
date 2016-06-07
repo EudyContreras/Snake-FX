@@ -2,20 +2,21 @@ package com.SnakeGame.Utilities;
 
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDEnums.GameStateID;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
 
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ScreenEffectUtility {
 
-	private BoxBlur motionEffect = new BoxBlur(20,20, 1);
+	private MotionBlur motionEffect = new MotionBlur(0, 50);
 	private BoxBlur blurEffect = new BoxBlur(25, 25, 2);
 	private GaussianBlur deathEffect = new GaussianBlur(0);
 	private GaussianBlur gaussianEffect = new GaussianBlur(7);
@@ -76,6 +77,7 @@ public class ScreenEffectUtility {
 	public synchronized void addDistortion(double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			this.layer.setEffect(motionEffect);
+			this.motionEffect.setAngle(10);
 			this.setDistortion = true;
 			this.distortionLifetime = lifetime;
 			this.speedDistortion = speed;
@@ -258,8 +260,7 @@ public class ScreenEffectUtility {
 	private void setDistortionModifier() {
 		if (distortionLifetime >= 0) {
 			distortionLifetime -= speedDistortion;
-			this.motionEffect.setWidth(distortionLifetime);
-			this.motionEffect.setHeight(distortionLifetime);
+			this.motionEffect.setRadius(distortionLifetime);
 		}
 	}
 

@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.FrameWork.GameManager;
-import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;
 

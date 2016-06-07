@@ -1,9 +1,9 @@
 package com.SnakeGame.HUDElements;
 
 import com.SnakeGame.AbstractModels.AbstractHudElement;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;
@@ -34,7 +34,7 @@ public class VictoryScreen extends AbstractHudElement{
 	private Image boardImage;
 	private int currentChoice = 1;
 	private double widthPan = 12;
-	private double heightPan = 9;
+	private double heightPan = 4;
 	private double width = 0;
 	private double height = 0;
 	private double pulse = 0;
@@ -103,7 +103,7 @@ public class VictoryScreen extends AbstractHudElement{
 		widthOne = 1;
 		heightOne = 1;
 		widthPan = 12/GameManager.ScaleX;
-		heightPan = 9/GameManager.ScaleY;
+		heightPan = 7/GameManager.ScaleY;
 		velROne = 15;
 		processMouseHandling();
 	}
@@ -331,10 +331,11 @@ public class VictoryScreen extends AbstractHudElement{
 		this.confirmScreen.setX(GameSettings.WIDTH/2-confirmScreen.getWidth()/2);
 		this.confirmScreen.setY(GameSettings.HEIGHT/2-confirmScreen.getHeight()/2);
 		if(widthOne>=width){
+			heightPan = 0;
 			widthPan = 0;
 		}
 		if(heightOne>=height){;
-			heightPan = 0;
+			
 		}
 		if(widthOne>=width && heightOne>=height){
 			if(rOne>=360){
@@ -448,9 +449,9 @@ public class VictoryScreen extends AbstractHudElement{
 		panIn = true;
 		widthOne = 1;
 		heightOne = 1;
-		widthPan = 12/GameManager.ScaleX;
-		heightPan = 9/GameManager.ScaleY;
-		velROne = 15;
+		widthPan = 14/GameManager.ScaleX;
+		heightPan = 8/GameManager.ScaleY;
+		velROne = 12;
 		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
 	}

@@ -1,10 +1,10 @@
 package com.SnakeGame.PlayerOne;
 
 import com.SnakeGame.AbstractModels.AbstractObject;
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -74,7 +74,7 @@ public class PlayerOneEatTrigger extends AbstractObject {
 			AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (PlayerOne.MOUTH_CLOSE && GameSettings.AUTOMATIC_EATING) {
+					if (PlayerOne.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
 						snake.openMouth();
 						break;
 					}

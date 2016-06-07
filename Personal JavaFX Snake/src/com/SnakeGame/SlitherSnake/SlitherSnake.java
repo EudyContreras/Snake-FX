@@ -5,13 +5,13 @@ import com.SnakeGame.AbstractModels.AbstractSlither;
 import com.SnakeGame.AbstractModels.AbstractSlitherSection;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.DebrisEffects.DirtDisplacement;
+import com.SnakeGame.EnumIDs.GameLevelObjectID;
+import com.SnakeGame.EnumIDs.GameObjectID;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.HUDElements.ScoreKeeper;
-import com.SnakeGame.IDEnums.GameLevelObjectID;
-import com.SnakeGame.IDEnums.GameObjectID;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Utilities.AnimationUtility;
 import com.SnakeGame.Utilities.ScreenEffectUtility;
@@ -393,7 +393,7 @@ public class SlitherSnake extends AbstractSlither {
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
-							if (!GameSettings.DAMAGE_IMMUNITY) {
+							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
 								setCollision(true);
 								if (!DEAD) {
 									this.overlay.addDistortion(15, 0.2);
@@ -410,7 +410,7 @@ public class SlitherSnake extends AbstractSlither {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							if (allowCollision) {
 								KEEP_MOVING = false;
 								allowCollision = false;
@@ -424,7 +424,7 @@ public class SlitherSnake extends AbstractSlither {
 				if (tempTile.getId() == GameLevelObjectID.fence) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
-							if (!GameSettings.DAMAGE_IMMUNITY)
+							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY)
 								die();
 						}
 					}
@@ -432,7 +432,7 @@ public class SlitherSnake extends AbstractSlither {
 				if (tempTile.getId() == GameLevelObjectID.trap) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
-							if (!GameSettings.DAMAGE_IMMUNITY)
+							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY)
 								die();
 						}
 					}

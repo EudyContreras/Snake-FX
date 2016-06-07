@@ -3,10 +3,10 @@ package com.SnakeGame.AbstractModels;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDEnums.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;

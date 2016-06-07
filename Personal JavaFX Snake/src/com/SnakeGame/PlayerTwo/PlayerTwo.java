@@ -5,14 +5,14 @@ import java.util.LinkedList;
 import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.DebrisEffects.DirtDisplacement;
+import com.SnakeGame.EnumIDs.GameLevelObjectID;
+import com.SnakeGame.EnumIDs.GameObjectID;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.ObjectManager;
 import com.SnakeGame.FrameWork.PlayerMovement;
 import com.SnakeGame.HUDElements.ScoreKeeper;
-import com.SnakeGame.IDEnums.GameLevelObjectID;
-import com.SnakeGame.IDEnums.GameObjectID;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 import com.SnakeGame.Utilities.AnimationUtility;
 import com.SnakeGame.Utilities.ScreenEffectUtility;
@@ -309,7 +309,7 @@ public class PlayerTwo extends AbstractObject {
 						switch (direction) {
 						case MOVE_UP:
 							if (this.direction != PlayerMovement.MOVE_DOWN) {
-								if (!GameSettings.FAST_TURNS) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
 									if (allowTurnUp)
 										turnDelay(PlayerMovement.MOVE_UP);
 								} else {
@@ -320,7 +320,7 @@ public class PlayerTwo extends AbstractObject {
 							break;
 						case MOVE_DOWN:
 							if (this.direction != PlayerMovement.MOVE_UP) {
-								if (!GameSettings.FAST_TURNS) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
 									if (allowTurnDown)
 										turnDelay(PlayerMovement.MOVE_DOWN);
 								} else {
@@ -331,7 +331,7 @@ public class PlayerTwo extends AbstractObject {
 							break;
 						case MOVE_LEFT:
 							if (this.direction != PlayerMovement.MOVE_RIGHT) {
-								if (!GameSettings.FAST_TURNS) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
 									if (allowTurnLeft)
 										turnDelay(PlayerMovement.MOVE_LEFT);
 								} else {
@@ -342,7 +342,7 @@ public class PlayerTwo extends AbstractObject {
 							break;
 						case MOVE_RIGHT:
 							if (this.direction != PlayerMovement.MOVE_LEFT) {
-								if (!GameSettings.FAST_TURNS) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
 									if (allowTurnRight)
 										turnDelay(PlayerMovement.MOVE_RIGHT);
 								} else {
@@ -368,7 +368,7 @@ public class PlayerTwo extends AbstractObject {
 				} else {
 					switch (direction) {
 					case MOVE_UP:
-						if (!GameSettings.FAST_TURNS) {
+						if (!GameSettings.ALLOW_FAST_TURNS) {
 							if (allowTurnUp)
 								turnDelay(PlayerMovement.MOVE_UP);
 						} else {
@@ -377,7 +377,7 @@ public class PlayerTwo extends AbstractObject {
 						}
 						break;
 					case MOVE_DOWN:
-						if (!GameSettings.FAST_TURNS) {
+						if (!GameSettings.ALLOW_FAST_TURNS) {
 							if (allowTurnDown)
 								turnDelay(PlayerMovement.MOVE_DOWN);
 						} else {
@@ -386,7 +386,7 @@ public class PlayerTwo extends AbstractObject {
 						}
 						break;
 					case MOVE_LEFT:
-						if (!GameSettings.FAST_TURNS) {
+						if (!GameSettings.ALLOW_FAST_TURNS) {
 							if (allowTurnLeft)
 								turnDelay(PlayerMovement.MOVE_LEFT);
 						} else {
@@ -395,7 +395,7 @@ public class PlayerTwo extends AbstractObject {
 						}
 						break;
 					case MOVE_RIGHT:
-						if (!GameSettings.FAST_TURNS) {
+						if (!GameSettings.ALLOW_FAST_TURNS) {
 							if (allowTurnRight)
 								turnDelay(PlayerMovement.MOVE_RIGHT);
 						} else {
@@ -438,7 +438,7 @@ public class PlayerTwo extends AbstractObject {
 		velX = 0;
 		r = 180;
 		snakeHead.setR(180);
-		if (!GameSettings.FAST_TURNS){
+		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
 		}
@@ -460,7 +460,7 @@ public class PlayerTwo extends AbstractObject {
 		velX = 0;
 		r = 0;
 		snakeHead.setR(0);
-		if (!GameSettings.FAST_TURNS){
+		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
 		}
@@ -482,7 +482,7 @@ public class PlayerTwo extends AbstractObject {
 		velY = 0;
 		r = -90;
 		snakeHead.setR(-90);
-		if (!GameSettings.FAST_TURNS){
+		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
 		}
@@ -504,7 +504,7 @@ public class PlayerTwo extends AbstractObject {
 		velY = 0;
 		r = 90;
 		snakeHead.setR(90);
-		if (!GameSettings.FAST_TURNS){
+		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
 		}
@@ -534,7 +534,7 @@ public class PlayerTwo extends AbstractObject {
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
-							if (!GameSettings.DAMAGE_IMMUNITY) {
+							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
 								setCollision(true);
 								if (!DEAD) {
 									this.overlay.addDistortion(15, 0.2);
@@ -551,7 +551,7 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							if (allowCollision) {
 								this.allowThrust = false;
 								this.thrust = false;
@@ -573,7 +573,7 @@ public class PlayerTwo extends AbstractObject {
 				if (tempTile.getId() == GameLevelObjectID.fence) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
-							if (!GameSettings.DAMAGE_IMMUNITY){
+							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
 								if (allowScreenShake) {
 									overlay.addScreenShake(1.2, true, true);
 									allowScreenShake = false;
@@ -586,7 +586,7 @@ public class PlayerTwo extends AbstractObject {
 				if (tempTile.getId() == GameLevelObjectID.trap) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
-							if (!GameSettings.DAMAGE_IMMUNITY){
+							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
 								if (allowScreenShake) {
 									overlay.addScreenShake(1.2, true, true);
 									allowScreenShake = false;

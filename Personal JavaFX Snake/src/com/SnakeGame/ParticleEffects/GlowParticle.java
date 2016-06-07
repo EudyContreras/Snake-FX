@@ -2,10 +2,10 @@ package com.SnakeGame.ParticleEffects;
 import java.util.Random;
 
 import com.SnakeGame.AbstractModels.AbstractDebrisEffect;
+import com.SnakeGame.EnumIDs.GameDebrisID;
 import com.SnakeGame.FrameWork.GameDebrisManager;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDEnums.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

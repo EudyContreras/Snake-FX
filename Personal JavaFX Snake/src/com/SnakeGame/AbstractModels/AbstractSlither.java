@@ -1,8 +1,8 @@
 package com.SnakeGame.AbstractModels;
 
+import com.SnakeGame.EnumIDs.GameObjectID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDEnums.GameObjectID;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerOne.PlayerOneSection;
 import com.SnakeGame.PlayerTwo.PlayerTwo;

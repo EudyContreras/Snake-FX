@@ -2,9 +2,9 @@ package com.SnakeGame.DebrisEffects;
 
 import java.util.Random;
 
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameLevelImage;
 import com.SnakeGame.PlayerOne.PlayerOne;
 import com.SnakeGame.PlayerTwo.PlayerTwo;

@@ -3,11 +3,11 @@ package com.SnakeGame.PlayerTwo;
 import com.SnakeGame.AbstractModels.AbstractSection;
 import com.SnakeGame.DebrisEffects.DirtDisplacement;
 import com.SnakeGame.DebrisEffects.SectionDisintegration;
+import com.SnakeGame.EnumIDs.GameObjectID;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDEnums.GameObjectID;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 
 import javafx.geometry.Point2D;

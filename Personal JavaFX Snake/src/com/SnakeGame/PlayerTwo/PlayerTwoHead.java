@@ -4,13 +4,13 @@ import com.SnakeGame.AbstractModels.AbstractObject;
 import com.SnakeGame.AbstractModels.AbstractTile;
 import com.SnakeGame.DebrisEffects.DirtDisplacement;
 import com.SnakeGame.DebrisEffects.FruitSplashTwo;
+import com.SnakeGame.EnumIDs.GameLevelObjectID;
+import com.SnakeGame.EnumIDs.GameObjectID;
+import com.SnakeGame.EnumIDs.GameStateID;
 import com.SnakeGame.FrameWork.GameLoader;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.FrameWork.PlayerMovement;
-import com.SnakeGame.IDEnums.GameLevelObjectID;
-import com.SnakeGame.IDEnums.GameObjectID;
-import com.SnakeGame.IDEnums.GameStateID;
 import com.SnakeGame.ImageBanks.GameImageBank;
 
 import javafx.geometry.Point2D;
@@ -201,19 +201,19 @@ public class PlayerTwoHead extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							showVisualQue(Color.RED);
 						}
 					} else if (getBoundsRight().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							showVisualQue(Color.BLUE);
 						}
 					} else if (getBoundsTop().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							showVisualQue(Color.GREEN);
 						}
 					} else if (getBoundsBottom().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							showVisualQue(Color.YELLOW);
 						}
 					}
@@ -225,19 +225,19 @@ public class PlayerTwoHead extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							displaceDirt(getBoundsLeft().getMinX(),getBoundsLeft().getMinY(),0,0);
 						}
 					} else if (getBoundsRight().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							displaceDirt(getBoundsRight().getMinX(),getBoundsRight().getMinY(),0,0);
 						}
 					} else if (getBoundsTop().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							displaceDirt(getBoundsTop().getMinX(),getBoundsTop().getMinY(),0,0);
 						}
 					} else if (getBoundsBottom().intersects(tempTile.getBounds())) {
-						if (GameSettings.ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							displaceDirt(getBoundsBottom().getMinX(),getBoundsBottom().getMinY(),0,0);
 						}
 					}
