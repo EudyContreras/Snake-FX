@@ -72,7 +72,7 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel{
 
-	private double manualScale = 1.0;
+	private double manualScale = 1.4;
 
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution(manualScale,manualScale,true);
@@ -156,7 +156,6 @@ public class GameManager extends AbstractGameModel{
 		mainRoot.setTranslateY(Screen.getPrimary().getBounds().getHeight()/2-GameSettings.HEIGHT/2);
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
-		loader.loadNoSpawnZone();
 		loader.loadPlayerTwo();
 		loader.loadPlayerOne();
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);

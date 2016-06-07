@@ -121,6 +121,7 @@ public class VictoryScreen extends AbstractHudElement{
 			this.boardImage = GameImageBank.draw_game;
 		}
 		askConfirm();
+		
 	}
 
 	private void processMouseHandling() {
@@ -374,7 +375,7 @@ public class VictoryScreen extends AbstractHudElement{
 					swipeLeft = false;
 					game.processGameInput();
 					if(restartLevel){
-						game.restart();
+						game.getFadeScreenHandler().quick_restart_fade_screen();
 						PlayerOne.LEVEL_COMPLETED = false;
 						PlayerTwo.LEVEL_COMPLETED = false;
 					}
@@ -429,6 +430,7 @@ public class VictoryScreen extends AbstractHudElement{
 	}
 
 	private void askConfirm() {
+		game.setStateID(GameStateID.LEVEL_COMPLETED);
 		confirmScreen.setFill(new ImagePattern(boardImage));
 		confirmX = 0 - width - 50;
 		confirmScreen.setX(confirmX);

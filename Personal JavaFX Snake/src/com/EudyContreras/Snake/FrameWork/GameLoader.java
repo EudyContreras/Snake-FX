@@ -158,6 +158,7 @@ public class GameLoader extends AbstractLoaderModel{
 		}
 		levelManager.loadDesertLevels(GameLevelImage.desertBackground);
 		game.setLevelLenght(128 * 64);
+		loadNoSpawnZone();
 	}
 
 	/**

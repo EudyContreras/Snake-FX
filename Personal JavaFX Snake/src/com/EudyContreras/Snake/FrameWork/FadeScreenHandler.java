@@ -10,6 +10,8 @@ public class FadeScreenHandler{
 	private Rectangle innerFadeScreen;
 	private double innerFadePercentage = 0.0;
 	private double outerFadePercentage = 0.0;
+	private boolean quickFadeOut = false;
+	private boolean quickFade = false;
 	private boolean mainFade = false;
 	private boolean slowFade = false;
 	private boolean fadeIn = false;
@@ -38,7 +40,18 @@ public class FadeScreenHandler{
 	}
 	public void restart_fade_screen() {
 		if (!fadeIn) {
+			game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
+			game.getFadeScreenLayer().getChildren().add(innerFadeScreen);
 			fadeIn = true;
+			slowFade = false;
+		}
+	}
+	public void quick_restart_fade_screen() {
+		if (!fadeIn) {
+			game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
+			game.getFadeScreenLayer().getChildren().add(innerFadeScreen);
+			innerFadePercentage = 0;
+			quickFade = true;
 			slowFade = false;
 		}
 	}
@@ -108,6 +121,25 @@ public class FadeScreenHandler{
 			if (innerFadePercentage >= 1.0f) {
 				innerFadeScreen.setOpacity(1);
 				innerFadePercentage = 1.0f;
+			}
+		}
+		if(quickFade){
+			innerFadePercentage += 0.03;
+			innerFadeScreen.setOpacity(innerFadePercentage);
+			if (innerFadePercentage >= 1.0f) {
+				game.restart();
+				quickFade = false;
+				quickFadeOut = true;
+			}
+		}
+		if(quickFadeOut){
+			innerFadePercentage -= 0.05f;
+			innerFadeScreen.setOpacity(innerFadePercentage);
+			if (innerFadePercentage <= 0) {
+				innerFadeScreen.setOpacity(0);
+				game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
+				game.setStateID(GameStateID.GAMEPLAY);
+				quickFadeOut = false;
 			}
 		}
 	}

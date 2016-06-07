@@ -21,7 +21,7 @@ public class GameSettings {
 	public static final int START_Y = 80; //This number must be a whole number
 	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
-	public static final String IMAGE_SOURCE_DIRECTORY = "com/SnakeGame/Images/";
+	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/Images/";
 
 	public static int APPLE_COUNT = 4;
 	public static int SECTIONS_TO_ADD = 1;
