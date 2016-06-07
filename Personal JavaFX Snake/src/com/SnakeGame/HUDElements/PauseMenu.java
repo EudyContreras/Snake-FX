@@ -167,8 +167,8 @@ public class PauseMenu {
 		if(allowTouch){
 			if(show){
 				showSpeedY+=acceleration;
-				y = y + showSpeedY;
-				x = x + showSpeedX;
+				y = y + showSpeedY/GameManager.ScaleY;
+				x = x + showSpeedX/GameManager.ScaleX;
 				mainBoard.setX(x);
 				mainBoard.setY(y);
 				if (mainBoard.getY()>=GameSettings.HEIGHT/2-mainBoard.getFitHeight()/2){
@@ -178,8 +178,8 @@ public class PauseMenu {
 			}
 			if(hide){
 				hideSpeedY-=acceleration;
-				y = y + hideSpeedY;
-				x = x + hideSpeedX;
+				y = y + hideSpeedY/GameManager.ScaleY;
+				x = x + hideSpeedX/GameManager.ScaleX;
 				mainBoard.setX(x);
 				mainBoard.setY(y);
 				if(mainBoard.getY()<0-mainBoard.getImage().getHeight()){

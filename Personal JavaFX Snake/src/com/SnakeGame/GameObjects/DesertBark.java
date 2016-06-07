@@ -53,7 +53,7 @@ public class DesertBark extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		collisionBounds = new Rectangle2D(x+80, y + 140, width - 130, height*0.3);
+		collisionBounds = new Rectangle2D(x+GameManager.ScaleX(80), y + GameManager.ScaleY(140), width - GameManager.ScaleX(130), height*0.3);
 
 	}
 
@@ -75,7 +75,7 @@ public class DesertBark extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(80), y + GameManager.ScaleY(140), width - GameManager.ScaleX(130), height*0.3);
+			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(80), y + GameManager.ScaleY(140), width - GameManager.ScaleX(140), height*0.3);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

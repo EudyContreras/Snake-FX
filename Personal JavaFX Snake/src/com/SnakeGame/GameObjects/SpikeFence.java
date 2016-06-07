@@ -54,9 +54,9 @@ public class SpikeFence extends AbstractTile {
 	 */
 	public void adjustBounds() {
 		if(orientation==1)
-			collisionBounds = new Rectangle2D(x, y+20, width, height-40);
+			collisionBounds = new Rectangle2D(x, y+GameManager.ScaleY(20), width, height-GameManager.ScaleY(40));
 		if(orientation==2)
-			collisionBounds = new Rectangle2D(x+15, y, width-65, height);
+			collisionBounds = new Rectangle2D(x+GameManager.ScaleX(15), y, width-GameManager.ScaleX(65), height);
 	}
 	/**
 	 * Moves this object
@@ -77,14 +77,14 @@ public class SpikeFence extends AbstractTile {
 
 		if (GameSettings.DEBUG_MODE) {
 			if(orientation == 1){
-				Rectangle bounds = new Rectangle(x, y+20, width, height-40);
+				Rectangle bounds = new Rectangle(x, y+GameManager.ScaleY(20), width, height-GameManager.ScaleY(40));
 				bounds.setStroke(Color.WHITE);
 				bounds.setFill(Color.TRANSPARENT);
 				bounds.setStrokeWidth(3);
 				game.getSeventhLayer().getChildren().add(bounds);
 			}
 			else if (orientation == 2){
-				Rectangle bounds = new Rectangle(x+15, y, width-65, height);
+				Rectangle bounds = new Rectangle(x+GameManager.ScaleX(15), y, width-GameManager.ScaleX(65), height);
 				bounds.setStroke(Color.WHITE);
 				bounds.setFill(Color.TRANSPARENT);
 				bounds.setStrokeWidth(3);

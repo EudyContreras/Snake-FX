@@ -75,15 +75,15 @@ public class GameHud {
 	 * Method which updates the movement of the hudbar
 	 */
 	public void updateHudBars() {
-		y = y + swipeSpeedTop;
-		y2 = y2 + swipeSpeedBottom;
+		y = y + swipeSpeedTop/GameManager.ScaleY;
+		y2 = y2 + swipeSpeedBottom/GameManager.ScaleY;
 		if (swipeDown) {
 			swipeSpeedTop = 2.5;
-			if (y >= hudBar.getTranslateY() - 21) {
+			if (y >= hudBar.getTranslateY() - GameManager.ScaleY(21)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = -2.5;
-			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+40) {
+			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40)) {
 				swipeSpeedBottom = 0;
 			}
 		}

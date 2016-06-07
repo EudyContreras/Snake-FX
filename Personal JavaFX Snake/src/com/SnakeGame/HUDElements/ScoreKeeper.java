@@ -154,8 +154,8 @@ public class ScoreKeeper {
 		updateCount();
 	}
 	public void update() {
-		y = y + swipeSpeed;
-		y1 = y1 + swipeSpeed;
+		y = y + swipeSpeed/GameManager.ScaleY;
+		y1 = y1 + swipeSpeed/GameManager.ScaleY;
 		if (swipeDown) {
 			swipeSpeed = 2.5f;
 			if (y >= GameManager.ScaleX(105)) {

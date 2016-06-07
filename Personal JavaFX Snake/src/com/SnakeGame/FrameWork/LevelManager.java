@@ -150,14 +150,14 @@ public class LevelManager extends AbstractLoaderModel{
 							(float) (col * 55 / GameLoader.ResolutionScaleY), 0, 0, 1,GameLevelImage.horizontalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(texture);
-					game.getThirdLayer().getChildren().add(texture.getView());
+					game.getFithLayer().getChildren().add(texture.getView());
 				}
 				 if (red == 0 && green == 0 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 49 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
 							(float) (col * 100 / GameLoader.ResolutionScaleY), 0, 0, 2,GameLevelImage.verticalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(texture);
-					game.getThirdLayer().getChildren().add(texture.getView());
+					game.getFithLayer().getChildren().add(texture.getView());
 				}
 			}
 		}

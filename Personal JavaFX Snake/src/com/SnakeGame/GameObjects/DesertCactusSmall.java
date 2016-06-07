@@ -39,7 +39,7 @@ public class DesertCactusSmall extends AbstractTile {
 		this.setBounds();
 	}
 	public void setBounds(){
-		 bounds2D = new Rectangle2D(x+5, y+height*0.4, width*0.6, height*0.5);
+		 bounds2D = new Rectangle2D(x+GameManager.ScaleX(5), y+height*0.4, width*0.6, height*0.5);
 	}
 	/**
 	 * Method which moves this object
@@ -76,7 +76,7 @@ public class DesertCactusSmall extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			bounds = new Rectangle(x+5, y+height*0.4, width*0.6, height*0.5);
+			bounds = new Rectangle(x+GameManager.ScaleX(5), y+height*0.4, width*0.6, height*0.5);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -90,18 +90,6 @@ public class DesertCactusSmall extends AbstractTile {
 	 */
 	public Rectangle2D getBounds() {
 		return bounds2D;
-	}
-
-	public Rectangle2D getBoundsTop() {
-		return new Rectangle2D(x + 20, y, width - 40, height);
-	}
-
-	public Rectangle2D getBoundsRight() {
-		return new Rectangle2D(x + width - 20, y + 10, 20, height - 10);
-	}
-
-	public Rectangle2D getBoundsLeft() {
-		return new Rectangle2D(x, y + 10, 20, height - 10);
 	}
 
 	public Bounds getCollisionBounds() {

@@ -219,7 +219,7 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void lookAtMe() {
 		if (minSize) {
-			size += 0.5 * GameSettings.FRAME_SCALE;
+			size += (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
 			circle.setRadius(size);
 			if (size >= targetSize + 10) {
 				minSize = false;
@@ -227,7 +227,7 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 		if (maxSize) {
-			size -= 0.5 * GameSettings.FRAME_SCALE;
+			size -= (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
 			circle.setRadius(size);
 			if (size <= targetSize - 5) {
 				maxSize = false;
@@ -455,11 +455,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounce(PlayerOne snake, double x, double y) {
 		if (snake.getVelX() > 0) {
 			this.velX = (float) (snake.getVelX()) * 8;
-			this.velY = RandomGenerator.getRNG(-12, 12);
+			this.velY = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleY;
 		}
 		if (snake.getVelY() > 0) {
 			this.velY = (float) (snake.getVelY()) * 8;
-			this.velX = RandomGenerator.getRNG(-12, 12);
+			this.velX = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleX;
 		}
 	}
 
@@ -473,11 +473,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounce(PlayerTwo snake, double x, double y) {
 		if (snake.getVelX() > 0) {
 			this.velX = (float) (snake.getVelX()) * 8;
-			this.velY = RandomGenerator.getRNG(-12, 12);
+			this.velY = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleY;
 		}
 		if (snake.getVelY() > 0) {
 			this.velY = (float) (snake.getVelY()) * 8;
-			this.velX = RandomGenerator.getRNG(-12, 12);
+			this.velX = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleX;
 		}
 	}
 
@@ -489,12 +489,13 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(AbstractSection snake, double x, double y) {
-		if (snake.getVelX() == 0) {
-			this.velX = (float) (snake.getVelX() + (Math.random() * (13 - 8 + 1) - 8));
-			this.velY = (float) (snake.getVelY() + (Math.random() * (7 - 4 + 1) - 4));
-		} else if (snake.getVelY() == 0) {
-			this.velX = (float) (snake.getVelX() + (Math.random() * (7 - 4 + 1) - 4));
-			this.velY = (float) (snake.getVelY() + (Math.random() * (13 - 8 + 1) - 8));
+		if (snake.getVelX() > 0) {
+			this.velX = (float) (snake.getVelX()) * 8;
+			this.velY = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleY;
+		}
+		if (snake.getVelY() > 0) {
+			this.velY = (float) (snake.getVelY()) * 8;
+			this.velX = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleX;
 		}
 	}
 

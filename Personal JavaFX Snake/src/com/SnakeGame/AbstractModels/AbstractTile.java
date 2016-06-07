@@ -1,6 +1,7 @@
 
 package com.SnakeGame.AbstractModels;
 
+import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDEnums.GameLevelObjectID;
 
@@ -21,24 +22,24 @@ public abstract class AbstractTile {
 
 	protected Image image;
 	protected ImageView view = new ImageView();
-	protected float x;
-	protected float y;
-	protected float r;
-	protected float velX;
-	protected float velY;
-	protected float velR;
+	protected double x;
+	protected double y;
+	protected double r;
+	protected double velX;
+	protected double velY;
+	protected double velR;
 	protected boolean status = true;
 	protected double width;
 	protected double height;
 	protected GameLevelObjectID id;
 
-	public AbstractTile(float x, float y) {
+	public AbstractTile(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-	public AbstractTile(float x, float y, Image image) {
+	public AbstractTile(double x, double y, Image image) {
 		this.x = x;
 		this.y = y;
 		this.image = image;
@@ -46,12 +47,12 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-	public AbstractTile(float x, float y,GameLevelObjectID id) {
+	public AbstractTile(double x, double y,GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
 	}
-	public AbstractTile(float x, float y, Image image, GameLevelObjectID id) {
+	public AbstractTile(double x, double y, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
@@ -60,7 +61,7 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-	public AbstractTile(float x, float y, double width, double height, Image image, GameLevelObjectID id) {
+	public AbstractTile(double x, double y, double width, double height, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
@@ -79,56 +80,56 @@ public abstract class AbstractTile {
 		this.view = view;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public float getR() {
+	public double getR() {
 		return r;
 	}
 
-	public void setR(float r) {
+	public void setR(double r) {
 		this.r = r;
 	}
 
-	public float getVelR() {
+	public double getVelR() {
 		return velR;
 	}
 
-	public void setVelR(float velR) {
+	public void setVelR(double velR) {
 		this.velR = velR;
 	}
 
-	public void relocate(float x, float y) {
+	public void relocate(double x, double y) {
 		view.setTranslateX(x);
 		view.setTranslateY(y);
 		view.setRotate(r);
 	}
 
-	public float getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(float velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 
-	public float getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(float velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
 
 	public void move() {
-		x = x + velX * GameSettings.FRAME_SCALE;
-		y = y + velY * GameSettings.FRAME_SCALE;
-		r = r + velR * GameSettings.FRAME_SCALE;
+		x = x + (velX * GameSettings.FRAME_SCALE)/GameManager.ScaleX;
+		y = y + (velY * GameSettings.FRAME_SCALE)/GameManager.ScaleY;
+		r = r + (velR * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
 	}
 
 	public Image getImage() {
@@ -155,11 +156,11 @@ public abstract class AbstractTile {
 		this.height = height;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 

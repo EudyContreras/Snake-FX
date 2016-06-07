@@ -42,7 +42,7 @@ public class GameSettings {
 	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX;
 	public static double ENERGY_COMSUMPTION_SPEED = 7/GameLoader.ResolutionScaleX;
 	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX;
-	public static double DAMAGE_AMOUNT = 50;
+	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX;
 
 	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX;
 	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX;
@@ -81,7 +81,7 @@ public class GameSettings {
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 	public static boolean LOAD_SPIKE_FENCE = false;
-	public static boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = true;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

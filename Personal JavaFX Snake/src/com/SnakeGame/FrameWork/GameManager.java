@@ -72,12 +72,14 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel{
 
-
+	private double manualScale = 1.0;
+	
 	public void start(Stage primaryStage) {
-		GameLoader.scaleResolution(1.1,1.1,false);
+		GameLoader.scaleResolution(manualScale,manualScale,true);
 		GameLoader.scalePlayerSize();
 		ScaleX = GameLoader.ResolutionScaleX;
 		ScaleY = GameLoader.ResolutionScaleY;
+		ScaleX_ScaleY = (GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY)/2;
 		mainWindow = primaryStage;
 		initialize();
 		showSplashScreen();
@@ -347,7 +349,7 @@ public class GameManager extends AbstractGameModel{
 					pauseMenu.updateTouchPanel();
 					gameHud.updateHudBars();
 					victoryScreen.swipeRight();
-					gameOverScreen.swipeDown();
+					gameOverScreen.swipeRight();
 					gameOverScreen.checkStatus();
 					scoreKeeper.keepCount();
 					for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
@@ -457,7 +459,7 @@ public class GameManager extends AbstractGameModel{
 							pauseMenu.updateTouchPanel();
 							gameHud.updateHudBars();
 							victoryScreen.swipeRight();
-							gameOverScreen.swipeDown();
+							gameOverScreen.swipeRight();
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
 							objectManager.updateAll(gc, timePassed);
@@ -808,7 +810,7 @@ public class GameManager extends AbstractGameModel{
 		GameSettings.PLAYER_TWO_SIZE = 28;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
-		GameLoader.scaleResolution(1.1,1.1,false);
+		GameLoader.scaleResolution(manualScale,manualScale,true);
 		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();

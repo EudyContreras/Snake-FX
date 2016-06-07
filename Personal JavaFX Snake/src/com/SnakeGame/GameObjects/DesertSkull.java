@@ -31,11 +31,6 @@ public class DesertSkull extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-//		if(RandomGenerator.getRNG(1, 3) == 3){
-//			this.view.setImage(GameLevelImage.desert_skull_alt);
-//			this.setX(x -40);
-//			this.setY(y +10);
-//		}
 		draw();
 	}
 
@@ -67,7 +62,7 @@ public class DesertSkull extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
+			Rectangle bounds = new Rectangle(x, y + GameManager.ScaleY(30), width - GameManager.ScaleX(30), height - GameManager.ScaleY(30));
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -83,17 +78,6 @@ public class DesertSkull extends AbstractTile {
 		return collisionBounds;
 	}
 
-	public Rectangle2D getBoundsTop() {
-		return new Rectangle2D(x + 20, y, width - 40, height);
-	}
-
-	public Rectangle2D getBoundsRight() {
-		return new Rectangle2D(x + width - 20, y + 10, 20, height - 10);
-	}
-
-	public Rectangle2D getBoundsLeft() {
-		return new Rectangle2D(x, y + 10, 20, height - 10);
-	}
 
 	public Bounds getCollisionBounds() {
 		return this.view.getBoundsInParent();

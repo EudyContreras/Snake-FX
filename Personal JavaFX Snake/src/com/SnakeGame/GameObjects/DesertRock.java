@@ -62,7 +62,7 @@ public class DesertRock extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		collisionBounds = new Rectangle2D(x+12, y + 45, width - 60, height - 55);
+		collisionBounds = new Rectangle2D(x+GameManager.ScaleX(12), y + GameManager.ScaleY(45), width - GameManager.ScaleX(60), height - GameManager.ScaleY(55));
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class DesertRock extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+12, y + 45, width - 60, height - 55);
+			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(12), y + GameManager.ScaleY(45), width - GameManager.ScaleX(60), height - GameManager.ScaleY(55));
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -97,18 +97,6 @@ public class DesertRock extends AbstractTile {
 	 */
 	public Rectangle2D getBounds() {
 		return collisionBounds;
-	}
-
-	public Rectangle2D getBoundsTop() {
-		return new Rectangle2D(x + 20, y, width - 40, height);
-	}
-
-	public Rectangle2D getBoundsRight() {
-		return new Rectangle2D(x + width - 20, y + 10, 20, height - 10);
-	}
-
-	public Rectangle2D getBoundsLeft() {
-		return new Rectangle2D(x, y + 10, 20, height - 10);
 	}
 
 	public Bounds getCollisionBounds() {

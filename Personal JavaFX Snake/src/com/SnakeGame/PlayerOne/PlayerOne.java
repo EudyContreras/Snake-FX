@@ -40,6 +40,7 @@ public class PlayerOne extends AbstractObject {
 	private int appleCount = 0;
 	private int counter = 0;
 	private double accelaration = 0.5;
+	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
 	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2;
 	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
@@ -609,7 +610,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addSection() {
-		if (GameSettings.PLAYER_ONE_SIZE < 30) {
+		if (GameSettings.PLAYER_ONE_SIZE < maxSize) {
 			counter++;
 			if (counter >= 15) {
 				counter = 0;

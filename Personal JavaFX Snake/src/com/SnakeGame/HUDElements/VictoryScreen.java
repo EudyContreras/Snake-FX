@@ -238,16 +238,16 @@ public class VictoryScreen {
 		if (swipeRight == true) {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
-			confirmX += confirmXPosition;
-			confirmXPosition += acceleration;
+			confirmX += confirmXPosition/GameManager.ScaleX;
+			confirmXPosition += acceleration/GameManager.ScaleX;
 			if (center) {
-				acceleration -= 0.70;
+				acceleration -= 0.70/GameManager.ScaleX;
 				if (acceleration <= 0) {
 
 					acceleration = 0;
-					confirmXPosition -= 1.17;
-					if (confirmXPosition <= 0.25) {
-						confirmXPosition = 0.25f;
+					confirmXPosition -= 1.17/GameManager.ScaleX;
+					if (confirmXPosition <= 0.25/GameManager.ScaleX) {
+						confirmXPosition = 0.25f/GameManager.ScaleX;
 					}
 
 				}
@@ -275,15 +275,15 @@ public class VictoryScreen {
 		if (swipeLeft == true) {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
-			confirmX -= confirmXPosition;
-			confirmXPosition += acceleration;
+			confirmX -= confirmXPosition/GameManager.ScaleX;
+			confirmXPosition += acceleration/GameManager.ScaleX;
 			if (center) {
-				acceleration -= 0.50;
+				acceleration -= 0.50/GameManager.ScaleX;
 				if (acceleration <= 0) {
-					confirmXPosition -= 0.1;
+					confirmXPosition -= 0.1/GameManager.ScaleX;
 					acceleration = 0;
-					if (confirmXPosition <= 0.001) {
-						confirmXPosition = 0.001f;
+					if (confirmXPosition <= 0.001/GameManager.ScaleX) {
+						confirmXPosition = 0.001f/GameManager.ScaleX;
 					}
 
 				}
