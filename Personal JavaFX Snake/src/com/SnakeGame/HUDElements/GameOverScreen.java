@@ -223,15 +223,15 @@ public class GameOverScreen {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX += confirmXPosition/GameManager.ScaleX;
-			confirmXPosition += acceleration/GameManager.ScaleX;
+			confirmXPosition += acceleration;
 			if (center) {
-				acceleration -= 0.70/GameManager.ScaleX;
+				acceleration -= 0.70;
 				if (acceleration <= 0) {
 
 					acceleration = 0;
-					confirmXPosition -= 1.17/GameManager.ScaleX;
-					if (confirmXPosition <= 0.25/GameManager.ScaleX) {
-						confirmXPosition = 0.25f/GameManager.ScaleX;
+					confirmXPosition -= 1.15;
+					if (confirmXPosition <= 0.25) {
+						confirmXPosition = 0.25f;
 					}
 
 				}
@@ -261,14 +261,14 @@ public class GameOverScreen {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX -= confirmXPosition/GameManager.ScaleX;
-			confirmXPosition += acceleration/GameManager.ScaleX;
+			confirmXPosition += acceleration;
 			if (center) {
-				acceleration -= 0.50/GameManager.ScaleX;
+				acceleration -= 0.50;
 				if (acceleration <= 0) {
-					confirmXPosition -= 0.1/GameManager.ScaleX;
+					confirmXPosition -= 0.1;
 					acceleration = 0;
-					if (confirmXPosition <= 0.001/GameManager.ScaleX) {
-						confirmXPosition = 0.001f/GameManager.ScaleX;
+					if (confirmXPosition <= 0.001) {
+						confirmXPosition = 0.001f;
 					}
 
 				}
@@ -315,6 +315,7 @@ public class GameOverScreen {
 	}
 
 	private void askConfirm() {
+		game.getGameRoot().setEffect(null);
 		confirmScreen.setFill(new ImagePattern(boardImage));
 		confirmX = (float) (0 - confirmScreen.getWidth() - 50);
 		confirmScreen.setX(confirmX);

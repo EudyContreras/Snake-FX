@@ -1,5 +1,6 @@
 package com.SnakeGame.HUDElements;
 
+import com.SnakeGame.AbstractModels.AbstractHudElement;
 import com.SnakeGame.FrameWork.GameManager;
 import com.SnakeGame.FrameWork.GameSettings;
 import com.SnakeGame.IDEnums.GameStateID;
@@ -17,11 +18,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public class VictoryScreen {
+public class VictoryScreen extends AbstractHudElement{
 
 	public static boolean LEVEL_COMPLETE = false;
 	private ScreenEffectUtility overlay;
 	private DropShadow borderGlow;
+	private DropShadow boardPulse;
 	private GameManager game;
 	private Rectangle confirmScreen;
 	private ImageView continue_btt;
@@ -31,15 +33,22 @@ public class VictoryScreen {
 	private Pane scoreLayer;
 	private Image boardImage;
 	private int currentChoice = 1;
+	private double widthPan = 12;
+	private double heightPan = 9;
 	private double width = 0;
 	private double height = 0;
+	private double pulse = 0;
 	private double confirmX = 0;
 	private double confirmXPosition = 0;
 	private double acceleration = 0.3f;
+	private boolean allowGlow = false;
+	private boolean pulseUp = true;
+	private boolean pulseDown = false;
 	private boolean goToNext = false;
 	private boolean restartLevel = false;
 	private boolean swipeRight = false;
 	private boolean swipeLeft = false;
+	private boolean panIn = false;
 	private boolean center = true;
 
 
@@ -52,13 +61,21 @@ public class VictoryScreen {
 		this.width = width;
 		this.height = height;
 		this.borderGlow = new DropShadow();
+		this.boardPulse = new DropShadow();
 		this.borderGlow.setOffsetY(0f);
 		this.borderGlow.setOffsetX(0f);
 		this.borderGlow.setSpread(0.3);
-		this.borderGlow.setColor(Color.WHITE);
 		this.borderGlow.setWidth(35);
 		this.borderGlow.setHeight(35);
+		this.boardPulse.setOffsetY(0f);
+		this.boardPulse.setOffsetX(0f);
+		this.boardPulse.setSpread(0.5);
+		this.boardPulse.setWidth(0);
+		this.boardPulse.setHeight(0);
+		this.borderGlow.setColor(Color.WHITE);
+		this.boardPulse.setColor(Color.GREEN);
 		this.borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
+		this.boardPulse.setBlurType(BlurType.ONE_PASS_BOX);
 		confirmScreenSetup();
 	}
 	private void confirmScreenSetup() {
@@ -66,8 +83,9 @@ public class VictoryScreen {
 		confirmScreen.setWidth(width);
 		confirmScreen.setHeight(height);
 		confirmScreen.setFill(new ImagePattern(boardImage));
+		confirmScreen.setEffect(boardPulse);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		confirmX = 0 - confirmScreen.getWidth() - 50;
+		confirmX = 0 - width- 50;
 		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getHeight() / 2 - GameManager.ScaleY(30));
 		continue_btt = new ImageView(GameImageBank.continue_button);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
@@ -82,6 +100,11 @@ public class VictoryScreen {
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(confirmScreen,optionsBoard, continue_btt, quitGame_btt, restart_btt);
+		widthOne = 1;
+		heightOne = 1;
+		widthPan = 12/GameManager.ScaleX;
+		heightPan = 9/GameManager.ScaleY;
+		velROne = 15;
 		processMouseHandling();
 	}
 	public void finishLevel() {
@@ -234,31 +257,59 @@ public class VictoryScreen {
 		restart_btt.setEffect(null);
 		quitGame_btt.setEffect(null);
 	}
+	public void boardPulse(){
+		if(allowGlow){
+		boardPulse.setWidth(pulse);
+		boardPulse.setHeight(pulse);
+		if(pulseUp){
+			pulse+=1.5;
+			if(pulse>=120){
+				pulseUp = false;
+				pulseDown = true;
+			}
+		}
+		if(pulseDown){
+			pulse-=1.5;
+			if(pulse<=20){
+				pulseDown = false;
+				pulseUp = true;
+			}
+		}
+		}
+	}
+	public void updateUI(){
+		boardPulse();
+		swipeRight();
+		panIn();
+		hide();
+
+	}
 	public void swipeRight() {
 		if (swipeRight == true) {
-			confirmScreen.setX(confirmX);
+			//confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX += confirmXPosition/GameManager.ScaleX;
-			confirmXPosition += acceleration/GameManager.ScaleX;
+			confirmXPosition += acceleration;
 			if (center) {
-				acceleration -= 0.70/GameManager.ScaleX;
+				acceleration -= 0.70;
 				if (acceleration <= 0) {
 
 					acceleration = 0;
-					confirmXPosition -= 1.17/GameManager.ScaleX;
-					if (confirmXPosition <= 0.25/GameManager.ScaleX) {
-						confirmXPosition = 0.25f/GameManager.ScaleX;
+					confirmXPosition -= 1.15;
+					if (confirmXPosition <= 0.25) {
+						confirmXPosition = 0.25f;
 					}
 
 				}
-				if (confirmX >= GameSettings.WIDTH / 2 - confirmScreen.getWidth() / 2) {
-					confirmX = (float) (GameSettings.WIDTH / 2 - confirmScreen.getWidth() / 2);
+				if (confirmX >= GameSettings.WIDTH / 2 - width / 2) {
+					confirmX = GameSettings.WIDTH / 2 - width / 2;
 					confirmXPosition = 0;
+					acceleration = 0;
 					processKeyHandling();
 					currentChoice = 1;
-					blurOut();
 					swipeRight = false;
 					center = false;
+	
 				}
 			}
 			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
@@ -268,22 +319,51 @@ public class VictoryScreen {
 			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
 			restart_btt.setY(continue_btt.getY());
 		}
-		hide();
 	}
-
+	public void panIn() {
+		if(panIn){
+		this.rOne = rOne+velROne;
+		this.widthOne += widthPan;
+		this.heightOne += heightPan;
+		this.confirmScreen.setWidth(widthOne);
+		this.confirmScreen.setHeight(heightOne);
+		this.confirmScreen.setRotate(rOne);
+		this.confirmScreen.setX(GameSettings.WIDTH/2-confirmScreen.getWidth()/2);
+		this.confirmScreen.setY(GameSettings.HEIGHT/2-confirmScreen.getHeight()/2);
+		if(widthOne>=width){
+			widthPan = 0;
+		}
+		if(heightOne>=height){;
+			heightPan = 0;
+		}
+		if(widthOne>=width && heightOne>=height){
+			if(rOne>=360){
+				velROne = 0;
+				panIn = false;
+				allowGlow = true;
+				blurOut();
+			}
+		}
+		else{
+			if(rOne>=360){
+				rOne = 0;
+			}
+		}
+		}
+	}
 	public void hide() {
 		if (swipeLeft == true) {
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX -= confirmXPosition/GameManager.ScaleX;
-			confirmXPosition += acceleration/GameManager.ScaleX;
+			confirmXPosition += acceleration;
 			if (center) {
-				acceleration -= 0.50/GameManager.ScaleX;
+				acceleration -= 0.50;
 				if (acceleration <= 0) {
-					confirmXPosition -= 0.1/GameManager.ScaleX;
+					confirmXPosition -= 0.1;
 					acceleration = 0;
-					if (confirmXPosition <= 0.001/GameManager.ScaleX) {
-						confirmXPosition = 0.001f/GameManager.ScaleX;
+					if (confirmXPosition <= 0.001) {
+						confirmXPosition = 0.001f;
 					}
 
 				}
@@ -320,7 +400,7 @@ public class VictoryScreen {
 		center = true;
 		swipeLeft = true;
 		acceleration = 6.0f;
-		confirmXPosition = 0.001f;
+		confirmXPosition = 0.002f;
 	}
 	public void goToNext(){
 		game.removePlayers();
@@ -330,7 +410,7 @@ public class VictoryScreen {
 		center = true;
 		swipeLeft = true;
 		acceleration = 6.0f;
-		confirmXPosition = 0.001f;
+		confirmXPosition = 0.002f;
 	}
 
 	public void removeBoard() {
@@ -349,7 +429,7 @@ public class VictoryScreen {
 
 	private void askConfirm() {
 		confirmScreen.setFill(new ImagePattern(boardImage));
-		confirmX = (float) (0 - confirmScreen.getWidth() - 50);
+		confirmX = 0 - width - 50;
 		confirmScreen.setX(confirmX);
 		continue_btt.setX(confirmScreen.getX());
 		continue_btt.setY(confirmScreen.getY() + confirmScreen.getHeight());
@@ -365,6 +445,12 @@ public class VictoryScreen {
 		game.getMainRoot().getChildren().add(scoreLayer);
 		center = true;
 		swipeRight = true;
+		panIn = true;
+		widthOne = 1;
+		heightOne = 1;
+		widthPan = 12/GameManager.ScaleX;
+		heightPan = 9/GameManager.ScaleY;
+		velROne = 15;
 		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
 	}

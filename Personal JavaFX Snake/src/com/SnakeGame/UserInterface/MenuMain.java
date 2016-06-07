@@ -249,7 +249,7 @@ public class MenuMain {
 		label.setEffect(dropShadowOne);
 	}
 	private void setStyleOn(Label label){
-		label.setStyle("-fx-text-fill: limegreen; -fx-font-family: Impact; -fx-font-size: "
+		label.setStyle("-fx-text-fill: linear-gradient(lightgreen, seagreen); -fx-font-family: Impact; -fx-font-size: "
 				+ 48 / GameLoader.ResolutionScaleY + "px");
 	}
 	private void setStyleOff(Label label){

@@ -72,7 +72,7 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel{
 
-	private double manualScale = 1.4;
+	private double manualScale = 1.0;
 
 	public void start(Stage primaryStage) {
 		GameLoader.scaleResolution(manualScale,manualScale,true);
@@ -458,7 +458,7 @@ public class GameManager extends AbstractGameModel{
 							fadeHandler.outer_fade_update();
 							pauseMenu.updateTouchPanel();
 							gameHud.updateHudBars();
-							victoryScreen.swipeRight();
+							victoryScreen.updateUI();
 							gameOverScreen.swipeRight();
 							gameOverScreen.checkStatus();
 							scoreKeeper.keepCount();
