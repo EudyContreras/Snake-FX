@@ -14,9 +14,10 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.SnakeGame.SlitherSnake.SlitherSnake;
-import com.SnakeGame.Utilities.GameTileManager;
-import com.SnakeGame.Utilities.ImageLoadingUtility;
+import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
+import com.EudyContreras.Snake.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
+
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;

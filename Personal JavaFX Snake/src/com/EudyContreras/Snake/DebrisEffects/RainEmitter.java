@@ -8,7 +8,7 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.SnakeGame.Utilities.ScreenEffectUtility;
+import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 /**
  * This class is used to keep track of energy used by the player if there's is

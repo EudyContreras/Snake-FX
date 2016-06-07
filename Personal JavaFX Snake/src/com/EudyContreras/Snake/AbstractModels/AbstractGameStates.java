@@ -1,12 +1,12 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.SnakeGame.Utilities.GameStateManager;
+import com.EudyContreras.Snake.Utilities.GameStateManager;
 
 /**
  * This class is the parent of every state. Each state must extend this class.
  * Events within this class will affect the childres of this class
- * 
+ *
  * @author Eudy Contreras
  *
  */

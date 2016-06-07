@@ -15,7 +15,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.GlowParticle;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.SnakeGame.Utilities.RandomGenerator;
+import com.EudyContreras.Snake.Utilities.RandomGenerator;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

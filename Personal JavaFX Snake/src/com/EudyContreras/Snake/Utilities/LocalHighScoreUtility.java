@@ -1,4 +1,4 @@
-package com.SnakeGame.Utilities;
+package com.EudyContreras.Snake.Utilities;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;

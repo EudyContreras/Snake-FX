@@ -1,4 +1,4 @@
-package com.SnakeGame.Utilities;
+package com.EudyContreras.Snake.Utilities;
 
 import com.EudyContreras.Snake.EnumIDs.GameStateID;
 import com.EudyContreras.Snake.FrameWork.GameManager;

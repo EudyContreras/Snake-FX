@@ -6,7 +6,7 @@ import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.SnakeGame.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;

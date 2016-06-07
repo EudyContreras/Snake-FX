@@ -1,9 +1,10 @@
-package com.SnakeGame.UserInterface;
+package com.EudyContreras.Snake.UserInterface;
 
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.SnakeGame.Utilities.GameAudio;
+import com.EudyContreras.Snake.Utilities.GameAudio;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

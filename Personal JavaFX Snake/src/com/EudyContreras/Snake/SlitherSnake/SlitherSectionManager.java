@@ -1,4 +1,4 @@
-package com.SnakeGame.SlitherSnake;
+package com.EudyContreras.Snake.SlitherSnake;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.SnakeGame.SlitherSnake;
+package com.EudyContreras.Snake.SlitherSnake;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSlither;
@@ -13,8 +13,8 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.SnakeGame.Utilities.AnimationUtility;
-import com.SnakeGame.Utilities.ScreenEffectUtility;
+import com.EudyContreras.Snake.Utilities.AnimationUtility;
+import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;

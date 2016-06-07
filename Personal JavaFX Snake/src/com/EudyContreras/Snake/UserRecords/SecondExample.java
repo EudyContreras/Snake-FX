@@ -1,4 +1,4 @@
-package com.SnakeGame.UserRecords;
+package com.EudyContreras.Snake.UserRecords;
 
 //STEP 1. Import required packages
 import java.sql.Connection;

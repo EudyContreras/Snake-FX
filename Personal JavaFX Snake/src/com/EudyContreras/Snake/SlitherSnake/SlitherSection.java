@@ -1,4 +1,4 @@
-package com.SnakeGame.SlitherSnake;
+package com.EudyContreras.Snake.SlitherSnake;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSlitherSection;
 import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;

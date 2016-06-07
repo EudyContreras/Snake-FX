@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.ImageBanks;
 
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.SnakeGame.Utilities.ImageEffectUtility;
+import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
 
 import javafx.scene.image.Image;
 

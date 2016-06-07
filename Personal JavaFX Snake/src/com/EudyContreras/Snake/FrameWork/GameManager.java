@@ -25,8 +25,8 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.SnakeGame.UserInterface.MenuMain;
-import com.SnakeGame.Utilities.ScreenEffectUtility;
+import com.EudyContreras.Snake.UserInterface.MenuMain;
+import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;

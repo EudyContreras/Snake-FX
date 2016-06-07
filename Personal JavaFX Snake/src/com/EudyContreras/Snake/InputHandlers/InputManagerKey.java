@@ -5,7 +5,7 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.SnakeGame.SlitherSnake.SlitherSnake;
+import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
