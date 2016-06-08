@@ -424,6 +424,7 @@ public class PauseMenu {
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
 		resumeGame();
+		game.getScoreKeeper().resetTimer();
 		game.getCountDownScreen().startCountdown();
 	}
 	public synchronized void blurOut(){

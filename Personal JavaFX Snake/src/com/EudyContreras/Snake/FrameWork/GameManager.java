@@ -151,6 +151,7 @@ public class GameManager extends AbstractGameModel{
 		getGameRoot().getChildren().add(eleventhLayer);
 		getGameRoot().getChildren().add(twelfthLayer);
 		mainRoot.getChildren().add(getGameRoot());
+        scene.getStylesheets().add(GameManager.class.getResource("text.css").toExternalForm());
 		scene.setFill(Color.BLACK);
 		loader.loadPixelMap();
 		loader.loadPlayerTwo();
@@ -183,6 +184,9 @@ public class GameManager extends AbstractGameModel{
 		mainWindow.setFullScreen(true);
 		mainWindow.setFullScreenExitHint("");
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		mainWindow.setOnCloseRequest(e->{
+			closeGame();
+		});
 		mainWindow.setTitle(title);
 		mainWindow.show();
 		Platform.setImplicitExit(false);
@@ -306,9 +310,14 @@ public class GameManager extends AbstractGameModel{
 	}
 	public void closeGame() {
 		pauseGame();
+		logToConsole("Good bye!");
 		Platform.exit();
 	}
 
+	private void logToConsole(String message) {
+		System.out.println("GAME_MANAGER: " + message);
+		
+	}
 	public void setBackgroundImage(Image image) {
 		backgroundImage.setImage(image);
 	}
@@ -347,7 +356,7 @@ public class GameManager extends AbstractGameModel{
 					victoryScreen.swipeRight();
 					gameOverScreen.swipeRight();
 					gameOverScreen.checkStatus();
-					scoreKeeper.keepCount();
+					scoreKeeper.updateUI();
 					for (int speed = 0; speed < GameSettings.PLAYER_ONE_SPEED; speed += 1) {
 						playerOneManager.updateAllMovement();
 						sectManagerOne.updateAllMovement(gc, now);
@@ -456,7 +465,7 @@ public class GameManager extends AbstractGameModel{
 							victoryScreen.updateUI();
 							gameOverScreen.swipeRight();
 							gameOverScreen.checkStatus();
-							scoreKeeper.keepCount();
+							scoreKeeper.updateUI();
 							objectManager.updateAll(gc, timePassed);
 							for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
 								playerOneManager.updateAllMovement();

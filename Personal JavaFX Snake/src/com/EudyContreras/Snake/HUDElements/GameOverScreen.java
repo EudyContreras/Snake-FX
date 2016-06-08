@@ -308,6 +308,7 @@ public class GameOverScreen {
 	}
 
 	public void restartLevel() {
+		game.getScoreKeeper().resetTimer();
 		overlay.removeBlur();
 		center = true;
 		swipeLeft = true;

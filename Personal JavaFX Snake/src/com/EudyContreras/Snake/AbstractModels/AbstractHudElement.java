@@ -16,7 +16,8 @@ import javafx.scene.shape.Rectangle;
  */
 public abstract class AbstractHudElement {
 
-
+	protected double baseY;
+	protected double baseX;
 	protected double xOne;
 	protected double yOne;
 	protected double rOne;
