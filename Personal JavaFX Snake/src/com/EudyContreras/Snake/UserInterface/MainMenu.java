@@ -456,6 +456,7 @@ public class MainMenu {
 		game.setRoot(game.getMainRoot());
 		game.resumeGame();
 		game.processGameInput();
+		game.getCountDownScreen().startCountdown();
 	}
 
 	/**

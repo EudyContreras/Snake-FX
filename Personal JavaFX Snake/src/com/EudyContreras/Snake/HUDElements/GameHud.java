@@ -141,8 +141,6 @@ public class GameHud {
 	 * Method which shows a hud bar
 	 */
 	public void show() {
-//		game.getNinthLayer().getChildren().add(topHudBar);
-//		game.getNinthLayer().getChildren().add(bottomHudBar);
 		topHudBar.setVisible(true);
 		bottomHudBar.setVisible(true);
 		hudBar.setVisible(true);

@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.FrameWork;
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
 import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
 import com.EudyContreras.Snake.HUDElements.GameHud;
@@ -72,10 +72,9 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel{
 
-	private double manualScale = 1.2;
 
 	public void start(Stage primaryStage) {
-		GameLoader.scaleResolution(manualScale,manualScale,true);
+		GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
 		GameLoader.scalePlayerSize();
 		ScaleX = GameLoader.ResolutionScaleX;
 		ScaleY = GameLoader.ResolutionScaleY;
@@ -173,14 +172,15 @@ public class GameManager extends AbstractGameModel{
 				50/ScaleY, Color.rgb(255, 150, 0));
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
+		countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
 		processGameInput();
 		processGestures();
 		mainMenu.setupMainMenu();
 		mainWindow.setScene(scene);
-		mainWindow.setWidth(GameSettings.WIDTH);
-		mainWindow.setHeight(GameSettings.HEIGHT+45);
 		mainWindow.setResizable(true);
-		mainWindow.setFullScreen(false);
+		mainWindow.setTitle(title);
+		if(!(GameSettings.MANUAL_SIZE_SCALE>1.0) && !(GameSettings.MANUAL_SIZE_SCALE<1.0))
+		mainWindow.setFullScreen(true);
 		mainWindow.setFullScreenExitHint("");
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		mainWindow.setTitle(title);
@@ -267,7 +267,7 @@ public class GameManager extends AbstractGameModel{
 	public void resumeGame() {
 		if (GameSettings.RENDER_GAME == true)
 			return;
-		setStateID(GameStateID.GAMEPLAY);
+//		setStateID(GameStateID.GAMEPLAY);
 		GameSettings.RENDER_GAME = true;
 	}
 
@@ -449,6 +449,7 @@ public class GameManager extends AbstractGameModel{
 						}
 						if (GameSettings.RENDER_GAME) {
 							drawOverlay(gc);
+							countDownScreen.update();
 							overlayEffect.updateEffect();
 							fadeHandler.innerFade_update();
 							fadeHandler.outer_fade_update();
@@ -712,7 +713,6 @@ public class GameManager extends AbstractGameModel{
 		showCursor(false, getScene());
 		processGameInput();
 		processGestures();
-		setStateID(GameStateID.GAMEPLAY);
 	}
 	public void goToNext() {
 		clearAll();
@@ -806,7 +806,7 @@ public class GameManager extends AbstractGameModel{
 		GameSettings.PLAYER_TWO_SIZE = 30;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
-		GameLoader.scaleResolution(manualScale,manualScale,true);
+		GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
 		GameLoader.scalePlayerSize();
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();

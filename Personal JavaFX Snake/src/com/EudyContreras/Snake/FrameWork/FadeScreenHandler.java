@@ -90,7 +90,7 @@ public class FadeScreenHandler{
 					game.goToNext();
 					fadeOut = true;
 					fadeIn = false;
-					game.setStateID(GameStateID.GAMEPLAY);
+					game.getCountDownScreen().startCountdown();
 				}
 				else if(game.getStateID() == GameStateID.MAIN_MENU){
 					game.reset();
@@ -101,7 +101,7 @@ public class FadeScreenHandler{
 					game.restart();
 					fadeOut = true;
 					fadeIn = false;
-					game.setStateID(GameStateID.GAMEPLAY);
+					game.getCountDownScreen().startCountdown();
 
 				}
 			}
@@ -112,6 +112,7 @@ public class FadeScreenHandler{
 			if (innerFadePercentage <= 0) {
 				innerFadeScreen.setOpacity(0);
 				game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
+				//game.getCountDownScreen().startCountdown();
 				fadeOut = false;
 			}
 		}
@@ -138,7 +139,7 @@ public class FadeScreenHandler{
 			if (innerFadePercentage <= 0) {
 				innerFadeScreen.setOpacity(0);
 				game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
-				game.setStateID(GameStateID.GAMEPLAY);
+				game.getCountDownScreen().startCountdown();
 				quickFadeOut = false;
 			}
 		}

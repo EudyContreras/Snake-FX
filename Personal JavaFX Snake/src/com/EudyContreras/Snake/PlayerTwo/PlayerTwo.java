@@ -216,7 +216,7 @@ public class PlayerTwo extends AbstractObject {
 		if (GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
-				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
+				if (KEEP_MOVING && game.getStateID()== GameStateID.GAMEPLAY) {
 					displaceDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
@@ -227,7 +227,7 @@ public class PlayerTwo extends AbstractObject {
 		if (thrust) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
-				if (KEEP_MOVING && game.getStateID() != GameStateID.GAME_MENU) {
+				if (KEEP_MOVING && game.getStateID()== GameStateID.GAMEPLAY) {
 					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
@@ -297,7 +297,7 @@ public class PlayerTwo extends AbstractObject {
 		this.layer.setEffect(null);
 	}
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID() != GameStateID.GAME_MENU) {
+		if (game.getStateID()== GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
@@ -533,7 +533,7 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
-						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
+						if (allowDamage  && game.getStateID()== GameStateID.GAMEPLAY) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
 								setCollision(true);
 								if (!DEAD) {
@@ -601,7 +601,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < 2+ 1; i++) {
+		for (int i = 0; i < 2 + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));

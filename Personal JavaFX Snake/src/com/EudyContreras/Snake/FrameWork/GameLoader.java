@@ -64,8 +64,8 @@ public class GameLoader extends AbstractLoaderModel{
 		ResolutionScaleY = baseResolutionY / resolutionY;
 
 		if(manualScaling==true){
-			ResolutionScaleX = scaleX;
-			ResolutionScaleY = scaleY;
+			ResolutionScaleX = ResolutionScaleX*scaleX;
+			ResolutionScaleY = ResolutionScaleY*scaleY;
 			FullScreen = false;
 		}
 		System.out.println("width scale = " + ResolutionScaleX);
@@ -294,7 +294,7 @@ public class GameLoader extends AbstractLoaderModel{
 				+ fruit.getRadius() * 3);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
 				+ GameSettings.START_Y+fruit.getRadius());
-		SnakeFood food = new SnakeFood(game, game.getDirtLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
+		SnakeFood food = new SnakeFood(game, game.getFirstLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getObjectManager().addObject(food);
 		appleNumber++;
 	}

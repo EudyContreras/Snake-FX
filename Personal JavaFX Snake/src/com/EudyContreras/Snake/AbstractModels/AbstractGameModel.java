@@ -10,6 +10,7 @@ import com.EudyContreras.Snake.FrameWork.GameDebrisManager;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
 import com.EudyContreras.Snake.FrameWork.ObjectManager;
+import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
 import com.EudyContreras.Snake.HUDElements.GameHud;
@@ -73,6 +74,7 @@ public abstract class AbstractGameModel extends Application {
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
 	protected SlitherSectionManager slitherSectManager;
+	protected CountDownScreen countDownScreen;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected MainMenu mainMenu;
@@ -214,6 +216,11 @@ public abstract class AbstractGameModel extends Application {
 	public PauseMenu getPauseMenu(){
 		return pauseMenu;
 	}
+
+	public CountDownScreen getCountDownScreen(){
+		return countDownScreen;
+	}
+
 	public MainMenu getMainMenu() {
 		return mainMenu;
 	}

@@ -17,10 +17,15 @@ public class GameSettings {
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
 
+	public static double FRAMECAP = 1.0 / 60.0;
+	public static double SIZE_SCALE = 1.0;
+	public static double FRAME_SCALE = 1.0f;
+	public static double MANUAL_SIZE_SCALE = 1.3;
+
 	public static final int START_X = 1920;
 	public static final int START_Y = 80; //This number must be a whole number
-	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
-	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
+	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/MANUAL_SIZE_SCALE);
+	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/Images/";
 
 	public static int APPLE_COUNT = 4;
@@ -46,8 +51,8 @@ public class GameSettings {
 	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX;
 	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX;
 
-	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX;
-	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX;
+	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 
 	public static double PLAYER_HEALTH = 100.0;
 
@@ -57,7 +62,7 @@ public class GameSettings {
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 40;
-	public static int MAX_AMOUNT_OF_OBJECTS = 200;
+	public static int MAX_AMOUNT_OF_OBJECTS = 600;
 	public static int PARTICLE_LIMIT = 20;
 	public static int DEBRIS_LIMIT = 120;
 	public static int SAND_SPAWN_DELAY = 1;
@@ -70,11 +75,6 @@ public class GameSettings {
 	public static double WIND_FORCE = 0.8;
 	public static double WIND_SPEED = 0.2;
 
-
-	public static double FRAMECAP = 1.0 / 60.0;
-	public static double SIZE_SCALE = 1.0;
-	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.1;
 
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;

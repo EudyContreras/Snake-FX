@@ -16,6 +16,7 @@ public enum GameStateID {
 	LEADER_BOARD(),
 	GAMEPLAY(),
 	LEVEL_TRANSITIONING(),
+	COUNT_DOWN(),
 	LEVEL_RESTART(),
 
 }

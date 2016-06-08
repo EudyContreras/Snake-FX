@@ -165,7 +165,7 @@ public class ScoreKeeper {
 		if (swipeUp) {
 			swipeSpeed = -2.5f;
 			if (y < oldY) {
-				startTimer();
+				//startTimer();
 				swipeSpeed = 0;
 			}
 		}

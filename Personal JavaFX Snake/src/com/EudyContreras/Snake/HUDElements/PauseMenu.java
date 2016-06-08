@@ -183,7 +183,7 @@ public class PauseMenu {
 				mainBoard.setX(x);
 				mainBoard.setY(y);
 				if(mainBoard.getY()<0-mainBoard.getImage().getHeight()){
-					game.setStateID(GameStateID.GAMEPLAY);
+					//game.setStateID(GameStateID.GAMEPLAY);
 					game.getScoreKeeper().startTimer();
 					hide = false;
 				}
@@ -203,8 +203,10 @@ public class PauseMenu {
 				fadeLevel-=0.03;
 				showObjects(fadeLevel);
 				if(fadeLevel<=0){
-					game.getScoreKeeper().startTimer();
-					game.setStateID(GameStateID.GAMEPLAY);
+					if(CountDownScreen.COUNTDOWN_OVER){
+						game.getScoreKeeper().startTimer();
+						game.setStateID(GameStateID.GAMEPLAY);
+					}
 					game.processGameInput();
 					fadeLevel = 0;
 					hide = false;
@@ -422,6 +424,7 @@ public class PauseMenu {
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
 		resumeGame();
+		game.getCountDownScreen().startCountdown();
 	}
 	public synchronized void blurOut(){
 		game.getOuterParticleLayer().getChildren().clear();

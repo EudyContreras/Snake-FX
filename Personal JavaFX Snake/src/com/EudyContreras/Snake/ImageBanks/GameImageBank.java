@@ -95,6 +95,10 @@ public class GameImageBank {
 	public static Image energy_bar_one_border;
 	public static Image energy_bar_two;
 	public static Image energy_bar_two_border;
+	public static ImagePattern count_one;
+	public static ImagePattern count_two;
+	public static ImagePattern count_three;
+	public static ImagePattern count_go;
 
 	public GameImageBank() {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,8 +216,10 @@ public class GameImageBank {
 		pause_restart = new Image(ImageEffectUtility.loadResource("pause_restart.png"));
 		pause_main = new Image(ImageEffectUtility.loadResource("pause_main_menu.png"));
 		pause_quit = new Image(ImageEffectUtility.loadResource("pause_quit.png"));
-
-
+		count_one = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_one.png")));
+		count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
+		count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
+		count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go.png")));
 		/**
 		 * general game object
 		 */
