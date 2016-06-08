@@ -265,9 +265,9 @@ public class ScoreKeeper extends AbstractHudElement{
 			}
 		}
 		else {
-			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && game.getStateID()!=GameStateID.GAME_MENU){
-			swipeUp();
-			game.getGameHud().hideHUDCover();
+			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && game.getStateID()!=GameStateID.GAME_MENU && game.getStateID()!=GameStateID.COUNT_DOWN){
+//			swipeUp();
+//			game.getGameHud().hideHUDCover();
 			}
 		}
 	}

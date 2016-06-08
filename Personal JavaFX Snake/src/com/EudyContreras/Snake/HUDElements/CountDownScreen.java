@@ -122,7 +122,7 @@ public class CountDownScreen {
 		this.allowHide = true;
 		this.allowPan = true;
 		this.allowCount = true;
-		this.count = 60;
+		this.count = 40;
 		this.showCounter = 10.0;
 		COUNTDOWN_OVER = false;
 		this.countDown();
@@ -191,9 +191,11 @@ public class CountDownScreen {
 	 * long as the object is still visible.
 	 */
 	private void panOut() {
-		if (allowPan) {
+		if (allowPan ) {
+			if(showCounter <= 0){
 			width -= panVelocityX;
 			height -= panVelocityY;
+			}
 			countView.setWidth(width);
 			countView.setHeight(height);
 			if (height <= 0 || lifeTime <= 0) {
@@ -211,8 +213,10 @@ public class CountDownScreen {
 		if (allowHide) {
 			countView.setX(x);
 			countView.setY(y);
+			if(showCounter <= 0){
 			x -= velX;
 			y -= velY;
+			}
 			if (x < 0 - width || y < 0 - height) {
 				allowHide = false;
 			}
@@ -275,10 +279,12 @@ public class CountDownScreen {
 		width = baseWidth;
 		height = baseHeight;
 		if (lastCount) {
+			game.getScoreKeeper().swipeUp();
+			game.getGameHud().hideHUDCover();
 			game.setStateID(GameStateID.GAMEPLAY);
 			game.getScoreKeeper().startTimer();
-			height = height + GameManager.ScaleY(70);
-			width = width + GameManager.ScaleX(130);
+			height = height + GameManager.ScaleY(150);
+			width = width + GameManager.ScaleX(250);
 			COUNTDOWN_OVER = true;
 		}
 		lifeTime = life;

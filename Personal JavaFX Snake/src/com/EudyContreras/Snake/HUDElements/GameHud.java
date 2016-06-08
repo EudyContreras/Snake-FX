@@ -24,8 +24,8 @@ public class GameHud {
 	private double swipeSpeedTop = 0;
 	private double yTwo = GameSettings.HEIGHT;
 	private double swipeSpeedBottom = 0;
-	private boolean hideHUDCover = true;
-	private boolean showHUDCover = false;
+	private boolean hideHUDCover = false;
+	private boolean showHUDCover = true;
 	private DropShadow shadow = new DropShadow();
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();

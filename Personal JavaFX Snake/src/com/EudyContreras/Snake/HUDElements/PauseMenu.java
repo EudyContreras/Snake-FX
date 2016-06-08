@@ -153,6 +153,13 @@ public class PauseMenu {
 			hide = true;
 			show = false;
 	}
+	public void hideAndReset(){
+		if(!hide)
+			blurOff();
+			game.showCursor(false, game.getScene());
+			hide = true;
+			show = false;
+	}
 	public void hideAndGoToMain(){
 		if(!hide)
 			blurOff();
@@ -423,7 +430,8 @@ public class PauseMenu {
 		game.restart();
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
-		resumeGame();
+		selectionReset();
+		hideAndReset();
 		game.getScoreKeeper().resetTimer();
 		game.getCountDownScreen().startCountdown();
 	}

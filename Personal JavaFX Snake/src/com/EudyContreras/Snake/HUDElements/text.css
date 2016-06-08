@@ -7,11 +7,12 @@
 #MainTimer {
         -fx-fill:  linear-gradient(cyan , dodgerblue);
 }
-
+.myrect {
+    -fx-fill: radial-gradient(center 50% 50%, radius 70%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.8) 100%);
+}
 #MenuStyleOn {
         -fx-fill:  linear-gradient(cyan , dodgerblue);
 }
-
 
 #MainScore{
         -fx-fill: linear-gradient(red, orange);

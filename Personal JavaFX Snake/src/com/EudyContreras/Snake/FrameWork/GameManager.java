@@ -694,7 +694,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
 		gameHud.show();
-		gameHud.hideHUDCover();
+//		gameHud.hideHUDCover();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
@@ -737,7 +737,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
 		gameHud.show();
-		gameHud.hideHUDCover();
+//		gameHud.hideHUDCover();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
@@ -780,7 +780,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
 		gameHud.show();
-		gameHud.hideHUDCover();
+//		gameHud.hideHUDCover();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();

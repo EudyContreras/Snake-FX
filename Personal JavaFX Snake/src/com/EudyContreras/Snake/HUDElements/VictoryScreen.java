@@ -395,7 +395,6 @@ public class VictoryScreen extends AbstractHudElement{
 	}
 
 	public void restartLevel() {
-		game.getScoreKeeper().resetTimer();
 		game.removePlayers();
 		overlay.removeBlur();
 		restartLevel = true;
@@ -406,7 +405,6 @@ public class VictoryScreen extends AbstractHudElement{
 		confirmXPosition = 0.002f;
 	}
 	public void goToNext(){
-		game.getScoreKeeper().resetTimer();
 		game.removePlayers();
 		overlay.removeBlur();
 		goToNext = true;
