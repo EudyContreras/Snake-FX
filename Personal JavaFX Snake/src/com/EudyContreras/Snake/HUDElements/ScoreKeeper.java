@@ -253,7 +253,7 @@ public class ScoreKeeper {
 				game.getVictoryScreen().finishLevel();
 				setPosition(1.5f);
 				swipeDown();
-				game.getGameHud().swipeDown();
+				game.getGameHud().showHUDCover();
 				game.setStateID(GameStateID.LEVEL_COMPLETED);
 				VictoryScreen.LEVEL_COMPLETE = true;
 			}
@@ -261,7 +261,7 @@ public class ScoreKeeper {
 		else {
 			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && game.getStateID()!=GameStateID.GAME_MENU){
 			swipeUp();
-			game.getGameHud().swipeUp();
+			game.getGameHud().hideHUDCover();
 			}
 		}
 	}

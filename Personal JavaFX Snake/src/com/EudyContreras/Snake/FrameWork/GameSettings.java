@@ -46,10 +46,10 @@ public class GameSettings {
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;
 
-	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX;
-	public static double ENERGY_COMSUMPTION_SPEED = 7/GameLoader.ResolutionScaleX;
-	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX;
-	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX;
+	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double ENERGY_COMSUMPTION_SPEED = 7/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX/MANUAL_SIZE_SCALE;
 
 	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;

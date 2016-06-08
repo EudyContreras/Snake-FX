@@ -20,7 +20,7 @@ import javafx.scene.shape.Rectangle;
 public class GameOverScreen {
 
 	public static boolean LEVEL_COMPLETE = false;
-	public static boolean FAILED_LEVEL = false;
+	public static boolean LEVEL_FAILED = false;
 	private ScreenEffectUtility overlay;
 	private DropShadow borderGlow;
 	private GameManager game;
@@ -224,12 +224,12 @@ public class GameOverScreen {
 	}
 	public void checkStatus(){
 		if (PlayerOne.DEAD || PlayerTwo.DEAD) {
-			if (FAILED_LEVEL == false) {
+			if (LEVEL_FAILED == false) {
 				removeBoard();
 				finishLevel();
 				game.getScoreKeeper().swipeDown();
-				game.getGameHud().swipeDown();
-				FAILED_LEVEL = true;
+				game.getGameHud().showHUDCover();
+				LEVEL_FAILED = true;
 			}
 		}
 	}
@@ -322,7 +322,7 @@ public class GameOverScreen {
 		quitGame_btt.setVisible(false);
 		restart_btt.setVisible(false);
 		game.getMainRoot().getChildren().remove(scoreLayer);
-		FAILED_LEVEL = false;
+		LEVEL_FAILED = false;
 		confirmScreen.setX(0 - confirmScreen.getWidth() - 50);
 		confirmX = 0;
 		acceleration = 6.0f;

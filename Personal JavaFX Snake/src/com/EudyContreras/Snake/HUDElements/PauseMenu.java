@@ -135,7 +135,7 @@ public class PauseMenu {
 			game.setStateID(GameStateID.GAME_MENU);
 			game.getScoreKeeper().stopTimer();
 			game.getScoreKeeper().swipeDown();
-			game.getGameHud().swipeDown();
+			game.getGameHud().showHUDCover();
 			game.showCursor(true, game.getScene());
 			processKeyHandling();
 			selectionReset();
@@ -148,7 +148,7 @@ public class PauseMenu {
 		if(!hide)
 			blurOff();
 			game.getScoreKeeper().swipeUp();
-			game.getGameHud().swipeUp();
+			game.getGameHud().hideHUDCover();
 			game.showCursor(false, game.getScene());
 			hide = true;
 			show = false;
@@ -157,7 +157,7 @@ public class PauseMenu {
 		if(!hide)
 			blurOff();
 			game.getScoreKeeper().swipeUp();
-			game.getGameHud().swipeUp();
+			game.getGameHud().hideHUDCover();
 			game.showCursor(false, game.getScene());
 			hide = false;
 			goToMain = true;

@@ -19,27 +19,31 @@ import javafx.scene.shape.Rectangle;
  */
 public class GameHud {
 
-	private boolean swipeUp = true;
-	private boolean swipeDown = false;
-	private double x = 0;
-	private double y = 0;
-	private double width = 0;
+	private double yOne = 0;
 	private double height = 0;
 	private double swipeSpeedTop = 0;
-	private double y2 = GameSettings.HEIGHT;
+	private double yTwo = GameSettings.HEIGHT;
 	private double swipeSpeedBottom = 0;
+	private boolean hideHUDCover = true;
+	private boolean showHUDCover = false;
 	private DropShadow shadow = new DropShadow();
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
-	private Rectangle hudBar = new Rectangle();
-
+	private Rectangle mainBar = new Rectangle();
+	/**
+	 * Constructor which takes the main class as a parameter along with the coordintate
+	 * and dimensions of Hud element.
+	 * @param game: Main game class which connects this class to all others
+	 * @param x: X coordinate of this element
+	 * @param y: Y coordinate of this element
+	 * @param width: Horizontal dimension of this element
+	 * @param height: Vertical dimension of this element
+	 */
 
 	public GameHud(GameManager game, double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
+		this.yOne = y;
 		this.height = height+10;
-		this.y2 = GameSettings.HEIGHT-height;
+		this.yTwo = GameSettings.HEIGHT-height;
 		this.shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		this.shadow.setRadius(5);
 		this.shadow.setOffsetX(0);
@@ -53,130 +57,111 @@ public class GameHud {
 		this.bottomHudBar.setWidth(width);
 		this.bottomHudBar.setHeight(height+40);
 		this.bottomHudBar.setTranslateX(x);
-		this.bottomHudBar.setTranslateY(y2+20);
+		this.bottomHudBar.setTranslateY(yTwo+20);
 		this.bottomHudBar.setRotate(180);
 		this.bottomHudBar.setArcHeight(20);
 		this.bottomHudBar.setArcWidth(20);
-		this.hudBar.setWidth(width);
-		this.hudBar.setHeight(height + 5);
-		this.hudBar.setTranslateX(x);
-		this.hudBar.setTranslateY(y);
-		this.hudBar.setArcWidth(20);
-		this.hudBar.setArcHeight(20);
-		this.hudBar.setEffect(shadow);
-		this.hudBar.setFill(new ImagePattern(GameImageBank.hud_bar));
+		this.mainBar.setWidth(width);
+		this.mainBar.setHeight(height + 5);
+		this.mainBar.setTranslateX(x);
+		this.mainBar.setTranslateY(y);
+		this.mainBar.setArcWidth(20);
+		this.mainBar.setArcHeight(20);
+		this.mainBar.setEffect(shadow);
+		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
-		game.getTenthLayer().getChildren().add(hudBar);
+		game.getTenthLayer().getChildren().add(mainBar);
 		game.getFourTeenthLayer().getChildren().add(topHudBar);
 		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
-	 * Method which updates the movement of the hudbar
+	 * Method which updates the movement of 
+	 * both the top and the bottom HUD bar
+	 * 
 	 */
 	public void updateHudBars() {
-		y = y + swipeSpeedTop/GameManager.ScaleY;
-		y2 = y2 + swipeSpeedBottom/GameManager.ScaleY;
-		if (swipeDown) {
+		yOne = yOne + swipeSpeedTop/GameManager.ScaleY;
+		yTwo = yTwo + swipeSpeedBottom/GameManager.ScaleY;
+		if (showHUDCover) {
 			swipeSpeedTop = 2.5;
-			if (y >= hudBar.getTranslateY() - GameManager.ScaleY(21)) {
+			if (yOne >= mainBar.getTranslateY() - GameManager.ScaleY(21)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = -2.5;
-			if (y2 < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40)) {
+			if (yTwo < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40)) {
 				swipeSpeedBottom = 0;
 			}
 		}
-		if (swipeUp) {
+		if (hideHUDCover) {
 			swipeSpeedTop = -2.55;
-			if (y < hudBar.getTranslateY() - height) {
+			if (yOne < mainBar.getTranslateY() - height) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 2.55;
-			if (y2 > GameSettings.HEIGHT) {
+			if (yTwo > GameSettings.HEIGHT) {
 				swipeSpeedBottom = 0;
 			}
 		}
-		topHudBar.setTranslateY(y);
-		bottomHudBar.setTranslateY(y2);
+		topHudBar.setTranslateY(yOne);
+		bottomHudBar.setTranslateY(yTwo);
 	}
 	/**
-	 * Method which shows or hides the hud bar
-	 * depending on the current status of the hud
+	 * Method which shows or hides the HUD bar
+	 * depending on the current status of the HUD
 	 */
 	public void showHide() {
-		if (swipeDown) {
-			swipeDown = false;
-			swipeUp = true;
-		} else if (swipeUp) {
-			swipeUp = false;
-			swipeDown = true;
+		if (showHUDCover) {
+			showHUDCover = false;
+			hideHUDCover = true;
+		} else if (hideHUDCover) {
+			hideHUDCover = false;
+			showHUDCover = true;
 		}
 	}
 	/**
-	 * Method which swipes down the hud bar
+	 * Method which shows the HUD bar
+	 * cover
 	 */
-	public void swipeDown() {
-		swipeUp = false;
-		swipeDown = true;
+	public void showHUDCover() {
+		hideHUDCover = false;
+		showHUDCover = true;
 	}
 	/**
-	 * Method which swipes up the hud bar
+	 * Method which hides the HUD bar
+	 * cove
 	 */
-	public void swipeUp() {
-		swipeDown = false;
-		swipeUp = true;
+	public void hideHUDCover() {
+		showHUDCover = false;
+		hideHUDCover = true;
 	}
 	/**
-	 * Method which hides the hud bar
+	 * Method which sets the visibility
+	 * of all the hud elements in this class
+	 * to false
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			topHudBar.setVisible(false);
 			bottomHudBar.setVisible(false);
-			hudBar.setVisible(false);
+			mainBar.setVisible(false);
 		}
 	}
 	/**
-	 * Method which shows a hud bar
+	 * Method which set the visibility
+	 * of all the hud elements in this class
+	 * to true
 	 */
 	public void show() {
 		topHudBar.setVisible(true);
 		bottomHudBar.setVisible(true);
-		hudBar.setVisible(true);
+		mainBar.setVisible(true);
 	}
-	public double getHudbarY(){
+	public double getTopCoverY(){
 		return topHudBar.getY();
 	}
-	public double getX() {
-		return x;
+	public double getBottomCoverY(){
+		return bottomHudBar.getY();
 	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
+	
 }

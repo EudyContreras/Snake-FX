@@ -374,12 +374,10 @@ public class GameManager extends AbstractGameModel{
 						rainEmitter.emit();
 					}
 					if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
-						getHealthBarOne().depleteHealth();
-						getHealthBarOne().regerateHealth();
+						getHealthBarOne().update();
 					}
 					if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
-						getHealthBarTwo().depleteHealth();
-						getHealthBarTwo().regerateHealth();
+						getHealthBarTwo().update();
 					}
 					if (scoreBoardOne != null) {
 						scoreBoardOne.hide();
@@ -484,20 +482,16 @@ public class GameManager extends AbstractGameModel{
 								rainEmitter.emit();
 							}
 							if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
-								getHealthBarOne().depleteHealth();
-								getHealthBarOne().regerateHealth();
+								getHealthBarOne().update();
 							}
 							if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
-								getHealthBarTwo().depleteHealth();
-								getHealthBarTwo().regerateHealth();
+								getHealthBarTwo().update();
 							}
 							if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
-								getEnergyBarOne().deplete();
-								getEnergyBarOne().regerate();
+								getEnergyBarOne().update();
 							}
 							if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
-								getEnergyBarTwo().deplete();
-								getEnergyBarTwo().regerate();
+								getEnergyBarTwo().update();
 							}
 							if (scoreBoardOne != null) {
 								scoreBoardOne.hide();
@@ -691,7 +685,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
 		gameHud.show();
-		gameHud.swipeUp();
+		gameHud.hideHUDCover();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
@@ -734,7 +728,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
 		gameHud.show();
-		gameHud.swipeUp();
+		gameHud.hideHUDCover();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();
@@ -777,7 +771,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardOne.show();
 		scoreBoardTwo.show();
 		gameHud.show();
-		gameHud.swipeUp();
+		gameHud.hideHUDCover();
 		loader.killPlayerOne();
 		loader.killPlayerTwo();
 		loader.loadPlayerOne();

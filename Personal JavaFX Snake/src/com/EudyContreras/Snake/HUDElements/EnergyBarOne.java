@@ -9,37 +9,39 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 /**
- * This class is used to keep track of energy used by the player if there's is
- * any it will decrease and regenerate according to time passed and given
- * actions by the player.
+ * This class is used to keep track of energy used by the player. If there's is
+ * any energy it will decrease and regenerate according to a set delay and
+ * and regeneration speed passed and given. A set of spsecific actions by the player
+ * will reduce energy levels
  *
  * @author Eudy Contreras
  *
  */
 public class EnergyBarOne {
 
-
-
 	private boolean depleated = false;
 	private boolean speedThrust = false;
-	private boolean setDelay = false;
 	private double maxEnergyLevel = 100;
-	private double x = 0;
-	private double y = 0;
 	private double width = 0;
-	private double height = 0;
 	private double delay = 0;
 	private GameManager game;
 	private PlayerOne player;
 	private Rectangle energyBar = new Rectangle();
 	private Rectangle energyBarBorder = new Rectangle();
 
+	/**
+	 * Constructor which takes the main class as parameter along with the 
+	 * position and dimension of this energy bar.
+	 * @param game: Main game class which connects this class to all others
+	 * @param x: X coordinate for this energy bar
+	 * @param y: Y coordinate for this energy bar
+	 * @param width: Horizontal dimension for this energy bar
+	 * @param height: Vertival dimension for this energy bar
+	 */
 	public EnergyBarOne(GameManager game, double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
 		this.game = game;
+		this.width = width;
+		this.maxEnergyLevel = width;
 		this.player = game.getGameLoader().getPlayerOne();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
@@ -53,15 +55,24 @@ public class EnergyBarOne {
 		this.energyBarBorder.setTranslateY(y);
 		this.energyBarBorder.setRotate(1);
 		this.energyBarBorder.setFill(new ImagePattern(GameImageBank.energy_bar_one_border));
-		game.getEleventhLayer().getChildren().add(energyBarBorder);
-		game.getEleventhLayer().getChildren().add(energyBar);
-		this.maxEnergyLevel = width;
+		this.game.getEleventhLayer().getChildren().add(energyBarBorder);
+		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
-
 	/**
-	 * depletes the energy by a constant percentage
+	 * Method which updates the rate at which this energy bar 
+	 * depletes and regenarates. This methods calls the deplete and
+	 * the regenerate function at the rate of the framerate.
 	 */
-	public void deplete() {
+	public void update(){
+		depleteEnergy();
+		regenerateEnergy();
+	}
+	/**
+	 * Method which depletes the energy of the player by a constant
+	 * percentage. This method also determines what action to take
+	 * when the energy levels have reach their minimum
+	 */
+	private void depleteEnergy() {
 		if (speedThrust == true) {
 			width -= GameSettings.ENERGY_COMSUMPTION_SPEED;
 		}
@@ -70,23 +81,26 @@ public class EnergyBarOne {
 			player.setAllowThrust(false);
 			player.setThrustState(false);
 			width = 0;
-			setDelay = true;
 		}
 		this.energyBar.setWidth(width);
 	}
 
 	/**
-	 * sets a regeneration delay by a constant percentage
+	 * Method which adds a precalculated delay
+	 * to the the time it takes before energy 
+	 * can start regenerating
 	 */
 	public void setDelay() {
 		delay = 60;
-		setDelay = false;
 	}
 
 	/**
-	 * Regenerates the energy until it reaches its max value
+	 * Method which regenerates the energy levels of the player
+	 * at a constant precalculated rate. This method also controls
+	 * the action to perform once energy levels have surpassed 
+	 * a precalculated thereshold.
 	 */
-	public void regerate() {
+	private void regenerateEnergy() {
 		if(speedThrust==false){
 			delay--;
 			if (width < maxEnergyLevel) {
@@ -102,34 +116,33 @@ public class EnergyBarOne {
 			}
 		}
 	}
-
+	/**
+	 * Method which when called will refill energy
+	 * levels to their maximun levels
+	 */
 	public void refill() {
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
 		this.player.setAllowThrust(true);
 	}
-	public boolean isDepleated() {
-		return depleated;
+	/**
+	 * Method which when called will deplete all
+	 * energy to their minimum leveles
+	 */
+	public void drainAll(){
+		this.width = 0;
+		this.energyBar.setWidth(width);
+		this.player.setAllowThrust(false);
 	}
-
-	public void setDepleated(boolean depleated) {
-		this.depleated = depleated;
-	}
-
 	public boolean isSpeedThrust() {
 		return speedThrust;
 	}
 
-	public void setSpeedThrust(boolean shotsFired) {
-		this.speedThrust = shotsFired;
-	}
-
-	public boolean isSetDelay() {
-		return setDelay;
+	public void setSpeedThrust(boolean speedBoost) {
+		this.speedThrust = speedBoost;
 	}
 
 	public void setSetDelay(boolean setDelay) {
-		this.setDelay = setDelay;
 	}
 
 	public double getMaxEnergyLevel() {
@@ -140,38 +153,6 @@ public class EnergyBarOne {
 		this.maxEnergyLevel = maxEnergyLevel;
 	}
 
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
-	public double getHeight() {
-		return height;
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-	}
-
 	public double getDelay() {
 		return delay;
 	}
@@ -179,29 +160,16 @@ public class EnergyBarOne {
 	public void setDelay(double delay) {
 		this.delay = delay;
 	}
-
-	public PlayerOne getPlayer() {
-		return player;
-	}
-
+	
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerOne();
 	}
-
-	public Rectangle getEnergyBar() {
-		return energyBar;
+	public boolean isDepleated() {
+		return depleated;
+	}
+	public void setDepleated(boolean depleated) {
+		this.depleated = depleated;
 	}
 
-	public void setEnergyBar(Rectangle energyBar) {
-		this.energyBar = energyBar;
-	}
-
-	public Rectangle getEnergyBarBorder() {
-		return energyBarBorder;
-	}
-
-	public void setEnergyBarBorder(Rectangle energyBarBorder) {
-		this.energyBarBorder = energyBarBorder;
-	}
 }
