@@ -213,7 +213,7 @@ public class PlayerOneSection extends AbstractSection {
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
-			for (int i = 0; i <2; i++) {
+			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
@@ -222,7 +222,7 @@ public class PlayerOneSection extends AbstractSection {
 
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
-			for (int i = 0; i <2; i++) {
+			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
@@ -315,7 +315,7 @@ public class PlayerOneSection extends AbstractSection {
 
 	public void blowUp() {
 		if (blowUp == true) {
-			for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
 					particleSize = (Math.random() * (10 - 5 + 1) + 5)/GameManager.ScaleX_ScaleY;
 					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)/GameManager.ScaleX_ScaleY;

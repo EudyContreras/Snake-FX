@@ -148,7 +148,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_OBJECTS; i++) {
+		for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
 			spawnBackgroundStuff(true);
 		}
 		if(!GameSettings.LOAD_SPIKE_FENCE)
@@ -338,7 +338,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void loadNoSpawnZone(){
 		double width = 160/ResolutionScaleX;
-		double height = 180/ResolutionScaleY;
+		double height = 200/ResolutionScaleY;
 		float x = (float)(GameSettings.WIDTH/2-width/2);
 		float y = (float)((GameSettings.HEIGHT/2-height/2)-15/ResolutionScaleY);
 		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.noSpawnZone);
@@ -355,7 +355,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.START_Y+10 + 1) + GameSettings.START_Y+10);
-		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.dirt_grain,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
+		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
 	}
 
 	/**

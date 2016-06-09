@@ -20,15 +20,15 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.3;
+	public static double MANUAL_SIZE_SCALE = 1.5;
 
 	public static final int START_X = 1920;
-	public static final int START_Y = 80; //This number must be a whole number
+	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
 	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/MANUAL_SIZE_SCALE);
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/Images/";
 
-	public static int APPLE_COUNT = 4;
+	public static int APPLE_COUNT = 20;
 	public static int SECTIONS_TO_ADD = 1;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
@@ -56,20 +56,19 @@ public class GameSettings {
 
 	public static double PLAYER_HEALTH = 100.0;
 
-	public static double GLOBAL_ACCELARATION = 0.01;
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double SPECULAR_MAP = 1.5;
+	public static double GLOBAL_SPECULARITY = 1.0;
 
 	public static int BLUR_RANDOMNESS = 200;
-	public static int MAX_AMOUNT_OF_DEBRIS = 40;
-	public static int MAX_AMOUNT_OF_OBJECTS = 600;
-	public static int PARTICLE_LIMIT = 20;
-	public static int DEBRIS_LIMIT = 120;
+	public static int MAX_AMOUNT_OF_DEBRIS = 150;
+	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 10;
+	public static int PARTICLE_LIMIT = 120;
+	public static int MAX_DEBRIS_AMOUNT = 100;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
 	public static int SAND_AMOUNT = 0;
-	public static int RAIN_AMOUNT = 2;
-	public static int DIRT_AMOUNT = 12;
+	public static int RAIN_AMOUNT = 0;
+	public static int DIRT_AMOUNT = 10;
 
 	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 0.8;
@@ -105,7 +104,7 @@ public class GameSettings {
 	public static boolean ADD_VARIATION = true;
 	public static boolean ADD_LIGHTING = true;
 	public static boolean ADD_BLUR = true;
-	public static boolean ADD_GLOW = false;
+	public static boolean ADD_GLOW = true;
 
 
 

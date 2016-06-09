@@ -83,6 +83,7 @@ public class VictoryScreen extends AbstractHudElement{
 		confirmScreen.setWidth(width);
 		confirmScreen.setHeight(height);
 		confirmScreen.setFill(new ImagePattern(boardImage));
+		if(allowGlow)
 		confirmScreen.setEffect(boardPulse);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		confirmX = 0 - width- 50;
@@ -258,24 +259,25 @@ public class VictoryScreen extends AbstractHudElement{
 		restart_btt.setEffect(null);
 		quitGame_btt.setEffect(null);
 	}
-	public void boardPulse(){
-		if(allowGlow){
-		boardPulse.setWidth(pulse);
-		boardPulse.setHeight(pulse);
-		if(pulseUp){
-			pulse+=1.5;
-			if(pulse>=120){
-				pulseUp = false;
-				pulseDown = true;
+
+	public void boardPulse() {
+		if (allowGlow) {
+			boardPulse.setWidth(pulse);
+			boardPulse.setHeight(pulse);
+			if (pulseUp) {
+				pulse += 1.5;
+				if (pulse >= 120) {
+					pulseUp = false;
+					pulseDown = true;
+				}
 			}
-		}
-		if(pulseDown){
-			pulse-=1.5;
-			if(pulse<=20){
-				pulseDown = false;
-				pulseUp = true;
+			if (pulseDown) {
+				pulse -= 1.5;
+				if (pulse <= 20) {
+					pulseDown = false;
+					pulseUp = true;
+				}
 			}
-		}
 		}
 	}
 	public void updateUI(){
@@ -292,11 +294,11 @@ public class VictoryScreen extends AbstractHudElement{
 			confirmX += confirmXPosition/GameManager.ScaleX;
 			confirmXPosition += acceleration;
 			if (center) {
-				acceleration -= 0.70;
+				acceleration -= 1.00;
 				if (acceleration <= 0) {
 
 					acceleration = 0;
-					confirmXPosition -= 1.15;
+					confirmXPosition -= 0.5;
 					if (confirmXPosition <= 0.25) {
 						confirmXPosition = 0.25f;
 					}
@@ -342,7 +344,7 @@ public class VictoryScreen extends AbstractHudElement{
 			if(rOne>=360){
 				velROne = 0;
 				panIn = false;
-				allowGlow = true;
+				//allowGlow = true;
 				blurOut();
 			}
 		}

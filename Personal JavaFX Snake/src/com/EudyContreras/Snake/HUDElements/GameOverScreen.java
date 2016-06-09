@@ -240,11 +240,11 @@ public class GameOverScreen {
 			confirmX += confirmXPosition/GameManager.ScaleX;
 			confirmXPosition += acceleration;
 			if (center) {
-				acceleration -= 0.70;
+				acceleration -= 1.00;
 				if (acceleration <= 0) {
 
 					acceleration = 0;
-					confirmXPosition -= 1.15;
+					confirmXPosition -= 0.5;
 					if (confirmXPosition <= 0.25) {
 						confirmXPosition = 0.25f;
 					}

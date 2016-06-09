@@ -395,12 +395,12 @@ public class GameManager extends AbstractGameModel{
 						scoreBoardTwo.hide();
 					}
 					if (!debrisLayer.getChildren().isEmpty()) {
-						if (debrisLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT) {
+						if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
 							debrisLayer.getChildren().remove(0,10);
 						}
 					}
 					if (!innerParticleLayer.getChildren().isEmpty()) {
-						if (innerParticleLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT*0.7) {
+						if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
 							innerParticleLayer.getChildren().remove(0);
 						}
 					}
@@ -509,12 +509,12 @@ public class GameManager extends AbstractGameModel{
 								scoreBoardTwo.hide();
 							}
 							if (!debrisLayer.getChildren().isEmpty()) {
-								if (debrisLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT) {
+								if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
 									debrisLayer.getChildren().remove(0,10);
 								}
 							}
 							if (!innerParticleLayer.getChildren().isEmpty()) {
-								if (innerParticleLayer.getChildren().size() >= GameSettings.DEBRIS_LIMIT*0.7) {
+								if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
 									innerParticleLayer.getChildren().remove(0);
 								}
 							}

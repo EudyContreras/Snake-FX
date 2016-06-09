@@ -97,6 +97,11 @@ public class ImageEffectUtility {
 //		light.setX(-130);
 //		light.setY(315);
 //		light.setZ(130);
+		
+//		light.setX(-200);
+//		light.setY(220);
+//		light.setZ(150);
+		
 		light.setX(-180);
 		light.setY(200);
 		light.setZ(130);
@@ -365,7 +370,7 @@ public class ImageEffectUtility {
 		light.setZ(100);
 //		blur.setIterations(1);
 		lighting.setDiffuseConstant(GameSettings.GlOBAL_ILLUMINATION);
-		lighting.setSpecularConstant(GameSettings.SPECULAR_MAP);
+		lighting.setSpecularConstant(GameSettings.GLOBAL_SPECULARITY);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));

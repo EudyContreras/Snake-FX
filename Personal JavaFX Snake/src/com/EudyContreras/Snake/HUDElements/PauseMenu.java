@@ -269,6 +269,7 @@ public class PauseMenu {
 			currentChoice = 1;
 		});
 		continueBtt.setOnMousePressed(e -> {
+			if(fadeLevel>=1)
 			resumeGame();
 		});
 		restartBtt.setOnMouseEntered(e -> {
@@ -280,8 +281,10 @@ public class PauseMenu {
 			currentChoice = 2;
 		});
 		restartBtt.setOnMousePressed(e -> {
+			if(fadeLevel>=1){
 			game.setStateID(GameStateID.LEVEL_RESTART);
 			restartLevel();
+			}
 		});
 		mainMenuBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(255,80,0));
@@ -292,9 +295,11 @@ public class PauseMenu {
 			currentChoice = 3;
 		});
 		mainMenuBtt.setOnMousePressed(e -> {
+			if(fadeLevel>=1){
 			game.setStateID(GameStateID.MAIN_MENU);
 			game.getFadeScreenHandler().menu_fade_screen();
 			goToMainMenu();
+			}
 		});
 		quitGameBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(255,0,0));
@@ -305,8 +310,11 @@ public class PauseMenu {
 			currentChoice = 4;
 		});
 		quitGameBtt.setOnMousePressed(e -> {
+			if(fadeLevel>=1){
 			game.closeGame();
+			}
 		});
+		
 	}
 	/**
 	 * Sets the key input handling for the labels
@@ -343,35 +351,47 @@ public class PauseMenu {
 				break;
 			case ENTER:
 				if (currentChoice == 1) {
+					if(fadeLevel>=1)
 					resumeGame();
 				}
 				if (currentChoice == 2) {
+					if(fadeLevel>=1){
 					game.setStateID(GameStateID.LEVEL_RESTART);
 					restartLevel();
+					}
 				}
 				if (currentChoice == 3) {
+					if(fadeLevel>=1){
 					game.setStateID(GameStateID.MAIN_MENU);
 					game.getFadeScreenHandler().menu_fade_screen();
 					goToMainMenu();
+					}
 				}
 				if (currentChoice == 4) {
+					if(fadeLevel>=1)
 					game.closeGame();
 				}
 				break;
 			case SPACE:
 				if (currentChoice == 1) {
+					if(fadeLevel>=1)
 					resumeGame();
 				}
 				if (currentChoice == 2) {
+					if(fadeLevel>=1){
 					game.setStateID(GameStateID.LEVEL_RESTART);
 					restartLevel();
+					}
 				}
 				if (currentChoice == 3) {
+					if(fadeLevel>=1){
 					game.setStateID(GameStateID.MAIN_MENU);
 					game.getFadeScreenHandler().menu_fade_screen();
 					goToMainMenu();
+					}
 				}
 				if (currentChoice == 4) {
+					if(fadeLevel>=1)
 					game.closeGame();
 				}
 				break;

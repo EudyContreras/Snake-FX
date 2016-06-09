@@ -112,11 +112,11 @@ public class SnakeFood extends AbstractObject {
 		if (GameSettings.ADD_GLOW) {
 			borderGlow.setOffsetY(0f);
 			borderGlow.setOffsetX(0f);
-			borderGlow.setColor(Color.rgb(255, 255, 255, 1));
+			borderGlow.setColor(Color.rgb(240, 0, 0, 1));
 			borderGlow.setWidth(60);
 			borderGlow.setHeight(50);
-			borderGlow.setSpread(0.3);
-			borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
+			borderGlow.setSpread(0.5);
+			borderGlow.setBlurType(BlurType.TWO_PASS_BOX);
 			circle.setEffect(borderGlow);
 		}
 	}
@@ -206,7 +206,7 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 
-			if (fadeValue < 1.0) {
+			else if (fadeValue < 1.0) {
 				glowValue = 0;
 				borderGlow.setWidth(glowValue);
 				borderGlow.setHeight(glowValue);
@@ -411,7 +411,7 @@ public class SnakeFood extends AbstractObject {
 	 * Method which makes this object blow up into smaller pieces
 	 */
 	public void blowUp() {
-		for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = (Math.random() * (20 - 5 + 1) + 5)
 						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
@@ -427,7 +427,7 @@ public class SnakeFood extends AbstractObject {
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
 	public void altblowUp() {
-		for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
 //				particleSize = (Math.random() * (40 - 10 + 1) + 10)
 //						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);

@@ -115,7 +115,7 @@ public class SlitherSection extends AbstractSlitherSection {
 
 	public void blowUp() {
 		if (blowUp == true) {
-			for (int i = 0; i < GameSettings.PARTICLE_LIMIT; i++) {
+			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
 					particleSize = Math.random() * (12 - 5 + 1) + 5;
 					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
