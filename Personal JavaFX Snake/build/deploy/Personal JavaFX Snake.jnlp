@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="Personal JavaFX Snake.jnlp">
+  <information>
+    <title>Personal JavaFX Snake</title>
+    <vendor>Creative Joint</vendor>
+    <description>Snake</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="libs\Personal JavaFX Snake.jar" size="14253853" download="eager" />
+    <jar href="libs\imgscalr-lib-4.2.jar" size="226824" download="eager" />
+    <jar href="libs\mysql-connector-java-5.1.39-bin.jar" size="989497" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="0" height="0" main-class="com.EudyContreras.Snake.FrameWork.GameManager"  name="Snake" />
+  <update check="background"/>
+</jnlp>
