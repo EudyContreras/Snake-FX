@@ -13,6 +13,7 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
@@ -35,6 +36,7 @@ public class PlayerOneHead extends AbstractObject {
 	private Font font;
 	private GameManager game;
 	private Circle skull;
+	private Circle radialBounds;
 	private PlayerOne snake;
 	private Rectangle bounds;
 	private Rectangle headBoundsLeft;
@@ -66,6 +68,7 @@ public class PlayerOneHead extends AbstractObject {
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
+		this.radialBounds = new Circle(radius,x,y, Color.TRANSPARENT);
 		if (GameSettings.DEBUG_MODE) {
 			this.headBoundsRight.setFill(Color.BLUE);
 			this.headBoundsRight.setStroke(Color.WHITE);
@@ -83,9 +86,11 @@ public class PlayerOneHead extends AbstractObject {
 			this.clearFromCollision.setStroke(Color.WHITE);
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
+			this.radialBounds.setStroke(Color.WHITE);
+			this.radialBounds.setStrokeWidth(4);
 			this.drawBoundingBox();
 		}
-
+		this.layer.getChildren().add(radialBounds);
 		this.layer.getChildren().add(text);
 	}
 
@@ -116,6 +121,9 @@ public class PlayerOneHead extends AbstractObject {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
 		}
+		radialBounds.setCenterX(x);
+		radialBounds.setCenterY(y);
+		radialBounds.setRadius(radius*.7);
 	}
 	public void showTheSkull() {
 		if (showTheSkull == true) {
@@ -353,7 +361,9 @@ public class PlayerOneHead extends AbstractObject {
 		this.clearFromCollision.setX(x - radius);
 		this.clearFromCollision.setY(y - radius);
 	}
-
+	public Bounds getRadialBounds(){
+		return radialBounds.getBoundsInParent();
+	}
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
 	}

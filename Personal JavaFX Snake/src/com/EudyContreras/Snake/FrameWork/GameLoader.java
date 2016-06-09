@@ -7,11 +7,12 @@ import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
 import com.EudyContreras.Snake.DebrisEffects.BackgroundDirt;
 import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.EnumIDs.GameObjectID;
+import com.EudyContreras.Snake.EnumIDs.GameThemeID;
+import com.EudyContreras.Snake.GameObjects.DesertBackground;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
@@ -34,12 +35,15 @@ import javafx.stage.Screen;
  */
 public class GameLoader extends AbstractLoaderModel{
 
+
+
 	public GameLoader(GameManager game) {
 		this.game = game;
 		this.rand = new Random();
 		this.objectManger = game.getObjectManager();
 		this.levelManager = new LevelManager(game,this);
 		this.setTileManager(new GameTileManager(game));
+		this.setLevelTheme(GameThemeID.DESERT_THEME);
 		loadDesertLevels();
 		initializeMain();
 	}
@@ -148,17 +152,30 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
-			spawnBackgroundStuff(true);
+		if(levelTheme == GameThemeID.DESERT_THEME){
+			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
+				spawnBackgroundStuff(true);
+			}
+			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=3)
+				levelManager.loadDesertBorder();
+			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=3) {
+				levelManager.loadSpikeFence();
+			}
+			levelManager.loadDesertLevels();
+			DesertBackground.SET_SEQUENTIAL_BACKGROUND(game);
+			game.setLevelLenght(128 * 64);
+			loadNoSpawnZone();
+		}else if(levelTheme == GameThemeID.JUNGLE_THEME){
+
+		}else if(levelTheme == GameThemeID.WATER_THEME){
+
+		}else if(levelTheme == GameThemeID.SCIFI_THEME){
+
+		}else if(levelTheme == GameThemeID.ALIEN_THEME){
+
+		}else if(levelTheme == GameThemeID.MECH_THEME){
+
 		}
-		if(!GameSettings.LOAD_SPIKE_FENCE)
-			levelManager.loadDesertBorder();
-		if(GameSettings.LOAD_SPIKE_FENCE){
-			levelManager.loadSpikeFence();
-		}
-		levelManager.loadDesertLevels(GameLevelImage.desertBackground);
-		game.setLevelLenght(128 * 64);
-		loadNoSpawnZone();
 	}
 
 	/**
@@ -249,7 +266,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void procedurallyCreateLevel() {
 		if (Front_Distance_LOD <= 512 && Rear_Distance_LOD <= 511) {
 			if (playerOne != null) {
-				levelManager.loadDesertLevels(GameLevelImage.desertBackground);
+				levelManager.loadDesertLevels();
 				cullTheLevel();
 			}
 		}
@@ -294,7 +311,7 @@ public class GameLoader extends AbstractLoaderModel{
 				+ fruit.getRadius() * 3);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
 				+ GameSettings.START_Y+fruit.getRadius());
-		SnakeFood food = new SnakeFood(game, game.getFirstLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
+		SnakeFood food = new SnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getObjectManager().addObject(food);
 		appleNumber++;
 	}

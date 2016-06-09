@@ -128,6 +128,7 @@ public class EnergyBarTwo {
 	 * levels to their maximun levels
 	 */
 	public void refill() {
+		this.x = initialX;
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
 		this.player.setAllowThrust(true);
@@ -138,6 +139,7 @@ public class EnergyBarTwo {
 	 */
 	public void drainAll(){
 		this.width = 0;
+		this.x = initialX + maxEnergyLevel;
 		this.energyBar.setWidth(width);
 		this.player.setAllowThrust(false);
 	}

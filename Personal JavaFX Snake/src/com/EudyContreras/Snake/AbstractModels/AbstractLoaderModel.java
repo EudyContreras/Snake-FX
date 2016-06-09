@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.Random;
 
+import com.EudyContreras.Snake.EnumIDs.GameThemeID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.LevelManager;
 import com.EudyContreras.Snake.FrameWork.ObjectManager;
@@ -16,6 +17,7 @@ import javafx.scene.image.WritableImage;
 
 public abstract class AbstractLoaderModel {
 	public static int LEVEL = 1;
+	protected GameThemeID levelTheme;
 	protected WritableImage border;
 	protected WritableImage fence;
 	protected WritableImage levelMain;
@@ -58,7 +60,7 @@ public abstract class AbstractLoaderModel {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadDesertLevels() {
-		this.levelMain 	= ImageLoadingUtility.loadImage("desert-level-0.png");
+		this.levelMain = ImageLoadingUtility.loadImage("desert-level-0.png");
 		this.desertLevel_1 = ImageLoadingUtility.loadImage("desert-level-1.png");
 		this.desertLevel_2 = ImageLoadingUtility.loadImage("desert-level-2.png");
 		this.desertLevel_3 = ImageLoadingUtility.loadImage("image.png");
@@ -71,17 +73,27 @@ public abstract class AbstractLoaderModel {
 		this.desertLevel_10 = ImageLoadingUtility.loadImage("image.png");
 
 	}
+
 	public void loadJungleLevels() {
 
-
 	}
+
 	public void loadSeaLevels() {
 
-
 	}
-	public LevelManager getLevelManager(){
+
+	public GameThemeID getLevelTheme() {
+		return levelTheme;
+	}
+
+	public void setLevelTheme(GameThemeID levelTheme) {
+		this.levelTheme = levelTheme;
+	}
+
+	public LevelManager getLevelManager() {
 		return levelManager;
 	}
+
 	public WritableImage getLevel() {
 		return levelMain;
 	}
@@ -141,21 +153,27 @@ public abstract class AbstractLoaderModel {
 	public void killPlayerTwo() {
 		playerTwo = null;
 	}
+
 	public int getLevelWidth() {
 		return levelWidth;
 	}
+
 	public void setLevelWidth(int levelWidth) {
 		this.levelWidth = levelWidth;
 	}
+
 	public int getLevelHeight() {
 		return levelHeight;
 	}
+
 	public void setLevelHeight(int levelHeight) {
 		this.levelHeight = levelHeight;
 	}
+
 	public WritableImage getOverlay() {
 		return overlay;
 	}
+
 	public void setOverlay(WritableImage overlay) {
 		this.overlay = overlay;
 	}

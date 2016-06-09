@@ -49,15 +49,10 @@ public class CountDownScreen {
 	 * height of each of each element to be show. The parameter also takes a
 	 * layer to which the elements will be added and displayed upon.
 	 *
-	 * @param game:
-	 *            Main game class which communicates with almost all the other
-	 *            classes
-	 * @param width:
-	 *            Horizontal dimension of the UI element
-	 * @param height:
-	 *            Vertical dimension of the UI element
-	 * @param layer:
-	 *            Layer to which the UI element will be added
+	 * @param game:Main game class which communicates with almost all the otherclasses
+	 * @param width:Horizontal dimension of the UI element
+	 * @param height:Vertical dimension of the UI element
+	 * @param layer:Layer to which the UI element will be added
 	 */
 	public CountDownScreen(GameManager game, double width, double height, Pane layer) {
 		this.game = game;
@@ -101,8 +96,8 @@ public class CountDownScreen {
 		this.fadeTime = 0.032 / expireTime;
 		this.panVelocityX = 6.5 / GameManager.ScaleX;
 		this.panVelocityY = 10.0 / GameManager.ScaleY;
-		this.x = GameSettings.WIDTH / 2 - baseWidth / 2;
-		this.y = GameSettings.HEIGHT / 2 - baseHeight / 2;
+		this.x = (GameSettings.WIDTH / 2 - baseWidth / 2);
+		this.y = (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(80);
 		this.velX = -1.0 / GameManager.ScaleX;
 		this.velY = -2.0 / GameManager.ScaleY;
 		this.width = baseWidth;
@@ -192,10 +187,10 @@ public class CountDownScreen {
 	 */
 	private void panOut() {
 		if (allowPan ) {
-			if(showCounter <= 0){
+			//if(showCounter <= 0){
 			width -= panVelocityX;
 			height -= panVelocityY;
-			}
+			//}
 			countView.setWidth(width);
 			countView.setHeight(height);
 			if (height <= 0 || lifeTime <= 0) {
@@ -278,15 +273,6 @@ public class CountDownScreen {
 		index -= 1;
 		width = baseWidth;
 		height = baseHeight;
-		if (lastCount) {
-			game.getScoreKeeper().swipeUp();
-			game.getGameHud().hideHUDCover();
-			game.setStateID(GameStateID.GAMEPLAY);
-			game.getScoreKeeper().startTimer();
-			height = height + GameManager.ScaleY(150);
-			width = width + GameManager.ScaleX(250);
-			COUNTDOWN_OVER = true;
-		}
 		lifeTime = life;
 		expireTime = 1.0;
 		fadeTime = 0.032 / expireTime;
@@ -295,8 +281,25 @@ public class CountDownScreen {
 		allowFade = true;
 		allowHide = true;
 		allowPan = true;
-		x = (double) (GameSettings.WIDTH / 2 - width / 2);
-		y = (double) (GameSettings.HEIGHT / 2 - height / 2);
+		x = (double) (GameSettings.WIDTH / 2 - baseWidth / 2);
+		y = (double) (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(80);
+		if (lastCount) {
+			game.getScoreKeeper().swipeUp();
+			game.getGameHud().hideHUDCover();
+			game.setStateID(GameStateID.GAMEPLAY);
+			game.getScoreKeeper().startTimer();
+			height = baseHeight - GameManager.ScaleY(80);
+			width = baseWidth + GameManager.ScaleX(250);
+			x = (double) (GameSettings.WIDTH / 2 - width / 2);
+			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-GameManager.ScaleY(80);
+			countView.setWidth(width);
+			countView.setHeight(height);
+			countView.setX(x);
+			countView.setY(y);
+			COUNTDOWN_OVER = true;
+			allowHide = false;
+			allowPan = false;
+		}
 	}
 
 	/**

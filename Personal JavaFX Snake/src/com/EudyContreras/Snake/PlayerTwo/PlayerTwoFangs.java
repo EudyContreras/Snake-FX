@@ -122,7 +122,7 @@ public class PlayerTwoFangs extends AbstractObject {
 							break;
 						}
 					}
-					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
+					if (snake.getHead().getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}

@@ -23,7 +23,11 @@ public class GameLevelImage {
 	public static boolean fithSectionLoaded = false;
 
 
-	public static Image desertBackground;
+	public static Image desertBackgroundOne;
+	public static Image desertBackgroundTwo;
+	public static Image desertBackgroundThree;
+	public static Image desertBackgroundFour;
+	public static Image desertBackgroundFive;
 	public static Image horizontalFence;
 	public static Image verticalFence;
 	public static Image desert_trap;
@@ -51,7 +55,16 @@ public class GameLevelImage {
 		 * Desert Level Images.
 		 */
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	desertBackground = ImageEffectUtility.preCreateShadedBackground("desert-level-sand.png",
+
+	desertBackgroundOne = ImageEffectUtility.preCreateShadedBackground("desert-level-sand.png",
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	desertBackgroundTwo = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-one.png",
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	desertBackgroundThree = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-two.png",
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	desertBackgroundFour = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-three.png",
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	desertBackgroundFive = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-four.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	horizontalFence = ImageEffectUtility.precreatedLightedImage("horizontal_spike_fence.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);

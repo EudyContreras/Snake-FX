@@ -360,6 +360,50 @@ public class PlayerTwo extends AbstractObject {
 		}
 	}
 
+	public void setGestureDirection(PlayerMovement direction) {
+		if (game.getStateID() == GameStateID.GAMEPLAY) {
+			if (!GameSettings.ALLOW_SELF_COLLISION) {
+				setDirectCoordinates(direction);
+			}
+			if (GameSettings.ALLOW_SELF_COLLISION) {
+				if (!LEVEL_COMPLETED && !DEAD) {
+					if (this.direction == direction) {
+						this.direction = direction;
+					} else {
+						switch (direction) {
+						case MOVE_UP:
+							if (this.direction != PlayerMovement.MOVE_DOWN) {
+								if (allowTurnUp)
+									moveUp();
+							}
+							break;
+						case MOVE_DOWN:
+							if (this.direction != PlayerMovement.MOVE_UP) {
+								if (allowTurnDown)
+									moveDown();
+							}
+							break;
+						case MOVE_LEFT:
+							if (this.direction != PlayerMovement.MOVE_RIGHT) {
+								if (allowTurnLeft)
+									moveLeft();
+							}
+							break;
+						case MOVE_RIGHT:
+							if (this.direction != PlayerMovement.MOVE_LEFT) {
+								if (allowTurnRight)
+									moveRight();
+							}
+							break;
+						case STANDING_STILL:
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public void setDirectCoordinates(PlayerMovement direction) {
 		if (!GameSettings.ALLOW_SELF_COLLISION) {
 			if (!LEVEL_COMPLETED && !DEAD) {

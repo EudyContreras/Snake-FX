@@ -98,13 +98,13 @@ public class ImageEffectUtility {
 //		light.setY(315);
 //		light.setZ(130);
 		
-//		light.setX(-200);
-//		light.setY(220);
-//		light.setZ(150);
+		light.setX(-150);
+		light.setY(300);
+		light.setZ(150);
 		
-		light.setX(-180);
-		light.setY(200);
-		light.setZ(130);
+//		light.setX(-180);
+//		light.setY(200);
+//		light.setZ(130);
 
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);

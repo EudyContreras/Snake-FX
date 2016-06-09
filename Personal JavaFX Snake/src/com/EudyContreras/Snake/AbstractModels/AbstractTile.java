@@ -33,6 +33,9 @@ public abstract class AbstractTile {
 	protected double height;
 	protected GameLevelObjectID id;
 
+	public AbstractTile() {
+
+	}
 	public AbstractTile(double x, double y) {
 		this.x = x;
 		this.y = y;

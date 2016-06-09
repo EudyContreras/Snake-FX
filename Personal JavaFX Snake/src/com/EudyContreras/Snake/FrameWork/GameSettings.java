@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.5;
+	public static double MANUAL_SIZE_SCALE = 1.3;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -28,7 +28,7 @@ public class GameSettings {
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/Images/";
 
-	public static int APPLE_COUNT = 20;
+	public static int APPLE_COUNT = 4;
 	public static int SECTIONS_TO_ADD = 1;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
@@ -66,9 +66,9 @@ public class GameSettings {
 	public static int MAX_DEBRIS_AMOUNT = 100;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
-	public static int SAND_AMOUNT = 0;
+	public static int SAND_AMOUNT = 2;
 	public static int RAIN_AMOUNT = 0;
-	public static int DIRT_AMOUNT = 10;
+	public static int DIRT_AMOUNT = 4;
 
 	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 0.8;
@@ -86,7 +86,7 @@ public class GameSettings {
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 
-	public static boolean ALLOW_DIRT = false;
+	public static boolean ALLOW_DIRT = true;
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 

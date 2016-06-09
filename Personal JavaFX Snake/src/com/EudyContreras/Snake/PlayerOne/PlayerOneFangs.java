@@ -104,7 +104,7 @@ public class PlayerOneFangs extends AbstractObject {
 	}
 
 	public void checkRemovability() {
-	
+
 	}
 
 	public void checkCollision() {
@@ -122,7 +122,7 @@ public class PlayerOneFangs extends AbstractObject {
 							break;
 						}
 					}
-					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
+					if (snake.getHead().getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}

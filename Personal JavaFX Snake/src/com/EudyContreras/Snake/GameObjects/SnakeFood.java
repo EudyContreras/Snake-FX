@@ -17,6 +17,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.RandomGenerator;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -92,16 +93,16 @@ public class SnakeFood extends AbstractObject {
 		this.size = circle.getRadius();
 		this.targetSize = size;
 		this.staticRadius = (targetSize *2)+5;
+		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
+		this.layer.getChildren().add(bounds);
 		this.addGLow();
 		if (GameSettings.DEBUG_MODE) {
 			this.rectBounds = new Rectangle(x,y, staticRadius+5, staticRadius+5);
 			this.rectBounds.setFill(Color.TRANSPARENT);
 			this.rectBounds.setStroke(Color.WHITE);
 			this.layer.getChildren().add(rectBounds);
-			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 			this.bounds.setStroke(Color.WHITE);
 			this.bounds.setStrokeWidth(3);
-			this.layer.getChildren().add(bounds);
 		}
 	}
 
@@ -131,19 +132,13 @@ public class SnakeFood extends AbstractObject {
 		updateGlow();
 		updateLife();
 		checkBoundaries();
+		adjustBounds();
 	}
 
 	/**
 	 * Method in charge of moving the node.
 	 */
 	public void move() {
-		if (GameSettings.DEBUG_MODE) {
-			bounds.setCenterX(x);
-			bounds.setCenterY(y);
-			bounds.setRadius(size);
-			rectBounds.setX(x - staticRadius/2);
-			rectBounds.setY(y - staticRadius/2);
-		}
 		super.move();
 		if (velX > 0) {
 			velX -= 0.2;
@@ -179,7 +174,15 @@ public class SnakeFood extends AbstractObject {
 			fadeValue = 1.0;
 		}
 	}
-
+	public void adjustBounds(){
+		bounds.setCenterX(x);
+		bounds.setCenterY(y);
+		bounds.setRadius(size*.8);
+		if (GameSettings.DEBUG_MODE) {
+			rectBounds.setX(x - staticRadius/2);
+			rectBounds.setY(y - staticRadius/2);
+		}
+	}
 	/**
 	 * Method in charge of updating the glow of the object
 	 */
@@ -497,6 +500,9 @@ public class SnakeFood extends AbstractObject {
 			this.velY = (float) (snake.getVelY()) * 8;
 			this.velX = RandomGenerator.getRNG(-12, 12)/GameManager.ScaleX;
 		}
+	}
+	public Bounds getRadialBounds() {
+		return bounds.getBoundsInParent();
 	}
 
 	/**

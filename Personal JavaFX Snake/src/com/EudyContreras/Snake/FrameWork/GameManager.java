@@ -130,9 +130,8 @@ public class GameManager extends AbstractGameModel{
 		splashLayout = null;
 		splash = null;
 		splashScene = null;
-		getGameRoot().getChildren().add(backgroundImage);
-		getGameRoot().getChildren().add(baseLayer);
 		getGameRoot().getChildren().add(dirtLayer);
+		getGameRoot().getChildren().add(baseLayer);
 		getGameRoot().getChildren().add(debrisLayer);
 		getGameRoot().getChildren().add(innerParticleLayer);
 		getGameRoot().getChildren().add(snakeOneLayer);
@@ -216,7 +215,6 @@ public class GameManager extends AbstractGameModel{
 		root = new Pane();
 		thread = new LogicThread(this);
 		mainMenu = new MainMenu(this);
-		backgroundImage = new ImageView(GameLevelImage.desertBackground);
 		canvas = new Canvas(GameSettings.WIDTH, GameSettings.HEIGHT);
 		scene = new Scene(mainMenu.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
 		gc = canvas.getGraphicsContext2D();
@@ -316,7 +314,7 @@ public class GameManager extends AbstractGameModel{
 
 	private void logToConsole(String message) {
 		System.out.println("GAME_MANAGER: " + message);
-		
+
 	}
 	public void setBackgroundImage(Image image) {
 		backgroundImage.setImage(image);

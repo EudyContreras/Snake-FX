@@ -243,18 +243,22 @@ public class PauseMenu {
 		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()*3);
 	}
 	public void processTouch(){
-		game.getScene().setOnSwipeUp(new EventHandler<SwipeEvent>() {
+		game.getFourTeenthLayer().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
+				if(game.getStateID()==GameStateID.GAME_MENU){
 				hideTouchPanel();
 				event.consume();
+				}
 			}
 		});
-		game.getScene().setOnSwipeDown(new EventHandler<SwipeEvent>() {
+		game.getFourTeenthLayer().setOnSwipeDown(new EventHandler<SwipeEvent>() {
 
 			public void handle(SwipeEvent event) {
+				if(game.getStateID()==GameStateID.GAMEPLAY){
 				showTouchPanel();
 				event.consume();
+				}
 			}
 		});
 		processButtonGesture();
@@ -314,7 +318,7 @@ public class PauseMenu {
 			game.closeGame();
 			}
 		});
-		
+
 	}
 	/**
 	 * Sets the key input handling for the labels

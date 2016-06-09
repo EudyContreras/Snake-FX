@@ -64,8 +64,7 @@ public class LevelManager extends AbstractLoaderModel{
 		game.setBackgroundImage(image);
 	}
 
-	public void loadDesertLevels(Image image) {
-		changeBackground(image);
+	public void loadDesertLevels() {
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
 				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
@@ -205,7 +204,6 @@ public class LevelManager extends AbstractLoaderModel{
 	}
 
 	public void loadJungleLevels(Image image) {
-		changeBackground(image);
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
 				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
@@ -266,7 +264,6 @@ public class LevelManager extends AbstractLoaderModel{
 	}
 
 	public void loadSeaLevels(Image image) {
-		changeBackground(image);
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
 				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
