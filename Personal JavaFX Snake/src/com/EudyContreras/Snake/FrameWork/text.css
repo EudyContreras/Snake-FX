@@ -7,11 +7,12 @@
 #MainTimer {
         -fx-fill:  linear-gradient(cyan , dodgerblue);
 }
-
+#LocalScores {
+        -fx-fill:  linear-gradient(cyan , dodgerblue);
+}
 #MenuStyleOn {
         -fx-fill:  linear-gradient(cyan , dodgerblue);
 }
-
 
 #MainScore{
         -fx-fill: linear-gradient(red, orange);

@@ -170,7 +170,7 @@ public class GameManager extends AbstractGameModel{
 				50/ScaleY, Color.rgb(255, 150, 0));
 		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
 				50/ScaleY, Color.rgb(255, 150, 0));
-		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 800/ScaleX, 450/ScaleY);
+		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950/ScaleX, 650/ScaleY);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
 		countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
 		processGameInput();

@@ -451,10 +451,10 @@ public class MainMenu {
 	 * Starts the game if the startbutton is pressed
 	 */
 	private void startSelected() {
+		game.resumeGame();
 		menuRoot.getChildren().remove(fadeScreen);
 		game.showCursor(false, game.getScene());
 		game.setRoot(game.getMainRoot());
-		game.resumeGame();
 		game.processGameInput();
 		game.getCountDownScreen().startCountdown();
 	}

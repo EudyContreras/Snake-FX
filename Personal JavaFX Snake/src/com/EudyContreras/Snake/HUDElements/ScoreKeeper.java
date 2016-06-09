@@ -302,5 +302,11 @@ public class ScoreKeeper extends AbstractHudElement{
 		APPLE_COUNT = initialAmount;
 		countText.setText(" x " + APPLE_COUNT);
 	}
-
+	/**
+	 * Return the text used to display a timer
+	 * @return: The text timer of this UI element
+	 */
+	public Text getTimer(){
+		return timerText;
+	}
 }

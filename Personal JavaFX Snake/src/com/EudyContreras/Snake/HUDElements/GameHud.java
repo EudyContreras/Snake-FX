@@ -25,7 +25,7 @@ public class GameHud {
 	private double yTwo = GameSettings.HEIGHT;
 	private double swipeSpeedBottom = 0;
 	private boolean hideHUDCover = false;
-	private boolean showHUDCover = true;
+	private boolean showHUDCover = false;
 	private DropShadow shadow = new DropShadow();
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
@@ -43,7 +43,6 @@ public class GameHud {
 	public GameHud(GameManager game, double x, double y, double width, double height) {
 		this.yOne = y;
 		this.height = height+10;
-		this.yTwo = GameSettings.HEIGHT-height;
 		this.shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		this.shadow.setRadius(5);
 		this.shadow.setOffsetX(0);
@@ -56,8 +55,9 @@ public class GameHud {
 		this.topHudBar.setArcWidth(20);
 		this.bottomHudBar.setWidth(width);
 		this.bottomHudBar.setHeight(height+GameManager.ScaleY(80));
+		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40);
 		this.bottomHudBar.setTranslateX(x);
-		this.bottomHudBar.setTranslateY(yTwo+GameManager.ScaleY(20));
+		this.bottomHudBar.setTranslateY(yTwo);
 		this.bottomHudBar.setRotate(180);
 		this.bottomHudBar.setArcHeight(20);
 		this.bottomHudBar.setArcWidth(20);
@@ -76,9 +76,9 @@ public class GameHud {
 		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
-	 * Method which updates the movement of 
+	 * Method which updates the movement of
 	 * both the top and the bottom HUD bar
-	 * 
+	 *
 	 */
 	public void updateHudBars() {
 		yOne = yOne + swipeSpeedTop/GameManager.ScaleY;
@@ -88,7 +88,7 @@ public class GameHud {
 			if (yOne >= mainBar.getTranslateY() - GameManager.ScaleY(21)) {
 				swipeSpeedTop = 0;
 			}
-			swipeSpeedBottom = -2.5;
+			swipeSpeedBottom = -3.5;
 			if (yTwo < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40)) {
 				swipeSpeedBottom = 0;
 			}
@@ -98,7 +98,7 @@ public class GameHud {
 			if (yOne < mainBar.getTranslateY() - height) {
 				swipeSpeedTop = 0;
 			}
-			swipeSpeedBottom = 2.55;
+			swipeSpeedBottom = 3.5;
 			if (yTwo > GameSettings.HEIGHT) {
 				swipeSpeedBottom = 0;
 			}
@@ -163,5 +163,5 @@ public class GameHud {
 	public double getBottomCoverY(){
 		return bottomHudBar.getY();
 	}
-	
+
 }
