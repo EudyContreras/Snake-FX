@@ -161,10 +161,10 @@ public class HealthBarTwo {
 	 * is zero
 	 */
 	public void killPlayer(){
-		if(killPlayer){
+		if(!killPlayer){
 			player.die();
 			playerIsAlive = false;
-			killPlayer = false;
+			killPlayer = true;
 		}
 	}
 	/**

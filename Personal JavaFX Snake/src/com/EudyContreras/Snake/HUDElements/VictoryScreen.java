@@ -92,8 +92,8 @@ public class VictoryScreen extends AbstractHudElement{
 		confirmScreen.setFitWidth(width);
 		confirmScreen.setFitHeight(height);
 		confirmScreen.setImage(boardImage);
-		if(allowGlow)
-		confirmScreen.setEffect(boardPulse);
+		if (allowGlow)
+			confirmScreen.setEffect(boardPulse);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		confirmX = 0 - width- 50;
 		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2 - GameManager.ScaleY(30));
@@ -355,14 +355,19 @@ public class VictoryScreen extends AbstractHudElement{
 		if(opacityLevel>=1){
 			opacityLevel = 1.0;
 		}
+		if(velROne>2){
+			velROne-=0.10;
+		}
 		if(widthOne>=width-20 && heightOne>=height-20){
 			if(rOne>=360 || rOne<=0){
 				velROne = 0;
+				rOne = 0;
 				showWinner = true;
 				transitionOpacity = 0;
 				opacityValue = 0.016;
 				waitTime = 10;
 				panIn = false;
+				confirmScreen.setRotate(rOne);
 				processPlayerScores();
 				blurOut();
 			}
@@ -432,7 +437,7 @@ public class VictoryScreen extends AbstractHudElement{
 		scoreScreen.relocateScoreOne(confirmScreen.getX()+GameManager.ScaleX(240), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
 		scoreScreen.relocateScoreTwo(confirmScreen.getX()+confirmScreen.getFitWidth()/2+GameManager.ScaleX(130), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
 	}
-	public void positionScoreScree(){
+	public void positionScoreScreen(){
 		scoreScreen.relocateScoreOne(confirmScreen.getX()+GameManager.ScaleX(240), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
 		scoreScreen.relocateScoreTwo(confirmScreen.getX()+confirmScreen.getFitWidth()/2+GameManager.ScaleX(130), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
 	}
@@ -445,7 +450,7 @@ public class VictoryScreen extends AbstractHudElement{
 	}
 	public void hide() {
 		if (swipeLeft == true) {
-			positionScoreScree();
+			positionScoreScreen();
 			confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmX);
 			confirmX -= confirmXPosition/GameManager.ScaleX;
@@ -542,10 +547,10 @@ public class VictoryScreen extends AbstractHudElement{
 		transitionOpacity = 0;
 		widthOne = 1;
 		heightOne = 1;
-		widthPan = 22/GameManager.ScaleX;
-		heightPan = 20/GameManager.ScaleY;
+		widthPan = 28/GameManager.ScaleX;
+		heightPan = 26/GameManager.ScaleY;
 		opacityLevel = 0;
-		velROne = 9;
+		velROne = 10;
 		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
 		confirmScreenBack.setVisible(true);

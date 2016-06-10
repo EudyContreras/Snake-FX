@@ -171,7 +171,7 @@ public class GameManager extends AbstractGameModel{
 		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
 				50/ScaleY, Color.rgb(255, 150, 0));
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950/ScaleX, 650/ScaleY);
-		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 800/ScaleX, 450/ScaleY);
+		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950/ScaleX, 650/ScaleY);
 		countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
 		processGameInput();
 		processGestures();
@@ -461,8 +461,7 @@ public class GameManager extends AbstractGameModel{
 							pauseMenu.updateTouchPanel();
 							gameHud.updateHudBars();
 							victoryScreen.updateUI();
-							gameOverScreen.swipeRight();
-							gameOverScreen.checkStatus();
+							gameOverScreen.updateUI();
 							scoreKeeper.updateUI();
 							objectManager.updateAll(gc, timePassed);
 							for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
