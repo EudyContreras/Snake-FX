@@ -64,6 +64,8 @@ public class GameImageBank {
 	public static Image player_score_board;
 	public static Image game_over_score_board;
 	public static Image game_over_trans_board;
+	public static Image game_draw_trans_board;
+	public static Image game_draw_score_board;
 	public static Image hud_timer;
 	public static Image splash_screen;
 	public static Image player_one_hud;
@@ -211,6 +213,8 @@ public class GameImageBank {
 		player_two_loses = new Image(ImageEffectUtility.loadResource("player_two_lost.png"));
 		player_score_trans_board = new Image(ImageEffectUtility.loadResource("player_score_transition_board.png"));
 		player_score_board = new Image(ImageEffectUtility.loadResource("player_score_board.png"));
+		game_draw_trans_board = new Image(ImageEffectUtility.loadResource("game_draw_transition_board.png"));
+		game_draw_score_board = new Image(ImageEffectUtility.loadResource("game_draw_score_board.png"));
 		game_over_trans_board = new Image(ImageEffectUtility.loadResource("game_over_transition_board.png"));
 		game_over_score_board = new Image(ImageEffectUtility.loadResource("game_over_score_board.png"));
 		options_board = new Image(ImageEffectUtility.loadResource("options_board.png"));

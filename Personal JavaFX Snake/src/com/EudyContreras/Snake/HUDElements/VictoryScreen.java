@@ -31,7 +31,9 @@ public class VictoryScreen extends AbstractHudElement{
 	private ImageView restart_btt;
 	private ImageView optionsBoard;
 	private Pane scoreLayer;
-	private Image boardImage;
+	private Image baseBoardImage;
+	private Image scoreBoardImage;
+	private Image winnerBoardImage;
 	private int counter = 0;
 	private int waitTime = 0;
 	private int currentChoice = 1;
@@ -66,7 +68,7 @@ public class VictoryScreen extends AbstractHudElement{
 		this.game = game;
 		this.overlay = game.getOverlayEffect();
 		this.scoreLayer = new Pane();
-		this.boardImage = boardImage;
+		this.baseBoardImage = boardImage;
 		this.width = width;
 		this.height = height;
 		this.borderGlow = new DropShadow();
@@ -91,13 +93,13 @@ public class VictoryScreen extends AbstractHudElement{
 		confirmScreen = new ImageView();
 		confirmScreen.setFitWidth(width);
 		confirmScreen.setFitHeight(height);
-		confirmScreen.setImage(boardImage);
+		confirmScreen.setImage(baseBoardImage);
 		if (allowGlow)
 			confirmScreen.setEffect(boardPulse);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		confirmX = 0 - width- 50;
 		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2 - GameManager.ScaleY(30));
-		confirmScreenBack = new ImageView(GameImageBank.player_score_trans_board);
+		confirmScreenBack = new ImageView();
 		continue_btt = new ImageView(GameImageBank.continue_button);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
 		restart_btt = new ImageView(GameImageBank.restart_button);
@@ -124,13 +126,19 @@ public class VictoryScreen extends AbstractHudElement{
 		PlayerTwo.LEVEL_COMPLETED = true;
 		PlayerOne.LEVEL_COMPLETED = true;
 		if(game.getGameLoader().getPlayerOne().getAppleCount()>game.getGameLoader().getPlayerTwo().getAppleCount()){
-			this.boardImage = GameImageBank.player_one_wins;
+			this.winnerBoardImage = GameImageBank.player_one_wins;
+			this.baseBoardImage = GameImageBank.player_score_trans_board;
+			this.scoreBoardImage = GameImageBank.player_score_board;
 		}
 		else if(game.getGameLoader().getPlayerOne().getAppleCount()<game.getGameLoader().getPlayerTwo().getAppleCount()){
-			this.boardImage = GameImageBank.player_two_wins;
+			this.winnerBoardImage = GameImageBank.player_two_wins;
+			this.baseBoardImage = GameImageBank.player_score_trans_board;
+			this.scoreBoardImage = GameImageBank.player_score_board;
 		}
 		else if(game.getGameLoader().getPlayerOne().getAppleCount()==game.getGameLoader().getPlayerTwo().getAppleCount()){
-			this.boardImage = GameImageBank.draw_game;
+			this.winnerBoardImage = GameImageBank.draw_game;
+			this.baseBoardImage = GameImageBank.game_draw_trans_board;
+			this.scoreBoardImage = GameImageBank.game_draw_score_board;
 		}
 		askConfirm();
 
@@ -388,7 +396,7 @@ public class VictoryScreen extends AbstractHudElement{
 				showTransition = true;
 			}
 			if(showTransition == true){
-				confirmScreen.setImage(GameImageBank.player_score_board);
+				confirmScreen.setImage(scoreBoardImage);
 				scoreScreen.setScoreOpacity(transitionOpacity);
 				transitionOpacity+= opacityValue;
 				if(transitionOpacity>=1 && opacityValue>0){
@@ -415,7 +423,7 @@ public class VictoryScreen extends AbstractHudElement{
 				showTransition = true;
 			}
 			if(showTransition == true){
-				confirmScreen.setImage(boardImage);
+				confirmScreen.setImage(winnerBoardImage);
 				transitionOpacity+= opacityValue;
 				if(transitionOpacity>=1 && opacityValue>0){
 					transitionOpacity = 1;
@@ -529,7 +537,8 @@ public class VictoryScreen extends AbstractHudElement{
 	private void askConfirm() {
 		confirmScreenBack.setOpacity(0);
 		game.setStateID(GameStateID.LEVEL_COMPLETED);
-		confirmScreen.setImage(GameImageBank.player_score_trans_board);
+		confirmScreenBack.setImage(baseBoardImage);
+		confirmScreen.setImage(baseBoardImage);
 		confirmX = 0 - width - 50;
 		confirmScreen.setX(-1000);
 		confirmScreen.setY(-1000);

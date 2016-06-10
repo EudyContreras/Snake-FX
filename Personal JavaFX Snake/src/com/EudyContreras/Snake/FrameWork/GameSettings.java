@@ -63,7 +63,7 @@ public class GameSettings {
 	public static int MAX_AMOUNT_OF_DEBRIS = 150;
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 10;
 	public static int PARTICLE_LIMIT = 120;
-	public static int MAX_DEBRIS_AMOUNT = 100;
+	public static int MAX_DEBRIS_AMOUNT = 20;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
 	public static int SAND_AMOUNT = 2;
