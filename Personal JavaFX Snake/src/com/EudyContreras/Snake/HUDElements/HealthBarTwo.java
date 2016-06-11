@@ -73,7 +73,7 @@ public class HealthBarTwo {
 		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_two));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_two));
 		this.game.getEleventhLayer().getChildren().add(playerHud);
-		this.game.getEleventhLayer().getChildren().addAll(healthBarBorder);
+		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
 		this.game.getEleventhLayer().getChildren().add(healthBar);
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}

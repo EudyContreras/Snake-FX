@@ -97,11 +97,11 @@ public class ImageEffectUtility {
 //		light.setX(-130);
 //		light.setY(315);
 //		light.setZ(130);
-		
-		light.setX(-150);
+
+		light.setX(-200);
 		light.setY(300);
 		light.setZ(150);
-		
+
 //		light.setX(-180);
 //		light.setY(200);
 //		light.setZ(130);
@@ -155,9 +155,9 @@ public class ImageEffectUtility {
 		Light.Point light = new Light.Point();
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);
-		light.setX(-180);
-		light.setY(200);
-		light.setZ(130);
+		light.setX(-200);
+		light.setY(300);
+		light.setZ(150);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);

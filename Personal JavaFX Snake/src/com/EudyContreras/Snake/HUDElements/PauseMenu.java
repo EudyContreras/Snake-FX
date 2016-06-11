@@ -163,8 +163,8 @@ public class PauseMenu {
 	public void hideAndGoToMain(){
 		if(!hide)
 			blurOff();
-			game.getScoreKeeper().swipeUp();
-			game.getGameHud().hideHUDCover();
+//			game.getScoreKeeper().swipeUp();
+//			game.getGameHud().hideHUDCover();
 			game.showCursor(false, game.getScene());
 			hide = false;
 			goToMain = true;

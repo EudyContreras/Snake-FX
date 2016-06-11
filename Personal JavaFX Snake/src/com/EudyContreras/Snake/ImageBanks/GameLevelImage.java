@@ -107,9 +107,9 @@ public class GameLevelImage {
 	desert_bones_bridge = ImageEffectUtility.precreatedLightedAndShadedImage("desert_bones_bridge.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 200 / GameLoader.ResolutionScaleX,
 			95 / GameLoader.ResolutionScaleY);
-	desert_cactus_small = ImageEffectUtility.precreatedLightedAndShadedImage("little_cactus.png",
-			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 95 / GameLoader.ResolutionScaleX,
-			92 / GameLoader.ResolutionScaleY);
+	desert_cactus_small = ImageEffectUtility.precreatedLightedAndShadedImage("desert_cactus_spiky.png",
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 120/ GameLoader.ResolutionScaleX,
+			100 / GameLoader.ResolutionScaleY);
 	desert_trap = ImageEffectUtility.precreatedLightedAndShadedImage("desert_trap.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 130 / GameLoader.ResolutionScaleX,
 			75 / GameLoader.ResolutionScaleY);

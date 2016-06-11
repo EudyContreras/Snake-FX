@@ -1,5 +1,8 @@
 package com.EudyContreras.Snake.FrameWork;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
 import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
@@ -34,6 +37,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.CacheHint;
@@ -192,8 +196,9 @@ public class GameManager extends AbstractGameModel{
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
 		objectChecker();
-		frameBaseGameLoop();
-
+		//frameBaseGameLoop();
+		backgroundThreadOne();
+		//backgroundGameLoop();
 	}
 
 	public Image copyBackground(Group content) {
@@ -308,6 +313,8 @@ public class GameManager extends AbstractGameModel{
 	}
 	public void closeGame() {
 		pauseGame();
+		frameGameLoop.stop();
+	//	backgroundThreadTwo.shutdown();
 		logToConsole("Good bye!");
 		Platform.exit();
 	}
@@ -369,9 +376,9 @@ public class GameManager extends AbstractGameModel{
 					playerTwoManager.updateAllLogic(gc, now);
 					sectManagerTwo.updateAllLogic(gc, now);
 					sectManagerOne.updateAllLogic(gc, now);
-					debrisManager.updateDebris(gc);
-					debrisManager.updateParticles(gc);
-					loader.updateLevelObjects();
+//					debrisManager.updateDebris(gc);
+//					debrisManager.updateParticles(gc);
+//					loader.updateLevelObjects();
 					sandEmitter.move();
 					rainEmitter.move();
 					if(GameSettings.SAND_STORM){
@@ -423,9 +430,9 @@ public class GameManager extends AbstractGameModel{
 	 * specify the speed, delays and more. this loop gives a bit more control to
 	 * the user.
 	 */
-	public synchronized void frameBaseGameLoop() {
-		Timeline gameLoop = new Timeline();
-		gameLoop.setCycleCount(Timeline.INDEFINITE);
+	public void frameBaseGameLoop() {
+		frameGameLoop = new Timeline();
+		frameGameLoop.setCycleCount(Timeline.INDEFINITE);
 
 		KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
 
@@ -440,7 +447,7 @@ public class GameManager extends AbstractGameModel{
 					double delta = 0;
 					double FPS = 0;
 
-					public synchronized void handle(ActionEvent e) {
+					public void handle(ActionEvent e) {
 						FPS++;
 						now = System.nanoTime();
 						currentTime = now;
@@ -476,8 +483,8 @@ public class GameManager extends AbstractGameModel{
 							playerTwoManager.updateAllLogic(gc, timePassed);
 							sectManagerOne.updateAllLogic(gc, timePassed);
 							sectManagerTwo.updateAllLogic(gc, timePassed);
-							debrisManager.updateDebris(gc);
-							debrisManager.updateParticles(gc);
+//							debrisManager.updateDebris(gc);
+//							debrisManager.updateParticles(gc);
 							loader.updateLevelObjects();
 							sandEmitter.move();
 							rainEmitter.move();
@@ -505,6 +512,47 @@ public class GameManager extends AbstractGameModel{
 							if (scoreBoardTwo != null) {
 								scoreBoardTwo.hide();
 							}
+//							if (!debrisLayer.getChildren().isEmpty()) {
+//								if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+//									debrisLayer.getChildren().remove(0,10);
+//								}
+//							}
+//							if (!innerParticleLayer.getChildren().isEmpty()) {
+//								if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
+//									innerParticleLayer.getChildren().remove(0);
+//								}
+//							}
+						}
+						if (delta > nanoSecond) {
+							TextFPS.setText("FPS :" + FPS);
+							delta -= nanoSecond;
+							FPS = 0;
+						}
+						lastTime = currentTime;
+					}
+				});
+		frameGameLoop.getKeyFrames().add(keyFrame);
+		frameGameLoop.play();
+	}
+	public void backgroundGameLoop() {
+		Timeline frameGameLoop = new Timeline();
+		frameGameLoop.setCycleCount(Timeline.INDEFINITE);
+
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
+
+				new EventHandler<ActionEvent>() {
+
+					public void handle(ActionEvent e) {
+
+						if (!GameSettings.RENDER_GAME) {
+							mainMenu.transition();
+
+						}
+						if (GameSettings.RENDER_GAME) {
+			
+							debrisManager.updateDebris(gc);
+							debrisManager.updateParticles(gc);
+						
 							if (!debrisLayer.getChildren().isEmpty()) {
 								if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
 									debrisLayer.getChildren().remove(0,10);
@@ -516,16 +564,11 @@ public class GameManager extends AbstractGameModel{
 								}
 							}
 						}
-						if (delta > nanoSecond) {
-							TextFPS.setText("FPS :" + FPS);
-							delta -= nanoSecond;
-							FPS = 0;
-						}
-						lastTime = currentTime;
+
 					}
 				});
-		gameLoop.getKeyFrames().add(keyFrame);
-		gameLoop.play();
+		frameGameLoop.getKeyFrames().add(keyFrame);
+		frameGameLoop.play();
 	}
 	public void playerMovementLoop(){
 		new SpeedController().playerMovementLoop();
@@ -587,16 +630,165 @@ public class GameManager extends AbstractGameModel{
 	public void physicsLoop() {
 		particleLoop = new AnimationTimer() {
 			public void handle(long now) {
-				if (GameSettings.RENDER_GAME) {
-					objectManager.addPhysics();
-					objectManager.checkCollisions();
-
-				}
+//				if (GameSettings.RENDER_GAME) {
+//					objectManager.addPhysics();
+//					objectManager.checkCollisions();
+//
+//				}
+				if(GameSettings.RENDER_GAME){
+					debrisManager.updateDebris(gc);
+					debrisManager.updateParticles(gc);
+					if (!debrisLayer.getChildren().isEmpty()) {
+						if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+							debrisLayer.getChildren().remove(0,10);
+						}
+					}
+					if (!innerParticleLayer.getChildren().isEmpty()) {
+						if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
+							innerParticleLayer.getChildren().remove(0);
+						}
+					}
+	            }
 			}
 		};
 		particleLoop.start();
 	}
 
+	long startTime = System.currentTimeMillis();
+	long cummulativeTime = startTime;
+	long lastTime = System.nanoTime();
+	long nanoSecond = 1000000000;
+	long currentTime = 0;
+	long timePassed = 0;
+	long now = 0;
+	double delta = 0;
+	double FPS = 0;
+	public void backgroundThreadOne() {
+
+		Task<Void> task = new Task<Void>() {
+			  @Override
+			  public Void call() throws Exception {
+	
+			    while (true) {
+			        	Platform.runLater(() -> {
+							FPS++;
+							now = System.nanoTime();
+							currentTime = now;
+							delta += currentTime - lastTime;
+							timePassed = System.currentTimeMillis() - cummulativeTime;
+							cummulativeTime += timePassed;
+
+							if (!GameSettings.RENDER_GAME) {
+								mainMenu.transition();
+
+							}
+							if (GameSettings.RENDER_GAME) {
+								drawOverlay(gc);
+								countDownScreen.update();
+								overlayEffect.updateEffect();
+								fadeHandler.innerFade_update();
+								fadeHandler.outer_fade_update();
+								pauseMenu.updateTouchPanel();
+								gameHud.updateHudBars();
+								victoryScreen.updateUI();
+								gameOverScreen.updateUI();
+								scoreKeeper.updateUI();
+								objectManager.updateAll(gc, timePassed);
+								for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
+									playerOneManager.updateAllMovement();
+									sectManagerOne.updateAllMovement(gc, timePassed);
+								}
+								for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
+									playerTwoManager.updateAllMovement();
+									sectManagerTwo.updateAllMovement(gc, timePassed);
+								}
+								playerOneManager.updateAllLogic(gc, timePassed);
+								playerTwoManager.updateAllLogic(gc, timePassed);
+								sectManagerOne.updateAllLogic(gc, timePassed);
+								sectManagerTwo.updateAllLogic(gc, timePassed);
+								debrisManager.updateDebris(gc);
+								debrisManager.updateParticles(gc);
+								loader.updateLevelObjects();
+								sandEmitter.move();
+								rainEmitter.move();
+								if(GameSettings.SAND_STORM){
+									sandEmitter.emit();
+								}
+								if(GameSettings.RAIN_STORM){
+									rainEmitter.emit();
+								}
+								if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
+									getHealthBarOne().update();
+								}
+								if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
+									getHealthBarTwo().update();
+								}
+								if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
+									getEnergyBarOne().update();
+								}
+								if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
+									getEnergyBarTwo().update();
+								}
+								if (scoreBoardOne != null) {
+									scoreBoardOne.hide();
+								}
+								if (scoreBoardTwo != null) {
+									scoreBoardTwo.hide();
+								}
+								if (!debrisLayer.getChildren().isEmpty()) {
+									if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+										debrisLayer.getChildren().remove(0,10);
+									}
+								}
+								if (!innerParticleLayer.getChildren().isEmpty()) {
+									if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
+										innerParticleLayer.getChildren().remove(0);
+									}
+								}
+							}
+							if (delta > nanoSecond) {
+								TextFPS.setText("FPS :" + FPS);
+								delta -= nanoSecond;
+								FPS = 0;
+							}
+							lastTime = currentTime;
+						
+
+			        	});
+			        	Thread.sleep(16);
+			    }
+			  }
+			};
+			Thread th = new Thread(task);
+			th.setDaemon(true);
+			th.start();
+
+
+	}
+
+	public void backgroundThreadTwo() {
+		backgroundThreadTwo = Executors.newScheduledThreadPool(2);
+		backgroundThreadTwo.scheduleAtFixedRate(() -> {
+			
+			Platform.runLater(() -> {
+				if(GameSettings.RENDER_GAME){
+					debrisManager.updateDebris(gc);
+					debrisManager.updateParticles(gc);
+					if (!debrisLayer.getChildren().isEmpty()) {
+						if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+							debrisLayer.getChildren().remove(0,10);
+						}
+					}
+					if (!innerParticleLayer.getChildren().isEmpty()) {
+						if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
+							innerParticleLayer.getChildren().remove(0);
+						}
+					}
+	            }
+			});
+
+		}, 0, 16, TimeUnit.MILLISECONDS);
+	}
 	/**
 	 * Method used to draw any given overlay over the game. this method is
 	 * currently used for debugging

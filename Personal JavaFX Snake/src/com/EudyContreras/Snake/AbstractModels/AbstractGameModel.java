@@ -1,6 +1,8 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
 import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
@@ -60,6 +62,9 @@ public abstract class AbstractGameModel extends Application {
 	protected GameStateID stateID;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
+	protected Service<Void> backgroundThread;
+	protected ExecutorService backgroundThreadOne;
+	protected ScheduledExecutorService backgroundThreadTwo;
 	protected AnimationTimer playerMovementLoop;
 	protected InputManagerKey keyInput;
 	protected InputManagerMouse mouseInput;
@@ -78,11 +83,11 @@ public abstract class AbstractGameModel extends Application {
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected MainMenu mainMenu;
+	protected Canvas canvas;
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Group mainRoot;
 	protected Stage mainWindow;
-	protected Canvas canvas;
 	protected Pane root;
 	protected Pane splashLayout;
 	protected Pane levelLayer;
@@ -529,20 +534,25 @@ public abstract class AbstractGameModel extends Application {
 	public void setLevelLenght(int levelLenght) {
 		this.levelLenght = levelLenght;
 	}
-
 	public void backgroundWorker(){
-		Service<Void> service = new Service<Void>() {
+		backgroundThread = new Service<Void>() {
 	        @Override
 	        protected Task<Void> createTask() {
 	            return new Task<Void>() {
 	                @Override
 	                protected Void call() throws Exception {
 	                    //Background work
+	                	//
+	                	//
+	                	//
+
 	                    final CountDownLatch latch = new CountDownLatch(1);
 	                    Platform.runLater(new Runnable() {
 	                        @Override
 	                        public void run() {
 	                            try{
+
+
 	                                //FX Stuff done here
 	                            }finally{
 	                                latch.countDown();
@@ -556,7 +566,7 @@ public abstract class AbstractGameModel extends Application {
 	            };
 	        }
 	    };
-	    service.start();
+	    backgroundThread.start();
 	}
 
 }
