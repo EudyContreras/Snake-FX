@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AbstractModels;
+ package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.Random;
 

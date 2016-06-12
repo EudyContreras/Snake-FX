@@ -105,7 +105,7 @@ public class LogicThread extends Thread {
 		}
 	}
 
-	public class HelperThread extends Thread {
+ 	public class HelperThread extends Thread {
 
 		public void run() {
 			long lastTime = System.nanoTime();

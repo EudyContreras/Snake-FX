@@ -10,8 +10,8 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 
 public class DirtDisplacement extends AbstractDebrisEffect {
 
@@ -25,9 +25,9 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
-		this.shape = new Circle(x, y, radius);
-		this.shape.setRadius(radius);
-		this.shape.setFill(imagePattern);
+		this.view = new ImageView(image);
+		this.view.setFitWidth(radius*2);
+		this.view.setFitHeight(radius*2);
 		this.velocity = velocity;
 		this.decay = 0.026/expireTime;
 		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
@@ -38,13 +38,13 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	}
 
 	public void init() {
-		game.getDebrisLayer().getChildren().add(shape);
+		game.getDebrisLayer().getChildren().add(view);
 	}
 
 	public void update() {
-		shape.setCenterX(x);
-		shape.setCenterY(y);
-		shape.setOpacity(lifeTime);
+		view.setTranslateX(x);
+		view.setTranslateY(y);
+		view.setOpacity(lifeTime);
 		lifeTime -= decay;
 		velX *= energyLoss;
 		velY *= energyLoss;

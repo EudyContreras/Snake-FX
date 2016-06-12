@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
  * @author Eudy Contreras
  *
  */
-public class DesertBackground extends AbstractTile {
+ public class DesertBackground extends AbstractTile {
 	private static int INDEX = 1;
 	private static ImageView BACKGROUND_VIEW = new ImageView();
 

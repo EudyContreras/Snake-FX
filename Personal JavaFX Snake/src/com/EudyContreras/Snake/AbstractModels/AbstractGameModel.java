@@ -82,6 +82,7 @@ public abstract class AbstractGameModel extends Application {
 	protected CountDownScreen countDownScreen;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
+	protected Thread mainThread;
 	protected MainMenu mainMenu;
 	protected Canvas canvas;
 	protected Scene scene;

@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.InputHandlers;
+ package com.EudyContreras.Snake.InputHandlers;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;

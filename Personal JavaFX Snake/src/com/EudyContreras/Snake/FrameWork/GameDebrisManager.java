@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.FrameWork;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -23,27 +24,36 @@ public class GameDebrisManager {
 	}
 
 	public void addParticle(AbstractDebrisEffect particle) {
-		particles.add(particle);
+		Collections.addAll(particles, particle);
 	}
 
 	public void addDebris(AbstractDebrisEffect debrisEffect) {
-		debris.add(debrisEffect);
+		Collections.addAll(debris, debrisEffect);
 	}
 
 //	public void addObject(AbstractDebrisEffect debris) {
 //		this.debris.add(debris);
 //	}
 
-	public void addObjectA(AbstractDebrisEffect... db) {
-		if (db.length > 1) {
-			debris.addAll(Arrays.asList(db));
-		} else {
-			debris.add(db[0]);
-		}
-	}
+//	public void addDebris(AbstractDebrisEffect... db) {
+//		if (db.length > 1) {
+//			debris.addAll(Arrays.asList(db));
+//		} else {
+//			debris.add(db[0]);
+//		}
+//	}
+//	public void addParticle(AbstractDebrisEffect... db) {
+//		if (db.length > 1) {
+//			particles.addAll(Arrays.asList(db));
+//		} else {
+//			particles.add(db[0]);
+//		}
+//	}
 
 	public void updateAll(GraphicsContext gc) {
-		for (Iterator<AbstractDebrisEffect> debrisList = debris.iterator(); debrisList.hasNext();) {
+		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
+		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
+		while(debrisList.hasNext()) {
 			AbstractDebrisEffect tempDebris = debrisList.next();
 			tempDebris.update();
 			tempDebris.draw(gc);
@@ -58,17 +68,17 @@ public class GameDebrisManager {
 				continue;
 			}
 		}
-		for (Iterator<AbstractDebrisEffect> particleList = particles.iterator(); particleList.hasNext();) {
+		while(particleList.hasNext()) {
 			AbstractDebrisEffect tempParticle = particleList.next();
 			tempParticle.update();
 			tempParticle.draw(gc);
 			tempParticle.move();
 			tempParticle.collide();
 			if (!tempParticle.isAlive()) {
-				game.getDebrisLayer().getChildren().remove(tempParticle.getView());
-				game.getDebrisLayer().getChildren().remove(tempParticle.getShape());
 				game.getInnerParticleLayer().getChildren().remove(tempParticle.getView());
 				game.getInnerParticleLayer().getChildren().remove(tempParticle.getShape());
+				game.getOuterParticleLayer().getChildren().remove(tempParticle.getShape());
+				game.getOuterParticleLayer().getChildren().remove(tempParticle.getView());
 				particleList.remove();
 				continue;
 			}

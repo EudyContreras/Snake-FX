@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AbstractModels;
+ package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.EnumIDs.GameDebrisID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
@@ -17,7 +17,7 @@ public abstract class AbstractDebrisEffect {
 
 	protected GameManager game;
 	protected Circle shape;
-	private ImageView view;
+	protected ImageView view;
 	protected ImagePattern imagePattern;
 	protected DropShadow borderGlow;
 	protected Bloom bloom;
