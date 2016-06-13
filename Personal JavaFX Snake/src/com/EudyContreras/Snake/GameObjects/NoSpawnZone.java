@@ -62,8 +62,8 @@ public class NoSpawnZone extends AbstractTile {
 	public void updateUI(){
 		if(ScoreKeeper.APPLE_COUNT<GameSettings.APPLE_COUNT	){
 			this.setAlive(false);
-			game.getDirtLayer().getChildren().remove(this.bounds);
-			game.getGameLoader().getTileManager().getTile().remove(this);
+//			game.getDirtLayer().getChildren().remove(this.bounds);
+//			game.getGameLoader().getTileManager().getTile().remove(this);
 		}
 	}
 	/**O

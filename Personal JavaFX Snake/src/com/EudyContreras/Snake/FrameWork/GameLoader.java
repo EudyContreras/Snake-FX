@@ -276,11 +276,12 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for rendering and moving and removing level objects.
 	 */
 	public void updateLevelObjects() {
-		getTileManager().updateTiles();
-		getTileManager().updateBlocks();
-		getTileManager().updateTraps();
-		getTileManager().updateEdibles();
-		getTileManager().checkIfRemovable();
+//		getTileManager().updateTiles();
+//		getTileManager().updateBlocks();
+//		getTileManager().updateTraps();
+//		getTileManager().updateEdibles();
+//		getTileManager().checkIfRemovable();
+		getTileManager().updateAll();
 	}
 	/**
 	 * Method responsible for clearing all tiles from the level

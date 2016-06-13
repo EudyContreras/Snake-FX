@@ -13,10 +13,10 @@ import javafx.scene.shape.Circle;
  * This is the class where we load all images. we first precreate a shaded,
  * lighted, glowing or regular image here and then we use it in the game. This
  * way images are only loaded once and the game is able to reused the image an
- * unlimited amount of times. We are able to create any combination of post
- * effect image with a simple Image utility I have created which will apply
- * effects to an image and will then take a snapshot of that image and save it
- * to memory.
+ * unlimited amount of times without reinitializing it. We are able to create
+ * any combination of post effect image with a simple Image utility I have created
+ * which will apply effects to an image and will then take a snapshot of that
+ * image and save it o memory.
  *
  * @author Eudy Contreras
  *
@@ -156,7 +156,7 @@ public class GameImageBank {
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	public static final String loadResource(String resource) {
+		public static final String loadResource(String resource) {
 		return GameImageBank.class.getResource(resource).toExternalForm();
 	}
 

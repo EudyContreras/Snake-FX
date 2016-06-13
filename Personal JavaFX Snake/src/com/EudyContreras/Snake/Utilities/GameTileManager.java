@@ -83,12 +83,18 @@ public class GameTileManager {
 	 * be thrown
 	 */
 	public void updateAll() {
-		for (Iterator<AbstractTile> tileList = tile.iterator(); tileList.hasNext();) {
+		Iterator<AbstractTile> tileList = tile.iterator();
+		Iterator<AbstractTile> blockList = block.iterator();
+		Iterator<AbstractTile> trapList = trap.iterator();
+		Iterator<AbstractTile> edibleList = edible.iterator();
+
+		while (tileList.hasNext()) {
 			AbstractTile tempTile = tileList.next();
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
 			if (!tempTile.isAlive()) {
+				game.getDirtLayer().getChildren().remove(tempTile.getView());
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getLevelLayer().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
@@ -96,9 +102,8 @@ public class GameTileManager {
 				tileList.remove();
 				continue;
 			}
-
 		}
-		for (Iterator<AbstractTile> blockList = block.iterator(); blockList.hasNext();) {
+		while(blockList.hasNext()) {
 			AbstractTile tempTile = blockList.next();
 			tempTile.updateUI();
 			tempTile.move();
@@ -110,9 +115,8 @@ public class GameTileManager {
 				blockList.remove();
 				continue;
 			}
-
 		}
-		for (Iterator<AbstractTile> trapList = trap.iterator(); trapList.hasNext();) {
+		while(trapList.hasNext()) {
 			AbstractTile tempTile = trapList.next();
 			tempTile.updateUI();
 			tempTile.move();
@@ -124,9 +128,8 @@ public class GameTileManager {
 				trapList.remove();
 				continue;
 			}
-
 		}
-		for (Iterator<AbstractTile> edibleList = edible.iterator(); edibleList.hasNext();) {
+		while(edibleList.hasNext()) {
 			AbstractTile tempTile = edibleList.next();
 			tempTile.updateUI();
 			tempTile.move();
@@ -139,7 +142,6 @@ public class GameTileManager {
 				edibleList.remove();
 				continue;
 			}
-
 		}
 	}
 
