@@ -39,9 +39,9 @@ public class SandStorms extends AbstractDebrisEffect {
 
 	public SandStorms(GameManager game, Image image, double expireTime, double x, double y) {
 		this.game = game;
-		this.view = new ImageView(image);
-		this.view.setFitWidth(width);
-		this.view.setFitHeight(height);
+		this.setView(new ImageView(image));
+		this.getView().setFitWidth(width);
+		this.getView().setFitHeight(height);
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
@@ -60,22 +60,23 @@ public class SandStorms extends AbstractDebrisEffect {
 		}
 	}
 
-	public void move() {
+	public void update() {
 		super.move();
 		lifeTime -= decay;
 		velX += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		velY -= 0.002;
 	}
 
-	public void updateUI() {
+	public void move() {
 		if (shape != null) {
 			shape.setCenterX(x);
 			shape.setCenterY(y);
 			shape.setOpacity(lifeTime);
 		}
-		if (view != null) {
-			view.setTranslateX(x);
-			view.setTranslateY(y);
+		if (getView() != null) {
+			getView().setTranslateX(x);
+			getView().setTranslateY(y);
+			// view.setOpacity(lifeTime);
 		}
 
 	}

@@ -58,7 +58,7 @@ public class GlowParticle extends AbstractDebrisEffect{
 		shape.setBlendMode(BlendMode.ADD);
         game.getOuterParticleLayer().getChildren().add(shape);
 	}
-	public void updateUI(){
+	public void update(){
 		x += velocity.getX();
 		y += velocity.getY();
 		lifeTime -= decay;

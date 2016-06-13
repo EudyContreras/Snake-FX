@@ -1,8 +1,6 @@
 package com.EudyContreras.Snake.PlayerOne;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.FrameWork.GameManager;
@@ -34,14 +32,23 @@ public class PlayerOneSectionManager {
 		this.sectionList = new ArrayList<>();
 	}
 
+	public void addNewDirection(PlayerMovement direction) {
+		for (AbstractSection sect : sectionList) {
+			sect.setNewDirection(direction);
+		}
+	}
+
+	public void addNewLocation(Point2D location) {
+		for (AbstractSection sect : sectionList) {
+			sect.setNewLocation(location);
+		}
+	}
+
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID) {
-		Iterator<? extends AbstractSection> sectionIter = sectionList.iterator();
-		while(sectionIter.hasNext()) {
-			AbstractSection tempSection = sectionIter.next();
-			if (tempSection.getNumericID() == ID) {
-				tempSection.setNewDirection(direction);
-				tempSection.setNewLocation(location);
-				continue;
+		for (AbstractSection sect : sectionList) {
+			if (sect.getNumericID() == ID) {
+				sect.setNewDirection(direction);
+				sect.setNewLocation(location);
 			}
 		}
 	}
@@ -51,9 +58,9 @@ public class PlayerOneSectionManager {
 	 * source without provoking a break.
 	 */
 	public void updateAllLogic(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractSection> sectionIter = sectionList.iterator();
-		while(sectionIter.hasNext()) {
-			AbstractSection tempSection = sectionIter.next();
+
+		for (int i = 0; i < sectionList.size(); i++) {
+			tempSection = sectionList.get(i);
 			tempSection.checkCollision();
 			tempSection.logicUpdate();
 			tempSection.addPhysics();
@@ -62,14 +69,14 @@ public class PlayerOneSectionManager {
 			tempSection.checkRemovability();
 			if (tempSection.isRemovable() || !tempSection.isAlive()) {
 				tempSection.removeFromLayer();
-				sectionIter.remove();
+				sectionList.remove(i);
 			}
 		}
 	}
 	public void updateAllMovement(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractSection> sectionIter = sectionList.iterator();
-		while(sectionIter.hasNext()) {
-			AbstractSection tempSection = sectionIter.next();
+
+		for (int i = 0; i < sectionList.size(); i++) {
+			tempSection = sectionList.get(i);
 			tempSection.move();
 			tempSection.updateUI();
 		}
@@ -157,7 +164,7 @@ public class PlayerOneSectionManager {
 	}
 
 	public void addSection(AbstractSection sect) {
-		Collections.addAll(sectionList,sect);
+		sectionList.add(sect);
 	}
 
 	public void removeSection(AbstractSection section) {

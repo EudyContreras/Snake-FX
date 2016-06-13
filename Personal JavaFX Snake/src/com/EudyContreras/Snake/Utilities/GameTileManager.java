@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.Utilities;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +34,7 @@ public class GameTileManager {
 		this.tile = new LinkedList<AbstractTile>();
 		this.block = new LinkedList<AbstractTile>();
 		this.trap = new LinkedList<AbstractTile>();
+		this.edible = new LinkedList<AbstractTile>();
 	}
 	public List<AbstractTile> getTile() {
 		return tile;
@@ -53,26 +53,26 @@ public class GameTileManager {
 	}
 
 	public void addTile(AbstractTile tile) {
-		Collections.addAll(this.tile,tile);
+		this.tile.add(tile);
 	}
 
-	public void addBlock(AbstractTile block) {
-		Collections.addAll(this.block,block);
+	public void addBlock(AbstractTile tile) {
+		this.block.add(tile);
 	}
 
-	public void addTrap(AbstractTile trap) {
-		Collections.addAll(this.trap,trap);
+	public void addTrap(AbstractTile tile) {
+		this.trap.add(tile);
 	}
 
-	public void addEdible(AbstractTile edible) {
-		Collections.addAll(this.edible,edible);
+	public void addEdible(AbstractTile tile) {
+		this.edible.add(tile);
 	}
 
-	public void addOTileAsArray(AbstractTile... til) {
-		if (til.length > 1) {
-			tile.addAll(Arrays.asList(til));
+	public void addObjectAsArray(AbstractTile... tl) {
+		if (tl.length > 1) {
+			tile.addAll(Arrays.asList(tl));
 		} else {
-			tile.add(til[0]);
+			tile.add(tl[0]);
 		}
 	}
 
@@ -83,26 +83,63 @@ public class GameTileManager {
 	 * be thrown
 	 */
 	public void updateAll() {
-		Iterator<AbstractTile> tileList = tile.iterator();
-		Iterator<AbstractTile> blockList = block.iterator();
-		Iterator<AbstractTile> trapList = trap.iterator();
-		while(tileList.hasNext()) {
+		for (Iterator<AbstractTile> tileList = tile.iterator(); tileList.hasNext();) {
 			AbstractTile tempTile = tileList.next();
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
+			if (!tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				game.getDirtLayer().getChildren().remove(tempTile.getView());
+				tileList.remove();
+				continue;
+			}
+
 		}
-		while(blockList.hasNext()) {
+		for (Iterator<AbstractTile> blockList = block.iterator(); blockList.hasNext();) {
 			AbstractTile tempTile = blockList.next();
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
+			if (!tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				blockList.remove();
+				continue;
+			}
+
 		}
-		while(trapList.hasNext()) {
+		for (Iterator<AbstractTile> trapList = trap.iterator(); trapList.hasNext();) {
 			AbstractTile tempTile = trapList.next();
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
+			if (!tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				trapList.remove();
+				continue;
+			}
+
+		}
+		for (Iterator<AbstractTile> edibleList = edible.iterator(); edibleList.hasNext();) {
+			AbstractTile tempTile = edibleList.next();
+			tempTile.updateUI();
+			tempTile.move();
+			tempTile.checkCollision();
+			if (!tempTile.isAlive()) {
+				game.getGameRoot().getChildren().remove(tempTile.getView());
+				game.getLevelLayer().getChildren().remove(tempTile.getView());
+				game.getSecondLayer().getChildren().remove(tempTile.getView());
+				game.getDirtLayer().getChildren().remove(tempTile.getView());
+				edibleList.remove();
+				continue;
+			}
+
 		}
 	}
 
@@ -208,6 +245,7 @@ public class GameTileManager {
 		tile.clear();
 		block.clear();
 		trap.clear();
+		edible.clear();
 	}
 
 }

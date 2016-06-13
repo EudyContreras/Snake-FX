@@ -31,26 +31,31 @@ public class GameDebrisManager {
 		Collections.addAll(debris, debrisEffect);
 	}
 
-	public void addDebris(AbstractDebrisEffect... db) {
-		if (db.length > 1) {
-			debris.addAll(Arrays.asList(db));
-		} else {
-			debris.add(db[0]);
-		}
-	}
-	public void addParticle(AbstractDebrisEffect... db) {
-		if (db.length > 1) {
-			particles.addAll(Arrays.asList(db));
-		} else {
-			particles.add(db[0]);
-		}
-	}
+//	public void addObject(AbstractDebrisEffect debris) {
+//		this.debris.add(debris);
+//	}
 
-	public void updateAllLogic(GraphicsContext gc) {
+//	public void addDebris(AbstractDebrisEffect... db) {
+//		if (db.length > 1) {
+//			debris.addAll(Arrays.asList(db));
+//		} else {
+//			debris.add(db[0]);
+//		}
+//	}
+//	public void addParticle(AbstractDebrisEffect... db) {
+//		if (db.length > 1) {
+//			particles.addAll(Arrays.asList(db));
+//		} else {
+//			particles.add(db[0]);
+//		}
+//	}
+
+	public void updateAll(GraphicsContext gc) {
 		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
 		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
 		while(debrisList.hasNext()) {
 			AbstractDebrisEffect tempDebris = debrisList.next();
+			tempDebris.update();
 			tempDebris.draw(gc);
 			tempDebris.move();
 			tempDebris.collide();
@@ -65,6 +70,7 @@ public class GameDebrisManager {
 		}
 		while(particleList.hasNext()) {
 			AbstractDebrisEffect tempParticle = particleList.next();
+			tempParticle.update();
 			tempParticle.draw(gc);
 			tempParticle.move();
 			tempParticle.collide();
@@ -78,22 +84,11 @@ public class GameDebrisManager {
 			}
 		}
 	}
-	public void updateAllUI(){
-		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
-		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
-		while(debrisList.hasNext()) {
-			AbstractDebrisEffect tempDebris = debrisList.next();
-			tempDebris.updateUI();
-		}
-		while(particleList.hasNext()) {
-			AbstractDebrisEffect tempParticle = particleList.next();
-			tempParticle.updateUI();
-		}
-	}
+
 	public void updateDebris(GraphicsContext gc) {
 		for (int i = 0; i < debris.size(); i++) {
 			tempDebris = debris.get(i);
-			tempDebris.updateUI();
+			tempDebris.update();
 			tempDebris.draw(gc);
 			tempDebris.move();
 			tempDebris.collide();
@@ -110,7 +105,7 @@ public class GameDebrisManager {
 	public void updateParticles(GraphicsContext gc) {
 		for (int i = 0; i < particles.size(); i++) {
 			tempParticle = particles.get(i);
-			tempParticle.updateUI();
+			tempParticle.update();
 			tempParticle.draw(gc);
 			tempParticle.move();
 			tempParticle.collide();

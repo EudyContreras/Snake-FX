@@ -60,22 +60,22 @@ public class RainStorm extends AbstractDebrisEffect {
 		}
 	}
 
-	public void move() {
+	public void update() {
 		super.move();
 		lifeTime -= decay;
 		velY += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		velX -= 0.002;
 	}
 
-	public void updateUI() {
+	public void move() {
 		if (shape != null) {
 			shape.setCenterX(x);
 			shape.setCenterY(y);
 			shape.setOpacity(lifeTime);
 		}
-		if (view != null) {
-			view.setTranslateX(x);
-			view.setTranslateY(y);
+		if (getView() != null) {
+			getView().setTranslateX(x);
+			getView().setTranslateY(y);
 		}
 
 	}

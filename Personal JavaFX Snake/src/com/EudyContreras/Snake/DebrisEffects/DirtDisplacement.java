@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
 
 public class DirtDisplacement extends AbstractDebrisEffect {
 
@@ -19,49 +20,31 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 	private double decay;
 	private double lifeTime = 1.0f;
 	private double energyLoss = 0.9;
+	Point2D velocity = new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10 + 1) + -10);
 
-//	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
-//		this.game = game;
-//		this.imagePattern = new ImagePattern(image);
-//		this.shape = new Circle(x,y,radius);
-//		this.decay = 0.026/expireTime;
-//		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
-//		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX)*0.8;
-//		this.x = x;
-//		this.y = y;
-//		initShape();
-//	}
 	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
+		this.imagePattern = new ImagePattern(image);
 		this.view = new ImageView(image);
 		this.view.setFitWidth(radius*2);
 		this.view.setFitHeight(radius*2);
+		this.velocity = velocity;
 		this.decay = 0.026/expireTime;
 		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
 		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX)*0.8;
 		this.x = x;
 		this.y = y;
-		initView();
-	}
-	public void initView() {
-		game.getDebrisLayer().getChildren().add(view);
-	}
-	public void initShape() {
-		shape.setFill(imagePattern);
-		game.getDebrisLayer().getChildren().add(shape);
+		init();
 	}
 
-	public void updateUI() {
-		if (view != null) {
-			view.setTranslateX(x);
-			view.setTranslateY(y);
-			view.setOpacity(lifeTime);
-		}
-		if (shape != null) {
-			shape.setCenterX(x);
-			shape.setCenterY(y);
-			shape.setOpacity(lifeTime);
-		}
+	public void init() {
+		game.getDebrisLayer().getChildren().add(view);
+	}
+
+	public void update() {
+		view.setTranslateX(x);
+		view.setTranslateY(y);
+		view.setOpacity(lifeTime);
 		lifeTime -= decay;
 		velX *= energyLoss;
 		velY *= energyLoss;

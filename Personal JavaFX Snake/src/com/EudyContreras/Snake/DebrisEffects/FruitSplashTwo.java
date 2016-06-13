@@ -51,14 +51,14 @@ public class FruitSplashTwo extends AbstractDebrisEffect {
 		game.getInnerParticleLayer().getChildren().add(shape);
 	}
 
-	public void move() {
+	public void update() {
 		x = x + velX;
 		y = y + velY;
 		lifeTime -= decay;
 	}
 
-	public void updateUI() {
-		shape.setOpacity(lifeTime);
+	public void move() {
+
 		shape.setCenterX(x);
 		shape.setCenterY(y);
 
@@ -74,7 +74,7 @@ public class FruitSplashTwo extends AbstractDebrisEffect {
 
 	public void draw(GraphicsContext gc) {
 
-
+		shape.setOpacity(lifeTime);
 	}
 
 	public Rectangle2D getBounds() {

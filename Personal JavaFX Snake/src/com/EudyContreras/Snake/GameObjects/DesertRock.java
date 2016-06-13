@@ -25,11 +25,13 @@ import javafx.scene.shape.Rectangle;
 public class DesertRock extends AbstractTile {
 	private Rectangle2D collisionBounds;
 	private GameManager game;
+	float speed;
 
 	public DesertRock(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
+		this.speed = speed;
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);

@@ -47,6 +47,8 @@ public class ImageEffectUtility {
 		parameters.setFill(Color.TRANSPARENT);
 		WritableImage wi = new WritableImage((int)node.getBoundsInLocal().getWidth(), (int) node.getBoundsInLocal().getHeight());
 		node.snapshot(parameters, wi);
+//		node.setCache(true);
+//		node.setCacheHint(CacheHint.SPEED);
 		return wi;
 
 	}

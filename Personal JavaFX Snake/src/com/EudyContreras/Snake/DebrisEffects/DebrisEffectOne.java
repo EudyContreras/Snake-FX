@@ -40,21 +40,20 @@ public class DebrisEffectOne extends AbstractDebrisEffect{
 		shape.setBlendMode(BlendMode.ADD);
         game.getFirstLayer().getChildren().add(shape);
 	}
-	public void updateUI(){
-		shape.setCenterX(x);
-		shape.setCenterY(y);
-		shape.setRadius(radius);
-		shape.setOpacity(lifeTime);
-	}
-	public void move(){
+	public void update(){
 		x += velocity.getX();
 		y += velocity.getY();
 		lifeTime -= decay;
 		radius-=1;
+		this.shape.setRadius(this.radius);
 		if(radius<=0){
 			lifeTime =0;
 		}
+	}
+	public void move(){
 
+		shape.setCenterX(x);
+		shape.setCenterY(y);
 
 	}
 	public void collide(){
@@ -65,7 +64,7 @@ public class DebrisEffectOne extends AbstractDebrisEffect{
 		return x<GameSettings.WIDTH && x>0 && y<GameSettings.HEIGHT  && y>0 && lifeTime>0;
 	}
 	public void draw(GraphicsContext gc) {
-
+		shape.setOpacity(lifeTime);
 	}
 
 	public Rectangle2D getBounds() {

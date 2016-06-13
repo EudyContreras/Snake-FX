@@ -20,8 +20,9 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class DesertLevelBounds extends AbstractTile {
-	private Rectangle2D collisionBounds;;
-	private GameManager game;
+	GameTileManager tileManager;
+	Rectangle2D collisionBounds;;
+	GameManager game;
 	float speed;
 
 	public DesertLevelBounds(GameManager game, float x, float y, float speed, float velY, GameLevelObjectID id) {

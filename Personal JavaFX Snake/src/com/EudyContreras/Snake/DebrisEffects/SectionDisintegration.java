@@ -8,7 +8,8 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 public class SectionDisintegration extends AbstractDebrisEffect {
 
@@ -16,59 +17,34 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	private double decay;
 	private double lifeTime = 1.0f;
 
-//	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
-//		this.game = game;
-//		this.shape = new Circle(radius, x, y);
-//		this.imagePattern = new ImagePattern(image);
-//		this.shape.setRadius(radius/2);
-//		this.decay = 0.016 / expireTime;
-//		this.x = x;
-//		this.y = y;
-//		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
-//		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
-//		init();
-//	}
 	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.view = new ImageView(image);
-		this.view.setFitWidth(radius);
-		this.view.setFitHeight(radius);
-		this.view.setTranslateX(x);
-		this.view.setTranslateY(y);
+		this.shape = new Circle(radius, x, y);
+		this.imagePattern = new ImagePattern(image);
+		this.shape.setRadius(radius/2);
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
 		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
 		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
-		initView();
+		init();
 	}
-	public void initShape() {
+
+	public void init() {
 		shape.setFill(imagePattern);
 		game.getOuterParticleLayer().getChildren().add(shape);
-
 	}
-	public void initView() {
-		game.getOuterParticleLayer().getChildren().add(view);
 
-	}
-	public void move() {
+	public void update() {
 		super.move();
 		lifeTime -= decay;
 		velX += 0.05/GameManager.ScaleX;
 		velY -= 0.002/GameManager.ScaleY;
 	}
 
-	public void updateUI() {
-		if(shape!=null){
-			shape.setCenterX(x);
-			shape.setCenterY(y);
-			shape.setOpacity(lifeTime);
-		}
-		if(view!=null){
-			view.setTranslateX(x);
-			view.setTranslateY(y);
-			view.setOpacity(lifeTime);
-		}
+	public void move() {
+		shape.setCenterX(x);
+		shape.setCenterY(y);
 	}
 
 	public void collide() {
@@ -81,6 +57,7 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 
 	public void draw(GraphicsContext gc) {
 
+		shape.setOpacity(lifeTime);
 	}
 
 	public Rectangle2D getBounds() {

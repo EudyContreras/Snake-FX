@@ -20,12 +20,15 @@ import javafx.scene.shape.Rectangle;
  */
 public class DesertTrap extends AbstractTile {
 
-	private GameManager game;
-	private Rectangle bounds;
-	private Rectangle2D bounds2D;
+	GameManager game;
+	Rectangle bounds;
+	Rectangle2D bounds2D;
+	float speed;
+	float oldX;
 
 	public DesertTrap(GameManager game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
+		this.oldX = x;
 		if (GameSettings.SAND_STORM)
 			this.velX = velX;
 		this.velR = velR;
@@ -44,6 +47,19 @@ public class DesertTrap extends AbstractTile {
 	public void move() {
 		super.move();
 
+	}
+	/**
+	 * Method which makes this object
+	 * move or rotate
+	 */
+	public void wave() {
+		if (x > oldX + GameSettings.WIND_FORCE) {
+			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
+		}
+		if (x <= oldX) {
+			if (velX < GameSettings.WIND_FORCE)
+				velX += 0.4f;
+		}
 	}
 
 	/**
