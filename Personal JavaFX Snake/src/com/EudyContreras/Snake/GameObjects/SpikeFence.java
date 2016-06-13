@@ -22,10 +22,9 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class SpikeFence extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
-	int orientation;
+	private Rectangle2D collisionBounds;
+	private GameManager game;
+	private int orientation;
 
 	public SpikeFence(GameManager game, float x, float y, float speed, float velY, int orientation, Image image,GameLevelObjectID id) {
 		super(x, y, image, id);

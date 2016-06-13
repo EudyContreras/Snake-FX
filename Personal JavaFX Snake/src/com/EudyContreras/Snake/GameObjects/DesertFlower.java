@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 import com.EudyContreras.Snake.Utilities.RandomGenerator;
 
 import javafx.geometry.Bounds;
@@ -24,9 +23,8 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class DesertFlower extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
+	private Rectangle2D collisionBounds;
+	private GameManager game;
 	float speed;
 
 	public DesertFlower(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {

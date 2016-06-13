@@ -19,7 +19,6 @@ import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
 import com.EudyContreras.Snake.Utilities.GameTileManager;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
-import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -276,11 +275,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for rendering and moving and removing level objects.
 	 */
 	public void updateLevelObjects() {
-		getTileManager().updateTiles();
-		getTileManager().updateBlocks();
-		getTileManager().updateTraps();
-		getTileManager().updateEdibles();
-		getTileManager().checkIfRemovable();
+		getTileManager().updateAll();
 	}
 	/**
 	 * Method responsible for clearing all tiles from the level
@@ -372,7 +367,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.START_Y+10 + 1) + GameSettings.START_Y+10);
-		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
+		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain, x, y);
 	}
 
 	/**

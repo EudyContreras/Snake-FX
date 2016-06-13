@@ -5,7 +5,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,9 +21,8 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class DesertBark extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
+	private Rectangle2D collisionBounds;
+	private GameManager game;
 	float speed;
 
 	public DesertBark(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {

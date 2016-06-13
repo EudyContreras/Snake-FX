@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 import com.EudyContreras.Snake.Utilities.RandomGenerator;
 
 import javafx.geometry.Bounds;
@@ -23,9 +22,7 @@ import javafx.scene.transform.Rotate;
  *
  */
 public class DesertCactusBig extends AbstractTile {
-	GameTileManager tileManager;
-	GameManager game;
-	float speed;
+	private GameManager game;
 
 	public DesertCactusBig(float x, float y, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);

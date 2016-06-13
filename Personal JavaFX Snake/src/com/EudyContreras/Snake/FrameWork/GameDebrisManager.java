@@ -31,24 +31,20 @@ public class GameDebrisManager {
 		Collections.addAll(debris, debrisEffect);
 	}
 
-//	public void addObject(AbstractDebrisEffect debris) {
-//		this.debris.add(debris);
-//	}
-
-//	public void addDebris(AbstractDebrisEffect... db) {
-//		if (db.length > 1) {
-//			debris.addAll(Arrays.asList(db));
-//		} else {
-//			debris.add(db[0]);
-//		}
-//	}
-//	public void addParticle(AbstractDebrisEffect... db) {
-//		if (db.length > 1) {
-//			particles.addAll(Arrays.asList(db));
-//		} else {
-//			particles.add(db[0]);
-//		}
-//	}
+	public void addDebris(AbstractDebrisEffect... db) {
+		if (db.length > 1) {
+			debris.addAll(Arrays.asList(db));
+		} else {
+			debris.add(db[0]);
+		}
+	}
+	public void addParticle(AbstractDebrisEffect... db) {
+		if (db.length > 1) {
+			particles.addAll(Arrays.asList(db));
+		} else {
+			particles.add(db[0]);
+		}
+	}
 
 	public void updateAll(GraphicsContext gc) {
 		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();

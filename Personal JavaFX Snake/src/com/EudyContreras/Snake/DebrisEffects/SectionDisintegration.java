@@ -8,8 +8,7 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
+import javafx.scene.image.ImageView;
 
 public class SectionDisintegration extends AbstractDebrisEffect {
 
@@ -17,24 +16,41 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	private double decay;
 	private double lifeTime = 1.0f;
 
+//	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
+//		this.game = game;
+//		this.shape = new Circle(radius, x, y);
+//		this.imagePattern = new ImagePattern(image);
+//		this.shape.setRadius(radius/2);
+//		this.decay = 0.016 / expireTime;
+//		this.x = x;
+//		this.y = y;
+//		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
+//		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
+//		init();
+//	}
 	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.shape = new Circle(radius, x, y);
-		this.imagePattern = new ImagePattern(image);
-		this.shape.setRadius(radius/2);
+		this.view = new ImageView(image);
+		this.view.setFitWidth(radius);
+		this.view.setFitHeight(radius);
+		this.view.setTranslateX(x);
+		this.view.setTranslateY(y);
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
 		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
 		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
-		init();
+		initView();
 	}
-
-	public void init() {
+	public void initShape() {
 		shape.setFill(imagePattern);
 		game.getOuterParticleLayer().getChildren().add(shape);
-	}
 
+	}
+	public void initView() {
+		game.getOuterParticleLayer().getChildren().add(view);
+
+	}
 	public void update() {
 		super.move();
 		lifeTime -= decay;
@@ -43,8 +59,14 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	}
 
 	public void move() {
-		shape.setCenterX(x);
-		shape.setCenterY(y);
+		if(shape!=null){
+			shape.setCenterX(x);
+			shape.setCenterY(y);
+		}
+		if(view!=null){
+			view.setTranslateX(x);
+			view.setTranslateY(y);
+		}
 	}
 
 	public void collide() {
@@ -56,8 +78,10 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	}
 
 	public void draw(GraphicsContext gc) {
-
+		if(shape!=null)
 		shape.setOpacity(lifeTime);
+		if(view!=null)
+		view.setOpacity(lifeTime);
 	}
 
 	public Rectangle2D getBounds() {

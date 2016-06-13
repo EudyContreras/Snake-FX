@@ -7,64 +7,53 @@ import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Circle;
 
 public class BackgroundDirt extends AbstractDebrisEffect {
 
 	private GameDebrisID id;
 	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
-	private double decay;
-	private double lifeTime = 1.0f;
-	private double energyLoss = 0.9;
 	private Pane layer;
 
-	public BackgroundDirt(GameManager game, Pane layer, Image image,double expireTime, double x, double y, Point2D velocity) {
+	public BackgroundDirt(GameManager game, Pane layer, Image image, double x, double y) {
 		this.game = game;
-		this.imagePattern = new ImagePattern(image);
-		this.shape = new Circle(x, y, radius);
-		this.shape.setRadius(radius);
-		this.shape.setFill(imagePattern);
-		this.decay = 0.026/expireTime;
 		this.layer = layer;
-		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX);
-		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX);
-		this.x = x;
-		this.y = y;
-		this.init();
+		this.view = new ImageView(image);
+		this.view.setFitWidth(radius*2);
+		this.view.setFitHeight(radius*2);
+		this.view.setTranslateX(x);
+		this.view.setTranslateY(y);
+		init();
 	}
+
 	public void init() {
-		layer.getChildren().add(shape);
+		layer.getChildren().add(view);
+		checkSurroundings(() -> collide());
 	}
-
+	public void checkSurroundings(Runnable script){
+		script.run();
+	}
 	public void update() {
-		shape.setCenterX(x);
-		shape.setCenterY(y);
-		lifeTime -= decay;
-		velX *= energyLoss;
-		velY *= energyLoss;
-	}
 
+	}
 	public void move() {
-		super.move();
+
 
 	}
-
 	public void collide() {
 		for(AbstractTile block: game.getGameLoader().getTileManager().getBlock()){
 			if(getBounds().intersects(block.getBounds())){
-				this.layer.getChildren().remove(this.shape);
+				this.layer.getChildren().remove(this.view);
 			}
 		}
 	}
 
 	public boolean isAlive() {
-		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
+		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 ;
 	}
 
 	public void draw(GraphicsContext gc) {

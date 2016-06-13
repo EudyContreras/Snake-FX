@@ -199,7 +199,7 @@ public class GameManager extends AbstractGameModel{
 		gameLoop();
 //		frameBaseGameLoop();
 //		backgroundScheduledThread();
-//        backgroundTaskThread();
+        backgroundTaskThread();
 //		backgroundWorkerTwo();
 
     }
@@ -258,11 +258,11 @@ public class GameManager extends AbstractGameModel{
         gestures = new InputManagerGestures();
         mouseInput = new InputManagerMouse();
         debrisManager = new GameDebrisManager(this);
-        //cacheAllLayers();
+//        cacheAllLayers();
     }
     private void cacheAllLayers(){
-    	snakeOneLayer.setCache(true);
-    	snakeOneLayer.setCacheHint(CacheHint.SPEED);
+    	getGameRoot().setCache(true);
+    	getGameRoot().setCacheHint(CacheHint.SCALE_AND_ROTATE);
     }
     public static double ScaleX(double value) {
         double newSize = value/ScaleX;
@@ -346,7 +346,7 @@ public class GameManager extends AbstractGameModel{
             double delta = 0;
             double FPS = 0;
 
-            public synchronized void handle(long now) {
+            public void handle(long now) {
                 FPS++;
                 currentTime = now;
                 delta += currentTime - lastTime;
@@ -355,17 +355,17 @@ public class GameManager extends AbstractGameModel{
 
                 }
                 if (GameSettings.RENDER_GAME) {
-                    drawOverlay(gc);
-                    countDownScreen.update();
-                    overlayEffect.updateEffect();
-                    fadeHandler.innerFade_update();
-                    fadeHandler.outer_fade_update();
-                    pauseMenu.updateTouchPanel();
-                    gameHud.updateHudBars();
-                    victoryScreen.updateUI();
-                    gameOverScreen.updateUI();
-                    scoreKeeper.updateUI();
-                    objectManager.updateAll(gc, timePassed);
+//                    drawOverlay(gc);
+//                    countDownScreen.update();
+//                    overlayEffect.updateEffect();
+//                    fadeHandler.innerFade_update();
+//                    fadeHandler.outer_fade_update();
+//                    pauseMenu.updateTouchPanel();
+//                    gameHud.updateHudBars();
+//                    victoryScreen.updateUI();
+//                    gameOverScreen.updateUI();
+//                    scoreKeeper.updateUI();
+//                    objectManager.updateAll(gc, timePassed);
                     for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
                         playerOneManager.updateAllMovement();
                         sectManagerOne.updateAllMovement(gc, timePassed);
@@ -374,48 +374,48 @@ public class GameManager extends AbstractGameModel{
                         playerTwoManager.updateAllMovement();
                         sectManagerTwo.updateAllMovement(gc, timePassed);
                     }
-                    playerOneManager.updateAllLogic(gc, timePassed);
-                    playerTwoManager.updateAllLogic(gc, timePassed);
-                    sectManagerOne.updateAllLogic(gc, timePassed);
-                    sectManagerTwo.updateAllLogic(gc, timePassed);
-                    debrisManager.updateAll(gc);
-                    loader.updateLevelObjects();
-                    sandEmitter.move();
-                    rainEmitter.move();
-                    if(GameSettings.SAND_STORM){
-                        sandEmitter.emit();
-                    }
-                    if(GameSettings.RAIN_STORM){
-                        rainEmitter.emit();
-                    }
-                    if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
-                        getHealthBarOne().update();
-                    }
-                    if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
-                        getHealthBarTwo().update();
-                    }
-                    if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
-                        getEnergyBarOne().update();
-                    }
-                    if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
-                        getEnergyBarTwo().update();
-                    }
-                    if (scoreBoardOne != null) {
-                        scoreBoardOne.hide();
-                    }
-                    if (scoreBoardTwo != null) {
-                        scoreBoardTwo.hide();
-                    }
-                    if (!debrisLayer.getChildren().isEmpty()) {
-                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                            debrisLayer.getChildren().remove(0,10);
-                        }
-                    }
-                    if (!innerParticleLayer.getChildren().isEmpty()) {
-                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
-                            innerParticleLayer.getChildren().remove(0);
-                        }
-                    }
+//                    playerOneManager.updateAllLogic(gc, timePassed);
+//                    playerTwoManager.updateAllLogic(gc, timePassed);
+//                    sectManagerOne.updateAllLogic(gc, timePassed);
+//                    sectManagerTwo.updateAllLogic(gc, timePassed);
+//                    debrisManager.updateAll(gc);
+//                    loader.updateLevelObjects();
+//                    sandEmitter.move();
+//                    rainEmitter.move();
+//                    if(GameSettings.SAND_STORM){
+//                        sandEmitter.emit();
+//                    }
+//                    if(GameSettings.RAIN_STORM){
+//                        rainEmitter.emit();
+//                    }
+//                    if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
+//                        getHealthBarOne().update();
+//                    }
+//                    if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
+//                        getHealthBarTwo().update();
+//                    }
+//                    if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
+//                        getEnergyBarOne().update();
+//                    }
+//                    if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
+//                        getEnergyBarTwo().update();
+//                    }
+//                    if (scoreBoardOne != null) {
+//                        scoreBoardOne.hide();
+//                    }
+//                    if (scoreBoardTwo != null) {
+//                        scoreBoardTwo.hide();
+//                    }
+//                    if (!debrisLayer.getChildren().isEmpty()) {
+//                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+//                            debrisLayer.getChildren().remove(0,10);
+//                        }
+//                    }
+//                    if (!innerParticleLayer.getChildren().isEmpty()) {
+//                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
+//                            innerParticleLayer.getChildren().remove(0);
+//                        }
+//                    }
                 }
                 if (delta > nanoSecond) {
                     TextFPS.setText("FPS :" + FPS);
@@ -476,21 +476,20 @@ public class GameManager extends AbstractGameModel{
                             victoryScreen.updateUI();
                             gameOverScreen.updateUI();
                             scoreKeeper.updateUI();
-                            objectManager.updateAll(gc, timePassed);
-                            for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
-                                playerOneManager.updateAllMovement();
-                                sectManagerOne.updateAllMovement(gc, timePassed);
-                            }
-                            for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-                                playerTwoManager.updateAllMovement();
-                                sectManagerTwo.updateAllMovement(gc, timePassed);
-                            }
+                            objectManager.update(gc, timePassed);
+//                            for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
+//                                playerOneManager.updateAllMovement();
+//                                sectManagerOne.updateAllMovement(gc, timePassed);
+//                            }
+//                            for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
+//                                playerTwoManager.updateAllMovement();
+//                                sectManagerTwo.updateAllMovement(gc, timePassed);
+//                            }
                             playerOneManager.updateAllLogic(gc, timePassed);
                             playerTwoManager.updateAllLogic(gc, timePassed);
                             sectManagerOne.updateAllLogic(gc, timePassed);
                             sectManagerTwo.updateAllLogic(gc, timePassed);
-                            debrisManager.updateDebris(gc);
-                            debrisManager.updateParticles(gc);
+                            debrisManager.updateAll(gc);
                             loader.updateLevelObjects();
                             sandEmitter.move();
                             rainEmitter.move();
@@ -594,11 +593,11 @@ public class GameManager extends AbstractGameModel{
                             updateAt30();
                             delta3--;
                         }
-//                        while (delta4 >= 1) {
+                        while (delta4 >= 1) {
                             updateAt60(timePassed);
                             updateAnimation(timePassed);
                             delta4--;
-//                        }
+                        }
                         while (delta5 >= 1) {
                             updateAt120();
                             delta5--;
@@ -616,7 +615,7 @@ public class GameManager extends AbstractGameModel{
                         lastTime = currentTime;
 
                     });
-                    Thread.sleep(16);
+                    Thread.sleep(1);
                 }
             }
 
@@ -630,73 +629,73 @@ public class GameManager extends AbstractGameModel{
             }
 
             private void updateAt60(long timePassed ) {
-                if (!GameSettings.RENDER_GAME) {
-                    mainMenu.transition();
+            	 if (!GameSettings.RENDER_GAME) {
+                     mainMenu.transition();
 
-                }
-                if (GameSettings.RENDER_GAME) {
-                    drawOverlay(gc);
-                    countDownScreen.update();
-                    overlayEffect.updateEffect();
-                    fadeHandler.innerFade_update();
-                    fadeHandler.outer_fade_update();
-                    pauseMenu.updateTouchPanel();
-                    gameHud.updateHudBars();
-                    victoryScreen.updateUI();
-                    gameOverScreen.updateUI();
-                    scoreKeeper.updateUI();
-                    objectManager.updateAll(gc, timePassed);
-                    for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
-                        playerOneManager.updateAllMovement();
-                        sectManagerOne.updateAllMovement(gc, timePassed);
-                    }
-                    for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-                        playerTwoManager.updateAllMovement();
-                        sectManagerTwo.updateAllMovement(gc, timePassed);
-                    }
-                    playerOneManager.updateAllLogic(gc, timePassed);
-                    playerTwoManager.updateAllLogic(gc, timePassed);
-                    sectManagerOne.updateAllLogic(gc, timePassed);
-                    sectManagerTwo.updateAllLogic(gc, timePassed);
-                    debrisManager.updateAll(gc);
-                    loader.updateLevelObjects();
-                    sandEmitter.move();
-                    rainEmitter.move();
-                    if(GameSettings.SAND_STORM){
-                        sandEmitter.emit();
-                    }
-                    if(GameSettings.RAIN_STORM){
-                        rainEmitter.emit();
-                    }
-                    if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
-                        getHealthBarOne().update();
-                    }
-                    if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
-                        getHealthBarTwo().update();
-                    }
-                    if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
-                        getEnergyBarOne().update();
-                    }
-                    if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
-                        getEnergyBarTwo().update();
-                    }
-                    if (scoreBoardOne != null) {
-                        scoreBoardOne.hide();
-                    }
-                    if (scoreBoardTwo != null) {
-                        scoreBoardTwo.hide();
-                    }
-                    if (!debrisLayer.getChildren().isEmpty()) {
-                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                            debrisLayer.getChildren().remove(0,10);
-                        }
-                    }
-                    if (!innerParticleLayer.getChildren().isEmpty()) {
-                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
-                            innerParticleLayer.getChildren().remove(0);
-                        }
-                    }
-                }
+                 }
+                 if (GameSettings.RENDER_GAME) {
+                     drawOverlay(gc);
+                     countDownScreen.update();
+                     overlayEffect.updateEffect();
+                     fadeHandler.innerFade_update();
+                     fadeHandler.outer_fade_update();
+                     pauseMenu.updateTouchPanel();
+                     gameHud.updateHudBars();
+                     victoryScreen.updateUI();
+                     gameOverScreen.updateUI();
+                     scoreKeeper.updateUI();
+                     objectManager.updateAll(gc, timePassed);
+//                     for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
+//                         playerOneManager.updateAllMovement();
+//                         sectManagerOne.updateAllMovement(gc, timePassed);
+//                     }
+//                     for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
+//                         playerTwoManager.updateAllMovement();
+//                         sectManagerTwo.updateAllMovement(gc, timePassed);
+//                     }
+                     playerOneManager.updateAllLogic(gc, timePassed);
+                     playerTwoManager.updateAllLogic(gc, timePassed);
+                     sectManagerOne.updateAllLogic(gc, timePassed);
+                     sectManagerTwo.updateAllLogic(gc, timePassed);
+                     debrisManager.updateAll(gc);
+                     loader.updateLevelObjects();
+                     sandEmitter.move();
+                     rainEmitter.move();
+                     if(GameSettings.SAND_STORM){
+                         sandEmitter.emit();
+                     }
+                     if(GameSettings.RAIN_STORM){
+                         rainEmitter.emit();
+                     }
+                     if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
+                         getHealthBarOne().update();
+                     }
+                     if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
+                         getHealthBarTwo().update();
+                     }
+                     if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
+                         getEnergyBarOne().update();
+                     }
+                     if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
+                         getEnergyBarTwo().update();
+                     }
+                     if (scoreBoardOne != null) {
+                         scoreBoardOne.hide();
+                     }
+                     if (scoreBoardTwo != null) {
+                         scoreBoardTwo.hide();
+                     }
+                     if (!debrisLayer.getChildren().isEmpty()) {
+                         if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+                             debrisLayer.getChildren().remove(0,10);
+                         }
+                     }
+                     if (!innerParticleLayer.getChildren().isEmpty()) {
+                         if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
+                             innerParticleLayer.getChildren().remove(0);
+                         }
+                     }
+                 }
             }
 
             private void updateAt120() {

@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.FrameWork;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -185,7 +186,7 @@ public class ObjectManager {
 	}
 
 	public void addObject(AbstractObject object) {
-		this.object.add(object);
+		Collections.addAll(this.object,object);
 	}
 
 	public void removeObject(AbstractObject object) {
