@@ -51,7 +51,7 @@ public class DirtDisplacement extends AbstractDebrisEffect {
 		game.getDebrisLayer().getChildren().add(shape);
 	}
 
-	public void update() {
+	public void updateUI() {
 		if (view != null) {
 			view.setTranslateX(x);
 			view.setTranslateY(y);

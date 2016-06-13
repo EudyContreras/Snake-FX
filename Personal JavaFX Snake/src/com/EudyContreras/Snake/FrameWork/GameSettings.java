@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.3;
+	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -61,14 +61,14 @@ public class GameSettings {
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_DEBRIS = 150;
-	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
+	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 500;
 	public static int PARTICLE_LIMIT = 150;
-	public static int MAX_DEBRIS_AMOUNT = 100;
+	public static int MAX_DEBRIS_AMOUNT = 30;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
 	public static int SAND_AMOUNT = 1;
 	public static int RAIN_AMOUNT = 0;
-	public static int DIRT_AMOUNT = 6;
+	public static int DIRT_AMOUNT = 2;
 
 	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 0.8;
@@ -86,7 +86,7 @@ public class GameSettings {
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 
-	public static boolean ALLOW_DIRT = true;
+	public static boolean ALLOW_DIRT = false;
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 

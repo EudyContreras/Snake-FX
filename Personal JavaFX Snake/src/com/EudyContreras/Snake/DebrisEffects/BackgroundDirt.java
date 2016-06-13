@@ -37,7 +37,7 @@ public class BackgroundDirt extends AbstractDebrisEffect {
 	public void checkSurroundings(Runnable script){
 		script.run();
 	}
-	public void update() {
+	public void updateUI() {
 
 	}
 	public void move() {
@@ -87,4 +87,5 @@ public class BackgroundDirt extends AbstractDebrisEffect {
 	public void setID(GameDebrisID id) {
 		this.id = id;
 	}
+
 }

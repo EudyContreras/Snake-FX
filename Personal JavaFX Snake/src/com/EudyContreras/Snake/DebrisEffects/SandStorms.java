@@ -60,14 +60,14 @@ public class SandStorms extends AbstractDebrisEffect {
 		}
 	}
 
-	public void update() {
+	public void move() {
 		super.move();
 		lifeTime -= decay;
 		velX += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		velY -= 0.002;
 	}
 
-	public void move() {
+	public void updateUI() {
 		if (shape != null) {
 			shape.setCenterX(x);
 			shape.setCenterY(y);

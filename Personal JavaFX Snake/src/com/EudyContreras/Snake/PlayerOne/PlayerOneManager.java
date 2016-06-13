@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.PlayerOne;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -21,8 +22,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class PlayerOneManager {
 
-	private LinkedList<AbstractObject> playerTwoList;
-	private AbstractObject tempPlayerTwoObject;
+	private LinkedList<AbstractObject> playerOneList;
+	private AbstractObject tempPlayerOneObject;
 	private GameManager game;
 
 	public PlayerOneManager(GameManager gameJavaFX) {
@@ -33,7 +34,7 @@ public class PlayerOneManager {
 	 * method used to initialize the list.
 	 */
 	public void initialize() {
-		this.playerTwoList = new LinkedList<AbstractObject>();
+		this.playerOneList = new LinkedList<AbstractObject>();
 	}
 
 	/**
@@ -43,11 +44,9 @@ public class PlayerOneManager {
 	 * be thrown
 	 */
 	public void updateAllLogicI(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+		Iterator<? extends AbstractObject> objectIterator = playerOneList.iterator();
 		while (objectIterator.hasNext()) {
-			AbstractObject tempObject = objectIterator.next();
-			tempObject.move();
-			tempObject.updateUI();
+			AbstractObject tempObject = objectIterator.next();;
 			tempObject.checkCollision();
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
@@ -67,8 +66,8 @@ public class PlayerOneManager {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void updateAllMovementI(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+	public void updateAllMovementI() {
+		Iterator<? extends AbstractObject> objectIterator = playerOneList.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -82,17 +81,17 @@ public class PlayerOneManager {
 	 * source without provoking a break.
 	 */
 	public void updateAllLogic(GraphicsContext gc, long timePassed) {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkCollision();
-			tempPlayerTwoObject.addPhysics();
-			tempPlayerTwoObject.updateAnimation(timePassed);
-			tempPlayerTwoObject.logicUpdate();
-			tempPlayerTwoObject.draw(gc);
-			tempPlayerTwoObject.checkRemovability();
-			if (tempPlayerTwoObject.isRemovable() || !tempPlayerTwoObject.isAlive()) {
-				tempPlayerTwoObject.removeFromLayer();
-				playerTwoList.remove(i);
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkCollision();
+			tempPlayerOneObject.addPhysics();
+			tempPlayerOneObject.updateAnimation(timePassed);
+			tempPlayerOneObject.logicUpdate();
+			tempPlayerOneObject.draw(gc);
+			tempPlayerOneObject.checkRemovability();
+			if (tempPlayerOneObject.isRemovable() || !tempPlayerOneObject.isAlive()) {
+				tempPlayerOneObject.removeFromLayer();
+				playerOneList.remove(i);
 			}
 		}
 	}
@@ -102,10 +101,10 @@ public class PlayerOneManager {
 	 * source without provoking a break.
 	 */
 	public void updateAllMovement(){
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.move();
-			tempPlayerTwoObject.updateUI();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.move();
+			tempPlayerOneObject.updateUI();
 		}
 	}
 
@@ -114,9 +113,9 @@ public class PlayerOneManager {
 	 */
 	public void updateUI() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.updateUI();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.updateUI();
 		}
 	}
 
@@ -125,9 +124,9 @@ public class PlayerOneManager {
 	 */
 	public void updateAnimation(long timePassed) {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.updateAnimation(timePassed);
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.updateAnimation(timePassed);
 		}
 	}
 
@@ -136,9 +135,9 @@ public class PlayerOneManager {
 	 */
 	public void move() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.move();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.move();
 		}
 	}
 
@@ -147,9 +146,9 @@ public class PlayerOneManager {
 	 */
 	public void draw(GraphicsContext gc) {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.draw(gc);
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.draw(gc);
 		}
 	}
 
@@ -158,27 +157,27 @@ public class PlayerOneManager {
 	 */
 	public void addPhysics() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.addPhysics();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.addPhysics();
 		}
 	}
 	/**
 	 * Method used to check if the object has collied with another object
 	 */
 	public void updateLogic() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.logicUpdate();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.logicUpdate();
 		}
 	}
 	/**
 	 * Method used to check if the object should be removed
 	 */
 	public void checkIfRemoveable() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkRemovability();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkRemovability();
 		}
 	}
 
@@ -186,9 +185,9 @@ public class PlayerOneManager {
 	 * Method used to check if the object has collied with another object
 	 */
 	public void checkCollisions() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkCollision();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkCollision();
 		}
 	}
 
@@ -205,7 +204,7 @@ public class PlayerOneManager {
 	 * Procedurally places the objects in the level
 	 */
 	public void procedurallyCreateLevel() {
-		Iterator<? extends AbstractObject> spriteIter = playerTwoList.iterator();
+		Iterator<? extends AbstractObject> spriteIter = playerOneList.iterator();
 		while (spriteIter.hasNext()) {
 			AbstractObject sprite = spriteIter.next();
 			sprite.createLevel();
@@ -213,21 +212,21 @@ public class PlayerOneManager {
 	}
 
 	public LinkedList<AbstractObject> getObjectList() {
-		return playerTwoList;
+		return playerOneList;
 	}
 
 	public void addObject(AbstractObject object) {
-		this.playerTwoList.add(object);
+		Collections.addAll(playerOneList,object);
 	}
 
 	public void removeObject(AbstractObject object) {
-		this.playerTwoList.remove(object);
+		this.playerOneList.remove(object);
 	}
 	/**
 	 * Clears the object list.
 	 */
 	public void clearAll() {
-		this.playerTwoList.clear();
+		this.playerOneList.clear();
 	}
 	/**
 	 * Finds a specified object with a given id
@@ -236,7 +235,7 @@ public class PlayerOneManager {
 	 * @return
 	 */
 	public AbstractObject findObject(GameObjectID id) {
-		for (AbstractObject go : playerTwoList) {
+		for (AbstractObject go : playerOneList) {
 			if (go.getId() == id) {
 				return go;
 			}

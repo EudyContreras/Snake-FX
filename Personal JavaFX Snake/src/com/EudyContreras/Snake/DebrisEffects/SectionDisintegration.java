@@ -51,21 +51,23 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 		game.getOuterParticleLayer().getChildren().add(view);
 
 	}
-	public void update() {
+	public void move() {
 		super.move();
 		lifeTime -= decay;
 		velX += 0.05/GameManager.ScaleX;
 		velY -= 0.002/GameManager.ScaleY;
 	}
 
-	public void move() {
+	public void updateUI() {
 		if(shape!=null){
 			shape.setCenterX(x);
 			shape.setCenterY(y);
+			shape.setOpacity(lifeTime);
 		}
 		if(view!=null){
 			view.setTranslateX(x);
 			view.setTranslateY(y);
+			view.setOpacity(lifeTime);
 		}
 	}
 
@@ -78,10 +80,7 @@ public class SectionDisintegration extends AbstractDebrisEffect {
 	}
 
 	public void draw(GraphicsContext gc) {
-		if(shape!=null)
-		shape.setOpacity(lifeTime);
-		if(view!=null)
-		view.setOpacity(lifeTime);
+
 	}
 
 	public Rectangle2D getBounds() {

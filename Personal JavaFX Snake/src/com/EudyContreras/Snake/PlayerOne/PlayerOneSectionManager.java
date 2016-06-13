@@ -34,18 +34,6 @@ public class PlayerOneSectionManager {
 		this.sectionList = new ArrayList<>();
 	}
 
-//	public void addNewDirection(PlayerMovement direction) {
-//		for (AbstractSection sect : sectionList) {
-//			sect.setNewDirection(direction);
-//		}
-//	}
-//
-//	public void addNewLocation(Point2D location) {
-//		for (AbstractSection sect : sectionList) {
-//			sect.setNewLocation(location);
-//		}
-//	}
-
 	public void addNewCoordinates(Point2D location, PlayerMovement direction, int ID) {
 		Iterator<? extends AbstractSection> sectionIter = sectionList.iterator();
 		while(sectionIter.hasNext()) {
