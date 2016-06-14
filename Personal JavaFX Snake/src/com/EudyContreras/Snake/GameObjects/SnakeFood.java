@@ -94,11 +94,11 @@ public class SnakeFood extends AbstractObject {
 		this.targetSize = size;
 		this.staticRadius = (targetSize *2)+5;
 		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
+		this.rectBounds = new Rectangle(x,y, staticRadius+5, staticRadius+5);
+		this.rectBounds.setFill(Color.TRANSPARENT);
 		this.layer.getChildren().add(bounds);
 		this.addGLow();
 		if (GameSettings.DEBUG_MODE) {
-			this.rectBounds = new Rectangle(x,y, staticRadius+5, staticRadius+5);
-			this.rectBounds.setFill(Color.TRANSPARENT);
 			this.rectBounds.setStroke(Color.WHITE);
 			this.layer.getChildren().add(rectBounds);
 			this.bounds.setStroke(Color.WHITE);
@@ -140,20 +140,10 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void move() {
 		super.move();
-		if (velX > 0) {
-			velX -= 0.2;
-		}
-		if (velY > 0) {
-			velY -= 0.2;
-		}
-		if (velX < 0) {
-			velX += 0.2;
-		}
-		if (velY < 0) {
-			velY += 0.2;
-		}
-		velX *= 0.97;
-		velY *= 0.97;
+		if(velX!=0)
+		velX *= 0.90;
+		if(velY!=0)
+		velY *= 0.90;
 	}
 
 	/**
@@ -177,11 +167,10 @@ public class SnakeFood extends AbstractObject {
 	public void adjustBounds(){
 		bounds.setCenterX(x);
 		bounds.setCenterY(y);
-		bounds.setRadius(size*.8);
-		if (GameSettings.DEBUG_MODE) {
-			rectBounds.setX(x - staticRadius/2);
-			rectBounds.setY(y - staticRadius/2);
-		}
+		bounds.setRadius(size * .8);
+		rectBounds.setX(x - staticRadius / 2);
+		rectBounds.setY(y - staticRadius / 2);
+
 	}
 	/**
 	 * Method in charge of updating the glow of the object
@@ -255,7 +244,7 @@ public class SnakeFood extends AbstractObject {
 		return false;
 	}
 
-	public void checkBoundaries() {
+	public void resetBounds() {
 		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.START_Y + radius
 				|| y > GameSettings.HEIGHT - radius * 3) {
 			x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
@@ -264,7 +253,17 @@ public class SnakeFood extends AbstractObject {
 			this.fadeValue = 0;
 		}
 	}
-
+	public void checkBoundaries() {
+		if (x < 0 + radius) {
+			x = (float) (GameSettings.WIDTH - radius);
+		} else if (x > GameSettings.WIDTH - radius) {
+			x = (float) (0 + radius);
+		} else if (y < GameSettings.START_Y + radius) {
+			y = (float) (GameSettings.HEIGHT - radius);
+		} else if (y > GameSettings.HEIGHT - radius) {
+			y = (float) (GameSettings.START_Y + radius);
+		}
+	}
 	/**
 	 * Method in charge of checking events within the collision bounds of this
 	 * object. this method will also assign a set of actions to collision
@@ -306,6 +305,12 @@ public class SnakeFood extends AbstractObject {
 						bounceBack(tempTile);
 					}
 				}
+				if (getBounds().intersects(tempTile.getBounds2D())) {
+					this.blowUp();
+					this.game.getGameLoader().spawnSnakeFood();
+					this.remove();
+					break;
+				}
 			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
@@ -317,64 +322,62 @@ public class SnakeFood extends AbstractObject {
 						this.fadeValue = 0;
 						this.lifeTime = 0;
 						break;
-					}
-					else{
-						bounceBack(tempTile);
+					}else{
+						this.blowUp();
+						this.game.getGameLoader().spawnSnakeFood();
+						this.remove();
+						break;
 					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.treeBark) {
-				if (getCollisionBounds().intersects(tempTile.getBounds())) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						this.x = newX;
 						this.y = newY;
 						this.fadeValue = 0;
 						this.lifeTime = 0;
 						break;
-					}
-					else{
+					}else{
 						bounceBack(tempTile);
 					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.flower) {
-				if (getCollisionBounds().intersects(tempTile.getBounds())) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						this.x = newX;
 						this.y = newY;
 						this.fadeValue = 0;
 						this.lifeTime = 0;
 						break;
-					}
-					else{
+					}else{
 						bounceBack(tempTile);
 					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.bush) {
-				if (getCollisionBounds().intersects(tempTile.getBounds())) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						this.x = newX;
 						this.y = newY;
 						this.fadeValue = 0;
 						this.lifeTime = 0;
 						break;
-					}
-					else{
+					}else{
 						bounceBack(tempTile);
 					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.noSpawnZone) {
-				if (getBounds().intersects(tempTile.getBounds())) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						this.x = newX;
 						this.y = newY;
 						this.fadeValue = 0;
 						this.lifeTime = 0;
 						break;
-					}
-					else{
+					}else{
 						bounceBack(tempTile);
 					}
 				}
@@ -382,6 +385,7 @@ public class SnakeFood extends AbstractObject {
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTrap()) {
 			if (tempTile.getId() == GameLevelObjectID.fence || tempTile.getId() == GameLevelObjectID.trap) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 				if (!remainStatic) {
 					this.x = newX;
 					this.y = newY;
@@ -395,6 +399,7 @@ public class SnakeFood extends AbstractObject {
 					break;
 				}
 			}
+			}
 		}
 		for (AbstractSection object : game.getSectManagerOne().getSectionList()) {
 			if (getBounds().intersects(object.getBounds())) {
@@ -406,7 +411,7 @@ public class SnakeFood extends AbstractObject {
 					break;
 				}
 				else{
-					bounceBack(object);
+//					bounceBack(object);
 				}
 			}
 		}
@@ -419,11 +424,17 @@ public class SnakeFood extends AbstractObject {
 					this.lifeTime = 0;
 					break;
 				}
-				bounceBack(object);
+				else{
+//					bounceBack(object);
+				}
 			}
 		}
 	}
-
+	public void relocate(){
+		x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
+		y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
+		+ GameSettings.START_Y + radius);
+	}
 	/**
 	 * Method which changes the opacity of this object
 	 */
@@ -469,12 +480,12 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerOne snake, double x, double y) {
-		if (snake.getVelX() > 0) {
-			this.velX = (float) (snake.getVelX()) * 8;
+		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
+			this.velX = (float) (snake.getVelX()) * 9.5;
 			this.velY = RandomGenUtility.getRNG(-12, 12)/GameManager.ScaleY;
 		}
-		if (snake.getVelY() > 0) {
-			this.velY = (float) (snake.getVelY()) * 8;
+		else {
+			this.velY = (float) (snake.getVelY()) * 9.5;
 			this.velX = RandomGenUtility.getRNG(-12, 12)/GameManager.ScaleX;
 		}
 	}
@@ -487,12 +498,12 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerTwo snake, double x, double y) {
-		if (snake.getVelX() > 0) {
-			this.velX = (float) (snake.getVelX()) * 8;
+		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
+			this.velX = (float) (snake.getVelX()) * 9.5;
 			this.velY = RandomGenUtility.getRNG(-12, 12)/GameManager.ScaleY;
 		}
-		if (snake.getVelY() > 0) {
-			this.velY = (float) (snake.getVelY()) * 8;
+		else {
+			this.velY = (float) (snake.getVelY()) * 9.5;
 			this.velX = RandomGenUtility.getRNG(-12, 12)/GameManager.ScaleX;
 		}
 	}
@@ -525,12 +536,21 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounceBack(AbstractTile tile) {
-		velX = -Math.abs(velX*.8) + tile.getVelX()*.5;
-		velY = -Math.abs(velY*.8) + tile.getVelY()*.5;
+		velX = -Math.abs(velX) + tile.getVelX()*.7;
+		velY = -Math.abs(velY) + tile.getVelY()*.7;
+		if(velX==0 && velY==0){
+			relocate();
+		}
 	}
 	public void bounceBack(AbstractSection section) {
-		velX = -Math.abs(velX*.8) + section.getVelX()*.5;
-		velY = -Math.abs(velY*.8) + section.getVelY()*.5;
+		if (section.getVelX() > 0 || section.getVelX() < 0) {
+			velX = -Math.abs(velX) + section.getVelX()*1.2;
+			this.velY = RandomGenUtility.getRNG(-12, 12)/GameManager.ScaleY;
+		}
+		else{
+			velY = -Math.abs(velY) + section.getVelY()*1.2;
+			this.velX = RandomGenUtility.getRNG(-12, 12)/GameManager.ScaleX;
+		}
 	}
 	/**
 	 * Method which returns the collision bounds for this object
@@ -548,5 +568,8 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public Rectangle2D getCollisionBounds() {
 		return new Rectangle2D(x - staticRadius / 2, y - staticRadius / 2, staticRadius, staticRadius);
+	}
+	public Rectangle2D getNormalBounds(){
+		return new Rectangle2D(rectBounds.getX(), rectBounds.getY(), rectBounds.getWidth(), rectBounds.getHeight());
 	}
 }

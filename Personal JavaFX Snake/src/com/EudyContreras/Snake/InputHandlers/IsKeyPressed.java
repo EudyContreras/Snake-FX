@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.InputHandlers;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;

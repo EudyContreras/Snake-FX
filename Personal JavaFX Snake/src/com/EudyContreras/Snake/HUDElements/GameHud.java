@@ -93,7 +93,7 @@ public class GameHud {
 		}
 		if (hideHUDCover) {
 			swipeSpeedTop = -2.55;
-			if (yOne < 0 - topHudBar.getHeight()+GameManager.ScaleY(10)) {
+			if (yOne < 0 - topHudBar.getHeight()+GameManager.ScaleY(15)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 3.5;

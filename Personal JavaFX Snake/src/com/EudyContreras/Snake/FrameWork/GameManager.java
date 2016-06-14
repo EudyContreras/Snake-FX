@@ -167,7 +167,7 @@ public class GameManager extends AbstractGameModel{
         energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
         healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,35 / ScaleY, 350 / ScaleX,30 / ScaleY);
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
-        gameHud = new GameHud(this, -5, -25, GameSettings.WIDTH + 10, 115 / ScaleY);
+        gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
                 45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 10/ScaleY,
                 680/ScaleX,85 / ScaleY);

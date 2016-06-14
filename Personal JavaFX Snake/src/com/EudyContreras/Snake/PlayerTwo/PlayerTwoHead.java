@@ -61,7 +61,7 @@ public class PlayerTwoHead extends AbstractObject {
 		this.text.setText(GameSettings.PLAYER_TWO_NAME);
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.2, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.25, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
@@ -86,11 +86,8 @@ public class PlayerTwoHead extends AbstractObject {
 			this.clearFromCollision.setStroke(Color.WHITE);
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
-			this.radialBounds.setStroke(Color.WHITE);
-			this.radialBounds.setStrokeWidth(4);
 			this.drawBoundingBox();
 		}
-		this.layer.getChildren().add(radialBounds);
 		this.layer.getChildren().add(text);
 	}
 
@@ -118,12 +115,9 @@ public class PlayerTwoHead extends AbstractObject {
 	}
 	public void updateBounds() {
 		if (GameSettings.DEBUG_MODE) {
-			bounds.setX(x - radius / 2 + offsetX);
-			bounds.setY(y - radius / 2 + offsetY);
+			bounds.setX(x - radius*1.1 / 2 + offsetX);
+			bounds.setY(y - radius*1.1 / 2 + offsetY);
 		}
-		radialBounds.setCenterX(x);
-		radialBounds.setCenterY(y);
-		radialBounds.setRadius(radius*.7);
 	}
 	public void showTheSkull() {
 		if (showTheSkull == true) {
@@ -341,7 +335,7 @@ public class PlayerTwoHead extends AbstractObject {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
+			bounds = new Rectangle(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
@@ -365,7 +359,7 @@ public class PlayerTwoHead extends AbstractObject {
 		return radialBounds.getBoundsInParent();
 	}
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
+		return new Rectangle2D(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 	}
 
 	public Rectangle2D getBoundsTop() {

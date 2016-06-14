@@ -96,7 +96,9 @@ public class DesertRock extends AbstractTile {
 	public Rectangle2D getBounds() {
 		return collisionBounds;
 	}
-
+	public Rectangle2D getBounds2D(){
+		return new Rectangle2D(x+GameManager.ScaleX(30), y + GameManager.ScaleY(60), width - GameManager.ScaleX(85), height - GameManager.ScaleY(75));
+	}
 	public Bounds getCollisionBounds() {
 		return this.view.getBoundsInParent();
 	}

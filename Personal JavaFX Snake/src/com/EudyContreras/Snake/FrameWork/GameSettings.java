@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.3;
+	public static double MANUAL_SIZE_SCALE = .8;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -47,9 +47,9 @@ public class GameSettings {
 	public static int COLLISION_DELAY = 0;
 
 	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double ENERGY_COMSUMPTION_SPEED = 0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double ENERGY_COMSUMPTION_SPEED = 6/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double DAMAGE_AMOUNT = 1/GameManager.ScaleX/MANUAL_SIZE_SCALE;
+	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX/MANUAL_SIZE_SCALE;
 
 	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
@@ -90,7 +90,7 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = true;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 

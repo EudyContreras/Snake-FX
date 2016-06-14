@@ -217,7 +217,7 @@ public abstract class AbstractTile {
 		return this.view.getLayoutBounds();
 	}
 
-	public Bounds getBounds2D() {
+	public Rectangle2D getBounds2D() {
 		return null;
 	}
 

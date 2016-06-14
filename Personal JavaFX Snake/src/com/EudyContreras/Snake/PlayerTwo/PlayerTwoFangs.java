@@ -17,8 +17,8 @@ public class PlayerTwoFangs extends AbstractObject {
 	private int index;
 	private int counter = 0;
 	private boolean stop = false;
-	private float offsetX = 0;
-	private float offsetY = 0;
+	private double offsetX = 0;
+	private double offsetY = 0;
 	private GameManager game;
 	private PlayerTwo snake;
 	private PlayerTwoSectionManager sectManager;
@@ -81,16 +81,16 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
-			this.offsetY = -20;
+			this.offsetY = GameManager.ScaleY(-25);
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.offsetY = 20;
+			this.offsetY = GameManager.ScaleY(25);
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.offsetX = -20;
+			this.offsetX = GameManager.ScaleX(-25);
 			this.offsetY = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.offsetX = 20;
+			this.offsetX = GameManager.ScaleX(25);
 			this.offsetY = 0;
 		}
 	}
@@ -122,7 +122,7 @@ public class PlayerTwoFangs extends AbstractObject {
 							break;
 						}
 					}
-					if (snake.getHead().getRadialBounds().intersects(tempObject.getRadialBounds())) {
+					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}
