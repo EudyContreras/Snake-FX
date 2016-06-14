@@ -66,9 +66,9 @@ public class GameImageBank {
 		public static final Image snakeOneHeadBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("desert-snake-head-eat3.png", 145 / GameLoader.ResolutionScaleX,
 				145 / GameLoader.ResolutionScaleY);
 		public static final Image snakeOneSkin = ImageEffectUtility.precreatedLightedAndShadedSnake("snake_skin_one.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 145 / GameLoader.ResolutionScaleX, 145 / GameLoader.ResolutionScaleY);
-		public static final Image snakeOneSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_one.png", 145 / GameLoader.ResolutionScaleX,
-				145 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
+		public static final Image snakeOneSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_one.png", 197 / GameLoader.ResolutionScaleX,
+				176 / GameLoader.ResolutionScaleY);
 		public static final Image snakeOneDebris = ImageEffectUtility.precreatedLightedImage("snake_skin_one_debris.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		public static final Circle snakeOneSphere = new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(snakeOneHead));
@@ -94,8 +94,8 @@ public class GameImageBank {
 				GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
 		public static final Image snakeTwoSkin = ImageEffectUtility.precreatedLightedAndShadedSnake("snake_skin_two.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		public static final Image snakeTwoSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_two.png", 205 / GameLoader.ResolutionScaleX,
-				183 / GameLoader.ResolutionScaleY);
+		public static final Image snakeTwoSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_two.png", 197 / GameLoader.ResolutionScaleX,
+				176 / GameLoader.ResolutionScaleY);
 		public static final Image snakeTwoDebris = ImageEffectUtility.precreatedLightedImage("snake_skin_two_debris.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		public static final Circle snakeTwoSphere = new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(snakeTwoHead));
@@ -103,9 +103,7 @@ public class GameImageBank {
 		public static final ImagePattern snakeTwoBody = new ImagePattern(snakeTwoSkin);
 		public static final ImagePattern normalPatternTwo = new ImagePattern(snakeTwoSkin);
 		public static final ImagePattern speedPatternTwo = new ImagePattern(snakeTwoSkinBlurred);
-		/**
-		 * Images used for other levels
-		 */
+
 
 		/**
 		 * heads up display elements

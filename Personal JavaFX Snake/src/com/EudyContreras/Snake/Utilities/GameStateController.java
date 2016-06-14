@@ -16,13 +16,13 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
  * @author Eudy Contreras
  *
  */
-public class GameStateManager {
+public class GameStateController{
 
 	private Map<GameStateID, AbstractGameStates> map;
 	private AbstractGameStates currentState;
 	public GameManager game;
 
-	public GameStateManager(GameManager game) {
+	public GameStateController(GameManager game) {
 		this.game = game;
 		map = new HashMap<GameStateID, AbstractGameStates>();
 	}

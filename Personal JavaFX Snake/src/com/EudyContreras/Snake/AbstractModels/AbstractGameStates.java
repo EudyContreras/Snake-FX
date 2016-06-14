@@ -1,7 +1,7 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.EudyContreras.Snake.Utilities.GameStateManager;
+import com.EudyContreras.Snake.Utilities.GameStateController;
 
 /**
  * This class is the parent of every state. Each state must extend this class.
@@ -13,17 +13,17 @@ import com.EudyContreras.Snake.Utilities.GameStateManager;
 
 public abstract class AbstractGameStates {
 	protected GameStateID id;
-	protected GameStateManager stateMangager;
+	protected GameStateController stateMangager;
 
 	public abstract void enterState();
 
 	public abstract void initializeState();
 
-	public abstract void updateInterface(GameStateManager stateManager);
+	public abstract void updateInterface(GameStateController stateManager);
 
-	public abstract void updateGame(GameStateManager stateManager);
+	public abstract void updateGame(GameStateController stateManager);
 
-	public abstract void updateMenu(GameStateManager stateManager);
+	public abstract void updateMenu(GameStateController stateManager);
 
 	public abstract void renderInterface();
 

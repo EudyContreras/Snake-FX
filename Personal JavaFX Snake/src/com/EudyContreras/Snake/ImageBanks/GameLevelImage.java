@@ -22,11 +22,11 @@ public class GameLevelImage {
 	public static final boolean fourthSectionLoaded = false;
 	public static final boolean fithSectionLoaded = false;
 
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/**
-		 * Desert Level Images.
-		 */
-		////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+* Desert Level Images.
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static final Image desertBackgroundOne = ImageEffectUtility.preCreateShadedBackground("desert-level-sand.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
@@ -41,8 +41,7 @@ public class GameLevelImage {
 		public static final Image horizontalFence = ImageEffectUtility.precreatedLightedImage("horizontal_spike_fence.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);
 		public static final Image verticalFence = ImageEffectUtility.precreatedLightedAndShadedImage("vertical_spike_fence.png",
-			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 55 / GameLoader.ResolutionScaleX,
-			170 / GameLoader.ResolutionScaleY);
+			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 55 / GameLoader.ResolutionScaleX,170 / GameLoader.ResolutionScaleY);
 		public static final Image desert_rock = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
 		public static final Image desert_rock_alt = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_alt.png", GameSettings.GlOBAL_ILLUMINATION,
@@ -87,11 +86,11 @@ public class GameLevelImage {
 			75 / GameLoader.ResolutionScaleY);
 		public static final Image desert_sand = ImageEffectUtility.precreatedLightedImage("sand_grain.png",
 			GameSettings.GlOBAL_ILLUMINATION - 0.5, GameSettings.GLOBAL_SPECULARITY - 1.2, 5, 5);
-
-
-	/**
-	 * Jungle level images
-	 */
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/**
+* Jungle Level Images.
+*/
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static final Image jungle_rain = new Image(ImageEffectUtility.loadResource("rainDrop.png"),10,10, true, true);
 

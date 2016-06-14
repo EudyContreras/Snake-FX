@@ -16,7 +16,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Utilities.GameTileController;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.Image;
@@ -41,7 +41,7 @@ public class GameLoader extends AbstractLoaderModel{
 		this.rand = new Random();
 		this.objectManger = game.getObjectManager();
 		this.levelManager = new LevelManager(game,this);
-		this.setTileManager(new GameTileManager(game));
+		this.setTileManager(new GameTileController(game));
 		this.setLevelTheme(GameThemeID.DESERT_THEME);
 		loadDesertLevels();
 		initializeMain();

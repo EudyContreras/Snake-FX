@@ -17,7 +17,7 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
  * @author Eudy Contreras
  *
  */
-public class GameTileManager {
+public class GameTileController {
 
 	private List<AbstractTile> tile;
 	private List<AbstractTile> block;
@@ -29,7 +29,7 @@ public class GameTileManager {
 	private AbstractTile tempEdible;
 	private GameManager game;
 
-	public GameTileManager(GameManager game) {
+	public GameTileController(GameManager game) {
 		this.game = game;
 		this.tile = new LinkedList<AbstractTile>();
 		this.block = new LinkedList<AbstractTile>();

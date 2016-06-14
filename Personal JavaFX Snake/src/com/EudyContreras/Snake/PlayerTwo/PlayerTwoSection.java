@@ -225,7 +225,7 @@ public class PlayerTwoSection extends AbstractSection {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
-						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
+						new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10+ 1) + -10)));
 			}
 		}
 	}
@@ -243,7 +243,7 @@ public class PlayerTwoSection extends AbstractSection {
 				this.circle.setFill(GameImageBank.tailImage);
 			}
 			else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
-				this.circle.setFill(GameImageBank.snakeTwoBody);
+				setMotionBlur();
 			}
 		}
 	}

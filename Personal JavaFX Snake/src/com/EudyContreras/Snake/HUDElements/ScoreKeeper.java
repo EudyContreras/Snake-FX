@@ -79,7 +79,7 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.apple.setFitHeight(45 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
 		this.apple.setX(GameSettings.WIDTH/2+15);
-		this.apple.setY(yOne-40);
+		this.apple.setY(yOne-45);
 		this.game.getThirTeenthLayer().getChildren().add(board);
 		this.game.getThirTeenthLayer().getChildren().add(apple);
 		this.game.getThirTeenthLayer().getChildren().add(countText);
@@ -93,9 +93,9 @@ public class ScoreKeeper extends AbstractHudElement{
 	 */
 	private void setupText(){
 		this.countText.setX(apple.getX() + apple.getFitWidth()-5);
-		this.countText.setY(yOne-GameManager.ScaleY(25));
+		this.countText.setY(yOne-GameManager.ScaleY(30));
 		this.timerText.setX(xTwo+widthOne*0.33);
-		this.timerText.setY(yOne-GameManager.ScaleY(25));
+		this.timerText.setY(yOne-GameManager.ScaleY(30));
 		this.timerText.setFont(Font.font(null,FontWeight.BOLD, GameManager.ScaleX(27)));
 		this.countText.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(27)));
 		this.countText.setText("x " + APPLE_COUNT);

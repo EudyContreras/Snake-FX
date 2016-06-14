@@ -10,7 +10,7 @@ import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Utilities.GameTileController;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.WritableImage;
@@ -34,7 +34,7 @@ public abstract class AbstractLoaderModel {
 	protected WritableImage overlay;
 	protected LevelManager levelManager;
 	protected ObjectManager objectManger;
-	protected GameTileManager tileManager;
+	protected GameTileController tileManager;
 	protected GenericObject gameTile;
 	protected PlayerOne playerOne;
 	protected PlayerTwo playerTwo;
@@ -102,11 +102,11 @@ public abstract class AbstractLoaderModel {
 		this.levelMain = level;
 	}
 
-	public GameTileManager getTileManager() {
+	public GameTileController getTileManager() {
 		return tileManager;
 	}
 
-	public void setTileManager(GameTileManager tileManager) {
+	public void setTileManager(GameTileController tileManager) {
 		this.tileManager = tileManager;
 	}
 
