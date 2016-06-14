@@ -20,7 +20,7 @@ public class ScreenEffectUtility {
 	private BoxBlur blurEffect = new BoxBlur(25, 25, 2);
 	private GaussianBlur deathEffect = new GaussianBlur(0);
 	private GaussianBlur gaussianEffect = new GaussianBlur(7);
-	private GaussianBlur clearLevelBlur = new GaussianBlur(0);
+	private BoxBlur clearLevelBlur = new BoxBlur();
 	private GaussianBlur stormBlur = new GaussianBlur(0);
 	private Rectangle toneOverlay = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
@@ -167,7 +167,9 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void levelCompleteBlur() {
 		this.clearLevelBluring = 0.0;
-		this.clearLevelBlur.setRadius(clearLevelBluring);
+		this.clearLevelBlur.setIterations(2);
+		this.clearLevelBlur.setWidth(clearLevelBluring);
+		this.clearLevelBlur.setHeight(clearLevelBluring);
 		this.layer.setEffect(null);
 		this.layer.setEffect(clearLevelBlur);
 		this.clearLevel = false;
@@ -378,11 +380,11 @@ public class ScreenEffectUtility {
 	}
 
 	private void setDeathBlur() {
-		deathBlurLifetime += 0.05;
+		deathBlurLifetime += 0.03;
 		this.layer.setEffect(deathEffect);
 		this.deathEffect.setRadius(deathBlurLifetime);
-		if (deathBlurLifetime >= 63) {
-			deathBlurLifetime = 63.0;
+		if (deathBlurLifetime >= 40) {
+			deathBlurLifetime = 40.0;
 		}
 		if (deathBlurLifetime >= 10) {
 			if (!instanceCheck) {
@@ -394,20 +396,21 @@ public class ScreenEffectUtility {
 
 	private void setClearLevelBlur() {
 		if (blurLevel) {
-			clearLevelBluring += 0.2;
-			if (clearLevelBluring >= 25) {
-				clearLevelBluring = 25.0;
+			clearLevelBluring += 0.3;
+			if (clearLevelBluring >= 20) {
+				clearLevelBluring = 20.0;
 			}
 		}
 		if (clearLevel) {
-			clearLevelBluring -= 1.0;
+			clearLevelBluring -= 1.2;
 			if (clearLevelBluring <= 0) {
 				clearLevelBluring = 0.0;
 				clearLevel = false;
 			}
 		}
 		this.layer.setEffect(clearLevelBlur);
-		this.clearLevelBlur.setRadius(clearLevelBluring);
+		this.clearLevelBlur.setWidth(clearLevelBluring);
+		this.clearLevelBlur.setHeight(clearLevelBluring);
 	}
 
 	public void removeBlur() {

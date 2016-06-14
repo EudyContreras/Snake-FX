@@ -63,14 +63,18 @@ public class GameImageBank {
 				97 / GameLoader.ResolutionScaleY);
 		public static final Image snakeOneEating = ImageEffectUtility.precreatedLightedImage("desert-snake-head-eat3.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+		public static final Image snakeOneHeadBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("desert-snake-head-eat3.png", 145 / GameLoader.ResolutionScaleX,
+				145 / GameLoader.ResolutionScaleY);
 		public static final Image snakeOneSkin = ImageEffectUtility.precreatedLightedAndShadedSnake("snake_skin_one.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		public static final Image snakeOneSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_one.png", 205 / GameLoader.ResolutionScaleX,
-				183 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 145 / GameLoader.ResolutionScaleX, 145 / GameLoader.ResolutionScaleY);
+		public static final Image snakeOneSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_one.png", 145 / GameLoader.ResolutionScaleX,
+				145 / GameLoader.ResolutionScaleY);
 		public static final Image snakeOneDebris = ImageEffectUtility.precreatedLightedImage("snake_skin_one_debris.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
 		public static final Circle snakeOneSphere = new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(snakeOneHead));
 		public static final Circle slither = new Circle(GameSettings.SLITHER_SIZE * 1.4, new ImagePattern(snakeOneHead));
+		public static final ImagePattern normalPatternOneHead = new ImagePattern(snakeOneHead);
+		public static final ImagePattern speedPatternOneHead = new ImagePattern(snakeOneHeadBlurred);
 		public static final ImagePattern normalPatternOne = new ImagePattern(snakeOneSkin);
 		public static final ImagePattern speedPatternOne = new ImagePattern(snakeOneSkinBlurred);
 		public static final ImagePattern snakeOneBody = new ImagePattern(snakeOneSkin);

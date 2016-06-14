@@ -16,6 +16,7 @@ import javafx.scene.shape.Circle;
 public class SandStorms extends AbstractDebrisEffect {
 
 	private GameDebrisID id;
+	private double dropVel;
 	private double radius;
 	private double decay;
 	private double lifeTime = 6.0f;
@@ -32,8 +33,9 @@ public class SandStorms extends AbstractDebrisEffect {
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velX = Math.random() * (8 - 2 + 1) + 2 / (GameManager.ScaleX_ScaleY);
+		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameManager.ScaleX_ScaleY);
+		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001 / (GameManager.ScaleX_ScaleY);
 		init();
 	}
 
@@ -45,8 +47,9 @@ public class SandStorms extends AbstractDebrisEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (7 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velX = Math.random() * (8 - 2 + 1) + 2 / (GameManager.ScaleX_ScaleY);
+		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameManager.ScaleX_ScaleY);
+		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001 / (GameManager.ScaleX_ScaleY);
 		init();
 	}
 
@@ -75,8 +78,7 @@ public class SandStorms extends AbstractDebrisEffect {
 	public void move() {
 		super.move();
 		lifeTime -= decay;
-		//velX += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		velY -= 0.002;
+		velY -= dropVel;
 	}
 	public void collide() {
 	}

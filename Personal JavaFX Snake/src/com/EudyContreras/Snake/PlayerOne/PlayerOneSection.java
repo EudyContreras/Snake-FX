@@ -215,7 +215,7 @@ public class PlayerOneSection extends AbstractSection {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
-						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
 			}
 		}
 	}

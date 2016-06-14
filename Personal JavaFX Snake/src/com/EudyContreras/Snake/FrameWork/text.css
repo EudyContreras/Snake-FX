@@ -4,6 +4,17 @@
 .ScreenSpace {
     -fx-fill: radial-gradient(center 50% 50%, radius 70%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.8) 100%);
 }
+#sand_shade {
+    -fx-fill: radial-gradient(center 50% 50%, radius 70%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.8) 100%);
+}
+.sand {
+	-fx-fill: radial-gradient(center 50.0% -40.0%, radius 200.0%, #FFD39B 45.0%, #8B7355 50.0%);
+	-fx-effect: dropshadow( one-pass-box , #333333 , 5.0 , 5.0 , 0.0 , 0.0);
+}
+.snake-section {
+	-fx-fill: radial-gradient(center 50.0% -40.0%, radius 200.0%, #56C2FC 45.0%, #1e90ff 50.0%);
+	-fx-effect: dropshadow( one-pass-box , #333333 , 5.0 , 5.0 , 0.0 , 0.0);
+}
 #MainTimer {
         -fx-fill:  linear-gradient(cyan , dodgerblue);
 }

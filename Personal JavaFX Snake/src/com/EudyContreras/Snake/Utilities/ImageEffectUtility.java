@@ -7,12 +7,12 @@ import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BlurType;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -30,25 +30,23 @@ import javafx.scene.shape.Circle;
  *
  */
 public class ImageEffectUtility {
-	public static Image img;
-	public static SnapshotParameters parameters = new SnapshotParameters();
-	public static ImageView view = new ImageView();
-	public static Lighting lighting = new Lighting();
-	public static Light.Point light = new Light.Point();
-	public static DropShadow shadow = new DropShadow(15, Color.BLACK);
-	public static DropShadow borderGlow = new DropShadow();
-	public static MotionBlur motionBlur = new MotionBlur();
-	public static GaussianBlur gaussianBlur = new GaussianBlur();
-	public static Bloom bloom = new Bloom(0.1);
-	public static Glow glow = new Glow(1.0);
+	private static Image img;
+	private static SnapshotParameters parameters = new SnapshotParameters();
+	private static ImageView view = new ImageView();
+	private static Lighting lighting = new Lighting();
+	private static Light.Point light = new Light.Point();
+	private static DropShadow shadow = new DropShadow(15, Color.BLACK);
+	private static DropShadow borderGlow = new DropShadow();
+	private static BoxBlur blur = new BoxBlur();
+	private static GaussianBlur gaussianBlur = new GaussianBlur();
+	private static Bloom bloom = new Bloom(0.1);
+	private static Glow glow = new Glow(1.0);
 
 	public static synchronized Image createImage(Node node) {
 
 		parameters.setFill(Color.TRANSPARENT);
 		WritableImage wi = new WritableImage((int)node.getBoundsInLocal().getWidth(), (int) node.getBoundsInLocal().getHeight());
 		node.snapshot(parameters, wi);
-//		node.setCache(true);
-//		node.setCacheHint(CacheHint.SPEED);
 		return wi;
 
 	}
@@ -353,16 +351,18 @@ public class ImageEffectUtility {
 		light.setX(-100);
 		light.setY(200);
 		light.setZ(100);
-//		blur.setIterations(1);
 		lighting.setDiffuseConstant(GameSettings.GlOBAL_ILLUMINATION);
 		lighting.setSpecularConstant(GameSettings.GLOBAL_SPECULARITY);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(5);
-		shadow.setOffsetX(20);
-		shadow.setOffsetY(-15);
-		shadow.setInput(motionBlur);
+		shadow.setRadius(4);
+		shadow.setOffsetX(15);
+		shadow.setOffsetY(-10);
+		blur.setIterations(2);
+		blur.setWidth(10);
+		blur.setHeight(10);
+		shadow.setInput(blur);
 		lighting.setContentInput(shadow);
 		if(GameSettings.ADD_LIGHTING)
 		view.setEffect(lighting);
