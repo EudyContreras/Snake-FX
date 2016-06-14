@@ -2,15 +2,15 @@
 
 import java.util.Random;
 
-import com.EudyContreras.Snake.EnumIDs.GameThemeID;
+import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.LevelManager;
 import com.EudyContreras.Snake.FrameWork.ObjectManager;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
+import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
-import com.EudyContreras.Snake.Utilities.GameTileController;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.WritableImage;

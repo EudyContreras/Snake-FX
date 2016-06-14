@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.EnumIDs;
+package com.EudyContreras.Snake.Identifiers;
 
 public enum GameModeID {
 	SinglePlayer(),

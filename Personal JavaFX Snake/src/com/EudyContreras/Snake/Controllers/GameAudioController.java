@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.Utilities;
+package com.EudyContreras.Snake.Controllers;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -17,12 +17,12 @@ import javax.sound.sampled.FloatControl;
  * @author Eudy Contreras
  *
  */
-public class GameAudioManager {
+public class GameAudioController {
 
 	private Clip soundClip;
 	private FloatControl gainControl;
 
-	public GameAudioManager() {
+	public GameAudioController() {
 
 	}
 
@@ -33,7 +33,7 @@ public class GameAudioManager {
 	 * 
 	 * @param path
 	 */
-	public GameAudioManager(String path) {
+	public GameAudioController(String path) {
 		try {
 			InputStream audioSource = getClass().getResourceAsStream(path);
 			InputStream bufferedInput = new BufferedInputStream(audioSource);
@@ -62,7 +62,7 @@ public class GameAudioManager {
 	public static Clip processAudioFile(String path) {
 		Clip newSound = null;
 		try {
-			InputStream audioSource = GameAudioManager.class.getResourceAsStream(path);
+			InputStream audioSource = GameAudioController.class.getResourceAsStream(path);
 			InputStream bufferedInput = new BufferedInputStream(audioSource);
 			AudioInputStream audioInput = AudioSystem.getAudioInputStream(bufferedInput);
 			AudioFormat baseFormat = audioInput.getFormat();
@@ -86,7 +86,7 @@ public class GameAudioManager {
 	public static void playAudio(Clip soundClip) {
 		if (soundClip == null)
 			return;
-		GameAudioManager.stopAudio(soundClip);
+		GameAudioController.stopAudio(soundClip);
 		soundClip.setFramePosition(0);
 		while (!soundClip.isRunning()) {
 			soundClip.start();
@@ -134,7 +134,7 @@ public class GameAudioManager {
 	 * @param soundClip
 	 */
 	public static void disposeAudio(Clip soundClip) {
-		GameAudioManager.stopAudio(soundClip);
+		GameAudioController.stopAudio(soundClip);
 		soundClip.drain();
 		soundClip.close();
 	}

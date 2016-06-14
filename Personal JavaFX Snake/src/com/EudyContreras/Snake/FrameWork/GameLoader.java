@@ -4,19 +4,19 @@ package com.EudyContreras.Snake.FrameWork;
 import java.util.Random;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
+import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.DebrisEffects.BackgroundDirt;
 import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameThemeID;
 import com.EudyContreras.Snake.GameObjects.DesertBackground;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
+import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
-import com.EudyContreras.Snake.Utilities.GameTileController;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.Image;

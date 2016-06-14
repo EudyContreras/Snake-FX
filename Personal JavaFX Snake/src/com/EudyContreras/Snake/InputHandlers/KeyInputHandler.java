@@ -19,10 +19,10 @@ import javafx.scene.input.KeyEvent;
  * @author Eudy Contreras
  *
  */
-public class InputManagerKey {
+public class KeyInputHandler {
 	private boolean[] keyDown = new boolean[6];
 
-	public InputManagerKey() {
+	public KeyInputHandler() {
 		keyDown[0] = false;
 		keyDown[1] = false;
 		keyDown[2] = false;

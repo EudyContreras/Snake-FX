@@ -6,7 +6,7 @@ import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.RandomGenerator;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -31,7 +31,7 @@ public class DesertCactusBig extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.view.setRotationAxis(Rotate.Y_AXIS);
-		if(RandomGenerator.getRNG(1, 3) == 3){
+		if(RandomGenUtility.getRNG(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_cactus_big_alt);
 			this.width = image.getWidth()+20;
 			this.height = image.getHeight()+30;

@@ -2,11 +2,12 @@ package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
+
+import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
 import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
 import com.EudyContreras.Snake.EnumIDs.GameStateID;
 import com.EudyContreras.Snake.FrameWork.FadeScreenHandler;
-import com.EudyContreras.Snake.FrameWork.GameDebrisManager;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
 import com.EudyContreras.Snake.FrameWork.ObjectManager;
@@ -23,9 +24,9 @@ import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.InputHandlers.InputManagerGestures;
-import com.EudyContreras.Snake.InputHandlers.InputManagerKey;
-import com.EudyContreras.Snake.InputHandlers.InputManagerMouse;
+import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
+import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
+import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
@@ -63,16 +64,16 @@ public abstract class AbstractGameModel extends Application {
 	protected Service<Void> backgroundThread;
 	protected ScheduledExecutorService scheduledExecutor;
 	protected AnimationTimer playerMovementLoop;
-	protected InputManagerKey keyInput;
-	protected InputManagerMouse mouseInput;
-	protected InputManagerGestures gestures;
+	protected KeyInputHandler keyInput;
+	protected MouseInputHandler mouseInput;
+	protected TouchInputHandler gestures;
 	protected GraphicsContext gc;
 	protected ScreenEffectUtility overlayEffect;
 	protected ObjectManager objectManager;
 	protected SlitherManager slitherManager;
 	protected PlayerOneManager playerOneManager;
 	protected PlayerTwoManager playerTwoManager;
-	protected GameDebrisManager debrisManager;
+	protected GameDebrisController debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
 	protected SlitherSectionManager slitherSectManager;
@@ -289,7 +290,7 @@ public abstract class AbstractGameModel extends Application {
 		return slitherManager;
 	}
 
-	public GameDebrisManager getDebrisManager() {
+	public GameDebrisController getDebrisManager() {
 		return debrisManager;
 	}
 
@@ -305,7 +306,7 @@ public abstract class AbstractGameModel extends Application {
 		return slitherSectManager;
 	}
 
-	public void setDebrisManager(GameDebrisManager debrisManager) {
+	public void setDebrisManager(GameDebrisController debrisManager) {
 		this.debrisManager = debrisManager;
 	}
 
@@ -337,11 +338,11 @@ public abstract class AbstractGameModel extends Application {
 		this.scoreBoardTwo = scoreBoard;
 	}
 
-	public InputManagerKey getKeyInput() {
+	public KeyInputHandler getKeyInput() {
 		return keyInput;
 	}
 
-	public void setKeyInput(InputManagerKey keyInput) {
+	public void setKeyInput(KeyInputHandler keyInput) {
 		this.keyInput = keyInput;
 	}
 

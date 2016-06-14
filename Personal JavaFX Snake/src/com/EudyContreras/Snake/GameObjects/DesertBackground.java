@@ -4,7 +4,7 @@ package com.EudyContreras.Snake.GameObjects;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.RandomGenerator;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,15 +21,15 @@ import javafx.scene.image.ImageView;
 	private static ImageView BACKGROUND_VIEW = new ImageView();
 
 	public static void SET_RANDOM_BACKGROUND(GameManager game) {
-		if (RandomGenerator.getRNG(1, 5) == 1) {
+		if (RandomGenUtility.getRNG(1, 5) == 1) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundOne);
-		} else if (RandomGenerator.getRNG(1, 5) == 2) {
+		} else if (RandomGenUtility.getRNG(1, 5) == 2) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwo);
-		} else if (RandomGenerator.getRNG(1, 5) == 3) {
+		} else if (RandomGenUtility.getRNG(1, 5) == 3) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThree);
-		} else if (RandomGenerator.getRNG(1, 5) == 4) {
+		} else if (RandomGenUtility.getRNG(1, 5) == 4) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
-		} else if (RandomGenerator.getRNG(1, 5) == 5) {
+		} else if (RandomGenUtility.getRNG(1, 5) == 5) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFive);
 		}
 		game.getGameRoot().getChildren().remove(BACKGROUND_VIEW);

@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
+import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
 import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
@@ -18,9 +19,9 @@ import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.InputHandlers.InputManagerGestures;
-import com.EudyContreras.Snake.InputHandlers.InputManagerKey;
-import com.EudyContreras.Snake.InputHandlers.InputManagerMouse;
+import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
+import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
+import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
@@ -29,6 +30,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MainMenu;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -254,12 +256,14 @@ public class GameManager extends AbstractGameModel{
         playerTwoManager = new PlayerTwoManager(this);
         sectManagerOne = new PlayerOneSectionManager(this);
         sectManagerTwo = new PlayerTwoSectionManager(this);
-        keyInput = new InputManagerKey();
-        gestures = new InputManagerGestures();
-        mouseInput = new InputManagerMouse();
-        debrisManager = new GameDebrisManager(this);
+        keyInput = new KeyInputHandler();
+        gestures = new TouchInputHandler();
+        mouseInput = new MouseInputHandler();
+        debrisManager = new GameDebrisController(this);
+        if(GameSettings.PARENT_CACHE){
+        	cacheAllLayers();
+        }
     }
-    @SuppressWarnings("unused")
 	private void cacheAllLayers(){
     	root.setCache(true);
     	root.setCacheHint(CacheHint.SPEED);
@@ -748,10 +752,11 @@ public class GameManager extends AbstractGameModel{
      * that are not part of the JavaFX UI eg: this thread may update
      * the x variable used for translating a and element from point a to
      * be but it may not update the element itself within its run method
-     * @throws: Not the JavaFX Thread!!
-     * @
+     * @throws: Not the JavaFX Thread!! if any JavaFX UI element is
+     * updated on this thread
      */
-    private void nonUIThread() {
+    @SuppressWarnings("unused")
+	private void nonUIThread() {
 
         Thread physicsThread = new Thread(new Runnable() {
 
@@ -784,8 +789,7 @@ public class GameManager extends AbstractGameModel{
      * Method used to draw any given overlay over the game. this method is
      * currently used for debugging
      *
-     * @param GraphicsContext
-     *            is used to render the overlay on a canvas layer
+     * @param GraphicsContext is used to render the overlay on a canvas layer
      */
     public void drawOverlay(GraphicsContext gc) {
         if (GameSettings.DEBUG_MODE) {
@@ -807,9 +811,7 @@ public class GameManager extends AbstractGameModel{
         levelUpdateLoop.setCycleCount(Timeline.INDEFINITE);
 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.512), new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent ae) {
-
-                // loader.procedurallyCreateLevel();
+            public void handle(ActionEvent e) {
                 System.out.println("Amount of objects in dirt layer: " + dirtLayer.getChildren().size());
                 System.out.println("Amount of objects in debris layer: " 	+ debrisLayer.getChildren().size());
                 System.out.println("Amount of objects in lower particle layer: " + innerParticleLayer.getChildren().size());

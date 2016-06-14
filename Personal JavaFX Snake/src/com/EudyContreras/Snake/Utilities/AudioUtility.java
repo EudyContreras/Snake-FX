@@ -21,7 +21,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-public enum AudioManager {
+public enum AudioUtility {
 	INSTANCE;
 
 	private final String PATH_ROOT = "." + File.separator + "Snake" + File.separator;
@@ -70,7 +70,7 @@ public enum AudioManager {
 	File propFile = new File(PATH_PROPERTIES_FILE);
 	File root = new File(PATH_ROOT);
 
-	AudioManager() {
+	AudioUtility() {
 
 		audioPlayer.volumeProperty().set(musicVolume.get());
 		audioPlayer.setCycleCount(MediaPlayer.INDEFINITE);

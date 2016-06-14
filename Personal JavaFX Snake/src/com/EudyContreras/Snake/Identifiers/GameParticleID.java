@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.EnumIDs;
+package com.EudyContreras.Snake.Identifiers;
 
 /**
  * Keeps a database of the IDs used by different sorts of particles that are

@@ -20,13 +20,13 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.0;
+	public static double MANUAL_SIZE_SCALE = 1.3;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
 	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/MANUAL_SIZE_SCALE);
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
-	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/Images/";
+	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
 	public static int APPLE_COUNT = 100;
 	public static int SECTIONS_TO_ADD = 3;
@@ -89,6 +89,7 @@ public class GameSettings {
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 
+	public static boolean PARENT_CACHE = false;
 	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;

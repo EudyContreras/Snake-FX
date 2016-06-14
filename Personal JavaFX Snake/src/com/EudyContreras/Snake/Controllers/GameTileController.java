@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.Utilities;
+package com.EudyContreras.Snake.Controllers;
 
 import java.util.Arrays;
 import java.util.Iterator;

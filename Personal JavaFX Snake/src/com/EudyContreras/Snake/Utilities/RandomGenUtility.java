@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.Utilities;
 
 import java.util.Random;
 
-public abstract class RandomGenerator {
+public abstract class RandomGenUtility {
 	public static Random rand = new Random();
 
 	//Gets a random number, from 0 to maxValue. exclusive.

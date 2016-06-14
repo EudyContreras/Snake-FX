@@ -14,8 +14,8 @@ import javafx.scene.input.TouchEvent;
  * @author Eudy Contreras
  *
  */
-public class InputManagerGestures {
-	public InputManagerGestures() {
+public class TouchInputHandler {
+	public TouchInputHandler() {
 	}
 
 	/**

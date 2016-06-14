@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.Controllers;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -6,9 +6,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractDebrisEffect;
+import com.EudyContreras.Snake.FrameWork.GameManager;
+
 import javafx.scene.canvas.GraphicsContext;
 
-public class GameDebrisManager {
+public class GameDebrisController {
 
 	private LinkedList<AbstractDebrisEffect> debris;
 	private LinkedList<AbstractDebrisEffect> particles;
@@ -16,7 +18,7 @@ public class GameDebrisManager {
 	private AbstractDebrisEffect tempParticle;
 	public GameManager game;
 
-	public GameDebrisManager(GameManager game) {
+	public GameDebrisController(GameManager game) {
 		this.game = game;
 		this.debris = new LinkedList<AbstractDebrisEffect>();
 		this.particles = new LinkedList<AbstractDebrisEffect>();

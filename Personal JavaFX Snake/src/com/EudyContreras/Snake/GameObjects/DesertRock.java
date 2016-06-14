@@ -6,7 +6,7 @@ import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.RandomGenerator;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -33,7 +33,7 @@ public class DesertRock extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		if(RandomGenerator.getRNG(1, 3) == 3){
+		if(RandomGenUtility.getRNG(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_rock_alt);
 			this.width = image.getWidth()+5;
 			this.height = image.getHeight()+5;

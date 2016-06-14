@@ -1,10 +1,11 @@
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.Controllers;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.EnumIDs.GameObjectID;
+import com.EudyContreras.Snake.FrameWork.GameManager;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -18,13 +19,13 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Eudy Contreras
  *
  */
-public class ObjectManager {
+public class GameObjectController {
 
 	private LinkedList<AbstractObject> object;
 	private AbstractObject tempObject;
 	private GameManager game;
 
-	public ObjectManager(GameManager gameJavaFX) {
+	public GameObjectController(GameManager gameJavaFX) {
 		this.game = gameJavaFX;
 		initialize();
 	}

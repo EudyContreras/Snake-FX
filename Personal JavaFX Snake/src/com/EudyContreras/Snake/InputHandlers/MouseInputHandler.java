@@ -16,7 +16,7 @@ import javafx.scene.input.MouseEvent;
  * @author Eudy Contreras
  *
  */
-public class InputManagerMouse {
+public class MouseInputHandler {
 
 	public static int mouseX, mouseY;
 	GameManager game;
