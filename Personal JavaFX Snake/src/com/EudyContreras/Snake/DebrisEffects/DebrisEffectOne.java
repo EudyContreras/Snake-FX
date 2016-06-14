@@ -40,7 +40,7 @@ public class DebrisEffectOne extends AbstractDebrisEffect{
 		shape.setBlendMode(BlendMode.ADD);
         game.getFirstLayer().getChildren().add(shape);
 	}
-	public void update(){
+	public void updateUI(){
 		x += velocity.getX();
 		y += velocity.getY();
 		lifeTime -= decay;

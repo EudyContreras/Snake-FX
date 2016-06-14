@@ -5,7 +5,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,16 +21,13 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class GenericObject extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
-	float speed;
+	private Rectangle2D collisionBounds;
+	private GameManager game;
 
 	public GenericObject(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
-		this.speed = speed;
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);

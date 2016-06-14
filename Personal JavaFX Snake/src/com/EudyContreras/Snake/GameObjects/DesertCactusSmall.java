@@ -20,11 +20,10 @@ import javafx.scene.shape.Rectangle;
  */
 public class DesertCactusSmall extends AbstractTile {
 
-	GameManager game;
-	Rectangle bounds;
-	Rectangle2D bounds2D;
-	float speed;
-	float oldX;
+	private GameManager game;
+	private Rectangle bounds;
+	private Rectangle2D bounds2D;
+	private float oldX;
 
 	public DesertCactusSmall(GameManager game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);

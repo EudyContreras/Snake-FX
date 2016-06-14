@@ -40,12 +40,12 @@ public class SandStorms extends AbstractDebrisEffect {
 	public SandStorms(GameManager game, Image image, double expireTime, double x, double y) {
 		this.game = game;
 		this.setView(new ImageView(image));
-		this.getView().setFitWidth(width);
-		this.getView().setFitHeight(height);
+		this.view.setFitWidth(width);
+		this.view.setFitHeight(height);
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (6 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velX = Math.random() * (7 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
 		init();
 	}
@@ -55,32 +55,29 @@ public class SandStorms extends AbstractDebrisEffect {
 			shape.setFill(imagePattern);
 			game.getOuterParticleLayer().getChildren().add(getShape());
 		}
-		if (getView() != null) {
-			game.getOuterParticleLayer().getChildren().add(getView());
+		if (view != null) {
+			game.getOuterParticleLayer().getChildren().add(view);
 		}
 	}
 
-	public void update() {
-		super.move();
-		lifeTime -= decay;
-		velX += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		velY -= 0.002;
-	}
-
-	public void move() {
+	public void updateUI() {
 		if (shape != null) {
 			shape.setCenterX(x);
 			shape.setCenterY(y);
 			shape.setOpacity(lifeTime);
 		}
-		if (getView() != null) {
-			getView().setTranslateX(x);
-			getView().setTranslateY(y);
-			// view.setOpacity(lifeTime);
+		if (view != null) {
+			view.setTranslateX(x);
+			view.setTranslateY(y);
 		}
 
 	}
-
+	public void move() {
+		super.move();
+		lifeTime -= decay;
+		//velX += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		velY -= 0.002;
+	}
 	public void collide() {
 	}
 

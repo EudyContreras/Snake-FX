@@ -1,9 +1,7 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
-
 import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
 import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
 import com.EudyContreras.Snake.EnumIDs.GameStateID;
@@ -63,8 +61,7 @@ public abstract class AbstractGameModel extends Application {
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
 	protected Service<Void> backgroundThread;
-	protected ExecutorService backgroundThreadOne;
-	protected ScheduledExecutorService backgroundThreadTwo;
+	protected ScheduledExecutorService scheduledExecutor;
 	protected AnimationTimer playerMovementLoop;
 	protected InputManagerKey keyInput;
 	protected InputManagerMouse mouseInput;
@@ -543,17 +540,11 @@ public abstract class AbstractGameModel extends Application {
 	                @Override
 	                protected Void call() throws Exception {
 	                    //Background work
-	                	//
-	                	//
-	                	//
-
 	                    final CountDownLatch latch = new CountDownLatch(1);
 	                    Platform.runLater(new Runnable() {
 	                        @Override
 	                        public void run() {
 	                            try{
-
-
 	                                //FX Stuff done here
 	                            }finally{
 	                                latch.countDown();

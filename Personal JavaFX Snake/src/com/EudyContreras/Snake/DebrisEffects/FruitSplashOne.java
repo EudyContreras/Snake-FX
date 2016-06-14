@@ -55,17 +55,17 @@ public class FruitSplashOne extends AbstractDebrisEffect {
 		game.getInnerParticleLayer().getChildren().add(shape);
 	}
 
-	public void update() {
-		super.move();
-		lifeTime -= decay;
-	}
-
-	public void move() {
-		velX *= energyLoss;
-		velY *= energyLoss;
+	public void updateUI() {
 		shape.setCenterX(x);
 		shape.setCenterY(y);
 		shape.setOpacity(lifeTime);
+	}
+
+	public void move() {
+		super.move();
+		lifeTime -= decay;
+		velX *= energyLoss;
+		velY *= energyLoss;
 	}
 
 	public void collide() {

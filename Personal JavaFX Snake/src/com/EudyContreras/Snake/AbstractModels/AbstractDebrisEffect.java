@@ -29,7 +29,7 @@ public abstract class AbstractDebrisEffect {
 	protected double r;
 	protected double velR;
 
-	public abstract void update();
+	public abstract void updateUI();
 
 	public abstract void draw(GraphicsContext gc);
 

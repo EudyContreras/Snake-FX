@@ -42,7 +42,7 @@ public class ObjectManager {
 	 * be thrown
 	 */
 	public void update(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = object.iterator();
+		Iterator<AbstractObject> objectIterator = object.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();

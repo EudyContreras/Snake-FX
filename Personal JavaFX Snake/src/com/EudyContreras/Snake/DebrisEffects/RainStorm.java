@@ -40,8 +40,8 @@ public class RainStorm extends AbstractDebrisEffect {
 	public RainStorm(GameManager game, Image image, double expireTime, double x, double y) {
 		this.game = game;
 		this.setView(new ImageView(image));
-		this.getView().setFitWidth(width);
-		this.getView().setFitHeight(height);
+		this.view.setFitWidth(width);
+		this.view.setFitHeight(height);
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
@@ -55,29 +55,28 @@ public class RainStorm extends AbstractDebrisEffect {
 			shape.setFill(imagePattern);
 			game.getSixthLayer().getChildren().add(shape);
 		}
-		if (getView() != null) {
-			game.getSixthLayer().getChildren().add(getView());
+		if (view != null) {
+			game.getSixthLayer().getChildren().add(view);
 		}
 	}
-
-	public void update() {
-		super.move();
-		lifeTime -= decay;
-		velY += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		velX -= 0.002;
-	}
-
-	public void move() {
+	public void updateUI() {
 		if (shape != null) {
 			shape.setCenterX(x);
 			shape.setCenterY(y);
 			shape.setOpacity(lifeTime);
 		}
-		if (getView() != null) {
-			getView().setTranslateX(x);
-			getView().setTranslateY(y);
+		if (view != null) {
+			view.setTranslateX(x);
+			view.setTranslateY(y);
 		}
 
+	}
+
+	public void move() {
+		super.move();
+		lifeTime -= decay;
+		velY += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		velX -= 0.002;
 	}
 
 	public void collide() {

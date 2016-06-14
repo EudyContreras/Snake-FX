@@ -14,7 +14,7 @@ import javafx.scene.shape.Circle;
 
 public class FruitSplashTwo extends AbstractDebrisEffect {
 
-	GameDebrisID id;
+	private GameDebrisID id;
 	Random rand = new Random();
 	Paint color;
 	double radius;
@@ -51,7 +51,7 @@ public class FruitSplashTwo extends AbstractDebrisEffect {
 		game.getInnerParticleLayer().getChildren().add(shape);
 	}
 
-	public void update() {
+	public void updateUI() {
 		x = x + velX;
 		y = y + velY;
 		lifeTime -= decay;

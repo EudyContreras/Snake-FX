@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractDebrisEffect;
-
 import javafx.scene.canvas.GraphicsContext;
 
 public class GameDebrisManager {
@@ -31,33 +30,38 @@ public class GameDebrisManager {
 		Collections.addAll(debris, debrisEffect);
 	}
 
-//	public void addObject(AbstractDebrisEffect debris) {
-//		this.debris.add(debris);
-//	}
-
-//	public void addDebris(AbstractDebrisEffect... db) {
-//		if (db.length > 1) {
-//			debris.addAll(Arrays.asList(db));
-//		} else {
-//			debris.add(db[0]);
-//		}
-//	}
-//	public void addParticle(AbstractDebrisEffect... db) {
-//		if (db.length > 1) {
-//			particles.addAll(Arrays.asList(db));
-//		} else {
-//			particles.add(db[0]);
-//		}
-//	}
-
-	public void updateAll(GraphicsContext gc) {
+	public void addDebrisA(AbstractDebrisEffect... db) {
+		if (db.length > 1) {
+			debris.addAll(Arrays.asList(db));
+		} else {
+			debris.add(db[0]);
+		}
+	}
+	public void addParticleA(AbstractDebrisEffect... db) {
+		if (db.length > 1) {
+			particles.addAll(Arrays.asList(db));
+		} else {
+			particles.add(db[0]);
+		}
+	}
+	public void updateAllStream(GraphicsContext gc){
+		debris.stream().parallel().forEach(AbstractDebrisEffect::move);
+		particles.stream().parallel().forEach(AbstractDebrisEffect::move);
+		debris.forEach(AbstractDebrisEffect::updateUI);
+		particles.forEach(AbstractDebrisEffect::updateUI);
+		debris.forEach(AbstractDebrisEffect::collide);
+		particles.forEach(AbstractDebrisEffect::collide);
+		removeDeadDebris();
+		removeDeadParticles();
+	}
+	public synchronized void updateAll(GraphicsContext gc) {
 		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
 		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
 		while(debrisList.hasNext()) {
 			AbstractDebrisEffect tempDebris = debrisList.next();
-			tempDebris.update();
-			tempDebris.draw(gc);
 			tempDebris.move();
+			tempDebris.updateUI();
+			tempDebris.draw(gc);
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
 				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
@@ -70,9 +74,9 @@ public class GameDebrisManager {
 		}
 		while(particleList.hasNext()) {
 			AbstractDebrisEffect tempParticle = particleList.next();
-			tempParticle.update();
-			tempParticle.draw(gc);
 			tempParticle.move();
+			tempParticle.updateUI();
+			tempParticle.draw(gc);
 			tempParticle.collide();
 			if (!tempParticle.isAlive()) {
 				game.getInnerParticleLayer().getChildren().remove(tempParticle.getView());
@@ -84,11 +88,88 @@ public class GameDebrisManager {
 			}
 		}
 	}
+	private void removeDeadParticles() {
 
+		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
+		while(particleList.hasNext()) {
+
+			AbstractDebrisEffect particle = particleList.next();
+
+			if (!particle.isAlive()) {
+
+				game.getInnerParticleLayer().getChildren().remove(particle.getView());
+				game.getInnerParticleLayer().getChildren().remove(particle.getShape());
+				game.getOuterParticleLayer().getChildren().remove(particle.getShape());
+				game.getOuterParticleLayer().getChildren().remove(particle.getView());
+
+				particleList.remove();
+
+			}
+
+		}
+
+	}
+	private void removeDeadDebris() {
+
+		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
+		while(debrisList.hasNext()) {
+
+			AbstractDebrisEffect debris = debrisList.next();
+
+			if (!debris.isAlive()) {
+
+				game.getDebrisLayer().getChildren().remove(debris.getView());
+				game.getDebrisLayer().getChildren().remove(debris.getShape());
+				game.getInnerParticleLayer().getChildren().remove(debris.getView());
+				game.getInnerParticleLayer().getChildren().remove(debris.getShape());
+
+				debrisList.remove();
+
+			}
+		}
+	}
+	public synchronized void updateAllFor(GraphicsContext gc) {
+		for(int i = 0; i<debris.size(); i++){
+			AbstractDebrisEffect tempDebris = debris.get(i);
+			tempDebris.updateUI();
+			tempDebris.draw(gc);
+			tempDebris.collide();
+			if (!tempDebris.isAlive()) {
+				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
+				game.getDebrisLayer().getChildren().remove(tempDebris.getShape());
+				game.getInnerParticleLayer().getChildren().remove(tempDebris.getView());
+				game.getInnerParticleLayer().getChildren().remove(tempDebris.getShape());
+				debris.remove(tempDebris);
+			}
+		}
+		for(int i = 0; i<particles.size(); i++){
+			AbstractDebrisEffect tempParticle = particles.get(i);
+			tempParticle.updateUI();
+			tempParticle.draw(gc);
+			tempParticle.collide();
+			if (!tempParticle.isAlive()) {
+				game.getInnerParticleLayer().getChildren().remove(tempParticle.getView());
+				game.getInnerParticleLayer().getChildren().remove(tempParticle.getShape());
+				game.getOuterParticleLayer().getChildren().remove(tempParticle.getShape());
+				game.getOuterParticleLayer().getChildren().remove(tempParticle.getView());
+				particles.remove(tempParticle);
+			}
+		}
+	}
+	public synchronized void moveAllFor() {
+		for(int i = 0; i<debris.size(); i++){
+			AbstractDebrisEffect tempDebris = debris.get(i);
+			tempDebris.move();
+		}
+		for(int i = 0; i<particles.size(); i++){
+			AbstractDebrisEffect tempParticle = particles.get(i);
+			tempParticle.move();
+		}
+	}
 	public void updateDebris(GraphicsContext gc) {
 		for (int i = 0; i < debris.size(); i++) {
 			tempDebris = debris.get(i);
-			tempDebris.update();
+			tempDebris.updateUI();
 			tempDebris.draw(gc);
 			tempDebris.move();
 			tempDebris.collide();
@@ -105,7 +186,7 @@ public class GameDebrisManager {
 	public void updateParticles(GraphicsContext gc) {
 		for (int i = 0; i < particles.size(); i++) {
 			tempParticle = particles.get(i);
-			tempParticle.update();
+			tempParticle.updateUI();
 			tempParticle.draw(gc);
 			tempParticle.move();
 			tempParticle.collide();
@@ -115,27 +196,6 @@ public class GameDebrisManager {
 				game.getOuterParticleLayer().getChildren().remove(tempParticle.getShape());
 				game.getOuterParticleLayer().getChildren().remove(tempParticle.getView());
 				particles.remove(i);
-			}
-		}
-	}
-
-	public void checkCollision() {
-		for (int i = 0; i < debris.size(); i++) {
-			tempDebris = debris.get(i);
-			tempDebris.collide();
-		}
-	}
-
-	public void checkIfAlive() {
-		for (int i = 0; i < debris.size(); i++) {
-			tempDebris = debris.get(i);
-			if (!tempDebris.isAlive()) {
-				game.getFirstLayer().getChildren().remove(tempDebris.getShape());
-				debris.remove(i);
-			}
-			if (tempDebris.getShape() == null) {
-				debris.remove(i);
-
 			}
 		}
 	}

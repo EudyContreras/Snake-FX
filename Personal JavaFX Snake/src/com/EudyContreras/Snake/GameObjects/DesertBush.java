@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,10 +21,8 @@ import javafx.scene.transform.Rotate;
  *
  */
 public class DesertBush extends AbstractTile {
-	GameTileManager tileManager;
-	GameManager game;
-	float oldX;
-	float speed;
+	private GameManager game;
+	private float oldX;
 	private double count = 60;
 	private double threshold = 0;
 	private boolean playerCollision = false;

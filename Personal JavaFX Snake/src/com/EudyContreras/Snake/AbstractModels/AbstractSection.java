@@ -124,7 +124,6 @@ public abstract class AbstractSection {
 		this.imageView.setImage(image);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		// addToLayer();
 
 	}
 

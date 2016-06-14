@@ -47,9 +47,9 @@ public class GameSettings {
 	public static int COLLISION_DELAY = 0;
 
 	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double ENERGY_COMSUMPTION_SPEED = 7/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double ENERGY_COMSUMPTION_SPEED = 0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX/MANUAL_SIZE_SCALE;
+	public static double DAMAGE_AMOUNT = 1/GameManager.ScaleX/MANUAL_SIZE_SCALE;
 
 	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
@@ -60,15 +60,14 @@ public class GameSettings {
 	public static double GLOBAL_SPECULARITY = 1.0;
 
 	public static int BLUR_RANDOMNESS = 200;
-	public static int MAX_AMOUNT_OF_DEBRIS = 150;
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
 	public static int PARTICLE_LIMIT = 150;
-	public static int MAX_DEBRIS_AMOUNT = 100;
+	public static int MAX_DEBRIS_AMOUNT = 50;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
 	public static int SAND_AMOUNT = 1;
 	public static int RAIN_AMOUNT = 0;
-	public static int DIRT_AMOUNT = 6;
+	public static int DIRT_AMOUNT = 4;
 
 	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 0.8;
@@ -86,7 +85,7 @@ public class GameSettings {
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 
-	public static boolean ALLOW_DIRT = true;
+	public static boolean ALLOW_DIRT = false;
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 

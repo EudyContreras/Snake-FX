@@ -1,6 +1,8 @@
 package com.EudyContreras.Snake.PlayerTwo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.FrameWork.GameManager;
@@ -77,6 +79,35 @@ public class PlayerTwoSectionManager {
 
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
+			tempSection.move();
+			tempSection.updateUI();
+		}
+	}
+	/**
+	 * Method used to update every section in the game. this method uses a
+	 * conventional for loop and allows the list to be modified from an outside
+	 * source without provoking a break.
+	 */
+	public void updateAllLogicIter(GraphicsContext gc, long timePassed) {
+		Iterator<AbstractSection> sectionIter = sectionList.iterator();
+		while (sectionIter.hasNext()) {
+			tempSection = sectionIter.next();
+			tempSection.checkCollision();
+			tempSection.logicUpdate();
+			tempSection.addPhysics();
+			tempSection.updateAnimation(timePassed);
+			tempSection.draw(gc);
+			tempSection.checkRemovability();
+			if (tempSection.isRemovable() || !tempSection.isAlive()) {
+				tempSection.removeFromLayer();
+				sectionIter.remove();
+			}
+		}
+	}
+	public void updateAllMovementIter(GraphicsContext gc, long timePassed) {
+		Iterator<AbstractSection> sectionIter = sectionList.iterator();
+		while (sectionIter.hasNext()) {
+			tempSection = sectionIter.next();
 			tempSection.move();
 			tempSection.updateUI();
 		}
@@ -164,7 +195,7 @@ public class PlayerTwoSectionManager {
 	}
 
 	public void addSection(AbstractSection sect) {
-		sectionList.add(sect);
+		Collections.addAll(sectionList,sect);
 	}
 
 	public void removeSection(AbstractSection section) {

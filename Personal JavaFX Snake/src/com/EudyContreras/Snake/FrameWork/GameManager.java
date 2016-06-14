@@ -18,7 +18,6 @@ import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.InputHandlers.InputManagerGestures;
 import com.EudyContreras.Snake.InputHandlers.InputManagerKey;
 import com.EudyContreras.Snake.InputHandlers.InputManagerMouse;
@@ -30,7 +29,6 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MainMenu;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -198,8 +196,10 @@ public class GameManager extends AbstractGameModel{
         objectChecker();
 		gameLoop();
 //		frameBaseGameLoop();
+//		nonUIThread();
+
 //		backgroundScheduledThread();
-//        backgroundTaskThread();
+//      backgroundTaskThread();
 //		backgroundWorkerTwo();
 
     }
@@ -258,11 +258,11 @@ public class GameManager extends AbstractGameModel{
         gestures = new InputManagerGestures();
         mouseInput = new InputManagerMouse();
         debrisManager = new GameDebrisManager(this);
-        //cacheAllLayers();
     }
-    private void cacheAllLayers(){
-    	snakeOneLayer.setCache(true);
-    	snakeOneLayer.setCacheHint(CacheHint.SPEED);
+    @SuppressWarnings("unused")
+	private void cacheAllLayers(){
+    	root.setCache(true);
+    	root.setCacheHint(CacheHint.SPEED);
     }
     public static double ScaleX(double value) {
         double newSize = value/ScaleX;
@@ -315,8 +315,6 @@ public class GameManager extends AbstractGameModel{
     }
     public void closeGame() {
         pauseGame();
-//		frameGameLoop.stop();
-//		backgroundThreadTwo.shutdown();
         logToConsole("Good bye!");
         Platform.exit();
     }
@@ -406,16 +404,21 @@ public class GameManager extends AbstractGameModel{
                     if (scoreBoardTwo != null) {
                         scoreBoardTwo.hide();
                     }
-                    if (!debrisLayer.getChildren().isEmpty()) {
-                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                            debrisLayer.getChildren().remove(0,10);
-                        }
-                    }
-                    if (!innerParticleLayer.getChildren().isEmpty()) {
-                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
-                            innerParticleLayer.getChildren().remove(0);
-                        }
-                    }
+//                    if (!debrisLayer.getChildren().isEmpty()) {
+//                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+//                            debrisLayer.getChildren().remove(0,10);
+//                        }
+//                    }
+//                    if (!innerParticleLayer.getChildren().isEmpty()) {
+//                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+//                            innerParticleLayer.getChildren().remove(0);
+//                        }
+//                    }
+//                    if (!outerParticleLayer.getChildren().isEmpty()) {
+//                        if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+//                        	outerParticleLayer.getChildren().remove(0);
+//                        }
+//                    }
                 }
                 if (delta > nanoSecond) {
                     TextFPS.setText("FPS :" + FPS);
@@ -460,7 +463,6 @@ public class GameManager extends AbstractGameModel{
                         delta += currentTime - lastTime;
                         timePassed = System.currentTimeMillis() - cummulativeTime;
                         cummulativeTime += timePassed;
-
                         if (!GameSettings.RENDER_GAME) {
                             mainMenu.transition();
 
@@ -489,8 +491,7 @@ public class GameManager extends AbstractGameModel{
                             playerTwoManager.updateAllLogic(gc, timePassed);
                             sectManagerOne.updateAllLogic(gc, timePassed);
                             sectManagerTwo.updateAllLogic(gc, timePassed);
-                            debrisManager.updateDebris(gc);
-                            debrisManager.updateParticles(gc);
+                            debrisManager.updateAll(gc);
                             loader.updateLevelObjects();
                             sandEmitter.move();
                             rainEmitter.move();
@@ -518,16 +519,7 @@ public class GameManager extends AbstractGameModel{
                             if (scoreBoardTwo != null) {
                                 scoreBoardTwo.hide();
                             }
-                            if (!debrisLayer.getChildren().isEmpty()) {
-                                if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                                    debrisLayer.getChildren().remove(0,10);
-                                }
-                            }
-                            if (!innerParticleLayer.getChildren().isEmpty()) {
-                                if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
-                                    innerParticleLayer.getChildren().remove(0);
-                                }
-                            }
+
                         }
                         if (delta > nanoSecond) {
                             TextFPS.setText("FPS :" + FPS);
@@ -564,7 +556,8 @@ public class GameManager extends AbstractGameModel{
     private long timePassed = 0;
     private long now = 0;
 
-    private void backgroundTaskThread() {
+    @SuppressWarnings("unused")
+	private void backgroundTaskThread() {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
@@ -594,11 +587,11 @@ public class GameManager extends AbstractGameModel{
                             updateAt30();
                             delta3--;
                         }
-//                        while (delta4 >= 1) {
+                        while (delta4 >= 1) {
                             updateAt60(timePassed);
                             updateAnimation(timePassed);
                             delta4--;
-//                        }
+                        }
                         while (delta5 >= 1) {
                             updateAt120();
                             delta5--;
@@ -616,7 +609,7 @@ public class GameManager extends AbstractGameModel{
                         lastTime = currentTime;
 
                     });
-                    Thread.sleep(16);
+                    Thread.sleep(1);
                 }
             }
 
@@ -632,7 +625,6 @@ public class GameManager extends AbstractGameModel{
             private void updateAt60(long timePassed ) {
                 if (!GameSettings.RENDER_GAME) {
                     mainMenu.transition();
-
                 }
                 if (GameSettings.RENDER_GAME) {
                     drawOverlay(gc);
@@ -698,7 +690,6 @@ public class GameManager extends AbstractGameModel{
                     }
                 }
             }
-
             private void updateAt120() {
 
             }
@@ -750,9 +741,10 @@ public class GameManager extends AbstractGameModel{
         th.setDaemon(true);
         th.start();
     }
-    public void backgroundScheduledThread() {
-        backgroundThreadTwo = Executors.newSingleThreadScheduledExecutor();
-        backgroundThreadTwo.scheduleAtFixedRate(() -> {
+    @SuppressWarnings("unused")
+	private void backgroundScheduledThread() {
+        scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+        scheduledExecutor.scheduleAtFixedRate(() -> {
 
             Platform.runLater(() -> {
 
@@ -761,7 +753,43 @@ public class GameManager extends AbstractGameModel{
 
         }, 0, 16, TimeUnit.MILLISECONDS);
     }
+    /**
+     * Thread which can be used to updates elements and values
+     * that are not part of the JavaFX UI eg: this thread may update
+     * the x variable used for translating a and element from point a to
+     * be but it may not update the element itself within its run method
+     * @throws: Not the JavaFX Thread!!
+     * @
+     */
+    private void nonUIThread() {
 
+        Thread physicsThread = new Thread(new Runnable() {
+
+            double physicsFps = 1000f / 60f;
+
+            @Override
+            public void run() {
+
+                long prevTime = System.currentTimeMillis();
+                long currTime = System.currentTimeMillis();
+
+                while (true) {
+
+                    currTime = System.currentTimeMillis();
+
+                    if ((currTime - prevTime) >= physicsFps) {
+
+
+                        prevTime = currTime;
+                    }
+                }
+            }
+        });
+
+        physicsThread.setDaemon(true);
+        physicsThread.start();
+
+    }
     /**
      * Method used to draw any given overlay over the game. this method is
      * currently used for debugging
@@ -856,7 +884,6 @@ public class GameManager extends AbstractGameModel{
         scoreBoardOne.show();
         scoreBoardTwo.show();
         gameHud.show();
-//		gameHud.hideHUDCover();
         loader.killPlayerOne();
         loader.killPlayerTwo();
         loader.loadPlayerOne();
@@ -899,7 +926,6 @@ public class GameManager extends AbstractGameModel{
         scoreBoardOne.show();
         scoreBoardTwo.show();
         gameHud.show();
-//		gameHud.hideHUDCover();
         loader.killPlayerOne();
         loader.killPlayerTwo();
         loader.loadPlayerOne();
@@ -942,7 +968,6 @@ public class GameManager extends AbstractGameModel{
         scoreBoardOne.show();
         scoreBoardTwo.show();
         gameHud.show();
-//		gameHud.hideHUDCover();
         loader.killPlayerOne();
         loader.killPlayerTwo();
         loader.loadPlayerOne();
