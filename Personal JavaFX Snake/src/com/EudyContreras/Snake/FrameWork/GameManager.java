@@ -164,9 +164,9 @@ public class GameManager extends AbstractGameModel{
         energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
         healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,35 / ScaleY, 350 / ScaleX,30 / ScaleY);
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
-        gameHud = new GameHud(this, -5, -10, GameSettings.WIDTH + 10, 100 / ScaleY);
+        gameHud = new GameHud(this, -5, -25, GameSettings.WIDTH + 10, 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
-                45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 15/ScaleY,
+                45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 10/ScaleY,
                 680/ScaleX,85 / ScaleY);
         scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
                 50/ScaleY, Color.rgb(255, 150, 0));
@@ -404,21 +404,11 @@ public class GameManager extends AbstractGameModel{
                     if (scoreBoardTwo != null) {
                         scoreBoardTwo.hide();
                     }
-//                    if (!debrisLayer.getChildren().isEmpty()) {
-//                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-//                            debrisLayer.getChildren().remove(0,10);
-//                        }
-//                    }
-//                    if (!innerParticleLayer.getChildren().isEmpty()) {
-//                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-//                            innerParticleLayer.getChildren().remove(0);
-//                        }
-//                    }
-//                    if (!outerParticleLayer.getChildren().isEmpty()) {
-//                        if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-//                        	outerParticleLayer.getChildren().remove(0);
-//                        }
-//                    }
+                    if (!outerParticleLayer.getChildren().isEmpty()) {
+                        if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+                        	outerParticleLayer.getChildren().remove(0);
+                        }
+                    }
                 }
                 if (delta > nanoSecond) {
                     TextFPS.setText("FPS :" + FPS);

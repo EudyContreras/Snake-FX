@@ -138,7 +138,7 @@ public class ScoreKeeper extends AbstractHudElement{
 		yOne = yOne + swipeSpeed/GameManager.ScaleY;
 		if (swipeDown) {
 			swipeSpeed = 2.5f;
-			if (yTwo >= GameManager.ScaleX(105)) {
+			if (yTwo >= GameManager.ScaleX(104)) {
 				swipeSpeed = 0;
 			}
 		}

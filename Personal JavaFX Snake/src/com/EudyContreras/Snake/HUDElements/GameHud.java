@@ -20,7 +20,6 @@ import javafx.scene.shape.Rectangle;
 public class GameHud {
 
 	private double yOne = 0;
-	private double height = 0;
 	private double swipeSpeedTop = 0;
 	private double yTwo = GameSettings.HEIGHT;
 	private double swipeSpeedBottom = 0;
@@ -42,7 +41,6 @@ public class GameHud {
 
 	public GameHud(GameManager game, double x, double y, double width, double height) {
 		this.yOne = y;
-		this.height = height+10;
 		this.shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		this.shadow.setRadius(5);
 		this.shadow.setOffsetX(0);
@@ -51,22 +49,22 @@ public class GameHud {
 		this.topHudBar.setHeight(height+GameManager.ScaleY(50));
 		this.topHudBar.setTranslateX(x);
 		this.topHudBar.setTranslateY(y-GameManager.ScaleY(20));
-		this.topHudBar.setArcHeight(20);
-		this.topHudBar.setArcWidth(20);
+//		this.topHudBar.setArcHeight(20);
+//		this.topHudBar.setArcWidth(20);
 		this.bottomHudBar.setWidth(width);
 		this.bottomHudBar.setHeight(height+GameManager.ScaleY(80));
 		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40);
 		this.bottomHudBar.setTranslateX(x);
 		this.bottomHudBar.setTranslateY(yTwo);
 		this.bottomHudBar.setRotate(180);
-		this.bottomHudBar.setArcHeight(20);
-		this.bottomHudBar.setArcWidth(20);
+//		this.bottomHudBar.setArcHeight(20);
+//		this.bottomHudBar.setArcWidth(20);
 		this.mainBar.setWidth(width);
 		this.mainBar.setHeight(height + 5);
 		this.mainBar.setTranslateX(x);
 		this.mainBar.setTranslateY(y);
-		this.mainBar.setArcWidth(20);
-		this.mainBar.setArcHeight(20);
+//		this.mainBar.setArcWidth(20);
+//		this.mainBar.setArcHeight(20);
 		this.mainBar.setEffect(shadow);
 		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
@@ -85,7 +83,7 @@ public class GameHud {
 		yTwo = yTwo + swipeSpeedBottom/GameManager.ScaleY;
 		if (showHUDCover) {
 			swipeSpeedTop = 2.5;
-			if (yOne >= mainBar.getTranslateY() - GameManager.ScaleY(21)) {
+			if (yOne >= mainBar.getTranslateY() - GameManager.ScaleY(30)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = -3.5;
@@ -95,7 +93,7 @@ public class GameHud {
 		}
 		if (hideHUDCover) {
 			swipeSpeedTop = -2.55;
-			if (yOne < mainBar.getTranslateY() - height) {
+			if (yOne < 0 - topHudBar.getHeight()+GameManager.ScaleY(10)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 3.5;

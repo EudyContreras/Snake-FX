@@ -358,7 +358,6 @@ public class GameOverScreen {
 					confirmXPosition = 0;
 					swipeLeft = false;
 					game.processGameInput();
-					game.getFadeScreenHandler().restart_fade_screen();
 					PlayerOne.LEVEL_COMPLETED = false;
 					PlayerTwo.LEVEL_COMPLETED = false;
 					center = false;
@@ -442,6 +441,7 @@ public class GameOverScreen {
 		confirmScreenBack.setFitHeight(confirmScreen.getFitHeight());
 	}
 	public void restartLevel() {
+		game.getFadeScreenHandler().restart_fade_screen();
 		game.getScoreKeeper().resetTimer();
 		overlay.removeBlur();
 		center = true;
