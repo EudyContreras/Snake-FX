@@ -1,10 +1,10 @@
-package com.EudyContreras.Snake.DebrisEffects;
+package com.EudyContreras.Snake.ParticleEffects;
 
-import com.EudyContreras.Snake.AbstractModels.AbstractDebrisEffect;
-import com.EudyContreras.Snake.EnumIDs.GameDebrisID;
+import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class SandStorms extends AbstractDebrisEffect {
+public class SandStorms extends AbstractParticlesEffect {
 
 	private GameDebrisID id;
 	private double dropVel;

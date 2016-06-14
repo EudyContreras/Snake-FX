@@ -4,13 +4,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.EudyContreras.Snake.Controllers.GameDebrisController;
-import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
-import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.Controllers.GameObjectController;
+import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
+import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
 import com.EudyContreras.Snake.FrameWork.FadeScreenHandler;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
-import com.EudyContreras.Snake.FrameWork.ObjectManager;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
@@ -22,6 +21,7 @@ import com.EudyContreras.Snake.HUDElements.PauseMenu;
 import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
@@ -69,7 +69,7 @@ public abstract class AbstractGameModel extends Application {
 	protected TouchInputHandler gestures;
 	protected GraphicsContext gc;
 	protected ScreenEffectUtility overlayEffect;
-	protected ObjectManager objectManager;
+	protected GameObjectController objectManager;
 	protected SlitherManager slitherManager;
 	protected PlayerOneManager playerOneManager;
 	protected PlayerTwoManager playerTwoManager;
@@ -278,11 +278,11 @@ public abstract class AbstractGameModel extends Application {
 		return levelLayer;
 	}
 
-	public ObjectManager getObjectManager() {
+	public GameObjectController getGameObjectController() {
 		return objectManager;
 	}
 
-	public void setObjectManager(ObjectManager objectManager) {
+	public void setGameObjectController(GameObjectController objectManager) {
 		this.objectManager = objectManager;
 	}
 

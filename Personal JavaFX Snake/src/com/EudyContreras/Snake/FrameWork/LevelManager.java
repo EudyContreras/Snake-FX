@@ -1,8 +1,6 @@
 package com.EudyContreras.Snake.FrameWork;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
 import com.EudyContreras.Snake.GameObjects.DesertBark;
 import com.EudyContreras.Snake.GameObjects.DesertBones;
 import com.EudyContreras.Snake.GameObjects.DesertBush;
@@ -14,6 +12,8 @@ import com.EudyContreras.Snake.GameObjects.DesertSkull;
 import com.EudyContreras.Snake.GameObjects.DesertTrap;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.SpikeFence;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
@@ -355,11 +355,11 @@ public class LevelManager extends AbstractLoaderModel{
 				if (red == 0 && green == 0 && blue == 255) {
 						this.playerOne = new PlayerOne(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
 								col * 20, 0, 0, 0, 0, GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne,
-							game.getObjectManager());
+							game.getGameObjectController());
 							game.getPlayerOneManager().addObject(playerOne);
 						this.playerTwo = new PlayerTwo(game, game.getThirdLayer(), GameImageBank.snakeOneSphere, row * 20,
 								col * 20, 0, 0, 0, 0, GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne,
-							game.getObjectManager());
+							game.getGameObjectController());
 							game.getPlayerTwoManager().addObject(playerOne);
 				}
 			}

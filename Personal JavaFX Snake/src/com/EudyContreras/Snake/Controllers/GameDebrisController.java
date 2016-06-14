@@ -5,41 +5,41 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.EudyContreras.Snake.AbstractModels.AbstractDebrisEffect;
+import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 
 import javafx.scene.canvas.GraphicsContext;
 
 public class GameDebrisController {
 
-	private LinkedList<AbstractDebrisEffect> debris;
-	private LinkedList<AbstractDebrisEffect> particles;
-	private AbstractDebrisEffect tempDebris;
-	private AbstractDebrisEffect tempParticle;
+	private LinkedList<AbstractParticlesEffect> debris;
+	private LinkedList<AbstractParticlesEffect> particles;
+	private AbstractParticlesEffect tempDebris;
+	private AbstractParticlesEffect tempParticle;
 	public GameManager game;
 
 	public GameDebrisController(GameManager game) {
 		this.game = game;
-		this.debris = new LinkedList<AbstractDebrisEffect>();
-		this.particles = new LinkedList<AbstractDebrisEffect>();
+		this.debris = new LinkedList<AbstractParticlesEffect>();
+		this.particles = new LinkedList<AbstractParticlesEffect>();
 	}
 
-	public void addParticle(AbstractDebrisEffect particle) {
+	public void addParticle(AbstractParticlesEffect particle) {
 		Collections.addAll(particles, particle);
 	}
 
-	public void addDebris(AbstractDebrisEffect debrisEffect) {
+	public void addDebris(AbstractParticlesEffect debrisEffect) {
 		Collections.addAll(debris, debrisEffect);
 	}
 
-	public void addDebrisA(AbstractDebrisEffect... db) {
+	public void addDebrisA(AbstractParticlesEffect... db) {
 		if (db.length > 1) {
 			debris.addAll(Arrays.asList(db));
 		} else {
 			debris.add(db[0]);
 		}
 	}
-	public void addParticleA(AbstractDebrisEffect... db) {
+	public void addParticleA(AbstractParticlesEffect... db) {
 		if (db.length > 1) {
 			particles.addAll(Arrays.asList(db));
 		} else {
@@ -47,20 +47,20 @@ public class GameDebrisController {
 		}
 	}
 	public void updateAllStream(GraphicsContext gc){
-		debris.stream().parallel().forEach(AbstractDebrisEffect::move);
-		particles.stream().parallel().forEach(AbstractDebrisEffect::move);
-		debris.forEach(AbstractDebrisEffect::updateUI);
-		particles.forEach(AbstractDebrisEffect::updateUI);
-		debris.forEach(AbstractDebrisEffect::collide);
-		particles.forEach(AbstractDebrisEffect::collide);
+		debris.stream().parallel().forEach(AbstractParticlesEffect::move);
+		particles.stream().parallel().forEach(AbstractParticlesEffect::move);
+		debris.forEach(AbstractParticlesEffect::updateUI);
+		particles.forEach(AbstractParticlesEffect::updateUI);
+		debris.forEach(AbstractParticlesEffect::collide);
+		particles.forEach(AbstractParticlesEffect::collide);
 		removeDeadDebris();
 		removeDeadParticles();
 	}
 	public synchronized void updateAll(GraphicsContext gc) {
-		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
-		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
+		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
+		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
 		while(debrisList.hasNext()) {
-			AbstractDebrisEffect tempDebris = debrisList.next();
+			AbstractParticlesEffect tempDebris = debrisList.next();
 			tempDebris.move();
 			tempDebris.updateUI();
 			tempDebris.draw(gc);
@@ -75,7 +75,7 @@ public class GameDebrisController {
 			}
 		}
 		while(particleList.hasNext()) {
-			AbstractDebrisEffect tempParticle = particleList.next();
+			AbstractParticlesEffect tempParticle = particleList.next();
 			tempParticle.move();
 			tempParticle.updateUI();
 			tempParticle.draw(gc);
@@ -92,10 +92,10 @@ public class GameDebrisController {
 	}
 	private void removeDeadParticles() {
 
-		Iterator<AbstractDebrisEffect> particleList = particles.iterator();
+		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
 		while(particleList.hasNext()) {
 
-			AbstractDebrisEffect particle = particleList.next();
+			AbstractParticlesEffect particle = particleList.next();
 
 			if (!particle.isAlive()) {
 
@@ -113,10 +113,10 @@ public class GameDebrisController {
 	}
 	private void removeDeadDebris() {
 
-		Iterator<AbstractDebrisEffect> debrisList = debris.iterator();
+		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
 		while(debrisList.hasNext()) {
 
-			AbstractDebrisEffect debris = debrisList.next();
+			AbstractParticlesEffect debris = debrisList.next();
 
 			if (!debris.isAlive()) {
 
@@ -132,7 +132,7 @@ public class GameDebrisController {
 	}
 	public synchronized void updateAllFor(GraphicsContext gc) {
 		for(int i = 0; i<debris.size(); i++){
-			AbstractDebrisEffect tempDebris = debris.get(i);
+			AbstractParticlesEffect tempDebris = debris.get(i);
 			tempDebris.updateUI();
 			tempDebris.draw(gc);
 			tempDebris.collide();
@@ -145,7 +145,7 @@ public class GameDebrisController {
 			}
 		}
 		for(int i = 0; i<particles.size(); i++){
-			AbstractDebrisEffect tempParticle = particles.get(i);
+			AbstractParticlesEffect tempParticle = particles.get(i);
 			tempParticle.updateUI();
 			tempParticle.draw(gc);
 			tempParticle.collide();
@@ -160,11 +160,11 @@ public class GameDebrisController {
 	}
 	public synchronized void moveAllFor() {
 		for(int i = 0; i<debris.size(); i++){
-			AbstractDebrisEffect tempDebris = debris.get(i);
+			AbstractParticlesEffect tempDebris = debris.get(i);
 			tempDebris.move();
 		}
 		for(int i = 0; i<particles.size(); i++){
-			AbstractDebrisEffect tempParticle = particles.get(i);
+			AbstractParticlesEffect tempParticle = particles.get(i);
 			tempParticle.move();
 		}
 	}
@@ -202,11 +202,11 @@ public class GameDebrisController {
 		}
 	}
 
-	public LinkedList<AbstractDebrisEffect> getDebrisList() {
+	public LinkedList<AbstractParticlesEffect> getDebrisList() {
 		return debris;
 	}
 
-	public LinkedList<AbstractDebrisEffect> getParticleList() {
+	public LinkedList<AbstractParticlesEffect> getParticleList() {
 		return particles;
 	}
 	public void clearDebris(){

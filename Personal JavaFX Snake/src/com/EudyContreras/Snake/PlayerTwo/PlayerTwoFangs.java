@@ -2,11 +2,11 @@ package com.EudyContreras.Snake.PlayerTwo;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
+import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.EudyContreras.Snake.FrameWork.ObjectManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
@@ -23,7 +23,7 @@ public class PlayerTwoFangs extends AbstractObject {
 	private PlayerTwo snake;
 	private PlayerTwoSectionManager sectManager;
 	private PlayerTwoHead snakeHead;
-	private ObjectManager gom;
+	private GameObjectController gom;
 
 	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, GameManager game, Pane layer, Circle node, double x,
 			double y, GameObjectID id, PlayerMovement Direction) {
@@ -31,7 +31,7 @@ public class PlayerTwoFangs extends AbstractObject {
 		this.snakeHead = snakeHead;
 		this.snake = snake;
 		this.game = game;
-		this.gom = game.getObjectManager();
+		this.gom = game.getGameObjectController();
 		this.sectManager = game.getSectManagerTwo();
 		if (Direction == PlayerMovement.MOVE_UP) {
 			this.y = (float) (y - this.circle.getRadius() * 3);

@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.HUDElements;
 
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
 import javafx.scene.layout.Pane;

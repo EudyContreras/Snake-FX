@@ -1,8 +1,8 @@
  package com.EudyContreras.Snake.AbstractModels;
 
-import com.EudyContreras.Snake.EnumIDs.GameDebrisID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public abstract class AbstractDebrisEffect {
+public abstract class AbstractParticlesEffect {
 
 	protected GameManager game;
 	protected Circle shape;

@@ -1,7 +1,7 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.Controllers.GameStateController;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 /**
  * This class is the parent of every state. Each state must extend this class.

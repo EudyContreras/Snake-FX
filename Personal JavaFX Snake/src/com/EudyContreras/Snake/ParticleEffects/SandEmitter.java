@@ -1,10 +1,10 @@
-package com.EudyContreras.Snake.DebrisEffects;
+package com.EudyContreras.Snake.ParticleEffects;
 
 import java.util.Random;
 
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;

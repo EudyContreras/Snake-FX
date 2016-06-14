@@ -2,10 +2,10 @@
 
 import java.util.Random;
 
+import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.LevelManager;
-import com.EudyContreras.Snake.FrameWork.ObjectManager;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
@@ -33,7 +33,7 @@ public abstract class AbstractLoaderModel {
 	protected WritableImage desertLevel_10;
 	protected WritableImage overlay;
 	protected LevelManager levelManager;
-	protected ObjectManager objectManger;
+	protected GameObjectController objectManger;
 	protected GameTileController tileManager;
 	protected GenericObject gameTile;
 	protected PlayerOne playerOne;

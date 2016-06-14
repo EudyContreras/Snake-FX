@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.Utilities;
 
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 

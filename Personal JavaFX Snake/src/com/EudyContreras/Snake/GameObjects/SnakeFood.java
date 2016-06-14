@@ -5,13 +5,13 @@ import java.util.Random;
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.DebrisEffects.FruitSplashOne;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.FruitSplashOne;
 import com.EudyContreras.Snake.ParticleEffects.GlowParticle;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
@@ -240,24 +240,6 @@ public class SnakeFood extends AbstractObject {
 	}
 
 	/**
-	 * Method in charge of the object is approximate to another set of
-	 * dimensions
-	 *
-	 * @param tail_X
-	 * @param sect_X
-	 * @param tail_Y
-	 * @param sect_Y
-	 * @return
-	 */
-	public boolean isApproximate(double tail_X, double sect_X, double tail_Y, double sect_Y) {
-		double distance = Math.sqrt((tail_X - sect_X) * (tail_X - sect_X) + (tail_Y - sect_Y) * (tail_Y - sect_Y));
-		if (distance > 10) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Method which can determine if the this object is approximate to another
 	 * given object
 	 *
@@ -292,13 +274,20 @@ public class SnakeFood extends AbstractObject {
 		float newX = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
 		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
 				+ GameSettings.START_Y + radius);
-		for (AbstractObject tempObject : game.getObjectManager().getObjectList()) {
+		for (AbstractObject tempObject : game.getGameObjectController().getObjectList()) {
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (tempObject.getNumericCode() != this.numericCode) {
 					if (getBounds().intersects(tempObject.getBounds())) {
-						this.x = newX;
-						this.y = newY;
-						this.fadeValue = 0;
+						if (!remainStatic) {
+							this.x = newX;
+							this.y = newY;
+							this.fadeValue = 0;
+							this.lifeTime = 0;
+							break;
+						}
+						else{
+
+						}
 					}
 				}
 			}
@@ -306,55 +295,100 @@ public class SnakeFood extends AbstractObject {
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
 			if (tempTile.getId() == GameLevelObjectID.rock) {
 				if (getBounds().intersects(tempTile.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						this.lifeTime = 0;
+						break;
+					}
+					else{
+						bounceBack(tempTile);
+					}
 				}
 			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
 			if (tempTile.getId() == GameLevelObjectID.cactus) {
 				if (getBounds().intersects(tempTile.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						this.lifeTime = 0;
+						break;
+					}
+					else{
+						bounceBack(tempTile);
+					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.treeBark) {
 				if (getCollisionBounds().intersects(tempTile.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
-					break;
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						this.lifeTime = 0;
+						break;
+					}
+					else{
+						bounceBack(tempTile);
+					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.flower) {
 				if (getCollisionBounds().intersects(tempTile.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
-					break;
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						this.lifeTime = 0;
+						break;
+					}
+					else{
+						bounceBack(tempTile);
+					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.bush) {
 				if (getCollisionBounds().intersects(tempTile.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
-					break;
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						this.lifeTime = 0;
+						break;
+					}
+					else{
+						bounceBack(tempTile);
+					}
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.noSpawnZone) {
 				if (getBounds().intersects(tempTile.getBounds())) {
-					this.x = newX;
-					this.y = newY;
-					this.fadeValue = 0;
+					if (!remainStatic) {
+						this.x = newX;
+						this.y = newY;
+						this.fadeValue = 0;
+						this.lifeTime = 0;
+						break;
+					}
+					else{
+						bounceBack(tempTile);
+					}
 				}
 			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTrap()) {
-			if (tempTile.getId() == GameLevelObjectID.fence) {
-				if (getCollisionBounds().intersects(tempTile.getBounds())) {
+			if (tempTile.getId() == GameLevelObjectID.fence || tempTile.getId() == GameLevelObjectID.trap) {
+				if (!remainStatic) {
+					this.x = newX;
+					this.y = newY;
+					this.fadeValue = 0;
+					this.lifeTime = 0;
+					break;
+				}else{
 					this.blowUp();
 					this.game.getGameLoader().spawnSnakeFood();
 					this.remove();
@@ -368,7 +402,11 @@ public class SnakeFood extends AbstractObject {
 					this.x = newX;
 					this.y = newY;
 					this.fadeValue = 0;
-					lifeTime = 0;
+					this.lifeTime = 0;
+					break;
+				}
+				else{
+					bounceBack(object);
 				}
 			}
 		}
@@ -378,29 +416,12 @@ public class SnakeFood extends AbstractObject {
 					this.x = newX;
 					this.y = newY;
 					this.fadeValue = 0;
-					lifeTime = 0;
+					this.lifeTime = 0;
+					break;
 				}
+				bounceBack(object);
 			}
 		}
-	}
-
-	/**
-	 * Method which returns true if the location of this object is a permitted
-	 * location
-	 *
-	 * @return
-	 */
-	public boolean allowedLocation() {
-		double newX = rand.nextDouble() * ((GameSettings.WIDTH - 30 * 3) - (30 * 3) + 1) + 30 * 3;
-		double newY = rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 3) - (30 * 3) + 1) + 30 * 3;
-		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
-			if (tempTile.getId() == GameLevelObjectID.rock || tempTile.getId() == GameLevelObjectID.cactus) {
-				if (!new Rectangle2D(newX, newY, radius, radius).intersects(tempTile.getBounds())) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -432,14 +453,6 @@ public class SnakeFood extends AbstractObject {
 	public void altblowUp() {
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
-//				particleSize = (Math.random() * (40 - 10 + 1) + 10)
-//						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-//				particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)
-//						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-//			}
-//			game.getDebrisManager().addObject(new FruitSplashTwo(game, new ImagePattern(GameImageBank.glowingCircleOne),
-//					particleLife, particleSize, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
-//
 				particleSize = Math.random()*(200 - 40 +1)+40;
 				particleLife = Math.random()*(0.5 - 0.1+1)+0.1;
 
@@ -504,7 +517,21 @@ public class SnakeFood extends AbstractObject {
 	public Bounds getRadialBounds() {
 		return bounds.getBoundsInParent();
 	}
-
+	/**
+	 * Method which will make this objects bounce from another object
+	 *
+	 * @param snake
+	 * @param x
+	 * @param y
+	 */
+	public void bounceBack(AbstractTile tile) {
+		velX = -Math.abs(velX*.8) + tile.getVelX()*.5;
+		velY = -Math.abs(velY*.8) + tile.getVelY()*.5;
+	}
+	public void bounceBack(AbstractSection section) {
+		velX = -Math.abs(velX*.8) + section.getVelX()*.5;
+		velY = -Math.abs(velY*.8) + section.getVelY()*.5;
+	}
 	/**
 	 * Method which returns the collision bounds for this object
 	 *

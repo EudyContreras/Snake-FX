@@ -1,6 +1,6 @@
 package com.EudyContreras.Snake.FrameWork;
 
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 import javafx.scene.shape.Rectangle;
 

@@ -1,18 +1,18 @@
-package com.EudyContreras.Snake.DebrisEffects;
+package com.EudyContreras.Snake.ParticleEffects;
 
 import java.util.Random;
 
-import com.EudyContreras.Snake.AbstractModels.AbstractDebrisEffect;
-import com.EudyContreras.Snake.EnumIDs.GameDebrisID;
+import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class FruitSplashTwo extends AbstractDebrisEffect {
+public class FruitSplashTwo extends AbstractParticlesEffect {
 
 	private GameDebrisID id;
 	Random rand = new Random();

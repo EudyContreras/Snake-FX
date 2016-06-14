@@ -5,15 +5,15 @@ import java.util.Random;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
 import com.EudyContreras.Snake.Controllers.GameTileController;
-import com.EudyContreras.Snake.DebrisEffects.BackgroundDirt;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
 import com.EudyContreras.Snake.GameObjects.DesertBackground;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.BackgroundDirt;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
@@ -39,7 +39,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public GameLoader(GameManager game) {
 		this.game = game;
 		this.rand = new Random();
-		this.objectManger = game.getObjectManager();
+		this.objectManger = game.getGameObjectController();
 		this.levelManager = new LevelManager(game,this);
 		this.setTileManager(new GameTileController(game));
 		this.setLevelTheme(GameThemeID.DESERT_THEME);
@@ -312,7 +312,7 @@ public class GameLoader extends AbstractLoaderModel{
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
 				+ GameSettings.START_Y+fruit.getRadius());
 		SnakeFood food = new SnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
-		game.getObjectManager().addObject(food);
+		game.getGameObjectController().addObject(food);
 		appleNumber++;
 	}
 	/**
@@ -324,7 +324,7 @@ public class GameLoader extends AbstractLoaderModel{
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
 				new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
+				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne, game.getGameObjectController());
 		game.getPlayerOneManager().addObject(playerOne);
 	}
 	/**
@@ -336,7 +336,7 @@ public class GameLoader extends AbstractLoaderModel{
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
 				new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_TWO_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
+				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_TWO_SPEED, GameObjectID.PlayerTwo, game.getGameObjectController());
 		game.getPlayerTwoManager().addObject(playerTwo);
 	}
 	/**

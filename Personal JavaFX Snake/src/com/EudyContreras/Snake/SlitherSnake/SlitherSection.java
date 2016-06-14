@@ -1,13 +1,13 @@
 package com.EudyContreras.Snake.SlitherSnake;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSlitherSection;
-import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
-import com.EudyContreras.Snake.DebrisEffects.SectionDisintegration;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;

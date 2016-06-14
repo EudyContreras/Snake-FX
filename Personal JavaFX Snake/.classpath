@@ -5,6 +5,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/mysql-connector-java/mysql-connector-java-5.1.39-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Eudy/Desktop/Snake_Build_1.1/Snake_Build_1.1/lib/imgscalr-lib-4.2.jar"/>
-	<classpathentry kind="lib" path="build/dist/Personal JavaFX Snake.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

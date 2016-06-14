@@ -5,8 +5,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.Controllers.GameDebrisController;
-import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
-import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
+import com.EudyContreras.Snake.Controllers.GameObjectController;
+import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
+import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
@@ -251,7 +252,7 @@ public class GameManager extends AbstractGameModel{
         loader = new GameLoader(this);
         overlayEffect = new ScreenEffectUtility(this,getGameRoot());
         fadeHandler = new FadeScreenHandler(this);
-        objectManager = new ObjectManager(this);
+        objectManager = new GameObjectController(this);
         playerOneManager = new PlayerOneManager(this);
         playerTwoManager = new PlayerTwoManager(this);
         sectManagerOne = new PlayerOneSectionManager(this);

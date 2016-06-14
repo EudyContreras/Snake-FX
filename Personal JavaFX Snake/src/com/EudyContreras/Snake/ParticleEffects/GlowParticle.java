@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.ParticleEffects;
-import com.EudyContreras.Snake.AbstractModels.AbstractDebrisEffect;
-import com.EudyContreras.Snake.EnumIDs.GameDebrisID;
+import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class GlowParticle extends AbstractDebrisEffect{
+public class GlowParticle extends AbstractParticlesEffect{
 
 	private GameDebrisID id;
 	private double radius;

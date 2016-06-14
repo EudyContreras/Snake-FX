@@ -3,10 +3,10 @@ package com.EudyContreras.Snake.AbstractModels;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;

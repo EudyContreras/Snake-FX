@@ -1,10 +1,10 @@
 package com.EudyContreras.Snake.PlayerOne;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -70,8 +70,8 @@ public class PlayerOneEatTrigger extends AbstractObject {
 	}
 
 	public void checkCollision() {
-		for (int i = 0; i < game.getObjectManager().getObjectList().size(); i++) {
-			AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
+		for (int i = 0; i < game.getGameObjectController().getObjectList().size(); i++) {
+			AbstractObject tempObject = game.getGameObjectController().getObjectList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 					if (PlayerOne.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {

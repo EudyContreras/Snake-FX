@@ -1,11 +1,12 @@
-package com.EudyContreras.Snake.DebrisEffects;
+package com.EudyContreras.Snake.EffectEmitter;
 
 import java.util.Random;
 
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
+import com.EudyContreras.Snake.ParticleEffects.RainStorm;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
