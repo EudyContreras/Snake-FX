@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = .8;
+	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -90,7 +90,7 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 

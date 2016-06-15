@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
-
 import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
@@ -31,8 +30,6 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.SlitherSnake.SlitherManager;
-import com.EudyContreras.Snake.SlitherSnake.SlitherSectionManager;
 import com.EudyContreras.Snake.UserInterface.MainMenu;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -48,8 +45,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -67,22 +62,18 @@ public abstract class AbstractGameModel extends Application {
 	protected KeyInputHandler keyInput;
 	protected MouseInputHandler mouseInput;
 	protected TouchInputHandler gestures;
-	protected GraphicsContext gc;
 	protected ScreenEffectUtility overlayEffect;
 	protected GameObjectController objectManager;
-	protected SlitherManager slitherManager;
 	protected PlayerOneManager playerOneManager;
 	protected PlayerTwoManager playerTwoManager;
 	protected GameDebrisController debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
 	protected PlayerTwoSectionManager sectManagerTwo;;
-	protected SlitherSectionManager slitherSectManager;
 	protected CountDownScreen countDownScreen;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected Thread mainThread;
 	protected MainMenu mainMenu;
-	protected Canvas canvas;
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Group mainRoot;
@@ -286,10 +277,6 @@ public abstract class AbstractGameModel extends Application {
 		this.objectManager = objectManager;
 	}
 
-	public SlitherManager getSlitherManager() {
-		return slitherManager;
-	}
-
 	public GameDebrisController getDebrisManager() {
 		return debrisManager;
 	}
@@ -302,9 +289,6 @@ public abstract class AbstractGameModel extends Application {
 		return sectManagerTwo;
 	}
 
-	public SlitherSectionManager getSlitherSectManager() {
-		return slitherSectManager;
-	}
 
 	public void setDebrisManager(GameDebrisController debrisManager) {
 		this.debrisManager = debrisManager;

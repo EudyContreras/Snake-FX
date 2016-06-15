@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -35,7 +34,8 @@ public class GlowParticle extends AbstractParticlesEffect{
 	public void init(){
         shape.setFill(imagePattern);
 		shape.setBlendMode(BlendMode.ADD);
-        game.getOuterParticleLayer().getChildren().add(shape);
+		layer = game.getOuterParticleLayer();
+		addToLayer(shape);
 	}
 	public void updateUI(){
 		shape.setRadius(this.radius);
@@ -59,7 +59,7 @@ public class GlowParticle extends AbstractParticlesEffect{
 	public boolean isAlive() {
 		return x<GameSettings.WIDTH && x>0 && y<GameSettings.HEIGHT  && y>0 && lifeTime>0;
 	}
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

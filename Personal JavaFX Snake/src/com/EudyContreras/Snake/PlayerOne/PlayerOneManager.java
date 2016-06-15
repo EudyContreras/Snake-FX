@@ -7,8 +7,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
-import javafx.scene.canvas.GraphicsContext;
-
 /**
  * This manager class is the core of every game object and is responsible for
  * updating, drawing, adding physics, animating, removing, moving every object
@@ -42,7 +40,7 @@ public class PlayerOneManager {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void updateAllLogicI(GraphicsContext gc, long timePassed) {
+	public void updateAllLogicI(long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
@@ -52,7 +50,7 @@ public class PlayerOneManager {
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
 			tempObject.logicUpdate();
-			tempObject.draw(gc);
+			tempObject.draw();
 			tempObject.checkRemovability();
 			if (tempObject.isRemovable() || !tempObject.isAlive()) {
 				tempObject.removeFromLayer();
@@ -67,7 +65,7 @@ public class PlayerOneManager {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void updateAllMovementI(GraphicsContext gc, long timePassed) {
+	public void updateAllMovementI(long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
@@ -81,14 +79,14 @@ public class PlayerOneManager {
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAllLogic(GraphicsContext gc, long timePassed) {
+	public void updateAllLogic(long timePassed) {
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
 			tempPlayerTwoObject.checkCollision();
 			tempPlayerTwoObject.addPhysics();
 			tempPlayerTwoObject.updateAnimation(timePassed);
 			tempPlayerTwoObject.logicUpdate();
-			tempPlayerTwoObject.draw(gc);
+			tempPlayerTwoObject.draw();
 			tempPlayerTwoObject.checkRemovability();
 			if (tempPlayerTwoObject.isRemovable() || !tempPlayerTwoObject.isAlive()) {
 				tempPlayerTwoObject.removeFromLayer();
@@ -145,11 +143,11 @@ public class PlayerOneManager {
 	/**
 	 * Method used to explicitly draw the graphics
 	 */
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.draw(gc);
+			tempPlayerTwoObject.draw();
 		}
 	}
 

@@ -354,6 +354,7 @@ public class GameOverScreen {
 
 				}
 				if (confirmX <= 0 - confirmScreen.getFitWidth() - 50) {
+					game.getFadeScreenHandler().restart_fade_screen();
 					confirmX = (float) (0 - confirmScreen.getFitWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
@@ -441,9 +442,8 @@ public class GameOverScreen {
 		confirmScreenBack.setFitHeight(confirmScreen.getFitHeight());
 	}
 	public void restartLevel() {
-		game.getFadeScreenHandler().restart_fade_screen();
-		game.getScoreKeeper().resetTimer();
 		overlay.removeBlur();
+		game.getScoreKeeper().resetTimer();
 		center = true;
 		swipeLeft = true;
 		acceleration = 6.0f;

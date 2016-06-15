@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -31,6 +30,7 @@ public class DebrisEffectOne extends AbstractParticlesEffect{
 		this.radius = shape.getRadius();
 		this.velocity = velocity;
 		this.decay = 0.016/expireTime;
+		this.layer = game.getFirstLayer();
 		this.x = x;
 		this.y = y;
 		init();
@@ -38,7 +38,7 @@ public class DebrisEffectOne extends AbstractParticlesEffect{
 	public void init(){
         shape.setFill(imagePattern);
 		shape.setBlendMode(BlendMode.ADD);
-        game.getFirstLayer().getChildren().add(shape);
+		addToLayer(shape);
 	}
 	public void updateUI(){
 		x += velocity.getX();
@@ -63,7 +63,7 @@ public class DebrisEffectOne extends AbstractParticlesEffect{
 	public boolean isAlive() {
 		return x<GameSettings.WIDTH && x>0 && y<GameSettings.HEIGHT  && y>0 && lifeTime>0;
 	}
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 		shape.setOpacity(lifeTime);
 	}
 

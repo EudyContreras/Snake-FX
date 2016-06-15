@@ -32,7 +32,7 @@ public class ImageLoadingUtility {
 	private static PixelReader reader;
 	private static PixelWriter writer;
 	private static int width, height;
-	private final static Map<String, Image> textureMap = new HashMap<String, Image>();
+	private final static Map<String, Image> TEXTURE_MAP = new HashMap<String, Image>();
 
 	public ImageLoadingUtility() {
 
@@ -46,13 +46,13 @@ public class ImageLoadingUtility {
 	 */
 	public ImageLoadingUtility(String name) {
 		ImageLoadingUtility.name = name;
-		Image oldImage = textureMap.get(name);
+		Image oldImage = TEXTURE_MAP.get(name);
 		if (oldImage != null) {
 			image = oldImage;
 		} else {
 
 			image = new Image(loadResource(name));
-			textureMap.put(name, image);
+			TEXTURE_MAP.put(name, image);
 
 		}
 		width = (int)image.getWidth();
@@ -67,13 +67,13 @@ public class ImageLoadingUtility {
 	 */
 	public static WritableImage loadImage(String name) {
 		ImageLoadingUtility.name = name;
-		Image oldImage = textureMap.get(name);
+		Image oldImage = TEXTURE_MAP.get(name);
 		if (oldImage != null) {
 			image = oldImage;
 		} else {
 
 			image = new Image(loadResource(name));
-			textureMap.put(name, image);
+			TEXTURE_MAP.put(name, image);
 
 		}
 		reader = image.getPixelReader();
@@ -113,7 +113,7 @@ public class ImageLoadingUtility {
 	}
 
 	public static void clear() {
-		textureMap.clear();
+		TEXTURE_MAP.clear();
 	}
 
 	public static void setWImage(WritableImage Image) {

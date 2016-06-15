@@ -8,7 +8,6 @@ import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
@@ -30,13 +29,14 @@ public class DirtDisplacement extends AbstractParticlesEffect {
 		this.decay = 0.026/expireTime;
 		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
 		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX)*0.8;
+		this.layer = game.getDebrisLayer();
 		this.x = x;
 		this.y = y;
 		init();
 	}
 
 	public void init() {
-		game.getDebrisLayer().getChildren().add(view);
+		addToLayer(view);
 	}
 
 	public void updateUI() {
@@ -60,7 +60,7 @@ public class DirtDisplacement extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

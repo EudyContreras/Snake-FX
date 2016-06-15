@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
@@ -52,7 +51,8 @@ public class FruitSplashOne extends AbstractParticlesEffect {
 	}
 
 	public void init() {
-		game.getInnerParticleLayer().getChildren().add(shape);
+		this.layer = game.getInnerParticleLayer();
+		addToLayer(shape);
 	}
 
 	public void updateUI() {
@@ -76,7 +76,7 @@ public class FruitSplashOne extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

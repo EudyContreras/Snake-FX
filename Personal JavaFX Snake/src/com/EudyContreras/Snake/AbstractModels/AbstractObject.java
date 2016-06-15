@@ -7,11 +7,9 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSection;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSection;
-
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -263,7 +261,6 @@ public abstract class AbstractObject {
 		this.imageView.setImage(image);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		// addToLayer();
 
 	}
 
@@ -330,12 +327,6 @@ public abstract class AbstractObject {
 		this.y = y;
 	}
 
-	/**
-	 * This method will relocate the object to specific point
-	 *
-	 * @param x
-	 * @param y
-	 */
 	public void relocate(Point point) {
 		imageView.setTranslateX(point.getX());
 		imageView.setTranslateY(point.getY());
@@ -399,9 +390,7 @@ public abstract class AbstractObject {
 	public void logicUpdate(){
 
 	}
-	/**
-	 * This method is responsible for moving and rotating the object
-	 */
+
 	public void move() {
 		if (!canMove)
 			return;
@@ -440,7 +429,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

@@ -9,7 +9,6 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  * This manager class is the core of every game section and is responsible for
@@ -59,7 +58,7 @@ public class PlayerTwoSectionManager {
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAllLogic(GraphicsContext gc, long timePassed) {
+	public void updateAllLogic(long timePassed) {
 
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
@@ -67,7 +66,7 @@ public class PlayerTwoSectionManager {
 			tempSection.logicUpdate();
 			tempSection.addPhysics();
 			tempSection.updateAnimation(timePassed);
-			tempSection.draw(gc);
+			tempSection.draw();
 			tempSection.checkRemovability();
 			if (tempSection.isRemovable() || !tempSection.isAlive()) {
 				tempSection.removeFromLayer();
@@ -75,7 +74,7 @@ public class PlayerTwoSectionManager {
 			}
 		}
 	}
-	public void updateAllMovement(GraphicsContext gc, long timePassed) {
+	public void updateAllMovement(long timePassed) {
 
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
@@ -88,7 +87,7 @@ public class PlayerTwoSectionManager {
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAllLogicIter(GraphicsContext gc, long timePassed) {
+	public void updateAllLogicIter(long timePassed) {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
 		while (sectionIter.hasNext()) {
 			tempSection = sectionIter.next();
@@ -96,7 +95,7 @@ public class PlayerTwoSectionManager {
 			tempSection.logicUpdate();
 			tempSection.addPhysics();
 			tempSection.updateAnimation(timePassed);
-			tempSection.draw(gc);
+			tempSection.draw();
 			tempSection.checkRemovability();
 			if (tempSection.isRemovable() || !tempSection.isAlive()) {
 				tempSection.removeFromLayer();
@@ -104,7 +103,7 @@ public class PlayerTwoSectionManager {
 			}
 		}
 	}
-	public void updateAllMovementIter(GraphicsContext gc, long timePassed) {
+	public void updateAllMovementIter(long timePassed) {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
 		while (sectionIter.hasNext()) {
 			tempSection = sectionIter.next();
@@ -148,11 +147,11 @@ public class PlayerTwoSectionManager {
 	/**
 	 * Method used to explicitly draw the graphics
 	 */
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
-			tempSection.draw(gc);
+			tempSection.draw();
 		}
 	}
 

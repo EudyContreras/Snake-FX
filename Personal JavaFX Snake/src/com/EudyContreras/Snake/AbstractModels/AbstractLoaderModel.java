@@ -10,7 +10,6 @@ import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.WritableImage;
@@ -38,7 +37,6 @@ public abstract class AbstractLoaderModel {
 	protected GenericObject gameTile;
 	protected PlayerOne playerOne;
 	protected PlayerTwo playerTwo;
-	protected SlitherSnake slither;
 	protected GameManager game;
 	protected Random rand;
 	protected int appleNumber = 0;
@@ -140,10 +138,6 @@ public abstract class AbstractLoaderModel {
 
 	public PlayerTwo getPlayerTwo() {
 		return playerTwo;
-	}
-
-	public SlitherSnake getSlither() {
-		return slither;
 	}
 
 	public void killPlayerOne() {

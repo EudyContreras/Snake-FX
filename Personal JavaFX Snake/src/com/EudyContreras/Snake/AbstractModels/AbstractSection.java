@@ -12,7 +12,6 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -293,7 +292,7 @@ public abstract class AbstractSection {
 
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

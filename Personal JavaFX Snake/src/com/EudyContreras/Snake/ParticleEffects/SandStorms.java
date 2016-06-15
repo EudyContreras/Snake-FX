@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
@@ -54,12 +53,13 @@ public class SandStorms extends AbstractParticlesEffect {
 	}
 
 	public void init() {
-		if (getShape() != null) {
-			shape.setFill(imagePattern);
-			game.getOuterParticleLayer().getChildren().add(getShape());
+		if (shape != null) {
+			layer = game.getSixthLayer();
+			addToLayer(shape);
 		}
 		if (view != null) {
-			game.getOuterParticleLayer().getChildren().add(view);
+			layer = game.getSixthLayer();
+			addToLayer(view);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class SandStorms extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

@@ -5,7 +5,6 @@ import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
 
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -39,29 +38,29 @@ public class KeyInputHandler {
 	 * @param slither
 	 * @param scene
 	 */
-	public void processInput(GameManager game, PlayerOne playerOne, PlayerTwo playerTwo, SlitherSnake slither, Scene scene) {
+	public void processInput(GameManager game, PlayerOne playerOne, PlayerTwo playerTwo, Scene scene) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			public void handle(KeyEvent e) {
 
 				if (e.getCode() == KeyCode.W && e.getCode()!= KeyCode.A && e.getCode()!=KeyCode.D) {
 					keyDown[0] = true;
-					// slither.moveUp();
+
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
 				}
 				if (e.getCode() == KeyCode.S && e.getCode()!=KeyCode.A && e.getCode()!=KeyCode.D) {
 					keyDown[1] = true;
-					// slither.moveDown();
+
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
 				}
 				if (e.getCode() == KeyCode.A && e.getCode()!=KeyCode.W && e.getCode()!=KeyCode.S) {
 					keyDown[2] = true;
-					// slither.rotateLeft = true;
+
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				if (e.getCode() == KeyCode.D && e.getCode()!=KeyCode.W && e.getCode()!=KeyCode.S) {
 					keyDown[3] = true;
-					// slither.rotateRight = true;
+
 					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.H) {
@@ -129,12 +128,10 @@ public class KeyInputHandler {
 
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-					if(slither!=null)
-					slither.setRotateLeft(true);
+
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
-					if(slither!=null)
-					slither.setRotateRight(true);
+
 				}
 			}
 		});
@@ -174,23 +171,19 @@ public class KeyInputHandler {
 
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-					//slither.rotateLeft = false;
+
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
-					//slither.rotateRight = false;
+
 				}
 				if (!keyDown[0] && !keyDown[1]) {
 				}
 				if (!keyDown[2] && !keyDown[3]) {
-					if(slither!=null){
-					 slither.setRotateLeft(false);
-					 slither.setRotateRight(false);
-					}
 				}
 				if (!keyDown[4]) {
 				}
 				if (!keyDown[5]) {
-					// slither.thrust = false;
+
 				}
 			}
 		});

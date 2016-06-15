@@ -8,13 +8,12 @@ package com.EudyContreras.Snake.FrameWork;
  */
 public class LogicThread extends Thread {
 
-	private GameManager game;
 	private Boolean isRunning = false;
 	private Thread mainThread;
 	private Thread helperThread;
 
 	public LogicThread(GameManager game){
-		this.game = game;
+
 	}
 	public synchronized void startMainThread() {
 		if (isRunning)
@@ -175,9 +174,7 @@ public class LogicThread extends Thread {
 	}
 
 	protected void updateAt60() {
-		game.getPlayerOneManager().updateAllLogic(null, 0);
-		game.getSectManagerOne().updateAllLogic(null, 0);
-		game.getSectManagerTwo().updateAllLogic(null, 0);
+
 	}
 
 	protected void updateAt120() {

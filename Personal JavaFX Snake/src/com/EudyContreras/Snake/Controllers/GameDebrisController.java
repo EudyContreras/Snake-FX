@@ -8,8 +8,6 @@ import java.util.LinkedList;
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 
-import javafx.scene.canvas.GraphicsContext;
-
 public class GameDebrisController {
 
 	private LinkedList<AbstractParticlesEffect> debris;
@@ -46,7 +44,7 @@ public class GameDebrisController {
 			particles.add(db[0]);
 		}
 	}
-	public void updateAllStream(GraphicsContext gc){
+	public void updateAllStream(){
 		debris.stream().parallel().forEach(AbstractParticlesEffect::move);
 		particles.stream().parallel().forEach(AbstractParticlesEffect::move);
 		debris.forEach(AbstractParticlesEffect::updateUI);
@@ -56,20 +54,17 @@ public class GameDebrisController {
 		removeDeadDebris();
 		removeDeadParticles();
 	}
-	public synchronized void updateAll(GraphicsContext gc) {
+	public synchronized void updateAll() {
 		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
 		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
 		while(debrisList.hasNext()) {
 			AbstractParticlesEffect tempDebris = debrisList.next();
 			tempDebris.move();
 			tempDebris.updateUI();
-			tempDebris.draw(gc);
+			tempDebris.draw();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
-				game.getDebrisLayer().getChildren().remove(tempDebris.getShape());
-				game.getInnerParticleLayer().getChildren().remove(tempDebris.getView());
-				game.getInnerParticleLayer().getChildren().remove(tempDebris.getShape());
+				tempDebris.remove();
 				debrisList.remove();
 				continue;
 			}
@@ -78,13 +73,10 @@ public class GameDebrisController {
 			AbstractParticlesEffect tempParticle = particleList.next();
 			tempParticle.move();
 			tempParticle.updateUI();
-			tempParticle.draw(gc);
+			tempParticle.draw();
 			tempParticle.collide();
 			if (!tempParticle.isAlive()) {
-				game.getInnerParticleLayer().getChildren().remove(tempParticle.getView());
-				game.getInnerParticleLayer().getChildren().remove(tempParticle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(tempParticle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(tempParticle.getView());
+				tempParticle.remove();
 				particleList.remove();
 				continue;
 			}
@@ -99,11 +91,7 @@ public class GameDebrisController {
 
 			if (!particle.isAlive()) {
 
-				game.getInnerParticleLayer().getChildren().remove(particle.getView());
-				game.getInnerParticleLayer().getChildren().remove(particle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(particle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(particle.getView());
-
+				particle.remove();
 				particleList.remove();
 
 			}
@@ -120,40 +108,30 @@ public class GameDebrisController {
 
 			if (!debris.isAlive()) {
 
-				game.getDebrisLayer().getChildren().remove(debris.getView());
-				game.getDebrisLayer().getChildren().remove(debris.getShape());
-				game.getInnerParticleLayer().getChildren().remove(debris.getView());
-				game.getInnerParticleLayer().getChildren().remove(debris.getShape());
-
+				debris.remove();
 				debrisList.remove();
 
 			}
 		}
 	}
-	public synchronized void updateAllFor(GraphicsContext gc) {
+	public synchronized void updateAllFor() {
 		for(int i = 0; i<debris.size(); i++){
 			AbstractParticlesEffect tempDebris = debris.get(i);
 			tempDebris.updateUI();
-			tempDebris.draw(gc);
+			tempDebris.draw();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
-				game.getDebrisLayer().getChildren().remove(tempDebris.getShape());
-				game.getInnerParticleLayer().getChildren().remove(tempDebris.getView());
-				game.getInnerParticleLayer().getChildren().remove(tempDebris.getShape());
+				tempDebris.remove();
 				debris.remove(tempDebris);
 			}
 		}
 		for(int i = 0; i<particles.size(); i++){
 			AbstractParticlesEffect tempParticle = particles.get(i);
 			tempParticle.updateUI();
-			tempParticle.draw(gc);
+			tempParticle.draw();
 			tempParticle.collide();
 			if (!tempParticle.isAlive()) {
-				game.getInnerParticleLayer().getChildren().remove(tempParticle.getView());
-				game.getInnerParticleLayer().getChildren().remove(tempParticle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(tempParticle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(tempParticle.getView());
+				tempParticle.remove();
 				particles.remove(tempParticle);
 			}
 		}
@@ -168,35 +146,29 @@ public class GameDebrisController {
 			tempParticle.move();
 		}
 	}
-	public void updateDebris(GraphicsContext gc) {
+	public void updateDebris() {
 		for (int i = 0; i < debris.size(); i++) {
 			tempDebris = debris.get(i);
 			tempDebris.updateUI();
-			tempDebris.draw(gc);
+			tempDebris.draw();
 			tempDebris.move();
 			tempDebris.collide();
 			if (!tempDebris.isAlive()) {
-				game.getDebrisLayer().getChildren().remove(tempDebris.getView());
-				game.getDebrisLayer().getChildren().remove(tempDebris.getShape());
-				game.getInnerParticleLayer().getChildren().remove(tempDebris.getView());
-				game.getInnerParticleLayer().getChildren().remove(tempDebris.getShape());
+				tempDebris.remove();
 				debris.remove(i);
 			}
 		}
 	}
 
-	public void updateParticles(GraphicsContext gc) {
+	public void updateParticles() {
 		for (int i = 0; i < particles.size(); i++) {
 			tempParticle = particles.get(i);
 			tempParticle.updateUI();
-			tempParticle.draw(gc);
+			tempParticle.draw();
 			tempParticle.move();
 			tempParticle.collide();
 			if (!tempParticle.isAlive()) {
-				game.getInnerParticleLayer().getChildren().remove(tempParticle.getView());
-				game.getInnerParticleLayer().getChildren().remove(tempParticle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(tempParticle.getShape());
-				game.getOuterParticleLayer().getChildren().remove(tempParticle.getView());
+				tempParticle.remove();
 				particles.remove(i);
 			}
 		}

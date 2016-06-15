@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -32,7 +31,8 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 
 	public void init() {
 		shape.setFill(imagePattern);
-		game.getOuterParticleLayer().getChildren().add(shape);
+		layer = game.getOuterParticleLayer();
+		addToLayer(shape);
 	}
 
 	public void updateUI() {
@@ -56,7 +56,7 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

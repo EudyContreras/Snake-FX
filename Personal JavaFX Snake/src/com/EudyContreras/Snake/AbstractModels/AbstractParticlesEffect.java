@@ -5,11 +5,12 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.Node;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
@@ -22,6 +23,7 @@ public abstract class AbstractParticlesEffect {
 	protected DropShadow borderGlow;
 	protected Bloom bloom;
 	protected BoxBlur motionBlur;
+	protected Pane layer;
 	protected double x;
 	protected double velX;
 	protected double y;
@@ -29,9 +31,16 @@ public abstract class AbstractParticlesEffect {
 	protected double r;
 	protected double velR;
 
+	protected void addToLayer(Node node){
+		layer.getChildren().add(node);
+	}
+	public void remove(){
+		layer.getChildren().remove(shape);
+		layer.getChildren().remove(view);
+	}
 	public abstract void updateUI();
 
-	public abstract void draw(GraphicsContext gc);
+	public abstract void draw();
 
 	public void move() {
 		x = x + velX * GameSettings.FRAME_SCALE;

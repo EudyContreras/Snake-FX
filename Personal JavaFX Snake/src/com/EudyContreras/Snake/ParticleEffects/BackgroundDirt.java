@@ -8,7 +8,6 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
@@ -19,7 +18,6 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 	private GameDebrisID id;
 	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
 	private double lifeTime = 1.0f;
-	private Pane layer;
 
 	public BackgroundDirt(GameManager game, Pane layer, Image image,double x, double y) {
 		this.game = game;
@@ -33,7 +31,7 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 		this.init();
 	}
 	public void init() {
-		layer.getChildren().add(shape);
+		addToLayer(shape);
 	}
 
 	public void updateUI() {
@@ -56,7 +54,7 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

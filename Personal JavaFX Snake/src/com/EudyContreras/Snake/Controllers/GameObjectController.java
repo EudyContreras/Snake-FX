@@ -7,8 +7,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
-import javafx.scene.canvas.GraphicsContext;
-
 /**
  * This manager class is the core of every game object and is responsible for
  * updating, drawing, adding physics, animating, removing, moving every object
@@ -42,7 +40,7 @@ public class GameObjectController {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void update(GraphicsContext gc, long timePassed) {
+	public void update(long timePassed) {
 		Iterator<AbstractObject> objectIterator = object.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
@@ -52,7 +50,7 @@ public class GameObjectController {
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
 			tempObject.logicUpdate();
-			tempObject.draw(gc);
+			tempObject.draw();
 			tempObject.checkRemovability();
 			if (tempObject.isRemovable() || !tempObject.isAlive()) {
 				tempObject.removeFromLayer();
@@ -67,7 +65,7 @@ public class GameObjectController {
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAll(GraphicsContext gc, long timePassed) {
+	public void updateAll(long timePassed) {
 
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
@@ -77,7 +75,7 @@ public class GameObjectController {
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
 			tempObject.logicUpdate();
-			tempObject.draw(gc);
+			tempObject.draw();
 			tempObject.checkRemovability();
 			if (tempObject.isRemovable() || !tempObject.isAlive()) {
 				tempObject.removeFromLayer();
@@ -122,11 +120,11 @@ public class GameObjectController {
 	/**
 	 * Method used to explicitly draw the graphics
 	 */
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
-			tempObject.draw(gc);
+			tempObject.draw();
 		}
 	}
 

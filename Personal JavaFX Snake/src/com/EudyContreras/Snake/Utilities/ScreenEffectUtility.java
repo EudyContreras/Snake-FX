@@ -65,7 +65,7 @@ public class ScreenEffectUtility {
 	public ScreenEffectUtility(GameManager game, Pane layer) {
 		this.game = game;
 		this.layer = layer;
-		this.toneOverlay.setFill(Color.TRANSPARENT);
+		toneOverlay.setFill(Color.TRANSPARENT);
 	}
 
 	/**
@@ -76,11 +76,11 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addDistortion(double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.layer.setEffect(motionEffect);
-			this.motionEffect.setAngle(10);
-			this.setDistortion = true;
-			this.distortionLifetime = lifetime;
-			this.speedDistortion = speed;
+			layer.setEffect(motionEffect);
+			motionEffect.setAngle(10);
+			setDistortion = true;
+			distortionLifetime = lifetime;
+			speedDistortion = speed;
 		}
 	}
 
@@ -92,11 +92,11 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addSoftBlur(double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.layer.setEffect(null);
-			this.softBlurLifetime = lifetime;
-			this.speedGaussian = speed;
-			this.layer.setEffect(gaussianEffect);
-			this.setSoftBlur = true;
+			layer.setEffect(null);
+			softBlurLifetime = lifetime;
+			speedGaussian = speed;
+			layer.setEffect(gaussianEffect);
+			setSoftBlur = true;
 		}
 	}
 
@@ -108,11 +108,11 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addIntenseBlur(double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.intenseBlurLifetime = lifetime;
-			this.speedBlur = speed;
-			this.blurEffect.setIterations(2);
-			this.layer.setEffect(blurEffect);
-			this.setIntenseBlur = true;
+			intenseBlurLifetime = lifetime;
+			speedBlur = speed;
+			blurEffect.setIterations(2);
+			layer.setEffect(blurEffect);
+			setIntenseBlur = true;
 		}
 	}
 
@@ -123,10 +123,10 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addBloom(double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.bloomLifetime = lifetime / 10;
-			this.speedBloom = speed / 10;
-			this.layer.setEffect(bloomEffect);
-			this.setBloom = true;
+			bloomLifetime = lifetime / 10;
+			speedBloom = speed / 10;
+			layer.setEffect(bloomEffect);
+			setBloom = true;
 		}
 	}
 
@@ -140,13 +140,13 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addToneOverlay(Color tone, double lifetime, double speed) {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.layer.getChildren().remove(toneOverlay);
-			this.toneLifetime = lifetime / 10;
-			this.speedTone = speed / 10;
-			this.toneOverlay.setFill(tone);
-			this.toneOverlay.setOpacity(toneLifetime / 10);
-			this.layer.getChildren().add(toneOverlay);
-			this.setToneOverlay = true;
+			layer.getChildren().remove(toneOverlay);
+			toneLifetime = lifetime / 10;
+			speedTone = speed / 10;
+			toneOverlay.setFill(tone);
+			toneOverlay.setOpacity(toneLifetime / 10);
+			layer.getChildren().add(toneOverlay);
+			setToneOverlay = true;
 		}
 	}
 
@@ -155,10 +155,10 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addDeathBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.deathBlurLifetime = 0.0;
-			this.layer.setEffect(null);
-			this.layer.setEffect(deathEffect);
-			this.deathBlur = true;
+			deathBlurLifetime = 0.0;
+			layer.setEffect(null);
+			layer.setEffect(deathEffect);
+			deathBlur = true;
 		}
 	}
 
@@ -166,21 +166,21 @@ public class ScreenEffectUtility {
 	 * Adds a blur to the screen after the level has been completed
 	 */
 	public synchronized void levelCompleteBlur() {
-		this.clearLevelBluring = 0.0;
-		this.clearLevelBlur.setIterations(2);
-		this.clearLevelBlur.setWidth(clearLevelBluring);
-		this.clearLevelBlur.setHeight(clearLevelBluring);
-		this.layer.setEffect(null);
-		this.layer.setEffect(clearLevelBlur);
-		this.clearLevel = false;
-		this.blurLevel = true;
+		clearLevelBluring = 0.0;
+		clearLevelBlur.setIterations(2);
+		clearLevelBlur.setWidth(clearLevelBluring);
+		clearLevelBlur.setHeight(clearLevelBluring);
+		layer.setEffect(null);
+		layer.setEffect(clearLevelBlur);
+		clearLevel = false;
+		blurLevel = true;
 	}
 
 	public synchronized void levelCompleteBlurOff() {
-		// this.clearLevelBluring = 40.0;
-		this.layer.setEffect(clearLevelBlur);
-		this.blurLevel = false;
-		this.clearLevel = true;
+		// clearLevelBluring = 40.0;
+		layer.setEffect(clearLevelBlur);
+		blurLevel = false;
+		clearLevel = true;
 	}
 
 	/**
@@ -188,9 +188,9 @@ public class ScreenEffectUtility {
 	 */
 	public synchronized void addStormBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
-			this.layer.setEffect(null);
-			this.layer.setEffect(stormBlur);
-			this.storm = true;
+			layer.setEffect(null);
+			layer.setEffect(stormBlur);
+			storm = true;
 		}
 	}
 	public void addScreenShake(double duration, boolean horizontal, boolean vertical) {
@@ -214,13 +214,13 @@ public class ScreenEffectUtility {
 	 */
 	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
 		this.stateID = stateID;
-		this.game.getFadeScreenLayer().getChildren().remove(fadeScreen);
-		this.fade = 0.0;
-		this.fadeScreen.setOpacity(fade);
-		this.fadeScreen.setFill(Color.BLACK);
+		game.getFadeScreenLayer().getChildren().remove(fadeScreen);
+		fade = 0.0;
+		fadeScreen.setOpacity(fade);
+		fadeScreen.setFill(Color.BLACK);
 		this.fadeSpeed = fadeSpeed / 1000;
-		this.game.getFadeScreenLayer().getChildren().add(fadeScreen);
-		this.setFadeOverlay = true;
+		game.getFadeScreenLayer().getChildren().add(fadeScreen);
+		setFadeOverlay = true;
 	}
 
 	public void updateEffect() {
@@ -262,22 +262,22 @@ public class ScreenEffectUtility {
 	private void setDistortionModifier() {
 		if (distortionLifetime >= 0) {
 			distortionLifetime -= speedDistortion;
-			this.motionEffect.setRadius(distortionLifetime);
+			motionEffect.setRadius(distortionLifetime);
 		}
 	}
 
 	private void setSoftBlurModifier() {
 		if (softBlurLifetime >= 0) {
 			softBlurLifetime -= speedGaussian;
-			this.gaussianEffect.setRadius(softBlurLifetime);
+			gaussianEffect.setRadius(softBlurLifetime);
 		}
 	}
 
 	private void setIntenseBlurModifier() {
 		if (intenseBlurLifetime >= 0) {
 			intenseBlurLifetime -= speedBlur;
-			this.blurEffect.setWidth(intenseBlurLifetime);
-			this.blurEffect.setHeight(intenseBlurLifetime);
+			blurEffect.setWidth(intenseBlurLifetime);
+			blurEffect.setHeight(intenseBlurLifetime);
 		}
 	}
 
@@ -285,17 +285,17 @@ public class ScreenEffectUtility {
 		bloomLifetime -= speedBloom;
 		bloomEffect.setThreshold(bloomLifetime);
 		if (bloomLifetime <= 0) {
-			this.layer.setEffect(null);
+			layer.setEffect(null);
 			bloomLifetime = 0.0;
 		}
 	}
 
 	private void setToneModifier() {
 		toneLifetime -= speedTone;
-		this.toneOverlay.setOpacity(toneLifetime);
+		toneOverlay.setOpacity(toneLifetime);
 		if (toneLifetime <= 0) {
 			toneLifetime = 0.0;
-			this.layer.getChildren().remove(toneOverlay);
+			layer.getChildren().remove(toneOverlay);
 		}
 	}
 
@@ -374,15 +374,15 @@ public class ScreenEffectUtility {
 					layer.setEffect(null);
 				}
 			}
-			layer.setEffect(this.stormBlur);
+			layer.setEffect(stormBlur);
 			stormBlur.setRadius(stormBluring);
 		}
 	}
 
 	private void setDeathBlur() {
 		deathBlurLifetime += 0.03;
-		this.layer.setEffect(deathEffect);
-		this.deathEffect.setRadius(deathBlurLifetime);
+		layer.setEffect(deathEffect);
+		deathEffect.setRadius(deathBlurLifetime);
 		if (deathBlurLifetime >= 40) {
 			deathBlurLifetime = 40.0;
 		}
@@ -408,13 +408,13 @@ public class ScreenEffectUtility {
 				clearLevel = false;
 			}
 		}
-		this.layer.setEffect(clearLevelBlur);
-		this.clearLevelBlur.setWidth(clearLevelBluring);
-		this.clearLevelBlur.setHeight(clearLevelBluring);
+		layer.setEffect(clearLevelBlur);
+		clearLevelBlur.setWidth(clearLevelBluring);
+		clearLevelBlur.setHeight(clearLevelBluring);
 	}
 
 	public void removeBlur() {
-		this.clearLevelBluring = 0.0;
+		clearLevelBluring = 0.0;
 		setDistortion = false;
 		setBloom = false;
 		setSoftBlur = false;
@@ -424,6 +424,7 @@ public class ScreenEffectUtility {
 		storm = false;
 		blurUp = true;
 		blurDown = false;
+		clearLevel = false;
 		layer.setEffect(null);
 	}
 

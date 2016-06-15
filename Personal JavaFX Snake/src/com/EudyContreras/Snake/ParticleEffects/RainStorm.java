@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
@@ -52,11 +51,12 @@ public class RainStorm extends AbstractParticlesEffect {
 
 	public void init() {
 		if (shape != null) {
-			shape.setFill(imagePattern);
-			game.getSixthLayer().getChildren().add(shape);
+			layer = game.getSixthLayer();
+			addToLayer(shape);
 		}
 		if (view != null) {
-			game.getSixthLayer().getChildren().add(view);
+			layer = game.getSixthLayer();
+			addToLayer(view);
 		}
 	}
 	public void updateUI() {
@@ -87,7 +87,7 @@ public class RainStorm extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && y < GameSettings.HEIGHT  && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 

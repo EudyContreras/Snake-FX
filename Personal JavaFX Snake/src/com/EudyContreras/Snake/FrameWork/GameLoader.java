@@ -16,7 +16,6 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.BackgroundDirt;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.Image;
@@ -339,17 +338,7 @@ public class GameLoader extends AbstractLoaderModel{
 				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_TWO_SPEED, GameObjectID.PlayerTwo, game.getGameObjectController());
 		game.getPlayerTwoManager().addObject(playerTwo);
 	}
-	/**
-	 * Method used to create the Slither snake and position the player at a specified
-	 * position.
-	 */
-	public void createSlither() {
-		float x = (float) (GameSettings.WIDTH / 2 + 25);
-		float y = (float) (GameSettings.HEIGHT * 0.55);
-		slither = new SlitherSnake(game, game.getFithLayer(), GameImageBank.slither, x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, 0, GameObjectID.SlitherSnake, game.getSlitherManager());
-		game.getSlitherManager().addObject(slither);
-	}
+
 	/**
 	 * Loads a no spawn zone used to prevent objects such as apples from spawning at a desire location
 	 */

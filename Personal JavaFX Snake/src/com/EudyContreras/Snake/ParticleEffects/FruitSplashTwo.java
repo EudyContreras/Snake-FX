@@ -8,60 +8,47 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
 public class FruitSplashTwo extends AbstractParticlesEffect {
 
 	private GameDebrisID id;
-	Random rand = new Random();
-	Paint color;
-	double radius;
-	double decay;
-	float x;
-	float y;
-	float r;
-	float velX = rand.nextInt(15 - -15 + 1) + -15;
-	float velY = rand.nextInt(15 - -15 + 1) + -15;
-	float velR;
-	float lifeTime = 1.0f;
-	double width;
-	double height;
-	boolean isAlive = false;
-	boolean removable = false;
-	int depth = 400;
-	int amount = 200;
-	double greenRange = Math.random() * (200 - 65 + 1) + 65;
+	private Random rand = new Random();
+	private Paint color;
+	private double radius;
+	private double decay;
+	private float lifeTime = 1.0f;
 
 	public FruitSplashTwo(GameManager game, Paint fill, double expireTime, double radius, float x, float y) {
 		this.game = game;
 		this.radius = radius / 2;
 		this.shape = new Circle();
 		this.shape.setRadius(this.radius);
+		this.shape.setFill(color);
 		this.decay = 0.016 / expireTime;
 		this.color = fill;
+		this.velX = rand.nextInt(15 - -15 + 1) + -15;
+		this.velY = rand.nextInt(15 - -15 + 1) + -15;
 		this.x = x;
 		this.y = y;
 		init();
 	}
 
 	public void init() {
-		shape.setFill(color);
-		game.getInnerParticleLayer().getChildren().add(shape);
+		layer = game.getInnerParticleLayer();
+		addToLayer(shape);
 	}
-
 	public void updateUI() {
+		shape.setCenterX(x);
+		shape.setCenterY(y);
+		shape.setOpacity(lifeTime);
+
+	}
+	public void move() {
 		x = x + velX;
 		y = y + velY;
 		lifeTime -= decay;
-	}
-
-	public void move() {
-
-		shape.setCenterX(x);
-		shape.setCenterY(y);
-
 	}
 
 	public void collide() {
@@ -72,9 +59,9 @@ public class FruitSplashTwo extends AbstractParticlesEffect {
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
-		shape.setOpacity(lifeTime);
+
 	}
 
 	public Rectangle2D getBounds() {

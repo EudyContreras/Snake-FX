@@ -46,8 +46,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -78,29 +76,29 @@ import javafx.util.Duration;
 public class GameManager extends AbstractGameModel{
 
 
-    public void start(Stage primaryStage) {
-        GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
-        GameLoader.scalePlayerSize();
-        ScaleX = GameLoader.ResolutionScaleX;
-        ScaleY = GameLoader.ResolutionScaleY;
-        ScaleX_ScaleY = (GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY)/2;
-        mainWindow = primaryStage;
-        initialize();
-        showSplashScreen();
-    }
+	public void start(Stage primaryStage) {
+		GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
+		GameLoader.scalePlayerSize();
+		ScaleX = GameLoader.ResolutionScaleX;
+		ScaleY = GameLoader.ResolutionScaleY;
+		ScaleX_ScaleY = (GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY)/2;
+		mainWindow = primaryStage;
+		initialize();
+		showSplashScreen();
+	}
     public void fullScreenOff(){
         getMainWindow().setFullScreen(false);
     }
     public void initSplash() {
-        splashFadeDelay = 0;
-        splashFadeDuration = 1;
-        splash = new ImageView(GameImageBank.splash_screen);
-        splashWidth = (int) splash.getImage().getWidth();
-        splashHeight = (int) splash.getImage().getHeight();
-        splashLayout = new StackPane();
-        splashLayout.getChildren().add(splash);
-        splashLayout.setBackground(Background.EMPTY);
-        splashLayout.setEffect(new DropShadow());
+    	splashFadeDelay = 0;
+    	splashFadeDuration = 1;
+    	splash = new ImageView(GameImageBank.splash_screen);
+    	splashWidth = (int) splash.getImage().getWidth();
+    	splashHeight = (int) splash.getImage().getHeight();
+    	splashLayout = new StackPane();
+    	splashLayout.getChildren().add(splash);
+    	splashLayout.setBackground(Background.EMPTY);
+    	splashLayout.setEffect(new DropShadow());
     }
 
     public void showSplashScreen() {
@@ -218,14 +216,12 @@ public class GameManager extends AbstractGameModel{
     }
 
     private void initialize() {
-        frameGameLoop = new Timeline();
         initSplash();
+        frameGameLoop = new Timeline();
         mainRoot = new Group();
         root = new Pane();
         mainMenu = new MainMenu(this);
-        canvas = new Canvas(GameSettings.WIDTH, GameSettings.HEIGHT);
         scene = new Scene(mainMenu.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
-        gc = canvas.getGraphicsContext2D();
         baseLayer = new Pane();
         dirtLayer = new Pane();
         debrisLayer = new Pane();
@@ -307,7 +303,7 @@ public class GameManager extends AbstractGameModel{
     }
 
     public void processGameInput() {
-        keyInput.processInput(this, loader.getPlayerOne(), loader.getPlayerTwo(), loader.getSlither(), scene);
+        keyInput.processInput(this, loader.getPlayerOne(), loader.getPlayerTwo(), scene);
     }
     public void processGestures(){
         pauseMenu.processTouch();
@@ -358,7 +354,6 @@ public class GameManager extends AbstractGameModel{
 
                 }
                 if (GameSettings.RENDER_GAME) {
-                    drawOverlay(gc);
                     countDownScreen.update();
                     overlayEffect.updateEffect();
                     fadeHandler.innerFade_update();
@@ -368,20 +363,20 @@ public class GameManager extends AbstractGameModel{
                     victoryScreen.updateUI();
                     gameOverScreen.updateUI();
                     scoreKeeper.updateUI();
-                    objectManager.updateAll(gc, timePassed);
+                    objectManager.updateAll(timePassed);
                     for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
                         playerOneManager.updateAllMovement();
-                        sectManagerOne.updateAllMovement(gc, timePassed);
+                        sectManagerOne.updateAllMovement(timePassed);
                     }
                     for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
                         playerTwoManager.updateAllMovement();
-                        sectManagerTwo.updateAllMovement(gc, timePassed);
+                        sectManagerTwo.updateAllMovement(timePassed);
                     }
-                    playerOneManager.updateAllLogic(gc, timePassed);
-                    playerTwoManager.updateAllLogic(gc, timePassed);
-                    sectManagerOne.updateAllLogic(gc, timePassed);
-                    sectManagerTwo.updateAllLogic(gc, timePassed);
-                    debrisManager.updateAll(gc);
+                    playerOneManager.updateAllLogic(timePassed);
+                    playerTwoManager.updateAllLogic(timePassed);
+                    sectManagerOne.updateAllLogic(timePassed);
+                    sectManagerTwo.updateAllLogic(timePassed);
+                    debrisManager.updateAll();
                     loader.updateLevelObjects();
                     sandEmitter.move();
                     rainEmitter.move();
@@ -463,57 +458,6 @@ public class GameManager extends AbstractGameModel{
 
                         }
                         if (GameSettings.RENDER_GAME) {
-                            drawOverlay(gc);
-                            countDownScreen.update();
-                            overlayEffect.updateEffect();
-                            fadeHandler.innerFade_update();
-                            fadeHandler.outer_fade_update();
-                            pauseMenu.updateTouchPanel();
-                            gameHud.updateHudBars();
-                            victoryScreen.updateUI();
-                            gameOverScreen.updateUI();
-                            scoreKeeper.updateUI();
-                            objectManager.updateAll(gc, timePassed);
-                            for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
-                                playerOneManager.updateAllMovement();
-                                sectManagerOne.updateAllMovement(gc, timePassed);
-                            }
-                            for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-                                playerTwoManager.updateAllMovement();
-                                sectManagerTwo.updateAllMovement(gc, timePassed);
-                            }
-                            playerOneManager.updateAllLogic(gc, timePassed);
-                            playerTwoManager.updateAllLogic(gc, timePassed);
-                            sectManagerOne.updateAllLogic(gc, timePassed);
-                            sectManagerTwo.updateAllLogic(gc, timePassed);
-                            debrisManager.updateAll(gc);
-                            loader.updateLevelObjects();
-                            sandEmitter.move();
-                            rainEmitter.move();
-                            if(GameSettings.SAND_STORM){
-                                sandEmitter.emit();
-                            }
-                            if(GameSettings.RAIN_STORM){
-                                rainEmitter.emit();
-                            }
-                            if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
-                                getHealthBarOne().update();
-                            }
-                            if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
-                                getHealthBarTwo().update();
-                            }
-                            if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
-                                getEnergyBarOne().update();
-                            }
-                            if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
-                                getEnergyBarTwo().update();
-                            }
-                            if (scoreBoardOne != null) {
-                                scoreBoardOne.hide();
-                            }
-                            if (scoreBoardTwo != null) {
-                                scoreBoardTwo.hide();
-                            }
 
                         }
                         if (delta > nanoSecond) {
@@ -618,72 +562,7 @@ public class GameManager extends AbstractGameModel{
             }
 
             private void updateAt60(long timePassed ) {
-                if (!GameSettings.RENDER_GAME) {
-                    mainMenu.transition();
-                }
-                if (GameSettings.RENDER_GAME) {
-                    drawOverlay(gc);
-                    countDownScreen.update();
-                    overlayEffect.updateEffect();
-                    fadeHandler.innerFade_update();
-                    fadeHandler.outer_fade_update();
-                    pauseMenu.updateTouchPanel();
-                    gameHud.updateHudBars();
-                    victoryScreen.updateUI();
-                    gameOverScreen.updateUI();
-                    scoreKeeper.updateUI();
-                    objectManager.updateAll(gc, timePassed);
-                    for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
-                        playerOneManager.updateAllMovement();
-                        sectManagerOne.updateAllMovement(gc, timePassed);
-                    }
-                    for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-                        playerTwoManager.updateAllMovement();
-                        sectManagerTwo.updateAllMovement(gc, timePassed);
-                    }
-                    playerOneManager.updateAllLogic(gc, timePassed);
-                    playerTwoManager.updateAllLogic(gc, timePassed);
-                    sectManagerOne.updateAllLogic(gc, timePassed);
-                    sectManagerTwo.updateAllLogic(gc, timePassed);
-                    debrisManager.updateAll(gc);
-                    loader.updateLevelObjects();
-                    sandEmitter.move();
-                    rainEmitter.move();
-                    if(GameSettings.SAND_STORM){
-                        sandEmitter.emit();
-                    }
-                    if(GameSettings.RAIN_STORM){
-                        rainEmitter.emit();
-                    }
-                    if (loader.getPlayerOne() != null && getHealthBarOne() != null) {
-                        getHealthBarOne().update();
-                    }
-                    if (loader.getPlayerTwo() != null && getHealthBarTwo() != null) {
-                        getHealthBarTwo().update();
-                    }
-                    if (loader.getPlayerOne() != null && getEnergyBarOne() != null) {
-                        getEnergyBarOne().update();
-                    }
-                    if (loader.getPlayerTwo() != null && getEnergyBarTwo() != null) {
-                        getEnergyBarTwo().update();
-                    }
-                    if (scoreBoardOne != null) {
-                        scoreBoardOne.hide();
-                    }
-                    if (scoreBoardTwo != null) {
-                        scoreBoardTwo.hide();
-                    }
-                    if (!debrisLayer.getChildren().isEmpty()) {
-                        if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                            debrisLayer.getChildren().remove(0,10);
-                        }
-                    }
-                    if (!innerParticleLayer.getChildren().isEmpty()) {
-                        if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
-                            innerParticleLayer.getChildren().remove(0);
-                        }
-                    }
-                }
+
             }
             private void updateAt120() {
 
@@ -712,20 +591,7 @@ public class GameManager extends AbstractGameModel{
               Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    if(GameSettings.RENDER_GAME){
-                        debrisManager.updateDebris(gc);
-                        debrisManager.updateParticles(gc);
-                        if (!debrisLayer.getChildren().isEmpty()) {
-                            if (debrisLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                                debrisLayer.getChildren().remove(0,10);
-                            }
-                        }
-                        if (!innerParticleLayer.getChildren().isEmpty()) {
-                            if (innerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT*0.7) {
-                                innerParticleLayer.getChildren().remove(0);
-                            }
-                        }
-                    }
+
                 }
               });
               Thread.sleep(1);
@@ -785,18 +651,6 @@ public class GameManager extends AbstractGameModel{
         physicsThread.setDaemon(true);
         physicsThread.start();
 
-    }
-    /**
-     * Method used to draw any given overlay over the game. this method is
-     * currently used for debugging
-     *
-     * @param GraphicsContext is used to render the overlay on a canvas layer
-     */
-    public void drawOverlay(GraphicsContext gc) {
-        if (GameSettings.DEBUG_MODE) {
-            gc.setFill(Color.WHITE);
-            gc.fillRect(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-        }
     }
 
     /**
