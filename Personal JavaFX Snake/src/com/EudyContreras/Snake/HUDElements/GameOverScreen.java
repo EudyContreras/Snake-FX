@@ -8,12 +8,19 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.SequentialTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 public class GameOverScreen {
 
@@ -88,8 +95,8 @@ public class GameOverScreen {
 		if (allowGlow)
 			confirmScreen.setEffect(boardPulse);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		confirmX = 0 - confirmScreen.getFitWidth() - 50;
-		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
+//		confirmX = 0 - confirmScreen.getFitWidth() - 50;
+//		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
 		confirmScreenBack = new ImageView(GameImageBank.game_over_trans_board);
 		continue_btt = new ImageView(GameImageBank.continue_button_alt);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
@@ -119,6 +126,7 @@ public class GameOverScreen {
 		}
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 		askConfirm();
+		showTheBox();
 		//TODO: Calculate rank
 		/**
 		 * int rank = Scoreboard.INSTANCE.calculateRank(score);
@@ -283,13 +291,72 @@ public class GameOverScreen {
 		positionScreen();
 		showScores();
 		boardPulse();
-		swipeRight();
-		hide();
+		//swipeRight();
+		//hide();
 
+	}
+	public void showTheBox(){
+
+		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), confirmScreenBack);
+		translateTransition.setFromX(0 - confirmScreenBack.getFitWidth());
+		translateTransition.setToX(GameSettings.WIDTH / 2 - confirmScreenBack.getFitWidth() / 2);
+		translateTransition.setCycleCount(1);
+		translateTransition.setAutoReverse(true);
+		translateTransition.setOnFinished(event -> {
+
+			transitionOpacity = 0;
+			confirmScreen.setOpacity(transitionOpacity);
+			opacityValue = 0.016;
+			waitTime = 10;
+			processPlayerScores();
+			// processKeyHandling();
+			blurOut();
+			fadeOut();
+			confirmScreen.setVisible(true);
+			showWinner = true;
+		});
+		TranslateTransition translateTransitionTwo = new TranslateTransition(Duration.millis(1000), optionsBoard);
+		translateTransitionTwo.setFromX(0 - optionsBoard.getFitWidth());
+		translateTransitionTwo.setToX(GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
+		translateTransitionTwo.setCycleCount(1);
+		translateTransitionTwo.setAutoReverse(true);
+		translateTransitionTwo.setOnFinished(event -> {
+			processKeyHandling();
+		});
+
+		// RotateTransition rotateTransition =
+		// new RotateTransition(Duration.millis(1000), confirmScreen);
+		// rotateTransition.setByAngle(360f);
+		// rotateTransition.setCycleCount(1);
+		// rotateTransition.setAutoReverse(true);
+
+		// ScaleTransition scaleTransition =
+		// new ScaleTransition(Duration.millis(2000), confirmScreen);
+		// scaleTransition.setFromX(1);
+		// scaleTransition.setFromY(1);
+		// scaleTransition.setToX(2);
+		// scaleTransition.setToY(2);
+		// scaleTransition.setCycleCount(1);
+		// scaleTransition.setAutoReverse(true);
+		//
+		// create a sequential transition to do four transitions one after
+		// another
+		// SequentialTransition sequentialTransition = new
+		// SequentialTransition();
+		// sequentialTransition.getChildren().addAll(
+		// // fadeTransition,
+		// // translateTransition,
+		// translateTransition);
+		// // scaleTransition);
+		// sequentialTransition.setCycleCount(Timeline.);
+		// sequentialTransition.setAutoReverse(true);
+		// sequentialTransition.play();
+		translateTransition.play();
+		translateTransitionTwo.play();
 	}
 	public void swipeRight() {
 		if (swipeRight == true) {
-			confirmScreen.setX(confirmX);
+			//confirmScreen.setX(confirmX);
 			optionsBoard.setX(confirmXTwo);
 			confirmX += confirmXPosition/GameManager.ScaleX;
 			confirmXTwo += confirmXPosition/GameManager.ScaleX;
@@ -312,26 +379,21 @@ public class GameOverScreen {
 					currentChoice = 1;
 					center = false;
 					swipeRight = false;
-					showWinner = true;
-					transitionOpacity = 0;
-					opacityValue = 0.016;
-					waitTime = 10;
-					processPlayerScores();
-					processKeyHandling();
-					blurOut();
-					fadeOut();
+//					showWinner = true;
+//					transitionOpacity = 0;
+//					opacityValue = 0.016;
+//					waitTime = 10;
+//					processPlayerScores();
+//					processKeyHandling();
+//					blurOut();
+//					fadeOut();
 				}
 				if (confirmXTwo >= GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2) {
 					confirmXTwo = (float) (GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
 					optionsBoard.setX(confirmXTwo);
 				}
 			}
-			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
-			continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-			quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
-			restart_btt.setY(continue_btt.getY());
+
 		}
 	}
 
@@ -435,11 +497,15 @@ public class GameOverScreen {
 		scoreScreen.relocateScoreTwo(confirmScreen.getX()+confirmScreen.getFitWidth()/2+GameManager.ScaleX(130), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
 	}
 	public void positionScreen(){
-		confirmScreenBack.setX(confirmScreen.getX());
-		confirmScreenBack.setY(confirmScreen.getY());
 		confirmScreenBack.setRotate(confirmScreen.getRotate());
 		confirmScreenBack.setFitWidth(confirmScreen.getFitWidth());
 		confirmScreenBack.setFitHeight(confirmScreen.getFitHeight());
+		continue_btt.setX(optionsBoard.getTranslateX()+20/GameManager.ScaleX);
+		continue_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
+		quitGame_btt.setX(optionsBoard.getTranslateX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
+		quitGame_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
+		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+		restart_btt.setY(continue_btt.getY());
 	}
 	public void restartLevel() {
 		overlay.removeBlur();
@@ -469,15 +535,10 @@ public class GameOverScreen {
 		confirmScreen.setImage(GameImageBank.game_over_trans_board);
 		confirmX = (float) (0 - confirmScreen.getFitWidth() - 50);
 		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
-		confirmScreen.setX(confirmX);
-		continue_btt.setX(confirmScreen.getX());
-		continue_btt.setY(confirmScreen.getY() + confirmScreen.getFitHeight());
-		quitGame_btt.setX(confirmScreen.getX() + confirmScreen.getFitWidth() - quitGame_btt.getFitWidth());
-		quitGame_btt.setY(confirmScreen.getY() + confirmScreen.getFitHeight());
-		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth());
-		restart_btt.setY(continue_btt.getY());
-		confirmScreenBack.setVisible(true);
-		confirmScreen.setVisible(true);
+		confirmScreen.setX(GameSettings.WIDTH / 2 - confirmScreen.getFitWidth() / 2);
+		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
+		confirmScreenBack.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
+		confirmScreenBack.setVisible(true);	
 		optionsBoard.setVisible(true);
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
