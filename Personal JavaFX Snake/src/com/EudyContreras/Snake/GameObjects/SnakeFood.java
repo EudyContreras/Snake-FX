@@ -293,7 +293,7 @@ public class SnakeFood extends AbstractObject {
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
 			if (tempTile.getId() == GameLevelObjectID.rock) {
-				if (getBounds().intersects(tempTile.getBounds())) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						this.x = newX;
 						this.y = newY;
@@ -305,7 +305,7 @@ public class SnakeFood extends AbstractObject {
 						bounceBack(tempTile);
 					}
 				}
-				if (getBounds().intersects(tempTile.getBounds2D())) {
+				if (getNormalBounds().intersects(tempTile.getBounds2D())) {
 					this.blowUp();
 					this.game.getGameLoader().spawnSnakeFood();
 					this.remove();
@@ -315,7 +315,7 @@ public class SnakeFood extends AbstractObject {
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
 			if (tempTile.getId() == GameLevelObjectID.cactus) {
-				if (getBounds().intersects(tempTile.getBounds())) {
+				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						this.x = newX;
 						this.y = newY;

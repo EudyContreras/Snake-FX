@@ -80,12 +80,31 @@ public class LocalScoreScreen extends AbstractHudElement{
 	public void setScores(){
 		this.playerOneScore.setOpacity(0);
 		this.playerTwoScore.setOpacity(0);
-		this.playerOneScore.setText(""+boardOne.getScore());
-		this.playerTwoScore.setText(""+boardTwo.getScore());
+		this.calculateStyle(boardOne.getScore(), playerOneScore);
+		this.calculateStyle(boardTwo.getScore(), playerTwoScore);
 		this.layer.getChildren().remove(playerOneScore);
 		this.layer.getChildren().remove(playerTwoScore);
 		this.layer.getChildren().add(playerOneScore);
 		this.layer.getChildren().add(playerTwoScore);
+	}
+	/**
+	 * Calculates the style which needs to be applyed to
+	 * the score showing text in order to allow the contant
+	 * showing of three digits regardless of the score
+	 * @param score: Score which is to be review
+	 * @param text: Text which will be styled according to the
+	 * given score
+	 */
+	private void calculateStyle(int score, Text text){
+		if(score<10){
+			text.setText("00"+score);
+		}
+		else if(score>=10 && score<100){
+			text.setText("0"+score);
+		}
+		else if(score>=100){
+			text.setText(""+score);
+		}
 	}
 	/**
 	 * Method which makes the scores visible

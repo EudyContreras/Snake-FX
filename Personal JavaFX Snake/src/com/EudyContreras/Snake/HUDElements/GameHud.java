@@ -83,7 +83,7 @@ public class GameHud {
 		yTwo = yTwo + swipeSpeedBottom/GameManager.ScaleY;
 		if (showHUDCover) {
 			swipeSpeedTop = 2.5;
-			if (yOne >= mainBar.getTranslateY() - GameManager.ScaleY(30)) {
+			if (yOne > mainBar.getTranslateY() - GameManager.ScaleY(15)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = -3.5;
@@ -93,7 +93,7 @@ public class GameHud {
 		}
 		if (hideHUDCover) {
 			swipeSpeedTop = -2.55;
-			if (yOne < 0 - topHudBar.getHeight()+GameManager.ScaleY(15)) {
+			if (yOne < 0 - topHudBar.getHeight()+GameManager.ScaleY(20)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 3.5;

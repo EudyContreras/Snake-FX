@@ -7,12 +7,6 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-
-import javafx.animation.FadeTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.SequentialTransition;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -21,87 +15,86 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
+/**
+ * Class which represents a board showing which player lost and the score of each
+ * player.If the current mode is local multiplayer this board will then show once
+ * either one of the player dies. If the current mode is online multiplayer this board
+ * will show only for the player that died.
+ * @author Eudy Contreras
+ *
+ */
 public class GameOverScreen {
 
 	public static boolean LEVEL_COMPLETE = false;
 	public static boolean LEVEL_FAILED = false;
+	private TranslateTransition transitionOne;
+	private TranslateTransition transitionTwo;
 	private ScreenEffectUtility overlay;
 	private LocalScoreScreen scoreScreen;
-	private DropShadow borderGlow;
-	private DropShadow boardPulse;
 	private GameManager game;
-	private ImageView confirmScreenBack;
-	private ImageView confirmScreen;
+	private DropShadow borderGlow;
+	private ImageView baseGameBoard;
+	private ImageView mainGameBoard;
 	private ImageView continue_btt;
 	private ImageView quitGame_btt;
 	private ImageView restart_btt;
 	private ImageView optionsBoard;
-	private Pane scoreLayer;
 	private Image boardImage;
+	private Pane scoreLayer;
 	private int counter = 0;
 	private int waitTime = 0;
 	private int currentChoice = 1;
 	private double width = 0;
 	private double height = 0;
-	private double pulse = 0;
-	private double confirmX = 0;
-	private double confirmXTwo = 0;
-	private double confirmXPosition = 0;
 	private double transitionOpacity = 1;
 	private double opacityValue = -0.016;
-	private double acceleration = 0.3f;
 	private boolean showTransition = false;
 	private boolean showWinner = false;
 	private boolean showScores = false;
-	private boolean allowGlow = false;
-	private boolean pulseUp = true;
-	private boolean pulseDown = false;
-	private boolean swipeRight = false;
-	private boolean swipeLeft = false;
-	private boolean center = true;
 
-
+	/**
+	 * Main constructur which takes an instance of the main game class along with
+	 * with the base image of this board and the elements dimensions.
+	 * @param game: main game class which connects this class to all other classes
+	 * @param boardImage: Image which will be used as base for this board
+	 * @param width: Horizontal dimension of this board
+	 * @param height: Vertival dimension of this board
+	 */
 	public GameOverScreen(GameManager game, Image boardImage, double width, double height) {
 		this.game = game;
 		this.overlay = game.getOverlayEffect();
 		this.scoreLayer = new Pane();
 		this.boardImage = boardImage;
-		this.width = width;
-		this.height = height;
+		this.width = GameManager.ScaleX(width);
+		this.height = GameManager.ScaleY(height);
 		this.borderGlow = new DropShadow();
-		this.boardPulse = new DropShadow();
 		this.borderGlow.setOffsetY(0f);
 		this.borderGlow.setOffsetX(0f);
 		this.borderGlow.setSpread(0.3);
 		this.borderGlow.setWidth(35);
 		this.borderGlow.setHeight(35);
-		this.boardPulse.setOffsetY(0f);
-		this.boardPulse.setOffsetX(0f);
-		this.boardPulse.setSpread(0.5);
-		this.boardPulse.setWidth(0);
-		this.boardPulse.setHeight(0);
 		this.borderGlow.setColor(Color.WHITE);
-		this.boardPulse.setColor(Color.GREEN);
 		this.borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
-		this.boardPulse.setBlurType(BlurType.ONE_PASS_BOX);
 		confirmScreenSetup();
 	}
+	/*
+	 * Method which initializes most of the UI elements used by this board
+	 * Most elements are also asigned fills and dimensions within this method
+	 */
+
 	private void confirmScreenSetup() {
-		confirmScreen = new ImageView();
-		confirmScreen.setFitWidth(width);
-		confirmScreen.setFitHeight(height);
-		confirmScreen.setImage(boardImage);
-		if (allowGlow)
-			confirmScreen.setEffect(boardPulse);
-		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-//		confirmX = 0 - confirmScreen.getFitWidth() - 50;
-//		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
-		confirmScreenBack = new ImageView(GameImageBank.game_over_trans_board);
+		baseGameBoard = new ImageView(GameImageBank.game_over_trans_board);
+		mainGameBoard = new ImageView(GameImageBank.game_over_trans_board);
 		continue_btt = new ImageView(GameImageBank.continue_button_alt);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
 		restart_btt = new ImageView(GameImageBank.restart_button);
 		optionsBoard = new ImageView(GameImageBank.options_board);
+		scoreScreen = new LocalScoreScreen(game,0,0,0,0, scoreLayer);
+		mainGameBoard.setFitWidth(width);
+		mainGameBoard.setFitHeight(height);
+		mainGameBoard.setImage(boardImage);
+		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
+		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		optionsBoard.setFitWidth(GameManager.ScaleX(800));
 		optionsBoard.setFitHeight((GameManager.ScaleY(450)/4));
 		continue_btt.setFitWidth(GameManager.ScaleX(240));
@@ -110,12 +103,17 @@ public class GameOverScreen {
 		quitGame_btt.setFitHeight(GameManager.ScaleY(70));
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
-		scoreLayer.getChildren().addAll(confirmScreenBack,confirmScreen,optionsBoard, continue_btt, quitGame_btt, restart_btt);
-		scoreScreen = new LocalScoreScreen(game,0,0,0,0, scoreLayer);
+		scoreLayer.getChildren().addAll(baseGameBoard,mainGameBoard,optionsBoard, continue_btt, quitGame_btt, restart_btt);
+		transitionOne = new TranslateTransition(Duration.millis(1000), baseGameBoard);
+		transitionTwo = new TranslateTransition(Duration.millis(1000), optionsBoard);
 		processMouseHandling();
 
 	}
-	public void finishLevel() {
+	/**
+	 * Method which is to be called once any of the players have
+	 * died. This method marks the end of the game being played
+	 */
+	private void endGame() {
 		game.showCursor(true, game.getScene());
 		game.getScoreKeeper().stopTimer();
 		if(PlayerOne.DEAD){
@@ -125,8 +123,8 @@ public class GameOverScreen {
 			this.boardImage = GameImageBank.player_two_loses;
 		}
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
-		askConfirm();
-		showTheBox();
+		resetBoard();
+		showTheBoard();
 		//TODO: Calculate rank
 		/**
 		 * int rank = Scoreboard.INSTANCE.calculateRank(score);
@@ -143,7 +141,11 @@ public class GameOverScreen {
 		}
 		 */
 	}
-
+	/**
+	 * Method which processes events within the buttons used by the options board
+	 * of this game board. This method processes all mouse input within these buttons
+	 * and ensures to show visual ques when the buttons are selected
+	 */
 	private void processMouseHandling() {
 		quitGame_btt.setOnMouseEntered(e -> {
 			selectionReset();
@@ -176,9 +178,10 @@ public class GameOverScreen {
 
 	}
 	/**
-	 * Sets the key input handling for the labels
-	 * Code below determines what will happen if the user presses enter or
-	 * space on the different choices
+	 * Sets the key input handling for the buttons used by this game board
+	 * The code below determines what will happen if the user presses enter or
+	 * space on the different choices. The method also takes care of showing visual
+	 * ques once the buttons are selected
 	 */
 	private void processKeyHandling() {
 		updateSelections();
@@ -239,7 +242,11 @@ public class GameOverScreen {
 		});
 
 		}
-	public void updateSelections(){
+	/**
+	 * Method which updates the visual ques used
+	 * in order to show which button is selected
+	 */
+	private void updateSelections(){
 		if(currentChoice==1){
 			borderGlow.setColor(Color.rgb(240,150,0));
 			restart_btt.setEffect(borderGlow);
@@ -251,199 +258,128 @@ public class GameOverScreen {
 			restart_btt.setEffect(null);
 		}
 	}
-	public void selectionReset(){
+	/**
+	 * Method used to reset the visual que
+	 * of of all buttons by removing said
+	 * visual que
+	 */
+	private void selectionReset(){
 		restart_btt.setEffect(null);
 		quitGame_btt.setEffect(null);
 	}
-	public void checkStatus(){
+	/**
+	 * Method which checks the status of players.
+	 * It checks if any of the players has died
+	 * and if so it will then end the game and
+	 * show the game over board.
+	 */
+	private void checkStatus(){
 		if (PlayerOne.DEAD || PlayerTwo.DEAD) {
 			if (LEVEL_FAILED == false) {
 				removeBoard();
-				finishLevel();
+				endGame();
 				game.getScoreKeeper().swipeDown();
 				game.getGameHud().showHUDCover();
 				LEVEL_FAILED = true;
 			}
 		}
 	}
-	public void boardPulse() {
-		if (allowGlow) {
-			boardPulse.setWidth(pulse);
-			boardPulse.setHeight(pulse);
-			if (pulseUp) {
-				pulse += 1.5;
-				if (pulse >= 120) {
-					pulseUp = false;
-					pulseDown = true;
-				}
-			}
-			if (pulseDown) {
-				pulse -= 1.5;
-				if (pulse <= 20) {
-					pulseDown = false;
-					pulseUp = true;
-				}
-			}
-		}
-	}
+	/**
+	 * Method which when called updates
+	 * various elements of this game board
+	 * by further calling methods which will translate
+	 * or transform said elements
+	 */
 	public void updateUI(){
+		positionScoreScreen();
 		checkStatus();
 		positionScreen();
 		showScores();
-		boardPulse();
-		//swipeRight();
-		//hide();
 
 	}
-	public void showTheBox(){
+	/**
+	 * Method which when called will show the board and will animate
+	 * the board with a range of transitions .
+	 */
+	private void showTheBoard(){
 
-		TranslateTransition translateTransition = new TranslateTransition(Duration.millis(1000), confirmScreenBack);
-		translateTransition.setFromX(0 - confirmScreenBack.getFitWidth());
-		translateTransition.setToX(GameSettings.WIDTH / 2 - confirmScreenBack.getFitWidth() / 2);
-		translateTransition.setCycleCount(1);
-		translateTransition.setAutoReverse(true);
-		translateTransition.setOnFinished(event -> {
+		transitionOne.setFromX(0 - baseGameBoard.getFitWidth());
+		transitionOne.setToX(GameSettings.WIDTH / 2 - baseGameBoard.getFitWidth() / 2);
+		transitionOne.setCycleCount(1);
+		transitionOne.setAutoReverse(true);
+		transitionOne.setOnFinished(event -> {
 
 			transitionOpacity = 0;
-			confirmScreen.setOpacity(transitionOpacity);
+			mainGameBoard.setOpacity(transitionOpacity);
 			opacityValue = 0.016;
 			waitTime = 10;
+			mainGameBoard.setVisible(true);
+			scoreScreen.showScores();
+			showWinner = true;
+			transitionOne.stop();
+		});
+
+		transitionTwo.setFromX(0 - optionsBoard.getFitWidth());
+		transitionTwo.setToX(GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
+		transitionTwo.setCycleCount(1);
+		transitionTwo.setAutoReverse(true);
+		transitionTwo.setOnFinished(event -> {
 			processPlayerScores();
-			// processKeyHandling();
+			processKeyHandling();
 			blurOut();
 			fadeOut();
-			confirmScreen.setVisible(true);
-			showWinner = true;
-		});
-		TranslateTransition translateTransitionTwo = new TranslateTransition(Duration.millis(1000), optionsBoard);
-		translateTransitionTwo.setFromX(0 - optionsBoard.getFitWidth());
-		translateTransitionTwo.setToX(GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
-		translateTransitionTwo.setCycleCount(1);
-		translateTransitionTwo.setAutoReverse(true);
-		translateTransitionTwo.setOnFinished(event -> {
-			processKeyHandling();
+			transitionTwo.stop();
 		});
 
-		// RotateTransition rotateTransition =
-		// new RotateTransition(Duration.millis(1000), confirmScreen);
-		// rotateTransition.setByAngle(360f);
-		// rotateTransition.setCycleCount(1);
-		// rotateTransition.setAutoReverse(true);
-
-		// ScaleTransition scaleTransition =
-		// new ScaleTransition(Duration.millis(2000), confirmScreen);
-		// scaleTransition.setFromX(1);
-		// scaleTransition.setFromY(1);
-		// scaleTransition.setToX(2);
-		// scaleTransition.setToY(2);
-		// scaleTransition.setCycleCount(1);
-		// scaleTransition.setAutoReverse(true);
-		//
-		// create a sequential transition to do four transitions one after
-		// another
-		// SequentialTransition sequentialTransition = new
-		// SequentialTransition();
-		// sequentialTransition.getChildren().addAll(
-		// // fadeTransition,
-		// // translateTransition,
-		// translateTransition);
-		// // scaleTransition);
-		// sequentialTransition.setCycleCount(Timeline.);
-		// sequentialTransition.setAutoReverse(true);
-		// sequentialTransition.play();
-		translateTransition.play();
-		translateTransitionTwo.play();
+		transitionOne.play();
+		transitionTwo.play();
 	}
-	public void swipeRight() {
-		if (swipeRight == true) {
-			//confirmScreen.setX(confirmX);
-			optionsBoard.setX(confirmXTwo);
-			confirmX += confirmXPosition/GameManager.ScaleX;
-			confirmXTwo += confirmXPosition/GameManager.ScaleX;
-			confirmXPosition += acceleration*1.05;
-			if (center) {
-				acceleration -= 1.00;
-				if (acceleration <= 0) {
+	/**
+	 * Method which when called will hide the board and will animate
+	 * the board with a range of transitions .
+	 */
+	private void hideTheBoard(){
 
-					acceleration = 0;
-					confirmXPosition -= 0.5;
-					if (confirmXPosition <= 0.25) {
-						confirmXPosition = 0.25f;
-					}
+		transitionOne.setToX(0 - baseGameBoard.getFitWidth());
+		transitionOne.setFromX(GameSettings.WIDTH / 2 - baseGameBoard.getFitWidth() / 2);
+		transitionOne.setCycleCount(1);
+		transitionOne.setAutoReverse(true);
+		transitionOne.setOnFinished(event -> {
+			PlayerOne.LEVEL_COMPLETED = false;
+			PlayerTwo.LEVEL_COMPLETED = false;
+			game.processGameInput();
+			game.getFadeScreenHandler().restart_fade_screen();
+			transitionOne.stop();
+		});
 
-				}
-				if (confirmX >= GameSettings.WIDTH / 2 - confirmScreen.getFitWidth() / 2) {
-					confirmX = (float) (GameSettings.WIDTH / 2 - confirmScreen.getFitWidth() / 2);
-					confirmScreen.setX(confirmX);
-					acceleration = 0;
-					currentChoice = 1;
-					center = false;
-					swipeRight = false;
-//					showWinner = true;
-//					transitionOpacity = 0;
-//					opacityValue = 0.016;
-//					waitTime = 10;
-//					processPlayerScores();
-//					processKeyHandling();
-//					blurOut();
-//					fadeOut();
-				}
-				if (confirmXTwo >= GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2) {
-					confirmXTwo = (float) (GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
-					optionsBoard.setX(confirmXTwo);
-				}
-			}
+		transitionTwo.setToX(0 - optionsBoard.getFitWidth());
+		transitionTwo.setFromX(GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
+		transitionTwo.setCycleCount(1);
+		transitionTwo.setAutoReverse(true);
+		transitionTwo.setOnFinished(event -> {
+			transitionTwo.stop();
+		});
 
-		}
+		transitionOne.play();
+		transitionTwo.play();
 	}
-
-	public void hide() {
-		if (swipeLeft == true) {
-			positionScoreScreen();
-			confirmScreen.setX(confirmX);
-			optionsBoard.setX(confirmXTwo);
-			confirmX -= confirmXPosition/GameManager.ScaleX;
-			confirmXTwo -= confirmXPosition/GameManager.ScaleX;
-			confirmXPosition += acceleration;
-			if (center) {
-				acceleration -= 0.50;
-				if (acceleration <= 0) {
-					confirmXPosition -= 0.1;
-					acceleration = 0;
-					if (confirmXPosition <= 0.001) {
-						confirmXPosition = 0.001f;
-					}
-
-				}
-				if (confirmX <= 0 - confirmScreen.getFitWidth() - 50) {
-					game.getFadeScreenHandler().restart_fade_screen();
-					confirmX = (float) (0 - confirmScreen.getFitWidth() + 50);
-					confirmXPosition = 0;
-					swipeLeft = false;
-					game.processGameInput();
-					PlayerOne.LEVEL_COMPLETED = false;
-					PlayerTwo.LEVEL_COMPLETED = false;
-					center = false;
-				}
-			}
-			continue_btt.setX(optionsBoard.getX()+20);
-			continue_btt.setY(optionsBoard.getY()+20);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20);
-			quitGame_btt.setY(optionsBoard.getY()+20);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+20);
-			restart_btt.setY(continue_btt.getY());
-		}
-	}
-	public void showScores(){
+	/**
+	 * method used to both update the opacity of the main
+	 * score board shown after the game ends. This method
+	 * also produces a transition which will change the image
+	 * shown each time the board reaches its minimum opacity
+	 * level
+	 */
+	private void showScores(){
 		if(showScores == true){
-			confirmScreen.setOpacity(transitionOpacity);
+			mainGameBoard.setOpacity(transitionOpacity);
 			counter++;
 			if(counter>=waitTime){
 				counter = waitTime;
 				showTransition = true;
 			}
 			if(showTransition == true){
-				confirmScreen.setImage(GameImageBank.game_over_score_board);
+				mainGameBoard.setImage(GameImageBank.game_over_score_board);
 				scoreScreen.setScoreOpacity(transitionOpacity);
 				transitionOpacity+= opacityValue;
 				if(transitionOpacity>=1 && opacityValue>0){
@@ -463,14 +399,14 @@ public class GameOverScreen {
 			}
 		}
 		if(showWinner == true){
-			confirmScreen.setOpacity(transitionOpacity);
+			mainGameBoard.setOpacity(transitionOpacity);
 			counter++;
 			if(counter>=waitTime){
 				counter = waitTime;
 				showTransition = true;
 			}
 			if(showTransition == true){
-				confirmScreen.setImage(boardImage);
+				mainGameBoard.setImage(boardImage);
 				transitionOpacity+= opacityValue;
 				if(transitionOpacity>=1 && opacityValue>0){
 					transitionOpacity = 1;
@@ -487,19 +423,35 @@ public class GameOverScreen {
 			}
 		}
 	}
-	public void processPlayerScores(){
+	/**
+	 * Method which collects the scores to be shown by the local
+	 * score screen and positions the scores at a desired position
+	 * relative to the game board of this class
+	 */
+	private void processPlayerScores(){
 		scoreScreen.setScores();
-		scoreScreen.relocateScoreOne(confirmScreen.getX()+GameManager.ScaleX(240), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
-		scoreScreen.relocateScoreTwo(confirmScreen.getX()+confirmScreen.getFitWidth()/2+GameManager.ScaleX(130), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
+		scoreScreen.relocateScoreOne(mainGameBoard.getX()+GameManager.ScaleX(135), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+GameManager.ScaleX(25), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
 	}
-	public void positionScoreScreen(){
-		scoreScreen.relocateScoreOne(confirmScreen.getX()+GameManager.ScaleX(240), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
-		scoreScreen.relocateScoreTwo(confirmScreen.getX()+confirmScreen.getFitWidth()/2+GameManager.ScaleX(130), confirmScreen.getY()+confirmScreen.getFitHeight()/1.3);
+	/**
+	 * Method which updates the position of the local score
+	 * so that it remains at a desired location relative to the board
+	 * element of this class
+	 */
+	private void positionScoreScreen(){
+		scoreScreen.relocateScoreOne(mainGameBoard.getX()+GameManager.ScaleX(135), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+GameManager.ScaleX(25), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
 	}
-	public void positionScreen(){
-		confirmScreenBack.setRotate(confirmScreen.getRotate());
-		confirmScreenBack.setFitWidth(confirmScreen.getFitWidth());
-		confirmScreenBack.setFitHeight(confirmScreen.getFitHeight());
+	/**
+	 * Method which updates teh position of the various UI elements
+	 * used by this class in order to keeps these elements
+	 * relative to the main board of this class
+	 */
+	private void positionScreen(){
+		baseGameBoard.setRotate(mainGameBoard.getRotate());
+		baseGameBoard.setFitWidth(mainGameBoard.getFitWidth());
+		baseGameBoard.setFitHeight(mainGameBoard.getFitHeight());
+		mainGameBoard.setX(baseGameBoard.getTranslateX());
 		continue_btt.setX(optionsBoard.getTranslateX()+20/GameManager.ScaleX);
 		continue_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
 		quitGame_btt.setX(optionsBoard.getTranslateX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
@@ -507,38 +459,43 @@ public class GameOverScreen {
 		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
 		restart_btt.setY(continue_btt.getY());
 	}
-	public void restartLevel() {
+	/**
+	 * Method which is called if the player
+	 * decides to restart the level
+	 */
+	private void restartLevel() {
 		overlay.removeBlur();
 		game.getScoreKeeper().resetTimer();
-		center = true;
-		swipeLeft = true;
-		acceleration = 6.0f;
-		confirmXPosition = 0.001f;
+		hideTheBoard();
 	}
-
+	/**
+	 * Method which removes this board from
+	 * the main root of the game and makes
+	 * all the UI elements of this board not visible
+	 */
 	public void removeBoard() {
-		confirmScreen.setVisible(false);
+		mainGameBoard.setVisible(false);
 		optionsBoard.setVisible(false);
 		continue_btt.setVisible(false);
 		quitGame_btt.setVisible(false);
 		restart_btt.setVisible(false);
 		game.getMainRoot().getChildren().remove(scoreLayer);
 		LEVEL_FAILED = false;
-		confirmScreen.setX(0 - confirmScreen.getFitWidth() - 50);
-		confirmX = 0;
-		acceleration = 6.0f;
-		center = false;
+		mainGameBoard.setX(0 - mainGameBoard.getFitWidth() - 50);
 	}
-
-	private void askConfirm() {
+	/**
+	 * Method which resets the board along with
+	 * most of the other UI elements of this board
+	 * allowing this board to be reused next time
+	 * the game ends
+	 */
+	private void resetBoard() {
 		game.getGameRoot().setEffect(null);
-		confirmScreen.setImage(GameImageBank.game_over_trans_board);
-		confirmX = (float) (0 - confirmScreen.getFitWidth() - 50);
-		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
-		confirmScreen.setX(GameSettings.WIDTH / 2 - confirmScreen.getFitWidth() / 2);
-		confirmScreen.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
-		confirmScreenBack.setY(GameSettings.HEIGHT / 2 - confirmScreen.getFitHeight() / 2);
-		confirmScreenBack.setVisible(true);	
+		scoreScreen.hideScores();
+		mainGameBoard.setImage(GameImageBank.game_over_trans_board);
+		mainGameBoard.setX(GameSettings.WIDTH / 2 - mainGameBoard.getFitWidth() / 2);
+		mainGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
+		baseGameBoard.setVisible(true);
 		optionsBoard.setVisible(true);
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
@@ -549,20 +506,26 @@ public class GameOverScreen {
 		counter = 0;
 		opacityValue = 0.016;
 		transitionOpacity = 0;
-		center = true;
-		swipeRight = true;
-		acceleration = 8.0f;
-		confirmXPosition = 0.002f;
 	}
-
-	public void blurOut() {
+	/**
+	 * Method which when called will
+	 * blur all the elements behind all
+	 * the UI elements used by this class
+	 */
+	private void blurOut() {
 		overlay.addDeathBlur();
 	}
-
+	/**
+	 * Method which when called will add
+	 * a fade screen transition
+	 */
 	public void fadeOut(){
 		game.getFadeScreenHandler().renderFadeScreen();
 	}
-
+	/**
+	 * Method which when called will removed
+	 * all blur from screen.
+	 */
 	public void removeBlur() {
 		overlay.removeBlur();
 		PlayerTwo.LEVEL_COMPLETED = false;

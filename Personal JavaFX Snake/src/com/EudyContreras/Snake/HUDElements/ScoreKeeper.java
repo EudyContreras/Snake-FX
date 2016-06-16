@@ -138,7 +138,7 @@ public class ScoreKeeper extends AbstractHudElement{
 		yOne = yOne + swipeSpeed/GameManager.ScaleY;
 		if (swipeDown) {
 			swipeSpeed = 2.5f;
-			if (yTwo >= GameManager.ScaleX(104)) {
+			if (yTwo > GameManager.ScaleX(115)) {
 				swipeSpeed = 0;
 			}
 		}
@@ -258,7 +258,7 @@ public class ScoreKeeper extends AbstractHudElement{
 		if (APPLE_COUNT <= 0) {
 			if (VictoryScreen.LEVEL_COMPLETE == false) {
 				game.getVictoryScreen().removeBoard();
-				game.getVictoryScreen().finishLevel();
+				game.getVictoryScreen().endGame();
 				game.getGameHud().showHUDCover();
 				game.setStateID(GameStateID.LEVEL_COMPLETED);
 				swipeDown();

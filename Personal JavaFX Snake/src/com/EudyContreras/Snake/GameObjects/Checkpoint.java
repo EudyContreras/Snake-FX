@@ -1,7 +1,8 @@
 
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
+import com.EudyContreras.Snake.FrameWork.GameManager;
 
 import javafx.scene.image.Image;
 
@@ -13,8 +14,7 @@ import javafx.scene.image.Image;
  * @author Eudy Contreras
  *
  */
-public class CheckpointManager extends AbstractTile {
-	GameManager game;
+public class Checkpoint extends AbstractTile {
 	boolean loadFirstSect = false;
 	boolean loadSecondSect = false;
 	boolean loadThirdSect = false;
@@ -35,9 +35,8 @@ public class CheckpointManager extends AbstractTile {
 	 * @param velY
 	 * @param image
 	 */
-	public CheckpointManager(GameManager game, float x, float y, float velX, float velY, Image image) {
+	public Checkpoint(GameManager game, float x, float y, float velX, float velY, Image image) {
 		super(x, y, image);
-		this.game = game;
 		this.velX = velX;
 		this.velY = velY;
 		this.view.setTranslateX(x);
