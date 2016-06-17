@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
+
 import javafx.animation.TranslateTransition;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;

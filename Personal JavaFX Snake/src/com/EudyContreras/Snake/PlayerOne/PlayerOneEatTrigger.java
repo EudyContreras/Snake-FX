@@ -70,8 +70,8 @@ public class PlayerOneEatTrigger extends AbstractObject {
 	}
 
 	public void checkCollision() {
-		for (int i = 0; i < game.getGameObjectController().getObjectList().size(); i++) {
-			AbstractObject tempObject = game.getGameObjectController().getObjectList().get(i);
+		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
+			AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 					if (PlayerOne.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {

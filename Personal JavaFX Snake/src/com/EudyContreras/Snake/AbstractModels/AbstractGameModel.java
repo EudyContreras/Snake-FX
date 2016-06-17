@@ -2,11 +2,12 @@ package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
+
+import com.EudyContreras.Snake.Controllers.FadeScreenController;
 import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
 import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
-import com.EudyContreras.Snake.FrameWork.FadeScreenHandler;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
@@ -120,7 +121,7 @@ public abstract class AbstractGameModel extends Application {
 	protected AnimationTimer animationLoop;
 	protected AnimationTimer particleLoop;
 	protected GameOverScreen gameOverScreen;
-	protected FadeScreenHandler fadeHandler;
+	protected FadeScreenController fadeHandler;
 	protected ScoreKeeper scoreKeeper;
 	protected ImageView backgroundImage;
 	protected ImageView splash;
@@ -294,7 +295,7 @@ public abstract class AbstractGameModel extends Application {
 		this.debrisManager = debrisManager;
 	}
 
-	public FadeScreenHandler getFadeScreenHandler(){
+	public FadeScreenController getFadeScreenHandler(){
 		return fadeHandler;
 	}
 

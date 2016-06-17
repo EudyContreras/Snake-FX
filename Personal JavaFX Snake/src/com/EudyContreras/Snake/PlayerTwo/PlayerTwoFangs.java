@@ -109,8 +109,8 @@ public class PlayerTwoFangs extends AbstractObject {
 
 	public void checkCollision() {
 		if (PlayerTwo.DEAD == false) {
-			for (int i = 0; i < gom.getObjectList().size(); i++) {
-				AbstractObject tempObject = gom.getObjectList().get(i);
+			for (int i = 0; i < gom.getFruitList().size(); i++) {
+				AbstractObject tempObject = gom.getFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						if (PlayerTwo.MOUTH_OPEN) {
@@ -132,14 +132,9 @@ public class PlayerTwoFangs extends AbstractObject {
 				for (int i = 0; i < sectManager.getSectionList().size(); i++) {
 					AbstractSection tempObject = sectManager.getSectionList().get(i);
 					if (tempObject.getId() == GameObjectID.SnakeSection) {
-						if (tempObject.getNumericID() > 1) {
+						if (tempObject.getNumericID() > 4) {
 							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-								if (tempObject.getNumericID() != 0 && tempObject.getNumericID() != 1
-										&& tempObject.getNumericID() != 2
-										&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID
-										&& tempObject.getNumericID() != PlayerTwo.NUMERIC_ID - 1) {
-										snake.die();
-								}
+									snake.die();
 							}
 						}
 					}

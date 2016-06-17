@@ -311,7 +311,7 @@ public class GameLoader extends AbstractLoaderModel{
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
 				+ GameSettings.START_Y+fruit.getRadius());
 		SnakeFood food = new SnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
-		game.getGameObjectController().addObject(food);
+		game.getGameObjectController().addFruit(food);
 		appleNumber++;
 	}
 	/**

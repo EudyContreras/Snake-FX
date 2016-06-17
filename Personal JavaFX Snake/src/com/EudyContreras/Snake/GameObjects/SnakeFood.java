@@ -273,7 +273,7 @@ public class SnakeFood extends AbstractObject {
 		float newX = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
 		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
 				+ GameSettings.START_Y + radius);
-		for (AbstractObject tempObject : game.getGameObjectController().getObjectList()) {
+		for (AbstractObject tempObject : game.getGameObjectController().getFruitList()) {
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (tempObject.getNumericCode() != this.numericCode) {
 					if (getBounds().intersects(tempObject.getBounds())) {
@@ -429,6 +429,9 @@ public class SnakeFood extends AbstractObject {
 				}
 			}
 		}
+	}
+	public void checkRemovability(){
+
 	}
 	public void relocate(){
 		x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);

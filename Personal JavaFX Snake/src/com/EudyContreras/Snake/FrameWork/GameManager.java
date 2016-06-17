@@ -4,6 +4,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
+import com.EudyContreras.Snake.Controllers.FadeScreenController;
 import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
@@ -247,7 +248,7 @@ public class GameManager extends AbstractGameModel{
         levelLayer = new Pane();
         loader = new GameLoader(this);
         overlayEffect = new ScreenEffectUtility(this,getGameRoot());
-        fadeHandler = new FadeScreenHandler(this);
+        fadeHandler = new FadeScreenController(this);
         objectManager = new GameObjectController(this);
         playerOneManager = new PlayerOneManager(this);
         playerTwoManager = new PlayerTwoManager(this);
@@ -679,7 +680,7 @@ public class GameManager extends AbstractGameModel{
                 System.out.println();
                 System.out.println();
                 System.out.println("Amount of objects in player manager: " + playerOneManager.getObjectList().size());
-                System.out.println("Amount of objects in object manager: " + objectManager.getObjectList().size());
+                System.out.println("Amount of objects in object manager: " + objectManager.getFruitList().size());
                 System.out.println("Amount of objects in debris manager: " + debrisManager.getDebrisList().size());
                 System.out.println("Amount of objects in particle manager: " + debrisManager.getParticleList().size());
                 System.out.println("Amount of objects in tile manager: " + loader.getTileManager().getTile().size());

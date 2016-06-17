@@ -11,9 +11,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
-public class MenuBox{
+public class CustomMenuBox{
 	private Rectangle background;
-	private LinkedList<MenuButton> buttonList;
+	private LinkedList<CustomMenuButton> buttonList;
     private VBox menuBox;
     private StackPane pane;
 /**
@@ -27,32 +27,32 @@ public class MenuBox{
  * @param fill
  * @param alignment
  */
-	public MenuBox(double x, double y, double width, double height, int spacing, Paint fill, Pos alignment ) {
+	public CustomMenuBox(double x, double y, double width, double height, int spacing, Paint fill, Pos alignment ) {
 		this.background = new Rectangle(GameManager.ScaleX(width), GameManager.ScaleY(height), fill);
 		this.background.setArcHeight(50);
 		this.background.setArcWidth(50);
 		this.menuBox = new VBox(GameManager.ScaleX_Y(spacing));
 		this.menuBox.setAlignment(alignment);
 		this.pane = new StackPane();
-		this.buttonList = new LinkedList<MenuButton>();
+		this.buttonList = new LinkedList<CustomMenuButton>();
 		this.pane.setTranslateX(GameManager.ScaleX(x));
 		this.pane.setTranslateY(GameManager.ScaleY(y));
 		this.pane.getChildren().addAll(background,menuBox);
 	}
-	public void addMenuButton(MenuButton button, int index) {
-		this.menuBox.getChildren().add(index, button.getButton());
+	public void addMenuButton(CustomMenuButton button, int index) {
+		this.menuBox.getChildren().add(index, button.BUTTON());
 		this.buttonList.add(index, button);
 	}
-	public void addButtons(MenuButton... buttons){
+	public void addButtons(CustomMenuButton... buttons){
 		for(int i = 0; i<buttons.length; i++){
-			this.menuBox.getChildren().add(buttons[i].getButton());
+			this.menuBox.getChildren().add(buttons[i].BUTTON());
 			this.buttonList.add(buttons[i]);
 		}
 	}
-	public LinkedList<MenuButton> getButtons(){
+	public LinkedList<CustomMenuButton> getButtons(){
 		return buttonList;
 	}
-	public MenuButton getButton(int index){
+	public CustomMenuButton getButton(int index){
 		return buttonList.get(index);
 	}
 	public final StackPane getMenu(){

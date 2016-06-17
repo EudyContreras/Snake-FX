@@ -1,10 +1,12 @@
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.Controllers;
 
+import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 import javafx.scene.shape.Rectangle;
 
-public class FadeScreenHandler{
+public class FadeScreenController{
 	private GameManager game;
 	private Rectangle mainFadeScreen;
 	private Rectangle innerFadeScreen;
@@ -17,7 +19,7 @@ public class FadeScreenHandler{
 	private boolean fadeIn = false;
 	private boolean fadeOut = false;
 
-	public FadeScreenHandler(GameManager game){
+	public FadeScreenController(GameManager game){
 		this.game = game;
 		this.innerFadeScreen = new Rectangle(0,0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		this.mainFadeScreen = new Rectangle(0,0, GameSettings.WIDTH, GameSettings.HEIGHT);

@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.3;
+	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -28,7 +28,7 @@ public class GameSettings {
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 4;
+	public static int APPLE_COUNT = 100;
 	public static int SECTIONS_TO_ADD = 3;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
@@ -57,7 +57,7 @@ public class GameSettings {
 	public static double PLAYER_HEALTH = 100.0;
 
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double GLOBAL_SPECULARITY = 1.0;
+	public static double GLOBAL_SPECULARITY = 1.7;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
@@ -78,10 +78,10 @@ public class GameSettings {
 	public static boolean OBJECT_TRACKER = false;
 
 	public static boolean ALLOW_SNAKE_GROWTH = false;
-	public static boolean ALLOW_SELF_COLLISION = true;
+	public static boolean ALLOW_SELF_COLLISION = false;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;
-	public static boolean ALLOW_DAMAGE_IMMUNITY = false;
+	public static boolean ALLOW_DAMAGE_IMMUNITY = true;
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 
