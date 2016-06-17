@@ -275,6 +275,10 @@ public class GameManager extends AbstractGameModel{
         return newSize;
     }
 
+    public static double ScaleX_Y(double value){
+    	double newSize = value/((ScaleX+ScaleY)/2);
+    	return newSize;
+    }
     public void resumeGame() {
         if (GameSettings.RENDER_GAME == true)
             return;
