@@ -49,11 +49,21 @@ public class CustomMenuBox{
 			this.buttonList.add(buttons[i]);
 		}
 	}
+	public void setChosen(int index){
+		for(int i = 0; i<getButtons().size(); i++){
+			this.getButtons().get(i).setActive(false);
+		}
+		this.getButton(index).setActive(true);
+
+	}
 	public LinkedList<CustomMenuButton> getButtons(){
 		return buttonList;
 	}
 	public CustomMenuButton getButton(int index){
 		return buttonList.get(index);
+	}
+	public int buttonCount(){
+		return buttonList.size();
 	}
 	public final StackPane getMenu(){
 		return pane;

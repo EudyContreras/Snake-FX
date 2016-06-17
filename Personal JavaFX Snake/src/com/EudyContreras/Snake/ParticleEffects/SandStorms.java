@@ -54,11 +54,11 @@ public class SandStorms extends AbstractParticlesEffect {
 
 	public void init() {
 		if (shape != null) {
-			layer = game.getSixthLayer();
+			layer = game.getOuterParticleLayer();
 			addToLayer(shape);
 		}
 		if (view != null) {
-			layer = game.getSixthLayer();
+			layer = game.getOuterParticleLayer();
 			addToLayer(view);
 		}
 	}

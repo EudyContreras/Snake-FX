@@ -32,7 +32,7 @@ public class CustomMenuButton {
     private Text buttonText;
     private Font buttonFont;
     private String buttonName;
-    private Paint buttonColor;
+    private Paint buttonFill;
     private Paint textColor;
     private Color glowColor;
     private double frameOpacity;
@@ -40,25 +40,14 @@ public class CustomMenuButton {
     private double buttonHeight;
     private double buttonSize;
     private double fontSize;
+    private boolean selected;
     private boolean pressedGlow;
     private Runnable actionScript;
     private Runnable hoverScript;
     private Pos buttonAlignment;
+    private ButtonStyle style;
 
-    public CustomMenuButton(String name, Pos alignment, Paint textColor, Paint buttonColor, double fontSize, double buttonWidth, double buttonHeight, boolean pressedGlow , Color glowColor){
-    	this.buttonContainer = new HBox(15);
-    	this.buttonName = name;
-    	this.textColor = textColor;
-    	this.buttonColor = buttonColor;
-    	this.fontSize = GameManager.ScaleX_Y(fontSize);
-    	this.buttonWidth = GameManager.ScaleX(buttonWidth);
-    	this.buttonHeight = GameManager.ScaleY(buttonHeight);
-    	this.pressedGlow = pressedGlow;
-    	this.glowColor = glowColor;
-    	this.buttonAlignment = alignment;
-    	this.frameOpacity = 1;
-    	this.initializeButtonOne();
-    }
+
     public CustomMenuButton(Pos alignment, Image activeImage, Image innactiveImage, double width, double height, boolean pressedGlow, Color glowColor){
     	this.buttonContainer = new HBox(15);
     	this.buttonWidth = width;
@@ -70,6 +59,19 @@ public class CustomMenuButton {
     	this.buttonAlignment = alignment;
     	this.initializeButtonTwo();
     }
+    public CustomMenuButton(String name, Pos alignment, ButtonStyle style, Paint textColor,double fontSize, double buttonWidth, double buttonHeight, boolean pressedGlow ){
+    	this.buttonContainer = new HBox(15);
+    	this.buttonName = name;
+    	this.textColor = textColor;
+    	this.style = style;
+    	this.fontSize = GameManager.ScaleX_Y(fontSize);
+    	this.buttonWidth = GameManager.ScaleX(buttonWidth);
+    	this.buttonHeight = GameManager.ScaleY(buttonHeight);
+    	this.pressedGlow = pressedGlow;
+    	this.buttonAlignment = alignment;
+    	this.frameOpacity = 1;
+    	this.initializeButtonOne();
+    }
 	private void initializeButtonOne() {
 		this.buttonFont = Font.font("Bauhaus 93", FontWeight.EXTRA_BOLD, fontSize);
 		this.buttonText = new Text(buttonName);
@@ -79,16 +81,13 @@ public class CustomMenuButton {
 		this.buttonFrame.setArcHeight(20);
 		this.buttonFrame.setArcWidth(20);
 		this.buttonFrame.setOpacity(frameOpacity);
-		this.buttonFrame.setFill(buttonColor);
-		//this.buttonGlow.setBlurType(BlurType.ONE_PASS_BOX);
-		this.buttonGlow.setColor(Color.rgb(255, 0, 0,0.6));
-		this.buttonGlow.setSpread(1);
 		this.button = new StackPane(buttonFrame,buttonText);
 		this.button.setAlignment(buttonAlignment);
-		this.setActive(false);
+		this.buttonFrame.setStyle(MenuButtonStyles.STANDARD_BUTTON_STYLE);
 		this.buttonContainer.setAlignment(buttonAlignment);
-		this.processEvents();
 		this.buttonContainer.getChildren().addAll(button);
+		this.processEvents();
+		this.setActive(false);
 	}
 	private void initializeButtonTwo() {
 		this.buttonFrame = new Rectangle(buttonWidth, buttonHeight);
@@ -97,10 +96,31 @@ public class CustomMenuButton {
 		this.buttonFrame.setArcWidth(20);
 		this.buttonGlow.setColor(glowColor);
 		this.buttonGlow.setSpread(0.25);
-		setActive(false);
 		this.buttonContainer.setAlignment(buttonAlignment);
-		processEvents();
 		this.buttonContainer.getChildren().addAll(buttonFrame);
+		this.processEvents();
+		this.setActive(false);
+	}
+	@SuppressWarnings("unused")
+	private void processStyle(){
+
+		switch (style){
+		case BLACK:
+			break;
+		case BLUE:
+			break;
+		case GRAY:
+			break;
+		case GREEN:
+			break;
+		case ORANGE:
+			break;
+		case RED:
+			break;
+		default:
+			break;
+
+		}
 	}
 	private void processEvents(){
 		this.buttonContainer.setOnMousePressed(Event->{
@@ -117,14 +137,17 @@ public class CustomMenuButton {
 			setActive(false);
 		});
 	}
+	public enum ButtonStyle {
+		GREEN, BLUE, BLACK, RED,
+		ORANGE, GRAY
+	}
 	public HBox BUTTON(){
 		return buttonContainer;
 	}
     public void setActive(boolean state) {
 		if (buttonText != null) {
-//			this.sideShapeLeft.setVisible(state);
-//			this.sideShapeRight.setVisible(state);
-			this.buttonFrame.setFill(state ? Color.RED : buttonColor);
+			this.setSelected(state);
+			this.buttonFrame.setStyle(state ? MenuButtonStyles.HOVERED_BUTTON_STYLE : MenuButtonStyles.STANDARD_BUTTON_STYLE);
 		} else {
 			this.buttonFrame.setFill(state ? buttonImageOne : buttonImageTwo);
 		}
@@ -133,12 +156,12 @@ public class CustomMenuButton {
         this.actionScript = script;
     }
     public void activate() {
-		this.buttonFrame.setEffect(pressedGlow? buttonGlow: null );
+    	this.buttonFrame.setStyle(MenuButtonStyles.PRESSED_BUTTON_STYLE);
     }
     public void deactivate(){
         if (actionScript != null)
             actionScript.run();
-    	this.buttonFrame.setEffect(null);
+        this.buttonFrame.setStyle(MenuButtonStyles.HOVERED_BUTTON_STYLE);
     }
     public void setOnHover(Runnable script){
     	this.hoverScript = script;
@@ -173,10 +196,10 @@ public class CustomMenuButton {
 		this.buttonName = buttonName;
 	}
 	public Paint getButtonColor() {
-		return buttonColor;
+		return buttonFill;
 	}
 	public void setButtonColor(Color buttonColor) {
-		this.buttonColor = buttonColor;
+		this.buttonFill = buttonColor;
 		this.buttonFrame.setFill(buttonColor);
 	}
 	public Paint getTextColor() {
@@ -276,4 +299,10 @@ public class CustomMenuButton {
             setEffect(new GaussianBlur(2));
         }
     }
+	public void setSelected(boolean state){
+		this.selected = state;
+	}
+	public boolean isSelected() {
+		return selected;
+	}
 }

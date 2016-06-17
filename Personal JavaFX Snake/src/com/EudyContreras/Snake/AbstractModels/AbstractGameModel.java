@@ -31,7 +31,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.UserInterface.MainMenu;
+import com.EudyContreras.Snake.UserInterface.GameMenuInterface;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -74,7 +74,7 @@ public abstract class AbstractGameModel extends Application {
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected Thread mainThread;
-	protected MainMenu mainMenu;
+	protected GameMenuInterface gameMenuInterface;
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Group mainRoot;
@@ -217,12 +217,12 @@ public abstract class AbstractGameModel extends Application {
 		return countDownScreen;
 	}
 
-	public MainMenu getMainMenu() {
-		return mainMenu;
+	public GameMenuInterface getMainMenu() {
+		return gameMenuInterface;
 	}
 
-	public void setMainMenu(MainMenu mainMenu) {
-		this.mainMenu = mainMenu;
+	public void setMainMenu(GameMenuInterface gameMenuInterface) {
+		this.gameMenuInterface = gameMenuInterface;
 	}
 
 	public Stage getMainWindow() {

@@ -30,7 +30,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.UserInterface.MainMenu;
+import com.EudyContreras.Snake.UserInterface.GameMenuInterface;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -179,7 +179,7 @@ public class GameManager extends AbstractGameModel{
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
         processGameInput();
         processGestures();
-        mainMenu.setupMainMenu();
+        gameMenuInterface.setupMainMenu();
         mainWindow.setScene(scene);
         mainWindow.setResizable(true);
         mainWindow.setTitle(title);
@@ -221,8 +221,8 @@ public class GameManager extends AbstractGameModel{
         frameGameLoop = new Timeline();
         mainRoot = new Group();
         root = new Pane();
-        mainMenu = new MainMenu(this);
-        scene = new Scene(mainMenu.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
+        gameMenuInterface = new GameMenuInterface(this);
+        scene = new Scene(gameMenuInterface.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
         baseLayer = new Pane();
         dirtLayer = new Pane();
         debrisLayer = new Pane();
@@ -355,7 +355,7 @@ public class GameManager extends AbstractGameModel{
                 currentTime = now;
                 delta += currentTime - lastTime;
                 if (!GameSettings.RENDER_GAME) {
-                    mainMenu.transition();
+                    gameMenuInterface.transition();
 
                 }
                 if (GameSettings.RENDER_GAME) {
@@ -459,7 +459,7 @@ public class GameManager extends AbstractGameModel{
                         timePassed = System.currentTimeMillis() - cummulativeTime;
                         cummulativeTime += timePassed;
                         if (!GameSettings.RENDER_GAME) {
-                            mainMenu.transition();
+                            gameMenuInterface.transition();
 
                         }
                         if (GameSettings.RENDER_GAME) {
