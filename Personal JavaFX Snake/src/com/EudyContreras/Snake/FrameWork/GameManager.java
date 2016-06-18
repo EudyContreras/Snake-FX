@@ -30,7 +30,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.UserInterface.GameMenuInterface;
+import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -150,36 +150,16 @@ public class GameManager extends AbstractGameModel{
         getGameRoot().getChildren().add(eighthLayer);
         getGameRoot().getChildren().add(ninthLayer);
         getGameRoot().getChildren().add(outerParticleLayer);
-        getGameRoot().getChildren().add(tenthLayer);
-        getGameRoot().getChildren().add(eleventhLayer);
-        getGameRoot().getChildren().add(twelfthLayer);
         mainRoot.getChildren().add(getGameRoot());
         scene.getStylesheets().add(GameManager.class.getResource("text.css").toExternalForm());
         scene.setFill(Color.BLACK);
         loader.loadPixelMap();
         loader.loadPlayerTwo();
         loader.loadPlayerOne();
-        rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
-        sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-        energyBarOne = new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY);
-        healthBarOne = new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,350 / ScaleX, 30 / ScaleY);
-        energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
-        healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,35 / ScaleY, 350 / ScaleX,30 / ScaleY);
-        pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
-        gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
-        scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
-                45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 10/ScaleY,
-                680/ScaleX,85 / ScaleY);
-        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
-                50/ScaleY, Color.rgb(255, 150, 0));
-        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
-                50/ScaleY, Color.rgb(255, 150, 0));
-        victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
-        gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
-        countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
+        loadHUDElements();
         processGameInput();
         processGestures();
-        gameMenuInterface.setupMainMenu();
+        menuManager.setupMainMenu();
         mainWindow.setScene(scene);
         mainWindow.setResizable(true);
         mainWindow.setTitle(title);
@@ -221,8 +201,8 @@ public class GameManager extends AbstractGameModel{
         frameGameLoop = new Timeline();
         mainRoot = new Group();
         root = new Pane();
-        gameMenuInterface = new GameMenuInterface(this);
-        scene = new Scene(gameMenuInterface.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
+        menuManager = new MenuManager(this);
+        scene = new Scene(menuManager.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
         baseLayer = new Pane();
         dirtLayer = new Pane();
         debrisLayer = new Pane();
@@ -261,6 +241,26 @@ public class GameManager extends AbstractGameModel{
         if(GameSettings.PARENT_CACHE){
         	cacheAllLayers();
         }
+    }
+    private void loadHUDElements(){
+    	rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
+        sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
+        energyBarOne = new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY);
+        healthBarOne = new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,350 / ScaleX, 30 / ScaleY);
+        energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
+        healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,35 / ScaleY, 350 / ScaleX,30 / ScaleY);
+        pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
+        gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
+        scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,
+                45 / ScaleY, GameSettings.WIDTH / 2 -( 680 / 2)/ScaleX , 10/ScaleY,
+                680/ScaleX,85 / ScaleY);
+        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + healthBarOne.getWidth() + 100/ScaleX,
+                50/ScaleY, Color.rgb(255, 150, 0));
+        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() - healthBarTwo.getWidth()/2 +25/ScaleX,
+                50/ScaleY, Color.rgb(255, 150, 0));
+        victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
+        gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
+        countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
     }
 	private void cacheAllLayers(){
     	root.setCache(true);
@@ -343,19 +343,22 @@ public class GameManager extends AbstractGameModel{
     public synchronized void gameLoop() {
 
         gameLoop = new AnimationTimer() {
-
+            long startTime = System.currentTimeMillis();
+			long cummulativeTime = startTime;
             long lastTime = System.nanoTime();
             long nanoSecond = 1000000000;
             long currentTime = 0;
             double delta = 0;
             double FPS = 0;
 
-            public synchronized void handle(long now) {
+            public void handle(long now) {
+            	timePassed = System.currentTimeMillis() - cummulativeTime;
+				cummulativeTime += timePassed;
                 FPS++;
                 currentTime = now;
                 delta += currentTime - lastTime;
                 if (!GameSettings.RENDER_GAME) {
-                    gameMenuInterface.transition();
+                    menuManager.transition();
 
                 }
                 if (GameSettings.RENDER_GAME) {
@@ -459,7 +462,7 @@ public class GameManager extends AbstractGameModel{
                         timePassed = System.currentTimeMillis() - cummulativeTime;
                         cummulativeTime += timePassed;
                         if (!GameSettings.RENDER_GAME) {
-                            gameMenuInterface.transition();
+                            menuManager.transition();
 
                         }
                         if (GameSettings.RENDER_GAME) {
@@ -710,6 +713,9 @@ public class GameManager extends AbstractGameModel{
         TextFPS.setOpacity(0.5);
         TextFPS.setFill(Color.WHITE);
         TextFPS.setFont(Font.font("AERIAL", FontWeight.BOLD, ScaleX(20)));
+        rootPane.add(tenthLayer);
+        rootPane.add(eleventhLayer);
+        rootPane.add(twelfthLayer);
         rootPane.add(fadeScreenLayer);
         rootPane.add(thirTeenthLayer);
         rootPane.add(fourTeenthLayer);

@@ -22,19 +22,19 @@ import javafx.scene.text.Text;
 
 public class CustomMenuButton {
 
-	private DropShadow buttonGlow = new DropShadow(GameManager.ScaleX_Y(15), Color.WHITE);
     private ImagePattern buttonImageOne;
     private ImagePattern buttonImageTwo;
+	private DropShadow buttonGlow;
 	private ImageView buttonView;
     private Rectangle buttonFrame;
-    private HBox buttonContainer;
     private StackPane button;
+    private HBox buttonContainer;
     private Text buttonText;
     private Font buttonFont;
-    private String buttonName;
     private Paint buttonFill;
     private Paint textColor;
     private Color glowColor;
+    private String buttonName;
     private double frameOpacity;
     private double buttonWidth;
     private double buttonHeight;
@@ -76,7 +76,7 @@ public class CustomMenuButton {
 		this.buttonFont = Font.font("Bauhaus 93", FontWeight.EXTRA_BOLD, fontSize);
 		this.buttonText = new Text(buttonName);
 		this.buttonText.setFont(buttonFont);
-		this.buttonText.setFill(textColor);
+		this.buttonText.setStyle(MenuButtonStyles.BUTTON_TEXT);
 		this.buttonFrame = new Rectangle(buttonWidth, buttonHeight);
 		this.buttonFrame.setArcHeight(20);
 		this.buttonFrame.setArcWidth(20);
@@ -90,6 +90,7 @@ public class CustomMenuButton {
 		this.setActive(false);
 	}
 	private void initializeButtonTwo() {
+		this.buttonGlow = new DropShadow(GameManager.ScaleX_Y(15), Color.WHITE);
 		this.buttonFrame = new Rectangle(buttonWidth, buttonHeight);
 		this.buttonFrame.setFill(buttonImageTwo);
 		this.buttonFrame.setArcHeight(0);
@@ -148,6 +149,7 @@ public class CustomMenuButton {
 		if (buttonText != null) {
 			this.setSelected(state);
 			this.buttonFrame.setStyle(state ? MenuButtonStyles.HOVERED_BUTTON_STYLE : MenuButtonStyles.STANDARD_BUTTON_STYLE);
+			//this.buttonText.setFill(state? Color.WHITE : Color.WHITE);
 		} else {
 			this.buttonFrame.setFill(state ? buttonImageOne : buttonImageTwo);
 		}
@@ -275,8 +277,8 @@ public class CustomMenuButton {
 	public void setFrameOpacity(double opacity){
 		this.frameOpacity = opacity;
 	}
-	private static class TriCircle extends Parent {
-        public TriCircle() {
+	public static class Indicators extends Parent {
+        public Indicators() {
             Shape shape1 = Shape.subtract(new Circle(5), new Circle(2));
             shape1.setFill(Color.WHITE);
 

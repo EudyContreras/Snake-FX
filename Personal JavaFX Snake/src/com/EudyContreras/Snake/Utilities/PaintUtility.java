@@ -13,6 +13,8 @@ public class PaintUtility {
 	private static RadialGradient RADIAL_GRADIENT;
 	private static LinearGradient LINEAR_GRADIENT;
 	private static ImagePattern IMAGE_FILL;
+	private static Color COLOR_FILL;
+
 	public final static RadialGradient RADIAL_GRADIENT(Color colorOne, Color colorTwo){
 		Stop[] stops = new Stop[] { new Stop(0, colorOne), new Stop(1, colorTwo)};
 		RADIAL_GRADIENT = new RadialGradient(0, .1, 100,100,20,false,CycleMethod.NO_CYCLE,stops);
@@ -27,5 +29,9 @@ public class PaintUtility {
 	public final static ImagePattern IMAGE_FILL(Image image){
 		IMAGE_FILL = new ImagePattern(image);
 		return IMAGE_FILL;
+	}
+	public final static Color COLOR_FILL(Color color, double hueShift, double saturation, double brightness, double opacity){
+		COLOR_FILL =color.deriveColor(hueShift, saturation, brightness, opacity);
+		return COLOR_FILL;
 	}
 }

@@ -14,8 +14,10 @@ import javafx.scene.shape.Rectangle;
 public class CustomMenuBox{
 	private Rectangle background;
 	private LinkedList<CustomMenuButton> buttonList;
-    private VBox menuBox;
     private StackPane pane;
+    private VBox menuBox;
+    private double width;
+    private double height;
 /**
  *
  * @param manager
@@ -27,7 +29,9 @@ public class CustomMenuBox{
  * @param fill
  * @param alignment
  */
-	public CustomMenuBox(double x, double y, double width, double height, int spacing, Paint fill, Pos alignment ) {
+	public CustomMenuBox(double width, double height, int spacing, Paint fill, Pos alignment ) {
+		this.width = GameManager.ScaleX(width);
+		this.height = GameManager.ScaleY(height);
 		this.background = new Rectangle(GameManager.ScaleX(width), GameManager.ScaleY(height), fill);
 		this.background.setArcHeight(50);
 		this.background.setArcWidth(50);
@@ -35,8 +39,8 @@ public class CustomMenuBox{
 		this.menuBox.setAlignment(alignment);
 		this.pane = new StackPane();
 		this.buttonList = new LinkedList<CustomMenuButton>();
-		this.pane.setTranslateX(GameManager.ScaleX(x));
-		this.pane.setTranslateY(GameManager.ScaleY(y));
+		this.pane.setTranslateX(GameSettings.WIDTH/2 - GameManager.ScaleX(width));
+		this.pane.setTranslateY(GameSettings.HEIGHT/2 - GameManager.ScaleY(height));
 		this.pane.getChildren().addAll(background,menuBox);
 	}
 	public void addMenuButton(CustomMenuButton button, int index) {
@@ -76,8 +80,12 @@ public class CustomMenuBox{
 		this.background.setHeight(GameManager.ScaleY(height));
 	}
 	public void setMenuBoxCoordinates(double x, double y) {
-		this.pane.setTranslateX(GameSettings.WIDTH/2-GameManager.ScaleX(x));
-		this.pane.setTranslateY(GameSettings.HEIGHT/2-GameManager.ScaleY(y));
+		this.pane.setTranslateX(GameManager.ScaleX(x));
+		this.pane.setTranslateY(GameManager.ScaleY(y));
+	}
+	public void setMenuBoxOffset(double offsetX, double offsetY) {
+		this.pane.setTranslateX((GameSettings.WIDTH/2 - width/2)+GameManager.ScaleX(offsetX));
+		this.pane.setTranslateY((GameSettings.HEIGHT/2 -height/2)+GameManager.ScaleY(offsetY));
 	}
 	public void setMenuBoxBackground(Paint fill) {
 		this.background.setFill(fill);

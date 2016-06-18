@@ -2,7 +2,7 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.UserInterface.GameMenuInterface;
+import com.EudyContreras.Snake.UserInterface.MenuManager;
 
 import javafx.scene.effect.DropShadow;
 import javafx.scene.shape.Rectangle;
@@ -26,7 +26,7 @@ public abstract class AbstractMenuElement {
 	protected double fontSize = 50;
 	protected boolean showMenu = false;
 	protected GameManager game;
-	protected GameMenuInterface menu;
+	protected MenuManager menu;
 
 
 	public void move() {

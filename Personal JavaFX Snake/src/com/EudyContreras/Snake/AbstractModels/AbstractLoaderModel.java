@@ -2,6 +2,7 @@
 
 import java.util.Random;
 
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
@@ -35,6 +36,7 @@ public abstract class AbstractLoaderModel {
 	protected GameObjectController objectManger;
 	protected GameTileController tileManager;
 	protected GenericObject gameTile;
+	protected ClassicSnake classicSnake;
 	protected PlayerOne playerOne;
 	protected PlayerTwo playerTwo;
 	protected GameManager game;
@@ -122,6 +124,14 @@ public abstract class AbstractLoaderModel {
 
 	public void setSpikeFence(WritableImage fence) {
 		this.fence = fence;
+	}
+
+	public ClassicSnake getClassicSnake() {
+		return classicSnake;
+	}
+
+	public void setClassicSnake(ClassicSnake classicSnake) {
+		this.classicSnake = classicSnake;
 	}
 
 	public void setPlayerOne(PlayerOne player) {

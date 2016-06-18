@@ -1,20 +1,23 @@
 package com.EudyContreras.Snake.UserInterface;
 
+import com.EudyContreras.Snake.FrameWork.GameManager;
+
 public class MenuButtonStyles {
 	 public static final String STANDARD_BUTTON_STYLE =
-			 "-fx-fill-radius: 30;"
-			+"-fx-text-fill: black;"
+			 "-fx-fill-radius: "+GameManager.ScaleX_Y(30)+";"
 			+"-fx-fill:"
-	 		+ "linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),"
-	 		+ "linear-gradient(#020b02, #3a3a3a),"
-	 		+ "linear-gradient(green, limegreen);"
-	 		+ "-fx-effect: dropshadow(three-pass-box, limeGreen, 5, 0, 0, 0);";
+	 		+"linear-gradient(green, limegreen);"
+	 		+"-fx-effect: dropshadow(three-pass-box, limeGreen, "+GameManager.ScaleX_Y(5)+", 0, 0, 0);";
 	 public static final String HOVERED_BUTTON_STYLE  =
-			 "-fx-fill-radius: 30;"
+			 "-fx-fill-radius: "+GameManager.ScaleX_Y(30)+";"
 			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, lime 45%, green 50%);"
-			+"-fx-effect: dropshadow(three-pass-box, limeGreen, 30, 0.5, 0, 0);";
+			+"-fx-effect: dropshadow(three-pass-box, limeGreen,"+GameManager.ScaleX_Y(30)+", 0.5, 0, 0);";
 	 public static final String PRESSED_BUTTON_STYLE  =
-			 "-fx-fill-radius: 30;"
-			+"-fx-fill: linear-gradient(white, greenyellow, limegreen);"
-			+"-fx-effect: dropshadow(three-pass-box, limeGreen, 30, 0.5, 0, 0);";
+			 "-fx-fill-radius: "+GameManager.ScaleX_Y(30)+";"
+			+"-fx-fill: linear-gradient(palegreen, greenyellow, limegreen);"
+			+"-fx-effect: dropshadow(gaussian, limegreen, "+GameManager.ScaleX_Y(80)+", 0.6, 0, 0);";
+	 public static final String BUTTON_TEXT =
+			 "-fx-fill: white;"
+			+"-fx-stroke: green;"
+	        +"-fx-stroke-width: 2;";
 }

@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PlayerOne;
+package com.EudyContreras.Snake.ClassicSnake;
 
 import java.util.LinkedList;
 
@@ -29,7 +29,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class PlayerOne extends AbstractObject {
+public class ClassicSnake extends AbstractObject {
 
 	private int turnDelay = GameSettings.TURN_DELAY;
 	private int immunity = GameSettings.IMMUNITY_TIME;
@@ -64,13 +64,15 @@ public class PlayerOne extends AbstractObject {
 	private boolean goSlow = false;
 	private boolean thrust = false;
 	private boolean allowThrust = true;
+	private Image sectionFill;
+	private Image headFill;
 	private GameManager game;
 	private AnimationUtility anim;
 	private Rectangle bounds;
 	private ScreenEffectUtility overlay;
-	private PlayerOneHead snakeHead;
-	private PlayerOneSection neighbor;
-	private PlayerOneSectionManager sectManager;
+	private ClassicSnakeHead snakeHead;
+	private ClassicSnakeSection neighbor;
+	private ClassicSnakeSectionManager sectManager;
 	private BoxBlur motionBlur;
 	private ImagePattern eatingFrame;
 	private ImagePattern blinkingFrame;
@@ -86,31 +88,63 @@ public class PlayerOne extends AbstractObject {
 	public static Boolean KEEP_MOVING = true;
 	public static Boolean ALLOW_FADE = false;
 
-	public PlayerOne(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+	public ClassicSnake(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
 			double velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
 		this.anim = new AnimationUtility();
 		this.circle.setVisible(false);
 		this.overlay = game.getOverlayEffect();
-		this.eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
-		this.blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
-		this.sectManager = game.getSectManagerOne();
-		this.loadHead();
+		this.sectManager = game.getSectManagerThree();
 		this.loadImages();
+		this.loadHead();
 		this.drawBoundingBox();
 		this.moveDown();
 	}
 	private void loadHead(){
-		this.snakeHead = new PlayerOneHead(this, game, layer,
-				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
+		this.snakeHead = new ClassicSnakeHead(this, game, layer,
+				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(headFill)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getPlayerOneManager().addObject(snakeHead);
 	}
 	public void loadImages() {
-		anim.addScene(GameImageBank.snakeOneHead, 4000);
-		anim.addScene(GameImageBank.snakeOneBlinking, 250);
+		switch(game.getModeID()){
+		case CampaingMode:
+			break;
+		case ClassicMode:
+			headFill = GameImageBank.classicSnakeHead;
+			sectionFill = GameImageBank.classicSnakeBody;
+			eatingFrame = new ImagePattern(GameImageBank.classicSnakeHead);
+			blinkingFrame = new ImagePattern(GameImageBank.classicSnakeHead);
+			anim.addScene(GameImageBank.classicSnakeHead, 4000);
+			anim.addScene(GameImageBank.classicSnakeHead, 250);
+			break;
+		case LocalMultiplayer:
+			headFill = GameImageBank.snakeOneHead;
+			sectionFill = GameImageBank.snakeOneSkin;
+			eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
+			blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
+			anim.addScene(GameImageBank.snakeOneHead, 4000);
+			anim.addScene(GameImageBank.snakeOneBlinking, 250);
+			break;
+		case RemoteMultiplayer:
+			headFill = GameImageBank.snakeOneHead;
+			sectionFill = GameImageBank.snakeOneSkin;
+			eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
+			blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
+			anim.addScene(GameImageBank.snakeOneHead, 4000);
+			anim.addScene(GameImageBank.snakeOneBlinking, 250);
+			break;
+		case SinglePlayer:
+			break;
+		case TimeMode:
+			break;
+		default:
+			break;
+		}
+
 		setAnimation(anim);
+
 	}
 
 	public void spawnBody() {
@@ -606,8 +640,8 @@ public class PlayerOne extends AbstractObject {
 
 	public void addbaseSections() {
 		for (int i = 0; i < 2 + 1; i++) {
-			sectManager.addSection(new PlayerOneSection(this, game, layer,
-					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
+			sectManager.addSection(new ClassicSnakeSection(this, game, layer,
+					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(sectionFill)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
@@ -623,8 +657,8 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new PlayerOneSection(this, game, layer,
-					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
+			sectManager.addSection(new ClassicSnakeSection(this, game, layer,
+					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(sectionFill)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 			appleCount++;
@@ -701,7 +735,7 @@ public class PlayerOne extends AbstractObject {
 		}
 	}
 
-	public void setNeighbor(PlayerOneSection snakeSection) {
+	public void setNeighbor(ClassicSnakeSection snakeSection) {
 		this.neighbor = snakeSection;
 	}
 
@@ -848,7 +882,7 @@ public class PlayerOne extends AbstractObject {
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
 
-	public PlayerOneHead getHead() {
+	public ClassicSnakeHead getHead() {
 		return snakeHead;
 	}
 

@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PlayerOne;
+package com.EudyContreras.Snake.ClassicSnake;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
@@ -25,7 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class PlayerOneHead extends AbstractObject {
+public class ClassicSnakeHead extends AbstractObject {
 	private double targetRotation = 0.0;
 	private double fadeValue = 1.0;
 	private double offsetX = 0;
@@ -37,23 +37,23 @@ public class PlayerOneHead extends AbstractObject {
 	private GameManager game;
 	private Circle skull;
 	private Circle radialBounds;
-	private PlayerOne snake;
+	private ClassicSnake snake;
 	private Rectangle bounds;
 	private Rectangle headBoundsLeft;
 	private Rectangle headBoundsRight;
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
-	private PlayerOneManager playerManager;
+	private ClassicSnakeManager playerManager;
 	private PlayerMovement newDirection;
 
-	public PlayerOneHead(PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
+	public ClassicSnakeHead(ClassicSnake snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.r = snake.getR();
 		this.snake = snake;
 		this.game = game;
-		this.playerManager = game.getPlayerOneManager();
+		this.playerManager = game.getClassicSnakeManager();
 		this.text = new Text();
 		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
 		this.text.setFill(Color.rgb(210, 0, 0));
@@ -88,13 +88,13 @@ public class PlayerOneHead extends AbstractObject {
 		this.loadMouth();
 	}
 	public void loadMouth(){
-		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new ClassicSnakeEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.25, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new ClassicSnakeFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.25, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
 	public void move() {
-		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
+		if (ClassicSnake.DEAD == false && ClassicSnake.LEVEL_COMPLETED == false && ClassicSnake.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
 			if (GameSettings.DEBUG_MODE) {
 				adjustBounds();
 			}
@@ -108,7 +108,7 @@ public class PlayerOneHead extends AbstractObject {
 
 	}
 	public void updateUI(){
-		if(!PlayerOne.DEAD)
+		if(!ClassicSnake.DEAD)
 		super.updateUI();
 	}
 	public void logicUpdate(){
@@ -191,7 +191,7 @@ public class PlayerOneHead extends AbstractObject {
 
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (!PlayerOne.DEAD) {
+		if (!ClassicSnake.DEAD) {
 			for (int i = 0; i < 2; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,0.5, (double) x, (double) y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));

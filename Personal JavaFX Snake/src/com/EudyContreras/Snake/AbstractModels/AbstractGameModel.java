@@ -3,6 +3,8 @@ package com.EudyContreras.Snake.AbstractModels;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeManager;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeSectionManager;
 import com.EudyContreras.Snake.Controllers.FadeScreenController;
 import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
@@ -21,6 +23,7 @@ import com.EudyContreras.Snake.HUDElements.PauseMenu;
 import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
+import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
@@ -31,7 +34,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.UserInterface.GameMenuInterface;
+import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -55,6 +58,7 @@ import javafx.stage.Stage;
 public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
+	protected GameModeID modeID = GameModeID.LocalMultiplayer;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
 	protected Service<Void> backgroundThread;
@@ -67,14 +71,16 @@ public abstract class AbstractGameModel extends Application {
 	protected GameObjectController objectManager;
 	protected PlayerOneManager playerOneManager;
 	protected PlayerTwoManager playerTwoManager;
+	protected ClassicSnakeManager classicSnakeManager;
 	protected GameDebrisController debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
-	protected PlayerTwoSectionManager sectManagerTwo;;
+	protected PlayerTwoSectionManager sectManagerTwo;
+	protected ClassicSnakeSectionManager sectManagerThree;
 	protected CountDownScreen countDownScreen;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected Thread mainThread;
-	protected GameMenuInterface gameMenuInterface;
+	protected MenuManager menuManager;
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Group mainRoot;
@@ -139,7 +145,7 @@ public abstract class AbstractGameModel extends Application {
 	protected double splashFadeDelay;
 	public static double ScaleX = GameLoader.ResolutionScaleX;
 	public static double ScaleY = GameLoader.ResolutionScaleY;
-	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY)/2;
+	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
 
 	public HealthBarOne getHealthBarOne() {
 		return healthBarOne;
@@ -163,6 +169,22 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setPlayerTwoManager(PlayerTwoManager playerManager) {
 		this.playerTwoManager = playerManager;
+	}
+
+	public ClassicSnakeManager getClassicSnakeManager() {
+		return classicSnakeManager;
+	}
+
+	public void setClassicSnakeManager(ClassicSnakeManager classicSnakeManager) {
+		this.classicSnakeManager = classicSnakeManager;
+	}
+
+	public ClassicSnakeSectionManager getSectManagerThree() {
+		return sectManagerThree;
+	}
+
+	public void setSectManagerThree(ClassicSnakeSectionManager sectManagerThree) {
+		this.sectManagerThree = sectManagerThree;
 	}
 
 	public void setHealthBarOne(HealthBarOne healthBarOne) {
@@ -209,20 +231,20 @@ public abstract class AbstractGameModel extends Application {
 		this.energyBarTwo = energyBarTwo;
 	}
 
-	public PauseMenu getPauseMenu(){
+	public PauseMenu getPauseMenu() {
 		return pauseMenu;
 	}
 
-	public CountDownScreen getCountDownScreen(){
+	public CountDownScreen getCountDownScreen() {
 		return countDownScreen;
 	}
 
-	public GameMenuInterface getMainMenu() {
-		return gameMenuInterface;
+	public MenuManager getMainMenu() {
+		return menuManager;
 	}
 
-	public void setMainMenu(GameMenuInterface gameMenuInterface) {
-		this.gameMenuInterface = gameMenuInterface;
+	public void setMainMenu(MenuManager menuManager) {
+		this.menuManager = menuManager;
 	}
 
 	public Stage getMainWindow() {
@@ -290,12 +312,11 @@ public abstract class AbstractGameModel extends Application {
 		return sectManagerTwo;
 	}
 
-
 	public void setDebrisManager(GameDebrisController debrisManager) {
 		this.debrisManager = debrisManager;
 	}
 
-	public FadeScreenController getFadeScreenHandler(){
+	public FadeScreenController getFadeScreenHandler() {
 		return fadeHandler;
 	}
 
@@ -495,7 +516,15 @@ public abstract class AbstractGameModel extends Application {
 		this.stateID = stateID;
 	}
 
-	public ScreenEffectUtility getOverlayEffect(){
+	public GameModeID getModeID() {
+		return modeID;
+	}
+
+	public void setModeID(GameModeID modeID) {
+		this.modeID = modeID;
+	}
+
+	public ScreenEffectUtility getOverlayEffect() {
 		return overlayEffect;
 	}
 
@@ -511,40 +540,41 @@ public abstract class AbstractGameModel extends Application {
 		return levelLenght;
 	}
 
-	public Timeline getGameLoop(){
+	public Timeline getGameLoop() {
 		return frameGameLoop;
 	}
 
 	public void setLevelLenght(int levelLenght) {
 		this.levelLenght = levelLenght;
 	}
-	public void backgroundWorker(){
+
+	public void backgroundWorker() {
 		backgroundThread = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {
-	                @Override
-	                protected Void call() throws Exception {
-	                    //Background work
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    Platform.runLater(new Runnable() {
-	                        @Override
-	                        public void run() {
-	                            try{
-	                                //FX Stuff done here
-	                            }finally{
-	                                latch.countDown();
-	                            }
-	                        }
-	                    });
-	                    latch.await();
-	                    //Keep with the background work
-	                    return null;
-	                }
-	            };
-	        }
-	    };
-	    backgroundThread.start();
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+					@Override
+					protected Void call() throws Exception {
+						// Background work
+						final CountDownLatch latch = new CountDownLatch(1);
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								try {
+									// FX Stuff done here
+								} finally {
+									latch.countDown();
+								}
+							}
+						});
+						latch.await();
+						// Keep with the background work
+						return null;
+					}
+				};
+			}
+		};
+		backgroundThread.start();
 	}
 
 }

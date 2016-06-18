@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-public class GameMenuInterface extends AbstractMenuElement{
+public class MenuManager extends AbstractMenuElement{
 
 	private ImageView backgroundImage;
 	private Pane fadeScreen = new Pane();
@@ -28,7 +28,7 @@ public class GameMenuInterface extends AbstractMenuElement{
 	private MainMenu main_menu;
 	private ModesMenu modes_menu;
 
-	public GameMenuInterface(GameManager game) {
+	public MenuManager(GameManager game) {
 		this.game = game;
 		setUpBackground();
 		setupLogo();

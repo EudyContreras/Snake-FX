@@ -60,7 +60,7 @@ public class GameHud {
 //		this.bottomHudBar.setArcHeight(20);
 //		this.bottomHudBar.setArcWidth(20);
 		this.mainBar.setWidth(width);
-		this.mainBar.setHeight(height + 5);
+		this.mainBar.setHeight(height + 15);
 		this.mainBar.setTranslateX(x);
 		this.mainBar.setTranslateY(y);
 //		this.mainBar.setArcWidth(20);

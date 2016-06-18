@@ -60,9 +60,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+		light.setX(-100);
+		light.setY(200);
+		light.setZ(100);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -97,13 +97,13 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+//		light.setX(-130);
+//		light.setY(315);
+//		light.setZ(130);
 
-//		light.setX(-200);
-//		light.setY(300);
-//		light.setZ(150);
+		light.setX(-150);
+		light.setY(290);
+		light.setZ(120);
 
 //		light.setX(-180);
 //		light.setY(200);
@@ -130,8 +130,8 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-130);
-		light.setY(315);
+		light.setX(-180);
+		light.setY(200);
 		light.setZ(130);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
@@ -154,9 +154,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+		light.setX(-200);
+		light.setY(300);
+		light.setZ(150);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -173,21 +173,19 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
-	public static synchronized Image preCreateShadedCircle(Color color, double diffused, double specularMap, double width,
-			double height) {
+	public static synchronized Image preCreateShadedCircle(Color color, double diffused, double specularMap, double radius) {
 		Lighting lighting = new Lighting();
 		Light.Point light = new Light.Point();
 		Image img;
 		Circle circle = new Circle();
 		circle.setFill(color);
-		circle.setRadius(width);
+		circle.setRadius(radius);
 		light.setX(340);
 		light.setY(600);
 		light.setZ(300);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(8.0);
-
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
 			circle.setEffect(lighting);
@@ -229,7 +227,7 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-200);
+		light.setX(0);
 		light.setY(1300);
 		light.setZ(850);
 		lighting.setDiffuseConstant(diffused);
@@ -237,7 +235,7 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
-			//view.setEffect(lighting);
+			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 		img = ImageEffectUtility.createImage(view);
@@ -348,9 +346,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-130);
-		light.setY(315);
-		light.setZ(130);
+		light.setX(-100);
+		light.setY(200);
+		light.setZ(100);
 		lighting.setDiffuseConstant(GameSettings.GlOBAL_ILLUMINATION);
 		lighting.setSpecularConstant(GameSettings.GLOBAL_SPECULARITY);
 		lighting.setSurfaceScale(10.0);

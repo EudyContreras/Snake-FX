@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.AbstractModels;
 
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
@@ -491,6 +492,10 @@ public abstract class AbstractObject {
 	}
 
 	public void bounce(PlayerTwo snake, double x, double y) {
+
+	}
+
+	public void bounce(ClassicSnake snake, double x, double y) {
 
 	}
 
