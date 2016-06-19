@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.UserInterface;
 import com.EudyContreras.Snake.AbstractModels.AbstractMenuElement;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.UserInterface.CustomMenuButton.ButtonStyle;
+
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -94,7 +95,7 @@ public class MainMenu extends AbstractMenuElement {
 			}
 		});
 
-		MAIN_MENU_BOX.getButton(0).setAction(() -> menu.startSelected());
+		MAIN_MENU_BOX.getButton(0).setAction(() -> menu.startSelected(game.getModeID()));
 		MAIN_MENU_BOX.getButton(2).setAction(() -> menu.gameModesMenu());
 		MAIN_MENU_BOX.getButton(5).setAction(() -> menu.closeGame());
 

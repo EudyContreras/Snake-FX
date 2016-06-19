@@ -61,6 +61,10 @@ public abstract class AbstractObject {
 	protected boolean hitBoundsRight = false;
 	protected boolean hitBoundsLeft = false;
 
+	public AbstractObject() {
+
+
+	}
 	/**
 	 * The constructors used in this class allows objects to be created in
 	 * different ways and with different attributes

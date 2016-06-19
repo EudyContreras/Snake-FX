@@ -87,8 +87,7 @@ public class ClassicSnake extends AbstractObject {
 		this.moveDown();
 	}
 	public void loadMouth(){
-		this.game.getClassicSnakeManager().addObject(new ClassicSnakeFangs(this, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.25, Color.TRANSPARENT), this.x,
-				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
+		this.game.getClassicSnakeManager().addObject(new ClassicSnakeFangs(this, game));
 	}
 	public void loadImages() {
 		anim.addScene(GameImageBank.classicSnakeHead, 4000);
@@ -501,7 +500,7 @@ public class ClassicSnake extends AbstractObject {
 		}
 		game.getScoreBoardOne().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4)
-			game.getGameLoader().spawnSnakeFood();
+			game.getGameLoader().spawnClassicSnakeFood();
 	}
 
 	public boolean withinBounds() {

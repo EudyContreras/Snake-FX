@@ -27,7 +27,7 @@ public class ScoreBoard {
 	private String message;
 	private GameManager game;
 	private DropShadow textGlow;
-	
+
 	/**
 	 * Constructor which takes the main game class along with a message for this score board to
 	 * display. The constructor also takes its coordinates as parameters
@@ -70,16 +70,16 @@ public class ScoreBoard {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			text.setVisible(false);
 		}
-	}	
+	}
 	/**
 	 * Method which shows the score by setting its
 	 * visibility to true
 	 */
-	public void show() {
-		text.setVisible(true);
+	public void show(boolean state) {
+		text.setVisible(state);
 	}
 	/**
-	 * Method which increases the current 
+	 * Method which increases the current
 	 * score by one with each call.
 	 */
 	public void increaseScore() {
@@ -124,15 +124,15 @@ public class ScoreBoard {
 	public int getScore(){
 		return score;
 	}
-	//TODO: Save the score to a local location so that the player can see 
+	//TODO: Save the score to a local location so that the player can see
 	//the local high scores.
 	/**
-	 * Compare the last ten local scores and if this score is better than 
-	 * if a score is beaten put this score on the beaten score index and 
+	 * Compare the last ten local scores and if this score is better than
+	 * if a score is beaten put this score on the beaten score index and
 	 * shift the scores down.
 	 */
 	public void saveScoreLocally(){
-		
+
 	}
 	//TODO: Save the score to a remote database so that all players can see
 	//the high score achieved by this player.
@@ -140,14 +140,14 @@ public class ScoreBoard {
 	 *
 	 */
 	public void saveScoreToDB(){
-		
+
 	}
 	public void reportScore(){
-		
+
 	}
-	
+
 	public void compareScore(){
-		
+
 	}
 
 }

@@ -38,7 +38,8 @@ public class GlowParticle extends AbstractParticlesEffect{
 		addToLayer(shape);
 	}
 	public void updateUI(){
-		shape.setRadius(this.radius);
+		shape.setRadius(radius);
+		shape.setOpacity(lifeTime);
 		shape.setCenterX(x);
 		shape.setCenterY(y);
 
@@ -47,7 +48,7 @@ public class GlowParticle extends AbstractParticlesEffect{
 		x += velocity.getX();
 		y += velocity.getY();
 		lifeTime -= decay;
-		radius-=1;
+		radius-=0.2;
 		if(radius<=0){
 			lifeTime =0;
 		}

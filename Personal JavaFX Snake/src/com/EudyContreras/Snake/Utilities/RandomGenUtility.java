@@ -18,8 +18,13 @@ public abstract class RandomGenUtility {
 	}
 
 	//Gets a random number in range. inclusive.
-	public static double getRNG(double minValue, double maxValue) {
+	public static double getRandomDouble(double minValue, double maxValue) {
 
 		return rand.nextDouble()*(maxValue + 1 - minValue) + minValue;
+	}
+
+	public static int getRandomInteger(int minValue, int maxValue) {
+
+		return rand.nextInt(maxValue + 1 - minValue) + minValue;
 	}
 }

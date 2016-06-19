@@ -36,7 +36,7 @@ public class HealthBarOne {
 	private Rectangle playerHud = new Rectangle();
 	private Circle playerHead = new Circle();
 	/**
-	 * Constructor which takes the main class as parameter along with the 
+	 * Constructor which takes the main class as parameter along with the
 	 * position and dimension of this energy bar.
 	 * @param game: Main game class which connects this class to all others
 	 * @param x: X coordinate for this energy bar
@@ -88,7 +88,7 @@ public class HealthBarOne {
 		regenerateHealth();
 	}
 	/**
-	 * Method which when called will reduce the health 
+	 * Method which when called will reduce the health
 	 * by the amount of damage specified in the parameter
 	 * @param amountOfDamage: damage which this method inflicts to the player
 	 */
@@ -149,8 +149,8 @@ public class HealthBarOne {
 		}
 	}
 	/**
-	 * Method which kills the player once the 
-	 * health has reach its minimun amount which 
+	 * Method which kills the player once the
+	 * health has reach its minimun amount which
 	 * is zero
 	 */
 	public void killPlayer(){
@@ -171,7 +171,7 @@ public class HealthBarOne {
 		}
 	}
 	/**
-	 * Method which sets the visibility of this health bar 
+	 * Method which sets the visibility of this health bar
 	 * to true
 	 */
 	public void show() {
@@ -180,7 +180,7 @@ public class HealthBarOne {
 	}
 	/**
 	 * Method which refills this health bar to its maximum value
-	 * 
+	 *
 	 */
 	public void refill() {
 		this.setDelay = false;
@@ -201,7 +201,18 @@ public class HealthBarOne {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerOne();
 	}
-
+	/**
+	 * Method whichs sets the visibility
+	 * state of the UI elements used by
+	 * this class
+	 * @param state
+	 */
+	public void setVisible(boolean state){
+		playerHead.setVisible(state);
+		playerHud.setVisible(state);
+		healthBarBorder.setVisible(state);
+		healthBar.setVisible(state);
+	}
 	public double getX() {
 		return x;
 	}

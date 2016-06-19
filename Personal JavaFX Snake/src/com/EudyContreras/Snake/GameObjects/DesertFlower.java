@@ -35,7 +35,7 @@ public class DesertFlower extends AbstractTile {
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		if(RandomGenUtility.getRNG(1, 3) == 3){
+		if(RandomGenUtility.getRandomInteger(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_flower_alt);
 		}
 		this.adjustBounds();

@@ -30,9 +30,9 @@ public class EnergyBarTwo {
 	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
 	private Rectangle energyBarBorder = new Rectangle();
-	
+
 	/**
-	 * Constructor which takes the main class as parameter along with the 
+	 * Constructor which takes the main class as parameter along with the
 	 * position and dimension of this energy bar.
 	 * @param game: Main game class which connects this class to all others
 	 * @param x: X coordinate for this energy bar
@@ -63,7 +63,7 @@ public class EnergyBarTwo {
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
 	/**
-	 * Method which updates the rate at which this energy bar 
+	 * Method which updates the rate at which this energy bar
 	 * depletes and regenarates. This methods calls the deplete and
 	 * the regenerate function at the rate of the framerate.
 	 */
@@ -94,7 +94,7 @@ public class EnergyBarTwo {
 
 	/**
 	 * Method which adds a precalculated delay
-	 * to the the time it takes before energy 
+	 * to the the time it takes before energy
 	 * can start regenerating
 	 */
 	public void setDelay() {
@@ -104,7 +104,7 @@ public class EnergyBarTwo {
 	/**
 	 * Method which regenerates the energy levels of the player
 	 * at a constant precalculated rate. This method also controls
-	 * the action to perform once energy levels have surpassed 
+	 * the action to perform once energy levels have surpassed
 	 * a precalculated thereshold.
 	 */
 	private void regenerateEnergy() {
@@ -143,6 +143,16 @@ public class EnergyBarTwo {
 		this.energyBar.setWidth(width);
 		this.player.setAllowThrust(false);
 	}
+	/**
+	 * Method whichs sets the visibility
+	 * state of the UI elements used by
+	 * this class
+	 * @param state
+	 */
+	public void setVisible(boolean state){
+		energyBar.setVisible(state);
+		energyBarBorder.setVisible(state);
+	}
 	public boolean isDepleated() {
 		return depleated;
 	}
@@ -154,7 +164,7 @@ public class EnergyBarTwo {
 	public void setSpeedThrust(boolean shotsFired) {
 		this.speedThrust = shotsFired;
 	}
-	
+
 	public void setSetDelay(boolean setDelay) {
 	}
 
@@ -165,7 +175,7 @@ public class EnergyBarTwo {
 	public void setMaxEnergyLevel(double maxEnergyLevel) {
 		this.maxEnergyLevel = maxEnergyLevel;
 	}
-	
+
 	public double getWidth() {
 		return width;
 	}
@@ -173,7 +183,7 @@ public class EnergyBarTwo {
 	public void setWidth(double width) {
 		this.width = width;
 	}
-	
+
 	public double getDelay() {
 		return delay;
 	}
@@ -181,7 +191,7 @@ public class EnergyBarTwo {
 	public void setDelay(double delay) {
 		this.delay = delay;
 	}
-	
+
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerTwo();

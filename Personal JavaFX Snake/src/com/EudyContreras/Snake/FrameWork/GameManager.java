@@ -937,8 +937,8 @@ public class GameManager extends AbstractGameModel{
         scoreBoardTwo.resetScore();
         scoreKeeper.resetCount();
         scoreKeeper.resetTimer();
-        scoreBoardOne.show();
-        scoreBoardTwo.show();
+        scoreBoardOne.show(true);
+        scoreBoardTwo.show(true);
         gameHud.show();
         loader.killPlayerOne();
         loader.killPlayerTwo();
@@ -1010,7 +1010,14 @@ public class GameManager extends AbstractGameModel{
         sectManagerThree.clearAll();
 
     }
-
+    public void setPlayerInfoVisibility(boolean state){
+    	getHealthBarOne().setVisible(state);
+    	getHealthBarTwo().setVisible(state);
+    	getEnergyBarOne().setVisible(state);
+    	getEnergyBarTwo().setVisible(state);
+    	getScoreBoardOne().show(state);
+    	getScoreBoardTwo().show(state);
+    }
     public void allowMouseInput(boolean choice) {
         if (choice)
             mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);

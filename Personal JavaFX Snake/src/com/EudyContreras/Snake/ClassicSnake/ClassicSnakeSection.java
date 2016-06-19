@@ -266,10 +266,10 @@ public class ClassicSnakeSection extends AbstractSection {
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
-					particleSize = (Math.random() * (10 - 5 + 1) + 5)/GameManager.ScaleX_ScaleY;
+					particleSize = (Math.random() * (15 - 7 + 1) + 7)/GameManager.ScaleX_ScaleY;
 					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)/GameManager.ScaleX_ScaleY;
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
+				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.classicSnakeBodyDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 			}
 			blowUp = false;

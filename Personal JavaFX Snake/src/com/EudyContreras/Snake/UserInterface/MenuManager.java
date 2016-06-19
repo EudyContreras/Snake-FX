@@ -4,6 +4,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractMenuElement;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Utilities.GameAudio;
 
 import javafx.scene.effect.GaussianBlur;
@@ -124,7 +125,8 @@ public class MenuManager extends AbstractMenuElement{
 	/**
 	 * Starts the game if the startbutton is pressed
 	 */
-	public void startSelected() {
+	public void startSelected(GameModeID modeID) {
+		game.setModeID(modeID);
 		game.prepareGame();
 		removeMenu(main_menu.main_menu_screen());
 		menuRoot.getChildren().remove(fadeScreen);

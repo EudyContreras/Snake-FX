@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 
 /**
  * This image utility class is used to pre-create images with specific effects
@@ -32,6 +33,7 @@ import javafx.scene.shape.Circle;
 public class ImageEffectUtility {
 	private static Image img;
 	private static SnapshotParameters parameters = new SnapshotParameters();
+	private static Rectangle rect = new Rectangle();
 	private static ImageView view = new ImageView();
 	private static Lighting lighting = new Lighting();
 	private static Light.Point light = new Light.Point();
@@ -41,6 +43,7 @@ public class ImageEffectUtility {
 	private static GaussianBlur gaussianBlur = new GaussianBlur();
 	private static Bloom bloom = new Bloom(0.1);
 	private static Glow glow = new Glow(1.0);
+	private static Circle circle = new Circle();
 
 	public static synchronized Image createImage(Node node) {
 
@@ -174,10 +177,8 @@ public class ImageEffectUtility {
 		return img;
 	}
 	public static synchronized Image preCreateShadedCircle(Color color, double diffused, double specularMap, double radius) {
-		Lighting lighting = new Lighting();
-		Light.Point light = new Light.Point();
+		resetInputeffects();
 		Image img;
-		Circle circle = new Circle();
 		circle.setFill(color);
 		circle.setRadius(radius);
 		light.setX(340);
@@ -192,7 +193,43 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
-
+	public static synchronized Image preCreateShadedBlurredCircle(Color color, double diffused, double specularMap, double radius) {
+		resetInputeffects();
+		Image img;
+		circle.setFill(color);
+		circle.setRadius(radius);
+		light.setX(340);
+		light.setY(600);
+		light.setZ(300);
+		lighting.setDiffuseConstant(diffused);
+		lighting.setSpecularConstant(specularMap);
+		lighting.setSurfaceScale(8.0);
+		blur.setIterations(2);
+		blur.setWidth(10);
+		blur.setHeight(10);
+		lighting.setContentInput(blur);
+		lighting.setLight(light);
+		if (GameSettings.ADD_LIGHTING)
+			circle.setEffect(lighting);
+		img = ImageEffectUtility.createImage(circle);
+		return img;
+	}
+	public static synchronized Image preCreateCircle(Color color, double radius) {
+		Image img;
+		resetInputeffects();
+		shadow.setColor(Color.rgb(0, 0, 0, 0.0));
+		shadow.setRadius(0);
+		shadow.setBlurType(BlurType.ONE_PASS_BOX);
+		shadow.setHeight(GameManager.ScaleX_Y(radius*5));
+		shadow.setWidth(GameManager.ScaleX_Y(radius*5));
+		shadow.setOffsetX(0);
+		shadow.setOffsetY(0);
+		circle.setEffect(shadow);
+		circle.setFill(color);
+		circle.setRadius(radius);
+		img = ImageEffectUtility.createImage(circle);
+		return img;
+	}
 	public static synchronized Image preCreateShadedGlowingCircle(Color color, double diffused, double specularMap, double width,
 			double height) {
 		Lighting lighting = new Lighting();
@@ -241,7 +278,14 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
-
+	public static final Image precreateBackground(Color orange, double width, double height) {
+		resetInputeffects();
+		rect.setFill(orange);
+		rect.setWidth(width);
+		rect.setHeight(height);
+		img = ImageEffectUtility.createImage(rect);
+		return img;
+	}
 	public static synchronized Image preCreateShadedDebris(String path, double diffused, double specularMap, double width,
 			double height) {
 		img = new Image(loadResource(path), width, height, true, true);
@@ -297,18 +341,18 @@ public class ImageEffectUtility {
 		return img;
 	}
 	public static synchronized Image preCreateAlternateGlowingCircle(Color color, double opacity, double depth, double spread,
-			double width, double height) {
+			double radius) {
 		Image img;
 		Circle circle = new Circle();
-		circle.setFill(Color.rgb(255, 150, 0, 1.0));
-		circle.setRadius(20);
+		circle.setFill(color);
+		circle.setRadius(radius);
 		borderGlow.setOffsetY(0f);
 		borderGlow.setOffsetX(0f);
 		borderGlow.setSpread(spread);
 		borderGlow.setColor(color);
 		borderGlow.setWidth(depth);
 		borderGlow.setHeight(depth);
-		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
+		borderGlow.setBlurType(BlurType.TWO_PASS_BOX);
 		circle.setOpacity(opacity);
 		circle.setEffect(borderGlow);
 		img = ImageEffectUtility.createImage(circle);
@@ -412,4 +456,5 @@ public class ImageEffectUtility {
 		String url = GameSettings.IMAGE_SOURCE_DIRECTORY + image;
 		return url;
 	}
+
 }

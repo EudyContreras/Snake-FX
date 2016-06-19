@@ -135,6 +135,16 @@ public class EnergyBarOne {
 		this.energyBar.setWidth(width);
 		this.player.setAllowThrust(false);
 	}
+	/**
+	 * Method whichs sets the visibility
+	 * state of the UI elements used by
+	 * this class
+	 * @param state
+	 */
+	public void setVisible(boolean state){
+		energyBar.setVisible(state);
+		energyBarBorder.setVisible(state);
+	}
 	public boolean isSpeedThrust() {
 		return speedThrust;
 	}
