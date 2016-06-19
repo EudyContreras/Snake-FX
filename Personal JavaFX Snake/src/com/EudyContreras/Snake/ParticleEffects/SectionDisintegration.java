@@ -18,12 +18,12 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 
 	public SectionDisintegration(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.shape = new Circle(radius, x, y);
-		this.imagePattern = new ImagePattern(image);
-		this.shape.setRadius(radius/2);
-		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
+		this.shape = new Circle(radius, x, y);
+		this.shape.setRadius(radius/2);
+		this.imagePattern = new ImagePattern(image);
+		this.decay = 0.016 / expireTime;
 		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
 		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
 		init();

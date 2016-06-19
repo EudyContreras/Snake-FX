@@ -5,12 +5,8 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 /**
  * This class aims to represent a count down shown in game which determines
@@ -31,8 +27,9 @@ public class CountDownScreen {
 	private double height;
 	private double baseWidth;
 	private double baseHeight;
-	private double fade;
-	private double scale;
+	private double fadeTime;
+	private double lifeTime;
+	private double expireTime;
 	private double showCounter;
 	private double panVelocityX;
 	private double panVelocityY;
@@ -42,9 +39,6 @@ public class CountDownScreen {
 	private Boolean allowCount = true;
 	private Boolean allowCheck = false;
 	private Boolean allowCountdown = false;
-	private FadeTransition fadeTransition;
-	private ScaleTransition scaleTransition;
-	private ParallelTransition synchronizer;
 	private Pane layer;
 	private Rectangle countView;
 	private GameManager game;
@@ -76,16 +70,16 @@ public class CountDownScreen {
 	 */
 	private void initialize() {
 		this.index = 3;
+		this.expireTime = 31.0;
+		this.fadeTime = 0.032 / expireTime;
+		this.panVelocityX = 3.5 / GameManager.ScaleX;
+		this.panVelocityY = 5.0 / GameManager.ScaleY;
 		this.x = GameSettings.WIDTH / 2 - width / 2;
 		this.y = GameSettings.HEIGHT / 2 - height / 2;
-		this.fadeTransition = new FadeTransition(Duration.millis(900), countView);
-		this.scaleTransition = new ScaleTransition(Duration.millis(900), countView);
+		this.velX = -3.0 / GameManager.ScaleX;
+		this.velY = -5.0 / GameManager.ScaleY;
 		this.countView = new Rectangle(x, y, this.width, this.height);
 		this.countView.setFill(GameImageBank.count_three);
-		this.countView.setWidth(width);
-		this.countView.setHeight(height);
-		this.countView.setX(x);
-		this.countView.setY(y);
 		this.game.setStateID(GameStateID.COUNT_DOWN);
 	}
 
@@ -97,8 +91,17 @@ public class CountDownScreen {
 	public void startCountdown() {
 		this.game.setStateID(GameStateID.COUNT_DOWN);
 		this.index = 3;
+		this.lifeTime = 1.0;
+		this.expireTime = 1.0;
+		this.fadeTime = 0.032 / expireTime;
+		this.panVelocityX = 6.5 / GameManager.ScaleX;
+		this.panVelocityY = 10.0 / GameManager.ScaleY;
 		this.x = (GameSettings.WIDTH / 2 - baseWidth / 2);
 		this.y = (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(80);
+		this.velX = -1.0 / GameManager.ScaleX;
+		this.velY = -2.0 / GameManager.ScaleY;
+		this.width = baseWidth;
+		this.height = baseHeight;
 		this.countView.setX(x);
 		this.countView.setY(y);
 		this.countView.setWidth(baseWidth);
@@ -108,10 +111,14 @@ public class CountDownScreen {
 		this.layer.getChildren().remove(countView);
 		this.layer.getChildren().add(countView);
 		this.game.setStateID(GameStateID.COUNT_DOWN);
-		this.allowCountdown = true;
-		this.fade = 0.3;
-		this.scale = 0.2;
+		this.allowCountdown = false;
+		this.allowCheck = true;
+		this.allowFade = true;
+		this.allowHide = true;
+		this.allowPan = true;
+		this.allowCount = true;
 		this.count = 40;
+		this.showCounter = 10.0;
 		COUNTDOWN_OVER = false;
 		this.countDown();
 	}
@@ -134,39 +141,22 @@ public class CountDownScreen {
 			return;
 		allowCountdown = false;
 	}
-	private void startTransition(){
-		if(index<0){
-			scale = 1;
-			fade = 0;
-			fadeTransition.setDuration(Duration.millis(700));
-		}
-		fadeTransition.setFromValue(1.0);
-		fadeTransition.setToValue(fade);
-		fadeTransition.setCycleCount(1);
 
-		scaleTransition.setFromX(1);
-		scaleTransition.setFromY(1);
-		scaleTransition.setToX(scale);
-		scaleTransition.setToY(scale);
-		scaleTransition.setCycleCount(1);
-
-		synchronizer = new ParallelTransition(countView, fadeTransition, scaleTransition);
-		synchronizer.play();
-		synchronizer.setOnFinished(event -> {
-			countDown();
-		});
-	}
 	/**
 	 * Method which updates all the functionality of this class: the movement,
 	 * the fading and the panning are updated through this method.
 	 */
 	public void update() {
+		count--;
 		if (allowCountdown) {
-			count--;
+			fade();
+			panOut();
+			hide();
+			checkLife();
+		} else {
 			if (count <= 0) {
 				count = 0;
-				startTransition();
-				allowCountdown = false;
+				allowCountdown = true;
 				countView.setVisible(true);
 			}
 		}
@@ -176,16 +166,15 @@ public class CountDownScreen {
 	 * Method which makes the UI element fade until the UI element is completely
 	 * transparent
 	 */
-	@SuppressWarnings("unused")
 	private void fade() {
 		if (allowFade) {
 			showCounter--;
 			if (showCounter <= 0) {
 				showCounter = 0.0;
-				scale -= fade;
+				lifeTime -= fadeTime;
 			}
-			countView.setOpacity(scale);
-			if (scale <= 0) {
+			countView.setOpacity(lifeTime);
+			if (lifeTime <= 0) {
 				allowFade = false;
 			}
 		}
@@ -196,16 +185,15 @@ public class CountDownScreen {
 	 * Method which zooms out the object: decreases the size of the object as
 	 * long as the object is still visible.
 	 */
-	@SuppressWarnings("unused")
 	private void panOut() {
 		if (allowPan ) {
-			if(showCounter <= 0){
+			//if(showCounter <= 0){
 			width -= panVelocityX;
 			height -= panVelocityY;
-			}
+			//}
 			countView.setWidth(width);
 			countView.setHeight(height);
-			if (height <= 0 || scale <= 0) {
+			if (height <= 0 || lifeTime <= 0) {
 				allowPan = false;
 			}
 		}
@@ -216,14 +204,13 @@ public class CountDownScreen {
 	 * the way to the left top corner of the screen until the object is no
 	 * longer visible
 	 */
-	@SuppressWarnings("unused")
 	private void hide() {
 		if (allowHide) {
 			countView.setX(x);
 			countView.setY(y);
 			if(showCounter <= 0){
-			x += velX;
-			y += velY;
+			x -= velX;
+			y -= velY;
 			}
 			if (x < 0 - width || y < 0 - height) {
 				allowHide = false;
@@ -238,10 +225,9 @@ public class CountDownScreen {
 	 * example a three is replace by a two nad so forth until the last index is
 	 * reach which triggers a specified event.
 	 */
-	@SuppressWarnings("unused")
 	private void checkLife() {
 		if (allowCheck) {
-			if (scale <= 0) {
+			if (lifeTime <= 0) {
 				countDown();
 			}
 		}
@@ -285,23 +271,34 @@ public class CountDownScreen {
 	 */
 	private void reset(double life, Boolean lastCount) {
 		index -= 1;
-		allowCountdown = true;
+		width = baseWidth;
+		height = baseHeight;
+		lifeTime = life;
+		expireTime = 1.0;
+		fadeTime = 0.032 / expireTime;
+		showCounter = 10.0;
+		allowCheck = true;
+		allowFade = true;
+		allowHide = true;
+		allowPan = true;
 		x = (double) (GameSettings.WIDTH / 2 - baseWidth / 2);
-		y = (double) (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(40);
+		y = (double) (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(80);
 		if (lastCount) {
-			height = baseHeight - GameManager.ScaleY(80);
-			width = baseWidth + GameManager.ScaleX(250);
-			x = (double) (GameSettings.WIDTH / 2 - width / 2);
-			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-GameManager.ScaleY(40);
-			countView.setWidth(width);
-			countView.setHeight(height);
-			countView.setX(x);
-			countView.setY(y);
 			game.getScoreKeeper().swipeUp();
 			game.getGameHud().hideHUDCover();
 			game.setStateID(GameStateID.GAMEPLAY);
 			game.getScoreKeeper().startTimer();
+			height = baseHeight - GameManager.ScaleY(80);
+			width = baseWidth + GameManager.ScaleX(300);
+			x = (double) (GameSettings.WIDTH / 2 - width / 2);
+			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-GameManager.ScaleY(80);
+			countView.setWidth(width);
+			countView.setHeight(height);
+			countView.setX(x);
+			countView.setY(y);
 			COUNTDOWN_OVER = true;
+			allowHide = false;
+			allowPan = false;
 		}
 	}
 
@@ -311,6 +308,7 @@ public class CountDownScreen {
 	 */
 	private void go() {
 		layer.getChildren().remove(countView);
+		allowCount = false;
 		allowCountdown = false;
 	}
 

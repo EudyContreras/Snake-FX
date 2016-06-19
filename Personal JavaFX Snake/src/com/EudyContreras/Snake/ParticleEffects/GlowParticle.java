@@ -17,16 +17,17 @@ public class GlowParticle extends AbstractParticlesEffect{
 	private double radius;
 	private double decay;
 	private float lifeTime = 1.0f;
-	private Point2D velocity = new Point2D((Math.random()*(15 - -15 + 1) + -15), Math.random()*(15 - -15 + 1) + -15);
+
 
 	public GlowParticle(GameManager game,Image image, double expireTime, double radius, float x, float y,  Point2D velocity) {
 		this.game = game;
-		this.radius = radius/2;
+		this.radius = GameManager.ScaleX_Y(radius/2);
 		this.shape = new Circle(-200,-200,0);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
-		this.velocity = velocity;
 		this.decay = 0.016/expireTime;
+		this.velX = GameManager.ScaleX(velocity.getX());
+		this.velY = GameManager.ScaleY(velocity.getY());
 		this.x = x;
 		this.y = y;
 		init();
@@ -45,8 +46,8 @@ public class GlowParticle extends AbstractParticlesEffect{
 
 	}
 	public void move(){
-		x += velocity.getX();
-		y += velocity.getY();
+		x += velX;
+		y += velY;
 		lifeTime -= decay;
 		radius-=0.2;
 		if(radius<=0){

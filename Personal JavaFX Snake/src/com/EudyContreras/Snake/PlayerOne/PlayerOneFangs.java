@@ -78,6 +78,7 @@ public class PlayerOneFangs extends AbstractObject {
 	}
 	public void logicUpdate() {
 		killTheSnake();
+		showGameOver();
 	}
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
@@ -147,7 +148,7 @@ public class PlayerOneFangs extends AbstractObject {
 		if (PlayerOne.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
-				if (counter >= 7) {
+				if (counter >= 1) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;
@@ -172,6 +173,20 @@ public class PlayerOneFangs extends AbstractObject {
 		}
 	}
 
+	private int showCounter = 0;
+	private boolean allowGameOver = true;
+
+	public void showGameOver() {
+		if (stop) {
+			showCounter++;
+			if (showCounter > 60) {
+				if (allowGameOver) {
+					allowGameOver = false;
+					PlayerOne.ALLOW_FADE = true;
+				}
+			}
+		}
+	}
 	public Bounds getCollisionBounds() {
 		return this.circle.getBoundsInParent();
 	}

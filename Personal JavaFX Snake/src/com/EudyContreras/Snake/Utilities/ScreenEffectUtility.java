@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ScreenEffectUtility {
-
+	private Runnable script;
 	private MotionBlur motionEffect = new MotionBlur(0, 50);
 	private BoxBlur blurEffect = new BoxBlur(25, 25, 2);
 	private GaussianBlur deathEffect = new GaussianBlur(0);
@@ -23,7 +23,7 @@ public class ScreenEffectUtility {
 	private BoxBlur clearLevelBlur = new BoxBlur();
 	private GaussianBlur stormBlur = new GaussianBlur(0);
 	private Rectangle toneOverlay = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-	private Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	public static Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
@@ -212,14 +212,15 @@ public class ScreenEffectUtility {
 	 * @param fadeSpeed:
 	 *            max 10, min 1;
 	 */
-	public void addFadeScreen(double fadeSpeed, GameStateID stateID) {
+	public void addFadeScreen(double fadeSpeed, GameStateID stateID, Runnable script) {
+		this.script = script;
 		this.stateID = stateID;
-		game.getFadeScreenLayer().getChildren().remove(fadeScreen);
+		game.getEleventhLayer().getChildren().remove(fadeScreen);
 		fade = 0.0;
 		fadeScreen.setOpacity(fade);
 		fadeScreen.setFill(Color.BLACK);
 		this.fadeSpeed = fadeSpeed / 1000;
-		game.getFadeScreenLayer().getChildren().add(fadeScreen);
+		game.getEleventhLayer().getChildren().add(fadeScreen);
 		setFadeOverlay = true;
 	}
 
@@ -307,6 +308,8 @@ public class ScreenEffectUtility {
 		}
 		if (fade >= 1.1f) {
 			if (stateID == GameStateID.GAME_OVER) {
+				if(script!=null)
+				script.run();
 				setFadeOverlay = false;
 			}
 			if (stateID == GameStateID.GAME_MENU) {

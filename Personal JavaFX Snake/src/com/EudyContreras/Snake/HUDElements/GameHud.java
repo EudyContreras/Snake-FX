@@ -60,13 +60,13 @@ public class GameHud {
 //		this.bottomHudBar.setArcHeight(20);
 //		this.bottomHudBar.setArcWidth(20);
 		this.mainBar.setWidth(width);
-		this.mainBar.setHeight(height + 15);
+		this.mainBar.setHeight(height + +GameManager.ScaleY(20));
 		this.mainBar.setTranslateX(x);
 		this.mainBar.setTranslateY(y);
 //		this.mainBar.setArcWidth(20);
 //		this.mainBar.setArcHeight(20);
 		this.mainBar.setEffect(shadow);
-		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));
+		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getTenthLayer().getChildren().add(mainBar);

@@ -54,6 +54,7 @@ public class ImageEffectUtility {
 
 	}
 	private static void resetInputeffects(){
+		view.setEffect(null);
 		lighting.setContentInput(null);
 		shadow.setInput(null);
 		shadow.setBlurType(BlurType.ONE_PASS_BOX);
@@ -104,8 +105,8 @@ public class ImageEffectUtility {
 //		light.setY(315);
 //		light.setZ(130);
 
-		light.setX(-180);
-		light.setY(310);
+		light.setX(-150);
+		light.setY(350);
 		light.setZ(140);
 
 //		light.setX(-180);
@@ -181,9 +182,9 @@ public class ImageEffectUtility {
 		Image img;
 		circle.setFill(color);
 		circle.setRadius(radius);
-		light.setX(340);
-		light.setY(600);
-		light.setZ(300);
+		light.setX(0);
+		light.setY(200);
+		light.setZ(150);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(8.0);
@@ -272,7 +273,7 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
-			//view.setEffect(lighting);
+			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 		img = ImageEffectUtility.createImage(view);
@@ -346,6 +347,8 @@ public class ImageEffectUtility {
 		Circle circle = new Circle();
 		circle.setFill(color);
 		circle.setRadius(radius);
+		circle.setStroke(color);
+		circle.setStrokeWidth(3);
 		borderGlow.setOffsetY(0f);
 		borderGlow.setOffsetX(0f);
 		borderGlow.setSpread(spread);

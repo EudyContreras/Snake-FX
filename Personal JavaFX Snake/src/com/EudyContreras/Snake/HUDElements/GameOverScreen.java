@@ -278,6 +278,7 @@ public class GameOverScreen {
 	 * and if so it will then end the game and
 	 * show the game over board.
 	 */
+	@SuppressWarnings("unused")
 	private void checkStatus(){
 		if (PlayerOne.DEAD || PlayerTwo.DEAD || ClassicSnake.DEAD) {
 			if (LEVEL_FAILED == false) {
@@ -290,6 +291,21 @@ public class GameOverScreen {
 		}
 	}
 	/**
+	 * Method called by the dead player at the 
+	 * end of the death animation. This method will
+	 * show the game over screen adn will allow the player
+	 * to restart or continue.
+	 */
+	public void gameOver(){
+		if (LEVEL_FAILED == false) {
+			removeBoard();
+			endGame();
+			game.getScoreKeeper().swipeDown();
+			game.getGameHud().showHUDCover();
+			LEVEL_FAILED = true;
+		}
+	}
+	/**
 	 * Method which when called updates
 	 * various elements of this game board
 	 * by further calling methods which will translate
@@ -297,7 +313,7 @@ public class GameOverScreen {
 	 */
 	public void updateUI(){
 		positionScoreScreen();
-		checkStatus();
+		//checkStatus();
 		positionScreen();
 		showScores();
 

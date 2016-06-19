@@ -126,6 +126,7 @@ public class MenuManager extends AbstractMenuElement{
 	 * Starts the game if the startbutton is pressed
 	 */
 	public void startSelected(GameModeID modeID) {
+		if(showMenu==false){
 		game.setModeID(modeID);
 		game.prepareGame();
 		removeMenu(main_menu.main_menu_screen());
@@ -135,6 +136,7 @@ public class MenuManager extends AbstractMenuElement{
 		game.setRoot(game.getMainRoot());
 		game.processGameInput();
 		game.getCountDownScreen().startCountdown();
+		}
 	}
 
 	/**

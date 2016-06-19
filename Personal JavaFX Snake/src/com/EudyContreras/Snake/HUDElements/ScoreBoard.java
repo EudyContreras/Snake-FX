@@ -59,7 +59,7 @@ public class ScoreBoard {
 		this.text.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(25)));
         this.text.setEffect(textGlow);
         this.text.setId("PlayerScore");
-		this.game.getTwelfthLayer().getChildren().add(this.text);
+		this.game.getEleventhLayer().getChildren().add(this.text);
 
 	}
 	/**

@@ -572,7 +572,7 @@ public class ClassicSnake extends AbstractObject {
 
 	public void fadeOut() {
 		if (ALLOW_FADE) {
-			overlay.addFadeScreen(5, GameStateID.GAME_OVER);
+			overlay.addFadeScreen(12, GameStateID.GAME_OVER, ()->game.getGameOverScreen().gameOver());
 			ALLOW_FADE = false;
 		}
 	}

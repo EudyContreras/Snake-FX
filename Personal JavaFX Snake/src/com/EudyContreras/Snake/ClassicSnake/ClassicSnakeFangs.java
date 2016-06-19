@@ -34,6 +34,7 @@ public class ClassicSnakeFangs extends AbstractObject {
 	}
 	public void logicUpdate() {
 		killTheSnake();
+		showGameOver();
 	}
 
 
@@ -75,7 +76,7 @@ public class ClassicSnakeFangs extends AbstractObject {
 		if (ClassicSnake.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
-				if (counter >= 7) {
+				if (counter >= 0) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;
@@ -91,6 +92,22 @@ public class ClassicSnakeFangs extends AbstractObject {
 				if (!stop) {
 					index = 0;
 					stop = true;
+
+				}
+			}
+		}
+	}
+
+	private int showCounter = 0;
+	private boolean allowGameOver = true;
+
+	public void showGameOver() {
+		if (stop) {
+			showCounter++;
+			if (showCounter > 60) {
+				if (allowGameOver) {
+					allowGameOver = false;
+					ClassicSnake.ALLOW_FADE = true;
 				}
 			}
 		}
