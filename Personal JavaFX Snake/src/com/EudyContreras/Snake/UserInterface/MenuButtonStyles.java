@@ -17,7 +17,7 @@ public class MenuButtonStyles {
 			+"-fx-fill: linear-gradient(palegreen, greenyellow, limegreen);"
 			+"-fx-effect: dropshadow(gaussian, limegreen, "+GameManager.ScaleX_Y(80)+", 0.6, 0, 0);";
 	 public static final String BUTTON_TEXT =
-			 "-fx-fill: white;"
-			+"-fx-stroke: green;"
-	        +"-fx-stroke-width: 2;";
+			 "-fx-fill: limegreen;"
+			+"-fx-stroke: white;"
+	        +"-fx-stroke-width: 3;";
 }

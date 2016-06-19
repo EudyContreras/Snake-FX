@@ -26,7 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public enum LocalHighScoreUtility {
+public enum HighScoreUtility {
 
 	INSTANCE;
 	

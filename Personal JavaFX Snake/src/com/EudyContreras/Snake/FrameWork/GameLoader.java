@@ -155,8 +155,14 @@ public class GameLoader extends AbstractLoaderModel{
 		case CampaingMode:
 			break;
 		case ClassicMode:
+			GameSettings.SAND_STORM = false;
+			loadClassicSnake();
+			game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
 			break;
 		case LocalMultiplayer:
+			loadPlayerOne();
+			loadPlayerTwo();
+			game.assignPlayer();
 			if(levelTheme == GameThemeID.DESERT_THEME){
 				for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
 					spawnBackgroundStuff(true);
@@ -183,6 +189,9 @@ public class GameLoader extends AbstractLoaderModel{
 			}
 			break;
 		case RemoteMultiplayer:
+			loadPlayerOne();
+			loadPlayerTwo();
+			game.assignPlayer();
 			if(levelTheme == GameThemeID.DESERT_THEME){
 				for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
 					spawnBackgroundStuff(true);
@@ -294,7 +303,6 @@ public class GameLoader extends AbstractLoaderModel{
 
 		this.setLevelWidth((int) getLevel().getWidth());
 		this.setLevelHeight((int) getLevel().getHeight());
-		loadPixelMap();
 		LEVEL++;
 	}
 
@@ -363,12 +371,12 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void loadClassicSnake() {
 		classicSnake = null;
-		float x = (float) (GameSettings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius()*1.5);
-		float y = (float) (GameSettings.HEIGHT * 0.50);
+		float x = (float) (GameSettings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius()-2);
+		float y = (float) (GameManager.ScaleY(300));
 		classicSnake = new ClassicSnake(game, game.getSnakeOneLayer(),
 				new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.classicSnakeHead)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne, game.getGameObjectController());
-		game.getPlayerOneManager().addObject(playerOne);
+				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.classicSnake, game.getGameObjectController());
+		game.getClassicSnakeManager().addObject(classicSnake);
 	}
 	/**
 	 * Method used to create the player one and position the player at a specified

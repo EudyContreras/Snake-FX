@@ -22,13 +22,11 @@ public class ClassicSnakeFangs extends AbstractObject {
 	private GameManager game;
 	private ClassicSnake snake;
 	private ClassicSnakeSectionManager sectManager;
-	private ClassicSnakeHead snakeHead;
 	private GameObjectController gom;
 
-	public ClassicSnakeFangs(ClassicSnakeHead snakeHead, ClassicSnake snake, GameManager game, Pane layer, Circle node, double x,
+	public ClassicSnakeFangs( ClassicSnake snake, GameManager game, Pane layer, Circle node, double x,
 			double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
-		this.snakeHead = snakeHead;
 		this.snake = snake;
 		this.game = game;
 		this.gom = game.getGameObjectController();
@@ -72,8 +70,8 @@ public class ClassicSnakeFangs extends AbstractObject {
 			this.index = sectManager.getSectionList().size() - 1;
 		}
 		checkOffset();
-		x = (float) (snakeHead.getX() + offsetX);
-		y = (float) (snakeHead.getY() + offsetY);
+		x = (float) (snake.getX() + offsetX);
+		y = (float) (snake.getY() + offsetY);
 
 	}
 	public void logicUpdate() {
@@ -113,16 +111,14 @@ public class ClassicSnakeFangs extends AbstractObject {
 				AbstractObject tempObject = gom.getFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						if (ClassicSnake.MOUTH_OPEN) {
-							snake.addSection();
-							snake.closeMouth();
-							game.getScoreKeeper().decreaseCount();
-							tempObject.blowUp();
-							tempObject.remove();
-							break;
-						}
+						snake.addSection();
+						snake.closeMouth();
+						game.getScoreKeeper().decreaseCount();
+						tempObject.blowUpAlt();
+						tempObject.remove();
+						break;
 					}
-					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
+					if (snake.getBounds().intersects(tempObject.getBounds())) {
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}
@@ -155,8 +151,6 @@ public class ClassicSnakeFangs extends AbstractObject {
 					if (index <= 0) {
 						index = 0;
 						if (!stop) {
-							snake.getHead().setShowTheSkull(true);
-							snake.getHead().addBones();
 							stop = true;
 						}
 					}
@@ -164,8 +158,6 @@ public class ClassicSnakeFangs extends AbstractObject {
 			} else {
 				if (!stop) {
 					index = 0;
-					snake.getHead().setShowTheSkull(true);
-					snake.getHead().addBones();
 					stop = true;
 				}
 			}

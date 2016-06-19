@@ -71,7 +71,7 @@ public class FadeScreenController{
 			mainFadeScreen.setOpacity(outerFadePercentage);
 			if(outerFadePercentage>=1.0){
 				if(game.getStateID() == GameStateID.MAIN_MENU){
-					game.reset();
+					game.quitToMain();
 					game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
 					game.getMainRoot().getChildren().remove(mainFadeScreen);
 					outerFadePercentage = 0;
@@ -95,7 +95,7 @@ public class FadeScreenController{
 					game.getCountDownScreen().startCountdown();
 				}
 				else if(game.getStateID() == GameStateID.MAIN_MENU){
-					game.reset();
+					game.quitToMain();
 					game.getMainRoot().getChildren().remove(innerFadeScreen);
 					fadeIn = false;
 				}
@@ -145,5 +145,9 @@ public class FadeScreenController{
 				quickFadeOut = false;
 			}
 		}
+	}
+	public void updateFade(){
+		innerFade_update();
+        outer_fade_update();
 	}
 }

@@ -30,7 +30,7 @@ public class EnergyBarOne {
 	private Rectangle energyBarBorder = new Rectangle();
 
 	/**
-	 * Constructor which takes the main class as parameter along with the 
+	 * Constructor which takes the main class as parameter along with the
 	 * position and dimension of this energy bar.
 	 * @param game: Main game class which connects this class to all others
 	 * @param x: X coordinate for this energy bar
@@ -59,7 +59,7 @@ public class EnergyBarOne {
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
 	/**
-	 * Method which updates the rate at which this energy bar 
+	 * Method which updates the rate at which this energy bar
 	 * depletes and regenarates. This methods calls the deplete and
 	 * the regenerate function at the rate of the framerate.
 	 */
@@ -87,7 +87,7 @@ public class EnergyBarOne {
 
 	/**
 	 * Method which adds a precalculated delay
-	 * to the the time it takes before energy 
+	 * to the the time it takes before energy
 	 * can start regenerating
 	 */
 	public void setDelay() {
@@ -97,7 +97,7 @@ public class EnergyBarOne {
 	/**
 	 * Method which regenerates the energy levels of the player
 	 * at a constant precalculated rate. This method also controls
-	 * the action to perform once energy levels have surpassed 
+	 * the action to perform once energy levels have surpassed
 	 * a precalculated thereshold.
 	 */
 	private void regenerateEnergy() {
@@ -123,6 +123,7 @@ public class EnergyBarOne {
 	public void refill() {
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
+
 		this.player.setAllowThrust(true);
 	}
 	/**
@@ -160,7 +161,7 @@ public class EnergyBarOne {
 	public void setDelay(double delay) {
 		this.delay = delay;
 	}
-	
+
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerOne();

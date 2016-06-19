@@ -2,10 +2,10 @@ package com.EudyContreras.Snake.ParticleEffects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
@@ -16,7 +16,7 @@ import javafx.scene.shape.Circle;
 public class BackgroundDirt extends AbstractParticlesEffect {
 
 	private GameDebrisID id;
-	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
+	private double radius = GameManager.ScaleX_Y(RandomGenUtility.getRNG(1, 3.5));
 	private double lifeTime = 1.0f;
 
 	public BackgroundDirt(GameManager game, Pane layer, Image image,double x, double y) {

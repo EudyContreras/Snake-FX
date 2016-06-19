@@ -464,7 +464,7 @@ public class SnakeFood extends AbstractObject {
 	/**
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
-	public void altblowUp() {
+	public void blowUpAlt() {
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = Math.random()*(200 - 40 +1)+40;

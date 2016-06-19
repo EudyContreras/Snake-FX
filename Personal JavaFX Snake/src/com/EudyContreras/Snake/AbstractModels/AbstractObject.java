@@ -509,7 +509,9 @@ public abstract class AbstractObject {
 	public void blowUp() {
 
 	}
+	public void blowUpAlt() {
 
+	}
 	public void stopMovement() {
 		this.canMove = false;
 	}

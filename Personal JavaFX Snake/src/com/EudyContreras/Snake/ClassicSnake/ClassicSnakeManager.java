@@ -19,8 +19,8 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
  */
 public class ClassicSnakeManager {
 
-	private LinkedList<AbstractObject> playerTwoList;
-	private AbstractObject tempPlayerTwoObject;
+	private LinkedList<AbstractObject> classicPlayerList;
+	private AbstractObject classicPlayerObject;
 	private GameManager game;
 
 	public ClassicSnakeManager(GameManager gameJavaFX) {
@@ -31,7 +31,7 @@ public class ClassicSnakeManager {
 	 * method used to initialize the list.
 	 */
 	public void initialize() {
-		this.playerTwoList = new LinkedList<AbstractObject>();
+		this.classicPlayerList = new LinkedList<AbstractObject>();
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ClassicSnakeManager {
 	 * be thrown
 	 */
 	public void updateAllLogicI(long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+		Iterator<? extends AbstractObject> objectIterator = classicPlayerList.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -66,7 +66,7 @@ public class ClassicSnakeManager {
 	 * be thrown
 	 */
 	public void updateAllMovementI(long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+		Iterator<? extends AbstractObject> objectIterator = classicPlayerList.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -80,17 +80,17 @@ public class ClassicSnakeManager {
 	 * source without provoking a break.
 	 */
 	public void updateAllLogic(long timePassed) {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkCollision();
-			tempPlayerTwoObject.addPhysics();
-			tempPlayerTwoObject.updateAnimation(timePassed);
-			tempPlayerTwoObject.logicUpdate();
-			tempPlayerTwoObject.draw();
-			tempPlayerTwoObject.checkRemovability();
-			if (tempPlayerTwoObject.isRemovable() || !tempPlayerTwoObject.isAlive()) {
-				tempPlayerTwoObject.removeFromLayer();
-				playerTwoList.remove(i);
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.checkCollision();
+			classicPlayerObject.addPhysics();
+			classicPlayerObject.updateAnimation(timePassed);
+			classicPlayerObject.logicUpdate();
+			classicPlayerObject.draw();
+			classicPlayerObject.checkRemovability();
+			if (classicPlayerObject.isRemovable() || !classicPlayerObject.isAlive()) {
+				classicPlayerObject.removeFromLayer();
+				classicPlayerList.remove(i);
 			}
 		}
 	}
@@ -100,10 +100,10 @@ public class ClassicSnakeManager {
 	 * source without provoking a break.
 	 */
 	public void updateAllMovement(){
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.move();
-			tempPlayerTwoObject.updateUI();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.move();
+			classicPlayerObject.updateUI();
 		}
 	}
 
@@ -112,9 +112,9 @@ public class ClassicSnakeManager {
 	 */
 	public void updateUI() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.updateUI();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.updateUI();
 		}
 	}
 
@@ -123,9 +123,9 @@ public class ClassicSnakeManager {
 	 */
 	public void updateAnimation(long timePassed) {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.updateAnimation(timePassed);
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.updateAnimation(timePassed);
 		}
 	}
 
@@ -134,9 +134,9 @@ public class ClassicSnakeManager {
 	 */
 	public void move() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.move();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.move();
 		}
 	}
 
@@ -145,9 +145,9 @@ public class ClassicSnakeManager {
 	 */
 	public void draw() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.draw();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.draw();
 		}
 	}
 
@@ -156,27 +156,27 @@ public class ClassicSnakeManager {
 	 */
 	public void addPhysics() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.addPhysics();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.addPhysics();
 		}
 	}
 	/**
 	 * Method used to check if the object has collied with another object
 	 */
 	public void updateLogic() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.logicUpdate();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.logicUpdate();
 		}
 	}
 	/**
 	 * Method used to check if the object should be removed
 	 */
 	public void checkIfRemoveable() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkRemovability();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.checkRemovability();
 		}
 	}
 
@@ -184,9 +184,9 @@ public class ClassicSnakeManager {
 	 * Method used to check if the object has collied with another object
 	 */
 	public void checkCollisions() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkCollision();
+		for (int i = 0; i < classicPlayerList.size(); i++) {
+			classicPlayerObject = classicPlayerList.get(i);
+			classicPlayerObject.checkCollision();
 		}
 	}
 
@@ -203,7 +203,7 @@ public class ClassicSnakeManager {
 	 * Procedurally places the objects in the level
 	 */
 	public void procedurallyCreateLevel() {
-		Iterator<? extends AbstractObject> spriteIter = playerTwoList.iterator();
+		Iterator<? extends AbstractObject> spriteIter = classicPlayerList.iterator();
 		while (spriteIter.hasNext()) {
 			AbstractObject sprite = spriteIter.next();
 			sprite.createLevel();
@@ -211,21 +211,21 @@ public class ClassicSnakeManager {
 	}
 
 	public LinkedList<AbstractObject> getObjectList() {
-		return playerTwoList;
+		return classicPlayerList;
 	}
 
 	public void addObject(AbstractObject object) {
-		this.playerTwoList.add(object);
+		this.classicPlayerList.add(object);
 	}
 
 	public void removeObject(AbstractObject object) {
-		this.playerTwoList.remove(object);
+		this.classicPlayerList.remove(object);
 	}
 	/**
 	 * Clears the object list.
 	 */
 	public void clearAll() {
-		this.playerTwoList.clear();
+		this.classicPlayerList.clear();
 	}
 	/**
 	 * Finds a specified object with a given id
@@ -234,7 +234,7 @@ public class ClassicSnakeManager {
 	 * @return
 	 */
 	public AbstractObject findObject(GameObjectID id) {
-		for (AbstractObject go : playerTwoList) {
+		for (AbstractObject go : classicPlayerList) {
 			if (go.getId() == id) {
 				return go;
 			}

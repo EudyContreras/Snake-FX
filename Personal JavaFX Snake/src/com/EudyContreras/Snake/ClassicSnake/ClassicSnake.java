@@ -3,17 +3,14 @@ package com.EudyContreras.Snake.ClassicSnake;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
-import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -33,7 +30,6 @@ public class ClassicSnake extends AbstractObject {
 
 	private int turnDelay = GameSettings.TURN_DELAY;
 	private int immunity = GameSettings.IMMUNITY_TIME;
-	private int dirtDelay = 10;
 	private int maxOpenTime = 0;
 	private int coolDown = 60;
 	private int moveDelay = 0;
@@ -41,15 +37,14 @@ public class ClassicSnake extends AbstractObject {
 	private int counter = 0;
 	private double accelaration = 0.5/GameManager.ScaleX_ScaleY;
 	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
-	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
-	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5;
-	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
+	private double normalSpeed = GameSettings.CLASSIC_SNAKE_SPEED;
+	private double maxSpeed = GameSettings.CLASSIC_SNAKE_SPEED*2.5;
+	private double minimumSpeed = GameSettings.CLASSIC_SNAKE_SPEED/2;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
 	private boolean isDead = false;
 	private boolean collision = false;
-	private boolean notEating = true;
 	private boolean allowOpen = true;
 	private boolean eatCoolDown = false;
 	private boolean setDelay = false;
@@ -57,30 +52,21 @@ public class ClassicSnake extends AbstractObject {
 	private boolean allowScreenShake = true;
 	private boolean allowCollision = true;
 	private boolean hasBaseBody = false;
-	private boolean allowTurnLeft = true;
-	private boolean allowTurnRight = true;
-	private boolean allowTurnUp = true;
-	private boolean allowTurnDown = true;
 	private boolean goSlow = false;
 	private boolean thrust = false;
 	private boolean allowThrust = true;
-	private Image sectionFill;
-	private Image headFill;
 	private GameManager game;
 	private AnimationUtility anim;
 	private Rectangle bounds;
 	private ScreenEffectUtility overlay;
-	private ClassicSnakeHead snakeHead;
 	private ClassicSnakeSection neighbor;
 	private ClassicSnakeSectionManager sectManager;
 	private BoxBlur motionBlur;
-	private ImagePattern eatingFrame;
-	private ImagePattern blinkingFrame;
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
 	public static boolean DEAD = false;
-	public static double SPEED = 6;
+	public static double SPEED = 9;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;
 	public static Boolean MOUTH_OPEN = false;
@@ -93,55 +79,20 @@ public class ClassicSnake extends AbstractObject {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
 		this.anim = new AnimationUtility();
-		this.circle.setVisible(false);
 		this.overlay = game.getOverlayEffect();
 		this.sectManager = game.getSectManagerThree();
 		this.loadImages();
-		this.loadHead();
+		this.loadMouth();
 		this.drawBoundingBox();
 		this.moveDown();
 	}
-	private void loadHead(){
-		this.snakeHead = new ClassicSnakeHead(this, game, layer,
-				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(headFill)), x, y,
-				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getPlayerOneManager().addObject(snakeHead);
+	public void loadMouth(){
+		this.game.getClassicSnakeManager().addObject(new ClassicSnakeFangs(this, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.25, Color.TRANSPARENT), this.x,
+				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
 	public void loadImages() {
-		switch(game.getModeID()){
-		case CampaingMode:
-			break;
-		case ClassicMode:
-			headFill = GameImageBank.classicSnakeHead;
-			sectionFill = GameImageBank.classicSnakeBody;
-			eatingFrame = new ImagePattern(GameImageBank.classicSnakeHead);
-			blinkingFrame = new ImagePattern(GameImageBank.classicSnakeHead);
-			anim.addScene(GameImageBank.classicSnakeHead, 4000);
-			anim.addScene(GameImageBank.classicSnakeHead, 250);
-			break;
-		case LocalMultiplayer:
-			headFill = GameImageBank.snakeOneHead;
-			sectionFill = GameImageBank.snakeOneSkin;
-			eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
-			blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
-			anim.addScene(GameImageBank.snakeOneHead, 4000);
-			anim.addScene(GameImageBank.snakeOneBlinking, 250);
-			break;
-		case RemoteMultiplayer:
-			headFill = GameImageBank.snakeOneHead;
-			sectionFill = GameImageBank.snakeOneSkin;
-			eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
-			blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
-			anim.addScene(GameImageBank.snakeOneHead, 4000);
-			anim.addScene(GameImageBank.snakeOneBlinking, 250);
-			break;
-		case SinglePlayer:
-			break;
-		case TimeMode:
-			break;
-		default:
-			break;
-		}
+		anim.addScene(GameImageBank.classicSnakeHead, 4000);
+		anim.addScene(GameImageBank.classicSnakeHead, 250);
 
 		setAnimation(anim);
 
@@ -170,13 +121,9 @@ public class ClassicSnake extends AbstractObject {
 		positionBody();
 		updateTurns();
 		updateImmunity();
-		updateSpeedDirt();
-		updateDirt();
-		checkTurns();
 		fadeOut();
 		speedUp();
 		speedDown();
-		//slowDown();
 
 	}
 
@@ -184,9 +131,6 @@ public class ClassicSnake extends AbstractObject {
 		if (!DEAD) {
 			maxOpenTime--;
 			coolDown--;
-			if (notEating) {
-				this.snakeHead.setAnim(anim.getPattern());
-			}
 			if (isAllowOpen() == false) {
 				if (setDelay == true) {
 					if (maxOpenTime <= 0) {
@@ -204,8 +148,6 @@ public class ClassicSnake extends AbstractObject {
 					eatCoolDown = false;
 				}
 			}
-		} else {
-			this.snakeHead.setAnim(blinkingFrame);
 		}
 	}
 
@@ -250,28 +192,6 @@ public class ClassicSnake extends AbstractObject {
 		}
 	}
 
-	public void updateDirt() {
-		if (GameSettings.ALLOW_DIRT) {
-			dirtDelay--;
-			if (dirtDelay <= 0) {
-				if (KEEP_MOVING && game.getStateID()== GameStateID.GAMEPLAY) {
-					displaceDirt(x + width / 2, y + height / 2, 18, 18);
-					dirtDelay = 10;
-				}
-			}
-		}
-	}
-	public void updateSpeedDirt() {
-		if (thrust) {
-			dirtDelay--;
-			if (dirtDelay <= 0) {
-				if (KEEP_MOVING && game.getStateID()== GameStateID.GAMEPLAY) {
-					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
-					dirtDelay = 10;
-				}
-			}
-		}
-	}
 	public void updateTurns() {
 		if (turns.size() > 0) {
 			turnDelay--;
@@ -287,10 +207,8 @@ public class ClassicSnake extends AbstractObject {
 
 	public void openMouth() {
 		if (direction != PlayerMovement.STANDING_STILL) {
-			notEating = false;
 			MOUTH_CLOSE = false;
 			MOUTH_OPEN = true;
-			snakeHead.setAnim(eatingFrame);
 			setAllowOpen(false);
 			setDelay = true;
 			maxOpenTime = 30;
@@ -300,7 +218,6 @@ public class ClassicSnake extends AbstractObject {
 	public void closeMouth() {
 		MOUTH_OPEN = false;
 		MOUTH_CLOSE = true;
-		notEating = true;
 		coolDown = GameSettings.BITE_DELAY;
 	}
 
@@ -348,10 +265,8 @@ public class ClassicSnake extends AbstractObject {
 						case MOVE_UP:
 							if (this.direction != PlayerMovement.MOVE_DOWN) {
 								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnUp)
 										turnDelay(PlayerMovement.MOVE_UP);
 								} else {
-									if (allowTurnUp)
 										moveUp();
 								}
 							}
@@ -359,10 +274,8 @@ public class ClassicSnake extends AbstractObject {
 						case MOVE_DOWN:
 							if (this.direction != PlayerMovement.MOVE_UP) {
 								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnDown)
 										turnDelay(PlayerMovement.MOVE_DOWN);
 								} else {
-									if (allowTurnDown)
 										moveDown();
 								}
 							}
@@ -370,10 +283,8 @@ public class ClassicSnake extends AbstractObject {
 						case MOVE_LEFT:
 							if (this.direction != PlayerMovement.MOVE_RIGHT) {
 								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnLeft)
 										turnDelay(PlayerMovement.MOVE_LEFT);
 								} else {
-									if (allowTurnLeft)
 										moveLeft();
 								}
 							}
@@ -381,10 +292,8 @@ public class ClassicSnake extends AbstractObject {
 						case MOVE_RIGHT:
 							if (this.direction != PlayerMovement.MOVE_LEFT) {
 								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnRight)
 										turnDelay(PlayerMovement.MOVE_RIGHT);
 								} else {
-									if (allowTurnRight)
 										moveRight();
 								}
 							}
@@ -407,37 +316,37 @@ public class ClassicSnake extends AbstractObject {
 					switch (direction) {
 					case MOVE_UP:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnUp)
+
 								turnDelay(PlayerMovement.MOVE_UP);
 						} else {
-							if (allowTurnUp)
+
 								moveUp();
 						}
 						break;
 					case MOVE_DOWN:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnDown)
+
 								turnDelay(PlayerMovement.MOVE_DOWN);
 						} else {
-							if (allowTurnDown)
+
 								moveDown();
 						}
 						break;
 					case MOVE_LEFT:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnLeft)
+
 								turnDelay(PlayerMovement.MOVE_LEFT);
 						} else {
-							if (allowTurnLeft)
+
 								moveLeft();
 						}
 						break;
 					case MOVE_RIGHT:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnRight)
+
 								turnDelay(PlayerMovement.MOVE_RIGHT);
 						} else {
-							if (allowTurnRight)
+
 								moveRight();
 						}
 						break;
@@ -475,7 +384,6 @@ public class ClassicSnake extends AbstractObject {
 		velY = -GameSettings.SNAKE_ONE_SPEED;
 		velX = 0;
 		r = 180;
-		snakeHead.setR(180);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -497,7 +405,6 @@ public class ClassicSnake extends AbstractObject {
 		velY = GameSettings.SNAKE_ONE_SPEED;
 		velX = 0;
 		r = 0;
-		snakeHead.setR(0);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -519,7 +426,6 @@ public class ClassicSnake extends AbstractObject {
 		velX = GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
 		r = -90;
-		snakeHead.setR(-90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -541,7 +447,6 @@ public class ClassicSnake extends AbstractObject {
 		velX = -GameSettings.SNAKE_ONE_SPEED;
 		velY = 0;
 		r = 90;
-		snakeHead.setR(90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -566,82 +471,13 @@ public class ClassicSnake extends AbstractObject {
 	}
 
 	public void checkCollision() {
-		if (!DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
-				if (tempTile.getId() == GameLevelObjectID.cactus) {
-					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
-						if (allowDamage  && game.getStateID()== GameStateID.GAMEPLAY) {
-							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
-								setCollision(true);
-								if (!DEAD) {
-									this.overlay.addDistortion(15, 0.2);
-									this.overlay.addToneOverlay(Color.rgb(220, 0, 0), 5, 1.0);
-								}
-								immunity = GameSettings.IMMUNITY_TIME;
-								allowDamage = false;
-							}
-						}
-					}
-				}
-			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
-					if (getBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ALLOW_ROCK_COLLISION) {
-							if (allowCollision) {
-								this.allowThrust = false;
-								this.thrust = false;
-								this.game.getEnergyBarOne().setDelay();
-								this.game.getEnergyBarOne().setSpeedThrust(false);
-								KEEP_MOVING = false;
-								if (allowScreenShake) {
-									overlay.addScreenShake(0.4, true, true);
-									allowScreenShake = false;
-								}
-								allowCollision = false;
-							}
-						}
-					}
-				}
-			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
-				if (tempTile.getId() == GameLevelObjectID.fence) {
-					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
-						if (!DEAD) {
-							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
-								if (allowScreenShake) {
-									overlay.addScreenShake(1.2, true, true);
-									allowScreenShake = false;
-								}
-								die();
-							}
-						}
-					}
-				}
-				if (tempTile.getId() == GameLevelObjectID.trap) {
-					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
-						if (!DEAD) {
-							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
-								if (allowScreenShake) {
-									overlay.addScreenShake(1.2, true, true);
-									allowScreenShake = false;
-								}
-								die();
-							}
-						}
-					}
-				}
-			}
-		}
+
 	}
 
 	public void addbaseSections() {
 		for (int i = 0; i < 2 + 1; i++) {
 			sectManager.addSection(new ClassicSnakeSection(this, game, layer,
-					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(sectionFill)), x, y,
+					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.classicSnakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
@@ -658,7 +494,7 @@ public class ClassicSnake extends AbstractObject {
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new ClassicSnakeSection(this, game, layer,
-					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(sectionFill)), x, y,
+					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.classicSnakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 			appleCount++;
@@ -685,28 +521,6 @@ public class ClassicSnake extends AbstractObject {
 		}
 	}
 
-	public void checkTurns() {
-		if (snakeHead.allowLeftTurn()) {
-			this.allowTurnLeft = true;
-		} else {
-			this.allowTurnLeft = false;
-		}
-		if (snakeHead.allowRightTurn()) {
-			this.allowTurnRight = true;
-		} else {
-			this.allowTurnRight = false;
-		}
-		if (snakeHead.allowUpTurn()) {
-			this.allowTurnUp = true;
-		} else {
-			this.allowTurnUp = false;
-		}
-		if (snakeHead.allowDownTurn()) {
-			this.allowTurnDown = true;
-		} else {
-			this.allowTurnDown = false;
-		}
-	}
 
 	public void headAdjustment() {
 		if (this.direction == PlayerMovement.MOVE_DOWN) {
@@ -747,24 +561,6 @@ public class ClassicSnake extends AbstractObject {
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
 			game.getSeventhLayer().getChildren().add(bounds);
-		}
-	}
-
-	public void displaceDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
-						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
-			}
-		}
-	}
-
-	public void displaceSpeedDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
-						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
-			}
 		}
 	}
 	public void die() {
@@ -880,10 +676,6 @@ public class ClassicSnake extends AbstractObject {
 	public Rectangle2D getBounds() {
 
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
-	}
-
-	public ClassicSnakeHead getHead() {
-		return snakeHead;
 	}
 
 	public boolean isAllowOpen() {

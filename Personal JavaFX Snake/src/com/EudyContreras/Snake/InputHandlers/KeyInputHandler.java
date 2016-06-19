@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.InputHandlers;
 
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
@@ -19,6 +20,11 @@ import javafx.scene.input.KeyEvent;
  *
  */
 public class KeyInputHandler {
+
+	private PlayerOne playerOne;
+	private PlayerTwo playerTwo;
+	private ClassicSnake classicSnake;
+
 	private boolean[] keyDown = new boolean[6];
 
 	public KeyInputHandler() {
@@ -29,53 +35,66 @@ public class KeyInputHandler {
 		keyDown[4] = false;
 		keyDown[5] = false;
 	}
+
 	/**
-	 * This method will process all the key events within a node and will assign specific actions
-	 * to the them.
+	 * This method will process all the key events within a node and wil	l assign
+	 * specific actions to the them.
+	 *
 	 * @param game
 	 * @param playerOne
 	 * @param playerTwo
 	 * @param slither
 	 * @param scene
 	 */
-	public void processInput(GameManager game, PlayerOne playerOne, PlayerTwo playerTwo, Scene scene) {
+	public void processInput(GameManager game, Scene scene) {
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			public void handle(KeyEvent e) {
 
-				if (e.getCode() == KeyCode.W && e.getCode()!= KeyCode.A && e.getCode()!=KeyCode.D) {
+				if (e.getCode() == KeyCode.W && e.getCode() != KeyCode.A && e.getCode() != KeyCode.D) {
 					keyDown[0] = true;
+					if (playerOne != null)
+						playerOne.setDirection(PlayerMovement.MOVE_UP);
 
-					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_UP);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_UP);
 				}
-				if (e.getCode() == KeyCode.S && e.getCode()!=KeyCode.A && e.getCode()!=KeyCode.D) {
+				if (e.getCode() == KeyCode.S && e.getCode() != KeyCode.A && e.getCode() != KeyCode.D) {
 					keyDown[1] = true;
-
-					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_DOWN);
+					if (playerOne != null)
+						playerOne.setDirection(PlayerMovement.MOVE_DOWN);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_DOWN);
 				}
-				if (e.getCode() == KeyCode.A && e.getCode()!=KeyCode.W && e.getCode()!=KeyCode.S) {
+				if (e.getCode() == KeyCode.A && e.getCode() != KeyCode.W && e.getCode() != KeyCode.S) {
 					keyDown[2] = true;
-
-					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_LEFT);
+					if (playerOne != null)
+						playerOne.setDirection(PlayerMovement.MOVE_LEFT);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_LEFT);
 				}
-				if (e.getCode() == KeyCode.D && e.getCode()!=KeyCode.W && e.getCode()!=KeyCode.S) {
+				if (e.getCode() == KeyCode.D && e.getCode() != KeyCode.W && e.getCode() != KeyCode.S) {
 					keyDown[3] = true;
-
-					game.getGameLoader().getPlayerOne().setDirection(PlayerMovement.MOVE_RIGHT);
+					if (playerOne != null)
+						playerOne.setDirection(PlayerMovement.MOVE_RIGHT);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.H) {
 					game.getGameHud().showHide();
 				}
 				if (e.getCode() == KeyCode.SPACE) {
-					if (playerOne.isAllowOpen()) {
-						playerOne.openMouth();
-					}
+					if (playerOne != null)
+						if (playerOne.isAllowOpen()) {
+							playerOne.openMouth();
+						}
 					keyDown[4] = true;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					if(playerOne.isAllowThrust())
-					playerOne.setSpeedThrust(true);
- 					keyDown[5] = true;
+					if (playerOne != null)
+						if (playerOne.isAllowThrust())
+							playerOne.setSpeedThrust(true);
+					keyDown[5] = true;
 				}
 				if (e.getCode() == KeyCode.P) {
 					game.setStateID(GameStateID.GAME_MENU);
@@ -88,7 +107,7 @@ public class KeyInputHandler {
 
 				}
 				if (e.getCode() == KeyCode.ESCAPE) {
-					if (game.getStateID() == GameStateID.GAMEPLAY || game.getStateID()==GameStateID.GAME_MENU) {
+					if (game.getStateID() == GameStateID.GAMEPLAY || game.getStateID() == GameStateID.GAME_MENU) {
 						if (game.getStateID() != GameStateID.GAME_MENU) {
 							game.getPauseMenu().pauseGame();
 						} else {
@@ -97,29 +116,36 @@ public class KeyInputHandler {
 					}
 				}
 				if (e.getCode() == KeyCode.ENTER) {
-					if(playerTwo.isAllowThrust())
-					playerTwo.setSpeedThrust(true);
+					if (playerTwo != null)
+						if (playerTwo.isAllowThrust())
+							playerTwo.setSpeedThrust(true);
 				}
 				if (e.getCode() == KeyCode.CONTROL) {
-					if(playerTwo.isAllowThrust())
-					playerTwo.setSpeedThrust(true);
+					if (playerTwo != null)
+						if (playerTwo.isAllowThrust())
+							playerTwo.setSpeedThrust(true);
 				}
 				if (e.getCode() == KeyCode.UP) {
-					playerTwo.setDirection(PlayerMovement.MOVE_UP);
+					if (playerTwo != null)
+						playerTwo.setDirection(PlayerMovement.MOVE_UP);
 				}
 				if (e.getCode() == KeyCode.DOWN) {
-					playerTwo.setDirection(PlayerMovement.MOVE_DOWN);
+					if (playerTwo != null)
+						playerTwo.setDirection(PlayerMovement.MOVE_DOWN);
 				}
 				if (e.getCode() == KeyCode.LEFT) {
-					playerTwo.setDirection(PlayerMovement.MOVE_LEFT);
+					if (playerTwo != null)
+						playerTwo.setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				if (e.getCode() == KeyCode.RIGHT) {
-					playerTwo.setDirection(PlayerMovement.MOVE_RIGHT);
+					if (playerTwo != null)
+						playerTwo.setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.CONTROL) {
-					if (playerTwo.isAllowOpen()) {
-						playerTwo.openMouth();
-					}
+					if (playerTwo != null)
+						if (playerTwo.isAllowOpen()) {
+							playerTwo.openMouth();
+						}
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
 
@@ -155,14 +181,17 @@ public class KeyInputHandler {
 					keyDown[4] = false;
 				}
 				if (e.getCode() == KeyCode.SHIFT) {
-					playerOne.setSpeedThrust(false);
+					if (playerOne != null)
+						playerOne.setSpeedThrust(false);
 					keyDown[5] = false;
 				}
 				if (e.getCode() == KeyCode.ENTER) {
-					playerTwo.setSpeedThrust(false);
+					if (playerTwo != null)
+						playerTwo.setSpeedThrust(false);
 				}
 				if (e.getCode() == KeyCode.CONTROL) {
-					playerTwo.setSpeedThrust(false);
+					if (playerTwo != null)
+						playerTwo.setSpeedThrust(false);
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
 
@@ -187,5 +216,17 @@ public class KeyInputHandler {
 				}
 			}
 		});
+	}
+	public void setPlayerOne(PlayerOne player){
+		this.playerOne = null;
+		this.playerOne = player;
+	}
+	public void setPlayerTwo(PlayerTwo player){
+		this.playerTwo = null;
+		this.playerTwo = player;
+	}
+	public void setClassicSnake(ClassicSnake player){
+		this.classicSnake = null;
+		this.classicSnake = player;
 	}
 }

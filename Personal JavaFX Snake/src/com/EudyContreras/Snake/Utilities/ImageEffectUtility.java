@@ -60,9 +60,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-100);
-		light.setY(200);
-		light.setZ(100);
+		light.setX(-180);
+		light.setY(310);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -101,9 +101,9 @@ public class ImageEffectUtility {
 //		light.setY(315);
 //		light.setZ(130);
 
-		light.setX(-150);
-		light.setY(290);
-		light.setZ(120);
+		light.setX(-180);
+		light.setY(310);
+		light.setZ(140);
 
 //		light.setX(-180);
 //		light.setY(200);
@@ -131,8 +131,8 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-180);
-		light.setY(200);
-		light.setZ(130);
+		light.setY(310);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -154,9 +154,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-200);
-		light.setY(300);
-		light.setZ(150);
+		light.setX(-180);
+		light.setY(310);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -235,7 +235,7 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
-			view.setEffect(lighting);
+			//view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 		img = ImageEffectUtility.createImage(view);

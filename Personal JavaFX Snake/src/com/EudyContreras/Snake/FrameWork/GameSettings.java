@@ -34,6 +34,7 @@ public class GameSettings {
 	public static int SECTION_SIZE = 30;
 	public static int SNAKE_ONE_SPEED = 1;
 	public static int SNAKE_TWO_SPEED = 1;
+
 	public static int SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
 
@@ -53,14 +54,15 @@ public class GameSettings {
 
 	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double CLASSIC_SNAKE_SPEED = 9.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
 
 	public static double PLAYER_HEALTH = 100.0;
 
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double GLOBAL_SPECULARITY = 1.9;
+	public static double GLOBAL_SPECULARITY = 2.0;
 
 	public static int BLUR_RANDOMNESS = 200;
-	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 0;
+	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 2000;
 	public static int PARTICLE_LIMIT = 350;
 	public static int MAX_DEBRIS_AMOUNT = 50;
 	public static int SAND_SPAWN_DELAY = 1;
@@ -78,10 +80,10 @@ public class GameSettings {
 	public static boolean OBJECT_TRACKER = false;
 
 	public static boolean ALLOW_SNAKE_GROWTH = false;
-	public static boolean ALLOW_SELF_COLLISION = false;
+	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;
-	public static boolean ALLOW_DAMAGE_IMMUNITY = true;
+	public static boolean ALLOW_DAMAGE_IMMUNITY = false;
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 

@@ -58,7 +58,7 @@ import javafx.stage.Stage;
 public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
-	protected GameModeID modeID = GameModeID.LocalMultiplayer;
+	protected GameModeID modeID = GameModeID.ClassicMode;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
 	protected Service<Void> backgroundThread;

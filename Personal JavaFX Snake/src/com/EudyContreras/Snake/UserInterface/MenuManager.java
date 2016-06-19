@@ -125,6 +125,7 @@ public class MenuManager extends AbstractMenuElement{
 	 * Starts the game if the startbutton is pressed
 	 */
 	public void startSelected() {
+		game.prepareGame();
 		removeMenu(main_menu.main_menu_screen());
 		menuRoot.getChildren().remove(fadeScreen);
 		game.resumeGame();

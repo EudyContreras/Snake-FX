@@ -10,6 +10,7 @@ package com.EudyContreras.Snake.Identifiers;
 public enum GameObjectID {
 	PlayerOne(),
 	PlayerTwo(),
+	classicSnake(),
 	SlitherSnake(),
 	SnakeMouth(),
 	SnakeSection(),

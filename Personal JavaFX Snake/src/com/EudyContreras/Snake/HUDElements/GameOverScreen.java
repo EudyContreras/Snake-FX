@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.HUDElements;
 
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
@@ -122,6 +123,9 @@ public class GameOverScreen {
 		}
 		else if(PlayerTwo.DEAD){
 			this.boardImage = GameImageBank.player_two_loses;
+		}
+		else{
+			this.boardImage = GameImageBank.player_one_loses;
 		}
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 		resetBoard();
@@ -275,7 +279,7 @@ public class GameOverScreen {
 	 * show the game over board.
 	 */
 	private void checkStatus(){
-		if (PlayerOne.DEAD || PlayerTwo.DEAD) {
+		if (PlayerOne.DEAD || PlayerTwo.DEAD || ClassicSnake.DEAD) {
 			if (LEVEL_FAILED == false) {
 				removeBoard();
 				endGame();
@@ -348,6 +352,7 @@ public class GameOverScreen {
 		transitionOne.setOnFinished(event -> {
 			PlayerOne.LEVEL_COMPLETED = false;
 			PlayerTwo.LEVEL_COMPLETED = false;
+			ClassicSnake.LEVEL_COMPLETED = false;
 			game.processGameInput();
 			game.getFadeScreenHandler().restart_fade_screen();
 			transitionOne.stop();
@@ -531,6 +536,7 @@ public class GameOverScreen {
 		overlay.removeBlur();
 		PlayerTwo.LEVEL_COMPLETED = false;
 		PlayerOne.LEVEL_COMPLETED = false;
+		ClassicSnake.LEVEL_COMPLETED = false;
 		removeBoard();
 	}
 }

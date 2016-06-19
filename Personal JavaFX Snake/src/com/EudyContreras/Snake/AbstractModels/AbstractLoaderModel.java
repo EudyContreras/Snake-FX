@@ -158,6 +158,10 @@ public abstract class AbstractLoaderModel {
 		playerTwo = null;
 	}
 
+	public void killClassicSnake(){
+		classicSnake = null;
+	}
+
 	public int getLevelWidth() {
 		return levelWidth;
 	}

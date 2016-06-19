@@ -14,7 +14,7 @@ public class ClassicSnakeEatTrigger extends AbstractObject {
 	private GameManager game;
 	private ClassicSnake snake;
 
-	public ClassicSnakeEatTrigger(ClassicSnakeHead head, ClassicSnake snake, GameManager game, Pane layer, Circle node, double x, double y,
+	public ClassicSnakeEatTrigger(ClassicSnake snake, GameManager game, Pane layer, Circle node, double x, double y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;

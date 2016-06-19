@@ -115,6 +115,7 @@ public class DesertBush extends AbstractTile {
 	 * for debugging purposes
 	 */
 	public void checkCollision(){
+		if(game.getGameLoader().getPlayerOne()!=null)
 		if(this.getBounds().intersects(game.getGameLoader().getPlayerOne().getBounds())){
 			if(contact == true){
 				if(game.getGameLoader().getPlayerOne().getCurrentDirection()==PlayerMovement.MOVE_LEFT){
@@ -127,6 +128,7 @@ public class DesertBush extends AbstractTile {
 			contact = false;
 			}
 		}
+		if(game.getGameLoader().getPlayerTwo()!=null)
 		if(this.getBounds().intersects(game.getGameLoader().getPlayerTwo().getBounds())){
 			if(contact == true){
 				if(game.getGameLoader().getPlayerTwo().getCurrentDirection()==PlayerMovement.MOVE_LEFT){
