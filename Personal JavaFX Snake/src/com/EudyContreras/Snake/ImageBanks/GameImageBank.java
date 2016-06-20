@@ -151,6 +151,7 @@ public class GameImageBank {
 		public static final ImagePattern count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
 		public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
 		public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go.png")));
+		
 		/**
 		 * general game object
 		 */

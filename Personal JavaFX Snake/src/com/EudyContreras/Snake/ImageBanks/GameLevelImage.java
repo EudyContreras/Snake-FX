@@ -74,6 +74,9 @@ public class GameLevelImage {
 		public static final Image desert_flower_alt = ImageEffectUtility.precreatedLightedAndShadedImage("flower_cactus_alt.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 72 / GameLoader.ResolutionScaleX,
 			123 / GameLoader.ResolutionScaleY);
+		public static final Image desert_flower_alt2 = ImageEffectUtility.precreatedLightedAndShadedImage("flower_cactus_alt2.png",
+				GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 72 / GameLoader.ResolutionScaleX,
+				123 / GameLoader.ResolutionScaleY);
 		public static final Image desert_skull = ImageEffectUtility.precreatedLightedAndShadedImage("desert_bison_skull.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 140 / GameLoader.ResolutionScaleX,
 			105 / GameLoader.ResolutionScaleY);

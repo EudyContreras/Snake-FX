@@ -973,7 +973,6 @@ public class GameManager extends AbstractGameModel{
         sixthLayer.getChildren().clear();
         seventhLayer.getChildren().clear();
         eighthLayer.getChildren().clear();
-        eleventhLayer.getChildren().remove(ScreenEffectUtility.fadeScreen);
         levelLayer.getChildren().clear();
         playerOneManager.clearAll();
         playerTwoManager.clearAll();

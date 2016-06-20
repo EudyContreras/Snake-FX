@@ -76,7 +76,7 @@ public class ClassicSnakeFangs extends AbstractObject {
 		if (ClassicSnake.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
-				if (counter >= 0) {
+				if (counter >= 4) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;
@@ -87,12 +87,6 @@ public class ClassicSnakeFangs extends AbstractObject {
 							stop = true;
 						}
 					}
-				}
-			} else {
-				if (!stop) {
-					index = 0;
-					stop = true;
-
 				}
 			}
 		}

@@ -6,6 +6,7 @@ import java.util.Random;
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Controllers.GameTileController;
+import com.EudyContreras.Snake.GameObjects.BackgroundDirt;
 import com.EudyContreras.Snake.GameObjects.ClassicSnakeFood;
 import com.EudyContreras.Snake.GameObjects.GameBackground;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
@@ -16,7 +17,6 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.ParticleEffects.BackgroundDirt;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
@@ -301,9 +301,9 @@ public class GameLoader extends AbstractLoaderModel{
 			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
 				spawnBackgroundStuff(true);
 			}
-			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=3)
+			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5)
 				levelManager.loadDesertBorder();
-			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=3) {
+			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5) {
 				levelManager.loadSpikeFence();
 			}
 			levelManager.loadDesertLevels();

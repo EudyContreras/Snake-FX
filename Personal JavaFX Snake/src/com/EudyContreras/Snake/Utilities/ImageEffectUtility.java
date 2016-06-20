@@ -57,7 +57,7 @@ public class ImageEffectUtility {
 		view.setEffect(null);
 		lighting.setContentInput(null);
 		shadow.setInput(null);
-		shadow.setBlurType(BlurType.ONE_PASS_BOX);
+		shadow.setBlurType(BlurType.THREE_PASS_BOX);
 	}
 	public static synchronized Image precreatedLightedImage(String path, double diffused, double specularMap, double width,
 			double height) {
@@ -99,28 +99,35 @@ public class ImageEffectUtility {
 	public static synchronized Image precreatedLightedAndShadedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
-		img = new Image(loadResource(path), width, height, true, true);
-		view.setImage(img);
 //		light.setX(-130);
 //		light.setY(315);
 //		light.setZ(130);
 
-		light.setX(-150);
-		light.setY(350);
-		light.setZ(140);
+//		light.setX(-150);
+//		light.setY(350);
+//		light.setZ(140);
 
 //		light.setX(-180);
 //		light.setY(200);
 //		light.setZ(130);
 
+//		DropShadow shadow = new DropShadow(15, Color.BLACK);
+//		Lighting lighting = new Lighting();
+//		Light.Point light = new Light.Point();
+		resetInputeffects();
+		img = new Image(loadResource(path), width, height, true, true);
+		view = new ImageView(img);
+		light.setX(-200);
+		light.setY(300);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(20/(GameManager.ScaleX_ScaleY));
-		shadow.setOffsetX(GameManager.ScaleX(25));
-		shadow.setOffsetY(GameManager.ScaleY(-20));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
+		shadow.setRadius(20);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);

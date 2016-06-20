@@ -278,32 +278,34 @@ public class GameOverScreen {
 	 * and if so it will then end the game and
 	 * show the game over board.
 	 */
-	@SuppressWarnings("unused")
 	private void checkStatus(){
-		if (PlayerOne.DEAD || PlayerTwo.DEAD || ClassicSnake.DEAD) {
+		if (PlayerOne.ALLOW_FADE || PlayerTwo.ALLOW_FADE || ClassicSnake.ALLOW_FADE) {
 			if (LEVEL_FAILED == false) {
 				removeBoard();
 				endGame();
 				game.getScoreKeeper().swipeDown();
 				game.getGameHud().showHUDCover();
 				LEVEL_FAILED = true;
+				PlayerOne.ALLOW_FADE = false;
+				PlayerTwo.ALLOW_FADE = false;
+				ClassicSnake.ALLOW_FADE = false;
 			}
 		}
 	}
 	/**
-	 * Method called by the dead player at the 
+	 * Method called by the dead player at the
 	 * end of the death animation. This method will
 	 * show the game over screen adn will allow the player
 	 * to restart or continue.
 	 */
 	public void gameOver(){
-		if (LEVEL_FAILED == false) {
-			removeBoard();
-			endGame();
-			game.getScoreKeeper().swipeDown();
-			game.getGameHud().showHUDCover();
-			LEVEL_FAILED = true;
-		}
+//		if (LEVEL_FAILED == false) {
+//			removeBoard();
+//			endGame();
+//			game.getScoreKeeper().swipeDown();
+//			game.getGameHud().showHUDCover();
+//			LEVEL_FAILED = true;
+//		}
 	}
 	/**
 	 * Method which when called updates
@@ -313,7 +315,7 @@ public class GameOverScreen {
 	 */
 	public void updateUI(){
 		positionScoreScreen();
-		//checkStatus();
+		checkStatus();
 		positionScreen();
 		showScores();
 
@@ -337,6 +339,8 @@ public class GameOverScreen {
 			mainGameBoard.setVisible(true);
 			scoreScreen.showScores();
 			showWinner = true;
+			blurOut();
+			fadeOut();
 			transitionOne.stop();
 		});
 
@@ -347,8 +351,6 @@ public class GameOverScreen {
 		transitionTwo.setOnFinished(event -> {
 			processPlayerScores();
 			processKeyHandling();
-			blurOut();
-			fadeOut();
 			transitionTwo.stop();
 		});
 

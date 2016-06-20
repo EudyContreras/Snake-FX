@@ -23,7 +23,7 @@ public class ScreenEffectUtility {
 	private BoxBlur clearLevelBlur = new BoxBlur();
 	private GaussianBlur stormBlur = new GaussianBlur(0);
 	private Rectangle toneOverlay = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-	public static Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+	private Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
@@ -60,7 +60,6 @@ public class ScreenEffectUtility {
 	private Double fadeSpeed;
 	private Pane layer;
 	private GameManager game;
-	private GameStateID stateID;
 
 	public ScreenEffectUtility(GameManager game, Pane layer) {
 		this.game = game;
@@ -212,14 +211,13 @@ public class ScreenEffectUtility {
 	 * @param fadeSpeed:
 	 *            max 10, min 1;
 	 */
-	public void addFadeScreen(double fadeSpeed, GameStateID stateID, Runnable script) {
+	public void addFadeScreen(double speed, GameStateID stateID, Runnable script) {
 		this.script = script;
-		this.stateID = stateID;
 		game.getEleventhLayer().getChildren().remove(fadeScreen);
 		fade = 0.0;
 		fadeScreen.setOpacity(fade);
 		fadeScreen.setFill(Color.BLACK);
-		this.fadeSpeed = fadeSpeed / 1000;
+		fadeSpeed = speed / 1000;
 		game.getEleventhLayer().getChildren().add(fadeScreen);
 		setFadeOverlay = true;
 	}
@@ -307,17 +305,10 @@ public class ScreenEffectUtility {
 			fadeScreen.setOpacity(1);
 		}
 		if (fade >= 1.1f) {
-			if (stateID == GameStateID.GAME_OVER) {
-				if(script!=null)
+			if(script!=null){
 				script.run();
-				setFadeOverlay = false;
 			}
-			if (stateID == GameStateID.GAME_MENU) {
-
-			}
-			if (stateID == GameStateID.LEVEL_COMPLETED) {
-
-			}
+			setFadeOverlay = false;
 		}
 	}
 	private void setHShakeModifier(){

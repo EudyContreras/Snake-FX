@@ -148,7 +148,7 @@ public class PlayerOneFangs extends AbstractObject {
 		if (PlayerOne.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
-				if (counter >= 1) {
+				if (counter >= 4) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
 					counter = 0;
@@ -161,13 +161,6 @@ public class PlayerOneFangs extends AbstractObject {
 							stop = true;
 						}
 					}
-				}
-			} else {
-				if (!stop) {
-					index = 0;
-					snake.getHead().setShowTheSkull(true);
-					snake.getHead().addBones();
-					stop = true;
 				}
 			}
 		}
