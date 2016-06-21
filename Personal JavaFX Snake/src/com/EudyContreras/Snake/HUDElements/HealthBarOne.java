@@ -9,6 +9,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 /**
  * This class is used to simulate a simple health bar which will decrease under
@@ -31,9 +32,9 @@ public class HealthBarOne {
 	private int delay = 0;
 	private GameManager game;
 	private PlayerOne player;
-	private Rectangle healthBar = new Rectangle();
+	private Rectangle healthBarGreen = new Rectangle();
+	private Rectangle healthBarRed = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
-	private Rectangle playerHud = new Rectangle();
 	private Circle playerHead = new Circle();
 	/**
 	 * Constructor which takes the main class as parameter along with the
@@ -44,40 +45,44 @@ public class HealthBarOne {
 	 * @param width: Horizontal dimension for this energy bar
 	 * @param height: Vertival dimension for this energy bar
 	 */
-	public HealthBarOne(GameManager game, double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
+	public HealthBarOne(GameManager game) {
 		this.game = game;
-		this.width = width;
-		this.height = height;
-		this.maxHealth = width;
+		this.x = 0;
+		this.y = 5;
+		this.width = GameManager.ScaleX(515);
+		this.height = GameManager.ScaleY(110);
+		this.maxHealth = width*0.6;
 		this.player = game.getGameLoader().getPlayerOne();
-		this.healthBar.setWidth(width);
-		this.healthBar.setHeight(height+4);
-		this.healthBar.setTranslateX(x);
-		this.healthBar.setTranslateY(y-2);
-		this.healthBar.setRotate(1);
-		this.healthBarBorder.setWidth(width+4);
-		this.healthBarBorder.setHeight(height+3);
-		this.healthBarBorder.setTranslateX(x-1);
-		this.healthBarBorder.setTranslateY(y-1);
-		this.healthBarBorder.setRotate(1);
-		this.playerHud.setWidth(width/2);
-		this.playerHud.setHeight(height*2);
-		this.playerHud.setTranslateX(x+width);
-		this.playerHud.setTranslateY(10);
-		this.playerHead.setRadius(GameManager.ScaleX(30));
-		this.playerHead.setCenterX(x+width+playerHead.getRadius()*1.5);
-		this.playerHead.setCenterY(y+3);
+		this.healthBarGreen.setWidth(width*0.59);
+		this.healthBarGreen.setHeight(height*0.4);
+		this.healthBarGreen.setTranslateX(x);
+		this.healthBarGreen.setTranslateY(y+27);
+		this.healthBarGreen.setRotationAxis(Rotate.Y_AXIS);
+		this.healthBarRed.setWidth(width*0.6);
+		this.healthBarRed.setHeight(height*0.3);
+		this.healthBarRed.setTranslateX(x+180);
+		this.healthBarRed.setTranslateY(y+9);
+		this.healthBarRed.setRotationAxis(Rotate.Y_AXIS);
+//		this.healthBar.setRotate(180);
+		this.healthBarBorder.setWidth(width);
+		this.healthBarBorder.setHeight(height);
+		this.healthBarBorder.setTranslateX(x);
+		this.healthBarBorder.setTranslateY(y);
+		this.healthBarBorder.setRotationAxis(Rotate.Y_AXIS);
+//		this.healthBarBorder.setRotate(180);
+		this.playerHead.setRadius(GameManager.ScaleX(40));
+		this.playerHead.setCenterX(x+width-playerHead.getRadius()*1.4);
+		this.playerHead.setTranslateY(y+55);
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeOneEating));
-		this.playerHud.setFill(new ImagePattern(GameImageBank.player_one_hud));
-		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_one));
-		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_one));
+		this.healthBarRed.setFill(new ImagePattern(GameImageBank.red_health));
+		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
+		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_one));
+		this.game.getEleventhLayer().getChildren().add(healthBarRed);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
-		this.game.getEleventhLayer().getChildren().add(healthBar);
-		this.game.getEleventhLayer().getChildren().add(playerHud);
-		this.game.getEleventhLayer().getChildren().add(playerHead);
+////		this.game.getEleventhLayer().getChildren().add(playerHud);
+//		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
+
 	/**
 	 * Calls to this method which update
 	 * the draining and regeneration funcitonality
@@ -111,7 +116,7 @@ public class HealthBarOne {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBar.setWidth(width);
+		this.healthBarRed.setWidth(width);
 	}
 
 	/**
@@ -166,7 +171,7 @@ public class HealthBarOne {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBar.setVisible(false);
+			healthBarRed.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
 	}
@@ -175,7 +180,7 @@ public class HealthBarOne {
 	 * to true
 	 */
 	public void show() {
-		healthBar.setVisible(true);
+		healthBarRed.setVisible(true);
 		healthBarBorder.setVisible(true);
 	}
 	/**
@@ -187,14 +192,14 @@ public class HealthBarOne {
 		this.killPlayer = false;
 		this.playerIsAlive = true;
 		this.width = maxHealth;
-		this.healthBar.setWidth(maxHealth);
+		this.healthBarRed.setWidth(maxHealth);
 	}
 	/**
 	 * Method which drains this health bar to its minimum value
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBar.setWidth(width);
+		this.healthBarRed.setWidth(width);
 	}
 
 	public void setPlayer() {
@@ -209,9 +214,9 @@ public class HealthBarOne {
 	 */
 	public void setVisible(boolean state){
 		playerHead.setVisible(state);
-		playerHud.setVisible(state);
+		healthBarRed.setVisible(state);
 		healthBarBorder.setVisible(state);
-		healthBar.setVisible(state);
+		healthBarGreen.setVisible(state);
 	}
 	public double getX() {
 		return x;

@@ -80,10 +80,10 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.apple.setPreserveRatio(true);
 		this.apple.setX(GameSettings.WIDTH/2+15);
 		this.apple.setY(yOne-45);
-		this.game.getThirTeenthLayer().getChildren().add(board);
-		this.game.getThirTeenthLayer().getChildren().add(apple);
-		this.game.getThirTeenthLayer().getChildren().add(countText);
-		this.game.getThirTeenthLayer().getChildren().add(timerText);
+//		this.game.getThirTeenthLayer().getChildren().add(board);
+//		this.game.getThirTeenthLayer().getChildren().add(apple);
+//		this.game.getThirTeenthLayer().getChildren().add(countText);
+//		this.game.getThirTeenthLayer().getChildren().add(timerText);
 		setupText();
 		updateCount();
 	}

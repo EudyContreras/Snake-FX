@@ -25,16 +25,16 @@ public class SandStorms extends AbstractParticlesEffect {
 
 	public SandStorms(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.radius = (radius / 2)/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.radius = GameManager.ScaleX_Y((radius / 2));
 		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2 / (GameManager.ScaleX_ScaleY);
-		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameManager.ScaleX_ScaleY);
-		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001 / (GameManager.ScaleX_ScaleY);
+		this.velX = GameManager.ScaleX(Math.random() * (8 - 2 + 1) + 2 );
+		this.velY = GameManager.ScaleY(Math.random() * (8 - -5 + 1) + -5);
+		this.dropVel =GameManager.ScaleX_Y( Math.random() * (0.003 - 0.001) + 0.001 );
 		init();
 	}
 
@@ -46,9 +46,9 @@ public class SandStorms extends AbstractParticlesEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2 / (GameManager.ScaleX_ScaleY);
-		this.velY = Math.random() * (8 - -5 + 1) + -5 / (GameManager.ScaleX_ScaleY);
-		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001 / (GameManager.ScaleX_ScaleY);
+		this.velX = GameManager.ScaleX(Math.random() * (8 - 2 + 1) + 2 );
+		this.velY = GameManager.ScaleY(Math.random() * (8 - -5 + 1) + -5);
+		this.dropVel =GameManager.ScaleX_Y( Math.random() * (0.003 - 0.001) + 0.001 );
 		init();
 	}
 

@@ -27,7 +27,6 @@ public class EnergyBarOne {
 	private GameManager game;
 	private PlayerOne player;
 	private Rectangle energyBar = new Rectangle();
-	private Rectangle energyBarBorder = new Rectangle();
 
 	/**
 	 * Constructor which takes the main class as parameter along with the
@@ -41,21 +40,14 @@ public class EnergyBarOne {
 	public EnergyBarOne(GameManager game, double x, double y, double width, double height) {
 		this.game = game;
 		this.width = width;
-		this.maxEnergyLevel = width;
+		this.maxEnergyLevel = this.width;
 		this.player = game.getGameLoader().getPlayerOne();
-		this.energyBar.setWidth(width);
-		this.energyBar.setHeight(height);
+		this.energyBar.setWidth(width*.9);
+		this.energyBar.setHeight(height*.7);
 		this.energyBar.setTranslateX(x);
 		this.energyBar.setTranslateY(y);
-		this.energyBar.setRotate(1);
-		this.energyBar.setFill(new ImagePattern(GameImageBank.energy_bar_one));
-		this.energyBarBorder.setWidth(width);
-		this.energyBarBorder.setHeight(height);
-		this.energyBarBorder.setTranslateX(x);
-		this.energyBarBorder.setTranslateY(y);
-		this.energyBarBorder.setRotate(1);
-		this.energyBarBorder.setFill(new ImagePattern(GameImageBank.energy_bar_one_border));
-		this.game.getEleventhLayer().getChildren().add(energyBarBorder);
+		this.energyBar.setRotate(0);
+		this.energyBar.setFill(new ImagePattern(GameImageBank.energy));
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
 	/**
@@ -143,7 +135,6 @@ public class EnergyBarOne {
 	 */
 	public void setVisible(boolean state){
 		energyBar.setVisible(state);
-		energyBarBorder.setVisible(state);
 	}
 	public boolean isSpeedThrust() {
 		return speedThrust;

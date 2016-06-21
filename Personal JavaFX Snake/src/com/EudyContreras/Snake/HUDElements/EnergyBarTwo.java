@@ -29,7 +29,6 @@ public class EnergyBarTwo {
 	private GameManager game;
 	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
-	private Rectangle energyBarBorder = new Rectangle();
 
 	/**
 	 * Constructor which takes the main class as parameter along with the
@@ -52,14 +51,7 @@ public class EnergyBarTwo {
 		this.energyBar.setTranslateX(x);
 		this.energyBar.setTranslateY(y);
 		this.energyBar.setRotate(-1);
-		this.energyBar.setFill(new ImagePattern(GameImageBank.energy_bar_two));
-		this.energyBarBorder.setWidth(width);
-		this.energyBarBorder.setHeight(height);
-		this.energyBarBorder.setTranslateX(x);
-		this.energyBarBorder.setTranslateY(y);
-		this.energyBarBorder.setRotate(-1);
-		this.energyBarBorder.setFill(new ImagePattern(GameImageBank.energy_bar_two_border));
-		this.game.getEleventhLayer().getChildren().add(energyBarBorder);
+		this.energyBar.setFill(new ImagePattern(GameImageBank.energy));
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
 	/**
@@ -151,7 +143,6 @@ public class EnergyBarTwo {
 	 */
 	public void setVisible(boolean state){
 		energyBar.setVisible(state);
-		energyBarBorder.setVisible(state);
 	}
 	public boolean isDepleated() {
 		return depleated;

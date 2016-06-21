@@ -9,6 +9,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 /**
  * This class is used to simulate a simple health bar which will decrease under
@@ -31,9 +32,9 @@ public class HealthBarTwo {
 	private int delay = 0;
 	private GameManager game;
 	private PlayerTwo player;
-	private Rectangle healthBar = new Rectangle();
+	private Rectangle healthBarRed = new Rectangle();
+	private Rectangle healthBarGreen = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
-	private Rectangle playerHud = new Rectangle();
 	private Circle playerHead = new Circle();
 	/**
 	 * Constructor which takes the main class as parameter along with the
@@ -44,38 +45,42 @@ public class HealthBarTwo {
 	 * @param width: Horizontal dimension for this energy bar
 	 * @param height: Vertival dimension for this energy bar
 	 */
-	public HealthBarTwo(GameManager game, double x, double y, double width, double height) {
-		this.x = x;
-		this.oldX = this.x;
-		this.width = width;
-		this.game = game;
+	public HealthBarTwo(GameManager game) {
+		this.width = GameManager.ScaleX(515);
+		this.height = GameManager.ScaleY(110);
 		this.maxHealth = width;
+		this.x = GameSettings.WIDTH - width;
+		this.y = 5;
+		this.oldX = x;
+		this.game = game;
 		this.player = game.getGameLoader().getPlayerTwo();
-		this.healthBar.setWidth(width);
-		this.healthBar.setHeight(height+4);
-		this.healthBar.setTranslateX(x);
-		this.healthBar.setTranslateY(y-2);
-		this.healthBar.setRotate(-1);
-		this.healthBarBorder.setWidth(width+3);
-		this.healthBarBorder.setHeight(height+2);
-		this.healthBarBorder.setTranslateX(x-2);
-		this.healthBarBorder.setTranslateY(y-1);
-		this.healthBarBorder.setRotate(-1);
-		this.playerHud.setWidth(width/2);
-		this.playerHud.setHeight(height*2);
-		this.playerHud.setTranslateX(x-width+width/2);
-		this.playerHud.setTranslateY(10);
-		this.playerHead.setRadius(GameManager.ScaleX(30));
-		this.playerHead.setCenterX(x-width+width-playerHead.getRadius()*1.40);
-		this.playerHead.setCenterY(y+3);
+		this.healthBarGreen.setWidth(width);
+		this.healthBarGreen.setHeight(height+4);
+		this.healthBarGreen.setTranslateX(x);
+		this.healthBarGreen.setTranslateY(y-2);
+		this.healthBarGreen.setRotate(0);
+		this.healthBarRed.setWidth(width);
+		this.healthBarRed.setHeight(height+4);
+		this.healthBarRed.setTranslateX(x);
+		this.healthBarRed.setTranslateY(y-2);
+		this.healthBarRed.setRotate(0);
+		this.healthBarBorder.setWidth(width);
+		this.healthBarBorder.setHeight(height);
+		this.healthBarBorder.setTranslateX(x);
+		this.healthBarBorder.setTranslateY(y);
+		this.healthBarBorder.setRotationAxis(Rotate.Y_AXIS);
+//		this.healthBarBorder.setRotate(180);
+		this.playerHead.setRadius(GameManager.ScaleX(40));
+		this.playerHead.setCenterX(x+playerHead.getRadius()*1.6);
+		this.playerHead.setTranslateY(y+55);
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeTwoEating));
-		this.playerHud.setFill(new ImagePattern(GameImageBank.player_two_hud));
-		this.healthBar.setFill(new ImagePattern(GameImageBank.health_bar_green_two));
-		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_red_two));
-		this.game.getEleventhLayer().getChildren().add(playerHud);
+		this.healthBarRed.setFill(new ImagePattern(GameImageBank.red_health));
+		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
+		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_two));
+//		this.game.getEleventhLayer().getChildren().add(playerHud);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
-		this.game.getEleventhLayer().getChildren().add(healthBar);
-		this.game.getEleventhLayer().getChildren().add(playerHead);
+//		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
+//		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
 	/**
 	 * Calls to this method which update
@@ -111,8 +116,8 @@ public class HealthBarTwo {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBar.setTranslateX(x);
-		this.healthBar.setWidth(width);
+		this.healthBarGreen.setTranslateX(x);
+		this.healthBarGreen.setWidth(width);
 
 	}
 
@@ -173,7 +178,7 @@ public class HealthBarTwo {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBar.setVisible(false);
+			healthBarGreen.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
 	}
@@ -182,7 +187,7 @@ public class HealthBarTwo {
 	 * to true
 	 */
 	public void show() {
-		healthBar.setVisible(true);
+		healthBarGreen.setVisible(true);
 		healthBarBorder.setVisible(true);
 	}
 	/**
@@ -195,15 +200,15 @@ public class HealthBarTwo {
 		this.playerIsAlive = true;
 		this.width = maxHealth;
 		this.x = oldX;
-		this.healthBar.setTranslateX(x);
-		this.healthBar.setWidth(maxHealth);
+		this.healthBarGreen.setTranslateX(x);
+		this.healthBarGreen.setWidth(maxHealth);
 	}
 	/**
 	 * Method which drains this health bar to its minimum value
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBar.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 	/**
 	 * Method whichs sets the visibility
@@ -213,9 +218,8 @@ public class HealthBarTwo {
 	 */
 	public void setVisible(boolean state){
 		playerHead.setVisible(state);
-		playerHud.setVisible(state);
 		healthBarBorder.setVisible(state);
-		healthBar.setVisible(state);
+		healthBarGreen.setVisible(state);
 	}
 	public void setPlayer() {
 		this.player = null;

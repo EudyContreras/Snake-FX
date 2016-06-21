@@ -247,10 +247,10 @@ public class GameManager extends AbstractGameModel{
     private void loadHUDElements(){
     	rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
         sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-        energyBarOne = new EnergyBarOne(this, 25 /ScaleX, 10/ScaleY, 350/ScaleX, 15/ScaleY);
-        healthBarOne = new HealthBarOne(this, 25 / ScaleX, 35/ScaleY,350 / ScaleX, 30 / ScaleY);
-        energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 15/ScaleY);
-        healthBarTwo = new HealthBarTwo(this,GameSettings.WIDTH - 375 / ScaleX,35 / ScaleY, 350 / ScaleX,30 / ScaleY);
+        energyBarOne = new EnergyBarOne(this, 145 /ScaleX, 50/ScaleY, 320/ScaleX, 35/ScaleY);
+        healthBarOne = new HealthBarOne(this);
+        energyBarTwo = new EnergyBarTwo(this,GameSettings.WIDTH - 375 / ScaleX, 10/ScaleY, 350 / ScaleX, 35/ScaleY);
+        healthBarTwo = new HealthBarTwo(this);
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
         gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT, (GameSettings.WIDTH / 2) - 30/ ScaleX,

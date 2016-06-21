@@ -59,19 +59,19 @@ public class GameHud {
 		this.bottomHudBar.setRotate(180);
 //		this.bottomHudBar.setArcHeight(20);
 //		this.bottomHudBar.setArcWidth(20);
-		this.mainBar.setWidth(width);
-		this.mainBar.setHeight(height + +GameManager.ScaleY(20));
-		this.mainBar.setTranslateX(x);
-		this.mainBar.setTranslateY(y);
+		this.mainBar.setWidth(GameSettings.WIDTH);
+		this.mainBar.setHeight(height*0.8);
+		this.mainBar.setTranslateX(0);
+		this.mainBar.setTranslateY(0);
 //		this.mainBar.setArcWidth(20);
 //		this.mainBar.setArcHeight(20);
 		this.mainBar.setEffect(shadow);
 		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
-		game.getTenthLayer().getChildren().add(mainBar);
-		game.getFourTeenthLayer().getChildren().add(topHudBar);
-		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
+//		game.getTenthLayer().getChildren().add(mainBar);
+//		game.getFourTeenthLayer().getChildren().add(topHudBar);
+//		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
 	 * Method which updates the movement of

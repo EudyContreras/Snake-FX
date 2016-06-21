@@ -113,19 +113,17 @@ public class GameImageBank {
 		public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
 		public static final Image score_keeper = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 		public static final Image hud_timer = new Image(ImageEffectUtility.loadResource("hud_timer.png"));
+		public static final Image main_multiplayer_hud = new Image(ImageEffectUtility.loadResource("main_multiplayer_hud.png"));
 		public static final Image splash_screen = new Image(ImageEffectUtility.loadResource("SplashScreen5.png"));
 		public static final Image level_complete_board = new Image(ImageEffectUtility.loadResource("level_completed_board.png"));
 		public static final Image game_over_board = new Image(ImageEffectUtility.loadResource("gameover_board.png"));
-		public static final Image health_bar_green_one = new Image(ImageEffectUtility.loadResource("health_bar_green.png"));
-		public static final Image health_bar_green_two = new Image(ImageEffectUtility.loadResource("health_bar_green_two.png"));
-		public static final Image health_bar_red_one = new Image(ImageEffectUtility.loadResource("health_bar_red_border.png"));
-		public static final Image health_bar_red_two = new Image(ImageEffectUtility.loadResource("health_bar_red_border_two.png"));
-		public static final Image energy_bar_one = new Image(ImageEffectUtility.loadResource("energy_bar_one.png"));
-		public static final Image energy_bar_two = new Image(ImageEffectUtility.loadResource("energy_bar_two.png"));
-		public static final Image energy_bar_one_border = new Image(ImageEffectUtility.loadResource("energy_bar_one_border.png"));
-		public static final Image energy_bar_two_border = new Image(ImageEffectUtility.loadResource("energy_bar_two_border.png"));
-		public static final Image player_one_hud = new Image(ImageEffectUtility.loadResource("score_board_one.png"));
-		public static final Image player_two_hud = new Image(ImageEffectUtility.loadResource("score_board_two.png"));
+		public static final Image red_health = new Image(ImageEffectUtility.loadResource("red_health.png"));
+		public static final Image green_health = new Image(ImageEffectUtility.loadResource("green_health.png"));
+		public static final Image health_bar_one = new Image(ImageEffectUtility.loadResource("hud_healthbar_one.png"));
+		public static final Image health_bar_two = new Image(ImageEffectUtility.loadResource("hud_healthbar_two.png"));
+		public static final Image energy = new Image(ImageEffectUtility.loadResource("energy.png"));
+		public static final Image player_one_hud = new Image(ImageEffectUtility.loadResource("player_one_hud.png"));
+		public static final Image player_two_hud = new Image(ImageEffectUtility.loadResource("player_two_hud.png"));
 		public static final Image player_one_wins = new Image(ImageEffectUtility.loadResource("player_one_wins.png"));
 		public static final Image player_two_wins = new Image(ImageEffectUtility.loadResource("player_two_wins.png"));
 		public static final Image player_one_loses = new Image(ImageEffectUtility.loadResource("player_one_lost.png"));
@@ -151,7 +149,7 @@ public class GameImageBank {
 		public static final ImagePattern count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
 		public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
 		public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go.png")));
-		
+
 		/**
 		 * general game object
 		 */
