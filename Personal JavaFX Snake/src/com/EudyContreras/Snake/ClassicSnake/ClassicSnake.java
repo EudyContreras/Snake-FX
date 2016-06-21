@@ -499,7 +499,7 @@ public class ClassicSnake extends AbstractObject {
 			appleCount++;
 		}
 		game.getScoreBoardOne().increaseScore();
-		if (ScoreKeeper.APPLE_COUNT > 4)
+		if (ScoreKeeper.APPLE_COUNT > 2)
 			game.getGameLoader().spawnClassicSnakeFood();
 	}
 

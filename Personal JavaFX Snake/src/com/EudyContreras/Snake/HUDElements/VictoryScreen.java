@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractHudElement;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
@@ -128,20 +129,29 @@ public class VictoryScreen extends AbstractHudElement{
 		game.showCursor(true, game.getScene());
 		PlayerTwo.LEVEL_COMPLETED = true;
 		PlayerOne.LEVEL_COMPLETED = true;
-		if(game.getGameLoader().getPlayerOne().getAppleCount()>game.getGameLoader().getPlayerTwo().getAppleCount()){
-			this.winnerBoardImage = GameImageBank.player_one_wins;
-			this.baseBoardImage = GameImageBank.player_score_trans_board;
-			this.scoreBoardImage = GameImageBank.player_score_board;
-		}
-		else if(game.getGameLoader().getPlayerOne().getAppleCount()<game.getGameLoader().getPlayerTwo().getAppleCount()){
-			this.winnerBoardImage = GameImageBank.player_two_wins;
-			this.baseBoardImage = GameImageBank.player_score_trans_board;
-			this.scoreBoardImage = GameImageBank.player_score_board;
-		}
-		else if(game.getGameLoader().getPlayerOne().getAppleCount()==game.getGameLoader().getPlayerTwo().getAppleCount()){
-			this.winnerBoardImage = GameImageBank.draw_game;
-			this.baseBoardImage = GameImageBank.game_draw_trans_board;
-			this.scoreBoardImage = GameImageBank.game_draw_score_board;
+		ClassicSnake.LEVEL_COMPLETED = true;
+		if (game.getGameLoader().getPlayerOne() != null) {
+			if (game.getGameLoader().getPlayerOne().getAppleCount() > game.getGameLoader().getPlayerTwo()
+					.getAppleCount()) {
+				this.winnerBoardImage = GameImageBank.player_one_wins;
+				this.baseBoardImage = GameImageBank.player_score_trans_board;
+				this.scoreBoardImage = GameImageBank.player_score_board;
+			} else if (game.getGameLoader().getPlayerOne().getAppleCount() < game.getGameLoader().getPlayerTwo()
+					.getAppleCount()) {
+				this.winnerBoardImage = GameImageBank.player_two_wins;
+				this.baseBoardImage = GameImageBank.player_score_trans_board;
+				this.scoreBoardImage = GameImageBank.player_score_board;
+			}else if (game.getGameLoader().getPlayerOne().getAppleCount() == game.getGameLoader().getPlayerTwo()
+					.getAppleCount()) {
+				this.winnerBoardImage = GameImageBank.draw_game;
+				this.baseBoardImage = GameImageBank.game_draw_trans_board;
+				this.scoreBoardImage = GameImageBank.game_draw_score_board;
+			}
+		} else if (game.getGameLoader().getClassicSnake() != null) {
+				this.winnerBoardImage = GameImageBank.player_one_wins;
+				this.baseBoardImage = GameImageBank.player_score_trans_board;
+				this.scoreBoardImage = GameImageBank.player_score_board;
+			
 		}
 		resetBoard();
 		showTheBoard();
@@ -386,6 +396,7 @@ public class VictoryScreen extends AbstractHudElement{
 				game.getFadeScreenHandler().quick_restart_fade_screen();
 				PlayerOne.LEVEL_COMPLETED = false;
 				PlayerTwo.LEVEL_COMPLETED = false;
+				ClassicSnake.LEVEL_COMPLETED = false;
 			}
 			else if(goToNext){
 				game.getFadeScreenHandler().continue_fade_screen();
@@ -578,6 +589,7 @@ public class VictoryScreen extends AbstractHudElement{
 		overlay.removeBlur();
 		PlayerTwo.LEVEL_COMPLETED = false;
 		PlayerOne.LEVEL_COMPLETED = false;
+		ClassicSnake.LEVEL_COMPLETED = false;
 		removeBoard();
 	}
 }

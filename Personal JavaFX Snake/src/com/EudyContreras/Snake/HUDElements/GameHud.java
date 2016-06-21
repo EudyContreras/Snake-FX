@@ -66,7 +66,7 @@ public class GameHud {
 //		this.mainBar.setArcWidth(20);
 //		this.mainBar.setArcHeight(20);
 		this.mainBar.setEffect(shadow);
-		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
+		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getTenthLayer().getChildren().add(mainBar);
