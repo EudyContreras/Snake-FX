@@ -42,8 +42,8 @@ public class EnergyBarOne {
 		this.width = width;
 		this.maxEnergyLevel = this.width;
 		this.player = game.getGameLoader().getPlayerOne();
-		this.energyBar.setWidth(width*.9);
-		this.energyBar.setHeight(height*.7);
+		this.energyBar.setWidth(width);
+		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);
 		this.energyBar.setTranslateY(y);
 		this.energyBar.setRotate(0);

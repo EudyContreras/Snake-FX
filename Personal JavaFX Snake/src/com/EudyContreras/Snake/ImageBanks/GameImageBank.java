@@ -111,7 +111,7 @@ public class GameImageBank {
 		 */
 		public static final Image hud_bar = new Image(ImageEffectUtility.loadResource("hud_bar.png"));
 		public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
-		public static final Image score_keeper = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
+		public static final Image score_keeper = new Image(ImageEffectUtility.loadResource("hud_bar_info_apple.png"));
 		public static final Image hud_timer = new Image(ImageEffectUtility.loadResource("hud_timer.png"));
 		public static final Image main_multiplayer_hud = new Image(ImageEffectUtility.loadResource("main_multiplayer_hud.png"));
 		public static final Image splash_screen = new Image(ImageEffectUtility.loadResource("SplashScreen5.png"));

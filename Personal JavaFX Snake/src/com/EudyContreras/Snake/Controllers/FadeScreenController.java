@@ -88,6 +88,7 @@ public class FadeScreenController{
 			innerFadePercentage += 0.01;
 			if (innerFadePercentage >= 1.0f) {
 				innerFadePercentage = 1;
+				game.getGameRoot().setEffect(null);
 				if(game.getStateID() == GameStateID.LEVEL_TRANSITIONING){
 					game.goToNext();
 					fadeOut = true;
@@ -122,6 +123,7 @@ public class FadeScreenController{
 			innerFadePercentage += 0.002;
 			innerFadeScreen.setOpacity(innerFadePercentage);
 			if (innerFadePercentage >= 1.0f) {
+				game.getGameRoot().setEffect(null);
 				innerFadeScreen.setOpacity(1);
 				innerFadePercentage = 1.0f;
 			}
@@ -130,6 +132,7 @@ public class FadeScreenController{
 			innerFadePercentage += 0.03;
 			innerFadeScreen.setOpacity(innerFadePercentage);
 			if (innerFadePercentage >= 1.0f) {
+				game.getGameRoot().setEffect(null);
 				game.restart();
 				quickFade = false;
 				quickFadeOut = true;

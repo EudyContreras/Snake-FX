@@ -49,29 +49,23 @@ public class GameHud {
 		this.topHudBar.setHeight(height+GameManager.ScaleY(50));
 		this.topHudBar.setTranslateX(x);
 		this.topHudBar.setTranslateY(y-GameManager.ScaleY(20));
-//		this.topHudBar.setArcHeight(20);
-//		this.topHudBar.setArcWidth(20);
 		this.bottomHudBar.setWidth(width);
 		this.bottomHudBar.setHeight(height+GameManager.ScaleY(80));
 		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40);
 		this.bottomHudBar.setTranslateX(x);
 		this.bottomHudBar.setTranslateY(yTwo);
 		this.bottomHudBar.setRotate(180);
-//		this.bottomHudBar.setArcHeight(20);
-//		this.bottomHudBar.setArcWidth(20);
 		this.mainBar.setWidth(GameSettings.WIDTH);
 		this.mainBar.setHeight(height*0.8);
 		this.mainBar.setTranslateX(0);
 		this.mainBar.setTranslateY(0);
-//		this.mainBar.setArcWidth(20);
-//		this.mainBar.setArcHeight(20);
 		this.mainBar.setEffect(shadow);
 		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
-//		game.getTenthLayer().getChildren().add(mainBar);
-//		game.getFourTeenthLayer().getChildren().add(topHudBar);
-//		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
+		game.getTenthLayer().getChildren().add(mainBar);
+		game.getFourTeenthLayer().getChildren().add(topHudBar);
+		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
 	 * Method which updates the movement of
@@ -93,7 +87,7 @@ public class GameHud {
 		}
 		if (hideHUDCover) {
 			swipeSpeedTop = -2.55;
-			if (yOne < 0 - topHudBar.getHeight()+GameManager.ScaleY(20)) {
+			if (yOne < 0 - topHudBar.getHeight()) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 3.5;

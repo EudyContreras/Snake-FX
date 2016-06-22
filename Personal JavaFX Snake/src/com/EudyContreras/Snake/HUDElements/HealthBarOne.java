@@ -48,39 +48,31 @@ public class HealthBarOne {
 	public HealthBarOne(GameManager game) {
 		this.game = game;
 		this.x = 0;
-		this.y = 5;
+		this.y = 1;
 		this.width = GameManager.ScaleX(515);
 		this.height = GameManager.ScaleY(110);
-		this.maxHealth = width*0.6;
+		this.maxHealth = width*0.64;
 		this.player = game.getGameLoader().getPlayerOne();
-		this.healthBarGreen.setWidth(width*0.59);
-		this.healthBarGreen.setHeight(height*0.4);
-		this.healthBarGreen.setTranslateX(x);
-		this.healthBarGreen.setTranslateY(y+27);
-		this.healthBarGreen.setRotationAxis(Rotate.Y_AXIS);
-		this.healthBarRed.setWidth(width*0.6);
+		this.healthBarRed.setWidth(width*0.8);
 		this.healthBarRed.setHeight(height*0.3);
-		this.healthBarRed.setTranslateX(x+180);
-		this.healthBarRed.setTranslateY(y+9);
+		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(180));
+		this.healthBarRed.setTranslateY(y+GameManager.ScaleY(9));
 		this.healthBarRed.setRotationAxis(Rotate.Y_AXIS);
-//		this.healthBar.setRotate(180);
 		this.healthBarBorder.setWidth(width);
 		this.healthBarBorder.setHeight(height);
 		this.healthBarBorder.setTranslateX(x);
 		this.healthBarBorder.setTranslateY(y);
 		this.healthBarBorder.setRotationAxis(Rotate.Y_AXIS);
-//		this.healthBarBorder.setRotate(180);
 		this.playerHead.setRadius(GameManager.ScaleX(40));
-		this.playerHead.setCenterX(x+width-playerHead.getRadius()*1.4);
-		this.playerHead.setTranslateY(y+55);
+		this.playerHead.setCenterX(x+GameManager.ScaleX(60));
+		this.playerHead.setTranslateY(y+GameManager.ScaleY(60));
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeOneEating));
 		this.healthBarRed.setFill(new ImagePattern(GameImageBank.red_health));
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_one));
 		this.game.getEleventhLayer().getChildren().add(healthBarRed);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
-////		this.game.getEleventhLayer().getChildren().add(playerHud);
-//		this.game.getEleventhLayer().getChildren().add(playerHead);
+		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
 
 	/**

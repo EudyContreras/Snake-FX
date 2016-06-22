@@ -48,7 +48,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	private int minutes = 00;
 	private int hours = 00;
 	public static int APPLE_COUNT = 50;
-	
+
 	/**
 	 * Constructor which takes the main class as a parameter along with a initial count and the x and y
 	 * coordinates fo all the UI elements controlled by this class
@@ -75,29 +75,29 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.apple = new ImageView(GameImageBank.apple);
 		this.board = new Rectangle(xTwo, yTwo, width, height);
 		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
-		this.apple.setFitWidth(45 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(45 / GameLoader.ResolutionScaleY);
+		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
+		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(GameSettings.WIDTH/2+15);
-		this.apple.setY(yOne-45);
-//		this.game.getThirTeenthLayer().getChildren().add(board);
-//		this.game.getThirTeenthLayer().getChildren().add(apple);
-//		this.game.getThirTeenthLayer().getChildren().add(countText);
+		this.apple.setX(xTwo + GameManager.ScaleX(22));
+		this.apple.setY(yOne + GameManager.ScaleY(0));
+		this.game.getThirTeenthLayer().getChildren().add(board);
+		this.game.getThirTeenthLayer().getChildren().add(apple);
+		this.game.getThirTeenthLayer().getChildren().add(countText);
 //		this.game.getThirTeenthLayer().getChildren().add(timerText);
 		setupText();
 		updateCount();
 	}
 	/**
-	 * Method which initializes various text related elements which 
+	 * Method which initializes various text related elements which
 	 * are used by this class and all the sub elements of those texts.
 	 */
 	private void setupText(){
-		this.countText.setX(apple.getX() + apple.getFitWidth()-5);
-		this.countText.setY(yOne-GameManager.ScaleY(30));
-		this.timerText.setX(xTwo+widthOne*0.33);
+		this.countText.setX(xTwo + (widthOne*0.52));
+		this.countText.setY(yOne+GameManager.ScaleY(45));
+		this.timerText.setX(xTwo+GameManager.ScaleX(40));
 		this.timerText.setY(yOne-GameManager.ScaleY(30));
-		this.timerText.setFont(Font.font(null,FontWeight.BOLD, GameManager.ScaleX(27)));
-		this.countText.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(27)));
+		this.timerText.setFont(Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(36)));
+		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(40)));
 		this.countText.setText("x " + APPLE_COUNT);
 		this.timerText.setText("00:00:00");
         this.dropShadowOne = new DropShadow();
@@ -117,8 +117,8 @@ public class ScoreKeeper extends AbstractHudElement{
 
 	}
 	/**
-	 * Method which updates all the UI elements 
-	 * of this score keeping class along with the 
+	 * Method which updates all the UI elements
+	 * of this score keeping class along with the
 	 * logic behind the timer and the count keeper
 	 * of this class
 	 */
@@ -130,15 +130,15 @@ public class ScoreKeeper extends AbstractHudElement{
 	}
 	/**
 	 * Method which updates the position of the score
-	 * keeping board and all of its components relative 
-	 * to the movement of the main HUD. 
+	 * keeping board and all of its components relative
+	 * to the movement of the main HUD.
 	 */
 	private void updatePositions() {
 		yTwo = yTwo + swipeSpeed/GameManager.ScaleY;
 		yOne = yOne + swipeSpeed/GameManager.ScaleY;
 		if (swipeDown) {
 			swipeSpeed = 2.5f;
-			if (yTwo > GameManager.ScaleX(115)) {
+			if (yTwo > GameManager.ScaleX(125)) {
 				swipeSpeed = 0;
 			}
 		}
@@ -148,14 +148,14 @@ public class ScoreKeeper extends AbstractHudElement{
 				swipeSpeed = 0;
 			}
 		}
-		board.setY(yTwo);
-		apple.setY(yOne-GameManager.ScaleY(15));
-		countText.setTranslateY(yOne);
-		timerText.setTranslateY(yOne);
+//		board.setY(yTwo);
+//		apple.setY(yOne-GameManager.ScaleY(20));
+//		countText.setTranslateY(yOne);
+//		timerText.setTranslateY(yOne);
 	}
 	/**
 	 * Method which shows or hide the board
-	 * depeding on its current state. If the 
+	 * depeding on its current state. If the
 	 * board is currently showing it will hide
 	 * it and viceversa.
 	 */
@@ -169,15 +169,15 @@ public class ScoreKeeper extends AbstractHudElement{
 		}
 	}
 	/**
-	 * Method which swipes down the 
-	 * board 
+	 * Method which swipes down the
+	 * board
 	 */
 	public void swipeDown() {
 		swipeUp = false;
 		swipeDown = true;
 	}
 	/**
-	 * Method which swipes up the 
+	 * Method which swipes up the
 	 * board
 	 */
 	public void swipeUp() {
@@ -185,8 +185,8 @@ public class ScoreKeeper extends AbstractHudElement{
 		swipeUp = true;
 	}
 	/**
-	 * Method which updates the timer of this 
-	 * score keeping class 
+	 * Method which updates the timer of this
+	 * score keeping class
 	 */
 	private void updateTimer() {
 		if (!VictoryScreen.LEVEL_COMPLETE && startTimer) {
@@ -250,7 +250,7 @@ public class ScoreKeeper extends AbstractHudElement{
 		timerText.setText(hoursS + ":" + minutesS + ":" + secondsS);
 	}
 	/**
-	 * Method which triggers events based on the 
+	 * Method which triggers events based on the
 	 * current count of the score keeper. This method
 	 * will end the game if the count reaches zero.
 	 */

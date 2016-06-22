@@ -50,7 +50,7 @@ public class EnergyBarTwo {
 		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);
 		this.energyBar.setTranslateY(y);
-		this.energyBar.setRotate(-1);
+		this.energyBar.setRotate(0);
 		this.energyBar.setFill(new ImagePattern(GameImageBank.energy));
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
