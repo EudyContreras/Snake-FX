@@ -46,7 +46,7 @@ public class ClassicSnakeFangs extends AbstractObject {
 					if (snake.getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						snake.addSection();
 						snake.closeMouth();
-						game.getScoreKeeper().decreaseCount();
+						game.getScoreKeeper().increaseCount();
 						tempObject.blowUp();
 						tempObject.remove();
 						break;

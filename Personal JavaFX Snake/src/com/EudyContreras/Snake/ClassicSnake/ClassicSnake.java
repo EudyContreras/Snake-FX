@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
@@ -499,8 +498,7 @@ public class ClassicSnake extends AbstractObject {
 			appleCount++;
 		}
 		game.getScoreBoardOne().increaseScore();
-		if (ScoreKeeper.APPLE_COUNT > 2)
-			game.getGameLoader().spawnClassicSnakeFood();
+		game.getGameLoader().spawnClassicSnakeFood();
 	}
 
 	public boolean withinBounds() {

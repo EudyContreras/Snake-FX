@@ -8,6 +8,7 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
@@ -35,6 +36,7 @@ public class CustomMenuBox {
 		this.height = GameManager.ScaleY(height);
 		this.background = new Rectangle(GameManager.ScaleX(width), GameManager.ScaleY(height));
 		this.background.setStyle(MenuButtonStyles.MENU_BOX_STYLE);
+		this.background.setFill(Color.BLACK);
 		this.background.setArcHeight(50);
 		this.background.setArcWidth(50);
 		this.menuBox = new VBox(GameManager.ScaleX_Y(spacing));

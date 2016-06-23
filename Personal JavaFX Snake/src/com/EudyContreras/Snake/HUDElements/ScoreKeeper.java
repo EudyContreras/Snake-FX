@@ -4,6 +4,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractHudElement;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
@@ -30,6 +31,8 @@ public class ScoreKeeper extends AbstractHudElement{
 
 	private DropShadow dropShadowOne;
 	private DropShadow dropShadowTwo;
+	private ImagePattern singlePlayer;
+	private ImagePattern multipLayer;
 	private GameManager game;
 	private ImageView apple;
 	private Rectangle board;
@@ -47,6 +50,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	private int seconds = 00;
 	private int minutes = 00;
 	private int hours = 00;
+	private int count = 0;
 	public static int APPLE_COUNT = 50;
 
 	/**
@@ -61,33 +65,27 @@ public class ScoreKeeper extends AbstractHudElement{
 	 * @param width: Horizontal dimension
 	 * @param height: Vertical dimension
 	 */
-	public ScoreKeeper(GameManager game, int count, double xOne, double yOne, double xTwo, double yTwo, double width,double height) {
+	public ScoreKeeper(GameManager game, int count) {
 		APPLE_COUNT = count;
-		this.yOne = yOne;
-		this.xTwo = xTwo;
-		this.yTwo = yTwo;
-		this.baseY = yTwo;
 		this.game = game;
-		this.widthOne = width;
+		this.count = count;
 		this.initialAmount = count;
 		this.countText = new Text();
 		this.timerText = new Text();
-		this.apple = new ImageView(GameImageBank.apple);
-		this.board = new Rectangle(xTwo, yTwo, width, height);
-		this.board.setFill(new ImagePattern(GameImageBank.score_keeper));
-		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
+		this.apple = new ImageView(GameImageBank.apple_alt);
+		this.board = new Rectangle();
 		this.apple.setPreserveRatio(true);
-		this.apple.setX(xTwo + GameManager.ScaleX(22));
-		this.apple.setY(yOne + GameManager.ScaleY(0));
+		this.singlePlayer = new ImagePattern(GameImageBank.score_keeper_singlePlayer);
+		this.multipLayer = new ImagePattern(GameImageBank.score_keeper_multiPlayer);
 		this.game.getThirTeenthLayer().getChildren().add(board);
 		this.game.getThirTeenthLayer().getChildren().add(apple);
 		this.game.getThirTeenthLayer().getChildren().add(countText);
-//		this.game.getThirTeenthLayer().getChildren().add(timerText);
+		this.game.getThirTeenthLayer().getChildren().add(timerText);
 		setupText();
-		updateCount();
+		processCount();
 	}
-	/**
+
+	/**O
 	 * Method which initializes various text related elements which
 	 * are used by this class and all the sub elements of those texts.
 	 */
@@ -96,25 +94,75 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.countText.setY(yOne+GameManager.ScaleY(45));
 		this.timerText.setX(xTwo+GameManager.ScaleX(40));
 		this.timerText.setY(yOne-GameManager.ScaleY(30));
-		this.timerText.setFont(Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(36)));
-		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(40)));
-		this.countText.setText("x " + APPLE_COUNT);
+		this.timerText.setFont(Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(34)));
+		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(38)));
 		this.timerText.setText("00:00:00");
         this.dropShadowOne = new DropShadow();
         this.dropShadowTwo = new DropShadow();
         this.dropShadowOne.setColor(Color.DODGERBLUE);
-        this.dropShadowOne.setRadius(25);
-        this.dropShadowOne.setSpread(0.15);
+        this.dropShadowOne.setRadius(20);
+        this.dropShadowOne.setSpread(0.1);
         this.dropShadowOne.setBlurType(BlurType.TWO_PASS_BOX);
         this.dropShadowTwo.setColor(Color.RED);
-        this.dropShadowTwo.setRadius(25);
-        this.dropShadowTwo.setSpread(0.15);
+        this.dropShadowTwo.setRadius(20);
+        this.dropShadowTwo.setSpread(0.1);
         this.dropShadowTwo.setBlurType(BlurType.TWO_PASS_BOX);
         this.countText.setEffect(dropShadowTwo);
         this.timerText.setEffect(dropShadowOne);
         this.timerText.setId("MainTimer");
         this.countText.setId("MainScore");
+        this.singlePlayerInfo();
 
+	}
+	public void multiplayerInfo(){
+		APPLE_COUNT = count;
+		this.initialAmount = count;
+		this.yOne = GameManager.ScaleY( 10);
+		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 180 / 2);
+		this.yTwo = GameManager.ScaleY(5);
+		this.baseY = yTwo;
+		this.widthOne = GameManager.ScaleX(180);
+		this.heightOne = GameManager.ScaleY(75);
+		this.board.setFill(multipLayer);
+		this.board.setX(xTwo);
+		this.board.setY(yTwo);
+		this.board.setWidth(widthOne);
+		this.board.setHeight(heightOne);
+		this.apple.setX(xTwo + GameManager.ScaleX(18));
+		this.apple.setY(yOne + GameManager.ScaleY(3));
+		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
+		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
+		this.apple.setImage(GameImageBank.apple);
+		this.countText.setX(xTwo + (widthOne*0.52));
+		this.countText.setY(yOne+GameManager.ScaleY(45));
+		this.timerText.setX(xTwo+GameManager.ScaleX(40));
+		this.timerText.setY(yOne-GameManager.ScaleY(30));
+		this.timerText.setVisible(false);
+		this.processCount();
+	}
+	public void singlePlayerInfo(){
+		this.initialAmount = 0;
+		this.yOne = GameManager.ScaleY( 10);
+		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 800 / 2);
+		this.yTwo = GameManager.ScaleY(0);
+		this.baseY = yTwo;
+		this.widthOne = GameManager.ScaleX(800);
+		this.heightOne = GameManager.ScaleY(90);
+		this.board.setFill(singlePlayer);
+		this.board.setX(xTwo);
+		this.board.setY(yTwo);
+		this.board.setWidth(widthOne);
+		this.board.setHeight(heightOne);
+		this.apple.setX(xTwo + GameManager.ScaleX(700)*0.59);
+		this.apple.setY(yOne + GameManager.ScaleY(7));
+		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
+		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
+		this.apple.setImage(GameImageBank.apple_alt);
+		this.countText.setX(xTwo + (widthOne*0.60));
+		this.countText.setY(yOne+GameManager.ScaleY(45));
+		this.timerText.setX(xTwo+GameManager.ScaleX(260));
+		this.timerText.setY(yOne+GameManager.ScaleY(45));
+		this.timerText.setVisible(true);
 	}
 	/**
 	 * Method which updates all the UI elements
@@ -128,6 +176,19 @@ public class ScoreKeeper extends AbstractHudElement{
 		updateTimer();
 		keepCount();
 	}
+
+	public void setboardMode(GameModeID id){
+		if(id == GameModeID.ClassicMode){
+			singlePlayerInfo();
+		}
+		else if(id == GameModeID.LocalMultiplayer || id == GameModeID.RemoteMultiplayer){
+			multiplayerInfo();
+		}
+		else {
+
+		}
+	}
+
 	/**
 	 * Method which updates the position of the score
 	 * keeping board and all of its components relative
@@ -255,7 +316,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	 * will end the game if the count reaches zero.
 	 */
 	private void keepCount() {
-		if (APPLE_COUNT <= 0) {
+		if (APPLE_COUNT <= 0 && game.getModeID()!=GameModeID.ClassicMode) {
 			if (VictoryScreen.LEVEL_COMPLETE == false) {
 				game.getVictoryScreen().removeBoard();
 				game.getVictoryScreen().endGame();
@@ -278,7 +339,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	 */
 	public void decreaseCount() {
 		APPLE_COUNT -= 1;
-		updateCount();
+		processCount();
 	}
 	/**
 	 * Method which when called increases the count
@@ -286,14 +347,24 @@ public class ScoreKeeper extends AbstractHudElement{
 	 */
 	public void increaseCount(){
 		APPLE_COUNT += 1;
-		updateCount();
+		processCount();
 	}
+
 	/**
-	 * Method which when called visually updates the count
-	 * of this score keeper
+	 * Determines the format in which the apple count
+	 * is shown on the board by checking the current amount
+	 * of apples.
 	 */
-	public void updateCount() {
-		countText.setText(" x " + APPLE_COUNT);
+	public void processCount(){
+		if(APPLE_COUNT>9 && APPLE_COUNT<100){
+			countText.setText("0" + APPLE_COUNT);
+		}
+		else if(APPLE_COUNT>99){
+			countText.setText(APPLE_COUNT+"");
+		}
+		else {
+			countText.setText("00"+APPLE_COUNT);
+		}
 	}
 	/**
 	 * Method which when called resets the count
@@ -301,7 +372,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	 */
 	public void resetCount() {
 		APPLE_COUNT = initialAmount;
-		countText.setText(" x " + APPLE_COUNT);
+		processCount();
 	}
 	/**
 	 * Return the text used to display a timer
@@ -310,4 +381,5 @@ public class ScoreKeeper extends AbstractHudElement{
 	public Text getTimer(){
 		return timerText;
 	}
+
 }

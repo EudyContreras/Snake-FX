@@ -55,9 +55,9 @@ public class GameHud {
 		this.bottomHudBar.setTranslateX(x);
 		this.bottomHudBar.setTranslateY(yTwo);
 		this.bottomHudBar.setRotate(180);
-		this.mainBar.setWidth(GameSettings.WIDTH);
+		this.mainBar.setWidth(GameSettings.WIDTH+2);
 		this.mainBar.setHeight(height*0.8);
-		this.mainBar.setTranslateX(0);
+		this.mainBar.setTranslateX(-2);
 		this.mainBar.setTranslateY(0);
 		this.mainBar.setEffect(shadow);
 		this.mainBar.setFill(new ImagePattern(GameImageBank.hud_bar));

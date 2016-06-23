@@ -41,7 +41,7 @@ public class MenuManager extends AbstractMenuElement{
 
 	}
 	public void setUpBackground(){
-		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
+		backgroundImage = new ImageView(MenuImageBank.menuBackground);
 		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		clearUp.setFill(Color.BLACK);
 	}
