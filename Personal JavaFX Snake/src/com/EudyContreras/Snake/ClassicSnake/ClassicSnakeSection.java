@@ -8,6 +8,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -21,6 +22,7 @@ public class ClassicSnakeSection extends AbstractSection {
 	private double particleSize;
 	private double fadeValue = 1.0;
 	private boolean fade = false;
+	private boolean dead = false;
 	private boolean blowUp = true;
 	private ClassicSnake classicSnake;
 	private GameManager game;
@@ -142,7 +144,7 @@ public class ClassicSnakeSection extends AbstractSection {
 		checkBounds();
 		disguiseLast();
 		sectionAdjustment();
-		if (ClassicSnake.DEAD == false && ClassicSnake.LEVEL_COMPLETED == false && ClassicSnake.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
+		if (ClassicSnake.LEVEL_COMPLETED == false && ClassicSnake.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
 			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
@@ -219,6 +221,7 @@ public class ClassicSnakeSection extends AbstractSection {
 		}
 	}
 	public void checkBounds() {
+		if(!dead){
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
@@ -228,10 +231,11 @@ public class ClassicSnakeSection extends AbstractSection {
 		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (GameSettings.START_Y - radius);
 		}
+		}
 	}
 
 	public void sectionAdjustment() {
-		if (previousSection != null) {
+		if (previousSection != null && !dead) {
 			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.START_Y + radius
 					&& y < GameSettings.HEIGHT - radius) {
 				if (this.direction == PlayerMovement.MOVE_DOWN) {
@@ -263,6 +267,7 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 
 	public void blowUp() {
+		fade = true;
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
@@ -276,9 +281,16 @@ public class ClassicSnakeSection extends AbstractSection {
 		}
 	}
 
+	public void displace(){
+		this.velX = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
+		this.velY = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
+		if (this.numericID == ClassicSnake.NUMERIC_ID - 1) {
+			this.circle.setVisible(false);
+		}
+	}
 	public void die() {
-		fade = true;
-		blowUp();
+		dead = true;
+		displace();
 	}
 	public Rectangle2D getBounds() {
 

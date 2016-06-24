@@ -8,8 +8,7 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 public class ClassicSnakeFangs extends AbstractObject {
-	private int index;
-	private int counter = 0;
+	private int index = 0;
 	private boolean stop = false;
 	private GameManager game;
 	private ClassicSnake snake;
@@ -28,9 +27,7 @@ public class ClassicSnakeFangs extends AbstractObject {
 
 	}
 	public void move() {
-		if (ClassicSnake.DEAD == false) {
-			this.index = sectManager.getSectionList().size() - 1;
-		}
+
 	}
 	public void logicUpdate() {
 		killTheSnake();
@@ -74,15 +71,13 @@ public class ClassicSnakeFangs extends AbstractObject {
 
 	public void killTheSnake() {
 		if (ClassicSnake.DEAD == true) {
-			counter++;
+			for(int i = 0; i<3; i++	){
 			if (sectManager.getSectionList().size() > 0) {
-				if (counter >= 4) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();
-					counter = 0;
-					index--;
-					if (index <= 0) {
-						index = 0;
+					index++;
+					if (index > sectManager.getSectionList().size()-1) {
+						index = sectManager.getSectionList().size()-1;
 						if (!stop) {
 							stop = true;
 						}

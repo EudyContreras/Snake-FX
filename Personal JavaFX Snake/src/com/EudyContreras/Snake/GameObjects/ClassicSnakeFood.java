@@ -11,6 +11,7 @@ import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.GlowParticle;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -61,7 +62,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	 * @param y
 	 * @param id
 	 */
-	public ClassicSnakeFood(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id, int numericCode) {
+	public ClassicSnakeFood(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, int numericCode) {
 		super(game, layer, node, x, y, id);
 		this.numericCode = numericCode;
 		this.game = game;
@@ -79,7 +80,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	 * @param id
 	 */
 
-	public ClassicSnakeFood(GameManager game, Pane layer, Circle node, float x, float y, GameObjectID id, int numericCode) {
+	public ClassicSnakeFood(GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id, int numericCode) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 		this.numericCode = numericCode;
@@ -112,7 +113,7 @@ public class ClassicSnakeFood extends AbstractObject {
 			borderGlow.setHeight(50);
 			borderGlow.setSpread(0.5);
 			borderGlow.setBlurType(BlurType.TWO_PASS_BOX);
-			circle.setEffect(borderGlow);
+			//circle.setEffect(borderGlow);
 		}
 	}
 
@@ -123,7 +124,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		fadeUpdate();
 		fruitFadein();
 		lookAtMe();
-		updateGlow();
+		//updateGlow();
 		updateLife();
 		checkBoundaries();
 		adjustBounds();
@@ -249,13 +250,13 @@ public class ClassicSnakeFood extends AbstractObject {
 	}
 	public void checkBoundaries() {
 		if (x < 0 + radius) {
-			x = (float) (GameSettings.WIDTH - radius);
+			x = (double) (GameSettings.WIDTH - radius);
 		} else if (x > GameSettings.WIDTH - radius) {
-			x = (float) (0 + radius);
+			x = (double) (0 + radius);
 		} else if (y < GameSettings.START_Y + radius) {
-			y = (float) (GameSettings.HEIGHT - radius);
+			y = (double) (GameSettings.HEIGHT - radius);
 		} else if (y > GameSettings.HEIGHT - radius) {
-			y = (float) (GameSettings.START_Y + radius);
+			y = (double) (GameSettings.START_Y + radius);
 		}
 	}
 	/**
@@ -264,16 +265,12 @@ public class ClassicSnakeFood extends AbstractObject {
 	 * events.
 	 */
 	public void checkCollision() {
-		float newX = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
-		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
-				+ GameSettings.START_Y + radius);
 		for (AbstractObject tempObject : game.getGameObjectController().getFruitList()) {
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (tempObject.getNumericCode() != this.numericCode) {
 					if (getBounds().intersects(tempObject.getBounds())) {
 						if (!remainStatic) {
-							this.x = newX;
-							this.y = newY;
+							relocate();
 							this.fadeValue = 0;
 							this.lifeTime = 0;
 							break;
@@ -290,8 +287,7 @@ public class ClassicSnakeFood extends AbstractObject {
 			if (tempTile.getId() == GameLevelObjectID.noSpawnZone) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
-						this.x = newX;
-						this.y = newY;
+						relocate();
 						this.fadeValue = 0;
 						this.lifeTime = 0;
 						break;
@@ -303,8 +299,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		for (AbstractSection object : game.getSectManagerThree().getSectionList()) {
 			if (getRadialBounds().intersects(object.getRadialBounds())) {
 				if (!remainStatic) {
-					this.x = newX;
-					this.y = newY;
+					relocate();
 					this.fadeValue = 0;
 					this.lifeTime = 0;
 					break;
@@ -316,9 +311,8 @@ public class ClassicSnakeFood extends AbstractObject {
 
 	}
 	public void relocate(){
-		x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
-		y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
-		+ GameSettings.START_Y + radius);
+		x = RandomGenUtility.getRandomDouble(GameManager.ScaleX(60), (GameSettings.WIDTH - GameManager.ScaleX(90)));
+		y = RandomGenUtility.getRandomDouble(GameSettings.START_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
 	}
 	/**
 	 * Method which changes the opacity of this object
@@ -336,7 +330,7 @@ public class ClassicSnakeFood extends AbstractObject {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = Math.random()*(100- 25 +1)+25;
 				particleLife = Math.random()*(0.2 - 0.1+1)+0.1;
-				game.getDebrisManager().addParticle(new GlowParticle(game,GameImageBank.glowingCircleTwo, particleLife,particleSize,(float) (x+width/2), (float) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12)));
+				game.getDebrisManager().addParticle(new GlowParticle(game,GameImageBank.glowingCircleTwo, particleLife,particleSize,(double) (x+width/2), (double) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12)));
 			}
 		}
 	}

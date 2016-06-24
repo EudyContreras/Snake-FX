@@ -153,14 +153,14 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.board.setY(yTwo);
 		this.board.setWidth(widthOne);
 		this.board.setHeight(heightOne);
-		this.apple.setX(xTwo + GameManager.ScaleX(700)*0.59);
+		this.apple.setX(xTwo + GameManager.ScaleX(700)*0.58);
 		this.apple.setY(yOne + GameManager.ScaleY(7));
 		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
 		this.apple.setImage(GameImageBank.apple_alt);
 		this.countText.setX(xTwo + (widthOne*0.60));
 		this.countText.setY(yOne+GameManager.ScaleY(45));
-		this.timerText.setX(xTwo+GameManager.ScaleX(260));
+		this.timerText.setX(xTwo+GameManager.ScaleX(255));
 		this.timerText.setY(yOne+GameManager.ScaleY(45));
 		this.timerText.setVisible(true);
 	}

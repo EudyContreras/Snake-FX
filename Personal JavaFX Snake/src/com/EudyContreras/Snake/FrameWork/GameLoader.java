@@ -10,6 +10,7 @@ import com.EudyContreras.Snake.GameObjects.BackgroundDirt;
 import com.EudyContreras.Snake.GameObjects.ClassicSnakeFood;
 import com.EudyContreras.Snake.GameObjects.GameBackground;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
+import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
@@ -21,6 +22,7 @@ import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
@@ -291,10 +293,20 @@ public class GameLoader extends AbstractLoaderModel{
 		GameSettings.SAND_STORM = false;
 		game.getScoreKeeper().setboardMode(GameModeID.ClassicMode);
 		loadClassicSnake();
-		GameBackground.SET_BACKGROUND(game, GameLevelImage.classicBacground);
+		GameBackground.SET_BACKGROUND(game, GameLevelImage.classic_background);
 		game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
+		if(levelBounds==null){
+		levelBounds = new LevelBounds(game, game.getNinthLayer());
+		getTileManager().addTile(levelBounds);
+		}
+		else{
+			levelBounds.showBounds(true);
+		}
 	}
 	public void loadMultiplayerMode(){
+		if(levelBounds!=null){
+			levelBounds.showBounds(false);
+		}
 		game.getScoreKeeper().setboardMode(GameModeID.LocalMultiplayer);
 		if(levelTheme == GameThemeID.DESERT_THEME){
 			GameSettings.SAND_STORM = true;
@@ -342,7 +354,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnSnakeFood() {
-		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
+		Circle fruit = new Circle(GameManager.ScaleX_Y(30), new ImagePattern(GameImageBank.fruit));
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
 				+ fruit.getRadius() * 3);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
@@ -355,11 +367,9 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnClassicSnakeFood() {
-		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.apple_alt));
-		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
-				+ GameSettings.START_Y+fruit.getRadius());
+		Circle fruit = new Circle(GameManager.ScaleX_Y(30), new ImagePattern(GameImageBank.apple_alt));
+		double x = RandomGenUtility.getRandomDouble(GameManager.ScaleX(60), (GameSettings.WIDTH - GameManager.ScaleX(90)));
+		double y = RandomGenUtility.getRandomDouble(GameSettings.START_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
 		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;

@@ -8,6 +8,7 @@ import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.LevelManager;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
+import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
@@ -33,6 +34,7 @@ public abstract class AbstractLoaderModel {
 	protected WritableImage desertLevel_10;
 	protected WritableImage overlay;
 	protected LevelManager levelManager;
+	protected LevelBounds levelBounds;
 	protected GameObjectController objectManger;
 	protected GameTileController tileManager;
 	protected GenericObject gameTile;
@@ -160,6 +162,14 @@ public abstract class AbstractLoaderModel {
 
 	public void killClassicSnake(){
 		classicSnake = null;
+	}
+
+	public void setLevelBounds(LevelBounds bounds){
+		this.levelBounds = bounds;
+	}
+
+	public LevelBounds getLevelBounds(){
+		return levelBounds;
 	}
 
 	public int getLevelWidth() {

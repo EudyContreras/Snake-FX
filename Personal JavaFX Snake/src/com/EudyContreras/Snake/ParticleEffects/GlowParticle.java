@@ -19,7 +19,7 @@ public class GlowParticle extends AbstractParticlesEffect{
 	private float lifeTime = 1.0f;
 
 
-	public GlowParticle(GameManager game,Image image, double expireTime, double radius, float x, float y,  Point2D velocity) {
+	public GlowParticle(GameManager game,Image image, double expireTime, double radius, double x, double y,  Point2D velocity) {
 		this.game = game;
 		this.radius = GameManager.ScaleX_Y(radius/2);
 		this.shape = new Circle(-200,-200,0);
