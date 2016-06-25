@@ -64,8 +64,8 @@ public class GameHud {
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getTenthLayer().getChildren().add(mainBar);
-		game.getFourTeenthLayer().getChildren().add(topHudBar);
-		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
+//		game.getFourTeenthLayer().getChildren().add(topHudBar);
+//		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
 	 * Method which updates the movement of

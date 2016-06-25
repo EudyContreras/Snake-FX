@@ -563,7 +563,8 @@ public class PlayerOne extends AbstractObject {
 								this.game.getEnergyBarOne().setSpeedThrust(false);
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
-									overlay.addScreenShake(0.4, true, true);
+									overlay.addScreenShake(game.getGameRoot(),0.4, true, true);
+									overlay.addScreenShake(layer,0.4, true, true);
 									allowScreenShake = false;
 								}
 								allowCollision = false;
@@ -579,7 +580,7 @@ public class PlayerOne extends AbstractObject {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
 								if (allowScreenShake) {
-									overlay.addScreenShake(1.2, true, true);
+									overlay.addScreenShake(game.getGameRoot(),1.2, true, true);
 									allowScreenShake = false;
 								}
 								die();
@@ -592,7 +593,7 @@ public class PlayerOne extends AbstractObject {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
 								if (allowScreenShake) {
-									overlay.addScreenShake(1.2, true, true);
+									overlay.addScreenShake(game.getGameRoot(),1.2, true, true);
 									allowScreenShake = false;
 								}
 								die();

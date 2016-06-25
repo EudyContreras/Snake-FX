@@ -13,6 +13,7 @@ import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
+import com.EudyContreras.Snake.HUDElements.GameTimer.TimerStyle;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
@@ -291,12 +292,14 @@ public class GameLoader extends AbstractLoaderModel{
 	}
 	public void loadClassicMode(){
 		GameSettings.SAND_STORM = false;
+		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
+		game.getScoreKeeper().getTimer().showTimer(true);
 		game.getScoreKeeper().setboardMode(GameModeID.ClassicMode);
 		loadClassicSnake();
 		GameBackground.SET_BACKGROUND(game, GameLevelImage.classic_background);
 		game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
 		if(levelBounds==null){
-		levelBounds = new LevelBounds(game, game.getNinthLayer());
+		levelBounds = new LevelBounds(game, game.getTenthLayer());
 		getTileManager().addTile(levelBounds);
 		}
 		else{
@@ -307,6 +310,8 @@ public class GameLoader extends AbstractLoaderModel{
 		if(levelBounds!=null){
 			levelBounds.showBounds(false);
 		}
+		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
+		game.getScoreKeeper().getTimer().showTimer(false);
 		game.getScoreKeeper().setboardMode(GameModeID.LocalMultiplayer);
 		if(levelTheme == GameThemeID.DESERT_THEME){
 			GameSettings.SAND_STORM = true;

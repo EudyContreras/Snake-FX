@@ -875,10 +875,10 @@ public class GameManager extends AbstractGameModel{
         TextFPS.setOpacity(0.5);
         TextFPS.setFill(Color.WHITE);
         TextFPS.setFont(Font.font("AERIAL", FontWeight.BOLD, ScaleX(20)));
+        rootPane.add(fadeScreenLayer);
         rootPane.add(tenthLayer);
         rootPane.add(eleventhLayer);
         rootPane.add(twelfthLayer);
-        rootPane.add(fadeScreenLayer);
         rootPane.add(thirTeenthLayer);
         rootPane.add(fourTeenthLayer);
         mainRoot.getChildren().add(TextFPS);

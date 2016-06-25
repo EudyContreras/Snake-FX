@@ -192,7 +192,7 @@ public class ScreenEffectUtility {
 			storm = true;
 		}
 	}
-	public void addScreenShake(double duration, boolean horizontal, boolean vertical) {
+	public void addScreenShake(Pane screen, double duration, boolean horizontal, boolean vertical) {
 		if(horizontal){
 			shakeDuration = (double) (duration*30);
 			shakeAmount = 15.0;

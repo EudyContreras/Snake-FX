@@ -97,12 +97,12 @@ public class GameOverScreen {
 		mainGameBoard.setImage(boardImage);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		optionsBoard.setFitWidth(GameManager.ScaleX(800));
-		optionsBoard.setFitHeight((GameManager.ScaleY(450)/4));
-		continue_btt.setFitWidth(GameManager.ScaleX(240));
-		continue_btt.setFitHeight(GameManager.ScaleY(70));
-		quitGame_btt.setFitWidth(GameManager.ScaleX(240));
-		quitGame_btt.setFitHeight(GameManager.ScaleY(70));
+		optionsBoard.setFitWidth(GameManager.ScaleX(920));
+		optionsBoard.setFitHeight(GameManager.ScaleY(105));
+		continue_btt.setFitWidth(GameManager.ScaleX(275));
+		continue_btt.setFitHeight(GameManager.ScaleY(75));
+		quitGame_btt.setFitWidth(continue_btt.getFitWidth());
+		quitGame_btt.setFitHeight(continue_btt.getFitHeight());
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(baseGameBoard,mainGameBoard,optionsBoard, continue_btt, quitGame_btt, restart_btt);
@@ -477,10 +477,10 @@ public class GameOverScreen {
 		baseGameBoard.setFitHeight(mainGameBoard.getFitHeight());
 		mainGameBoard.setX(baseGameBoard.getTranslateX());
 		continue_btt.setX(optionsBoard.getTranslateX()+20/GameManager.ScaleX);
-		continue_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
+		continue_btt.setY(optionsBoard.getTranslateY()+15/GameManager.ScaleY);
 		quitGame_btt.setX(optionsBoard.getTranslateX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-		quitGame_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
-		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+		quitGame_btt.setY(continue_btt.getY());
+		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+27/GameManager.ScaleX);
 		restart_btt.setY(continue_btt.getY());
 	}
 	/**
@@ -544,7 +544,7 @@ public class GameOverScreen {
 	 * a fade screen transition
 	 */
 	public void fadeOut(){
-		game.getFadeScreenHandler().renderFadeScreen();
+		//game.getFadeScreenHandler().renderFadeScreen();
 	}
 	/**
 	 * Method which when called will removed

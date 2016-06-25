@@ -386,6 +386,20 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+	public static final synchronized Image GLOWING_RECTANGLE(Color color, double depth, double spread,double width, double height) {
+		Image img;
+		Rectangle rect = new Rectangle(width, height, color);
+		borderGlow.setOffsetY(0f);
+		borderGlow.setOffsetX(0f);
+		borderGlow.setSpread(spread);
+		borderGlow.setColor(color);
+		borderGlow.setWidth(depth);
+		borderGlow.setHeight(depth);
+		borderGlow.setBlurType(BlurType.GAUSSIAN);
+		rect.setEffect(borderGlow);
+		img = ImageEffectUtility.createImage(rect);
+		return img;
+	}
 	public static synchronized Image preCreateImageWithBloom(String path, double threshold, double width, double height) {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
