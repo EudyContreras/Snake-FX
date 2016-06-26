@@ -53,6 +53,11 @@ public class HealthBarOne {
 		this.height = GameManager.ScaleY(110);
 		this.maxHealth = width*0.64;
 		this.player = game.getGameLoader().getPlayerOne();
+		this.healthBarGreen.setWidth(width*0.8);
+		this.healthBarGreen.setHeight(height*0.3);
+		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(180));
+		this.healthBarGreen.setTranslateY(y+GameManager.ScaleY(9));
+		this.healthBarGreen.setRotationAxis(Rotate.Y_AXIS);
 		this.healthBarRed.setWidth(width*0.8);
 		this.healthBarRed.setHeight(height*0.3);
 		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(180));
@@ -71,6 +76,7 @@ public class HealthBarOne {
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_one));
 		this.game.getEleventhLayer().getChildren().add(healthBarRed);
+		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
@@ -108,7 +114,7 @@ public class HealthBarOne {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 
 	/**
@@ -163,7 +169,7 @@ public class HealthBarOne {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBarRed.setVisible(false);
+			healthBarGreen.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
 	}
@@ -172,7 +178,7 @@ public class HealthBarOne {
 	 * to true
 	 */
 	public void show() {
-		healthBarRed.setVisible(true);
+		healthBarGreen.setVisible(true);
 		healthBarBorder.setVisible(true);
 	}
 	/**
@@ -191,7 +197,7 @@ public class HealthBarOne {
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 
 	public void setPlayer() {

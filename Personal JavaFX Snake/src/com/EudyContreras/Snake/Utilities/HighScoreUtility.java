@@ -14,9 +14,6 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import org.imgscalr.Scalr;
-import org.imgscalr.Scalr.Mode;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -29,7 +26,7 @@ import javafx.stage.Stage;
 public enum HighScoreUtility {
 
 	INSTANCE;
-	
+
 	private final String PATH_ROOT = "." + File.separator + "Snake" + File.separator;
 
 	private final String PATH_USER_PICS = PATH_ROOT  + File.separator + "Pictures" + File.separator;
@@ -389,8 +386,8 @@ public enum HighScoreUtility {
 				logError("could not create dirs for profile pic");
 				return null;
 			}
-			BufferedImage img = ImageIO.read(file);
-			BufferedImage scaledImg = Scalr.resize(img, Mode.FIT_EXACT, 20, 20);
+			//BufferedImage img = ImageIO.read(file);
+			BufferedImage scaledImg = null;
 			ImageIO.write(scaledImg, "png", newFile);
 			return new URL("file:" + File.separator + newFile.getAbsolutePath());
 		} catch (IOException e) {

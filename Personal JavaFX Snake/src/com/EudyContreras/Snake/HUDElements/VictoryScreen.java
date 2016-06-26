@@ -10,7 +10,6 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
-import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -22,13 +21,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-public class VictoryScreen extends AbstractHudElement{
+public class VictoryScreen extends AbstractHudElement {
 
 	public static boolean LEVEL_COMPLETE = false;
 	private ScreenEffectUtility overlay;
 	private LocalScoreScreen scoreScreen;
-	private ParallelTransition parallelTransition;
 	private TranslateTransition translateTransition;
+	private TranslateTransition translateTransitionTwo;
 	private RotateTransition rotateTransition;
 	private ScaleTransition scaleTransition;
 	private ScaleTransition scaleTransitionTwo;
@@ -49,21 +48,34 @@ public class VictoryScreen extends AbstractHudElement{
 	private int currentChoice = 1;
 	private double width = 0;
 	private double height = 0;
+	private double confirmX = 0;
+	private double opacityLevel = 0;
+	private double confirmXPosition = 0;
 	private double transitionOpacity = 1;
 	private double opacityValue = -0.016;
+	private double acceleration = 0.3f;
 	private boolean showTransition = false;
 	private boolean showWinner = false;
 	private boolean showScores = false;
 	private boolean goToNext = false;
 	private boolean restartLevel = false;
+	private boolean swipeRight = false;
+	private boolean swipeLeft = false;
+	private boolean panIn = false;
+	private boolean center = true;
 
 	/**
-	 * Main constructur which takes an instance of the main game class along with
-	 * with the base image of this board and the elements dimensions.
-	 * @param game: main game class which connects this class to all other classes
-	 * @param boardImage: Image which will be used as base for this board
-	 * @param width: Horizontal dimension of this board
-	 * @param height: Vertival dimension of this board
+	 * Main constructur which takes an instance of the main game class along
+	 * with with the base image of this board and the elements dimensions.
+	 *
+	 * @param game:
+	 *            main game class which connects this class to all other classes
+	 * @param boardImage:
+	 *            Image which will be used as base for this board
+	 * @param width:
+	 *            Horizontal dimension of this board
+	 * @param height:
+	 *            Vertival dimension of this board
 	 */
 	public VictoryScreen(GameManager game, Image boardImage, double width, double height) {
 		this.game = game;
@@ -83,8 +95,8 @@ public class VictoryScreen extends AbstractHudElement{
 		confirmScreenSetup();
 	}
 	/*
-	 * Method which initializes most of the UI elements used by this board
-	 * Most elements are also asigned fills and dimensions within this method
+	 * Method which initializes most of the UI elements used by this board Most
+	 * elements are also asigned fills and dimensions within this method
 	 */
 
 	private void confirmScreenSetup() {
@@ -98,35 +110,40 @@ public class VictoryScreen extends AbstractHudElement{
 		mainGameBoard.setImage(baseBoardImage);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		mainGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2 - GameManager.ScaleY(30));
-		scoreScreen = new LocalScoreScreen(game,0,0,0,0, scoreLayer);
+		scoreScreen = new LocalScoreScreen(game, 0, 0, 0, 0, scoreLayer);
 		continue_btt = new ImageView(GameImageBank.continue_button);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
 		restart_btt = new ImageView(GameImageBank.restart_button);
 		optionsBoard = new ImageView(GameImageBank.options_board);
 		optionsBoard.setFitWidth(GameManager.ScaleX(800));
-		optionsBoard.setFitHeight(GameManager.ScaleY(450)/4);
+		optionsBoard.setFitHeight(GameManager.ScaleY(450) / 4);
 		continue_btt.setFitWidth(GameManager.ScaleX(240));
 		continue_btt.setFitHeight(GameManager.ScaleY(70));
 		quitGame_btt.setFitWidth(GameManager.ScaleX(240));
 		quitGame_btt.setFitHeight(GameManager.ScaleY(70));
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
-		scoreLayer.getChildren().addAll(baseGameBoard,mainGameBoard,optionsBoard, continue_btt, quitGame_btt, restart_btt);
-		translateTransition = new TranslateTransition(Duration.millis(1000), optionsBoard);
-		rotateTransition = new RotateTransition(Duration.millis(1000), baseGameBoard);
-		scaleTransition = new ScaleTransition(Duration.millis(1000), baseGameBoard);
-		scaleTransitionTwo = new ScaleTransition(Duration.millis(1000), mainGameBoard);
+		scoreLayer.getChildren().addAll(baseGameBoard, mainGameBoard, optionsBoard, continue_btt, quitGame_btt, restart_btt);
 		processMouseHandling();
-		//askConfirm();
+	}
+
+	@SuppressWarnings("unused")
+	private void initTransitions(){
+		 translateTransition = new TranslateTransition(Duration.millis(1000),optionsBoard);
+		 translateTransitionTwo = new TranslateTransition(Duration.millis(1000), baseGameBoard);
+		 rotateTransition = new RotateTransition(Duration.millis(1000), baseGameBoard);
+		 scaleTransition = new ScaleTransition(Duration.millis(1000), baseGameBoard);
+		 scaleTransitionTwo = new ScaleTransition(Duration.millis(1000), mainGameBoard);
 	}
 	/**
-	 * Method which is to be called once any of the players have
-	 * compleated the game or if all the apples have been collected.
-	 * This method marks the end of the game being played
+	 * Method which is to be called once any of the players have compleated the
+	 * game or if all the apples have been collected. This method marks the end
+	 * of the game being played
 	 */
 
 	public void endGame() {
 		game.showCursor(true, game.getScene());
+		game.setStateID(GameStateID.GAME_OVER);
 		PlayerTwo.LEVEL_COMPLETED = true;
 		PlayerOne.LEVEL_COMPLETED = true;
 		ClassicSnake.LEVEL_COMPLETED = true;
@@ -141,31 +158,32 @@ public class VictoryScreen extends AbstractHudElement{
 				this.winnerBoardImage = GameImageBank.player_two_wins;
 				this.baseBoardImage = GameImageBank.player_score_trans_board;
 				this.scoreBoardImage = GameImageBank.player_score_board;
-			}else if (game.getGameLoader().getPlayerOne().getAppleCount() == game.getGameLoader().getPlayerTwo()
+			} else if (game.getGameLoader().getPlayerOne().getAppleCount() == game.getGameLoader().getPlayerTwo()
 					.getAppleCount()) {
 				this.winnerBoardImage = GameImageBank.draw_game;
 				this.baseBoardImage = GameImageBank.game_draw_trans_board;
 				this.scoreBoardImage = GameImageBank.game_draw_score_board;
 			}
 		} else if (game.getGameLoader().getClassicSnake() != null) {
-				this.winnerBoardImage = GameImageBank.player_one_wins;
-				this.baseBoardImage = GameImageBank.player_score_trans_board;
-				this.scoreBoardImage = GameImageBank.player_score_board;
-			
+			this.winnerBoardImage = GameImageBank.player_one_wins;
+			this.baseBoardImage = GameImageBank.player_score_trans_board;
+			this.scoreBoardImage = GameImageBank.player_score_board;
+
 		}
 		resetBoard();
-		showTheBoard();
 	}
+
 	/**
-	 * Method which processes events within the buttons used by the options board
-	 * of this game board. This method processes all mouse input within these buttons
-	 * and ensures to show visual ques when the buttons are selected
+	 * Method which processes events within the buttons used by the options
+	 * board of this game board. This method processes all mouse input within
+	 * these buttons and ensures to show visual ques when the buttons are
+	 * selected
 	 */
 	private void processMouseHandling() {
 		continue_btt.setOnMouseEntered(e -> {
 			selectionReset();
 			currentChoice = 1;
-			borderGlow.setColor(Color.rgb(0,240,0));
+			borderGlow.setColor(Color.rgb(0, 240, 0));
 			continue_btt.setEffect(borderGlow);
 		});
 		continue_btt.setOnMouseExited(e -> {
@@ -178,7 +196,7 @@ public class VictoryScreen extends AbstractHudElement{
 		quitGame_btt.setOnMouseEntered(e -> {
 			selectionReset();
 			currentChoice = 2;
-			borderGlow.setColor(Color.rgb(240,0,0));
+			borderGlow.setColor(Color.rgb(240, 0, 0));
 			quitGame_btt.setEffect(borderGlow);
 		});
 		quitGame_btt.setOnMouseExited(e -> {
@@ -191,7 +209,7 @@ public class VictoryScreen extends AbstractHudElement{
 		restart_btt.setOnMouseEntered(e -> {
 			currentChoice = 3;
 			selectionReset();
-			borderGlow.setColor(Color.rgb(240, 150,0));
+			borderGlow.setColor(Color.rgb(240, 150, 0));
 			restart_btt.setEffect(borderGlow);
 		});
 		restart_btt.setOnMouseExited(e -> {
@@ -202,10 +220,11 @@ public class VictoryScreen extends AbstractHudElement{
 			restartLevel();
 		});
 	}
+
 	/**
-	 * Sets the key input handling for the buttons used by this game board
-	 * The code below determines what will happen if the user presses enter or
-	 * space on the different choices. The method also takes care of showing visual
+	 * Sets the key input handling for the buttons used by this game board The
+	 * code below determines what will happen if the user presses enter or space
+	 * on the different choices. The method also takes care of showing visual
 	 * ques once the buttons are selected
 	 */
 	private void processKeyHandling() {
@@ -270,59 +289,83 @@ public class VictoryScreen extends AbstractHudElement{
 			updateSelections();
 		});
 
-		}
+	}
+
 	/**
-	 * Method which updates the visual ques used
-	 * in order to show which button is selected
+	 * Method which updates the visual ques used in order to show which button
+	 * is selected
 	 */
-	private void updateSelections(){
-		if(currentChoice==1){
-			borderGlow.setColor(Color.rgb(0,240,0));
+	private void updateSelections() {
+		if (currentChoice == 1) {
+			borderGlow.setColor(Color.rgb(0, 240, 0));
 			continue_btt.setEffect(borderGlow);
 			restart_btt.setEffect(null);
 			quitGame_btt.setEffect(null);
 		}
-		if(currentChoice==2){
-			borderGlow.setColor(Color.rgb(240,150,0));
+		if (currentChoice == 2) {
+			borderGlow.setColor(Color.rgb(240, 150, 0));
 			restart_btt.setEffect(borderGlow);
 			quitGame_btt.setEffect(null);
 			continue_btt.setEffect(null);
 		}
-		if(currentChoice==3){
-			borderGlow.setColor(Color.rgb(240,0,0));
+		if (currentChoice == 3) {
+			borderGlow.setColor(Color.rgb(240, 0, 0));
 			quitGame_btt.setEffect(borderGlow);
 			restart_btt.setEffect(null);
 			continue_btt.setEffect(null);
 		}
 	}
+
 	/**
-	 * Method used to reset the visual que
-	 * of of all buttons by removing said
+	 * Method used to reset the visual que of of all buttons by removing said
 	 * visual que
 	 */
-	private void selectionReset(){
+	private void selectionReset() {
 		continue_btt.setEffect(null);
 		restart_btt.setEffect(null);
 		quitGame_btt.setEffect(null);
 	}
+
 	/**
-	 * Method which when called updates
-	 * various elements of this game board
-	 * by further calling methods which will translate
-	 * or transform said elements
+	 * Method which when called updates various elements of this game board by
+	 * further calling methods which will translate or transform said elements
 	 */
-	public void updateUI(){
-		positionScoreScreen();
-		positionScreen();
-		showScores();
+	public void updateUI() {
+		if (game.getStateID() != GameStateID.GAMEPLAY) {
+			positionScoreScreen();
+			positionScreen();
+			showScores();
+			swipeRight();
+			panIn();
+			hide();
+		}
 	}
+
 	/**
-	 * Method which when called will show the board and will animate
-	 * the board with a range of transitions .
+	 * Method which when called will show the board and will animate the board
+	 * with a range of transitions .
 	 */
+	@SuppressWarnings("unused")
 	private void showTheBoard() {
-		rotateTransition.setToAngle(360f*3);
+		baseGameBoard.setTranslateX(0);
+
+		rotateTransition.setFromAngle(0);
+		rotateTransition.setToAngle(360f * 3);
 		rotateTransition.setCycleCount(1);
+		rotateTransition.setOnFinished(event -> {
+			processPlayerScores();
+			processKeyHandling();
+			blurOut();
+			counter = 0;
+			opacityValue = 0.016;
+			waitTime = 10;
+			mainGameBoard.setVisible(true);
+			scoreScreen.showScores();
+			showWinner = true;
+			showScores = false;
+			scaleTransition.stop();
+			rotateTransition.stop();
+		});
 
 		scaleTransition.setFromX(0);
 		scaleTransition.setFromY(0);
@@ -340,34 +383,22 @@ public class VictoryScreen extends AbstractHudElement{
 		translateTransition.setToX(GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
 		translateTransition.setCycleCount(1);
 
-		parallelTransition = new ParallelTransition(baseGameBoard, scaleTransition, rotateTransition);
-		parallelTransition.play();
-		parallelTransition.setOnFinished(event -> {
-			processPlayerScores();
-			processKeyHandling();
-			blurOut();
-			counter = 0;
-			opacityValue = 0.016;
-			waitTime = 10;
-			mainGameBoard.setVisible(true);
-			scoreScreen.showScores();
-			showWinner = true;
-			showScores = false;
-			parallelTransition.stop();
-		});
+		scaleTransition.play();
+		rotateTransition.play();
 		translateTransition.play();
-		scaleTransitionTwo.play();
 		baseGameBoard.setVisible(true);
 		optionsBoard.setVisible(true);
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
 		restart_btt.setVisible(true);
 	}
+
 	/**
-	 * Method which when called will show the board and will animate
-	 * the board with a range of transitions .
+	 * Method which when called will show the board and will animate the board
+	 * with a range of transitions .
 	 */
-	private void hideTheBoard(){
+	@SuppressWarnings("unused")
+	private void hideTheBoard() {
 		scoreScreen.hideScores();
 		rotateTransition.setToAngle(0);
 		rotateTransition.setCycleCount(1);
@@ -388,23 +419,25 @@ public class VictoryScreen extends AbstractHudElement{
 		translateTransition.setFromX(GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
 		translateTransition.setCycleCount(1);
 
-		parallelTransition = new ParallelTransition(baseGameBoard, scaleTransition, rotateTransition);
-		parallelTransition.play();
-		parallelTransition.setOnFinished(event -> {
+		translateTransitionTwo.setToX(0 - baseGameBoard.getFitWidth() * 2);
+		translateTransitionTwo.setFromX(baseGameBoard.getTranslateX());
+		translateTransitionTwo.setCycleCount(1);
+		translateTransitionTwo.setOnFinished(event -> {
 			game.processGameInput();
-			if(restartLevel){
+			if (restartLevel) {
 				game.getFadeScreenHandler().quick_restart_fade_screen();
 				PlayerOne.LEVEL_COMPLETED = false;
 				PlayerTwo.LEVEL_COMPLETED = false;
 				ClassicSnake.LEVEL_COMPLETED = false;
-			}
-			else if(goToNext){
+			} else if (goToNext) {
 				game.getFadeScreenHandler().continue_fade_screen();
 			}
-			parallelTransition.stop();
+			translateTransition.stop();
+			translateTransitionTwo.stop();
 		});
+
 		translateTransition.play();
-		scaleTransitionTwo.play();
+		translateTransitionTwo.play();
 		mainGameBoard.setVisible(true);
 		baseGameBoard.setVisible(true);
 		optionsBoard.setVisible(true);
@@ -413,31 +446,162 @@ public class VictoryScreen extends AbstractHudElement{
 		restart_btt.setVisible(true);
 
 	}
+
+	public void swipeRight() {
+		if (swipeRight == true) {
+			optionsBoard.setX(confirmX);
+			confirmX += confirmXPosition / GameManager.ScaleX;
+			confirmXPosition += acceleration;
+			if (center) {
+				acceleration -= 0.80;
+				if (acceleration <= 0) {
+
+					acceleration = 0;
+					confirmXPosition -= 0.5;
+					if (confirmXPosition <= 0.30) {
+						confirmXPosition = 0.30;
+					}
+
+				}
+				if (confirmX >= GameSettings.WIDTH / 2 - GameManager.ScaleX(800) / 2) {
+					confirmX = GameSettings.WIDTH / 2 - GameManager.ScaleX(800) / 2;
+					optionsBoard.setX(confirmX);
+					confirmXPosition = 0;
+					acceleration = 0;
+					currentChoice = 1;
+					center = false;
+					swipeRight = false;
+					processKeyHandling();
+				}
+			}
+			continue_btt.setX(optionsBoard.getX() + 20 / GameManager.ScaleX);
+			continue_btt.setY(optionsBoard.getY() + 20 / GameManager.ScaleY);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()
+					- 20 / GameManager.ScaleX);
+			quitGame_btt.setY(optionsBoard.getY() + 20 / GameManager.ScaleY);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth() + 23 / GameManager.ScaleX);
+			restart_btt.setY(continue_btt.getY());
+		}
+	}
+
+	public void hide() {
+		if (swipeLeft == true) {
+			positionScoreScreen();
+			baseGameBoard.setX(confirmX);
+			optionsBoard.setX(confirmX);
+			confirmX -= confirmXPosition / GameManager.ScaleX;
+			confirmXPosition += acceleration;
+			if (center) {
+				acceleration -= 0.50;
+				if (acceleration <= 0) {
+					confirmXPosition -= 0.1;
+					acceleration = 0;
+					if (confirmXPosition <= 0.001) {
+						confirmXPosition = 0.001f;
+					}
+
+				}
+				if (confirmX <= 0 - baseGameBoard.getFitWidth() - 50) {
+					confirmX = (float) (0 - baseGameBoard.getFitWidth() + 50);
+					confirmXPosition = 0;
+					swipeLeft = false;
+					game.processGameInput();
+					scoreScreen.hideScores();
+					if (restartLevel) {
+						game.getFadeScreenHandler().quick_restart_fade_screen();
+						PlayerOne.LEVEL_COMPLETED = false;
+						PlayerTwo.LEVEL_COMPLETED = false;
+						ClassicSnake.LEVEL_COMPLETED = false;
+					} else if (goToNext) {
+						game.getFadeScreenHandler().continue_fade_screen();
+					}
+					center = false;
+				}
+			}
+			continue_btt.setX(optionsBoard.getX() + 20);
+			continue_btt.setY(optionsBoard.getY() + 20);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth() - 20);
+			quitGame_btt.setY(optionsBoard.getY() + 20);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth() + 20);
+			restart_btt.setY(continue_btt.getY());
+		}
+	}
+
+	public void panIn() {
+		if (panIn) {
+			this.rOne = rOne + velROne;
+			this.widthOne += width * 0.02;
+			this.heightOne += height * 0.02;
+			this.mainGameBoard.setOpacity(1);
+			this.baseGameBoard.setFitWidth(widthOne);
+			this.baseGameBoard.setFitHeight(heightOne);
+			this.baseGameBoard.setRotate(rOne);
+			this.baseGameBoard.setX(GameSettings.WIDTH / 2 - baseGameBoard.getFitWidth() / 2);
+			this.baseGameBoard.setY(GameSettings.HEIGHT / 2 - baseGameBoard.getFitHeight() / 2);
+			if (widthOne >= width) {
+				widthOne = width;
+			}
+			if (heightOne >= height) {
+				;
+				heightOne = height;
+			}
+			if (opacityLevel >= 1) {
+				opacityLevel = 1.0;
+			}
+			if (velROne > 2) {
+				velROne -= 0.10;
+			}
+			if (widthOne >= width - 20 && heightOne >= height - 20) {
+				if (rOne >= 360 || rOne <= 0) {
+					velROne = 0;
+					rOne = 0;
+					baseGameBoard.setRotate(rOne);
+					processPlayerScores();
+					processKeyHandling();
+					blurOut();
+					counter = 0;
+					transitionOpacity = 0;
+					opacityValue = 0.016;
+					waitTime = 10;
+					mainGameBoard.setOpacity(0);
+					mainGameBoard.setVisible(true);
+					scoreScreen.showScores();
+					panIn = false;
+					showWinner = true;
+					showScores = false;
+				}
+			} else {
+				if (rOne >= 360) {
+					rOne = 0;
+				}
+			}
+		}
+	}
+
 	/**
-	 * method used to both update the opacity of the main
-	 * score board shown after the game ends. This method
-	 * also produces a transition which will change the image
-	 * shown each time the board reaches its minimum opacity
+	 * method used to both update the opacity of the main score board shown
+	 * after the game ends. This method also produces a transition which will
+	 * change the image shown each time the board reaches its minimum opacity
 	 * level
 	 */
-	private void showScores(){
-		if(showScores == true){
+	private void showScores() {
+		if (showScores == true) {
 			mainGameBoard.setOpacity(transitionOpacity);
 			counter++;
-			if(counter>=waitTime){
+			if (counter >= waitTime) {
 				counter = waitTime;
 				showTransition = true;
 			}
-			if(showTransition == true){
+			if (showTransition == true) {
 				mainGameBoard.setImage(scoreBoardImage);
 				scoreScreen.setScoreOpacity(transitionOpacity);
-				transitionOpacity+= opacityValue;
-				if(transitionOpacity>=1 && opacityValue>0){
+				transitionOpacity += opacityValue;
+				if (transitionOpacity >= 1 && opacityValue > 0) {
 					scoreScreen.setScoreOpacity(transitionOpacity);
 					transitionOpacity = 1;
 					opacityValue = -0.010;
 				}
-				if(transitionOpacity<=0 && opacityValue<0){
+				if (transitionOpacity <= 0 && opacityValue < 0) {
 					scoreScreen.setScoreOpacity(transitionOpacity);
 					showScores = false;
 					showWinner = true;
@@ -448,21 +612,21 @@ public class VictoryScreen extends AbstractHudElement{
 				}
 			}
 		}
-		if(showWinner == true){
+		if (showWinner == true) {
 			mainGameBoard.setOpacity(transitionOpacity);
 			counter++;
-			if(counter>=waitTime){
+			if (counter >= waitTime) {
 				counter = waitTime;
 				showTransition = true;
 			}
-			if(showTransition == true){
+			if (showTransition == true) {
 				mainGameBoard.setImage(winnerBoardImage);
-				transitionOpacity+= opacityValue;
-				if(transitionOpacity>=1 && opacityValue>0){
+				transitionOpacity += opacityValue;
+				if (transitionOpacity >= 1 && opacityValue > 0) {
 					transitionOpacity = 1;
 					opacityValue = -0.010;
 				}
-				if(transitionOpacity<=0 && opacityValue<0){
+				if (transitionOpacity <= 0 && opacityValue < 0) {
 					showScores = true;
 					showWinner = false;
 					counter = 0;
@@ -473,67 +637,74 @@ public class VictoryScreen extends AbstractHudElement{
 			}
 		}
 	}
+
 	/**
-	 * Method which collects the scores to be shown by the local
-	 * score screen and positions the scores at a desired position
-	 * relative to the game board of this class
+	 * Method which collects the scores to be shown by the local score screen
+	 * and positions the scores at a desired position relative to the game board
+	 * of this class
 	 */
-	private void processPlayerScores(){
+	private void processPlayerScores() {
 		scoreScreen.setScores();
-		scoreScreen.relocateScoreOne(mainGameBoard.getX()+GameManager.ScaleX(135), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+GameManager.ScaleX(25), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreOne(mainGameBoard.getX() + GameManager.ScaleX(135),
+				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + GameManager.ScaleX(25),
+				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
 	}
+
 	/**
-	 * Method which updates the position of the local score
-	 * so that it remains at a desired location relative to the board
-	 * element of this class
+	 * Method which updates the position of the local score so that it remains
+	 * at a desired location relative to the board element of this class
 	 */
-	private void positionScoreScreen(){
-		scoreScreen.relocateScoreOne(mainGameBoard.getX()+GameManager.ScaleX(135), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+GameManager.ScaleX(25), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+	private void positionScoreScreen() {
+		scoreScreen.relocateScoreOne(mainGameBoard.getX() + GameManager.ScaleX(135),
+				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + GameManager.ScaleX(25),
+				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
 	}
+
 	/**
-	 * Method which updates teh position of the various UI elements
-	 * used by this class in order to keeps these elements
-	 * relative to the main board of this class
+	 * Method which updates teh position of the various UI elements used by this
+	 * class in order to keeps these elements relative to the main board of this
+	 * class
 	 */
-	private void positionScreen(){
+	private void positionScreen() {
 		mainGameBoard.setX(baseGameBoard.getX());
 		mainGameBoard.setY(baseGameBoard.getY());
-		mainGameBoard.setRotate(baseGameBoard.getRotate());
-		continue_btt.setX(optionsBoard.getTranslateX()+20/GameManager.ScaleX);
-		continue_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
-		quitGame_btt.setX(optionsBoard.getTranslateX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-		quitGame_btt.setY(optionsBoard.getTranslateY()+20/GameManager.ScaleY);
-		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
-		restart_btt.setY(continue_btt.getY());
+		mainGameBoard.setFitWidth(baseGameBoard.getFitWidth());
+		mainGameBoard.setFitHeight(baseGameBoard.getFitHeight());
 	}
+
 	/**
-	 * Method which is called if the player
-	 * decides to restart the level
+	 * Method which is called if the player decides to restart the level
 	 */
 	private void restartLevel() {
 		game.removePlayers();
 		overlay.removeBlur();
 		restartLevel = true;
 		goToNext = false;
-		hideTheBoard();
+		center = true;
+		swipeLeft = true;
+		acceleration = 6.0f;
+		confirmXPosition = 0.002f;
 	}
+
 	/**
-	 * Method which is called if the player
-	 * decides to continue to the next level
-	 * of the game.
+	 * Method which is called if the player decides to continue to the next
+	 * level of the game.
 	 */
-	private void goToNext(){
+	private void goToNext() {
 		game.removePlayers();
 		overlay.removeBlur();
 		goToNext = true;
 		restartLevel = false;
-		hideTheBoard();
+		center = true;
+		swipeLeft = true;
+		acceleration = 6.0f;
+		confirmXPosition = 0.002f;
 	}
+
 	/**
-	 * Method which removes this board from
-	 * the main root of the game and makes
+	 * Method which removes this board from the main root of the game and makes
 	 * all the UI elements of this board not visible
 	 */
 	public void removeBoard() {
@@ -545,45 +716,58 @@ public class VictoryScreen extends AbstractHudElement{
 		restart_btt.setVisible(false);
 		game.getMainRoot().getChildren().remove(scoreLayer);
 		LEVEL_COMPLETE = false;
+		confirmX = 0;
+		acceleration = 6.0f;
+		center = false;
 	}
+
 	/**
-	 * Method which resets the board along with
-	 * most of the other UI elements of this board
-	 * allowing this board to be reused next time
-	 * the game ends
+	 * Method which resets the board along with most of the other UI elements of
+	 * this board allowing this board to be reused next time the game ends
 	 */
 	private void resetBoard() {
-		scoreScreen.hideScores();
-		baseGameBoard.setImage(baseBoardImage);
-		baseGameBoard.setVisible(false);
-		mainGameBoard.setVisible(false);
-		optionsBoard.setVisible(false);
-		continue_btt.setVisible(false);
-		quitGame_btt.setVisible(false);
-		restart_btt.setVisible(false);
-		baseGameBoard.setX(GameSettings.WIDTH/2-baseGameBoard.getFitWidth()/2);
-		baseGameBoard.setY(GameSettings.HEIGHT/2-baseGameBoard.getFitHeight()/2);
-		game.getMainRoot().getChildren().add(scoreLayer);
+		mainGameBoard.setOpacity(0);
 		game.setStateID(GameStateID.LEVEL_COMPLETED);
+		baseGameBoard.setImage(baseBoardImage);
+		mainGameBoard.setImage(baseBoardImage);
+		confirmX = 0 - width - 50;
+		baseGameBoard.setX(-1000);
+		baseGameBoard.setY(-1000);
+		baseGameBoard.setFitWidth(0);
+		baseGameBoard.setFitHeight(0);
+		game.getMainRoot().getChildren().add(scoreLayer);
+		showTransition = false;
+		swipeRight = true;
 		showScores = false;
 		showWinner = false;
-		showTransition = false;
+		center = true;
+		panIn = true;
 		counter = 0;
-		waitTime = 10;
 		opacityValue = 0.016;
 		transitionOpacity = 0;
+		widthOne = 1;
+		heightOne = 1;
+		opacityLevel = 0;
+		velROne = 17;
+		acceleration = 8.0f;
+		confirmXPosition = 0.002f;
+		baseGameBoard.setVisible(true);
+		optionsBoard.setVisible(true);
+		continue_btt.setVisible(true);
+		quitGame_btt.setVisible(true);
+		restart_btt.setVisible(true);
 	}
+
 	/**
-	 * Method which when called will
-	 * blur all the elements behind all
-	 * the UI elements used by this class
+	 * Method which when called will blur all the elements behind all the UI
+	 * elements used by this class
 	 */
 	public void blurOut() {
 		overlay.levelCompleteBlur();
 	}
+
 	/**
-	 * Method which when called will removed
-	 * all blur from screen.
+	 * Method which when called will removed all blur from screen.
 	 */
 	public void removeBlur() {
 		overlay.removeBlur();

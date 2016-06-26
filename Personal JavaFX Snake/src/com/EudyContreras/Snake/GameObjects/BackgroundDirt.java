@@ -24,7 +24,7 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 		this.imagePattern = new ImagePattern(image);
 		this.shape = new Circle(x, y, radius);
 		this.shape.setRadius(radius);
-		this.shape.setOpacity(0.05);
+		this.shape.setOpacity(1);
 		this.shape.setFill(imagePattern);
 		this.layer = layer;
 		this.x = x;

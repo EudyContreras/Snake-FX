@@ -48,12 +48,18 @@ public class GameOverScreen {
 	private int currentChoice = 1;
 	private double width = 0;
 	private double height = 0;
+	private double confirmX = 0;
+	private double confirmXTwo = 0;
+	private double confirmXPosition = 0;
 	private double transitionOpacity = 1;
 	private double opacityValue = -0.016;
+	private double acceleration = 0.3f;
 	private boolean showTransition = false;
 	private boolean showWinner = false;
 	private boolean showScores = false;
-
+	private boolean swipeRight = false;
+	private boolean swipeLeft = false;
+	private boolean center = true;
 	/**
 	 * Main constructur which takes an instance of the main game class along with
 	 * with the base image of this board and the elements dimensions.
@@ -92,24 +98,27 @@ public class GameOverScreen {
 		restart_btt = new ImageView(GameImageBank.restart_button);
 		optionsBoard = new ImageView(GameImageBank.options_board);
 		scoreScreen = new LocalScoreScreen(game,0,0,0,0, scoreLayer);
-		mainGameBoard.setFitWidth(width);
-		mainGameBoard.setFitHeight(height);
-		mainGameBoard.setImage(boardImage);
+		baseGameBoard.setFitWidth(width);
+		baseGameBoard.setFitHeight(height);
+		baseGameBoard.setImage(boardImage);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		optionsBoard.setFitWidth(GameManager.ScaleX(920));
-		optionsBoard.setFitHeight(GameManager.ScaleY(105));
-		continue_btt.setFitWidth(GameManager.ScaleX(275));
-		continue_btt.setFitHeight(GameManager.ScaleY(75));
+		optionsBoard.setFitWidth(GameManager.ScaleX(800));
+		optionsBoard.setFitHeight((GameManager.ScaleY(450)/4));
+		continue_btt.setFitWidth(GameManager.ScaleX(240));
+		continue_btt.setFitHeight(GameManager.ScaleY(70));
 		quitGame_btt.setFitWidth(continue_btt.getFitWidth());
 		quitGame_btt.setFitHeight(continue_btt.getFitHeight());
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(baseGameBoard,mainGameBoard,optionsBoard, continue_btt, quitGame_btt, restart_btt);
-		transitionOne = new TranslateTransition(Duration.millis(1000), baseGameBoard);
-		transitionTwo = new TranslateTransition(Duration.millis(1000), optionsBoard);
 		processMouseHandling();
 
+	}
+	@SuppressWarnings("unused")
+	private void initTransitions(){
+		transitionOne = new TranslateTransition(Duration.millis(1000), baseGameBoard);
+		transitionTwo = new TranslateTransition(Duration.millis(1000), optionsBoard);
 	}
 	/**
 	 * Method which is to be called once any of the players have
@@ -129,7 +138,7 @@ public class GameOverScreen {
 		}
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 		resetBoard();
-		showTheBoard();
+
 		//TODO: Calculate rank
 		/**
 		 * int rank = Scoreboard.INSTANCE.calculateRank(score);
@@ -299,13 +308,16 @@ public class GameOverScreen {
 	 * to restart or continue.
 	 */
 	public void gameOver(){
-//		if (LEVEL_FAILED == false) {
-//			removeBoard();
-//			endGame();
-//			game.getScoreKeeper().swipeDown();
-//			game.getGameHud().showHUDCover();
-//			LEVEL_FAILED = true;
-//		}
+		if (LEVEL_FAILED == false) {
+			removeBoard();
+			endGame();
+			game.getScoreKeeper().swipeDown();
+			game.getGameHud().showHUDCover();
+			LEVEL_FAILED = true;
+			PlayerOne.ALLOW_FADE = false;
+			PlayerTwo.ALLOW_FADE = false;
+			ClassicSnake.ALLOW_FADE = false;
+		}
 	}
 	/**
 	 * Method which when called updates
@@ -314,16 +326,20 @@ public class GameOverScreen {
 	 * or transform said elements
 	 */
 	public void updateUI(){
-		positionScoreScreen();
+		if (game.getStateID() != GameStateID.GAMEPLAY) {
+			positionScoreScreen();
+			positionScreen();
+			showScores();
+			swipeRight();
+			swipeLeft();
+		}
 		checkStatus();
-		positionScreen();
-		showScores();
-
 	}
 	/**
 	 * Method which when called will show the board and will animate
 	 * the board with a range of transitions .
 	 */
+	@SuppressWarnings("unused")
 	private void showTheBoard(){
 
 		transitionOne.setFromX(0 - baseGameBoard.getFitWidth());
@@ -331,7 +347,6 @@ public class GameOverScreen {
 		transitionOne.setCycleCount(1);
 		transitionOne.setAutoReverse(true);
 		transitionOne.setOnFinished(event -> {
-
 			transitionOpacity = 0;
 			mainGameBoard.setOpacity(transitionOpacity);
 			opacityValue = 0.016;
@@ -361,6 +376,7 @@ public class GameOverScreen {
 	 * Method which when called will hide the board and will animate
 	 * the board with a range of transitions .
 	 */
+	@SuppressWarnings("unused")
 	private void hideTheBoard(){
 
 		transitionOne.setToX(0 - baseGameBoard.getFitWidth());
@@ -386,6 +402,95 @@ public class GameOverScreen {
 
 		transitionOne.play();
 		transitionTwo.play();
+	}
+
+	public void swipeRight() {
+		if (swipeRight == true) {
+			baseGameBoard.setX(confirmX);
+			optionsBoard.setX(confirmXTwo);
+			confirmX += confirmXPosition/GameManager.ScaleX;
+			confirmXTwo += confirmXPosition/GameManager.ScaleX;
+			confirmXPosition += acceleration*1.05;
+			if (center) {
+				acceleration -= 1.00;
+				if (acceleration <= 0) {
+
+					acceleration = 0;
+					confirmXPosition -= 0.5;
+					if (confirmXPosition <= 0.25) {
+						confirmXPosition = 0.25f;
+					}
+
+				}
+				if (confirmX >= GameSettings.WIDTH / 2 - baseGameBoard.getFitWidth() / 2) {
+					confirmX = (float) (GameSettings.WIDTH / 2 - baseGameBoard.getFitWidth() / 2);
+					acceleration = 0;
+					currentChoice = 1;
+					center = false;
+					swipeRight = false;
+					showWinner = true;
+					transitionOpacity = 0;
+					opacityValue = 0.016;
+					waitTime = 10;
+					baseGameBoard.setX(confirmX);
+					mainGameBoard.setOpacity(transitionOpacity);
+					scoreScreen.showScores();
+					processPlayerScores();
+					processKeyHandling();
+					blurOut();
+					fadeOut();
+				}
+				if (confirmXTwo >= GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2) {
+					confirmXTwo = (float) (GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
+					optionsBoard.setX(confirmXTwo);
+				}
+			}
+			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
+			continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
+			quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+			restart_btt.setY(continue_btt.getY());
+		}
+	}
+
+	public void swipeLeft() {
+		if (swipeLeft == true) {
+			positionScoreScreen();
+			baseGameBoard.setX(confirmX);
+			mainGameBoard.setX(confirmX);
+			optionsBoard.setX(confirmXTwo);
+			confirmX -= confirmXPosition/GameManager.ScaleX;
+			confirmXTwo -= confirmXPosition/GameManager.ScaleX;
+			confirmXPosition += acceleration;
+			if (center) {
+				acceleration -= 0.50;
+				if (acceleration <= 0) {
+					confirmXPosition -= 0.1;
+					acceleration = 0;
+					if (confirmXPosition <= 0.001) {
+						confirmXPosition = 0.001f;
+					}
+
+				}
+				if (confirmX <= 0 - baseGameBoard.getFitWidth() - 50) {
+					confirmX = (float) (0 - baseGameBoard.getFitWidth() + 50);
+					confirmXPosition = 0;
+					swipeLeft = false;
+					PlayerOne.LEVEL_COMPLETED = false;
+					PlayerTwo.LEVEL_COMPLETED = false;
+					ClassicSnake.LEVEL_COMPLETED = false;
+					game.processGameInput();
+					center = false;
+				}
+			}
+			continue_btt.setX(optionsBoard.getX()+20);
+			continue_btt.setY(optionsBoard.getY()+20);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20);
+			quitGame_btt.setY(optionsBoard.getY()+20);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+20);
+			restart_btt.setY(continue_btt.getY());
+		}
 	}
 	/**
 	 * method used to both update the opacity of the main
@@ -472,16 +577,11 @@ public class GameOverScreen {
 	 * relative to the main board of this class
 	 */
 	private void positionScreen(){
-		baseGameBoard.setRotate(mainGameBoard.getRotate());
-		baseGameBoard.setFitWidth(mainGameBoard.getFitWidth());
-		baseGameBoard.setFitHeight(mainGameBoard.getFitHeight());
-		mainGameBoard.setX(baseGameBoard.getTranslateX());
-		continue_btt.setX(optionsBoard.getTranslateX()+20/GameManager.ScaleX);
-		continue_btt.setY(optionsBoard.getTranslateY()+15/GameManager.ScaleY);
-		quitGame_btt.setX(optionsBoard.getTranslateX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-		quitGame_btt.setY(continue_btt.getY());
-		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+27/GameManager.ScaleX);
-		restart_btt.setY(continue_btt.getY());
+		mainGameBoard.setRotate(baseGameBoard.getRotate());
+		mainGameBoard.setFitWidth(baseGameBoard.getFitWidth());
+		mainGameBoard.setFitHeight(baseGameBoard.getFitHeight());
+		mainGameBoard.setX(baseGameBoard.getX());
+		mainGameBoard.setY(baseGameBoard.getY());
 	}
 	/**
 	 * Method which is called if the player
@@ -489,8 +589,12 @@ public class GameOverScreen {
 	 */
 	private void restartLevel() {
 		overlay.removeBlur();
+		game.getFadeScreenHandler().restart_fade_screen();
 		game.getScoreKeeper().resetTimer();
-		hideTheBoard();
+		center = true;
+		swipeLeft = true;
+		acceleration = 6.0f;
+		confirmXPosition = 0.001f;
 	}
 	/**
 	 * Method which removes this board from
@@ -506,6 +610,9 @@ public class GameOverScreen {
 		game.getMainRoot().getChildren().remove(scoreLayer);
 		LEVEL_FAILED = false;
 		mainGameBoard.setX(0 - mainGameBoard.getFitWidth() - 50);
+		confirmX = 0;
+		acceleration = 6.0f;
+		center = false;
 	}
 	/**
 	 * Method which resets the board along with
@@ -516,20 +623,28 @@ public class GameOverScreen {
 	private void resetBoard() {
 		game.getGameRoot().setEffect(null);
 		scoreScreen.hideScores();
-		mainGameBoard.setImage(GameImageBank.game_over_trans_board);
-		mainGameBoard.setX(GameSettings.WIDTH / 2 - mainGameBoard.getFitWidth() / 2);
-		mainGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
+		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
+		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
+		baseGameBoard.setX(confirmX);
+		mainGameBoard.setOpacity(0);
+		baseGameBoard.setImage(GameImageBank.game_over_trans_board);
+		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
+		mainGameBoard.setVisible(true);
 		baseGameBoard.setVisible(true);
 		optionsBoard.setVisible(true);
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
 		restart_btt.setVisible(true);
 		game.getMainRoot().getChildren().add(scoreLayer);
+		center = true;
+		swipeRight = true;
 		showScores = false;
 		showWinner = false;
 		counter = 0;
 		opacityValue = 0.016;
 		transitionOpacity = 0;
+		acceleration = 8.0f;
+		confirmXPosition = 0.002f;
 	}
 	/**
 	 * Method which when called will

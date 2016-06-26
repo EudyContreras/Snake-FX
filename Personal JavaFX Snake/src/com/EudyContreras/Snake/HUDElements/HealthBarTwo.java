@@ -54,6 +54,11 @@ public class HealthBarTwo {
 		this.oldX = x;
 		this.game = game;
 		this.player = game.getGameLoader().getPlayerTwo();
+		this.healthBarGreen.setWidth(width*0.81);
+		this.healthBarGreen.setHeight(height*0.3);
+		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(10));
+		this.healthBarGreen.setTranslateY(y+GameManager.ScaleY(9));
+		this.healthBarGreen.setRotationAxis(Rotate.Y_AXIS);
 		this.healthBarRed.setWidth(width*0.81);
 		this.healthBarRed.setHeight(height*0.3);
 		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(10));
@@ -72,6 +77,7 @@ public class HealthBarTwo {
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_two));
 		this.game.getEleventhLayer().getChildren().add(healthBarRed);
+		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
@@ -109,8 +115,8 @@ public class HealthBarTwo {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBarRed.setTranslateX(x);
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setTranslateX(x);
+		this.healthBarGreen.setWidth(width);
 
 	}
 
@@ -171,7 +177,7 @@ public class HealthBarTwo {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBarRed.setVisible(false);
+			healthBarGreen.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
 	}
@@ -180,7 +186,7 @@ public class HealthBarTwo {
 	 * to true
 	 */
 	public void show() {
-		healthBarRed.setVisible(true);
+		healthBarGreen.setVisible(true);
 		healthBarBorder.setVisible(true);
 	}
 	/**
@@ -193,15 +199,15 @@ public class HealthBarTwo {
 		this.playerIsAlive = true;
 		this.width = maxHealth;
 		this.x = oldX;
-		this.healthBarRed.setTranslateX(x);
-		this.healthBarRed.setWidth(maxHealth);
+		this.healthBarGreen.setTranslateX(x);
+		this.healthBarGreen.setWidth(maxHealth);
 	}
 	/**
 	 * Method which drains this health bar to its minimum value
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 	/**
 	 * Method whichs sets the visibility
@@ -212,6 +218,7 @@ public class HealthBarTwo {
 	public void setVisible(boolean state){
 		playerHead.setVisible(state);
 		healthBarBorder.setVisible(state);
+		healthBarGreen.setVisible(state);
 		healthBarRed.setVisible(state);
 	}
 	public void setPlayer() {
