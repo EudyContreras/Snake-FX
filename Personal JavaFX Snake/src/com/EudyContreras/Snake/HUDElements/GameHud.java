@@ -50,13 +50,13 @@ public class GameHud {
 		this.topHudBar.setTranslateX(x);
 		this.topHudBar.setTranslateY(y-GameManager.ScaleY(20));
 		this.bottomHudBar.setWidth(width);
-		this.bottomHudBar.setHeight(height+GameManager.ScaleY(80));
-		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40);
+		this.bottomHudBar.setHeight(height+GameManager.ScaleY(50));
+		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(20);
 		this.bottomHudBar.setTranslateX(x);
 		this.bottomHudBar.setTranslateY(yTwo);
 		this.bottomHudBar.setRotate(180);
 		this.mainBar.setWidth(GameSettings.WIDTH+2);
-		this.mainBar.setHeight(height*0.8);
+		this.mainBar.setHeight(height-GameManager.ScaleY(20));
 		this.mainBar.setTranslateX(-2);
 		this.mainBar.setTranslateY(0);
 		this.mainBar.setEffect(shadow);
@@ -64,8 +64,8 @@ public class GameHud {
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getTenthLayer().getChildren().add(mainBar);
-//		game.getFourTeenthLayer().getChildren().add(topHudBar);
-//		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
+		game.getFourTeenthLayer().getChildren().add(topHudBar);
+		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
 	 * Method which updates the movement of
@@ -76,21 +76,21 @@ public class GameHud {
 		yOne = yOne + swipeSpeedTop/GameManager.ScaleY;
 		yTwo = yTwo + swipeSpeedBottom/GameManager.ScaleY;
 		if (showHUDCover) {
-			swipeSpeedTop = 2.5;
-			if (yOne > mainBar.getTranslateY() - GameManager.ScaleY(15)) {
+			swipeSpeedTop = 2.8;
+			if (yOne > mainBar.getTranslateY() - GameManager.ScaleY(40)) {
 				swipeSpeedTop = 0;
 			}
-			swipeSpeedBottom = -3.5;
-			if (yTwo < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(40)) {
+			swipeSpeedBottom = -2.8;
+			if (yTwo < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(35)) {
 				swipeSpeedBottom = 0;
 			}
 		}
 		if (hideHUDCover) {
-			swipeSpeedTop = -2.55;
-			if (yOne < 0 - topHudBar.getHeight()) {
+			swipeSpeedTop = -2.8;
+			if (yOne < 0 - (topHudBar.getHeight()-GameManager.ScaleY(12))) {
 				swipeSpeedTop = 0;
 			}
-			swipeSpeedBottom = 3.5;
+			swipeSpeedBottom = 2.8;
 			if (yTwo > GameSettings.HEIGHT) {
 				swipeSpeedBottom = 0;
 			}

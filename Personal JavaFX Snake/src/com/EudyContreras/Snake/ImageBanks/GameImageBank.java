@@ -114,7 +114,7 @@ public class GameImageBank {
 		public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,100);
 		public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
 		public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
-		public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info.png"));
+		public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 		public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_red.png"));
 		public static final Image hud_timer = new Image(ImageEffectUtility.loadResource("hud_timer.png"));
 		public static final Image main_multiplayer_hud = new Image(ImageEffectUtility.loadResource("main_multiplayer_hud.png"));
@@ -144,7 +144,7 @@ public class GameImageBank {
 		public static final Image restart_button = new Image(ImageEffectUtility.loadResource("restart_button.png"));
 		public static final Image quit_button = new Image(ImageEffectUtility.loadResource("quit_button.png"));
 		public static final Image draw_game = new Image(ImageEffectUtility.loadResource("game_draw_board.png"));
-		public static final Image pause_menu = new Image(ImageEffectUtility.loadResource("pause_menu_panel_red.png"));
+		public static final Image pause_menu = new Image(ImageEffectUtility.loadResource("pause_menu_panel.png"));
 		public static final Image pause_continue = new Image(ImageEffectUtility.loadResource("pause_continue.png"));
 		public static final Image pause_restart = new Image(ImageEffectUtility.loadResource("pause_restart.png"));
 		public static final Image pause_main = new Image(ImageEffectUtility.loadResource("pause_main_menu.png"));

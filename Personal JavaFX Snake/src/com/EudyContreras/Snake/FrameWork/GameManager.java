@@ -252,7 +252,7 @@ public class GameManager extends AbstractGameModel{
         healthBarOne = new HealthBarOne(this);
         healthBarTwo = new HealthBarTwo(this);
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
-        gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 100 / ScaleY);
+        gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
         scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 110/ScaleX,
                 50/ScaleY, Color.rgb(255, 150, 0));

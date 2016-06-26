@@ -26,7 +26,7 @@
 }
 
 #MainScore{
-        -fx-fill: linear-gradient(red, red);
+        -fx-fill: linear-gradient(red, orange);
 }
 
 #ScoreBoard{

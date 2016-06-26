@@ -103,10 +103,10 @@ public class GameOverScreen {
 		baseGameBoard.setImage(boardImage);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		optionsBoard.setFitWidth(GameManager.ScaleX(800));
-		optionsBoard.setFitHeight((GameManager.ScaleY(450)/4));
-		continue_btt.setFitWidth(GameManager.ScaleX(240));
-		continue_btt.setFitHeight(GameManager.ScaleY(70));
+		optionsBoard.setFitWidth(GameManager.ScaleX(830));
+		optionsBoard.setFitHeight((GameManager.ScaleY(460)/4));
+		continue_btt.setFitWidth(GameManager.ScaleX(250));
+		continue_btt.setFitHeight(GameManager.ScaleY(80));
 		quitGame_btt.setFitWidth(continue_btt.getFitWidth());
 		quitGame_btt.setFitHeight(continue_btt.getFitHeight());
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));

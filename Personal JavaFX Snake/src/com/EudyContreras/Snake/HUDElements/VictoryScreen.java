@@ -530,8 +530,9 @@ public class VictoryScreen extends AbstractHudElement {
 	public void panIn() {
 		if (panIn) {
 			this.rOne = rOne + velROne;
-			this.widthOne += width * 0.02;
-			this.heightOne += height * 0.02;
+			this.velROne = velROne*.99;
+			this.widthOne += width * 0.011;
+			this.heightOne += height * 0.011;
 			this.mainGameBoard.setOpacity(1);
 			this.baseGameBoard.setFitWidth(widthOne);
 			this.baseGameBoard.setFitHeight(heightOne);
@@ -748,7 +749,7 @@ public class VictoryScreen extends AbstractHudElement {
 		widthOne = 1;
 		heightOne = 1;
 		opacityLevel = 0;
-		velROne = 17;
+		velROne = 30;
 		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
 		baseGameBoard.setVisible(true);

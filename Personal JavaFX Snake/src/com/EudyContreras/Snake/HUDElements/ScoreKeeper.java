@@ -31,7 +31,6 @@ import javafx.scene.text.Text;
 public class ScoreKeeper extends AbstractHudElement{
 
 
-	private DropShadow dropShadowOne;
 	private DropShadow dropShadowTwo;
 	private ImagePattern singlePlayer;
 	private ImagePattern multipLayer;
@@ -85,67 +84,57 @@ public class ScoreKeeper extends AbstractHudElement{
 	 * are used by this class and all the sub elements of those texts.
 	 */
 	private void setupText(){
+		this.yOne = GameManager.ScaleY( 10);
+		this.yTwo = GameManager.ScaleY(0);
+		this.baseY = yTwo+GameManager.ScaleY(5);
 		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), GameManager.ScaleX(15));
 		this.countText.setX(xTwo + (widthOne*0.52));
 		this.countText.setY(yOne+GameManager.ScaleY(45));
 		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(38)));
-        this.dropShadowOne = new DropShadow();
         this.dropShadowTwo = new DropShadow();
-        this.dropShadowOne.setColor(Color.DODGERBLUE);
-        this.dropShadowOne.setRadius(20);
-        this.dropShadowOne.setSpread(0.1);
-        this.dropShadowOne.setBlurType(BlurType.TWO_PASS_BOX);
         this.dropShadowTwo.setColor(Color.RED);
         this.dropShadowTwo.setRadius(20);
         this.dropShadowTwo.setSpread(0.1);
         this.dropShadowTwo.setBlurType(BlurType.TWO_PASS_BOX);
         this.countText.setEffect(dropShadowTwo);
         this.countText.setId("MainScore");
+		this.board.setY(yTwo);
+		this.apple.setY(yOne + GameManager.ScaleY(5));
+		this.countText.setY(yOne+GameManager.ScaleY(48));
         this.singlePlayerInfo();
 
 	}
 	public void multiplayerInfo(){
 		APPLE_COUNT = count;
-		this.yOne = GameManager.ScaleY( 10);
-		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 800 / 2);
-		this.yTwo = GameManager.ScaleY(0);
-		this.baseY = yTwo;
-		this.widthOne = GameManager.ScaleX(800);
-		this.heightOne = GameManager.ScaleY(90);
+		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 690 / 2);
+		this.widthOne = GameManager.ScaleX(690);
+		this.heightOne = GameManager.ScaleY(85);
 		this.board.setFill(multipLayer);
 		this.board.setX(xTwo);
-		this.board.setY(yTwo);
 		this.board.setWidth(widthOne);
 		this.board.setHeight(heightOne);
-		this.apple.setX(xTwo + GameManager.ScaleX(700)*0.50);
-		this.apple.setY(yOne + GameManager.ScaleY(5));
+		this.apple.setX(xTwo + GameManager.ScaleX(690)*0.43);
 		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
 		this.apple.setImage(GameImageBank.apple);
 		this.countText.setX(xTwo + (widthOne*0.51));
-		this.countText.setY(yOne+GameManager.ScaleY(48));
 		this.processCount();
 	}
+
 	public void singlePlayerInfo(){
 		this.initialAmount = 0;
-		this.yOne = GameManager.ScaleY( 10);
 		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 800 / 2);
-		this.yTwo = GameManager.ScaleY(0);
-		this.baseY = yTwo;
 		this.widthOne = GameManager.ScaleX(800);
 		this.heightOne = GameManager.ScaleY(90);
 		this.board.setFill(singlePlayer);
 		this.board.setX(xTwo);
-		this.board.setY(yTwo);
 		this.board.setWidth(widthOne);
 		this.board.setHeight(heightOne);
 		this.apple.setX(xTwo + GameManager.ScaleX(700)*0.58);
-		this.apple.setY(yOne + GameManager.ScaleY(6));
 		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
 		this.apple.setImage(GameImageBank.apple_alt);
 		this.countText.setX(xTwo + (widthOne*0.58));
-		this.countText.setY(yOne+GameManager.ScaleY(48));
 	}
 	/**
 	 * Method which updates all the UI elements
@@ -181,21 +170,21 @@ public class ScoreKeeper extends AbstractHudElement{
 		yTwo = yTwo + swipeSpeed/GameManager.ScaleY;
 		yOne = yOne + swipeSpeed/GameManager.ScaleY;
 		if (swipeDown) {
-			swipeSpeed = 2.5f;
-			if (yTwo > GameManager.ScaleY(95)) {
+			swipeSpeed = 2.8f;
+			if (yTwo > GameManager.ScaleY(115)) {
 				swipeSpeed = 0;
 			}
 		}
 		if (swipeUp) {
-			swipeSpeed = -2.5f;
-			if (yTwo < baseY) {
+			swipeSpeed = -2.8f;
+			if (yTwo <= baseY) {
 				swipeSpeed = 0;
 			}
 		}
-//		board.setY(yTwo);
-//		this.apple.setY(yOne + GameManager.ScaleY(7));
-//		this.countText.setY(yOne+GameManager.ScaleY(48));
-//		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), yOne + GameManager.ScaleX(13));
+		board.setY(yTwo);
+		this.apple.setY(yOne + GameManager.ScaleY(7));
+		this.countText.setY(yOne+GameManager.ScaleY(48));
+		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), yOne + GameManager.ScaleX(13));
 	}
 	/**
 	 * Method which shows or hide the board
@@ -272,8 +261,8 @@ public class ScoreKeeper extends AbstractHudElement{
 		}
 		else {
 			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && game.getStateID()!=GameStateID.GAME_MENU && game.getStateID()!=GameStateID.COUNT_DOWN){
-//			swipeUp();
-//			game.getGameHud().hideHUDCover();
+			swipeUp();
+			game.getGameHud().hideHUDCover();
 			}
 		}
 	}
