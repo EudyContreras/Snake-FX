@@ -737,6 +737,7 @@ public class VictoryScreen extends AbstractHudElement {
 		baseGameBoard.setFitWidth(0);
 		baseGameBoard.setFitHeight(0);
 		game.getMainRoot().getChildren().add(scoreLayer);
+		scoreScreen.hideScores();
 		showTransition = false;
 		swipeRight = true;
 		showScores = false;
@@ -749,7 +750,7 @@ public class VictoryScreen extends AbstractHudElement {
 		widthOne = 1;
 		heightOne = 1;
 		opacityLevel = 0;
-		velROne = 30;
+		velROne = 36;
 		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
 		baseGameBoard.setVisible(true);

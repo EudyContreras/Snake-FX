@@ -21,8 +21,10 @@ import javafx.scene.transform.Rotate;
 public class HealthBarTwo {
 
 	private boolean setDelay = false;
+	private boolean hidePlayer = true;
 	private boolean killPlayer = false;
 	private boolean playerIsAlive = true;
+	private double playerOpacity = 0;
 	private double maxHealth = 100;
 	private double x = 0;
 	private double y = 0;
@@ -36,6 +38,8 @@ public class HealthBarTwo {
 	private Rectangle healthBarGreen = new Rectangle();
 	private Rectangle healthBarBorder = new Rectangle();
 	private Circle playerHead = new Circle();
+
+
 	/**
 	 * Constructor which takes the main class as parameter along with the
 	 * position and dimension of this energy bar.
@@ -89,6 +93,7 @@ public class HealthBarTwo {
 	public void update(){
 		depleteHealth();
 		regenerateHealth();
+		hidePlayer();
 	}
 	/**
 	 * Method which when called will reduce the health
@@ -221,11 +226,29 @@ public class HealthBarTwo {
 		healthBarGreen.setVisible(state);
 		healthBarRed.setVisible(state);
 	}
+	public void hidePlayer(){
+		playerHead.setOpacity(playerOpacity);
+		if(hidePlayer){
+			playerOpacity-=0.05;
+			if(playerOpacity<=0){
+				playerOpacity = 0;
+			}
+
+		}
+		if(!hidePlayer){
+			playerOpacity+=0.05;
+			if(playerOpacity>=1){
+				playerOpacity = 1;
+			}
+		}
+	}
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerTwo();
 	}
-
+	public void hidePlayerHead(boolean state){
+		hidePlayer = state;
+	}
 	public double getX() {
 		return x;
 	}

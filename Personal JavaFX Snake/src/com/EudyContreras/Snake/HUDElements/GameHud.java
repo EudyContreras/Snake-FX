@@ -25,6 +25,7 @@ public class GameHud {
 	private double swipeSpeedBottom = 0;
 	private boolean hideHUDCover = false;
 	private boolean showHUDCover = false;
+	private GameManager game;
 	private DropShadow shadow = new DropShadow();
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
@@ -41,6 +42,7 @@ public class GameHud {
 
 	public GameHud(GameManager game, double x, double y, double width, double height) {
 		this.yOne = y;
+		this.game = game;
 		this.shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		this.shadow.setRadius(5);
 		this.shadow.setOffsetX(0);
@@ -116,6 +118,8 @@ public class GameHud {
 	 * cover
 	 */
 	public void showHUDCover() {
+		game.getHealthBarOne().hidePlayerHead(true);
+		game.getHealthBarTwo().hidePlayerHead(true);
 		hideHUDCover = false;
 		showHUDCover = true;
 	}
@@ -124,6 +128,8 @@ public class GameHud {
 	 * cove
 	 */
 	public void hideHUDCover() {
+		game.getHealthBarOne().hidePlayerHead(false);
+		game.getHealthBarTwo().hidePlayerHead(false);
 		showHUDCover = false;
 		hideHUDCover = true;
 	}

@@ -22,8 +22,10 @@ public class HealthBarOne {
 
 
 	private boolean setDelay = false;
+	private boolean hidePlayer = true;
 	private boolean killPlayer = false;
 	private boolean playerIsAlive = true;
+	private double playerOpacity = 0;
 	private double maxHealth = 100;
 	private double width = 0;
 	private double x;
@@ -89,6 +91,7 @@ public class HealthBarOne {
 	public void update(){
 		depleteHealth();
 		regenerateHealth();
+		hidePlayer();
 	}
 	/**
 	 * Method which when called will reduce the health
@@ -199,10 +202,29 @@ public class HealthBarOne {
 		this.width = 0;
 		this.healthBarGreen.setWidth(width);
 	}
+	public void hidePlayer(){
+		if(hidePlayer){
+			playerOpacity-=0.05;
+			playerHead.setOpacity(playerOpacity);
+			if(playerOpacity<=0){
+				playerOpacity = 0;
+			}
 
+		}
+		if(!hidePlayer){
+			playerOpacity+=0.05;
+			playerHead.setOpacity(playerOpacity);
+			if(playerOpacity>=1){
+				playerOpacity = 1;
+			}
+		}
+	}
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerOne();
+	}
+	public void hidePlayerHead(boolean state){
+		hidePlayer = state;
 	}
 	/**
 	 * Method whichs sets the visibility
