@@ -122,8 +122,6 @@ public class GameHud {
 		game.getHealthBarTwo().hidePlayerHead(true);
 		game.getHealthBarOne().moveLeft();
 		game.getHealthBarTwo().moveRight();
-		game.getScoreBoardOne().moveLeft();
-		game.getScoreBoardTwo().moveRight();
 		hideHUDCover = false;
 		showHUDCover = true;
 	}
@@ -136,8 +134,6 @@ public class GameHud {
 		game.getHealthBarTwo().hidePlayerHead(false);
 		game.getHealthBarOne().moveRight();
 		game.getHealthBarTwo().moveLeft();
-		game.getScoreBoardOne().moveRight();
-		game.getScoreBoardTwo().moveLeft();
 		showHUDCover = false;
 		hideHUDCover = true;
 	}

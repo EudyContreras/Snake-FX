@@ -37,12 +37,12 @@ public class GameTimer {
 	private int hours = 00;
 
 
-	public GameTimer(GameManager game, double width, double height, double size, TimerStyle style) {
+	public GameTimer(GameManager game, double width, double height, double size, TimerStyle style, Color background) {
 		this.size = GameManager.ScaleX_Y(size);
 		this.timerText = new Text();
 		this.timerBox = new StackPane();
 		this.timerBox.setPrefSize(GameManager.ScaleX(width), GameManager.ScaleY(height));
-		this.timerBox.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+		this.timerBox.setBackground(new Background(new BackgroundFill(background, null, null)));
 		this.timerBox.getChildren().add(timerText);
 		setupText(style);
 	}

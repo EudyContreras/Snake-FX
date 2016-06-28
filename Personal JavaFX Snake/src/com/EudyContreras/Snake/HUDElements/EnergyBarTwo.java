@@ -85,6 +85,9 @@ public class EnergyBarTwo {
 	public void stopMoving(){
 		this.velX = 0;
 	}
+	public void setMoveX(double moveX){
+		this.moveX = moveX;
+	}
 	/**
 	 * Method which depletes the energy of the player by a constant
 	 * percentage. This method also determines what action to take

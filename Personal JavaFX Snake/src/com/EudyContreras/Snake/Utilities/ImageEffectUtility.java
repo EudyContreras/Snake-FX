@@ -64,9 +64,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-180);
-		light.setY(310);
-		light.setZ(140);
+		light.setX(-100);
+		light.setY(200);
+		light.setZ(100);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -165,9 +165,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-180);
-		light.setY(310);
-		light.setZ(140);
+		light.setX(-200);
+		light.setY(300);
+		light.setZ(150);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -362,7 +362,7 @@ public class ImageEffectUtility {
 		borderGlow.setColor(color);
 		borderGlow.setWidth(depth);
 		borderGlow.setHeight(depth);
-		borderGlow.setBlurType(BlurType.TWO_PASS_BOX);
+		borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		circle.setOpacity(opacity);
 		circle.setEffect(borderGlow);
 		img = ImageEffectUtility.createImage(circle);
@@ -422,9 +422,9 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(4/(GameManager.ScaleX_ScaleY));
-		shadow.setOffsetX(GameManager.ScaleX(15));
-		shadow.setOffsetY(GameManager.ScaleY(-10));
+		shadow.setRadius(4);
+		shadow.setOffsetX(15);
+		shadow.setOffsetY(-10);
 		blur.setIterations(2);
 		blur.setWidth(10);
 		blur.setHeight(10);

@@ -100,6 +100,9 @@ public class ScoreBoard {
 	public void stopMoving(){
 		this.velX = 0;
 	}
+	public void setMoveX(double moveX){
+		this.moveX = moveX;
+	}
 	/**
 	 * Method which hides the score by setting its
 	 * visibility to false

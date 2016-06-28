@@ -108,19 +108,17 @@ public class HealthBarOne {
 		if(moveX>0){
 			moveX = 0;
 		}
+		game.getEnergyBarOne().setMoveX(moveX);
+		game.getScoreBoardOne().setMoveX(moveX);
 	}
 	public void moveLeft(){
 		velX = GameManager.ScaleX(-10);
-		game.getEnergyBarOne().moveLeft();
 	}
 	public void moveRight(){
 		velX = GameManager.ScaleX(10);
-		game.getEnergyBarOne().moveRight();
 	}
 	public void stopMoving(){
 		this.velX = 0;
-		this.game.getEnergyBarOne().stopMoving();
-		this.game.getScoreBoardOne().stopMoving();
 	}
 	/**
 	 * Method which when called will reduce the health

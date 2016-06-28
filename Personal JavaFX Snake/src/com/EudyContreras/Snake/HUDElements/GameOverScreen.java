@@ -101,6 +101,10 @@ public class GameOverScreen {
 		baseGameBoard.setFitWidth(width);
 		baseGameBoard.setFitHeight(height);
 		baseGameBoard.setImage(boardImage);
+		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
+		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
+		baseGameBoard.setX(confirmX);
+		optionsBoard.setX(confirmXTwo);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		optionsBoard.setFitWidth(GameManager.ScaleX(830));
@@ -309,10 +313,10 @@ public class GameOverScreen {
 	 */
 	public void gameOver(){
 		if (LEVEL_FAILED == false) {
-			removeBoard();
-			endGame();
+//			removeBoard();
 			game.getScoreKeeper().swipeDown();
 			game.getGameHud().showHUDCover();
+			endGame();
 			LEVEL_FAILED = true;
 			PlayerOne.ALLOW_FADE = false;
 			PlayerTwo.ALLOW_FADE = false;
@@ -480,6 +484,7 @@ public class GameOverScreen {
 					PlayerOne.LEVEL_COMPLETED = false;
 					PlayerTwo.LEVEL_COMPLETED = false;
 					ClassicSnake.LEVEL_COMPLETED = false;
+					removeBoard();
 					game.processGameInput();
 					center = false;
 				}
@@ -602,13 +607,19 @@ public class GameOverScreen {
 	 * all the UI elements of this board not visible
 	 */
 	public void removeBoard() {
+		baseGameBoard.setVisible(false);
 		mainGameBoard.setVisible(false);
 		optionsBoard.setVisible(false);
 		continue_btt.setVisible(false);
 		quitGame_btt.setVisible(false);
 		restart_btt.setVisible(false);
+		scoreScreen.hideScores();
 		game.getMainRoot().getChildren().remove(scoreLayer);
 		LEVEL_FAILED = false;
+		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
+		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
+		baseGameBoard.setX(confirmX);
+		optionsBoard.setX(confirmXTwo);
 		mainGameBoard.setX(0 - mainGameBoard.getFitWidth() - 50);
 		confirmX = 0;
 		acceleration = 6.0f;
@@ -622,19 +633,12 @@ public class GameOverScreen {
 	 */
 	private void resetBoard() {
 		game.getGameRoot().setEffect(null);
-		scoreScreen.hideScores();
 		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
 		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
 		baseGameBoard.setX(confirmX);
 		mainGameBoard.setOpacity(0);
 		baseGameBoard.setImage(GameImageBank.game_over_trans_board);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
-		mainGameBoard.setVisible(true);
-		baseGameBoard.setVisible(true);
-		optionsBoard.setVisible(true);
-		continue_btt.setVisible(true);
-		quitGame_btt.setVisible(true);
-		restart_btt.setVisible(true);
 		game.getMainRoot().getChildren().add(scoreLayer);
 		center = true;
 		swipeRight = true;
@@ -645,6 +649,12 @@ public class GameOverScreen {
 		transitionOpacity = 0;
 		acceleration = 8.0f;
 		confirmXPosition = 0.002f;
+		mainGameBoard.setVisible(true);
+		baseGameBoard.setVisible(true);
+		optionsBoard.setVisible(true);
+		continue_btt.setVisible(true);
+		quitGame_btt.setVisible(true);
+		restart_btt.setVisible(true);
 	}
 	/**
 	 * Method which when called will

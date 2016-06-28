@@ -9,7 +9,7 @@ import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 
-public class ShapeFIllUtility {
+public class ShapeFillUtility {
 
 	private static RadialGradient RADIAL_GRADIENT;
 

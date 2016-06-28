@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractHudElement;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
@@ -65,7 +66,7 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.initialAmount = count;
 		this.countText = new Text();
 		this.apple = new ImageView(GameImageBank.apple_alt);
-		this.timer = new GameTimer(game, 175,53, 36, TimerStyle.ORANGE_STYLE);
+		this.timer = new GameTimer(game, 175,53, 36, TimerStyle.ORANGE_STYLE, Color.TRANSPARENT);
 		this.timer.setTimer(0, 0, 0, TimerType.countUp_timer);
 		this.board = new Rectangle();
 		this.apple.setPreserveRatio(true);
@@ -123,18 +124,18 @@ public class ScoreKeeper extends AbstractHudElement{
 
 	public void singlePlayerInfo(){
 		this.initialAmount = 0;
-		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 800 / 2);
-		this.widthOne = GameManager.ScaleX(800);
+		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 690 / 2);
+		this.widthOne = GameManager.ScaleX(690);
 		this.heightOne = GameManager.ScaleY(90);
 		this.board.setFill(singlePlayer);
 		this.board.setX(xTwo);
 		this.board.setWidth(widthOne);
 		this.board.setHeight(heightOne);
-		this.apple.setX(xTwo + GameManager.ScaleX(700)*0.58);
+		this.apple.setX(xTwo + GameManager.ScaleX(690)*0.52);
 		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
 		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
 		this.apple.setImage(GameImageBank.apple_alt);
-		this.countText.setX(xTwo + (widthOne*0.58));
+		this.countText.setX(xTwo + (widthOne*0.63));
 	}
 	/**
 	 * Method which updates all the UI elements
@@ -181,10 +182,10 @@ public class ScoreKeeper extends AbstractHudElement{
 				swipeSpeed = 0;
 			}
 		}
-		board.setY(yTwo);
+		this.board.setY(yTwo);
 		this.apple.setY(yOne + GameManager.ScaleY(7));
 		this.countText.setY(yOne+GameManager.ScaleY(48));
-		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), yOne + GameManager.ScaleX(13));
+		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), yOne + GameManager.ScaleX(5));
 	}
 	/**
 	 * Method which shows or hide the board
@@ -260,7 +261,7 @@ public class ScoreKeeper extends AbstractHudElement{
 			}
 		}
 		else {
-			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && game.getStateID()!=GameStateID.GAME_MENU && game.getStateID()!=GameStateID.COUNT_DOWN){
+			if(!PlayerOne.DEAD && !PlayerTwo.DEAD && !ClassicSnake.DEAD && game.getStateID()!=GameStateID.GAME_MENU && game.getStateID()!=GameStateID.COUNT_DOWN){
 			swipeUp();
 			game.getGameHud().hideHUDCover();
 			}
