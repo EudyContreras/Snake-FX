@@ -23,6 +23,7 @@ import com.EudyContreras.Snake.HUDElements.PauseMenu;
 import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
@@ -254,10 +255,10 @@ public class GameManager extends AbstractGameModel{
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
         gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
-        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 110/ScaleX,
-                50/ScaleY, Color.rgb(255, 150, 0));
+        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 110,
+                50, Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
         scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 170/ScaleX,
-                50/ScaleY, Color.rgb(255, 150, 0));
+                50, Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
@@ -425,7 +426,7 @@ public class GameManager extends AbstractGameModel{
                            getHealthBarOne().update();
                            getEnergyBarOne().update();
                            if (scoreBoardOne != null) {
-                               scoreBoardOne.hide();
+                               scoreBoardOne.updateUI();
                            }
                        }
 
@@ -433,7 +434,7 @@ public class GameManager extends AbstractGameModel{
                     	   getHealthBarTwo().update();
                            getEnergyBarTwo().update();
                            if (scoreBoardTwo != null) {
-                               scoreBoardTwo.hide();
+                               scoreBoardTwo.updateUI();
                            }
                        }
 

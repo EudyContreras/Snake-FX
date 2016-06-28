@@ -45,12 +45,12 @@ import javafx.scene.image.ImageView;
 	public static void SET_SEQUENTIAL_BACKGROUND(GameManager game, GameThemeID gameTheme) {
 		if (INDEX == 1) {
 			if (gameTheme == GameThemeID.DESERT_THEME)
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundOne);
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
 			if (gameTheme == null)
 				BACKGROUND_VIEW.setImage(GameLevelImage.classicBacground);
 		} else if (INDEX == 2) {
 			if (gameTheme == GameThemeID.DESERT_THEME)
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundOne);
 			if (gameTheme == null)
 				BACKGROUND_VIEW.setImage(GameLevelImage.classicBacground);
 		}

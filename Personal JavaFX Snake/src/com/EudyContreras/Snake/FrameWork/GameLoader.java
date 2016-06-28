@@ -157,6 +157,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
+		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
 			break;

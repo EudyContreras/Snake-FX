@@ -8,6 +8,8 @@ package com.EudyContreras.Snake.Identifiers;
  *
  */
 public enum GameObjectID {
+	PlayerOneHUD(),
+	PlayerTwoHUD(),
 	PlayerOne(),
 	PlayerTwo(),
 	classicSnake(),

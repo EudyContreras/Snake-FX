@@ -171,6 +171,8 @@ public class VictoryScreen extends AbstractHudElement {
 
 		}
 		resetBoard();
+//		game.getGameHud().showHUDCover();
+//		game.getScoreKeeper().swipeDown();
 	}
 
 	/**

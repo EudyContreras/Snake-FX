@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -23,10 +24,13 @@ public class ScoreBoard {
 	private int score = 0;
 	private double x;
 	private double y;
+	private double moveX;
+	private double velX;
 	private Text text;
 	private String message;
 	private GameManager game;
 	private DropShadow textGlow;
+	private GameObjectID hudID;
 
 	/**
 	 * Constructor which takes the main game class along with a message for this score board to
@@ -37,9 +41,10 @@ public class ScoreBoard {
 	 * @param y: Vertival coordinate for this HUD element
 	 * @param color: Color of the text to be shown
 	 */
-	public ScoreBoard(String text, GameManager game, double x, double y, Color color) {
-		this.x = x;
-		this.y = y;
+	public ScoreBoard(String text, GameManager game, double x, double y, Color color, GameObjectID id) {
+		this.x = GameManager.ScaleX(x);
+		this.y = GameManager.ScaleY(y);
+		this.hudID = id;
 		this.game = game;
 		this.message = text;
         this.textGlow = new DropShadow();
@@ -60,7 +65,40 @@ public class ScoreBoard {
         this.text.setEffect(textGlow);
         this.text.setId("PlayerScore");
 		this.game.getEleventhLayer().getChildren().add(this.text);
+		if(hudID == GameObjectID.PlayerOneHUD){
+			moveX = -400;
+		}
+		if(hudID == GameObjectID.PlayerTwoHUD){
+			moveX = 400;
+		}
 
+	}
+	public void updateUI(){
+		hide();
+		popIn();
+	}
+	public void popIn(){
+		this.moveX+=velX;
+		this.text.setTranslateX(x+moveX);
+		if(hudID == GameObjectID.PlayerOneHUD){
+			if(moveX>0){
+				moveX = 0;
+			}
+		}
+		if(hudID == GameObjectID.PlayerTwoHUD){
+			if(moveX<0){
+				moveX = 0;
+			}
+		}
+	}
+	public void moveLeft(){
+		this.velX = GameManager.ScaleX(-10);
+	}
+	public void moveRight(){
+		this.velX = GameManager.ScaleX(10);
+	}
+	public void stopMoving(){
+		this.velX = 0;
 	}
 	/**
 	 * Method which hides the score by setting its
@@ -124,6 +162,7 @@ public class ScoreBoard {
 	public int getScore(){
 		return score;
 	}
+
 	//TODO: Save the score to a local location so that the player can see
 	//the local high scores.
 	/**

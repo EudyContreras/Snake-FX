@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 
@@ -22,8 +23,11 @@ public class EnergyBarOne {
 	private boolean depleated = false;
 	private boolean speedThrust = false;
 	private double maxEnergyLevel = 100;
+	private double x;
 	private double width = 0;
 	private double delay = 0;
+	private double moveX = -400;
+	private double velX = 0;
 	private GameManager game;
 	private PlayerOne player;
 	private Rectangle energyBar = new Rectangle();
@@ -38,6 +42,7 @@ public class EnergyBarOne {
 	 * @param height: Vertival dimension for this energy bar
 	 */
 	public EnergyBarOne(GameManager game, double x, double y, double width, double height) {
+		this.x = x;
 		this.game = game;
 		this.width = width;
 		this.maxEnergyLevel = this.width;
@@ -56,8 +61,27 @@ public class EnergyBarOne {
 	 * the regenerate function at the rate of the framerate.
 	 */
 	public void update(){
+		if(game.getStateID() == GameStateID.GAMEPLAY){
 		depleteEnergy();
 		regenerateEnergy();
+		}
+		popIn();
+	}
+	private void popIn(){
+		this.moveX+=velX;
+		this.energyBar.setTranslateX(x+moveX);
+		if(moveX>0){
+			moveX = 0;
+		}
+	}
+	public void moveLeft(){
+		this.velX = GameManager.ScaleX(-10);
+	}
+	public void moveRight(){
+		this.velX = GameManager.ScaleX(10);
+	}
+	public void stopMoving(){
+		this.velX = 0;
 	}
 	/**
 	 * Method which depletes the energy of the player by a constant
@@ -115,7 +139,6 @@ public class EnergyBarOne {
 	public void refill() {
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
-
 		this.player.setAllowThrust(true);
 	}
 	/**

@@ -120,6 +120,10 @@ public class GameHud {
 	public void showHUDCover() {
 		game.getHealthBarOne().hidePlayerHead(true);
 		game.getHealthBarTwo().hidePlayerHead(true);
+		game.getHealthBarOne().moveLeft();
+		game.getHealthBarTwo().moveRight();
+		game.getScoreBoardOne().moveLeft();
+		game.getScoreBoardTwo().moveRight();
 		hideHUDCover = false;
 		showHUDCover = true;
 	}
@@ -130,6 +134,10 @@ public class GameHud {
 	public void hideHUDCover() {
 		game.getHealthBarOne().hidePlayerHead(false);
 		game.getHealthBarTwo().hidePlayerHead(false);
+		game.getHealthBarOne().moveRight();
+		game.getHealthBarTwo().moveLeft();
+		game.getScoreBoardOne().moveRight();
+		game.getScoreBoardTwo().moveLeft();
 		showHUDCover = false;
 		hideHUDCover = true;
 	}

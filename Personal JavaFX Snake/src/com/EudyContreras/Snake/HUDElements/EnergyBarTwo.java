@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -26,6 +27,8 @@ public class EnergyBarTwo {
 	private double x = 0;
 	private double width = 0;
 	private double delay = 0;
+	private double moveX = 400;
+	private double velX = 0;
 	private GameManager game;
 	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
@@ -60,8 +63,27 @@ public class EnergyBarTwo {
 	 * the regenerate function at the rate of the framerate.
 	 */
 	public void update(){
+		if(game.getStateID() == GameStateID.GAMEPLAY){
 		depleteEnergy();
 		regenerateEnergy();
+		}
+		popIn();
+	}
+	private void popIn(){
+		this.moveX+=velX;
+		this.energyBar.setTranslateX(x+moveX);
+		if(moveX<0){
+			moveX = 0;
+		}
+	}
+	public void moveLeft(){
+		this.velX = GameManager.ScaleX(-10);
+	}
+	public void moveRight(){
+		this.velX = GameManager.ScaleX(10);
+	}
+	public void stopMoving(){
+		this.velX = 0;
 	}
 	/**
 	 * Method which depletes the energy of the player by a constant

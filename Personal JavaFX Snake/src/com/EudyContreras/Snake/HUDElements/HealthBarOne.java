@@ -30,6 +30,8 @@ public class HealthBarOne {
 	private double width = 0;
 	private double x;
 	private double y;
+	private double moveX = -400;
+	private double velX = 0;
 	private double height;
 	private int delay = 0;
 	private GameManager game;
@@ -78,7 +80,7 @@ public class HealthBarOne {
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_one));
 		this.game.getEleventhLayer().getChildren().add(healthBarRed);
-		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
+//		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
@@ -92,6 +94,33 @@ public class HealthBarOne {
 		depleteHealth();
 		regenerateHealth();
 		hidePlayer();
+		popIn();
+	}
+	private void popIn(){
+		this.moveX+=velX;
+		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(180)+moveX);
+		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(180)+moveX);
+		this.playerHead.setCenterX(x+GameManager.ScaleX(60)+moveX);
+		this.healthBarBorder.setTranslateX(x+moveX);
+		if(healthBarBorder.getTranslateX()<0-healthBarBorder.getWidth()){
+			this.stopMoving();
+		}
+		if(moveX>0){
+			moveX = 0;
+		}
+	}
+	public void moveLeft(){
+		velX = GameManager.ScaleX(-10);
+		game.getEnergyBarOne().moveLeft();
+	}
+	public void moveRight(){
+		velX = GameManager.ScaleX(10);
+		game.getEnergyBarOne().moveRight();
+	}
+	public void stopMoving(){
+		this.velX = 0;
+		this.game.getEnergyBarOne().stopMoving();
+		this.game.getScoreBoardOne().stopMoving();
 	}
 	/**
 	 * Method which when called will reduce the health
@@ -117,7 +146,7 @@ public class HealthBarOne {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBarGreen.setWidth(width);
+		this.healthBarRed.setWidth(width);
 	}
 
 	/**
@@ -172,7 +201,7 @@ public class HealthBarOne {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBarGreen.setVisible(false);
+			healthBarRed.setVisible(false);
 			healthBarBorder.setVisible(false);
 		}
 	}
@@ -181,7 +210,7 @@ public class HealthBarOne {
 	 * to true
 	 */
 	public void show() {
-		healthBarGreen.setVisible(true);
+		healthBarRed.setVisible(true);
 		healthBarBorder.setVisible(true);
 	}
 	/**
@@ -200,7 +229,7 @@ public class HealthBarOne {
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBarGreen.setWidth(width);
+		this.healthBarRed.setWidth(width);
 	}
 	public void hidePlayer(){
 		if(hidePlayer){
