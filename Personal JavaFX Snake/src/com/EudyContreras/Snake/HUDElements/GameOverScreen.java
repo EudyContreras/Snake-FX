@@ -101,10 +101,6 @@ public class GameOverScreen {
 		baseGameBoard.setFitWidth(width);
 		baseGameBoard.setFitHeight(height);
 		baseGameBoard.setImage(boardImage);
-		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
-		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
-		baseGameBoard.setX(confirmX);
-		optionsBoard.setX(confirmXTwo);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
 		optionsBoard.setFitWidth(GameManager.ScaleX(830));
@@ -115,7 +111,23 @@ public class GameOverScreen {
 		quitGame_btt.setFitHeight(continue_btt.getFitHeight());
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
+		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
+		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
+		baseGameBoard.setX(confirmX);
+		optionsBoard.setX(confirmXTwo);
+		continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
+		continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+		quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
+		quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+		restart_btt.setY(continue_btt.getY());
 		scoreLayer.getChildren().addAll(baseGameBoard,mainGameBoard,optionsBoard, continue_btt, quitGame_btt, restart_btt);
+		baseGameBoard.setVisible(false);
+		mainGameBoard.setVisible(false);
+		optionsBoard.setVisible(false);
+		continue_btt.setVisible(false);
+		quitGame_btt.setVisible(false);
+		restart_btt.setVisible(false);
 		processMouseHandling();
 
 	}
@@ -294,7 +306,7 @@ public class GameOverScreen {
 	private void checkStatus(){
 		if (PlayerOne.ALLOW_FADE || PlayerTwo.ALLOW_FADE || ClassicSnake.ALLOW_FADE) {
 			if (LEVEL_FAILED == false) {
-				removeBoard();
+//				removeBoard();
 				endGame();
 				game.getScoreKeeper().swipeDown();
 				game.getGameHud().showHUDCover();

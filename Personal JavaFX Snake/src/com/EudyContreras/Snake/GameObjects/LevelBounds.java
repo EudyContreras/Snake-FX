@@ -61,7 +61,7 @@ public class LevelBounds extends AbstractTile {
 		this.leftBound.setX(-GameManager.ScaleX(85));
 		this.rightBound.setX(GameSettings.WIDTH - rightBound.getFitWidth()+GameManager.ScaleX(85));
 		this.topBound.setX(-GameManager.ScaleX(65));
-		this.topBound.setY(topBound.getFitHeight()-GameManager.ScaleY(100));
+		this.topBound.setY(topBound.getFitHeight()-GameManager.ScaleY(85));
 		this.bottomBound.setX(-GameManager.ScaleX(65));
 		this.bottomBound.setY(GameSettings.HEIGHT - bottomBound.getFitHeight()+GameManager.ScaleY(85));
 		this.displayBounds();
@@ -75,10 +75,10 @@ public class LevelBounds extends AbstractTile {
 		view.setFitHeight(GameManager.ScaleY(view.getImage().getHeight()));
 	}
 	public void displayBounds(){
-//		this.layer.getChildren().add(leftBound);
-//		this.layer.getChildren().add(rightBound);
-//		this.layer.getChildren().add(topBound);
-//		this.layer.getChildren().add(bottomBound);
+		this.layer.getChildren().add(leftBound);
+		this.layer.getChildren().add(rightBound);
+		this.layer.getChildren().add(topBound);
+		this.layer.getChildren().add(bottomBound);
 	}
 	public void showBounds(boolean state){
 		this.leftBound.setVisible(state);
