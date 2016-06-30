@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.HUDElements;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
@@ -130,6 +131,12 @@ public class PauseMenu {
 	}
 	public void showTouchPanel(){
 		if(!show){
+			if(game.getModeID() == GameModeID.LocalMultiplayer){
+				mainBoard.setImage(GameImageBank.pause_menu);
+			}
+			if(game.getModeID() == GameModeID.ClassicMode){
+				mainBoard.setImage(GameImageBank.pause_menu_classic);
+			}
 			show = true;
 			hide = false;
 			game.setStateID(GameStateID.GAME_MENU);

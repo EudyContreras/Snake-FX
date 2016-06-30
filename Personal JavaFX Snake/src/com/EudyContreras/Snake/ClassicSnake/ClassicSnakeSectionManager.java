@@ -25,7 +25,7 @@ public class ClassicSnakeSectionManager {
 	private ArrayList<AbstractSection> sectionList;
 	private AbstractSection tempSection;
 
-	public ClassicSnakeSectionManager(GameManager gameJavaFX) {
+	public ClassicSnakeSectionManager(GameManager game) {
 		initialize();
 	}
 
@@ -87,7 +87,7 @@ public class ClassicSnakeSectionManager {
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAllLogicIter(long timePassed) {
+	public void updateAllLogicI(long timePassed) {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
 		while (sectionIter.hasNext()) {
 			tempSection = sectionIter.next();
@@ -103,7 +103,7 @@ public class ClassicSnakeSectionManager {
 			}
 		}
 	}
-	public void updateAllMovementIter(long timePassed) {
+	public void updateAllMovementI(long timePassed) {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
 		while (sectionIter.hasNext()) {
 			tempSection = sectionIter.next();

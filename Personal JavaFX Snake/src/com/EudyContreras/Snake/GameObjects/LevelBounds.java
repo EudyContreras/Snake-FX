@@ -25,6 +25,7 @@ public class LevelBounds extends AbstractTile {
 	private GameManager game;
 	private ImageView leftBound;
 	private ImageView rightBound;
+	private ImageView topBoundV;
 	private ImageView topBound;
 	private ImageView bottomBound;
 	private Pane layer;
@@ -54,14 +55,18 @@ public class LevelBounds extends AbstractTile {
 		this.rightBound = new ImageView(GameImageBank.clipping_bar_v);
 		this.topBound = new ImageView(GameImageBank.hud_bar_orange);
 		this.bottomBound = new ImageView(GameImageBank.clipping_bar_h);
+		this.topBoundV = new ImageView(GameImageBank.hud_bar_black);
 		this.setDimensions_h(bottomBound);
 		this.setDimensions_v(leftBound);
 		this.setDimensions_v(rightBound);
 		this.setDimensions_h(topBound);
+		this.setDimensions_h(topBoundV);
 		this.leftBound.setX(-GameManager.ScaleX(85));
 		this.rightBound.setX(GameSettings.WIDTH - rightBound.getFitWidth()+GameManager.ScaleX(85));
 		this.topBound.setX(-GameManager.ScaleX(65));
 		this.topBound.setY(topBound.getFitHeight()-GameManager.ScaleY(85));
+		this.topBoundV.setX(-15);
+		this.topBoundV.setY(topBoundV.getFitHeight()-GameManager.ScaleY(135));
 		this.bottomBound.setX(-GameManager.ScaleX(65));
 		this.bottomBound.setY(GameSettings.HEIGHT - bottomBound.getFitHeight()+GameManager.ScaleY(85));
 		this.displayBounds();
@@ -79,12 +84,14 @@ public class LevelBounds extends AbstractTile {
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(topBound);
 		this.layer.getChildren().add(bottomBound);
+		this.game.getEleventhLayer().getChildren().add(topBoundV);
 	}
 	public void showBounds(boolean state){
 		this.leftBound.setVisible(state);
 		this.rightBound.setVisible(state);
 		this.topBound.setVisible(state);
 		this.bottomBound.setVisible(state);
+		this.topBoundV.setVisible(state);
 	}
 	public void move() {
 

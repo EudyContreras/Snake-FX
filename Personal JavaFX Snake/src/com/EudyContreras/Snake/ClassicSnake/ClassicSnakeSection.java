@@ -36,6 +36,7 @@ public class ClassicSnakeSection extends AbstractSection {
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
+		this.radius = circle.getRadius();
 		this.classicSnake = snake;
 		this.numericID = numericID;
 		this.sectManager = game.getSectManagerThree();
@@ -135,7 +136,7 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 	private void loadPatterns() {
 		this.normalPattern = new ImagePattern(GameImageBank.classicSnakeBody);
-		this.blurredPattern = new ImagePattern(GameImageBank.classicSnakeBodyBlurred);
+		this.blurredPattern = new ImagePattern(GameImageBank.classicSnakeBodyDebris);
 		this.tailFill = new ImagePattern(GameImageBank.transparentFill);
 
 	}
@@ -183,6 +184,12 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 	public void logicUpdate(){
 		fadeDeath();
+		if(ClassicSnake.DEAD)
+		loseAccelaration();
+	}
+	public void loseAccelaration(){
+		this.velX = velX*0.985;
+		this.velY = velY*0.985;
 	}
 	public void setMotionBlur(){
 		if(classicSnake.getSpeedThrust()){
@@ -282,8 +289,8 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 
 	public void displace(){
-		this.velX = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
-		this.velY = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
+		this.velX = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-1), GameManager.ScaleY(1));
+		this.velY = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-1), GameManager.ScaleY(1));
 		if (this.numericID == ClassicSnake.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
 		}

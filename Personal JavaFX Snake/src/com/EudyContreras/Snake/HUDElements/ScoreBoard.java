@@ -30,7 +30,6 @@ public class ScoreBoard {
 	private String message;
 	private GameManager game;
 	private DropShadow textGlow;
-	private GameObjectID hudID;
 
 	/**
 	 * Constructor which takes the main game class along with a message for this score board to
@@ -44,7 +43,6 @@ public class ScoreBoard {
 	public ScoreBoard(String text, GameManager game, double x, double y, Color color, GameObjectID id) {
 		this.x = GameManager.ScaleX(x);
 		this.y = GameManager.ScaleY(y);
-		this.hudID = id;
 		this.game = game;
 		this.message = text;
         this.textGlow = new DropShadow();
@@ -65,12 +63,6 @@ public class ScoreBoard {
         this.text.setEffect(textGlow);
         this.text.setId("PlayerScore");
 		this.game.getEleventhLayer().getChildren().add(this.text);
-		if(hudID == GameObjectID.PlayerOneHUD){
-			moveX = -400;
-		}
-		if(hudID == GameObjectID.PlayerTwoHUD){
-			moveX = 400;
-		}
 
 	}
 	public void updateUI(){
@@ -80,16 +72,6 @@ public class ScoreBoard {
 	public void popIn(){
 		this.moveX+=velX;
 		this.text.setTranslateX(x+moveX);
-		if(hudID == GameObjectID.PlayerOneHUD){
-			if(moveX>0){
-				moveX = 0;
-			}
-		}
-		if(hudID == GameObjectID.PlayerTwoHUD){
-			if(moveX<0){
-				moveX = 0;
-			}
-		}
 	}
 	public void moveLeft(){
 		this.velX = GameManager.ScaleX(-10);

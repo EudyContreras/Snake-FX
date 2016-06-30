@@ -58,6 +58,7 @@ public class ClassicSnake extends AbstractObject {
 	private AnimationUtility anim;
 	private Rectangle bounds;
 	private ScreenEffectUtility overlay;
+	private ClassicSnakeHead snakeHead;
 	private ClassicSnakeSection neighbor;
 	private ClassicSnakeSectionManager sectManager;
 	private BoxBlur motionBlur;
@@ -82,11 +83,19 @@ public class ClassicSnake extends AbstractObject {
 		this.sectManager = game.getSectManagerThree();
 		this.loadImages();
 		this.loadMouth();
+//		this.loadHead();
 		this.drawBoundingBox();
 		this.moveDown();
 	}
 	public void loadMouth(){
 		this.game.getClassicSnakeManager().addObject(new ClassicSnakeFangs(this, game));
+	}
+	public void loadHead(){
+		this.circle.setVisible(false);
+		this.snakeHead = new ClassicSnakeHead(this, game, layer,
+				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.classicSnakeHead)), x, y,
+				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
+		this.game.getClassicSnakeManager().addObject(snakeHead);
 	}
 	public void loadImages() {
 		anim.addScene(GameImageBank.classicSnakeHead, 4000);

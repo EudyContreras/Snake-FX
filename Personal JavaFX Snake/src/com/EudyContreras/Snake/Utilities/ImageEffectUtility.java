@@ -64,9 +64,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-100);
-		light.setY(200);
-		light.setZ(100);
+		light.setX(-150);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -99,27 +99,21 @@ public class ImageEffectUtility {
 	public static synchronized Image precreatedLightedAndShadedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
-//		light.setX(-130);
-//		light.setY(315);
-//		light.setZ(130);
-
-//		light.setX(-150);
-//		light.setY(350);
-//		light.setZ(140);
-
-//		light.setX(-180);
-//		light.setY(200);
-//		light.setZ(130);
-
-//		DropShadow shadow = new DropShadow(15, Color.BLACK);
-//		Lighting lighting = new Lighting();
-//		Light.Point light = new Light.Point();
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view = new ImageView(img);
-		light.setX(-200);
+		light.setX(-150);
 		light.setY(300);
 		light.setZ(140);
+		
+//		light.setX(-150);
+//		light.setY(350);
+//		light.setZ(140);
+//		
+//		
+//		light.setX(-150);
+//		light.setY(220);
+//		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -141,9 +135,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-180);
-		light.setY(310);
-		light.setZ(140);
+		light.setX(-150);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(10.0);
@@ -165,11 +159,11 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(-200);
-		light.setY(300);
-		light.setZ(150);
+		light.setX(-150);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
-		lighting.setSpecularConstant(specularMap);
+		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
@@ -206,11 +200,11 @@ public class ImageEffectUtility {
 		Image img;
 		circle.setFill(color);
 		circle.setRadius(radius);
-		light.setX(340);
-		light.setY(600);
-		light.setZ(300);
+		light.setX(-150);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
-		lighting.setSpecularConstant(specularMap);
+		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(8.0);
 		blur.setIterations(2);
 		blur.setWidth(10);

@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.ImageBanks;
 
 import com.EudyContreras.Snake.FrameWork.GameLoader;
+import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
 
@@ -110,12 +111,13 @@ public class GameImageBank {
 		 * heads up display elements
 		 */
 		public static final Image hud_bar = new Image(ImageEffectUtility.loadResource("hud_bar_plain.png"));
-		public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,100,false, true);
-		public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,100);
+		public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,GameManager.ScaleY(100),false, true);
+		public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,GameManager.ScaleY(100),false, true);
+		public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,GameManager.ScaleY(100));
 		public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
 		public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
 		public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
-		public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_orange.png"));
+		public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info.png"));
 		public static final Image hud_timer = new Image(ImageEffectUtility.loadResource("hud_timer.png"));
 		public static final Image main_multiplayer_hud = new Image(ImageEffectUtility.loadResource("main_multiplayer_hud.png"));
 		public static final Image splash_screen = new Image(ImageEffectUtility.loadResource("SplashScreen5.png"));
@@ -145,6 +147,7 @@ public class GameImageBank {
 		public static final Image quit_button = new Image(ImageEffectUtility.loadResource("quit_button.png"));
 		public static final Image draw_game = new Image(ImageEffectUtility.loadResource("game_draw_board.png"));
 		public static final Image pause_menu = new Image(ImageEffectUtility.loadResource("pause_menu_panel.png"));
+		public static final Image pause_menu_classic = new Image(ImageEffectUtility.loadResource("pause_menu_panel_black.png"));
 		public static final Image pause_continue = new Image(ImageEffectUtility.loadResource("pause_continue.png"));
 		public static final Image pause_restart = new Image(ImageEffectUtility.loadResource("pause_restart.png"));
 		public static final Image pause_main = new Image(ImageEffectUtility.loadResource("pause_main_menu.png"));
@@ -159,9 +162,8 @@ public class GameImageBank {
 		 */
 		public static final Image apple = new Image(ImageEffectUtility.loadResource("apple.png"));
 		public static final Image apple_alt = new Image(ImageEffectUtility.loadResource("apple_alt.png"));
-		public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
-		public static final Image classicSnakeBody = ImageEffectUtility.preCreateShadedCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
-		public static final Image classicSnakeBodyDebris = ImageEffectUtility.preCreateAlternateGlowingCircle(Color.LIMEGREEN,1, 50, 0.7, GameSettings.PLAYER_ONE_SIZE*.75);
+		public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);		public static final Image classicSnakeBody = ImageEffectUtility.preCreateShadedCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
+		public static final Image classicSnakeBodyDebris = ImageEffectUtility.preCreateAlternateGlowingCircle(Color.GREEN,1, 300, 0.2, GameSettings.PLAYER_ONE_SIZE*5);
 		public static final Image classicSnakeBodyBlurred = ImageEffectUtility.preCreateShadedBlurredCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
 		public static final Image transparentFill = ImageEffectUtility.preCreateCircle(Color.GREEN, GameSettings.PLAYER_ONE_SIZE*.75);
 

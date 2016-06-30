@@ -255,9 +255,9 @@ public class GameManager extends AbstractGameModel{
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
         gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
-        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 110,
+        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 120,
                 50, Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
-        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 170/ScaleX,
+        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 180/ScaleX,
                 50, Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
@@ -386,8 +386,8 @@ public class GameManager extends AbstractGameModel{
                        loader.updateLevelObjects();
 
 						if (getGameLoader().getPlayerOne() != null) {
-							playerOneManager.updateAllLogic(timePassed);
-							sectManagerOne.updateAllLogic(timePassed);
+							playerOneManager.updateAllLogicI(timePassed);
+							sectManagerOne.updateAllLogicIter(timePassed);
 							for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
 								playerOneManager.updateAllMovement();
 								sectManagerOne.updateAllMovement(timePassed);
@@ -404,11 +404,11 @@ public class GameManager extends AbstractGameModel{
 						}
 
 						if (getGameLoader().getClassicSnake() != null) {
-							classicSnakeManager.updateAllLogic(timePassed);
-							sectManagerThree.updateAllLogic(timePassed);
+							classicSnakeManager.updateAllLogicI(timePassed);
+							sectManagerThree.updateAllLogicI(timePassed);
 							for (int speed = 0; speed < ClassicSnake.SPEED; speed += 1) {
-								classicSnakeManager.updateAllMovement();
-								sectManagerThree.updateAllMovement(timePassed);
+								classicSnakeManager.updateAllMovementI(timePassed);
+								sectManagerThree.updateAllMovementI(timePassed);
 							}
 						}
 

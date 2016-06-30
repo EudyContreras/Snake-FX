@@ -59,7 +59,7 @@ public class GameSettings {
 	public static double PLAYER_HEALTH = 100.0;
 
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double GLOBAL_SPECULARITY = 1.0;
+	public static double GLOBAL_SPECULARITY = 0.9;
 
 	public static int BLUR_RANDOMNESS = 200;
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;

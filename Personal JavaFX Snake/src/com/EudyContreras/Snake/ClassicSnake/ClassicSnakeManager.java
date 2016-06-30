@@ -44,8 +44,6 @@ public class ClassicSnakeManager {
 		Iterator<? extends AbstractObject> objectIterator = classicPlayerList.iterator();
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
-			tempObject.move();
-			tempObject.updateUI();
 			tempObject.checkCollision();
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
