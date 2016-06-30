@@ -33,6 +33,7 @@ public class ScreenEffectUtility {
 	private Boolean setToneOverlay = false;
 	private Boolean deathBlur = false;
 	private Boolean blurLevel = false;
+	private Boolean introBlur = false;
 	private Boolean storm = false;
 	private Boolean blurUp = true;
 	private Boolean blurDown = false;
@@ -50,6 +51,7 @@ public class ScreenEffectUtility {
 	private Double toneLifetime = 0.0;
 	private Double intenseBlurLifetime = 0.0;
 	private Double deathBlurLifetime = 0.0;
+	private Double introBlurOff = 20.0;
 	private Double speedDistortion;
 	private Double speedTone;
 	private Double speedBlur;
@@ -176,7 +178,6 @@ public class ScreenEffectUtility {
 	}
 
 	public synchronized void levelCompleteBlurOff() {
-		// clearLevelBluring = 40.0;
 		layer.setEffect(clearLevelBlur);
 		blurLevel = false;
 		clearLevel = true;
@@ -208,8 +209,7 @@ public class ScreenEffectUtility {
 	 * Adds a fading screen to the game which leads to the main menu. The fade
 	 * speed determines the speed of the fade.
 	 *
-	 * @param fadeSpeed:
-	 *            max 10, min 1;
+	 * @param fadeSpeed: max 10, min 1;
 	 */
 	public void addFadeScreen(double speed, GameStateID stateID, Runnable script) {
 		this.script = script;
@@ -222,6 +222,12 @@ public class ScreenEffectUtility {
 		setFadeOverlay = true;
 	}
 
+	public void addIntroEffect(){
+		layer.setEffect(null);
+		layer.setEffect(clearLevelBlur);
+		introBlurOff = 20.0;
+		introBlur = true;
+	}
 	public void updateEffect() {
 		if (setDistortion) {
 			setDistortionModifier();
@@ -246,6 +252,9 @@ public class ScreenEffectUtility {
 		}
 		if (blurLevel || clearLevel) {
 			setClearLevelBlur();
+		}
+		if (introBlur){
+			setIntroBlur();
 		}
 		if (setFadeOverlay) {
 			setFadeModifier();
@@ -400,13 +409,25 @@ public class ScreenEffectUtility {
 			if (clearLevelBluring <= 0) {
 				clearLevelBluring = 0.0;
 				clearLevel = false;
+				layer.setEffect(null);
 			}
 		}
 		layer.setEffect(clearLevelBlur);
 		clearLevelBlur.setWidth(clearLevelBluring);
 		clearLevelBlur.setHeight(clearLevelBluring);
 	}
-
+	public void setIntroBlur(){
+		if (introBlur) {
+			introBlurOff -= 0.6;
+			if (introBlurOff <= 0) {
+				introBlurOff = 0.0;
+				introBlur = false;
+			}
+		}
+		layer.setEffect(clearLevelBlur);
+		clearLevelBlur.setWidth(introBlurOff);
+		clearLevelBlur.setHeight(introBlurOff);
+	}
 	public void removeBlur() {
 		clearLevelBluring = 0.0;
 		setDistortion = false;

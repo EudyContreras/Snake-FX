@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import javafx.scene.shape.Rectangle;
 
 public class FadeScreenController{
+	private Runnable script;
 	private GameManager game;
 	private Rectangle mainFadeScreen;
 	private Rectangle innerFadeScreen;
@@ -18,6 +19,8 @@ public class FadeScreenController{
 	private boolean slowFade = false;
 	private boolean fadeIn = false;
 	private boolean fadeOut = false;
+	private boolean introFadeIn = false;
+	private boolean introFadeOut = false;
 
 	public FadeScreenController(GameManager game){
 		this.game = game;
@@ -55,6 +58,45 @@ public class FadeScreenController{
 			innerFadePercentage = 0;
 			quickFade = true;
 			slowFade = false;
+		}
+	}
+	public void intro_fade_screen(Runnable script){
+		this.script = script;
+		outerFadePercentage = 1.0;
+		game.getOverlayEffect().addIntroEffect();
+		game.getFadeScreenLayer().getChildren().remove(mainFadeScreen);
+		game.getFadeScreenLayer().getChildren().add(mainFadeScreen);
+		introFadeOut = true;
+
+	}
+	public void intro_fade_in(){
+		if(introFadeIn){
+			outerFadePercentage+=0.03;
+			mainFadeScreen.setOpacity(outerFadePercentage);
+			if(outerFadePercentage>=1.0){
+					outerFadePercentage = 1.0;
+					introFadeIn = false;
+					if(script!=null){
+						script.run();
+						script = null;
+					}
+
+					introFadeOut = true;
+			}
+		}
+	}
+	public void intro_fade_out(){
+		if(introFadeOut){
+			outerFadePercentage-=0.03;
+			mainFadeScreen.setOpacity(outerFadePercentage);
+			if(outerFadePercentage<=0){
+					outerFadePercentage = 0;
+					introFadeOut = false;
+					game.getFadeScreenLayer().getChildren().remove(mainFadeScreen);
+					if(script!=null){
+						script.run();
+					}
+			}
 		}
 	}
 	public void continue_fade_screen() {
@@ -152,5 +194,7 @@ public class FadeScreenController{
 	public void updateFade(){
 		innerFade_update();
         outer_fade_update();
+        intro_fade_in();
+        intro_fade_out();
 	}
 }
