@@ -28,7 +28,7 @@ public class GameLevelImage {
 	 * Classic Level Images.
 	 */
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	 public static final Image classicBacground = ImageEffectUtility.precreateBackground(Color.BLACK, GameSettings.WIDTH, GameSettings.HEIGHT);
+	 public static final Image classicBackground = ImageEffectUtility.precreateBackground(Color.BLACK, GameSettings.WIDTH, GameSettings.HEIGHT);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/**
@@ -36,16 +36,24 @@ public class GameLevelImage {
 	 */
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static final Image desertBackgroundOne = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-ttt.png",
+	 	public static final Image desertBackground = ImageEffectUtility.preCreateShadedBackground("desert_background.png",
+				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+		public static final Image desertBackgroundOne = ImageEffectUtility.preCreateShadedBackground("desert_background_one.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		public static final Image desertBackgroundTwo = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-one.png",
+		public static final Image desertBackgroundTwo = ImageEffectUtility.preCreateShadedBackground("desert_background_two.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		public static final Image desertBackgroundThree = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-two.png",
+		public static final Image desertBackgroundThree = ImageEffectUtility.preCreateShadedBackground("desert_background_three.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		public static final Image desertBackgroundFour = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-ttt.png",
+		public static final Image desertBackgroundFour = ImageEffectUtility.preCreateShadedBackground("desert_background_four.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		public static final Image desertBackgroundFive = ImageEffectUtility.preCreateShadedBackground("desert-level-sand-four.png",
+		public static final Image desertBackgroundFive = ImageEffectUtility.preCreateShadedBackground("desert_background_five.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+		public static final Image desertBackgroundSix = ImageEffectUtility.preCreateShadedBackground("desert_background_six.png",
+				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+		public static final Image desertBackgroundSeven = ImageEffectUtility.preCreateShadedBackground("desert_background_seven.png",
+				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+
+
 		public static final Image horizontalFence = ImageEffectUtility.precreatedLightedImage("horizontal_spike_fence.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 180 / GameLoader.ResolutionScaleX, 65 / GameLoader.ResolutionScaleY);
 		public static final Image verticalFence = ImageEffectUtility.precreatedLightedAndShadedImage("vertical_spike_fence.png",
@@ -104,7 +112,6 @@ public class GameLevelImage {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static final Image jungle_rain = new Image(ImageEffectUtility.loadResource("rainDrop.png"),10,10, true, true);
-
 
 		public static final Image classic_background = new Image(ImageEffectUtility.loadResource("grid.png"),
 				GameSettings.WIDTH, GameSettings.HEIGHT, false, true);

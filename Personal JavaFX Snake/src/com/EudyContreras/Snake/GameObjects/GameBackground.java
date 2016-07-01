@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
  *
  */
  public class GameBackground extends AbstractTile {
-	private static int INDEX = 1;
+	private static int INDEX = 0;
 	private static ImageView BACKGROUND_VIEW = new ImageView();
 
 	public static void SET_RANDOM_BACKGROUND(GameManager game, GameThemeID gameTheme) {
@@ -36,27 +36,38 @@ import javafx.scene.image.ImageView;
 			}
 		}
 		if (gameTheme == null){
-			BACKGROUND_VIEW.setImage(GameLevelImage.classicBacground);
+			BACKGROUND_VIEW.setImage(GameLevelImage.classicBackground);
 		}
 		game.getGameRoot().getChildren().remove(BACKGROUND_VIEW);
 		game.getGameRoot().getChildren().add(0, BACKGROUND_VIEW);
 	}
 
 	public static void SET_SEQUENTIAL_BACKGROUND(GameManager game, GameThemeID gameTheme) {
-		if (INDEX == 1) {
-			if (gameTheme == GameThemeID.DESERT_THEME)
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
-			if (gameTheme == null)
-				BACKGROUND_VIEW.setImage(GameLevelImage.classicBacground);
-		} else if (INDEX == 2) {
-			if (gameTheme == GameThemeID.DESERT_THEME)
+		if (gameTheme == GameThemeID.DESERT_THEME) {
+			if (INDEX == 0) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackground);
+			}else if (INDEX == 1) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundOne);
-			if (gameTheme == null)
-				BACKGROUND_VIEW.setImage(GameLevelImage.classicBacground);
+			}else if (INDEX == 2) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwo);
+			}else if (INDEX == 3) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThree);
+			}else if (INDEX == 4) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
+			}else if (INDEX == 5) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFive);
+			}else if (INDEX == 6) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSix);
+			}else if (INDEX == 7) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSeven);
+			}
+		}
+		else if (gameTheme == null) {
+			BACKGROUND_VIEW.setImage(GameLevelImage.classicBackground);
 		}
 		INDEX += 1;
-		if (INDEX > 2) {
-			INDEX = 1;
+		if (INDEX > 7) {
+			INDEX = 0;
 		}
 		game.getGameRoot().getChildren().remove(BACKGROUND_VIEW);
 		game.getGameRoot().getChildren().add(0, BACKGROUND_VIEW);

@@ -21,6 +21,7 @@ public class ScreenEffectUtility {
 	private GaussianBlur deathEffect = new GaussianBlur(0);
 	private GaussianBlur gaussianEffect = new GaussianBlur(7);
 	private BoxBlur clearLevelBlur = new BoxBlur();
+	private GaussianBlur introBlurEffect = new GaussianBlur(0);
 	private GaussianBlur stormBlur = new GaussianBlur(0);
 	private Rectangle toneOverlay = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
@@ -223,9 +224,10 @@ public class ScreenEffectUtility {
 	}
 
 	public void addIntroEffect(){
+		introBlurOff = 25.0;
+		introBlurEffect.setRadius(introBlurOff);
 		layer.setEffect(null);
-		layer.setEffect(clearLevelBlur);
-		introBlurOff = 20.0;
+		layer.setEffect(introBlurEffect);
 		introBlur = true;
 	}
 	public void updateEffect() {
@@ -424,9 +426,8 @@ public class ScreenEffectUtility {
 				introBlur = false;
 			}
 		}
-		layer.setEffect(clearLevelBlur);
-		clearLevelBlur.setWidth(introBlurOff);
-		clearLevelBlur.setHeight(introBlurOff);
+		layer.setEffect(introBlurEffect);
+		introBlurEffect.setRadius(introBlurOff);
 	}
 	public void removeBlur() {
 		clearLevelBluring = 0.0;
