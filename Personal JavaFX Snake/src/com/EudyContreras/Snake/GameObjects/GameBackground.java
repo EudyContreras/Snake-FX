@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
  *
  */
  public class GameBackground extends AbstractTile {
-	private static int INDEX = 0;
+	private static int INDEX = 1;
 	private static ImageView BACKGROUND_VIEW = new ImageView();
 
 	public static void SET_RANDOM_BACKGROUND(GameManager game, GameThemeID gameTheme) {
@@ -44,9 +44,7 @@ import javafx.scene.image.ImageView;
 
 	public static void SET_SEQUENTIAL_BACKGROUND(GameManager game, GameThemeID gameTheme) {
 		if (gameTheme == GameThemeID.DESERT_THEME) {
-			if (INDEX == 0) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackground);
-			}else if (INDEX == 1) {
+			if (INDEX == 1) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundOne);
 			}else if (INDEX == 2) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwo);
@@ -60,14 +58,22 @@ import javafx.scene.image.ImageView;
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSix);
 			}else if (INDEX == 7) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSeven);
+			}else if (INDEX == 8) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundEight);
+			}else if (INDEX == 9) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundNine);
+			}else if (INDEX == 10) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTen);
+			}else if (INDEX == 11) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundEleven);
 			}
 		}
 		else if (gameTheme == null) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.classicBackground);
 		}
 		INDEX += 1;
-		if (INDEX > 7) {
-			INDEX = 0;
+		if (INDEX > 11) {
+			INDEX = 1;
 		}
 		game.getGameRoot().getChildren().remove(BACKGROUND_VIEW);
 		game.getGameRoot().getChildren().add(0, BACKGROUND_VIEW);

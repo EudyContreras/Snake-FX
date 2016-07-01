@@ -172,7 +172,7 @@ public class GameImageBank {
 
 
 		public static final String loadResource(String resource) {
-		return GameImageBank2.class.getResource(resource).toExternalForm();
+		return GameImageBank.class.getResource(resource).toExternalForm();
 	}
 
 }

@@ -60,12 +60,15 @@ public class FadeScreenController{
 			slowFade = false;
 		}
 	}
-	public void intro_fade_screen(Runnable script){
-		this.script = script;
+	public void prepareIntorScreen(){
 		outerFadePercentage = 1.0;
-		game.getOverlayEffect().addIntroEffect();
+		mainFadeScreen.setOpacity(outerFadePercentage);
 		game.getFadeScreenLayer().getChildren().remove(mainFadeScreen);
 		game.getFadeScreenLayer().getChildren().add(mainFadeScreen);
+	}
+	public void intro_fade_screen(Runnable script){
+		this.script = script;
+		game.getOverlayEffect().addIntroEffect();
 		introFadeOut = true;
 
 	}

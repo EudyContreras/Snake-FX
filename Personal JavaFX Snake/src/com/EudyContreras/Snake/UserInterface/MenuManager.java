@@ -134,24 +134,28 @@ public class MenuManager extends AbstractMenuElement{
 	 * Starts the game if the startbutton is pressed
 	 */
 	public void startSelected(GameModeID modeID) {
+		if(!hideMenu){
 		this.modeID = modeID;
 		this.opacity = 0;
 		this.clearUp.setOpacity(opacity);
 		this.menuRoot.getChildren().remove(fadeScreen);
 		this.menuRoot.getChildren().add(fadeScreen);
 		this.hideMenu = true;
+		}
 	}
 	public void introTheGame(){
 		if(showMenu==false){
+			//TODO: Show a loading screen
 			game.setModeID(modeID);
 			game.prepareGame();
 			removeMenu(main_menu.main_menu_screen());
 			menuRoot.getChildren().remove(fadeScreen);
 			game.resumeGame();
 			game.showCursor(false, game.getScene());
-			game.getFadeScreenHandler().intro_fade_screen(() -> game.getCountDownScreen().startCountdown()) ;
 			game.setRoot(game.getMainRoot());
+			game.getFadeScreenHandler().intro_fade_screen(() -> game.getCountDownScreen().startCountdown()) ;
 			game.processGameInput();
+			hideMenu = false;
 			}
 	}
 

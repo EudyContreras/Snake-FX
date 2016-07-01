@@ -887,6 +887,7 @@ public class GameManager extends AbstractGameModel{
 
     public void prepareGame(){
         resetGame();
+        getFadeScreenHandler().prepareIntorScreen();
         loader.loadPixelMap();
         showCursor(false, getScene());
         processGameInput();
