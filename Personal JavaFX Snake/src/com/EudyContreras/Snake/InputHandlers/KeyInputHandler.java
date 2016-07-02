@@ -51,7 +51,7 @@ public class KeyInputHandler {
 
 			public void handle(KeyEvent e) {
 
-				if (e.getCode() == KeyCode.W && e.getCode() != KeyCode.A && e.getCode() != KeyCode.D) {
+				if (e.getCode() == KeyCode.W) {
 					keyDown[0] = true;
 					if (playerOne != null)
 						playerOne.setDirection(PlayerMovement.MOVE_UP);
@@ -59,21 +59,21 @@ public class KeyInputHandler {
 					if(classicSnake != null)
 						classicSnake.setDirection(PlayerMovement.MOVE_UP);
 				}
-				if (e.getCode() == KeyCode.S && e.getCode() != KeyCode.A && e.getCode() != KeyCode.D) {
+				if (e.getCode() == KeyCode.S) {
 					keyDown[1] = true;
 					if (playerOne != null)
 						playerOne.setDirection(PlayerMovement.MOVE_DOWN);
 					if(classicSnake != null)
 						classicSnake.setDirection(PlayerMovement.MOVE_DOWN);
 				}
-				if (e.getCode() == KeyCode.A && e.getCode() != KeyCode.W && e.getCode() != KeyCode.S) {
+				if (e.getCode() == KeyCode.A) {
 					keyDown[2] = true;
 					if (playerOne != null)
 						playerOne.setDirection(PlayerMovement.MOVE_LEFT);
 					if(classicSnake != null)
 						classicSnake.setDirection(PlayerMovement.MOVE_LEFT);
 				}
-				if (e.getCode() == KeyCode.D && e.getCode() != KeyCode.W && e.getCode() != KeyCode.S) {
+				if (e.getCode() == KeyCode.D) {
 					keyDown[3] = true;
 					if (playerOne != null)
 						playerOne.setDirection(PlayerMovement.MOVE_RIGHT);
@@ -128,18 +128,26 @@ public class KeyInputHandler {
 				if (e.getCode() == KeyCode.UP) {
 					if (playerTwo != null)
 						playerTwo.setDirection(PlayerMovement.MOVE_UP);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_UP);
 				}
 				if (e.getCode() == KeyCode.DOWN) {
 					if (playerTwo != null)
 						playerTwo.setDirection(PlayerMovement.MOVE_DOWN);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_DOWN);
 				}
 				if (e.getCode() == KeyCode.LEFT) {
 					if (playerTwo != null)
 						playerTwo.setDirection(PlayerMovement.MOVE_LEFT);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				if (e.getCode() == KeyCode.RIGHT) {
 					if (playerTwo != null)
 						playerTwo.setDirection(PlayerMovement.MOVE_RIGHT);
+					if(classicSnake != null)
+						classicSnake.setDirection(PlayerMovement.MOVE_RIGHT);
 				}
 				if (e.getCode() == KeyCode.ENTER || e.getCode() == KeyCode.DELETE || e.getCode() == KeyCode.CONTROL) {
 					if (playerTwo != null)

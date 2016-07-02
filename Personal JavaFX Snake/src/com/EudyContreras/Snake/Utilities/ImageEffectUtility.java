@@ -85,9 +85,9 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.8));
-		shadow.setRadius(15);
-		shadow.setOffsetX(20);
-		shadow.setOffsetY(-15);
+		shadow.setRadius(GameManager.ScaleX_Y(15));
+		shadow.setOffsetX(GameManager.ScaleX(20));
+		shadow.setOffsetY(GameManager.ScaleY(-15));
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(shadow);
 		view.setFitWidth(width);
@@ -105,12 +105,12 @@ public class ImageEffectUtility {
 		light.setX(-150);
 		light.setY(300);
 		light.setZ(140);
-		
+
 //		light.setX(-150);
 //		light.setY(350);
 //		light.setZ(140);
-//		
-//		
+//
+//
 //		light.setX(-150);
 //		light.setY(220);
 //		light.setZ(115);
@@ -119,9 +119,9 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
-		shadow.setRadius(20);
-		shadow.setOffsetX(20);
-		shadow.setOffsetY(-15);
+		shadow.setRadius(GameManager.ScaleX_Y(20));
+		shadow.setOffsetX(GameManager.ScaleX(20));
+		shadow.setOffsetY(GameManager.ScaleY(-15));
 		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -143,7 +143,7 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
-		shadow.setRadius(20/(GameManager.ScaleX_ScaleY));
+		shadow.setRadius(GameManager.ScaleX_Y(20));
 		shadow.setOffsetX(GameManager.ScaleX(20));
 		shadow.setOffsetY(GameManager.ScaleY(-15));
 		lighting.setContentInput(shadow);
@@ -167,7 +167,7 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(5/(GameManager.ScaleX_ScaleY));
+		shadow.setRadius(GameManager.ScaleX_Y(5));
 		shadow.setOffsetX(GameManager.ScaleX(20));
 		shadow.setOffsetY(GameManager.ScaleY(-15));
 		lighting.setContentInput(shadow);
@@ -207,8 +207,8 @@ public class ImageEffectUtility {
 		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(8.0);
 		blur.setIterations(2);
-		blur.setWidth(10);
-		blur.setHeight(10);
+		blur.setWidth(GameManager.ScaleX(10));
+		blur.setHeight(GameManager.ScaleY(10));
 		lighting.setContentInput(blur);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)

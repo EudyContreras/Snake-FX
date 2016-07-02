@@ -59,16 +59,15 @@ public class LevelBounds extends AbstractTile {
 		this.setDimensions_h(bottomBound);
 		this.setDimensions_v(leftBound);
 		this.setDimensions_v(rightBound);
-		this.setDimensions_h(topBound);
-		this.setDimensions_h(topBoundV);
-		this.leftBound.setX(-GameManager.ScaleX(85));
-		this.rightBound.setX(GameSettings.WIDTH - rightBound.getFitWidth()+GameManager.ScaleX(85));
+//		this.setDimensions_h(topBoundV);
+		this.leftBound.setX(-leftBound.getFitWidth()+GameManager.ScaleX(25));
+		this.rightBound.setX(GameSettings.WIDTH - GameManager.ScaleX(25));
 		this.topBound.setX(-GameManager.ScaleX(65));
-		this.topBound.setY(topBound.getFitHeight()-GameManager.ScaleY(85));
-		this.topBoundV.setX(-15);
-		this.topBoundV.setY(topBoundV.getFitHeight()-GameManager.ScaleY(135));
+		this.topBound.setY(topBound.getFitHeight()+GameManager.ScaleY(25));
+		this.topBoundV.setX(GameManager.ScaleX(-3));
+		this.topBoundV.setY(0);
 		this.bottomBound.setX(-GameManager.ScaleX(65));
-		this.bottomBound.setY(GameSettings.HEIGHT - bottomBound.getFitHeight()+GameManager.ScaleY(85));
+		this.bottomBound.setY(GameSettings.HEIGHT-GameManager.ScaleY(25));
 		this.displayBounds();
 	}
 	public void setDimensions_h(ImageView view){

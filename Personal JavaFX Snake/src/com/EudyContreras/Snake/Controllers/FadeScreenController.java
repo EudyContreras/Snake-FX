@@ -61,14 +61,14 @@ public class FadeScreenController{
 		}
 	}
 	public void prepareIntorScreen(){
-		outerFadePercentage = 1.0;
+		outerFadePercentage = 2.0;
 		mainFadeScreen.setOpacity(outerFadePercentage);
-		game.getFadeScreenLayer().getChildren().remove(mainFadeScreen);
-		game.getFadeScreenLayer().getChildren().add(mainFadeScreen);
+		game.getMainRoot().getChildren().remove(mainFadeScreen);
+		game.getMainRoot().getChildren().add(mainFadeScreen);
 	}
 	public void intro_fade_screen(Runnable script){
 		this.script = script;
-		game.getOverlayEffect().addIntroEffect();
+		game.getOverlayEffect().setIntroEffect();
 		introFadeOut = true;
 
 	}
@@ -91,11 +91,17 @@ public class FadeScreenController{
 	public void intro_fade_out(){
 		if(introFadeOut){
 			outerFadePercentage-=0.03;
-			mainFadeScreen.setOpacity(outerFadePercentage);
+			if(outerFadePercentage<=1.0){
+				mainFadeScreen.setOpacity(outerFadePercentage);
+			}
+			else{
+				mainFadeScreen.setOpacity(1);
+			}
 			if(outerFadePercentage<=0){
 					outerFadePercentage = 0;
 					introFadeOut = false;
-					game.getFadeScreenLayer().getChildren().remove(mainFadeScreen);
+					game.getOverlayEffect().addIntroEffect();
+					game.getMainRoot().getChildren().remove(mainFadeScreen);
 					if(script!=null){
 						script.run();
 					}

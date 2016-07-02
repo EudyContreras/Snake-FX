@@ -564,7 +564,7 @@ public class PlayerOne extends AbstractObject {
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
 									overlay.addScreenShake(game.getGameRoot(),0.4, true, true);
-									overlay.addScreenShake(layer,0.4, true, true);
+									overlay.addNodeShake(layer, 0.35);
 									allowScreenShake = false;
 								}
 								allowCollision = false;

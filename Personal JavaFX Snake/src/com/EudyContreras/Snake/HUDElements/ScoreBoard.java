@@ -41,8 +41,8 @@ public class ScoreBoard {
 	 * @param color: Color of the text to be shown
 	 */
 	public ScoreBoard(String text, GameManager game, double x, double y, Color color, GameObjectID id) {
-		this.x = GameManager.ScaleX(x);
-		this.y = GameManager.ScaleY(y);
+		this.x = x;
+		this.y = y;
 		this.game = game;
 		this.message = text;
         this.textGlow = new DropShadow();

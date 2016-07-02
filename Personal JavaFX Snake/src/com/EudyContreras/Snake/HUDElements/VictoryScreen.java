@@ -448,7 +448,6 @@ public class VictoryScreen extends AbstractHudElement {
 		restart_btt.setVisible(true);
 
 	}
-
 	public void swipeRight() {
 		if (swipeRight == true) {
 			optionsBoard.setX(confirmX);
@@ -532,9 +531,9 @@ public class VictoryScreen extends AbstractHudElement {
 	public void panIn() {
 		if (panIn) {
 			this.rOne = rOne + velROne;
-			this.velROne = velROne*.99;
-			this.widthOne += width * 0.011;
-			this.heightOne += height * 0.011;
+			this.velROne = velROne*.995;
+			this.widthOne += width * 0.015;
+			this.heightOne += height * 0.015;
 			this.mainGameBoard.setOpacity(1);
 			this.baseGameBoard.setFitWidth(widthOne);
 			this.baseGameBoard.setFitHeight(heightOne);
@@ -561,6 +560,8 @@ public class VictoryScreen extends AbstractHudElement {
 					baseGameBoard.setRotate(rOne);
 					processPlayerScores();
 					processKeyHandling();
+					overlay.addScreenShake(game.getGameRoot(),1.2,25, true, true);
+					overlay.addNodeShake(baseGameBoard, 0.6);
 					blurOut();
 					counter = 0;
 					transitionOpacity = 0;
@@ -580,7 +581,13 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 		}
 	}
-
+	@SuppressWarnings("unused")
+	private void zoomAnimation(){
+		this.baseGameBoard.setFitWidth(widthOne);
+		this.baseGameBoard.setFitHeight(heightOne);
+		this.mainGameBoard.setFitWidth(widthOne);
+		this.mainGameBoard.setFitHeight(heightOne);
+	}
 	/**
 	 * method used to both update the opacity of the main score board shown
 	 * after the game ends. This method also produces a transition which will

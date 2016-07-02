@@ -112,10 +112,10 @@ public class HealthBarOne {
 		game.getScoreBoardOne().setMoveX(moveX);
 	}
 	public void moveLeft(){
-		velX = GameManager.ScaleX(-10);
+		velX = GameManager.ScaleX(-15);
 	}
 	public void moveRight(){
-		velX = GameManager.ScaleX(10);
+		velX = GameManager.ScaleX(15);
 	}
 	public void stopMoving(){
 		this.velX = 0;

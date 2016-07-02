@@ -20,7 +20,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 public class PlayerOneManager {
 
 	private LinkedList<AbstractObject> playerOneList;
-	private AbstractObject tempPlayerOne;
+	private AbstractObject tempPlayerOneObject;
 	private GameManager game;
 
 	public PlayerOneManager(GameManager gameJavaFX) {
@@ -81,15 +81,15 @@ public class PlayerOneManager {
 	 */
 	public void updateAllLogic(long timePassed) {
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.checkCollision();
-			tempPlayerOne.addPhysics();
-			tempPlayerOne.updateAnimation(timePassed);
-			tempPlayerOne.logicUpdate();
-			tempPlayerOne.draw();
-			tempPlayerOne.checkRemovability();
-			if (tempPlayerOne.isRemovable() || !tempPlayerOne.isAlive()) {
-				tempPlayerOne.removeFromLayer();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkCollision();
+			tempPlayerOneObject.addPhysics();
+			tempPlayerOneObject.updateAnimation(timePassed);
+			tempPlayerOneObject.logicUpdate();
+			tempPlayerOneObject.draw();
+			tempPlayerOneObject.checkRemovability();
+			if (tempPlayerOneObject.isRemovable() || !tempPlayerOneObject.isAlive()) {
+				tempPlayerOneObject.removeFromLayer();
 				playerOneList.remove(i);
 			}
 		}
@@ -101,9 +101,9 @@ public class PlayerOneManager {
 	 */
 	public void updateAllMovement(){
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.move();
-			tempPlayerOne.updateUI();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.move();
+			tempPlayerOneObject.updateUI();
 		}
 	}
 
@@ -113,8 +113,8 @@ public class PlayerOneManager {
 	public void updateUI() {
 
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.updateUI();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.updateUI();
 		}
 	}
 
@@ -124,8 +124,8 @@ public class PlayerOneManager {
 	public void updateAnimation(long timePassed) {
 
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.updateAnimation(timePassed);
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.updateAnimation(timePassed);
 		}
 	}
 
@@ -135,8 +135,8 @@ public class PlayerOneManager {
 	public void move() {
 
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.move();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.move();
 		}
 	}
 
@@ -146,8 +146,8 @@ public class PlayerOneManager {
 	public void draw() {
 
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.draw();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.draw();
 		}
 	}
 
@@ -157,8 +157,8 @@ public class PlayerOneManager {
 	public void addPhysics() {
 
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.addPhysics();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.addPhysics();
 		}
 	}
 	/**
@@ -166,8 +166,8 @@ public class PlayerOneManager {
 	 */
 	public void updateLogic() {
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.logicUpdate();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.logicUpdate();
 		}
 	}
 	/**
@@ -175,8 +175,8 @@ public class PlayerOneManager {
 	 */
 	public void checkIfRemoveable() {
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.checkRemovability();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkRemovability();
 		}
 	}
 
@@ -185,8 +185,8 @@ public class PlayerOneManager {
 	 */
 	public void checkCollisions() {
 		for (int i = 0; i < playerOneList.size(); i++) {
-			tempPlayerOne = playerOneList.get(i);
-			tempPlayerOne.checkCollision();
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkCollision();
 		}
 	}
 

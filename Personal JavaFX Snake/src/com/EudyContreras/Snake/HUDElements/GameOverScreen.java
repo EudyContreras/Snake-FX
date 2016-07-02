@@ -452,9 +452,9 @@ public class GameOverScreen {
 					mainGameBoard.setOpacity(transitionOpacity);
 					scoreScreen.showScores();
 					processPlayerScores();
-					processKeyHandling();
 					blurOut();
 					fadeOut();
+					processKeyHandling();
 				}
 				if (confirmXTwo >= GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2) {
 					confirmXTwo = (float) (GameSettings.WIDTH / 2 - optionsBoard.getFitWidth() / 2);
@@ -501,11 +501,11 @@ public class GameOverScreen {
 					center = false;
 				}
 			}
-			continue_btt.setX(optionsBoard.getX()+20);
-			continue_btt.setY(optionsBoard.getY()+20);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20);
-			quitGame_btt.setY(optionsBoard.getY()+20);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+20);
+			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
+			continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
+			quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
 			restart_btt.setY(continue_btt.getY());
 		}
 	}
@@ -645,8 +645,9 @@ public class GameOverScreen {
 	 */
 	private void resetBoard() {
 		game.getGameRoot().setEffect(null);
-		confirmX = (float) (0 - baseGameBoard.getFitWidth() - 50);
-		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
+		confirmX = 0 - baseGameBoard.getFitWidth() - GameManager.ScaleX(50);
+		confirmXTwo = 0 - optionsBoard.getFitWidth() - GameManager.ScaleX(100);
+		optionsBoard.setX(confirmXTwo);
 		baseGameBoard.setX(confirmX);
 		mainGameBoard.setOpacity(0);
 		baseGameBoard.setImage(GameImageBank.game_over_trans_board);

@@ -248,17 +248,17 @@ public class GameManager extends AbstractGameModel{
     private void loadHUDElements(){
     	rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
         sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-        energyBarOne = new EnergyBarOne(this, 180 /ScaleX, 45/ScaleY, 275/ScaleX, 35/ScaleY);
+        energyBarOne = new EnergyBarOne(this, 185 /ScaleX, 45/ScaleY, 275/ScaleX, 35/ScaleY);
         energyBarTwo = new EnergyBarTwo(this, GameSettings.WIDTH - 455 / ScaleX, 45/ScaleY, 275 / ScaleX, 35/ScaleY);
         healthBarOne = new HealthBarOne(this);
         healthBarTwo = new HealthBarTwo(this);
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
         gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
-        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 120,
-                50, Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
-        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 180/ScaleX,
-                50, Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
+        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + GameManager.ScaleX(120),
+        		GameManager.ScaleY(50), Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
+        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - GameManager.ScaleX(180),
+                GameManager.ScaleY(50), Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
@@ -386,8 +386,8 @@ public class GameManager extends AbstractGameModel{
                        loader.updateLevelObjects();
 
 						if (getGameLoader().getPlayerOne() != null) {
-							playerOneManager.updateAllLogicI(timePassed);
-							sectManagerOne.updateAllLogicIter(timePassed);
+							playerOneManager.updateAllLogic(timePassed);
+							sectManagerOne.updateAllLogic(timePassed);
 							for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
 								playerOneManager.updateAllMovement();
 								sectManagerOne.updateAllMovement(timePassed);
@@ -404,11 +404,11 @@ public class GameManager extends AbstractGameModel{
 						}
 
 						if (getGameLoader().getClassicSnake() != null) {
-							classicSnakeManager.updateAllLogicI(timePassed);
-							sectManagerThree.updateAllLogicI(timePassed);
+							classicSnakeManager.updateAllLogic(timePassed);
+							sectManagerThree.updateAllLogic(timePassed);
 							for (int speed = 0; speed < ClassicSnake.SPEED; speed += 1) {
-								classicSnakeManager.updateAllMovementI(timePassed);
-								sectManagerThree.updateAllMovementI(timePassed);
+								classicSnakeManager.updateAllMovement();
+								sectManagerThree.updateAllMovement(timePassed);
 							}
 						}
 

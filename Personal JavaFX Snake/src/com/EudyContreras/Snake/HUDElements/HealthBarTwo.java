@@ -26,9 +26,9 @@ public class HealthBarTwo {
 	private boolean playerIsAlive = true;
 	private double playerOpacity = 0;
 	private double maxHealth = 100;
+	private double damageX;
 	private double x = 0;
 	private double y = 0;
-	private double oldX = 0;
 	private double width = 0;
 	private double height = 0;
 	private double moveX = 400;
@@ -57,7 +57,6 @@ public class HealthBarTwo {
 		this.maxHealth = width*0.64;
 		this.x = GameSettings.WIDTH - width;
 		this.y = 1;
-		this.oldX = x;
 		this.game = game;
 		this.player = game.getGameLoader().getPlayerTwo();
 		this.healthBarGreen.setWidth(width*0.81);
@@ -101,7 +100,7 @@ public class HealthBarTwo {
 	private void popIn(){
 		this.moveX+=velX;
 		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(10)+moveX);
-		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(10)+moveX);
+		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(10)+moveX+damageX);
 		this.playerHead.setCenterX(GameSettings.WIDTH - GameManager.ScaleX(55)+moveX);
 		this.healthBarBorder.setTranslateX(x+moveX);
 		if(healthBarBorder.getTranslateX()>GameSettings.WIDTH){
@@ -114,10 +113,10 @@ public class HealthBarTwo {
 		game.getScoreBoardTwo().setMoveX(moveX);
 	}
 	public void moveLeft(){
-		velX = GameManager.ScaleX(-10);
+		velX = GameManager.ScaleX(-15);
 	}
 	public void moveRight(){
-		velX = GameManager.ScaleX(10);
+		velX = GameManager.ScaleX(15);
 	}
 	public void stopMoving(){
 		this.velX = 0;
@@ -140,14 +139,13 @@ public class HealthBarTwo {
 
 		if (player.isCollision() == true) {
 			width -= GameSettings.DAMAGE_AMOUNT;
-			x += GameSettings.DAMAGE_AMOUNT;
+			damageX += GameSettings.DAMAGE_AMOUNT;
 			setDelay = true;
 			player.setCollision(false);
 		}
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBarRed.setTranslateX(x);
 		this.healthBarRed.setWidth(width);
 
 	}
@@ -182,10 +180,10 @@ public class HealthBarTwo {
 				if (width < maxHealth) {
 					if (delay <= 0) {
 						width += GameSettings.HEALTH_REGENERATION_SPEED;
-						x -= GameSettings.HEALTH_REGENERATION_SPEED;
+						damageX -= GameSettings.HEALTH_REGENERATION_SPEED;
 					}
-					if (x <= oldX) {
-						x = oldX;
+					if (damageX <= 0) {
+						damageX = 0;
 					}
 				}
 			}
@@ -230,7 +228,7 @@ public class HealthBarTwo {
 		this.killPlayer = false;
 		this.playerIsAlive = true;
 		this.width = maxHealth;
-		this.x = oldX;
+		this.damageX = 0;
 		this.healthBarRed.setTranslateX(x);
 		this.healthBarRed.setWidth(maxHealth);
 	}

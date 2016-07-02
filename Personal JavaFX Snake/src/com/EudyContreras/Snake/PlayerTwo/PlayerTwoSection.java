@@ -9,7 +9,6 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
 import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
-import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -213,7 +212,7 @@ public class PlayerTwoSection extends AbstractSection {
 		}
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
+		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
 						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
@@ -222,10 +221,10 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
+		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
-						new Point2D((Math.random() * (10 - -10 + 1) + -10), Math.random() * (10 - -10+ 1) + -10)));
+						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
 			}
 		}
 	}
@@ -247,7 +246,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
-	public void fadeToBones(){
+	public void fadeToBones() {
 		if (fade == true) {
 			fadeValue -= 0.03/GameManager.ScaleX_ScaleY;
 			this.circle.setOpacity(fadeValue);
@@ -327,7 +326,6 @@ public class PlayerTwoSection extends AbstractSection {
 			blowUp = false;
 		}
 	}
-
 	public void die() {
 		loadBones();
 		fade = true;

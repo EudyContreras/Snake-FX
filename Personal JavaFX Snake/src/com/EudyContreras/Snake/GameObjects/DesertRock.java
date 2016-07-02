@@ -35,13 +35,9 @@ public class DesertRock extends AbstractTile {
 		this.view.setTranslateY(y);
 		if(RandomGenUtility.getRandomInteger(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_rock_alt);
-			this.width = image.getWidth()+5;
-			this.height = image.getHeight()+5;
-			this.view.setFitWidth(width);
-			this.view.setFitHeight(height);
-			this.y = y-5;
-			this.x = x-5;
 		}
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 		draw();
 		adjustBounds();
 	}

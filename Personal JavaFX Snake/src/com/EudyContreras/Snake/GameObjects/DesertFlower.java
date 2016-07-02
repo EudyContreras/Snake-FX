@@ -43,6 +43,8 @@ public class DesertFlower extends AbstractTile {
 			this.view.setImage(GameLevelImage.desert_flower_alt2);
 		}
 		this.adjustBounds();
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 		this.draw();
 	}
 
@@ -67,7 +69,7 @@ public class DesertFlower extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		collisionBounds = new Rectangle2D(x+GameManager.ScaleX(10), y + GameManager.ScaleY(45), width - GameManager.ScaleX(70), height - GameManager.ScaleY(45));
+		collisionBounds = new Rectangle2D(x+GameManager.ScaleX(10), y + GameManager.ScaleY(45), width - GameManager.ScaleX(65), height - GameManager.ScaleY(45));
 
 	}
 
@@ -83,7 +85,7 @@ public class DesertFlower extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(10), y + GameManager.ScaleY(45), width - GameManager.ScaleX(70), height - GameManager.ScaleY(45));
+			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(10), y + GameManager.ScaleY(45), width - GameManager.ScaleX(65), height - GameManager.ScaleY(45));
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

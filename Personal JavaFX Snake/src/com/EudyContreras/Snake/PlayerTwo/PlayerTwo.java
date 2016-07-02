@@ -71,9 +71,9 @@ public class PlayerTwo extends AbstractObject {
 	private PlayerTwoHead snakeHead;
 	private PlayerTwoSection neighbor;
 	private PlayerTwoSectionManager sectManager;
-	private BoxBlur motionBlur = new BoxBlur();
-	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeTwoEating);
-	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeTwoBlinking);
+	private BoxBlur motionBlur;
+	private ImagePattern eatingFrame;
+	private ImagePattern blinkingFrame;
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
@@ -92,16 +92,20 @@ public class PlayerTwo extends AbstractObject {
 		this.game = game;
 		this.anim = new AnimationUtility();
 		this.circle.setVisible(false);
-		this.motionBlur.setIterations(1);
 		this.overlay = game.getOverlayEffect();
+		this.eatingFrame = new ImagePattern(GameImageBank.snakeTwoEating);
+		this.blinkingFrame = new ImagePattern(GameImageBank.snakeTwoBlinking);
+		this.sectManager = game.getSectManagerTwo();
+		this.loadHead();
+		this.loadImages();
+		this.drawBoundingBox();
+		this.moveDown();
+	}
+	private void loadHead(){
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.4, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getPlayerTwoManager().addObject(snakeHead);
-		this.sectManager = game.getSectManagerTwo();
-		this.loadImages();
-		this.drawBoundingBox();
-		this.moveDown();
 	}
 	public void loadImages() {
 		anim.addScene(GameImageBank.snakeTwoHead, 4000);
@@ -359,7 +363,6 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
-
 	public void setGestureDirection(PlayerMovement direction) {
 		if (game.getStateID() == GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
@@ -403,7 +406,6 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
-
 	public void setDirectCoordinates(PlayerMovement direction) {
 		if (!GameSettings.ALLOW_SELF_COLLISION) {
 			if (!LEVEL_COMPLETED && !DEAD) {
@@ -604,7 +606,7 @@ public class PlayerTwo extends AbstractObject {
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
 									overlay.addScreenShake(game.getGameRoot(),0.4, true, true);
-									overlay.addScreenShake(layer,0.4, true, true);
+									overlay.addNodeShake(layer, 0.35);
 									allowScreenShake = false;
 								}
 								allowCollision = false;
@@ -784,6 +786,8 @@ public class PlayerTwo extends AbstractObject {
 
 	public void fadeOut() {
 		if (ALLOW_FADE) {
+			//overlay.addFadeScreen(10, GameStateID.GAME_OVER,()->game.getGameOverScreen().gameOver());
+			//ALLOW_FADE = false;
 		}
 	}
 

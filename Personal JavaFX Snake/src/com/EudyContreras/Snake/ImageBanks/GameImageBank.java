@@ -112,9 +112,9 @@ public class GameImageBank {
 		 */
 		public static final Image hud_bar = new Image(ImageEffectUtility.loadResource("hud_bar_plain.png"));
 		public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,GameManager.ScaleY(100),false, true);
-		public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,GameManager.ScaleY(100),false, true);
+		public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,GameManager.ScaleY(70),false, true);
 		public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,GameManager.ScaleY(100));
-		public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
+		public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameManager.ScaleX(100),GameSettings.HEIGHT*2);
 		public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
 		public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 		public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info.png"));

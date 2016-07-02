@@ -326,7 +326,6 @@ public class PlayerOneSection extends AbstractSection {
 			blowUp = false;
 		}
 	}
-
 	public void die() {
 		loadBones();
 		fade = true;

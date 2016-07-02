@@ -87,7 +87,7 @@ public class PlayerOneHead extends AbstractObject {
 		this.layer.getChildren().add(text);
 		this.loadMouth();
 	}
-	public void loadMouth(){
+	private void loadMouth(){
 		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.25, Color.TRANSPARENT), this.x,

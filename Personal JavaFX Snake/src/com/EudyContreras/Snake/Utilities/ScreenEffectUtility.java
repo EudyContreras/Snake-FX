@@ -6,6 +6,8 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.GaussianBlur;
@@ -26,6 +28,8 @@ public class ScreenEffectUtility {
 	private Rectangle toneOverlay = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Rectangle fadeScreen = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	private Bloom bloomEffect = new Bloom();
+	private Point2D originalPosition = new Point2D(0, 0);
+	private Pane node;
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
 	private Boolean setBloom = false;
@@ -42,8 +46,13 @@ public class ScreenEffectUtility {
 	private Boolean setFadeOverlay = false;
 	private Boolean screenShakeH = false;
 	private Boolean screenShakeV = false;
+	private Boolean nodeShake = false;
 	private Double shakeDuration = 0.0;
+	private Double nodeShakeDuration = 0.0;
+	private Double shakeStrenght = 15.0;
 	private Double shakeAmount = 0.0;
+	private Double nodeShakeAmountX = 0.0;
+	private Double nodeShakeAmountY = 0.0;
 	private Double clearLevelBluring = 0.0;
 	private Double stormBluring = 0.0;
 	private Double softBlurLifetime = 0.0;
@@ -59,6 +68,8 @@ public class ScreenEffectUtility {
 	private Double speedGaussian;
 	private Double speedBloom;
 	private Double shakeX = 0.0;
+	private Double nodeShakeX = 0.0;
+	private Double nodeShakeY = 0.0;
 	private Double fade;
 	private Double fadeSpeed;
 	private Pane layer;
@@ -206,6 +217,32 @@ public class ScreenEffectUtility {
 			screenShakeV = true;
 		}
 	}
+
+	public void addScreenShake(Pane screen, double duration, double shakeForce, boolean horizontal, boolean vertical) {
+		if(horizontal){
+			shakeDuration = (double) (duration*30);
+			shakeStrenght = shakeForce;
+			shakeAmount = shakeStrenght;
+			screenShakeH = true;
+		}
+		if(vertical){
+			shakeDuration = (double) (duration*30);
+			shakeStrenght = shakeForce;
+			shakeAmount = shakeStrenght;
+			screenShakeV = true;
+		}
+	}
+
+	public void addNodeShake(Node node, double duration) {
+		if(node instanceof Pane){
+		this.node = (Pane)node;
+		this.originalPosition = new Point2D(this.node.getTranslateX(), this.node.getTranslateY());
+		nodeShakeDuration = (double) (duration * 30);
+		nodeShakeAmountX = 10.0;
+		nodeShakeAmountY = 10.0;
+		nodeShake = true;
+		}
+	}
 	/**
 	 * Adds a fading screen to the game which leads to the main menu. The fade
 	 * speed determines the speed of the fade.
@@ -222,7 +259,12 @@ public class ScreenEffectUtility {
 		game.getEleventhLayer().getChildren().add(fadeScreen);
 		setFadeOverlay = true;
 	}
-
+	public void setIntroEffect(){
+		introBlurOff = 25.0;
+		introBlurEffect.setRadius(introBlurOff);
+		layer.setEffect(null);
+		layer.setEffect(introBlurEffect);
+	}
 	public void addIntroEffect(){
 		introBlurOff = 25.0;
 		introBlurEffect.setRadius(introBlurOff);
@@ -266,6 +308,9 @@ public class ScreenEffectUtility {
 		}
 		if (screenShakeV){
 			setVShakeModifier();
+		}
+		if (nodeShake){
+			setNodeShakeModifier();
 		}
 	}
 
@@ -327,11 +372,11 @@ public class ScreenEffectUtility {
 			shakeX +=shakeAmount;
 			shakeDuration--;
 			game.getGameRoot().setTranslateX(shakeX);
-			if(shakeX>15){
-				shakeAmount = -15.0;
+			if(shakeX>shakeStrenght){
+				shakeAmount = -shakeStrenght;
 			}
-			if(shakeX<-15){
-				shakeAmount = 15.0;
+			if(shakeX<-shakeStrenght){
+				shakeAmount = shakeStrenght;
 			}
 			if(shakeDuration<=0){
 				game.getGameRoot().setTranslateX(0);
@@ -346,17 +391,48 @@ public class ScreenEffectUtility {
 			shakeX +=shakeAmount;
 			shakeDuration--;
 			game.getGameRoot().setTranslateY(shakeX);
-			if(shakeX>15){
-				shakeAmount = -15.0;
+			if(shakeX>shakeStrenght){
+				shakeAmount = -shakeStrenght;
 			}
-			if(shakeX<-15){
-				shakeAmount = 15.0;
+			if(shakeX<-shakeStrenght){
+				shakeAmount = shakeStrenght;
 			}
 			if(shakeDuration<=0){
 				game.getGameRoot().setTranslateY(0);
 				shakeAmount = 0.0;
 				screenShakeV = false;
 				shakeDuration = 0.0;
+			}
+		}
+	}
+	private void setNodeShakeModifier(){
+		if(nodeShake){
+			nodeShakeX +=nodeShakeAmountX;
+			nodeShakeY +=nodeShakeAmountY;
+			nodeShakeDuration--;
+			node.setTranslateX(originalPosition.getX() + nodeShakeX);
+			node.setTranslateY(originalPosition.getY() + nodeShakeY);
+			if(nodeShakeX>10){
+				nodeShakeAmountX = -10.0;
+			}
+			if(nodeShakeX<-10){
+				nodeShakeAmountX = 10.0;
+			}
+			if(nodeShakeY>10){
+				nodeShakeAmountY = -10.0;
+			}
+			if(nodeShakeY<-10){
+				nodeShakeAmountY = 10.0;
+			}
+			if(nodeShakeDuration<=0){
+				node.setTranslateX(originalPosition.getX() + 0);
+				node.setTranslateY(originalPosition.getY() + 0);
+				nodeShakeAmountX = 0.0;
+				nodeShakeAmountY = 0.0;
+				nodeShake = false;
+				nodeShakeDuration = 0.0;
+				node = null;
+				originalPosition = null;
 			}
 		}
 	}
