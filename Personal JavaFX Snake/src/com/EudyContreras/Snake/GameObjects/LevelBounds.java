@@ -21,6 +21,10 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class LevelBounds extends AbstractTile {
+	public static double MAX_Y = 100;
+	public static double MIN_Y = 100;
+	public static double MIN_X = 0;
+	public static double MAX_X = 0;
 	private Rectangle2D collisionBounds;;
 	private GameManager game;
 	private ImageView leftBound;
@@ -59,7 +63,6 @@ public class LevelBounds extends AbstractTile {
 		this.setDimensions_h(bottomBound);
 		this.setDimensions_v(leftBound);
 		this.setDimensions_v(rightBound);
-//		this.setDimensions_h(topBoundV);
 		this.leftBound.setX(-leftBound.getFitWidth()+GameManager.ScaleX(25));
 		this.rightBound.setX(GameSettings.WIDTH - GameManager.ScaleX(25));
 		this.topBound.setX(-GameManager.ScaleX(65));
@@ -69,6 +72,13 @@ public class LevelBounds extends AbstractTile {
 		this.bottomBound.setX(-GameManager.ScaleX(65));
 		this.bottomBound.setY(GameSettings.HEIGHT-GameManager.ScaleY(25));
 		this.displayBounds();
+		this.setBoundaries();
+	}
+	public void setBoundaries(){
+		MAX_Y = bottomBound.getY();
+		MIN_Y = topBound.getY()+topBound.getFitHeight();
+		MAX_X = rightBound.getX();
+		MIN_X = leftBound.getX()+leftBound.getFitWidth();
 	}
 	public void setDimensions_h(ImageView view){
 		view.setFitWidth(GameManager.ScaleX(view.getImage().getWidth())+GameManager.ScaleY(30));
@@ -112,7 +122,6 @@ public class LevelBounds extends AbstractTile {
 		}
 
 	}
-
 	public Rectangle2D getBounds() {
 		return collisionBounds;
 	}

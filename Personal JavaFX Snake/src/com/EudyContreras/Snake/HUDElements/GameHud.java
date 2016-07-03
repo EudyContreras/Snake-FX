@@ -66,8 +66,8 @@ public class GameHud {
 		this.topHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		this.bottomHudBar.setFill(new ImagePattern(GameImageBank.hud_bar_cover));
 		game.getEleventhLayer().getChildren().add(0,mainBar);
-		game.getFourTeenthLayer().getChildren().add(topHudBar);
-		game.getFourTeenthLayer().getChildren().add(bottomHudBar);
+		game.getThirTeenthLayer().getChildren().add(topHudBar);
+		game.getThirTeenthLayer().getChildren().add(bottomHudBar);
 	}
 	/**
 	 * Method which updates the movement of
@@ -89,7 +89,7 @@ public class GameHud {
 		}
 		if (hideHUDCover) {
 			swipeSpeedTop = -2.8;
-			if (yOne < 0 - (topHudBar.getHeight()-GameManager.ScaleY(12))) {
+			if (yOne < 0 - (topHudBar.getHeight()-GameManager.ScaleY(17))) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 2.8;

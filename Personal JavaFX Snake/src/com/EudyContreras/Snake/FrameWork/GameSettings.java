@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.0;
+	public static double MANUAL_SIZE_SCALE = 1.8;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -96,7 +96,7 @@ public class GameSettings {
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 
-	public static boolean LOAD_SPIKE_FENCE = false;
+	public static boolean LOAD_SPIKE_FENCE = true;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

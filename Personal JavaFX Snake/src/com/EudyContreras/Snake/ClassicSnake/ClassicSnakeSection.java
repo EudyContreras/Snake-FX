@@ -4,6 +4,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
@@ -229,15 +230,15 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 	public void checkBounds() {
 		if(!dead){
-		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
-		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius);
-		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
-		}
+			if (x < LevelBounds.MIN_X - radius) {
+				x = (float) (LevelBounds.MAX_X + radius);
+			} else if (x > LevelBounds.MAX_X + radius) {
+				x = (float) (LevelBounds.MIN_X - radius);
+			} else if (y < LevelBounds.MIN_Y - radius) {
+				y = (float) (LevelBounds.MAX_Y + radius);
+			} else if (y > LevelBounds.MAX_Y + radius) {
+				y = (float) (LevelBounds.MIN_Y - radius);
+			}
 		}
 	}
 

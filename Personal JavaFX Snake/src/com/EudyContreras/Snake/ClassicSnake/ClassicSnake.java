@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
@@ -259,7 +260,7 @@ public class ClassicSnake extends AbstractObject {
 		this.layer.setEffect(null);
 	}
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()== GameStateID.GAMEPLAY) {
+		if (game.getStateID()== GameStateID.GAMEPLAY && withinBounds()) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
@@ -511,19 +512,19 @@ public class ClassicSnake extends AbstractObject {
 	}
 
 	public boolean withinBounds() {
-		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
-				&& y < GameSettings.HEIGHT + radius + 1;
+		return x > LevelBounds.MIN_X - radius && x < LevelBounds.MAX_X + radius && y > LevelBounds.MIN_Y - radius
+				&& y < LevelBounds.MAX_Y + radius;
 	}
 
 	public void checkBounds() {
-		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
-		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius);
-		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
+		if (x < LevelBounds.MIN_X - radius) {
+			x = (float) (LevelBounds.MAX_X + radius);
+		} else if (x > LevelBounds.MAX_X + radius) {
+			x = (float) (LevelBounds.MIN_X - radius);
+		} else if (y < LevelBounds.MIN_Y - radius) {
+			y = (float) (LevelBounds.MAX_Y + radius);
+		} else if (y > LevelBounds.MAX_Y + radius) {
+			y = (float) (LevelBounds.MIN_Y - radius);
 		}
 	}
 

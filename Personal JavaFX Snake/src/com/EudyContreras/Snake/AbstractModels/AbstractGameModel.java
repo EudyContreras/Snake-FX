@@ -36,6 +36,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
+import com.EudyContreras.Snake.Utilities.ScreenRecorder;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -46,7 +47,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -67,6 +67,7 @@ public abstract class AbstractGameModel extends Application {
 	protected KeyInputHandler keyInput;
 	protected MouseInputHandler mouseInput;
 	protected TouchInputHandler gestures;
+	protected ScreenRecorder videoUtility;
 	protected ScreenEffectUtility overlayEffect;
 	protected GameObjectController objectManager;
 	protected PlayerOneManager playerOneManager;
@@ -83,7 +84,7 @@ public abstract class AbstractGameModel extends Application {
 	protected MenuManager menuManager;
 	protected Scene scene;
 	protected Scene splashScene;
-	protected Group mainRoot;
+	protected Pane mainRoot;
 	protected Stage mainWindow;
 	protected Pane root;
 	protected Pane splashLayout;
@@ -292,6 +293,9 @@ public abstract class AbstractGameModel extends Application {
 		return levelLayer;
 	}
 
+	public ScreenRecorder getVideoUtility(){
+		return videoUtility;
+	}
 	public GameObjectController getGameObjectController() {
 		return objectManager;
 	}
@@ -332,7 +336,7 @@ public abstract class AbstractGameModel extends Application {
 		return gameHud;
 	}
 
-	public Group getMainRoot() {
+	public Pane getMainRoot() {
 		return mainRoot;
 	}
 

@@ -9,6 +9,8 @@ import com.EudyContreras.Snake.Utilities.GameAudio;
 
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -19,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 public class MenuManager extends AbstractMenuElement{
 
 	private ImageView backgroundImage;
+	private Pane video_pane = new Pane();
 	private Pane fadeScreen = new Pane();
 	private Pane menuRoot = new Pane();
 	private Pane menuContainer = new Pane();
@@ -38,6 +41,7 @@ public class MenuManager extends AbstractMenuElement{
 	public void setUpMenus(){
 		main_menu = new MainMenu(game,this);
 		modes_menu = new ModesMenu(game, this);
+		video_pane.setBackground(new Background(new BackgroundFill(Color.BLACK, null,null)));
 
 	}
 	public void setUpBackground(){
@@ -158,7 +162,31 @@ public class MenuManager extends AbstractMenuElement{
 			hideMenu = false;
 			}
 	}
+	public void processInput(){
+		game.getScene().setOnKeyPressed(e -> {
 
+			switch (e.getCode()) {
+			case P:
+				game.getVideoUtility().starPlayer(video_pane);
+				break;
+			case O:
+				game.getVideoUtility().resetPlayback();
+				break;
+			case S:
+				game.getVideoUtility().allowPlayback(false);
+				break;
+			case R:
+				game.getVideoUtility().allowPlayback(true);
+				break;
+			case ESCAPE:
+				game.getVideoUtility().stopPlayer();
+				goBack();
+				break;
+			default:
+				break;
+			}
+		});
+	}
 	/**
 	 * Sets up the optionsmenu
 	 */
@@ -171,6 +199,11 @@ public class MenuManager extends AbstractMenuElement{
 	}
 	public void gameModesMenu(){
 		setMenu(modes_menu.modes_menu_screen());
+	}
+	public void enterVideoMode(){
+		processInput();
+		game.getVideoUtility().scaleVideo(0.6);
+		setMenu(this.video_pane);
 	}
 	public void setCurrentChoice(int choice) {
 		currentChoice = choice;
