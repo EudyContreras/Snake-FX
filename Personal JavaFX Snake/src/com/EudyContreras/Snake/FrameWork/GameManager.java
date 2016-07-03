@@ -245,7 +245,7 @@ public class GameManager extends AbstractGameModel{
         gestures = new TouchInputHandler();
         mouseInput = new MouseInputHandler();
         debrisManager = new GameDebrisController(this);
-        videoUtility = new ScreenRecorder(this,getGameRoot(),3);
+        videoUtility = new ScreenRecorder(scene, getGameRoot(),3);
 
         if(GameSettings.PARENT_CACHE){
         	cacheAllLayers();
@@ -473,7 +473,7 @@ public class GameManager extends AbstractGameModel{
         frameGameLoop = new Timeline();
         frameGameLoop.setCycleCount(Timeline.INDEFINITE);
 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), // 60FPS
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
 
                 new EventHandler<ActionEvent>() {
                     long startTime = System.currentTimeMillis();

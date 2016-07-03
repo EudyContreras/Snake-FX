@@ -168,6 +168,8 @@ public class MenuManager extends AbstractMenuElement{
 			switch (e.getCode()) {
 			case P:
 				game.getVideoUtility().starPlayer(video_pane);
+				setVideoOffset(game.getVideoUtility().getVideoWidth(), game.getVideoUtility().getVideoHeight(),0,350);
+//				game.getVideoUtility().setDimensions(GameSettings.WIDTH, GameSettings.HEIGHT);
 				break;
 			case O:
 				game.getVideoUtility().resetPlayback();
@@ -187,6 +189,10 @@ public class MenuManager extends AbstractMenuElement{
 			}
 		});
 	}
+	public void setVideoOffset(double width, double height, double offsetX, double offsetY) {
+		this.video_pane.setTranslateX((GameSettings.WIDTH / 2 - width / 2) + GameManager.ScaleX(offsetX));
+		this.video_pane.setTranslateY((GameSettings.HEIGHT / 2 - height / 2) + GameManager.ScaleY(offsetY));
+	}
 	/**
 	 * Sets up the optionsmenu
 	 */
@@ -202,7 +208,6 @@ public class MenuManager extends AbstractMenuElement{
 	}
 	public void enterVideoMode(){
 		processInput();
-		game.getVideoUtility().scaleVideo(0.6);
 		setMenu(this.video_pane);
 	}
 	public void setCurrentChoice(int choice) {
