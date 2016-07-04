@@ -182,11 +182,11 @@ public class GameManager extends AbstractGameModel{
         translateObjects(mainRoot.getChildren());
         pauseGame();
         objectChecker();
-		gameLoop();
+//		gameLoop();
 //		frameBaseGameLoop();
 //		nonUIThread();
 //		backgroundScheduledThread();
-//      backgroundTaskThread();
+      backgroundTaskThread();
 //		backgroundWorkerTwo();
 
     }
@@ -667,7 +667,7 @@ public class GameManager extends AbstractGameModel{
                         lastTime = currentTime;
 
                     });
-                    Thread.sleep(1);
+                    Thread.sleep(16);
                 }
             }
 
@@ -683,10 +683,7 @@ public class GameManager extends AbstractGameModel{
             }
 
             private void updateAt60(long timePassed ) {
-             	if (!GameSettings.RENDER_GAME) {
-                    menuManager.transition();
-
-                }
+    
             }
             private void updateAt120() {
 
@@ -695,7 +692,92 @@ public class GameManager extends AbstractGameModel{
 
             }
             private void maxFrameUpdate() {
+            	 if (!GameSettings.RENDER_GAME) {
+                     menuManager.transition();
 
+                 }
+                 if (GameSettings.RENDER_GAME) {
+              	   countDownScreen.update();
+
+                     overlayEffect.updateEffect();
+
+                     fadeHandler.updateFade();
+
+                     pauseMenu.updateTouchPanel();
+
+                     gameHud.updateHudBars();
+
+                     victoryScreen.updateUI();
+
+                     gameOverScreen.updateUI();
+
+                     scoreKeeper.updateUI();
+
+                     objectManager.updateAll(timePassed);
+
+                     debrisManager.updateAll();
+
+                     loader.updateLevelObjects();
+
+						if (getGameLoader().getPlayerOne() != null) {
+							playerOneManager.updateAllLogic(timePassed);
+							sectManagerOne.updateAllLogic(timePassed);
+							for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
+								playerOneManager.updateAllMovement();
+								sectManagerOne.updateAllMovement(timePassed);
+							}
+						}
+
+						if (getGameLoader().getPlayerTwo() != null) {
+							playerTwoManager.updateAllLogic(timePassed);
+							sectManagerTwo.updateAllLogic(timePassed);
+							for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
+								playerTwoManager.updateAllMovement();
+								sectManagerTwo.updateAllMovement(timePassed);
+							}
+						}
+
+						if (getGameLoader().getClassicSnake() != null) {
+							classicSnakeManager.updateAllLogic(timePassed);
+							sectManagerThree.updateAllLogic(timePassed);
+							for (int speed = 0; speed < ClassicSnake.SPEED; speed += 1) {
+								classicSnakeManager.updateAllMovement();
+								sectManagerThree.updateAllMovement(timePassed);
+							}
+						}
+
+                     if(GameSettings.SAND_STORM){
+                     	   sandEmitter.move();
+                         sandEmitter.emit();
+                     }
+
+                     if(GameSettings.RAIN_STORM){
+                         rainEmitter.move();
+                         rainEmitter.emit();
+                     }
+
+                     if (loader.getPlayerOne() != null && getHealthBarOne() != null && getEnergyBarOne() != null) {
+                         getHealthBarOne().update();
+                         getEnergyBarOne().update();
+                         if (scoreBoardOne != null) {
+                             scoreBoardOne.updateUI();
+                         }
+                     }
+
+                     if (loader.getPlayerTwo() != null && getHealthBarTwo() != null && getEnergyBarTwo() != null) {
+                  	   getHealthBarTwo().update();
+                         getEnergyBarTwo().update();
+                         if (scoreBoardTwo != null) {
+                             scoreBoardTwo.updateUI();
+                         }
+                     }
+
+                     if (!outerParticleLayer.getChildren().isEmpty()) {
+                         if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+                         	outerParticleLayer.getChildren().remove(0);
+                         }
+                     }
+                 }
             }
             private void updateAnimation(long timePassed) {
 

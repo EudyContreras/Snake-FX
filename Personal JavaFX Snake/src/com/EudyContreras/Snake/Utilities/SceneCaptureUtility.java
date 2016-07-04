@@ -39,6 +39,9 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -82,22 +85,20 @@ public class SceneCaptureUtility {
 	private int timer = 0; // recording timer.
 	private int record_time; // Amount of time the recorder will record
 	private int counter = 0;
-	private int width;
-	private int height;
 	
-	private float frameRate = 60.0f; 
+	private float frameRate = 15.0f; 
 	
 	private long capture_rate = (long) (1000f / frameRate); // Rate at which the recorder will recored. Default rate: 60FPS
 
 	private PlaybackSettings playSettings;
 	
-	private Double frameCap = 1.0 / frameRate; // Framerate at which the recorded video will play
+	private Double frameCap = 1.0 / frameRate; // FrameRate at which the recorded video will play
 	private Double video_size_scale = 1.0; // Scale of the video relative to its size: 0.5 = half, 2.0 = double the size
 	private Double bounds_scale_X = 0.5; // Scale factor for scaling relative to assigned or obtained resolution
 	private Double bounds_scale_Y = 0.5;
 
 	private Boolean saveFrames = false; //If true saves the individual frames of the video as images
-	private Boolean loadFrames = false; //If true allows retrieving previously saved frames for playback
+	private Boolean loadFrames = false; //If true allows retrieving previously saved frames for playBack
 	private Boolean allowRecording = false;
 	private Boolean allowPlayback = false;
 	private Boolean showIndicators = false;
@@ -109,9 +110,9 @@ public class SceneCaptureUtility {
 
 	private Timeline videoPlayer;
 
-	private ArrayList<Image> recorded_frames; //Stores recorded frames
-	private ArrayList<ImageView> video_frames; //Stores frames for playback
-	private ArrayList<byte[]> temp_frames; //Stores frames for saving
+	private List<Image> recorded_frames; //Stores recorded frames
+	private List<ImageView> video_frames; //Stores frames for playBack
+	private List<byte[]> temp_frames; //Stores frames for saving
 
 	private final SnapshotParameters parameters = new SnapshotParameters();
 
@@ -121,7 +122,7 @@ public class SceneCaptureUtility {
 	private final Indicator playing = new Indicator(Color.GREEN, " Playing..");
 	private final Indicator idle = new Indicator(Color.YELLOW, "paused..");
 
-	private final String VIDEO_NAME = "recording.FXVideo";
+	private final String VIDEO_NAME = "recording2.FXVideo";
 	private final String FRAME_NAME = "image";
 	private final String DIRECTORY_NAME = "Snake Game Videos"+ File.separator;
 	private final String PATH_ROOT = System.getProperty("user.home") + "/Desktop" + File.separator +DIRECTORY_NAME;
@@ -131,7 +132,7 @@ public class SceneCaptureUtility {
 
 	/**
 	 * Constructs a scene capture utility with a default scene, a pane which 
-	 * will be used to diplay the state indicators, the amount of time which
+	 * will be used to display the state indicators, the amount of time which
 	 * the recorder will be running and a condition to whether or not the indicators
 	 * will be shown.
 	 * @param scene: scene which will be recored.
@@ -141,8 +142,6 @@ public class SceneCaptureUtility {
 	 */
 	public SceneCaptureUtility(Scene scene, Pane indicatorLayer, int record_time, boolean showIndicators) {
 		this.scene = scene;
-		this.width = (int) scene.getWidth();
-		this.height = (int) scene.getHeight();
 		this.showIndicators = showIndicators;
 		this.record_time = record_time * 60;
 		this.initStorages(indicatorLayer);
@@ -155,9 +154,16 @@ public class SceneCaptureUtility {
 	private void initStorages(Pane layer) {
 		if(showIndicators)
 			this.indicator_layer = layer;
-		video_frames = new ArrayList<ImageView>();
-		recorded_frames = new ArrayList<Image>();
-		temp_frames = new ArrayList<byte[]>();
+		video_frames = new LinkedList<ImageView>();
+		recorded_frames = new LinkedList<Image>();
+		temp_frames = new LinkedList<byte[]>();
+	}
+	public void addFrame(Image... frame) {
+		if (frame.length > 1) {
+			recorded_frames.addAll(Arrays.asList(frame));
+		} else {
+			recorded_frames.add(frame[0]);
+		}
 	}
 	/**
 	 * loads recordings and or frames from a specified location
@@ -208,10 +214,10 @@ public class SceneCaptureUtility {
 		}
 	}
 	/**
-	 * Method which when called will start playback of the recorded video onto
+	 * Method which when called will start playBack of the recorded video onto
 	 * a given screen or layer.
 	 * @param output_screen: layer used to display the video
-	 * @param settings: video settings that determine the playback conditions.
+	 * @param settings: video settings that determine the playBack conditions.
 	 */
 	public void starPlayer(Pane output_screen, PlaybackSettings settings) {
 		video_screen = output_screen;
@@ -234,7 +240,7 @@ public class SceneCaptureUtility {
 
 	}
 	/**
-	 * Method which when called will stop the playback of the video
+	 * Method which when called will stop the playBack of the video
 	 */
 	public void stopPlayer() {
 		if(showIndicators)
@@ -246,7 +252,7 @@ public class SceneCaptureUtility {
 	}
 	/*
 	 * Method which creates a task which records the video at
-	 * a specified rate for a specifed time 
+	 * a specified rate for a specified time 
 	 */
 	private void videoRecorder() {
 		Task<Void> task = new Task<Void>() {
@@ -257,7 +263,9 @@ public class SceneCaptureUtility {
 						@Override
 						public void run() {
 							if (allowRecording && record_time > 0) {
-								recorded_frames.add(create_frame());
+//								recorded_frames.add();
+								addFrame(create_frame());
+								
 							}
 
 							recordingTimer();
@@ -272,7 +280,7 @@ public class SceneCaptureUtility {
 		thread.start();
 	}
 	/*
-	 * Method which creates a timeline which plays the video 
+	 * Method which creates a timeLine which plays the video 
 	 * at a specified frameRate onto a given screen or layer.
 	 */
 	private void videoPlayer() {
@@ -316,7 +324,7 @@ public class SceneCaptureUtility {
 	}
 	/**
 	 * A call to this method will add the recorded frames to the video list 
-	 * making them reading for playback.
+	 * making them reading for playBack.
 	 */
 	private void processVideo() {
 		logState("Processing video...");
@@ -412,7 +420,7 @@ public class SceneCaptureUtility {
 	 * to the video list.
 	 * @param list: list containing the byte arrays of the frames
 	 */
-	private void loadFrames(ArrayList<byte[]> list) {
+	private void loadFrames(List<byte[]> list) {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
@@ -436,7 +444,7 @@ public class SceneCaptureUtility {
 	 */
 	private void showIndicator(ObservableList<Node> rootPane, Indicator indicator) {
 		rootPane.removeAll(playing, idle, recording);
-		indicator.setTranslateX(width - ScaleX(150));
+		indicator.setTranslateX(scene.getWidth() - ScaleX(150));
 		indicator.setTranslateY(ScaleY(100));
 		rootPane.add(indicator);
 	}
@@ -479,11 +487,11 @@ public class SceneCaptureUtility {
 		thread.start();
 	}
 	/**
-	 * Method which when called will attemp to save the video 
+	 * Method which when called will attempt to save the video 
 	 * to a specified directory.
 	 * @param list
 	 */
-	private void saveRecording(ArrayList<byte[]> list) {
+	private void saveRecording(List<byte[]> list) {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
@@ -555,15 +563,10 @@ public class SceneCaptureUtility {
 	 * given scene to be recorded.
 	 * @return: frame taken from the scene.
 	 */
+
 	private synchronized Image create_frame() {
-		WritableImage wi = new WritableImage(width, height);
-		if (scene != null)
-			scene.snapshot(wi);
-		try {
-			return wi;
-		} finally {
-			wi = null;
-		}
+		WritableImage sceneShot = scene.snapshot(null);
+		return sceneShot;
 	}
 	/**
 	 * Method which when called crates a frame or snapshot of the 
@@ -678,9 +681,9 @@ public class SceneCaptureUtility {
 		}
 	}
 	/**
-	 * Method which converts a byte array to a Imageview
+	 * Method which converts a byte array to a ImageView
 	 * @param data: byte array to be converted.
-	 * @return: imageview of the byte array
+	 * @return: imageView of the byte array
 	 */
 	public final ImageView byteToImage(byte[] data) {
 		BufferedImage newImage = null;
