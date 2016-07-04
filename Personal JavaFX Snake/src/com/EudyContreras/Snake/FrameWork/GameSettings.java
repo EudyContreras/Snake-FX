@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.0;
+	public static double MANUAL_SIZE_SCALE = 1.5;
 
 	public static final int START_X = 1920;
 	public static final int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
@@ -62,7 +62,7 @@ public class GameSettings {
 	public static double GLOBAL_SPECULARITY = 0.9;
 
 	public static int BLUR_RANDOMNESS = 200;
-	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
+	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 0;
 	public static int PARTICLE_LIMIT = 350;
 	public static int MAX_DEBRIS_AMOUNT = 50;
 	public static int SAND_SPAWN_DELAY = 1;

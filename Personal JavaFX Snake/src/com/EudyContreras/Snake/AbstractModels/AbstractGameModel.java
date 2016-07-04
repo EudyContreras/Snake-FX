@@ -36,7 +36,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-import com.EudyContreras.Snake.Utilities.ScreenRecorder;
+import com.EudyContreras.Snake.Utilities.SceneCaptureUtility;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -67,7 +67,7 @@ public abstract class AbstractGameModel extends Application {
 	protected KeyInputHandler keyInput;
 	protected MouseInputHandler mouseInput;
 	protected TouchInputHandler gestures;
-	protected ScreenRecorder videoUtility;
+	protected SceneCaptureUtility videoUtility;
 	protected ScreenEffectUtility overlayEffect;
 	protected GameObjectController objectManager;
 	protected PlayerOneManager playerOneManager;
@@ -293,7 +293,7 @@ public abstract class AbstractGameModel extends Application {
 		return levelLayer;
 	}
 
-	public ScreenRecorder getVideoUtility(){
+	public SceneCaptureUtility getVideoUtility(){
 		return videoUtility;
 	}
 	public GameObjectController getGameObjectController() {

@@ -6,6 +6,7 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Utilities.GameAudio;
+import com.EudyContreras.Snake.Utilities.SceneCaptureUtility.PlaybackSettings;
 
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
@@ -167,7 +168,7 @@ public class MenuManager extends AbstractMenuElement{
 
 			switch (e.getCode()) {
 			case P:
-				game.getVideoUtility().starPlayer(video_pane);
+				game.getVideoUtility().starPlayer(video_pane, PlaybackSettings.CONTINUOUS_REPLAY);
 				setVideoOffset(game.getVideoUtility().getVideoWidth(), game.getVideoUtility().getVideoHeight(),0,350);
 //				game.getVideoUtility().setDimensions(GameSettings.WIDTH, GameSettings.HEIGHT);
 				break;

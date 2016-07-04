@@ -36,7 +36,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-import com.EudyContreras.Snake.Utilities.ScreenRecorder;
+import com.EudyContreras.Snake.Utilities.SceneCaptureUtility;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -245,7 +245,7 @@ public class GameManager extends AbstractGameModel{
         gestures = new TouchInputHandler();
         mouseInput = new MouseInputHandler();
         debrisManager = new GameDebrisController(this);
-        videoUtility = new ScreenRecorder(scene, getGameRoot(),3);
+        videoUtility = new SceneCaptureUtility(scene, getGameRoot(),3, false);
 
         if(GameSettings.PARENT_CACHE){
         	cacheAllLayers();

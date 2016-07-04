@@ -1,4 +1,31 @@
 package com.EudyContreras.Snake.Utilities;
+/*
+ * JavaFX SceneCaptureUtility 2016/07/02
+ *
+ * The author of this software "Eudy Contreras" grants you ("Licensee")
+ * a non-exclusive, royalty free, license to use,modify and redistribute this
+ * software in source and binary code form.
+ *
+ * Please be aware that this software is simply part of a personal test
+ * and may in fact be unstable. The software in its current state is not
+ * considered a finished product and has plenty of room for improvement and
+ * changes due to the range of different approaches which can be used to
+ * achieved the desired result of the software.
+ *
+ * BEWARE that because of the nature of this software and because of the way
+ * this software functions the ability of this software to be able to operate
+ * without probable malfunction is strictly based on factors such as the amount
+ * of processing power the system running the software has, and the resolution of
+ * the screen being recorded. The amount of nodes on the scene will have an impact
+ * as well as the size and recording rate to which this software will be subjected
+ * to. IN CASE OF MEMORY RELATED PROBLEMS SUCH AS BUT NOT LIMITEd TO LACK OF REMAINING
+ * HEAP SPACE PLEASE CONSIDER LOWERING THE RESOLUTION OF THE SCENE BEING RECORDED.
+ *
+ * BEWARE STABILITY ISSUES MAY ARISE!
+ * BEWARE SAVING AND LOADING THE RECORDED VIDEO MAY TAKE TIME DEPENDING ON YOUR SYSTEM
+ * 
+ * PLEASE keep track of the console for useful information and feedback
+ */
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
@@ -13,6 +40,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -38,68 +66,112 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Screen;
 import javafx.util.Duration;
+/**
+ *
+ * @author Eudy Contreras
+ *
+ * This program records a javaFX scene by taking continuous snapshots of the scene
+ * which are than stored and saved to a predefined destination. The program allows the
+ * user to save and retrieve the frame based videos make by this program which can
+ * then be play on a specified layer or "screen".
+ *
+ */
+public class SceneCaptureUtility {
 
-public class ScreenRecorder {
-	private int frame = 0;
-	private int timer = 0;
-	private int play_time;
+	private int frame = 0; // The current frame which is being displayed
+	private int timer = 0; // recording timer.
+	private int record_time; // Amount of time the recorder will record
 	private int counter = 0;
-	private long capture_rate = (long) (1000f / 60.0f);
-	private double width;
-	private double height;
-	private double frameCap = 1.0 / 60.0f;
-	private double video_size_scale = 1.0;
-	private double bounds_scale_X = 0.5;
-	private double bounds_scale_Y = 0.5;
-	private boolean saveFrames = false;
-	private boolean loadFrames = false;
-	private boolean allowRecording = false;
-	private boolean allowPlayback = false;
-	private boolean showIndicators = false;
+	private int width;
+	private int height;
+	
+	private float frameRate = 60.0f; 
+	
+	private long capture_rate = (long) (1000f / frameRate); // Rate at which the recorder will recored. Default rate: 60FPS
+
+	private PlaybackSettings playSettings;
+	
+	private Double frameCap = 1.0 / frameRate; // Framerate at which the recorded video will play
+	private Double video_size_scale = 1.0; // Scale of the video relative to its size: 0.5 = half, 2.0 = double the size
+	private Double bounds_scale_X = 0.5; // Scale factor for scaling relative to assigned or obtained resolution
+	private Double bounds_scale_Y = 0.5;
+
+	private Boolean saveFrames = false; //If true saves the individual frames of the video as images
+	private Boolean loadFrames = false; //If true allows retrieving previously saved frames for playback
+	private Boolean allowRecording = false;
+	private Boolean allowPlayback = false;
+	private Boolean showIndicators = false;
+
 	private Pane indicator_layer;
 	private Pane video_screen;
+
 	private Scene scene;
+
 	private Timeline videoPlayer;
-	private ArrayList<Image> recorded_frames;
-	private ArrayList<ImageView> video_frames;
-	private ArrayList<byte[]> temp_frames;
+
+	private ArrayList<Image> recorded_frames; //Stores recorded frames
+	private ArrayList<ImageView> video_frames; //Stores frames for playback
+	private ArrayList<byte[]> temp_frames; //Stores frames for saving
+
 	private final SnapshotParameters parameters = new SnapshotParameters();
+
 	private final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+
 	private final Indicator recording = new Indicator(Color.RED, " Recording..");
 	private final Indicator playing = new Indicator(Color.GREEN, " Playing..");
 	private final Indicator idle = new Indicator(Color.YELLOW, "paused..");
-	private final String VIDEO_NAME = "recording.ser";
+
+	private final String VIDEO_NAME = "recording.FXVideo";
 	private final String FRAME_NAME = "image";
 	private final String DIRECTORY_NAME = "Snake Game Videos"+ File.separator;
 	private final String PATH_ROOT = System.getProperty("user.home") + "/Desktop" + File.separator +DIRECTORY_NAME;
-	private final String FILE_EXTENSION = "png";
+	private final String FILE_EXTENSION = "jpg";
 	private final String PATH_FRAME = PATH_ROOT + FRAME_NAME;
 	private final String PATH_VIDEO = PATH_ROOT + VIDEO_NAME;
 
-	public ScreenRecorder(Scene scene, Pane indicatorLayer, int record_time) {
-		if(showIndicators)
-		this.indicator_layer = indicatorLayer;
+	/**
+	 * Constructs a scene capture utility with a default scene, a pane which 
+	 * will be used to diplay the state indicators, the amount of time which
+	 * the recorder will be running and a condition to whether or not the indicators
+	 * will be shown.
+	 * @param scene: scene which will be recored.
+	 * @param indicatorLayer: layer which will be used to show the state indicators.
+	 * @param record_time: time in minutes for which the recorder will be recording
+	 * @param showIndicators: condition which determines if the indicators will be shown.
+	 */
+	public SceneCaptureUtility(Scene scene, Pane indicatorLayer, int record_time, boolean showIndicators) {
 		this.scene = scene;
-		this.width = scene.getWidth();
-		this.height = scene.getHeight();
-		this.play_time = record_time * 60;
-		this.initStorages();
+		this.width = (int) scene.getWidth();
+		this.height = (int) scene.getHeight();
+		this.showIndicators = showIndicators;
+		this.record_time = record_time * 60;
+		this.initStorages(indicatorLayer);
 		this.loadRecording();
 		this.scaleResolution(0, 0, false);
 	}
-	private void initStorages() {
+	/*
+	 * Initializes the list used to store the captured frames.
+	 */
+	private void initStorages(Pane layer) {
+		if(showIndicators)
+			this.indicator_layer = layer;
 		video_frames = new ArrayList<ImageView>();
 		recorded_frames = new ArrayList<Image>();
 		temp_frames = new ArrayList<byte[]>();
-
 	}
+	/**
+	 * loads recordings and or frames from a specified location
+	 */
 	private void loadRecording(){
 		if (loadFrames) {
 			loadFromFile();
 		} else {
-			retrieveRecording(temp_frames);
+			retrieveRecording();
 		}
 	}
+	/*
+	 * Resets the list
+	 */
 	private void resetStorage() {
 		if (video_frames != null)
 			video_frames.clear();
@@ -108,7 +180,9 @@ public class ScreenRecorder {
 		if (video_screen != null)
 			video_screen.getChildren().clear();
 	}
-
+	/**
+	 * Method which when called will start recording the given scene.
+	 */
 	public void startRecorder() {
 		if (!allowRecording) {
 			resetStorage();
@@ -119,7 +193,9 @@ public class ScreenRecorder {
 			logState("Recording...");
 		}
 	}
-
+	/**
+	 * Method which when called will stop the recording
+	 */
 	public void stopRecorder() {
 		if (allowRecording) {
 			if(showIndicators)
@@ -131,12 +207,20 @@ public class ScreenRecorder {
 			saveVideo();
 		}
 	}
-
-	public void starPlayer(Pane output_screen) {
+	/**
+	 * Method which when called will start playback of the recorded video onto
+	 * a given screen or layer.
+	 * @param output_screen: layer used to display the video
+	 * @param settings: video settings that determine the playback conditions.
+	 */
+	public void starPlayer(Pane output_screen, PlaybackSettings settings) {
 		video_screen = output_screen;
+		playSettings = settings;
 		if(showIndicators)
 		showIndicator(indicator_layer.getChildren(), playing);
 		if (video_frames.size() > 0) {
+			logState("Video playback..");
+			resetPlayback();
 			if (videoPlayer == null)
 				videoPlayer();
 			else {
@@ -144,9 +228,14 @@ public class ScreenRecorder {
 			}
 			allowPlayback(true);
 		}
-		logState("Video playback..");
-	}
+		else{
+			logState("Nothing to play!");
+		}
 
+	}
+	/**
+	 * Method which when called will stop the playback of the video
+	 */
 	public void stopPlayer() {
 		if(showIndicators)
 		showIndicator(indicator_layer.getChildren(), idle);
@@ -155,7 +244,10 @@ public class ScreenRecorder {
 		logState("Playback stopped");
 		allowPlayback(false);
 	}
-
+	/*
+	 * Method which creates a task which records the video at
+	 * a specified rate for a specifed time 
+	 */
 	private void videoRecorder() {
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -164,7 +256,7 @@ public class ScreenRecorder {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-							if (allowRecording && play_time > 0) {
+							if (allowRecording && record_time > 0) {
 								recorded_frames.add(create_frame());
 							}
 
@@ -179,16 +271,20 @@ public class ScreenRecorder {
 		thread.setDaemon(true);
 		thread.start();
 	}
-
+	/*
+	 * Method which creates a timeline which plays the video 
+	 * at a specified frameRate onto a given screen or layer.
+	 */
 	private void videoPlayer() {
 
 		videoPlayer = new Timeline();
-		videoPlayer.setCycleCount(Timeline.INDEFINITE);
+		videoPlayer.setCycleCount(Animation.INDEFINITE);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(frameCap), // 60FPS
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(frameCap), 
 
 				new EventHandler<ActionEvent>() {
 
+					@Override
 					public void handle(ActionEvent e) {
 
 						if (allowPlayback) {
@@ -203,18 +299,25 @@ public class ScreenRecorder {
 		videoPlayer.play();
 
 	}
-
+	/**
+	 * Calls to this method will decreased the time left on the 
+	 * recording every second until the recording time reaches
+	 * zero. this will cause the recording to stop.
+	 */
 	private void recordingTimer() {
 		timer++;
-		if (allowRecording && timer >= 60) {
-			play_time -= 1;
+		if (allowRecording && timer >= frameRate) {
+			record_time -= 1;
 			timer = 0;
-			if (play_time <= 0) {
-				play_time = 0;
+			if (record_time <= 0) {
+				record_time = 0;
 			}
 		}
 	}
-
+	/**
+	 * A call to this method will add the recorded frames to the video list 
+	 * making them reading for playback.
+	 */
 	private void processVideo() {
 		logState("Processing video...");
 		Task<Void> task = new Task<Void>() {
@@ -231,21 +334,37 @@ public class ScreenRecorder {
 		thread.setDaemon(true);
 		thread.start();
 	}
-
+	/**
+	 * Call to this method will play the video on the given screen
+	 * adding a removing frames.
+	 * @return: screen in which the frames are being rendered
+	 */
 	private final Pane playbackVideo() {
 		if (video_screen.getChildren().size() > 0)
 			video_screen.getChildren().remove(0);
 		video_screen.getChildren().add(video_frames.get(frame));
 		frame += 1;
 		if (frame > video_frames.size() - 1) {
-			frame = 0;
+			if(playSettings == PlaybackSettings.CONTINUOUS_REPLAY){
+				frame = 0;
+			}
+			else if(playSettings == PlaybackSettings.PLAY_ONCE){
+				frame = video_frames.size() - 1;
+				allowPlayback = false;
+			}
 		}
 		return video_screen;
 	}
+
 	public void setVideoScale(double scale) {
 		this.video_size_scale = scale;
 	}
-
+	/**
+	 * A called to this method will scale the video
+	 * to a given scale.
+	 * @param scale: new scale of the video. 1.0 is normal
+	 * 0.5 is half and 2.0 is twice the size.
+	 */
 	public void scaleVideo(double scale) {
 		this.video_size_scale = scale;
 		Task<Void> task = new Task<Void>() {
@@ -266,8 +385,11 @@ public class ScreenRecorder {
 		thread.setDaemon(true);
 		thread.start();
 	}
-
-	public void saveVideo() {
+	/**
+	 * A called to this method will attempt to prepare the video and or frames
+	 * for saving
+	 */
+	private void saveVideo() {
 		File root = new File(PATH_ROOT);
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -285,8 +407,12 @@ public class ScreenRecorder {
 		thread.setDaemon(true);
 		thread.start();
 	}
-
-	public void loadFrames(ArrayList<byte[]> list) {
+	/**
+	 * A called to this method will add the frames store is array list 
+	 * to the video list.
+	 * @param list: list containing the byte arrays of the frames
+	 */
+	private void loadFrames(ArrayList<byte[]> list) {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
@@ -303,15 +429,24 @@ public class ScreenRecorder {
 		thread.setDaemon(true);
 		thread.start();
 	}
-
+	/**
+	 * Method which when called will add and display a indicator.
+	 * @param rootPane: list to which the indicator will be added
+	 * @param indicator: indicator to be displayed
+	 */
 	private void showIndicator(ObservableList<Node> rootPane, Indicator indicator) {
 		rootPane.removeAll(playing, idle, recording);
 		indicator.setTranslateX(width - ScaleX(150));
 		indicator.setTranslateY(ScaleY(100));
 		rootPane.add(indicator);
 	}
-
-	public void saveToFile(Image image) {
+	/**
+	 * Calls to this method will save each frame if conditions are met
+	 * and will also store each frame into a list of byte arrays.
+	 * @param image: image to be saved to file and or converted and store as
+	 * a byte array.
+	 */
+	private void saveToFile(Image image) {
 		counter += 1;
 		BufferedImage BImage = SwingFXUtils.fromFXImage(image, null);
 		temp_frames.add(ImageToByte(BImage));
@@ -324,8 +459,11 @@ public class ScreenRecorder {
 			}
 		}
 	}
-
-	public void loadFromFile() {
+	/**
+	 * Method which when called loads images from a predefined 
+	 * directory in order to play them as a video.
+	 */
+	private void loadFromFile() {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
@@ -340,14 +478,19 @@ public class ScreenRecorder {
 		thread.setDaemon(true);
 		thread.start();
 	}
-
-	public void saveRecording(ArrayList<byte[]> list) {
-		Runnable saveRunnable = new Runnable() {
+	/**
+	 * Method which when called will attemp to save the video 
+	 * to a specified directory.
+	 * @param list
+	 */
+	private void saveRecording(ArrayList<byte[]> list) {
+		Task<Void> task = new Task<Void>() {
 			@Override
-			public void run() {
+			public Void call() throws Exception {
 				File root = new File(PATH_ROOT);
 				File video = new File(PATH_VIDEO);
 				video.delete();
+				logState("Saving video...");
 				try {
 					root.mkdirs();
 					FileOutputStream fileOut = new FileOutputStream(PATH_VIDEO);
@@ -362,41 +505,58 @@ public class ScreenRecorder {
 					logState("Failed to save, I/O exception");
 					e.printStackTrace();
 				}
+				return null;
 			}
 		};
 
-		Thread saveThread = new Thread(saveRunnable);
-
-		saveThread.start();
+		Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.start();
 	}
-
+	/**
+	 * Method which when called attempts to retrieve the video
+	 * from a specified directory
+	 */
 	@SuppressWarnings("unchecked")
-	private void retrieveRecording(ArrayList<byte[]> list) {
+	private void retrieveRecording() {
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws Exception {
+				File root = new File(PATH_ROOT);
+				File video = new File(PATH_VIDEO);
 
-		File root = new File(PATH_ROOT);
-		File video = new File(PATH_VIDEO);
-
-		if (root.exists() && video.exists()) {
-			try {
-				FileInputStream fileIn = new FileInputStream(PATH_VIDEO);
-				ObjectInputStream inputStream = new ObjectInputStream(fileIn);
-				temp_frames = (ArrayList<byte[]>) inputStream.readObject();
-				inputStream.close();
-				fileIn.close();
-				logState("Loaded.");
-				loadFrames(temp_frames);
-			} catch (IOException | ClassNotFoundException e) {
-				logState("Failed to load " + e.getLocalizedMessage());
+				if (root.exists() && video.exists()) {
+					try {
+						FileInputStream fileIn = new FileInputStream(PATH_VIDEO);
+						ObjectInputStream inputStream = new ObjectInputStream(fileIn);
+						temp_frames = (ArrayList<byte[]>) inputStream.readObject();
+						inputStream.close();
+						fileIn.close();
+						logState("\nLoading video");
+						loadFrames(temp_frames);
+					} catch (IOException | ClassNotFoundException e) {
+						logState("Failed to load! " + e.getLocalizedMessage());
+					}
+				} else {
+					logState("Nothing to load.");
+				}
+				return null;
 			}
-		} else {
-			logState("Nothing to load.");
-		}
+		};
+
+		Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.start();
 
 	}
-
-
+	
+	/**
+	 * Method which when call creates a frame or snapshot of the 
+	 * given scene to be recorded.
+	 * @return: frame taken from the scene.
+	 */
 	private synchronized Image create_frame() {
-		WritableImage wi = new WritableImage((int)width, (int)height);
+		WritableImage wi = new WritableImage(width, height);
 		if (scene != null)
 			scene.snapshot(wi);
 		try {
@@ -405,7 +565,12 @@ public class ScreenRecorder {
 			wi = null;
 		}
 	}
-
+	/**
+	 * Method which when called crates a frame or snapshot of the 
+	 * given node.
+	 * @param node: node to be recorded
+	 * @return: image or frame of recorded node.
+	 */
 	@SuppressWarnings("unused")
 	private synchronized Image create_node_frame(Node node) {
 		parameters.setFill(Color.TRANSPARENT);
@@ -414,7 +579,13 @@ public class ScreenRecorder {
 		return wi;
 
 	}
-
+	/**
+	 * Method which when called will create a scale relative to a base
+	 * and current resolution.
+	 * @param scaleX: x scaling factor used for manual scaling
+	 * @param scaleY: y scaling factor used for manual scaling
+	 * @param manualScaling: determines if a manual scaling will be applied or not
+	 */
 	public void scaleResolution(double scaleX, double scaleY, boolean manualScaling) {
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();
 		double resolutionY = Screen.getPrimary().getBounds().getHeight();
@@ -465,17 +636,29 @@ public class ScreenRecorder {
 	}
 
 	public double getVideoWidth(){
-		return video_frames.get(0).getImage().getWidth() * video_size_scale;
+		if(!video_frames.isEmpty())
+			return video_frames.get(0).getImage().getWidth() * video_size_scale;
+		else{
+			return 0;
+		}
 	}
 	public double getVideoHeight(){
+		if(!video_frames.isEmpty())
 		return video_frames.get(0).getImage().getWidth() * video_size_scale;
+		else{
+			return 0;
+		}
 	}
 	@SuppressWarnings("unused")
 	private String loadResource(String image) {
 		String url = PATH_ROOT + image;
 		return url;
 	}
-
+	/**
+	 * Method which converts a bufferedimage to byte array
+	 * @param image: image to be converted
+	 * @return: byte array of the image
+	 */
 	public final byte[] ImageToByte(BufferedImage image) {
 
 		byte[] imageInByte = null;
@@ -494,7 +677,11 @@ public class ScreenRecorder {
 			byteOutput.reset();
 		}
 	}
-
+	/**
+	 * Method which converts a byte array to a Imageview
+	 * @param data: byte array to be converted.
+	 * @return: imageview of the byte array
+	 */
 	public final ImageView byteToImage(byte[] data) {
 		BufferedImage newImage = null;
 		ImageView imageView = null;
@@ -515,14 +702,16 @@ public class ScreenRecorder {
 		System.out.println("JAVA_FX SCREEN RECORDER: " + state);
 	}
 
-	public enum RECORDING_STATE {
-		RECORDING, LOADING,
+	public enum PlaybackSettings {
+		CONTINUOUS_REPLAY, PLAY_ONCE,
 	}
-
-	public enum VIDEO_PLAY {
-		PLAY_CONTINUOUSLY, CONTINUOUS_REPLAY, PLAY_ONCE,
-	}
-
+	
+	/**
+	 * Class which crates a simple indicator which can be 
+	 * used to display a recording or playing state
+	 * @author Eudy Contreras
+	 *
+	 */
 	private class Indicator extends HBox {
 		public Indicator(Color color, String message) {
 			Circle indicator = new Circle(Scale(15), color);
