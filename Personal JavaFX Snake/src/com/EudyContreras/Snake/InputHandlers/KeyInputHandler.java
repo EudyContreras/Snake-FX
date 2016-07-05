@@ -156,10 +156,10 @@ public class KeyInputHandler {
 						}
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
-					game.getVideoUtility().startRecorder();
+
 				}
 				if (e.getCode() == KeyCode.NUMPAD5) {
-					game.getVideoUtility().stopRecorder();
+
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
 

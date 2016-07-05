@@ -36,7 +36,6 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-import com.EudyContreras.Snake.Utilities.SceneCaptureUtility;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
@@ -182,11 +181,11 @@ public class GameManager extends AbstractGameModel{
         translateObjects(mainRoot.getChildren());
         pauseGame();
         objectChecker();
-//		gameLoop();
+		gameLoop();
 //		frameBaseGameLoop();
 //		nonUIThread();
 //		backgroundScheduledThread();
-      backgroundTaskThread();
+//      backgroundTaskThread();
 //		backgroundWorkerTwo();
 
     }
@@ -245,7 +244,6 @@ public class GameManager extends AbstractGameModel{
         gestures = new TouchInputHandler();
         mouseInput = new MouseInputHandler();
         debrisManager = new GameDebrisController(this);
-        videoUtility = new SceneCaptureUtility(scene, getGameRoot(),3, false);
 
         if(GameSettings.PARENT_CACHE){
         	cacheAllLayers();
@@ -614,6 +612,7 @@ public class GameManager extends AbstractGameModel{
     private long timePassed = 0;
     private long now = 0;
 
+
 	@SuppressWarnings("unused")
 	private void backgroundTaskThread() {
         Task<Void> task = new Task<Void>() {
@@ -683,7 +682,7 @@ public class GameManager extends AbstractGameModel{
             }
 
             private void updateAt60(long timePassed ) {
-    
+
             }
             private void updateAt120() {
 
@@ -693,11 +692,13 @@ public class GameManager extends AbstractGameModel{
             }
             private void maxFrameUpdate() {
             	 if (!GameSettings.RENDER_GAME) {
-                     menuManager.transition();
+
+            		 menuManager.transition();
 
                  }
                  if (GameSettings.RENDER_GAME) {
-              	   countDownScreen.update();
+
+                	 countDownScreen.update();
 
                      overlayEffect.updateEffect();
 

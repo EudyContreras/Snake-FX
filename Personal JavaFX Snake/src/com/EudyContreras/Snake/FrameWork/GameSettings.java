@@ -28,7 +28,7 @@ public class GameSettings {
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 4;
+	public static int APPLE_COUNT = 100;
 	public static int SECTIONS_TO_ADD = 3;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
@@ -62,7 +62,7 @@ public class GameSettings {
 	public static double GLOBAL_SPECULARITY = 0.9;
 
 	public static int BLUR_RANDOMNESS = 200;
-	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 0;
+	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
 	public static int PARTICLE_LIMIT = 350;
 	public static int MAX_DEBRIS_AMOUNT = 50;
 	public static int SAND_SPAWN_DELAY = 1;
@@ -96,7 +96,7 @@ public class GameSettings {
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 
-	public static boolean LOAD_SPIKE_FENCE = true;
+	public static boolean LOAD_SPIKE_FENCE = false;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
 	public static boolean SHOW_CURSOR = false;

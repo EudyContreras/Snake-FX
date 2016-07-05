@@ -40,8 +40,8 @@ public class ScoreKeeper extends AbstractHudElement{
 	private ImageView apple;
 	private Rectangle board;
 	private Text countText;
-	private boolean swipeUp = true;
-	private boolean swipeDown = false;
+	private boolean swipeUp = false;
+	private boolean swipeDown = true;
 	private double swipeSpeed = 0;
 	private int initialAmount = 0;
 	private int count = 0;

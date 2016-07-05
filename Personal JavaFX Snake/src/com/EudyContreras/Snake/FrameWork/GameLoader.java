@@ -297,6 +297,9 @@ public class GameLoader extends AbstractLoaderModel{
 		game.getScoreKeeper().getTimer().showTimer(true);
 		game.getScoreKeeper().setboardMode(GameModeID.ClassicMode);
 		loadClassicSnake();
+		for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
+			spawnBackgroundStuff(true);
+		}
 		GameBackground.SET_BACKGROUND(game, GameLevelImage.classic_background);
 		game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
 		if(levelBounds==null){

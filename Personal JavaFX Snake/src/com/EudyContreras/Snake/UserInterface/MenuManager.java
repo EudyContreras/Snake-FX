@@ -6,12 +6,11 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Utilities.GameAudio;
-import com.EudyContreras.Snake.Utilities.SceneCaptureUtility.PlaybackSettings;
 
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -22,11 +21,11 @@ import javafx.scene.shape.Rectangle;
 public class MenuManager extends AbstractMenuElement{
 
 	private ImageView backgroundImage;
-	private Pane video_pane = new Pane();
 	private Pane fadeScreen = new Pane();
 	private Pane menuRoot = new Pane();
 	private Pane menuContainer = new Pane();
 	private GaussianBlur blur = new GaussianBlur();
+
 	private Rectangle clearUp;
 	private Rectangle menuLogo;
 	private MediaPlayer music;
@@ -42,11 +41,10 @@ public class MenuManager extends AbstractMenuElement{
 	public void setUpMenus(){
 		main_menu = new MainMenu(game,this);
 		modes_menu = new ModesMenu(game, this);
-		video_pane.setBackground(new Background(new BackgroundFill(Color.BLACK, null,null)));
 
 	}
 	public void setUpBackground(){
-		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
+		backgroundImage = new ImageView(MenuImageBank.menuBackground);
 		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		clearUp.setFill(Color.BLACK);
 	}
@@ -59,7 +57,13 @@ public class MenuManager extends AbstractMenuElement{
 	}
 	public void setupLogo(){
 		menuLogo = new Rectangle();
+		glowLED = new DropShadow();
+		glowLED.setColor(Color.LIME);
+		glowLED.setBlurType(BlurType.GAUSSIAN);
+		glowLED.setRadius(GameManager.ScaleX_Y(25));
+		glowLED.setSpread(0.3);
 		menuLogo.setFill(new ImagePattern(MenuImageBank.gameLogo));
+		menuLogo.setEffect(glowLED);
 		menuLogo.setWidth((MenuImageBank.gameLogo.getWidth()*1.3)/GameLoader.ResolutionScaleX);
 		menuLogo.setHeight((MenuImageBank.gameLogo.getHeight()*1.3)/GameLoader.ResolutionScaleY);
 		menuLogo.setX(GameSettings.WIDTH/2-menuLogo.getWidth()/2);
@@ -163,37 +167,6 @@ public class MenuManager extends AbstractMenuElement{
 			hideMenu = false;
 			}
 	}
-	public void processInput(){
-		game.getScene().setOnKeyPressed(e -> {
-
-			switch (e.getCode()) {
-			case P:
-				game.getVideoUtility().starPlayer(video_pane, PlaybackSettings.CONTINUOUS_REPLAY);
-				setVideoOffset(game.getVideoUtility().getVideoWidth(), game.getVideoUtility().getVideoHeight(),0,350);
-//				game.getVideoUtility().setDimensions(GameSettings.WIDTH, GameSettings.HEIGHT);
-				break;
-			case O:
-				game.getVideoUtility().resetPlayback();
-				break;
-			case S:
-				game.getVideoUtility().allowPlayback(false);
-				break;
-			case R:
-				game.getVideoUtility().allowPlayback(true);
-				break;
-			case ESCAPE:
-				game.getVideoUtility().stopPlayer();
-				goBack();
-				break;
-			default:
-				break;
-			}
-		});
-	}
-	public void setVideoOffset(double width, double height, double offsetX, double offsetY) {
-		this.video_pane.setTranslateX((GameSettings.WIDTH / 2 - width / 2) + GameManager.ScaleX(offsetX));
-		this.video_pane.setTranslateY((GameSettings.HEIGHT / 2 - height / 2) + GameManager.ScaleY(offsetY));
-	}
 	/**
 	 * Sets up the optionsmenu
 	 */
@@ -207,10 +180,7 @@ public class MenuManager extends AbstractMenuElement{
 	public void gameModesMenu(){
 		setMenu(modes_menu.modes_menu_screen());
 	}
-	public void enterVideoMode(){
-		processInput();
-		setMenu(this.video_pane);
-	}
+
 	public void setCurrentChoice(int choice) {
 		currentChoice = choice;
 	}

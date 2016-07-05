@@ -23,7 +23,7 @@ package com.EudyContreras.Snake.Utilities;
  *
  * BEWARE STABILITY ISSUES MAY ARISE!
  * BEWARE SAVING AND LOADING THE RECORDED VIDEO MAY TAKE TIME DEPENDING ON YOUR SYSTEM
- * 
+ *
  * PLEASE keep track of the console for useful information and feedback
  */
 
@@ -42,7 +42,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.imageio.ImageIO;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -85,13 +87,13 @@ public class SceneCaptureUtility {
 	private int timer = 0; // recording timer.
 	private int record_time; // Amount of time the recorder will record
 	private int counter = 0;
-	
-	private float frameRate = 15.0f; 
-	
+
+	private float frameRate = 30.0f;
+
 	private long capture_rate = (long) (1000f / frameRate); // Rate at which the recorder will recored. Default rate: 60FPS
 
 	private PlaybackSettings playSettings;
-	
+
 	private Double frameCap = 1.0 / frameRate; // FrameRate at which the recorded video will play
 	private Double video_size_scale = 1.0; // Scale of the video relative to its size: 0.5 = half, 2.0 = double the size
 	private Double bounds_scale_X = 0.5; // Scale factor for scaling relative to assigned or obtained resolution
@@ -110,9 +112,9 @@ public class SceneCaptureUtility {
 
 	private Timeline videoPlayer;
 
-	private List<Image> recorded_frames; //Stores recorded frames
-	private List<ImageView> video_frames; //Stores frames for playBack
-	private List<byte[]> temp_frames; //Stores frames for saving
+	private transient List<Image> recorded_frames; //Stores recorded frames
+	private transient List<ImageView> video_frames; //Stores frames for playBack
+	private transient List<byte[]> temp_frames; //Stores frames for saving
 
 	private final SnapshotParameters parameters = new SnapshotParameters();
 
@@ -122,7 +124,7 @@ public class SceneCaptureUtility {
 	private final Indicator playing = new Indicator(Color.GREEN, " Playing..");
 	private final Indicator idle = new Indicator(Color.YELLOW, "paused..");
 
-	private final String VIDEO_NAME = "recording2.FXVideo";
+	private final String VIDEO_NAME = "recording.FXVideo";
 	private final String FRAME_NAME = "image";
 	private final String DIRECTORY_NAME = "Snake Game Videos"+ File.separator;
 	private final String PATH_ROOT = System.getProperty("user.home") + "/Desktop" + File.separator +DIRECTORY_NAME;
@@ -131,7 +133,7 @@ public class SceneCaptureUtility {
 	private final String PATH_VIDEO = PATH_ROOT + VIDEO_NAME;
 
 	/**
-	 * Constructs a scene capture utility with a default scene, a pane which 
+	 * Constructs a scene capture utility with a default scene, a pane which
 	 * will be used to display the state indicators, the amount of time which
 	 * the recorder will be running and a condition to whether or not the indicators
 	 * will be shown.
@@ -154,9 +156,9 @@ public class SceneCaptureUtility {
 	private void initStorages(Pane layer) {
 		if(showIndicators)
 			this.indicator_layer = layer;
-		video_frames = new LinkedList<ImageView>();
 		recorded_frames = new LinkedList<Image>();
-		temp_frames = new LinkedList<byte[]>();
+		video_frames = new ArrayList<ImageView>();
+		temp_frames = new ArrayList<byte[]>();
 	}
 	public void addFrame(Image... frame) {
 		if (frame.length > 1) {
@@ -179,12 +181,14 @@ public class SceneCaptureUtility {
 	 * Resets the list
 	 */
 	private void resetStorage() {
-		if (video_frames != null)
-			video_frames.clear();
-		if (recorded_frames != null)
-			recorded_frames.clear();
-		if (video_screen != null)
-			video_screen.getChildren().clear();
+        if (video_frames != null)
+            video_frames.clear();
+        if (recorded_frames != null)
+            recorded_frames.clear();
+        if (temp_frames !=null)
+        	temp_frames.clear();
+        if (video_screen != null)
+            video_screen.getChildren().clear();
 	}
 	/**
 	 * Method which when called will start recording the given scene.
@@ -252,7 +256,7 @@ public class SceneCaptureUtility {
 	}
 	/*
 	 * Method which creates a task which records the video at
-	 * a specified rate for a specified time 
+	 * a specified rate for a specified time
 	 */
 	private void videoRecorder() {
 		Task<Void> task = new Task<Void>() {
@@ -263,9 +267,8 @@ public class SceneCaptureUtility {
 						@Override
 						public void run() {
 							if (allowRecording && record_time > 0) {
-//								recorded_frames.add();
+
 								addFrame(create_frame());
-								
 							}
 
 							recordingTimer();
@@ -280,7 +283,7 @@ public class SceneCaptureUtility {
 		thread.start();
 	}
 	/*
-	 * Method which creates a timeLine which plays the video 
+	 * Method which creates a timeLine which plays the video
 	 * at a specified frameRate onto a given screen or layer.
 	 */
 	private void videoPlayer() {
@@ -288,7 +291,7 @@ public class SceneCaptureUtility {
 		videoPlayer = new Timeline();
 		videoPlayer.setCycleCount(Animation.INDEFINITE);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(frameCap), 
+		KeyFrame keyFrame = new KeyFrame(Duration.seconds(frameCap),
 
 				new EventHandler<ActionEvent>() {
 
@@ -308,7 +311,7 @@ public class SceneCaptureUtility {
 
 	}
 	/**
-	 * Calls to this method will decreased the time left on the 
+	 * Calls to this method will decreased the time left on the
 	 * recording every second until the recording time reaches
 	 * zero. this will cause the recording to stop.
 	 */
@@ -323,7 +326,7 @@ public class SceneCaptureUtility {
 		}
 	}
 	/**
-	 * A call to this method will add the recorded frames to the video list 
+	 * A call to this method will add the recorded frames to the video list
 	 * making them reading for playBack.
 	 */
 	private void processVideo() {
@@ -416,7 +419,7 @@ public class SceneCaptureUtility {
 		thread.start();
 	}
 	/**
-	 * A called to this method will add the frames store is array list 
+	 * A called to this method will add the frames store is array list
 	 * to the video list.
 	 * @param list: list containing the byte arrays of the frames
 	 */
@@ -468,7 +471,7 @@ public class SceneCaptureUtility {
 		}
 	}
 	/**
-	 * Method which when called loads images from a predefined 
+	 * Method which when called loads images from a predefined
 	 * directory in order to play them as a video.
 	 */
 	private void loadFromFile() {
@@ -487,7 +490,7 @@ public class SceneCaptureUtility {
 		thread.start();
 	}
 	/**
-	 * Method which when called will attempt to save the video 
+	 * Method which when called will attempt to save the video
 	 * to a specified directory.
 	 * @param list
 	 */
@@ -557,19 +560,19 @@ public class SceneCaptureUtility {
 		thread.start();
 
 	}
-	
+
 	/**
-	 * Method which when call creates a frame or snapshot of the 
+	 * Method which when call creates a frame or snapshot of the
 	 * given scene to be recorded.
 	 * @return: frame taken from the scene.
 	 */
 
-	private synchronized Image create_frame() {
+	private Image create_frame() {
 		WritableImage sceneShot = scene.snapshot(null);
 		return sceneShot;
 	}
 	/**
-	 * Method which when called crates a frame or snapshot of the 
+	 * Method which when called crates a frame or snapshot of the
 	 * given node.
 	 * @param node: node to be recorded
 	 * @return: image or frame of recorded node.
@@ -708,9 +711,9 @@ public class SceneCaptureUtility {
 	public enum PlaybackSettings {
 		CONTINUOUS_REPLAY, PLAY_ONCE,
 	}
-	
+
 	/**
-	 * Class which crates a simple indicator which can be 
+	 * Class which crates a simple indicator which can be
 	 * used to display a recording or playing state
 	 * @author Eudy Contreras
 	 *

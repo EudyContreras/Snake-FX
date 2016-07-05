@@ -97,7 +97,6 @@ public class MainMenu extends AbstractMenuElement {
 
 		MAIN_MENU_BOX.getButton(0).setAction(() -> menu.startSelected(game.getModeID()));
 		MAIN_MENU_BOX.getButton(2).setAction(() -> menu.gameModesMenu());
-		MAIN_MENU_BOX.getButton(3).setAction(() -> menu.enterVideoMode());
 		MAIN_MENU_BOX.getButton(5).setAction(() -> menu.closeGame());
 
 		for (int i = 0; i < MAIN_MENU_BOX.buttonCount(); i++) {

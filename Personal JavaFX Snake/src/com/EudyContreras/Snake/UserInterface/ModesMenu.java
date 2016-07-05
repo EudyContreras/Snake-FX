@@ -71,6 +71,9 @@ public class ModesMenu extends AbstractMenuElement {
 				}
 				MODES_MENU_BOX.setChosen(currentChoice);
 				break;
+			case ESCAPE:
+				MODES_MENU_BOX.getButton(3).deactivate();
+				break;
 			case ENTER:
 				MODES_MENU_BOX.getButton(currentChoice).activate();
 				break;
@@ -87,6 +90,9 @@ public class ModesMenu extends AbstractMenuElement {
 				break;
 			case SPACE:
 				MODES_MENU_BOX.getButton(currentChoice).deactivate();
+				break;
+			case ESCAPE:
+			
 				break;
 			default:
 				break;

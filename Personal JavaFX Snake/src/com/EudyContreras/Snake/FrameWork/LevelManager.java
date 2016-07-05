@@ -181,7 +181,7 @@ public class LevelManager extends AbstractLoaderModel{
 					game.getFirstLayer().getChildren().add(texture.getView());
 				}
 				if (red == 0 && green == 0 && blue == 255) {
-					SpikeFence texture = new SpikeFence(game, (float) (row * 50.5-5 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(5)),
+					SpikeFence texture = new SpikeFence(game, (float) (row * 52.0 / GameLoader.ResolutionScaleX)-(float)(GameManager.ScaleX(25)),
 							(float) (col * 150 / GameLoader.ResolutionScaleY), 0, 0, 2,GameLevelImage.verticalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(texture);
