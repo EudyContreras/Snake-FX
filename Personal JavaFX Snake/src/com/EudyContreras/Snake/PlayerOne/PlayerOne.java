@@ -54,6 +54,7 @@ public class PlayerOne extends AbstractObject {
 	private boolean eatCoolDown = false;
 	private boolean setDelay = false;
 	private boolean allowDamage = true;
+	private boolean manualGameOver = false;
 	private boolean allowScreenShake = true;
 	private boolean allowCollision = true;
 	private boolean hasBaseBody = false;
@@ -737,7 +738,7 @@ public class PlayerOne extends AbstractObject {
 	public void die() {
 		DEAD = true;
 		game.getHealthBarOne().drainAll();
-		game.setStateID(GameStateID.GAME_OVER);
+		game.setStateID(GameStateID.DEATH_ANIMATION);
 		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
 	}
@@ -871,6 +872,12 @@ public class PlayerOne extends AbstractObject {
 
 	public double getAppleCount() {
 		return appleCount;
+	}
+	public void setManualGameOver(boolean state){
+		this.manualGameOver = state;
+	}
+	public boolean getManualGameOver() {
+		return manualGameOver;
 	}
 
 }

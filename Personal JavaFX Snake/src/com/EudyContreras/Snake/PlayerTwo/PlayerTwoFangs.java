@@ -170,9 +170,9 @@ public class PlayerTwoFangs extends AbstractObject {
 	private boolean allowGameOver = true;
 
 	public void showGameOver() {
-		if (stop) {
+		if (stop && !snake.getManualGameOver( )) {
 			showCounter++;
-			if (showCounter > 60) {
+			if (showCounter > 60 && !PlayerTwo.ALLOW_FADE) {
 				if (allowGameOver) {
 					allowGameOver = false;
 					PlayerTwo.ALLOW_FADE = true;

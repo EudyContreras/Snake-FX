@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 import javafx.geometry.Bounds;
 import javafx.scene.layout.Pane;
@@ -170,12 +171,13 @@ public class PlayerOneFangs extends AbstractObject {
 	private boolean allowGameOver = true;
 
 	public void showGameOver() {
-		if (stop) {
+		if (stop && !snake.getManualGameOver()) {
 			showCounter++;
-			if (showCounter > 60) {
+			if (showCounter > 60 && !PlayerOne.ALLOW_FADE) {
 				if (allowGameOver) {
 					allowGameOver = false;
 					PlayerOne.ALLOW_FADE = true;
+					game.setStateID(GameStateID.GAME_OVER);
 				}
 			}
 		}

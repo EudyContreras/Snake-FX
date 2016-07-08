@@ -37,7 +37,7 @@ public class GameLevelImage {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-		public static final Image desertBackgroundOne = ImageEffectUtility.preCreateShadedBackground("desert_level_background_1.png",
+		public static final Image desertBackgroundOne = ImageEffectUtility.preCreateShadedBackground("desert_level_background_3.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		public static final Image desertBackgroundTwo = ImageEffectUtility.preCreateShadedBackground("desert_level_background_2.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
@@ -68,9 +68,9 @@ public class GameLevelImage {
 		public static final Image desert_rock = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_one.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
 		public static final Image desert_rock_alt = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_two.png", GameSettings.GlOBAL_ILLUMINATION,
-			GameSettings.GLOBAL_SPECULARITY, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
+			GameSettings.GLOBAL_SPECULARITY-0.4, 150 / GameLoader.ResolutionScaleX, 150 / GameLoader.ResolutionScaleY);
 		public static final Image desert_bark = ImageEffectUtility.precreatedLightedAndShadedImageTwo("desert_tree_bark_four.png", GameSettings.GlOBAL_ILLUMINATION,
-			GameSettings.GLOBAL_SPECULARITY, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
+			GameSettings.GLOBAL_SPECULARITY-0.4, 480 / GameLoader.ResolutionScaleX, 210 / GameLoader.ResolutionScaleY);
 		public static final Image desert_cactus_big = ImageEffectUtility.precreatedLightedAndShadedImage("big_cactus_thick.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 145 / GameLoader.ResolutionScaleX,
 			205 / GameLoader.ResolutionScaleY);

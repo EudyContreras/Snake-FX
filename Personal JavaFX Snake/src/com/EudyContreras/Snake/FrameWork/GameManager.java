@@ -987,8 +987,8 @@ public class GameManager extends AbstractGameModel{
         ClassicSnake.LEVEL_COMPLETED = false;
     }
     public void clearAll() {
-        GameSettings.PLAYER_ONE_SIZE = 30;
-        GameSettings.PLAYER_TWO_SIZE = 30;
+        GameSettings.PLAYER_ONE_SIZE = 28;
+        GameSettings.PLAYER_TWO_SIZE = 28;
         PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
         PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
         ClassicSnake.SPEED = GameSettings.PLAYER_ONE_SPEED;

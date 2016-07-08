@@ -28,6 +28,7 @@ public abstract class AbstractMenuElement {
 	protected double fontSize = 50;
 	protected boolean showMenu = false;
 	protected boolean hideMenu = false;
+	protected boolean startingGame = false;
 	protected GameManager game;
 	protected MenuManager menu;
 

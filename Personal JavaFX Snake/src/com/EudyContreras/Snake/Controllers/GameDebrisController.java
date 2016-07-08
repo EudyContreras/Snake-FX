@@ -1,27 +1,26 @@
 package com.EudyContreras.Snake.Controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 public class GameDebrisController {
 
-	private ObservableList<AbstractParticlesEffect> debris;
-	private ObservableList<AbstractParticlesEffect> particles;
+	private List<AbstractParticlesEffect> debris;
+	private List<AbstractParticlesEffect> particles;
 	private AbstractParticlesEffect tempDebris;
 	private AbstractParticlesEffect tempParticle;
 	public GameManager game;
 
 	public GameDebrisController(GameManager game) {
 		this.game = game;
-		this.debris = FXCollections.observableArrayList();
-		this.particles = FXCollections.observableArrayList();
+		this.debris = new ArrayList<AbstractParticlesEffect>();
+		this.particles = new ArrayList<AbstractParticlesEffect>();
 	}
 
 	public void addParticle(AbstractParticlesEffect particle) {
@@ -176,11 +175,11 @@ public class GameDebrisController {
 		}
 	}
 
-	public ObservableList<AbstractParticlesEffect> getDebrisList() {
+	public List<AbstractParticlesEffect> getDebrisList() {
 		return debris;
 	}
 
-	public ObservableList<AbstractParticlesEffect> getParticleList() {
+	public List<AbstractParticlesEffect> getParticleList() {
 		return particles;
 	}
 	public void clearDebris(){

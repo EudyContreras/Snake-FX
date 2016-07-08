@@ -25,7 +25,6 @@ public class MenuManager extends AbstractMenuElement{
 	private Pane menuRoot = new Pane();
 	private Pane menuContainer = new Pane();
 	private GaussianBlur blur = new GaussianBlur();
-
 	private Rectangle clearUp;
 	private Rectangle menuLogo;
 	private MediaPlayer music;
@@ -66,8 +65,8 @@ public class MenuManager extends AbstractMenuElement{
 		menuLogo.setEffect(glowLED);
 		menuLogo.setWidth((MenuImageBank.gameLogo.getWidth()*1.3)/GameLoader.ResolutionScaleX);
 		menuLogo.setHeight((MenuImageBank.gameLogo.getHeight()*1.3)/GameLoader.ResolutionScaleY);
-		menuLogo.setX(GameSettings.WIDTH/2-menuLogo.getWidth()/2);
-		menuLogo.setY(30);
+		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2)-GameManager.ScaleX(520));
+		menuLogo.setY(GameManager.ScaleY(10));
 	}
 	public void addMusic() {
 		music = GameAudio.getAudio("AudioResources/Jungle Loop.wav");
@@ -131,6 +130,7 @@ public class MenuManager extends AbstractMenuElement{
 	public void setMainMenu() {
 		menuRoot.getChildren().add(fadeScreen);
 		showMenu = true;
+		startingGame = false;
 		opacity = 1.0;
 		setMenu(main_menu.main_menu_screen());
 		clearUp.setOpacity(opacity);
@@ -143,7 +143,8 @@ public class MenuManager extends AbstractMenuElement{
 	 * Starts the game if the startbutton is pressed
 	 */
 	public void startSelected(GameModeID modeID) {
-		if(!hideMenu){
+		if(!startingGame){
+		this.startingGame = true;
 		this.modeID = modeID;
 		this.opacity = 0;
 		this.clearUp.setOpacity(opacity);

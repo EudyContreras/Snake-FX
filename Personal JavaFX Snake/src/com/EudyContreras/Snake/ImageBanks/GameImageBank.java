@@ -36,12 +36,11 @@ public class GameImageBank {
 		public static final Image fruit = ImageEffectUtility.precreatedLightedAndShadedImage("apple.png", GameSettings.GlOBAL_ILLUMINATION, 0,
 				150 / GameLoader.ResolutionScaleX, 192 / GameLoader.ResolutionScaleY);
 		public static final Image classicSnakeFruit = ImageEffectUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
-		public static final Image fruitDebrisOne = ImageEffectUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION-0.8, GameSettings.GLOBAL_SPECULARITY,
+		public static final Image fruitDebrisOne = ImageEffectUtility.preCreateShadedCircle(Color.RED, 2, 1.8,
 				10 / GameLoader.ResolutionScaleX);
 		public static final Image fruitDebrisTwo = ImageEffectUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
-		public static final Image sand_grain = ImageEffectUtility.precreatedLightedImage("sand_grain.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
+		public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("sand_grain.png", 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
 		public static final Image snakeBones = ImageEffectUtility.precreatedLightedAndShadedSnake("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
 				GameSettings.GLOBAL_SPECULARITY-0.5, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
 		public static final Image snakeSkull = ImageEffectUtility.precreatedLightedAndShadedSnake("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,

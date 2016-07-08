@@ -114,6 +114,16 @@ public class KeyInputHandler {
 							game.getPauseMenu().resumeGame();
 						}
 					}
+					else if (game.getStateID() != GameStateID.GAME_OVER) {
+						if(PlayerOne.DEAD){
+							playerOne.setManualGameOver(true);
+							PlayerOne.ALLOW_FADE = true;
+						}
+						else if(PlayerTwo.DEAD){
+							playerTwo.setManualGameOver(true);
+							PlayerTwo.ALLOW_FADE = true;
+						}
+					}
 				}
 				if (e.getCode() == KeyCode.ENTER) {
 					if (playerTwo != null)

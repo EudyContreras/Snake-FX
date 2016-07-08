@@ -65,11 +65,11 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(220);
+		light.setY(250);
 		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(10.0);
+		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -102,21 +102,21 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view = new ImageView(img);
-		light.setX(-150);
-		light.setY(300);
-		light.setZ(140);
+//		light.setX(-150);
+//		light.setY(300);
+//		light.setZ(140);
 
 //		light.setX(-150);
 //		light.setY(350);
 //		light.setZ(140);
 //
 //
-//		light.setX(-150);
-//		light.setY(220);
-//		light.setZ(115);
+		light.setX(-150);
+		light.setY(250);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(10.0);
+		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
 		shadow.setRadius(GameManager.ScaleX_Y(20));
@@ -136,11 +136,11 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(220);
+		light.setY(250);
 		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(10.0);
+		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
 		shadow.setRadius(GameManager.ScaleX_Y(20));
@@ -160,11 +160,11 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(220);
+		light.setY(250);
 		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
-		lighting.setSpecularConstant(2);
-		lighting.setSurfaceScale(10.0);
+		lighting.setSpecularConstant(specularMap);
+		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		shadow.setRadius(GameManager.ScaleX_Y(5));

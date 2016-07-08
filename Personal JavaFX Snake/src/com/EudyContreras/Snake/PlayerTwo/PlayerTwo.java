@@ -54,6 +54,7 @@ public class PlayerTwo extends AbstractObject {
 	private boolean eatCoolDown = false;
 	private boolean setDelay = false;
 	private boolean allowDamage = true;
+	private boolean manualGameOver = false;
 	private boolean allowScreenShake = true;
 	private boolean allowCollision = true;
 	private boolean hasBaseBody = false;
@@ -913,6 +914,12 @@ public class PlayerTwo extends AbstractObject {
 
 	public double getAppleCount() {
 		return appleCount;
+	}
+	public void setManualGameOver(boolean state){
+		this.manualGameOver = state;
+	}
+	public boolean getManualGameOver() {
+		return manualGameOver;
 	}
 
 }
