@@ -87,7 +87,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		this.circle.setOpacity(fadeValue);
 		this.size = circle.getRadius();
 		this.targetSize = size;
-		this.staticRadius = (targetSize *2)+5;
+		this.staticRadius = (targetSize *2);
 		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 		this.rectBounds = new Rectangle(x,y, staticRadius+5, staticRadius+5);
 		this.rectBounds.setFill(Color.TRANSPARENT);
@@ -208,7 +208,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		if (minSize) {
 			size += (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
 			circle.setRadius(size);
-			if (size >= targetSize + 10) {
+			if (size >= targetSize + GameManager.ScaleX_Y(10)) {
 				minSize = false;
 				maxSize = true;
 			}
@@ -216,7 +216,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		if (maxSize) {
 			size -= (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
 			circle.setRadius(size);
-			if (size <= targetSize - 5) {
+			if (size <= targetSize - GameManager.ScaleX_Y(5)) {
 				maxSize = false;
 				minSize = true;
 			}

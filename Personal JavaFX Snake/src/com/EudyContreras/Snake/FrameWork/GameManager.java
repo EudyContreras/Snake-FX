@@ -266,6 +266,7 @@ public class GameManager extends AbstractGameModel{
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
+        GameSettings.START_Y = (int) gameHud.getHudBottomY();
     }
 	private void cacheAllLayers(){
     	root.setCache(true);

@@ -28,7 +28,6 @@ public class EnergyBarTwo {
 	private double width = 0;
 	private double delay = 0;
 	private double moveX = 400;
-	private double velX = 0;
 	private GameManager game;
 	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
@@ -70,20 +69,7 @@ public class EnergyBarTwo {
 		popIn();
 	}
 	private void popIn(){
-		this.moveX+=velX;
 		this.energyBar.setTranslateX(x+moveX);
-		if(moveX<0){
-			moveX = 0;
-		}
-	}
-	public void moveLeft(){
-		this.velX = GameManager.ScaleX(-10);
-	}
-	public void moveRight(){
-		this.velX = GameManager.ScaleX(10);
-	}
-	public void stopMoving(){
-		this.velX = 0;
 	}
 	public void setMoveX(double moveX){
 		this.moveX = moveX;
@@ -106,7 +92,6 @@ public class EnergyBarTwo {
 			x = initialX + maxEnergyLevel;
 		}
 		this.energyBar.setWidth(width);
-		this.energyBar.setTranslateX(x);
 	}
 
 	/**

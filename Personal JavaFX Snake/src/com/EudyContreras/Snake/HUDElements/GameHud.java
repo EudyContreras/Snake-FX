@@ -191,5 +191,8 @@ public class GameHud {
 	public double getBottomCoverY(){
 		return bottomHudBar.getY();
 	}
+	public final double getHudBottomY(){
+		return mainBar.getTranslateX()+mainBar.getHeight();
+	}
 
 }

@@ -186,7 +186,7 @@ public class ClassicSnake extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 		}
 		if (neighbor != null) {
-//			headAdjustment();
+			headAdjustment();
 		}
 	}
 

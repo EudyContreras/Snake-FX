@@ -161,7 +161,8 @@ public class GameImageBank {
 		 */
 		public static final Image apple = new Image(ImageEffectUtility.loadResource("apple.png"));
 		public static final Image apple_alt = new Image(ImageEffectUtility.loadResource("apple_alt.png"));
-		public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);		public static final Image classicSnakeBody = ImageEffectUtility.preCreateShadedCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
+		public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);		
+		public static final Image classicSnakeBody = ImageEffectUtility.preCreateShadedCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);
 		public static final Image classicSnakeBodyDebris = ImageEffectUtility.preCreateAlternateGlowingCircle(Color.GREEN,1, 300, 0.2, GameSettings.PLAYER_ONE_SIZE*5);
 		public static final Image classicSnakeBodyBlurred = ImageEffectUtility.preCreateShadedBlurredCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
 		public static final Image transparentFill = ImageEffectUtility.preCreateCircle(Color.GREEN, GameSettings.PLAYER_ONE_SIZE*.75);
