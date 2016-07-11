@@ -145,7 +145,7 @@ public class ClassicSnakeSection extends AbstractSection {
 		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 		checkBounds();
 		disguiseLast();
-		sectionAdjustment();
+//		sectionAdjustment();
 		if (ClassicSnake.LEVEL_COMPLETED == false && ClassicSnake.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {

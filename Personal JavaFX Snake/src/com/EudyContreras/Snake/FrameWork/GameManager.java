@@ -953,6 +953,7 @@ public class GameManager extends AbstractGameModel{
     }
     public void resetGame(){
         clearAll();
+		GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
         PlayerOne.NUMERIC_ID = 0;
         PlayerOne.DEAD = false;
         PlayerOne.MOUTH_CLOSE = true;

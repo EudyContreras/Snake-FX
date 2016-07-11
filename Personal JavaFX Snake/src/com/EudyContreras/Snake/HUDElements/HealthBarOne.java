@@ -80,7 +80,7 @@ public class HealthBarOne {
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_one));
 		this.game.getEleventhLayer().getChildren().add(healthBarRed);
-//		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
+		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
@@ -144,7 +144,7 @@ public class HealthBarOne {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 
 	/**
@@ -199,8 +199,9 @@ public class HealthBarOne {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBarRed.setVisible(false);
+			healthBarGreen.setVisible(false);
 			healthBarBorder.setVisible(false);
+			healthBarRed.setVisible(false);
 		}
 	}
 	/**
@@ -208,8 +209,9 @@ public class HealthBarOne {
 	 * to true
 	 */
 	public void show() {
-		healthBarRed.setVisible(true);
+		healthBarGreen.setVisible(true);
 		healthBarBorder.setVisible(true);
+		healthBarRed.setVisible(true);
 	}
 	/**
 	 * Method which refills this health bar to its maximum value
@@ -220,6 +222,7 @@ public class HealthBarOne {
 		this.killPlayer = false;
 		this.playerIsAlive = true;
 		this.width = maxHealth;
+		this.healthBarGreen.setWidth(maxHealth);
 		this.healthBarRed.setWidth(maxHealth);
 	}
 	/**
@@ -227,7 +230,7 @@ public class HealthBarOne {
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 	public void hidePlayer(){
 		if(hidePlayer){

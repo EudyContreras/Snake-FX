@@ -152,7 +152,6 @@ public class GameOverScreen {
 		else{
 			this.boardImage = GameImageBank.player_one_loses;
 		}
-		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 		resetBoard();
 
 		//TODO: Calculate rank
@@ -188,7 +187,6 @@ public class GameOverScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
-			GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
@@ -202,7 +200,6 @@ public class GameOverScreen {
 		});
 		restart_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.LEVEL_RESTART);
-			GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 			restartLevel();
 		});
 
@@ -244,24 +241,20 @@ public class GameOverScreen {
 			case ENTER:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
-					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					restartLevel();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.MAIN_MENU);
-					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;
 			case SPACE:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
-					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					restartLevel();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.MAIN_MENU);
-					GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;

@@ -22,7 +22,7 @@ public class ModesMenu extends AbstractMenuElement {
 
 	public void setUp() {
 
-		MODES_MENU_BOX.setMenuBoxOffset(0,150);
+		MODES_MENU_BOX.setMenuBoxOffset(-520,150);
 
 		MODES_MENU_BOX.addButtons(
 				new CustomMenuButton("CLASSIC MODE", Pos.CENTER, ButtonStyle.BLACK, Color.WHITE, fontSize, buttonSizeW,

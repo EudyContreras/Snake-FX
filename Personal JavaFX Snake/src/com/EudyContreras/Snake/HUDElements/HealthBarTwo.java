@@ -82,7 +82,7 @@ public class HealthBarTwo {
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
 		this.healthBarBorder.setFill(new ImagePattern(GameImageBank.health_bar_two));
 		this.game.getEleventhLayer().getChildren().add(healthBarRed);
-//		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
+		this.game.getEleventhLayer().getChildren().add(healthBarGreen);
 		this.game.getEleventhLayer().getChildren().add(healthBarBorder);
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
@@ -99,8 +99,8 @@ public class HealthBarTwo {
 	}
 	private void popIn(){
 		this.moveX+=velX;
-		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(10)+moveX);
-		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(10)+moveX+damageX);
+		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(10)+moveX+damageX);
+		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(10)+moveX);
 		this.playerHead.setCenterX(GameSettings.WIDTH - GameManager.ScaleX(55)+moveX);
 		this.healthBarBorder.setTranslateX(x+moveX);
 		if(healthBarBorder.getTranslateX()>GameSettings.WIDTH){
@@ -146,7 +146,7 @@ public class HealthBarTwo {
 		if (width <= 0 && playerIsAlive) {
 			killPlayer();
 		}
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 
 	}
 
@@ -207,8 +207,9 @@ public class HealthBarTwo {
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
-			healthBarRed.setVisible(false);
+			healthBarGreen.setVisible(false);
 			healthBarBorder.setVisible(false);
+			healthBarRed.setVisible(false);
 		}
 	}
 	/**
@@ -216,8 +217,9 @@ public class HealthBarTwo {
 	 * to true
 	 */
 	public void show() {
-		healthBarRed.setVisible(true);
+		healthBarGreen.setVisible(true);
 		healthBarBorder.setVisible(true);
+		healthBarRed.setVisible(true);
 	}
 	/**
 	 * Method which refills this health bar to its maximum value
@@ -229,15 +231,15 @@ public class HealthBarTwo {
 		this.playerIsAlive = true;
 		this.width = maxHealth;
 		this.damageX = 0;
-		this.healthBarRed.setTranslateX(x);
-		this.healthBarRed.setWidth(maxHealth);
+		this.healthBarGreen.setTranslateX(x+moveX);
+		this.healthBarGreen.setWidth(maxHealth);
 	}
 	/**
 	 * Method which drains this health bar to its minimum value
 	 */
 	public void drainAll() {
 		this.width = 0;
-		this.healthBarRed.setWidth(width);
+		this.healthBarGreen.setWidth(width);
 	}
 	/**
 	 * Method whichs sets the visibility

@@ -85,7 +85,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	 * are used by this class and all the sub elements of those texts.
 	 */
 	private void setupText(){
-		this.yOne = GameManager.ScaleY( 10);
+		this.yOne = GameManager.ScaleY(10);
 		this.yTwo = GameManager.ScaleY(0);
 		this.baseY = yTwo+GameManager.ScaleY(5);
 		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), GameManager.ScaleX(15));

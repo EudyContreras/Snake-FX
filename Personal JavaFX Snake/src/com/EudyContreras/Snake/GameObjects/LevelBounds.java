@@ -76,7 +76,7 @@ public class LevelBounds extends AbstractTile {
 	}
 	public void setBoundaries(){
 		MAX_Y = bottomBound.getY();
-		MIN_Y = topBound.getY()+topBound.getFitHeight();
+		MIN_Y = topBound.getY()+topBound.getImage().getHeight();
 		MAX_X = rightBound.getX();
 		MIN_X = leftBound.getX()+leftBound.getFitWidth();
 	}

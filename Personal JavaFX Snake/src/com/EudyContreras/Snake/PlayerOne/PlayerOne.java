@@ -741,6 +741,7 @@ public class PlayerOne extends AbstractObject {
 		game.setStateID(GameStateID.DEATH_ANIMATION);
 		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
+		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 	}
 
 	public void fadeOut() {

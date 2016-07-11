@@ -78,18 +78,18 @@ public class PauseMenu {
 		this.quitGameBtt = new ImageView(GameImageBank.pause_quit);
 		this.quitGameBtt.setFitWidth(this.quitGameBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
 		this.quitGameBtt.setFitHeight(this.quitGameBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
-		this.mainBoard.setFitWidth((this.continueBtt.getImage().getWidth()+GameManager.ScaleX(100))/GameLoader.ResolutionScaleX);
+		this.mainBoard.setFitWidth((this.continueBtt.getImage().getWidth()/GameLoader.ResolutionScaleX+GameManager.ScaleX(100)));
 		this.mainBoard.setFitHeight(((this.continueBtt.getFitHeight()*4)+GameManager.ScaleY(90)));
 		this.x = GameSettings.WIDTH/2 - mainBoard.getFitWidth()/2;
 		this.y = 0 - mainBoard.getImage().getHeight();
 		this.continueBtt.setX(GameSettings.WIDTH/2-continueBtt.getImage().getWidth()/2);
-		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleX(40));
+		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleY(40));
 		this.restartBtt.setX(continueBtt.getX());
 		this.restartBtt.setY(continueBtt.getY()+continueBtt.getFitHeight());
 		this.mainMenuBtt.setX(continueBtt.getX()-mainMenuBtt.getFitWidth());
-		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+5);
+		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+GameManager.ScaleY(5));
 		this.quitGameBtt.setX(continueBtt.getX()+continueBtt.getFitWidth());
-		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+5);
+		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+GameManager.ScaleY(5));
 		this.game.getFourTeenthLayer().getChildren().add(mainBoard);
 		this.game.getFourTeenthLayer().getChildren().add(continueBtt);
 		this.game.getFourTeenthLayer().getChildren().add(restartBtt);
@@ -241,7 +241,7 @@ public class PauseMenu {
 
 		}
 		this.continueBtt.setX(GameSettings.WIDTH/2-this.continueBtt.getFitWidth()/2);
-		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleX(40));
+		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleY(40));
 		this.restartBtt.setX(continueBtt.getX());
 		this.restartBtt.setY(continueBtt.getY()+continueBtt.getFitHeight());
 		this.mainMenuBtt.setX(continueBtt.getX());

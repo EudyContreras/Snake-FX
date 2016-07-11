@@ -118,7 +118,7 @@ public class ClassicSnake extends AbstractObject {
 	}
 
 	public void move() {
-		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
+		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 	}
@@ -186,7 +186,7 @@ public class ClassicSnake extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 		}
 		if (neighbor != null) {
-			headAdjustment();
+//			headAdjustment();
 		}
 	}
 

@@ -5,7 +5,6 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -21,8 +20,12 @@ public class GameHud {
 
 	private double yOne = 0;
 	private double swipeSpeedTop = 0;
+	private double hideY = 0;
+	private double hideVelY = 0;
 	private double yTwo = GameSettings.HEIGHT;
 	private double swipeSpeedBottom = 0;
+	private boolean showHUD = true;
+	private boolean hideHUD = false;
 	private boolean hideHUDCover = false;
 	private boolean showHUDCover = false;
 	private GameManager game;
@@ -30,6 +33,7 @@ public class GameHud {
 	private Rectangle topHudBar = new Rectangle();
 	private Rectangle bottomHudBar = new Rectangle();
 	private Rectangle mainBar = new Rectangle();
+
 	/**
 	 * Constructor which takes the main class as a parameter along with the coordintate
 	 * and dimensions of Hud element.
@@ -79,7 +83,7 @@ public class GameHud {
 		yTwo = yTwo + swipeSpeedBottom/GameManager.ScaleY;
 		if (showHUDCover) {
 			swipeSpeedTop = 2.8;
-			if (yOne > mainBar.getTranslateY() - GameManager.ScaleY(40)) {
+			if (yOne > -GameManager.ScaleY(41)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = -2.8;
@@ -99,18 +103,40 @@ public class GameHud {
 		}
 		topHudBar.setTranslateY(yOne);
 		bottomHudBar.setTranslateY(yTwo);
+		updateMovement();
+	}
+	public void updateMovement(){
+		hideY+=hideVelY;
+		if(hideY<-GameManager.ScaleY(80)){
+			this.stopMoving();
+		}
+		if(hideY >0){
+			hideY = 0;
+		}
+		this.mainBar.setTranslateY(GameManager.ScaleY(-1)+hideY);
+	}
+	public void moveUp(){
+		hideVelY = GameManager.ScaleX(-4);
+	}
+	public void moveDown(){
+		hideVelY = GameManager.ScaleX(4);
+	}
+	public void stopMoving(){
+		hideVelY = 0;
 	}
 	/**
 	 * Method which shows or hides the HUD bar
 	 * depending on the current status of the HUD
 	 */
 	public void showHide() {
-		if (showHUDCover) {
-			showHUDCover = false;
-			hideHUDCover = true;
-		} else if (hideHUDCover) {
-			hideHUDCover = false;
-			showHUDCover = true;
+		if (showHUD) {
+			showHUD = false;
+			hideHUD = true;
+			moveDown();
+		} else if (hideHUD) {
+			hideHUD = false;
+			showHUD = true;
+			moveUp();
 		}
 	}
 	/**

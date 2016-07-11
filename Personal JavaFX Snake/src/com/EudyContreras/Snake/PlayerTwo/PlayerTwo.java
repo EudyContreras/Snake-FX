@@ -783,6 +783,7 @@ public class PlayerTwo extends AbstractObject {
 		game.setStateID(GameStateID.GAME_OVER);
 		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
+		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 	}
 
 	public void fadeOut() {
