@@ -32,8 +32,6 @@ public class GameMenuDemo extends Application {
         Pane root = new Pane();
         root.setPrefSize(800, 600);
 
-  
-
         ImageView imgView = new ImageView(GameLevelImage.desertBackgroundOne);
         imgView.setFitWidth(800);
         imgView.setFitHeight(600);

@@ -23,7 +23,7 @@ public class EnergyBarTwo {
 	private boolean depleated = false;
 	private boolean speedThrust = false;
 	private double maxEnergyLevel = 100;
-	private double initialX;
+	private double depleteX = 0;
 	private double x = 0;
 	private double width = 0;
 	private double delay = 0;
@@ -31,6 +31,7 @@ public class EnergyBarTwo {
 	private GameManager game;
 	private PlayerTwo player;
 	private Rectangle energyBar = new Rectangle();
+	private Rectangle energyBarRed = new Rectangle();
 
 	/**
 	 * Constructor which takes the main class as parameter along with the
@@ -43,7 +44,6 @@ public class EnergyBarTwo {
 	 */
 	public EnergyBarTwo(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
-		this.initialX = x;
 		this.game = game;
 		this.width = width;
 		this.maxEnergyLevel = width;
@@ -54,6 +54,13 @@ public class EnergyBarTwo {
 		this.energyBar.setTranslateY(y);
 		this.energyBar.setRotate(0);
 		this.energyBar.setFill(new ImagePattern(GameImageBank.energy));
+		this.energyBarRed.setWidth(width);
+		this.energyBarRed.setHeight(height);
+		this.energyBarRed.setTranslateX(x);
+		this.energyBarRed.setTranslateY(y);
+		this.energyBarRed.setRotate(0);
+		this.energyBarRed.setFill(new ImagePattern(GameImageBank.red_health));
+		this.game.getEleventhLayer().getChildren().add(energyBarRed);
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
 	/**
@@ -69,7 +76,8 @@ public class EnergyBarTwo {
 		popIn();
 	}
 	private void popIn(){
-		this.energyBar.setTranslateX(x+moveX);
+		this.energyBar.setTranslateX(x+moveX+depleteX);
+		this.energyBarRed.setTranslateX(x+moveX);
 	}
 	public void setMoveX(double moveX){
 		this.moveX = moveX;
@@ -81,7 +89,7 @@ public class EnergyBarTwo {
 	 */
 	private void depleteEnergy() {
 		if (speedThrust == true) {
-			x+=GameSettings.ENERGY_COMSUMPTION_SPEED;
+			depleteX+=GameSettings.ENERGY_COMSUMPTION_SPEED;
 			width -= GameSettings.ENERGY_COMSUMPTION_SPEED;
 		}
 
@@ -89,7 +97,7 @@ public class EnergyBarTwo {
 			player.setAllowThrust(false);
 			player.setThrustState(false);
 			width = 0;
-			x = initialX + maxEnergyLevel;
+			depleteX = maxEnergyLevel;
 		}
 		this.energyBar.setWidth(width);
 	}
@@ -116,7 +124,7 @@ public class EnergyBarTwo {
 				if (delay <= 0){
 					delay = 0;
 					width += GameSettings.ENERGY_REGENRATION_SPEED;
-					x-=GameSettings.ENERGY_REGENRATION_SPEED;
+					depleteX-=GameSettings.ENERGY_REGENRATION_SPEED;
 				}
 			}
 		}
@@ -130,7 +138,7 @@ public class EnergyBarTwo {
 	 * levels to their maximun levels
 	 */
 	public void refill() {
-		this.x = initialX;
+		this.depleteX = 0;
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
 		this.player.setAllowThrust(true);
@@ -141,7 +149,7 @@ public class EnergyBarTwo {
 	 */
 	public void drainAll(){
 		this.width = 0;
-		this.x = initialX + maxEnergyLevel;
+		this.depleteX = maxEnergyLevel;
 		this.energyBar.setWidth(width);
 		this.player.setAllowThrust(false);
 	}

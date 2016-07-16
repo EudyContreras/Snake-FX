@@ -260,9 +260,9 @@ public class GameManager extends AbstractGameModel{
         gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
         scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + GameManager.ScaleX(120),
-        		GameManager.ScaleY(50), Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
-        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - GameManager.ScaleX(180),
-                GameManager.ScaleY(50), Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
+        		GameManager.ScaleY(55), Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
+        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - GameManager.ScaleX(190),
+                GameManager.ScaleY(55), Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());

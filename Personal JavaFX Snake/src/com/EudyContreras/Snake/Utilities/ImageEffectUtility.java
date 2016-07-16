@@ -62,7 +62,7 @@ public class ImageEffectUtility {
 	public static synchronized Image precreatedLightedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
-		img = new Image(loadResource(path), width, height, true, true);
+		img = new Image(loadResource(path));
 		view.setImage(img);
 		light.setX(-150);
 		light.setY(250);
@@ -102,6 +102,7 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view = new ImageView(img);
+
 //		light.setX(-150);
 //		light.setY(300);
 //		light.setZ(140);
@@ -109,8 +110,7 @@ public class ImageEffectUtility {
 //		light.setX(-150);
 //		light.setY(350);
 //		light.setZ(140);
-//
-//
+
 		light.setX(-150);
 		light.setY(250);
 		light.setZ(115);

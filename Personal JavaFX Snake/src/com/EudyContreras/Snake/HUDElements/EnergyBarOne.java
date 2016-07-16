@@ -30,6 +30,7 @@ public class EnergyBarOne {
 	private GameManager game;
 	private PlayerOne player;
 	private Rectangle energyBar = new Rectangle();
+	private Rectangle energyBarRed = new Rectangle();
 
 	/**
 	 * Constructor which takes the main class as parameter along with the
@@ -52,6 +53,13 @@ public class EnergyBarOne {
 		this.energyBar.setTranslateY(y);
 		this.energyBar.setRotate(0);
 		this.energyBar.setFill(new ImagePattern(GameImageBank.energy));
+		this.energyBarRed.setWidth(width);
+		this.energyBarRed.setHeight(height);
+		this.energyBarRed.setTranslateX(x);
+		this.energyBarRed.setTranslateY(y);
+		this.energyBarRed.setRotate(0);
+		this.energyBarRed.setFill(new ImagePattern(GameImageBank.red_health));
+		this.game.getEleventhLayer().getChildren().add(energyBarRed);
 		this.game.getEleventhLayer().getChildren().add(energyBar);
 	}
 	/**
@@ -68,6 +76,7 @@ public class EnergyBarOne {
 	}
 	private void popIn(){
 		this.energyBar.setTranslateX(x+moveX);
+		this.energyBarRed.setTranslateX(x+moveX);
 	}
 	public void setMoveX(double moveX){
 		this.moveX = moveX;
