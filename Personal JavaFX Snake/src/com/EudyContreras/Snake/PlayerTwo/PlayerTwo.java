@@ -688,10 +688,10 @@ public class PlayerTwo extends AbstractObject {
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
+		} else if (y < GameSettings.MIN_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
+			y = (float) (GameSettings.MIN_Y - radius);
 		}
 	}
 

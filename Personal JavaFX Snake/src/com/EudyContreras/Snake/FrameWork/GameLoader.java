@@ -366,8 +366,8 @@ public class GameLoader extends AbstractLoaderModel{
 		Circle fruit = new Circle(GameManager.ScaleX_Y(30), new ImagePattern(GameImageBank.fruit));
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
 				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
-				+ GameSettings.START_Y+fruit.getRadius());
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.MIN_Y+fruit.getRadius() + 1)
+				+ GameSettings.MIN_Y+fruit.getRadius());
 		SnakeFood food = new SnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
@@ -378,7 +378,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void spawnClassicSnakeFood() {
 		Circle fruit = new Circle(GameManager.ScaleX_Y(30), new ImagePattern(GameImageBank.apple_alt));
 		double x = RandomGenUtility.getRandomDouble(GameManager.ScaleX(60), (GameSettings.WIDTH - GameManager.ScaleX(90)));
-		double y = RandomGenUtility.getRandomDouble(GameSettings.START_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
+		double y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
 		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
@@ -446,7 +446,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.START_Y+10 + 1) + GameSettings.START_Y+10);
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.MIN_Y+10 + 1) + GameSettings.MIN_Y+10);
 		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain, x, y);
 	}
 

@@ -240,11 +240,11 @@ public class ClassicSnakeFood extends AbstractObject {
 	}
 
 	public void resetBounds() {
-		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.START_Y + radius
+		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.MIN_Y + radius
 				|| y > GameSettings.HEIGHT - radius * 3) {
 			x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
-			y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
-					+ GameSettings.START_Y + radius);
+			y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.MIN_Y + radius) + 1)
+					+ GameSettings.MIN_Y + radius);
 			this.fadeValue = 0;
 		}
 	}
@@ -253,10 +253,10 @@ public class ClassicSnakeFood extends AbstractObject {
 			x = (double) (GameSettings.WIDTH - radius);
 		} else if (x > GameSettings.WIDTH - radius) {
 			x = (double) (0 + radius);
-		} else if (y < GameSettings.START_Y + radius) {
+		} else if (y < GameSettings.MIN_Y + radius) {
 			y = (double) (GameSettings.HEIGHT - radius);
 		} else if (y > GameSettings.HEIGHT - radius) {
-			y = (double) (GameSettings.START_Y + radius);
+			y = (double) (GameSettings.MIN_Y + radius);
 		}
 	}
 	/**
@@ -312,7 +312,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	}
 	public void relocate(){
 		x = RandomGenUtility.getRandomDouble(GameManager.ScaleX(60), (GameSettings.WIDTH - GameManager.ScaleX(90)));
-		y = RandomGenUtility.getRandomDouble(GameSettings.START_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
+		y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
 	}
 	/**
 	 * Method which changes the opacity of this object

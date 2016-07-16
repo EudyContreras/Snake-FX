@@ -22,8 +22,11 @@ public class GameSettings {
 	public static double FRAME_SCALE = 1.0f;
 	public static double MANUAL_SIZE_SCALE = 1.0;
 
-	public static final int START_X = 1920;
-	public static int START_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
+	public static int MIN_X = 1920;
+	public static int MAX_X = 0;
+	public static int MIN_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
+	public static int MAX_Y = 0;
+
 	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/MANUAL_SIZE_SCALE);
 	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
@@ -67,7 +70,7 @@ public class GameSettings {
 	public static int MAX_DEBRIS_AMOUNT = 50;
 	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
-	public static int SAND_AMOUNT = 1;
+	public static int SAND_AMOUNT = 4;
 	public static int RAIN_AMOUNT = 0;
 	public static int DIRT_AMOUNT = 4;
 

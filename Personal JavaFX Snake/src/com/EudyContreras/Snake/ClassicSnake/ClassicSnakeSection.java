@@ -37,7 +37,6 @@ public class ClassicSnakeSection extends AbstractSection {
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
-		this.radius = circle.getRadius();
 		this.classicSnake = snake;
 		this.numericID = numericID;
 		this.sectManager = game.getSectManagerThree();
@@ -137,7 +136,7 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 	private void loadPatterns() {
 		this.normalPattern = new ImagePattern(GameImageBank.classicSnakeBody);
-		this.blurredPattern = new ImagePattern(GameImageBank.classicSnakeBodyDebris);
+		this.blurredPattern = new ImagePattern(GameImageBank.classicSnakeBodyBlurred);
 		this.tailFill = new ImagePattern(GameImageBank.transparentFill);
 
 	}
@@ -228,27 +227,28 @@ public class ClassicSnakeSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void checkBounds() {
-		if(!dead){
+		if (!dead) {
 			if (x < LevelBounds.MIN_X - radius) {
-				x = (float) (LevelBounds.MAX_X + radius);
+				x = (double) (LevelBounds.MAX_X + radius);
 			} else if (x > LevelBounds.MAX_X + radius) {
-				x = (float) (LevelBounds.MIN_X - radius);
+				x = (double) (LevelBounds.MIN_X - radius);
 			} else if (y < LevelBounds.MIN_Y - radius) {
-				y = (float) (LevelBounds.MAX_Y + radius);
+				y = (double) (LevelBounds.MAX_Y + radius);
 			} else if (y > LevelBounds.MAX_Y + radius) {
-				y = (float) (LevelBounds.MIN_Y - radius);
+				y = (double) (LevelBounds.MIN_Y - radius);
 			}
 		}
 	}
 
 	public void sectionAdjustment() {
 		if (previousSection != null && !dead) {
-			if (x > LevelBounds.MIN_X && x < LevelBounds.MAX_X && y >  LevelBounds.MIN_Y
-					&& y < LevelBounds.MAX_Y) {
+			if (x > LevelBounds.MIN_X + radius && x < LevelBounds.MAX_X - radius && y >  LevelBounds.MIN_Y + radius
+					&& y < LevelBounds.MAX_Y - radius) {
 				if (this.direction == PlayerMovement.MOVE_DOWN) {
-					if (y - previousSection.getY()>= this.radius) {
-						y = previousSection.getY() + this.radius;
+					if (previousSection.getY() - y >= this.radius) {
+						y = previousSection.getY() - this.radius;
 						x = previousSection.getX();
 					}
 				}
@@ -259,14 +259,14 @@ public class ClassicSnakeSection extends AbstractSection {
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_LEFT) {
-					if (previousSection.getX() - x >= this.radius) {
-						x = previousSection.getX() - this.radius;
+					if (x - previousSection.getX() >= this.radius) {
+						x = previousSection.getX() + this.radius;
 						y = previousSection.getY();
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_RIGHT) {
-					if (x - previousSection.getX() >= this.radius) {
-						x = previousSection.getX() + this.radius;
+					if (previousSection.getX() - x >= this.radius) {
+						x = previousSection.getX() - this.radius;
 						y = previousSection.getY();
 					}
 				}
@@ -290,8 +290,8 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 
 	public void displace(){
-		this.velX = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-1), GameManager.ScaleY(1));
-		this.velY = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-1), GameManager.ScaleY(1));
+		this.velX = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
+		this.velY = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
 		if (this.numericID == ClassicSnake.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
 		}

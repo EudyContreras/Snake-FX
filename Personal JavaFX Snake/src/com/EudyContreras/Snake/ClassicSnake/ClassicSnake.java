@@ -59,7 +59,6 @@ public class ClassicSnake extends AbstractObject {
 	private AnimationUtility anim;
 	private Rectangle bounds;
 	private ScreenEffectUtility overlay;
-	private ClassicSnakeHead snakeHead;
 	private ClassicSnakeSection neighbor;
 	private ClassicSnakeSectionManager sectManager;
 	private BoxBlur motionBlur;
@@ -84,19 +83,11 @@ public class ClassicSnake extends AbstractObject {
 		this.sectManager = game.getSectManagerThree();
 		this.loadImages();
 		this.loadMouth();
-//		this.loadHead();
 		this.drawBoundingBox();
 		this.moveDown();
 	}
 	public void loadMouth(){
 		this.game.getClassicSnakeManager().addObject(new ClassicSnakeFangs(this, game));
-	}
-	public void loadHead(){
-		this.circle.setVisible(false);
-		this.snakeHead = new ClassicSnakeHead(this, game, layer,
-				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.classicSnakeHead)), x, y,
-				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getClassicSnakeManager().addObject(snakeHead);
 	}
 	public void loadImages() {
 		anim.addScene(GameImageBank.classicSnakeHead, 4000);
@@ -118,7 +109,7 @@ public class ClassicSnake extends AbstractObject {
 	}
 
 	public void move() {
-		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
+		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
 		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 	}
@@ -260,7 +251,7 @@ public class ClassicSnake extends AbstractObject {
 		this.layer.setEffect(null);
 	}
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()== GameStateID.GAMEPLAY && withinBounds()) {
+		if (game.getStateID()== GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
@@ -518,13 +509,13 @@ public class ClassicSnake extends AbstractObject {
 
 	public void checkBounds() {
 		if (x < LevelBounds.MIN_X - radius) {
-			x = (float) (LevelBounds.MAX_X + radius);
+			x = (double) (LevelBounds.MAX_X + radius);
 		} else if (x > LevelBounds.MAX_X + radius) {
-			x = (float) (LevelBounds.MIN_X - radius);
+			x = (double) (LevelBounds.MIN_X - radius);
 		} else if (y < LevelBounds.MIN_Y - radius) {
-			y = (float) (LevelBounds.MAX_Y + radius);
+			y = (double) (LevelBounds.MAX_Y + radius);
 		} else if (y > LevelBounds.MAX_Y + radius) {
-			y = (float) (LevelBounds.MIN_Y - radius);
+			y = (double) (LevelBounds.MIN_Y - radius);
 		}
 	}
 
@@ -532,25 +523,25 @@ public class ClassicSnake extends AbstractObject {
 	public void headAdjustment() {
 		if (this.direction == PlayerMovement.MOVE_DOWN) {
 			if (y - neighbor.getY() >= this.radius) {
-				y = (float) (neighbor.getY() + this.radius);
+				y = (double) (neighbor.getY() + this.radius);
 				x = neighbor.getX();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_UP) {
 			if (neighbor.getY() - y >= this.radius) {
-				y = (float) (neighbor.getY() - this.radius);
+				y = (double) (neighbor.getY() - this.radius);
 				x = neighbor.getX();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_LEFT) {
 			if (neighbor.getX() - x >= this.radius) {
-				x = (float) (neighbor.getX() - this.radius);
+				x = (double) (neighbor.getX() - this.radius);
 				y = neighbor.getY();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_RIGHT) {
 			if (x - neighbor.getX() >= this.radius) {
-				x = (float) (neighbor.getX() + this.radius);
+				x = (double) (neighbor.getX() + this.radius);
 				y = neighbor.getY();
 			}
 		}

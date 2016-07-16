@@ -266,7 +266,7 @@ public class GameManager extends AbstractGameModel{
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
-        GameSettings.START_Y = (int) gameHud.getHudBottomY();
+        GameSettings.MIN_Y = (int) gameHud.getHudBottomY();
     }
 	private void cacheAllLayers(){
     	root.setCache(true);
@@ -989,8 +989,8 @@ public class GameManager extends AbstractGameModel{
         ClassicSnake.LEVEL_COMPLETED = false;
     }
     public void clearAll() {
-        GameSettings.PLAYER_ONE_SIZE = 28;
-        GameSettings.PLAYER_TWO_SIZE = 28;
+        GameSettings.PLAYER_ONE_SIZE = 30;
+        GameSettings.PLAYER_TWO_SIZE = 30;
         PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
         PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
         ClassicSnake.SPEED = GameSettings.PLAYER_ONE_SPEED;

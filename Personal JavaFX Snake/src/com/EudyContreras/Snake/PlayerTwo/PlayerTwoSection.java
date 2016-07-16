@@ -260,16 +260,16 @@ public class PlayerTwoSection extends AbstractSection {
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
+		} else if (y < GameSettings.MIN_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
+			y = (float) (GameSettings.MIN_Y - radius);
 		}
 	}
 
 	public void sectionAdjustment() {
 		if (previousSection != null) {
-			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.START_Y + radius
+			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.MIN_Y + radius
 					&& y < GameSettings.HEIGHT - radius) {
 				if (this.direction == PlayerMovement.MOVE_DOWN) {
 					if (y - previousSection.getY()>= this.radius) {

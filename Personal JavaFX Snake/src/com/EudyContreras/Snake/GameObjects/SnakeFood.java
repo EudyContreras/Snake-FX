@@ -245,11 +245,11 @@ public class SnakeFood extends AbstractObject {
 	}
 
 	public void resetBounds() {
-		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.START_Y + radius
+		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.MIN_Y + radius
 				|| y > GameSettings.HEIGHT - radius * 3) {
 			x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
-			y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
-					+ GameSettings.START_Y + radius);
+			y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.MIN_Y + radius) + 1)
+					+ GameSettings.MIN_Y + radius);
 			this.fadeValue = 0;
 		}
 	}
@@ -258,10 +258,10 @@ public class SnakeFood extends AbstractObject {
 			x = (float) (GameSettings.WIDTH - radius);
 		} else if (x > GameSettings.WIDTH - radius) {
 			x = (float) (0 + radius);
-		} else if (y < GameSettings.START_Y + radius) {
+		} else if (y < GameSettings.MIN_Y + radius) {
 			y = (float) (GameSettings.HEIGHT - radius);
 		} else if (y > GameSettings.HEIGHT - radius) {
-			y = (float) (GameSettings.START_Y + radius);
+			y = (float) (GameSettings.MIN_Y + radius);
 		}
 	}
 	/**
@@ -271,8 +271,8 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void checkCollision() {
 		float newX = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
-		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
-				+ GameSettings.START_Y + radius);
+		float newY = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.MIN_Y + radius) + 1)
+				+ GameSettings.MIN_Y + radius);
 		for (AbstractObject tempObject : game.getGameObjectController().getFruitList()) {
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (tempObject.getNumericCode() != this.numericCode) {
@@ -435,8 +435,8 @@ public class SnakeFood extends AbstractObject {
 	}
 	public void relocate(){
 		x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
-		y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.START_Y + radius) + 1)
-		+ GameSettings.START_Y + radius);
+		y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.MIN_Y + radius) + 1)
+		+ GameSettings.MIN_Y + radius);
 	}
 	/**
 	 * Method which changes the opacity of this object
