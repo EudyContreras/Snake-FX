@@ -439,7 +439,7 @@ public class GameManager extends AbstractGameModel{
 							}
 						}
 
-						if (loader.getPlayerTwo() != null && getHealthBarTwo() != null &ss& getEnergyBarTwo() != null) {
+						if (loader.getPlayerTwo() != null && getHealthBarTwo() != null && getEnergyBarTwo() != null) {
 							getHealthBarTwo().update();
 							getEnergyBarTwo().update();
 							if (scoreBoardTwo != null) {
