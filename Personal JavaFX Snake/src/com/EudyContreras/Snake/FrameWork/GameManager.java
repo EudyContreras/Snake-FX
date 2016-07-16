@@ -354,41 +354,45 @@ public class GameManager extends AbstractGameModel{
             long lastTime = System.nanoTime();
             long nanoSecond = 1000000000;
             long currentTime = 0;
+            long lastUpdate = 0 ;
             double delta = 0;
             double FPS = 0;
-
-            public void handle(long now) {
-            	timePassed = System.currentTimeMillis() - cummulativeTime;
+  
+            
+			public void handle(long now) {
+				timePassed = System.currentTimeMillis() - cummulativeTime;
 				cummulativeTime += timePassed;
-                FPS++;
-                currentTime = now;
-                delta += currentTime - lastTime;
-                if (!GameSettings.RENDER_GAME) {
-                    menuManager.transition();
+				FPS++;
+				currentTime = now;
+				delta += currentTime - lastTime;
+				if (now - lastUpdate >= 10_000_000) {
 
-                }
-                if (GameSettings.RENDER_GAME) {
-                	   countDownScreen.update();
+					if (!GameSettings.RENDER_GAME) {
+						menuManager.transition();
 
-                       overlayEffect.updateEffect();
+					}
+					if (GameSettings.RENDER_GAME) {
+						countDownScreen.update();
 
-                       fadeHandler.updateFade();
+						overlayEffect.updateEffect();
 
-                       pauseMenu.updateTouchPanel();
+						fadeHandler.updateFade();
 
-                       gameHud.updateHudBars();
+						pauseMenu.updateTouchPanel();
 
-                       victoryScreen.updateUI();
+						gameHud.updateHudBars();
 
-                       gameOverScreen.updateUI();
+						victoryScreen.updateUI();
 
-                       scoreKeeper.updateUI();
+						gameOverScreen.updateUI();
 
-                       objectManager.updateAll(timePassed);
+						scoreKeeper.updateUI();
 
-                       debrisManager.updateAll();
+						objectManager.updateAll(timePassed);
 
-                       loader.updateLevelObjects();
+						debrisManager.updateAll();
+
+						loader.updateLevelObjects();
 
 						if (getGameLoader().getPlayerOne() != null) {
 							playerOneManager.updateAllLogic(timePassed);
@@ -417,49 +421,51 @@ public class GameManager extends AbstractGameModel{
 							}
 						}
 
-                       if(GameSettings.SAND_STORM){
-                       	   sandEmitter.move();
-                           sandEmitter.emit();
-                       }
+						if (GameSettings.SAND_STORM) {
+							sandEmitter.move();
+							sandEmitter.emit();
+						}
 
-                       if(GameSettings.RAIN_STORM){
-                           rainEmitter.move();
-                           rainEmitter.emit();
-                       }
+						if (GameSettings.RAIN_STORM) {
+							rainEmitter.move();
+							rainEmitter.emit();
+						}
 
-                       if (loader.getPlayerOne() != null && getHealthBarOne() != null && getEnergyBarOne() != null) {
-                           getHealthBarOne().update();
-                           getEnergyBarOne().update();
-                           if (scoreBoardOne != null) {
-                               scoreBoardOne.updateUI();
-                           }
-                       }
+						if (loader.getPlayerOne() != null && getHealthBarOne() != null && getEnergyBarOne() != null) {
+							getHealthBarOne().update();
+							getEnergyBarOne().update();
+							if (scoreBoardOne != null) {
+								scoreBoardOne.updateUI();
+							}
+						}
 
-                       if (loader.getPlayerTwo() != null && getHealthBarTwo() != null && getEnergyBarTwo() != null) {
-                    	   getHealthBarTwo().update();
-                           getEnergyBarTwo().update();
-                           if (scoreBoardTwo != null) {
-                               scoreBoardTwo.updateUI();
-                           }
-                       }
+						if (loader.getPlayerTwo() != null && getHealthBarTwo() != null &ss& getEnergyBarTwo() != null) {
+							getHealthBarTwo().update();
+							getEnergyBarTwo().update();
+							if (scoreBoardTwo != null) {
+								scoreBoardTwo.updateUI();
+							}
+						}
 
-                       if (!outerParticleLayer.getChildren().isEmpty()) {
-                           if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-                           	outerParticleLayer.getChildren().remove(0);
-                           }
-                       }
-                }
-                if (delta > nanoSecond) {
-                    TextFPS.setText("FPS :" + FPS);
-                    delta -= nanoSecond;
-                    FPS = 0;
-                }
-                lastTime = currentTime;
-            }
+						if (!outerParticleLayer.getChildren().isEmpty()) {
+							if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
+								outerParticleLayer.getChildren().remove(0);
+							}
+						}
+					}
+					lastUpdate = now;
+				}
+				if (delta > nanoSecond) {
+					TextFPS.setText("FPS :" + FPS);
+					delta -= nanoSecond;
+					FPS = 0;
+				}
+				lastTime = currentTime;
+			}
 
-        };
-        gameLoop.start();
-    }
+		};
+		gameLoop.start();
+	}
 
     /**
      * As the name says, this is a frame based game loop. virtually every object
@@ -908,11 +914,11 @@ public class GameManager extends AbstractGameModel{
      */
     public void translateObjects(ObservableList<Node> rootPane) {
         TextFPS = new Text("FPS : ");
-        TextFPS.setX(ScaleX(20));
-        TextFPS.setY(ScaleY(80));
+        TextFPS.setX(ScaleX(10));
+        TextFPS.setY(ScaleY(30));
         TextFPS.setOpacity(0.5);
         TextFPS.setFill(Color.WHITE);
-        TextFPS.setFont(Font.font("AERIAL", FontWeight.BOLD, ScaleX(20)));
+        TextFPS.setFont(Font.font("AERIAL", FontWeight.EXTRA_BOLD, ScaleX(25)));
         rootPane.add(fadeScreenLayer);
         rootPane.add(tenthLayer);
         rootPane.add(eleventhLayer);

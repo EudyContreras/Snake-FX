@@ -46,7 +46,7 @@ public class ScoreBoard {
 		this.game = game;
 		this.message = text;
         this.textGlow = new DropShadow();
-        this.textGlow.setColor(Color.ORANGE);
+        this.textGlow.setColor(Color.DODGERBLUE);
         this.textGlow.setBlurType(BlurType.GAUSSIAN);
 		this.setupText();
 	}
@@ -61,7 +61,7 @@ public class ScoreBoard {
 		this.text.setText(message + " 00" + score);
 		this.text.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(32)));
         this.text.setEffect(textGlow);
-        this.text.setId("PlayerScore");
+        this.text.setId("MainTimer");
 		this.game.getEleventhLayer().getChildren().add(this.text);
 
 	}
