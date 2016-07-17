@@ -357,8 +357,8 @@ public class GameManager extends AbstractGameModel{
             long lastUpdate = 0 ;
             double delta = 0;
             double FPS = 0;
-  
-            
+
+
 			public void handle(long now) {
 				timePassed = System.currentTimeMillis() - cummulativeTime;
 				cummulativeTime += timePassed;
@@ -960,6 +960,7 @@ public class GameManager extends AbstractGameModel{
     }
     public void resetGame(){
         clearAll();
+        GameSettings.FRAME_SCALE = 1.0f;
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
         PlayerOne.NUMERIC_ID = 0;
         PlayerOne.DEAD = false;
@@ -1017,6 +1018,7 @@ public class GameManager extends AbstractGameModel{
         sixthLayer.getChildren().clear();
         seventhLayer.getChildren().clear();
         eighthLayer.getChildren().clear();
+        ninthLayer.getChildren().clear();
         levelLayer.getChildren().clear();
         playerOneManager.clearAll();
         playerTwoManager.clearAll();

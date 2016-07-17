@@ -33,6 +33,7 @@ public class VictoryScreen extends AbstractHudElement {
 	private ScaleTransition scaleTransitionTwo;
 	private GameManager game;
 	private DropShadow borderGlow;
+	private ImageView sceneSnapshot;
 	private ImageView baseGameBoard;
 	private ImageView mainGameBoard;
 	private ImageView continue_btt;
@@ -49,6 +50,7 @@ public class VictoryScreen extends AbstractHudElement {
 	private double width = 0;
 	private double height = 0;
 	private double confirmX = 0;
+	private double confirmXTwo = 0;
 	private double opacityLevel = 0;
 	private double confirmXPosition = 0;
 	private double transitionOpacity = 1;
@@ -61,6 +63,7 @@ public class VictoryScreen extends AbstractHudElement {
 	private boolean restartLevel = false;
 	private boolean swipeRight = false;
 	private boolean swipeLeft = false;
+	private boolean allowSlowMo = false;
 	private boolean panIn = false;
 	private boolean center = true;
 
@@ -488,9 +491,10 @@ public class VictoryScreen extends AbstractHudElement {
 	public void hide() {
 		if (swipeLeft == true) {
 			positionScoreScreen();
-			baseGameBoard.setX(confirmX);
+			baseGameBoard.setX(confirmXTwo);
 			optionsBoard.setX(confirmX);
 			confirmX -= confirmXPosition / GameManager.ScaleX;
+			confirmXTwo -= confirmXPosition / GameManager.ScaleX;
 			confirmXPosition += acceleration;
 			if (center) {
 				acceleration -= 0.50;
@@ -647,7 +651,24 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 		}
 	}
-
+	public void setSlowMotion(){
+		if (allowSlowMo) {
+			GameSettings.FRAME_SCALE -= 0.0015;
+			if (GameSettings.FRAME_SCALE <= 0) {
+				GameSettings.FRAME_SCALE = 0;
+				allowSlowMo = false;
+			}
+		}
+	}
+	public void showSceneSnap(){
+		game.getNinthLayer().getChildren().remove(sceneSnapshot);
+		sceneSnapshot = null;
+		show(false);
+		sceneSnapshot = new ImageView(game.getScene().snapshot(null));
+		show(true);
+		game.getNinthLayer().getChildren().add(sceneSnapshot);
+		overlay.removeBlur();
+	}
 	/**
 	 * Method which collects the scores to be shown by the local score screen
 	 * and positions the scores at a desired position relative to the game board
@@ -688,8 +709,9 @@ public class VictoryScreen extends AbstractHudElement {
 	 * Method which is called if the player decides to restart the level
 	 */
 	private void restartLevel() {
+		showSceneSnap();
 		game.removePlayers();
-		overlay.removeBlur();
+		confirmXTwo = baseGameBoard.getX();
 		restartLevel = true;
 		goToNext = false;
 		center = true;
@@ -703,8 +725,9 @@ public class VictoryScreen extends AbstractHudElement {
 	 * level of the game.
 	 */
 	private void goToNext() {
+		showSceneSnap();
 		game.removePlayers();
-		overlay.removeBlur();
+		confirmXTwo = baseGameBoard.getX();
 		goToNext = true;
 		restartLevel = false;
 		center = true;
@@ -730,7 +753,15 @@ public class VictoryScreen extends AbstractHudElement {
 		acceleration = 6.0f;
 		center = false;
 	}
-
+	public void show(boolean state){
+		mainGameBoard.setVisible(state);
+		baseGameBoard.setVisible(state);
+		optionsBoard.setVisible(state);
+		continue_btt.setVisible(state);
+		quitGame_btt.setVisible(state);
+		restart_btt.setVisible(state);
+		scoreScreen.show(state);
+	}
 	/**
 	 * Method which resets the board along with most of the other UI elements of
 	 * this board allowing this board to be reused next time the game ends
@@ -748,6 +779,7 @@ public class VictoryScreen extends AbstractHudElement {
 		game.getMainRoot().getChildren().add(scoreLayer);
 		scoreScreen.hideScores();
 		showTransition = false;
+		allowSlowMo = true;
 		swipeRight = true;
 		showScores = false;
 		showWinner = false;

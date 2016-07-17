@@ -12,6 +12,7 @@ import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.MotionBlur;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -30,6 +31,8 @@ public class ScreenEffectUtility {
 	private Bloom bloomEffect = new Bloom();
 	private Point2D originalPosition = new Point2D(0, 0);
 	private Pane node;
+	private ImageView snapBlur;
+	private Boolean allowNodeBlur = false;
 	private Boolean instanceCheck = false;
 	private Boolean setDistortion = false;
 	private Boolean setBloom = false;
@@ -47,6 +50,7 @@ public class ScreenEffectUtility {
 	private Boolean screenShakeH = false;
 	private Boolean screenShakeV = false;
 	private Boolean nodeShake = false;
+	private Double nodeBlurAmount = 0.0;
 	private Double shakeDuration = 0.0;
 	private Double nodeShakeDuration = 0.0;
 	private Double shakeStrenght = 15.0;
@@ -169,6 +173,7 @@ public class ScreenEffectUtility {
 	public synchronized void addDeathBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			deathBlurLifetime = 0.0;
+			deathEffect.setRadius(0);
 			layer.setEffect(null);
 			layer.setEffect(deathEffect);
 			deathBlur = true;
@@ -272,6 +277,11 @@ public class ScreenEffectUtility {
 		layer.setEffect(introBlurEffect);
 		introBlur = true;
 	}
+	public void blurNode(ImageView node) {
+		node.setTranslateX(-deathBlurLifetime*4);
+		node.setTranslateY(-deathBlurLifetime*4);
+
+	}
 	public void updateEffect() {
 		if (setDistortion) {
 			setDistortionModifier();
@@ -311,6 +321,9 @@ public class ScreenEffectUtility {
 		}
 		if (nodeShake){
 			setNodeShakeModifier();
+		}
+		if (allowNodeBlur){
+			setNodeBlurModifier();
 		}
 	}
 
@@ -461,7 +474,7 @@ public class ScreenEffectUtility {
 	}
 
 	private void setDeathBlur() {
-		deathBlurLifetime += 0.03;
+		deathBlurLifetime += 0.045;
 		layer.setEffect(deathEffect);
 		deathEffect.setRadius(deathBlurLifetime);
 		if (deathBlurLifetime >= 40) {
@@ -505,8 +518,22 @@ public class ScreenEffectUtility {
 		layer.setEffect(introBlurEffect);
 		introBlurEffect.setRadius(introBlurOff);
 	}
+	public void setNodeBlurModifier(){
+		if (allowNodeBlur) {
+			nodeBlurAmount += 0.040;
+			snapBlur.setTranslateX(-deathBlurLifetime);
+			snapBlur.setTranslateY(-deathBlurLifetime);
+			deathEffect.setRadius(nodeBlurAmount);
+			if (nodeBlurAmount >= 25) {
+				nodeBlurAmount = 25.0;
+				allowNodeBlur = false;
+			}
+		}
+	}
+
 	public void removeBlur() {
 		clearLevelBluring = 0.0;
+		allowNodeBlur = false;
 		setDistortion = false;
 		setBloom = false;
 		setSoftBlur = false;
@@ -518,8 +545,8 @@ public class ScreenEffectUtility {
 		blurDown = false;
 		clearLevel = false;
 		layer.setEffect(null);
+		if(snapBlur!=null)
+		snapBlur.setEffect(null);
 	}
-
-
 
 }

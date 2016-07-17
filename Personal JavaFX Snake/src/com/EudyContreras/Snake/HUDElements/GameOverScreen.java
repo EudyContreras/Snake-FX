@@ -35,6 +35,7 @@ public class GameOverScreen {
 	private LocalScoreScreen scoreScreen;
 	private GameManager game;
 	private DropShadow borderGlow;
+	private ImageView sceneSnapshot;
 	private ImageView baseGameBoard;
 	private ImageView mainGameBoard;
 	private ImageView continue_btt;
@@ -60,6 +61,7 @@ public class GameOverScreen {
 	private boolean swipeRight = false;
 	private boolean swipeLeft = false;
 	private boolean center = true;
+	private boolean allowSlowMo = false;
 	/**
 	 * Main constructur which takes an instance of the main game class along with
 	 * with the base image of this board and the elements dimensions.
@@ -341,6 +343,7 @@ public class GameOverScreen {
 			showScores();
 			swipeRight();
 			swipeLeft();
+			setSlowMotion();
 		}
 		checkStatus();
 	}
@@ -486,6 +489,7 @@ public class GameOverScreen {
 					confirmX = (float) (0 - baseGameBoard.getFitWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
+					allowSlowMo = false;
 					PlayerOne.LEVEL_COMPLETED = false;
 					PlayerTwo.LEVEL_COMPLETED = false;
 					ClassicSnake.LEVEL_COMPLETED = false;
@@ -562,6 +566,24 @@ public class GameOverScreen {
 			}
 		}
 	}
+	public void setSlowMotion(){
+		if (allowSlowMo) {
+			GameSettings.FRAME_SCALE -= 0.0015;
+			if (GameSettings.FRAME_SCALE <= 0) {
+				GameSettings.FRAME_SCALE = 0;
+				allowSlowMo = false;
+			}
+		}
+	}
+	public void showSceneSnap(){
+		game.getNinthLayer().getChildren().remove(sceneSnapshot);
+		sceneSnapshot = null;
+		show(false);
+		sceneSnapshot = new ImageView(game.getScene().snapshot(null));
+		show(true);
+		game.getNinthLayer().getChildren().add(sceneSnapshot);
+		overlay.removeBlur();
+	}
 	/**
 	 * Method which collects the scores to be shown by the local
 	 * score screen and positions the scores at a desired position
@@ -598,7 +620,7 @@ public class GameOverScreen {
 	 * decides to restart the level
 	 */
 	private void restartLevel() {
-		overlay.removeBlur();
+		showSceneSnap();
 		game.getFadeScreenHandler().restart_fade_screen();
 		game.getScoreKeeper().resetTimer();
 		center = true;
@@ -650,6 +672,7 @@ public class GameOverScreen {
 		swipeRight = true;
 		showScores = false;
 		showWinner = false;
+		allowSlowMo = true;
 		counter = 0;
 		opacityValue = 0.016;
 		transitionOpacity = 0;
@@ -661,6 +684,15 @@ public class GameOverScreen {
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
 		restart_btt.setVisible(true);
+	}
+	public void show(boolean state){
+		mainGameBoard.setVisible(state);
+		baseGameBoard.setVisible(state);
+		optionsBoard.setVisible(state);
+		continue_btt.setVisible(state);
+		quitGame_btt.setVisible(state);
+		restart_btt.setVisible(state);
+		scoreScreen.show(state);
 	}
 	/**
 	 * Method which when called will

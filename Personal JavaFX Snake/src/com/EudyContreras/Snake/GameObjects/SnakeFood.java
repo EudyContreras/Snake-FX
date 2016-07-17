@@ -179,7 +179,7 @@ public class SnakeFood extends AbstractObject {
 		if (GameSettings.ADD_GLOW) {
 			if (fadeValue == 1.0) {
 				if (noGlow) {
-					glowValue += 2;
+					glowValue += 2*GameSettings.FRAME_SCALE;
 					borderGlow.setWidth(glowValue);
 					borderGlow.setHeight(glowValue);
 					if (glowValue >= 150) {
@@ -188,7 +188,7 @@ public class SnakeFood extends AbstractObject {
 					}
 				}
 				if (maxGlow) {
-					glowValue -= 2;
+					glowValue -= 2*GameSettings.FRAME_SCALE;
 					borderGlow.setWidth(glowValue);
 					borderGlow.setHeight(glowValue);
 					if (glowValue <= 0) {

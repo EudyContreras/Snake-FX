@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 /**
@@ -83,6 +84,11 @@ public class GameObjectController {
 		if(buffs.size() > 4){
 			buffs.get(buffs.size()-1).setRemovable(true);
 		}
+		if(GameSettings.APPLE_COUNT <= 4){
+			if(buffs.size() > GameSettings.BUFF_COUNT){
+				buffs.get(buffs.size()-1).setRemovable(true);
+			}
+		}
 	}
 
 	/**
@@ -109,6 +115,11 @@ public class GameObjectController {
 		}
 		if(fruits.size() > 4){
 			fruits.get(fruits.size()-1).setRemovable(true);
+		}
+		if(GameSettings.APPLE_COUNT <= 4){
+			if(fruits.size() > GameSettings.APPLE_COUNT){
+				fruits.get(fruits.size()-1).setRemovable(true);
+			}
 		}
 	}
 
