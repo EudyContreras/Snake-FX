@@ -56,6 +56,7 @@ public class VictoryScreen extends AbstractHudElement {
 	private double transitionOpacity = 1;
 	private double opacityValue = -0.016;
 	private double acceleration = 0.3f;
+	private boolean transitioning = true;
 	private boolean showTransition = false;
 	private boolean showWinner = false;
 	private boolean showScores = false;
@@ -196,6 +197,7 @@ public class VictoryScreen extends AbstractHudElement {
 		});
 		continue_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.LEVEL_TRANSITIONING);
+			if(!transitioning)
 			goToNext();
 		});
 		quitGame_btt.setOnMouseEntered(e -> {
@@ -209,6 +211,7 @@ public class VictoryScreen extends AbstractHudElement {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
+			if(!transitioning)
 			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
@@ -222,6 +225,7 @@ public class VictoryScreen extends AbstractHudElement {
 		});
 		restart_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.LEVEL_RESTART);
+			if(!transitioning)
 			restartLevel();
 		});
 	}
@@ -263,28 +267,34 @@ public class VictoryScreen extends AbstractHudElement {
 			case ENTER:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_TRANSITIONING);
+					if(!transitioning)
 					goToNext();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
+					if(!transitioning)
 					restartLevel();
 				}
 				if (currentChoice == 3) {
 					game.setStateID(GameStateID.MAIN_MENU);
+					if(!transitioning)
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;
 			case SPACE:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_TRANSITIONING);
+					if(!transitioning)
 					goToNext();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
+					if(!transitioning)
 					restartLevel();
 				}
 				if (currentChoice == 3) {
 					game.setStateID(GameStateID.MAIN_MENU);
+					if(!transitioning)
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;
@@ -575,6 +585,7 @@ public class VictoryScreen extends AbstractHudElement {
 					mainGameBoard.setVisible(true);
 					scoreScreen.showScores();
 					panIn = false;
+					transitioning = false;
 					showWinner = true;
 					showScores = false;
 				}
@@ -709,6 +720,7 @@ public class VictoryScreen extends AbstractHudElement {
 	 * Method which is called if the player decides to restart the level
 	 */
 	private void restartLevel() {
+		transitioning = true;
 		showSceneSnap();
 		game.removePlayers();
 		confirmXTwo = baseGameBoard.getX();
@@ -725,6 +737,7 @@ public class VictoryScreen extends AbstractHudElement {
 	 * level of the game.
 	 */
 	private void goToNext() {
+		transitioning = true;
 		showSceneSnap();
 		game.removePlayers();
 		confirmXTwo = baseGameBoard.getX();

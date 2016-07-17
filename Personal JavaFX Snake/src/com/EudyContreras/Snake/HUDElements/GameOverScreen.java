@@ -55,6 +55,7 @@ public class GameOverScreen {
 	private double transitionOpacity = 1;
 	private double opacityValue = -0.016;
 	private double acceleration = 0.3f;
+	private boolean transitioning = true;
 	private boolean showTransition = false;
 	private boolean showWinner = false;
 	private boolean showScores = false;
@@ -189,6 +190,7 @@ public class GameOverScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
+			if(!transitioning)
 			game.getFadeScreenHandler().menu_fade_screen();
 		});
 		restart_btt.setOnMouseEntered(e -> {
@@ -202,6 +204,7 @@ public class GameOverScreen {
 		});
 		restart_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.LEVEL_RESTART);
+			if(!transitioning)
 			restartLevel();
 		});
 
@@ -243,20 +246,24 @@ public class GameOverScreen {
 			case ENTER:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
+					if(!transitioning)
 					restartLevel();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.MAIN_MENU);
+					if(!transitioning)
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;
 			case SPACE:
 				if (currentChoice == 1) {
 					game.setStateID(GameStateID.LEVEL_RESTART);
+					if(!transitioning)
 					restartLevel();
 				}
 				if (currentChoice == 2) {
 					game.setStateID(GameStateID.MAIN_MENU);
+					if(!transitioning)
 					game.getFadeScreenHandler().menu_fade_screen();
 				}
 				break;
@@ -441,6 +448,7 @@ public class GameOverScreen {
 					center = false;
 					swipeRight = false;
 					showWinner = true;
+					transitioning = false;
 					transitionOpacity = 0;
 					opacityValue = 0.016;
 					waitTime = 10;
@@ -620,6 +628,7 @@ public class GameOverScreen {
 	 * decides to restart the level
 	 */
 	private void restartLevel() {
+		transitioning = true;
 		showSceneSnap();
 		game.getFadeScreenHandler().restart_fade_screen();
 		game.getScoreKeeper().resetTimer();
