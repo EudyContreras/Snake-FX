@@ -763,7 +763,7 @@ public class PlayerTwo extends AbstractObject {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -772,7 +772,7 @@ public class PlayerTwo extends AbstractObject {
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
 		}

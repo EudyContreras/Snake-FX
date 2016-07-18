@@ -166,7 +166,6 @@ public class FadeScreenController{
 			if (innerFadePercentage <= 0) {
 				innerFadeScreen.setOpacity(0);
 				game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
-				//game.getCountDownScreen().startCountdown();
 				fadeOut = false;
 			}
 		}
@@ -195,7 +194,7 @@ public class FadeScreenController{
 			if (innerFadePercentage <= 0) {
 				innerFadeScreen.setOpacity(0);
 				game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
-				game.getCountDownScreen().startCountdown();
+				game.getReadyNotification().showNotification(150);
 				quickFadeOut = false;
 			}
 		}

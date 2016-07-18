@@ -288,10 +288,10 @@ public class CountDownScreen {
 			game.getGameHud().hideHUDCover();
 			game.setStateID(GameStateID.GAMEPLAY);
 			game.getScoreKeeper().startTimer();
-			height = baseHeight - GameManager.ScaleY(80);
-			width = baseWidth + GameManager.ScaleX(300);
+			height = baseHeight - GameManager.ScaleY(60);
+			width = baseWidth + GameManager.ScaleX(180);
 			x = (double) (GameSettings.WIDTH / 2 - width / 2);
-			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-GameManager.ScaleY(80);
+			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-GameManager.ScaleY(20);
 			countView.setWidth(width);
 			countView.setHeight(height);
 			countView.setX(x);

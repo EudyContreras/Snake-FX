@@ -53,13 +53,13 @@ public class ReadyNotification {
 	private void initialize(){
 		this.readyView = new ImageView(GameImageBank.ready_notification);
 		this.readyView.setPreserveRatio(true);
-		this.readyView.setFitWidth(width*1.5);
-		this.readyView.setFitHeight(height*1.5);
+		this.readyView.setFitWidth(width*.5);
+		this.readyView.setFitHeight(height*.5);
 		this.readyView.setOpacity(fadeValue);
 	}
 	private void position(){
 		this.x = GameSettings.WIDTH/2 - readyView.getFitWidth()/2;
-		this.y = GameSettings.HEIGHT/2 - readyView.getFitHeight()/2;
+		this.y = GameManager.ScaleY(10);
 		this.readyView.setTranslateX(x);
 		this.readyView.setTranslateY(y);
 	}
@@ -69,6 +69,7 @@ public class ReadyNotification {
 	}
 	public void showNotification(int wait) {
 		this.wait = wait;
+		showCounter = 0;
 		display();
 		waiting = true;
 		hideNotice = false;
@@ -85,7 +86,7 @@ public class ReadyNotification {
 				fadeValue = 0;
 				hideNotice = false;
 				startCounter();
-				
+
 			}
 		}
 		this.readyView.setOpacity(fadeValue);
@@ -117,9 +118,8 @@ public class ReadyNotification {
 		if(fadeValue<=1.0)
 		this.readyView.setOpacity(fadeValue);
 	}
-	
+
 	public void updateUI(){
-	
 		if(waiting)
 			fadeAnimation();
 		if(!waiting)
@@ -140,12 +140,12 @@ public class ReadyNotification {
 				break;
 			default:
 				break;
-			
+
 			}
 		});
 
 	}
-	
-	
-	
+
+
+
 }

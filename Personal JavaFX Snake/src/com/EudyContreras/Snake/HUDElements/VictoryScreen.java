@@ -353,6 +353,7 @@ public class VictoryScreen extends AbstractHudElement {
 			swipeRight();
 			panIn();
 			hide();
+			setSlowMotion();
 		}
 	}
 
@@ -520,6 +521,7 @@ public class VictoryScreen extends AbstractHudElement {
 					confirmX = (float) (0 - baseGameBoard.getFitWidth() + 50);
 					confirmXPosition = 0;
 					swipeLeft = false;
+					allowSlowMo = false;
 					game.processGameInput();
 					scoreScreen.hideScores();
 					if (restartLevel) {

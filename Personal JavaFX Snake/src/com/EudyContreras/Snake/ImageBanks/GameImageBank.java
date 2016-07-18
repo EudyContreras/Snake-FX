@@ -156,14 +156,14 @@ public class GameImageBank {
 		public static final ImagePattern count_one = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_one.png")));
 		public static final ImagePattern count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
 		public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
-		public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go.png")));
+		public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go_alt.png")));
 
-		/**
-		 * general game object
-		 */
+	/**
+	 * general game object
+	 */
 		public static final Image apple = new Image(ImageEffectUtility.loadResource("apple.png"));
 		public static final Image apple_alt = new Image(ImageEffectUtility.loadResource("apple_alt.png"));
-		public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);		
+		public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);
 		public static final Image classicSnakeBody = ImageEffectUtility.preCreateShadedCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);
 		public static final Image classicSnakeBodyDebris = ImageEffectUtility.preCreateAlternateGlowingCircle(Color.GREEN,1, 300, 0.2, GameSettings.PLAYER_ONE_SIZE*5);
 		public static final Image classicSnakeBodyBlurred = ImageEffectUtility.preCreateShadedBlurredCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);

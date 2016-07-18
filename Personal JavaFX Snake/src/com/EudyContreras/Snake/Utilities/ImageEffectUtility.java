@@ -107,9 +107,9 @@ public class ImageEffectUtility {
 //		light.setY(300);
 //		light.setZ(140);
 
-//		light.setX(-150);
-//		light.setY(350);
-//		light.setZ(140);
+//		light.setX(-120);
+//		light.setY(300);
+//		light.setZ(130);
 
 		light.setX(-150);
 		light.setY(250);

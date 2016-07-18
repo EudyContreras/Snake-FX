@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.5;
+	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static int MIN_X = 1920;
 	public static int MAX_X = 0;
@@ -111,10 +111,5 @@ public class GameSettings {
 	public static boolean ADD_LIGHTING = true;
 	public static boolean ADD_BLUR = true;
 	public static boolean ADD_GLOW = true;
-
-
-
-
-
 
 }
