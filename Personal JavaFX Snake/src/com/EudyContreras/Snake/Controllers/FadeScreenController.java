@@ -144,7 +144,7 @@ public class FadeScreenController{
 					game.goToNext();
 					fadeOut = true;
 					fadeIn = false;
-					game.getCountDownScreen().startCountdown();
+					game.getReadyNotification().showNotification(150);
 				}
 				else if(game.getStateID() == GameStateID.MAIN_MENU){
 					game.quitToMain();
@@ -155,7 +155,7 @@ public class FadeScreenController{
 					game.restart();
 					fadeOut = true;
 					fadeIn = false;
-					game.getCountDownScreen().startCountdown();
+					game.getReadyNotification().showNotification(150);
 
 				}
 			}

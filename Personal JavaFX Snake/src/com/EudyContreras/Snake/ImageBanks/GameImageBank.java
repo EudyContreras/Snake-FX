@@ -151,6 +151,8 @@ public class GameImageBank {
 		public static final Image pause_restart = new Image(ImageEffectUtility.loadResource("pause_restart.png"));
 		public static final Image pause_main = new Image(ImageEffectUtility.loadResource("pause_main_menu.png"));
 		public static final Image pause_quit = new Image(ImageEffectUtility.loadResource("pause_quit.png"));
+		public static final Image ready_notification = new Image(ImageEffectUtility.loadResource("ready.png"));
+		public static final Image ready_notification_alt = new Image(ImageEffectUtility.loadResource("ready_alt.png"));
 		public static final ImagePattern count_one = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_one.png")));
 		public static final ImagePattern count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
 		public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));

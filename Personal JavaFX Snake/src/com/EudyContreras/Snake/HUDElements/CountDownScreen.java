@@ -85,7 +85,7 @@ public class CountDownScreen {
 
 	/**
 	 * Method which starts the count down. This method can be called at the
-	 * beggining of a level in order for allow for a count down before any of
+	 * beginning of a level in order for allow for a count down before any of
 	 * the players can perform any given action
 	 */
 	public void startCountdown() {

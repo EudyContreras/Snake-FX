@@ -20,6 +20,7 @@ import com.EudyContreras.Snake.HUDElements.GameOverScreen;
 import com.EudyContreras.Snake.HUDElements.HealthBarOne;
 import com.EudyContreras.Snake.HUDElements.HealthBarTwo;
 import com.EudyContreras.Snake.HUDElements.PauseMenu;
+import com.EudyContreras.Snake.HUDElements.ReadyNotification;
 import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
@@ -126,6 +127,7 @@ public abstract class AbstractGameModel extends Application {
 	protected AnimationTimer animationLoop;
 	protected AnimationTimer particleLoop;
 	protected GameOverScreen gameOverScreen;
+	protected ReadyNotification readyNotification;
 	protected FadeScreenController fadeHandler;
 	protected ScoreKeeper scoreKeeper;
 	protected ImageView backgroundImage;
@@ -237,7 +239,9 @@ public abstract class AbstractGameModel extends Application {
 	public CountDownScreen getCountDownScreen() {
 		return countDownScreen;
 	}
-
+	public ReadyNotification getReadyNotification(){
+		return readyNotification;
+	}
 	public MenuManager getMainMenu() {
 		return menuManager;
 	}

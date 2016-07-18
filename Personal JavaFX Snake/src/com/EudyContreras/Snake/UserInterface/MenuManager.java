@@ -163,7 +163,7 @@ public class MenuManager extends AbstractMenuElement{
 			game.resumeGame();
 			game.showCursor(false, game.getScene());
 			game.setRoot(game.getMainRoot());
-			game.getFadeScreenHandler().intro_fade_screen(() -> game.getCountDownScreen().startCountdown()) ;
+			game.getFadeScreenHandler().intro_fade_screen(() -> game.getReadyNotification().showNotification(60)) ;
 			game.processGameInput();
 			hideMenu = false;
 			}

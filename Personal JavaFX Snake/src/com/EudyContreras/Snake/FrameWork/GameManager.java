@@ -20,6 +20,7 @@ import com.EudyContreras.Snake.HUDElements.GameOverScreen;
 import com.EudyContreras.Snake.HUDElements.HealthBarOne;
 import com.EudyContreras.Snake.HUDElements.HealthBarTwo;
 import com.EudyContreras.Snake.HUDElements.PauseMenu;
+import com.EudyContreras.Snake.HUDElements.ReadyNotification;
 import com.EudyContreras.Snake.HUDElements.ScoreBoard;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.HUDElements.VictoryScreen;
@@ -36,7 +37,6 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -265,6 +265,7 @@ public class GameManager extends AbstractGameModel{
                 GameManager.ScaleY(55), Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
+        readyNotification = new ReadyNotification(this, GameImageBank.ready_notification.getWidth(), GameImageBank.ready_notification.getHeight(), getEleventhLayer());
         countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
         GameSettings.MIN_Y = (int) gameHud.getHudBottomY();
     }
@@ -384,6 +385,8 @@ public class GameManager extends AbstractGameModel{
 
 						victoryScreen.updateUI();
 
+					    readyNotification.updateUI();
+						  
 						gameOverScreen.updateUI();
 
 						scoreKeeper.updateUI();
@@ -719,6 +722,8 @@ public class GameManager extends AbstractGameModel{
 
                      gameOverScreen.updateUI();
 
+                     readyNotification.updateUI();
+                     
                      scoreKeeper.updateUI();
 
                      objectManager.updateAll(timePassed);
