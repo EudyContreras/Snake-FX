@@ -36,7 +36,9 @@ public class ScaleAndPan extends Application {
 		layout.getChildren().setAll(new MenuBox(this, stage, null), infoLabel, zoomPane, infoLabel2);
 
 		VBox.setVgrow(zoomPane, Priority.ALWAYS);
-
+//		scrollContent.setStyle("-fx-background-color:gray");
+    	
+    	
 		scene = new Scene(layout, Utils.WIDTH, Utils.HEIGHT);
 		scene.getStylesheets().add( getClass().getResource("application.css").toExternalForm());
 
@@ -54,6 +56,7 @@ public class ScaleAndPan extends Application {
 
 		scroller = new ScrollPane();
 		scrollContent = new Pane(window);
+        scrollContent.setStyle("-fx-background-color:gray; -fx-border-width: 5;-fx-border-color: black;");
 		scroller.setContent(scrollContent);
 
 		scroller.viewportBoundsProperty().addListener(new ChangeListener<Bounds>() {

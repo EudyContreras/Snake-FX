@@ -64,20 +64,22 @@ public class DragAndSelect{
 
     private class SelectionModel {
 
-        Set<Node> selection = new HashSet<>();
+        Set<Selectable> selection = new HashSet<>();
 
-        public void add( Node node) {
+        public void add( Selectable tile) {
 
-            if( !node.getStyleClass().contains("highlight")) {
-                node.getStyleClass().add( "highlight");
+            if( !tile.getStyleClass().contains("highlight")) {
+                tile.getStyleClass().add( "highlight");
             }
 
-            selection.add( node);
+            selection.add( tile);
+            tile.getTile().setSelected(true);
         }
 
-        public void remove( Node node) {
-            node.getStyleClass().remove( "highlight");
-            selection.remove( node);
+        public void remove( Selectable tile) {
+            tile.getStyleClass().remove( "highlight");
+            selection.remove( tile);
+            tile.getTile().setSelected(false);
         }
 
         public void clear() {
@@ -88,8 +90,8 @@ public class DragAndSelect{
 
         }
 
-        public boolean contains( Node node) {
-            return selection.contains(node);
+        public boolean contains( Selectable tile) {
+            return selection.contains(tile);
         }
 
         @SuppressWarnings("unused")
@@ -109,11 +111,11 @@ public class DragAndSelect{
 
         private boolean enabled = false;
 
-        public void makeDraggable(final Node node) {
+        public void makeDraggable(final Selectable tile) {
 
-            node.setOnMousePressed(onMousePressedEventHandler);
-            node.setOnMouseDragged(onMouseDraggedEventHandler);
-            node.setOnMouseReleased(onMouseReleasedEventHandler);
+            tile.setOnMousePressed(onMousePressedEventHandler);
+            tile.setOnMouseDragged(onMouseDraggedEventHandler);
+            tile.setOnMouseReleased(onMouseReleasedEventHandler);
 
         }
 
@@ -126,14 +128,14 @@ public class DragAndSelect{
                 if( event.isControlDown() || event.isShiftDown())
                     return;
 
-                Node node = (Node) event.getSource();
-                dragContext.x = node.getTranslateX() - event.getSceneX();
-                dragContext.y = node.getTranslateY() - event.getSceneY();
+                Selectable tile = (Selectable) event.getSource();
+                dragContext.x = tile.getTranslateX() - event.getSceneX();
+                dragContext.y = tile.getTranslateY() - event.getSceneY();
 
-                // clear the model if the current node isn't in the selection => new selection
-                if( !selectionModel.contains(node)) {
+                // clear the model if the current tile isn't in the selection => new selection
+                if( !selectionModel.contains(tile)) {
                     selectionModel.clear();
-                    selectionModel.add( node);
+                    selectionModel.add( tile);
                 }
 
                 // flag that the mouse released handler should consume the event, so it won't bubble up to the pane which has a rubberband selection mouse released handler
@@ -153,9 +155,9 @@ public class DragAndSelect{
                     return;
 
                 // all in selection
-                for( Node node: selectionModel.selection) {
-                    node.setTranslateX( dragContext.x + event.getSceneX());
-                    node.setTranslateY( dragContext.y + event.getSceneY());
+                for( Node tile: selectionModel.selection) {
+                    tile.setTranslateX( dragContext.x + event.getSceneX());
+                    tile.setTranslateY( dragContext.y + event.getSceneY());
                 }
 
             }
@@ -169,9 +171,11 @@ public class DragAndSelect{
                 // prevent rubberband selection handler
                 if( enabled) {
 
-                    // set node's layout position to current position,remove translate coordinates
-                    for( Node node: selectionModel.selection) {
-                        fixPosition(node);
+                    // set tile's layout position to current position,remove translate coordinates
+                    for( Selectable tile: selectionModel.selection) {
+                    	tile.setOpacity(1);
+                        fixPosition(tile);
+
                     }
 
                     enabled = false;
@@ -182,18 +186,18 @@ public class DragAndSelect{
         };
 
         /**
-         * Set node's layout position to current position, remove translate coordinates.
-         * @param node
+         * Set tile's layout position to current position, remove translate coordinates.
+         * @param tile
          */
-        private void fixPosition( Node node) {
+        private void fixPosition( Node tile) {
 
-            double x = node.getTranslateX();
-            double y = node.getTranslateY();
+            double x = tile.getTranslateX();
+            double y = tile.getTranslateY();
 
-            node.relocate(node.getLayoutX() + x, node.getLayoutY() + y);
+            tile.relocate(tile.getLayoutX() + x, tile.getLayoutY() + y);
 
-            node.setTranslateX(0);
-            node.setTranslateY(0);
+            tile.setTranslateX(0);
+            tile.setTranslateY(0);
 
         }
 
@@ -268,21 +272,22 @@ public class DragAndSelect{
                 for( Node node: group.getChildren()) {
 
                     if( node instanceof Selectable) {
-                        if( node.getBoundsInParent().intersects( rect.getBoundsInParent())) {
+                    	Selectable tile = (Selectable)node;
+                        if( tile.getBoundsInParent().intersects( rect.getBoundsInParent())) {
 
                             if( event.isShiftDown()) {
 
-                                selectionModel.add( node);
+                                selectionModel.add( tile);
 
                             } else if( event.isControlDown()) {
 
-                                if( selectionModel.contains( node)) {
-                                    selectionModel.remove( node);
+                                if( selectionModel.contains( tile)) {
+                                    selectionModel.remove( tile);
                                 } else {
-                                    selectionModel.add( node);
+                                    selectionModel.add( tile);
                                 }
                             } else {
-                                selectionModel.add( node);
+                                selectionModel.add( tile);
                             }
 
                         }

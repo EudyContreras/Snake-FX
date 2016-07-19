@@ -8,6 +8,7 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Rotate;
 
@@ -19,7 +20,7 @@ import javafx.scene.transform.Rotate;
  * @author Eudy Contreras
  *
  */
-public class TileMap {
+public class TileMap extends ImageView{
 
     private double x;
     private double y;
@@ -29,14 +30,22 @@ public class TileMap {
     private double height;
     private double scale;
 
-    private boolean selected;
+    private boolean selected = false;
+    private boolean enterDown = false;
+    private boolean altDown = false;
+    private boolean ctrlDown = false;
+    private boolean spaceDown = false;
+
+    private boolean upDown = false;
+    private boolean downDown = false;
+    private boolean leftDown = false;
+    private boolean rightDown = false;
 
     private int historyMax;
     private int stateIndex;
 
     private Image image;
 
-    private ImageView view = new ImageView();
 
     ArrayList<StateHistory> history = new ArrayList<>();
 
@@ -55,12 +64,14 @@ public class TileMap {
         this.image = image;
         this.width = image.getWidth();
         this.height = image.getHeight();
-        this.view.setImage(image);
-        this.view.setFitWidth(width);
-        this.view.setFitHeight(height);
+        this.setImage(image);
+        this.setFitWidth(width);
+        this.setFitHeight(height);
         this.setMouseEntered();
         this.setMouseExited();
+        this.setOnKeyEvent();
         this.setOnScroll();
+        this.addView();
     }
 
     public TileMap(double x, double y, double width, double height, Image image) {
@@ -69,12 +80,14 @@ public class TileMap {
         this.image = image;
         this.width = width;
         this.height = height;
-        this.view.setImage(image);
-        this.view.setFitWidth(width);
-        this.view.setFitHeight(height);
+        this.setImage(image);
+        this.setFitWidth(width);
+        this.setFitHeight(height);
         this.setMouseEntered();
         this.setMouseExited();
+        this.setOnKeyEvent();
         this.setOnScroll();
+        this.addView();
     }
 
     public TileMap(double x, double y, double width, double height, Image image, CollisionType collisionType) {
@@ -84,75 +97,180 @@ public class TileMap {
         this.width = width;
         this.height = height;
         this.collisionType = collisionType;
-        this.view.setImage(image);
-        this.view.setFitWidth(width);
-        this.view.setFitHeight(height);
+        this.setImage(image);
+        this.setFitWidth(width);
+        this.setFitHeight(height);
         this.computeBoundBox();
         this.setMouseEntered();
         this.setMouseExited();
+        this.setOnKeyEvent();
         this.setOnScroll();
+        this.addView();
+    }
+    private void addView(){
+
     }
     public void setMouseEntered(){
-    	this.view.setOnMouseEntered(e -> selected = true);
+    	this.setOnMouseEntered(e -> selected = true);
     }
     public void setMouseExited(){
-    	this.view.setOnMouseExited(e -> selected = false);
+    	this.setOnMouseExited(e -> selected = false);
+    }
+
+    public void setOnKeyEvent(){
+
+    	this.setOnKeyPressed(e -> {
+    		switch(e.getCode()){
+    		case ALT:
+    			altDown = true;
+    			break;
+    		case CONTROL:
+    			ctrlDown = true;
+    			break;
+    		case SPACE:
+    			spaceDown = true;
+    			break;
+    		case ENTER:
+    			enterDown = true;
+    			break;
+    		case UP:
+    			upDown = true;
+    			break;
+    		case DOWN:
+    			downDown = true;
+    			break;
+    		case LEFT:
+    			leftDown = true;
+    			break;
+    		case RIGHT:
+    			rightDown = true;
+    			break;
+			default:
+				break;
+    		}
+    	});
+    	this.setOnKeyReleased(e ->{
+      		switch(e.getCode()){
+    		case ALT:
+    			altDown = false;
+    			break;
+    		case CONTROL:
+    			ctrlDown = false;
+    			break;
+    		case SPACE:
+    			spaceDown = false;
+    			break;
+    		case ENTER:
+    			enterDown = false;
+    			break;
+    		case UP:
+    			upDown = false;
+    			break;
+    		case DOWN:
+    			downDown = false;
+    			break;
+    		case LEFT:
+    			leftDown = false;
+    			break;
+    		case RIGHT:
+    			rightDown = false;
+    			break;
+			default:
+				break;
+    		}
+    	});
     }
     public void setOnScroll(){
-    	
-    	this.view.setOnScroll(new EventHandler<ScrollEvent>() {
+
+    	this.setOnScroll(new EventHandler<ScrollEvent>() {
+    		double rotation = 0;
 			@Override
 			public void handle(ScrollEvent event) {
+
 				event.consume();
 
 				if (event.getDeltaY() == 0) {
 					return;
 				}
+				if (event.isControlDown()) {
+					if(event.getDeltaY()>0){
+						rotate(++rotation, Rotation.X_AXIS);
+					}
+					if(event.getDeltaY()<0){
+						rotate(--rotation, Rotation.X_AXIS);
+					}
+					if(upDown){
+						rotate(++rotation, Rotation.Y_AXIS);
+					}
+					if(downDown){
+						rotate(--rotation, Rotation.Y_AXIS);
+					}
+				}
+				if (event.isAltDown()) {
+					if(event.getDeltaY()>0){
+						rotate(++rotation, Rotation.X_AXIS);
+					}
+					if(event.getDeltaY()<0){
+						rotate(--rotation, Rotation.X_AXIS);
+					}
 
-				double scaleFactor = (event.getDeltaY() > 0) ? Utils.SCALE_DELTA : 1 /  Utils.SCALE_DELTA;
+				}
+				else {
+					double scaleFactor = (event.getDeltaY() > 0) ? Utils.SCALE_DELTA : 1 / Utils.SCALE_DELTA;
 
-				setScale(scaleFactor);
-
+					setScale(scaleFactor);
+				}
 			}
     	});
     }
+    public void setSelected(boolean state){
+    	if(state){
+    		this.setStyle("-fx-effect: dropshadow(one-pass-box, dodgerblue, "+35+", 0.5, 0, 0);" );
+            this.setOpacity(.75);
+    	}
+    	else{
+    		this.setStyle("");
+    		this.setOpacity(1);
+    	}
+    	
+    }
     public void relocate(double x, double y) {
-        view.setTranslateX(x);
-        view.setTranslateY(y);
-        view.setRotate(r);
+        this.setTranslateX(x);
+        this.setTranslateY(y);
+        this.setRotate(r);
     }
 
     public void setScale(double scale) {
     	this.scale = scale;
-        view.setFitWidth(view.getFitWidth() * scale);
-        view.setFitHeight(view.getFitHeight() * scale);
+        setFitWidth(getFitWidth() * scale);
+        setFitHeight(getFitHeight() * scale);
     }
 
     public void rotate(double angle, Rotation type) {
         switch (type) {
         case Z_AXIS:
-            view.setRotationAxis(Rotate.Z_AXIS);
-            view.setRotate(angle);
+            setRotationAxis(Rotate.Z_AXIS);
+            setRotate(angle);
             break;
         case X_AXIS:
-            view.setRotationAxis(Rotate.X_AXIS);
-            view.setRotate(angle);
+            setRotationAxis(Rotate.X_AXIS);
+            setRotate(angle);
             break;
         case Y_AXIS:
-            view.setRotationAxis(Rotate.Y_AXIS);
-            view.setRotate(angle);
+            setRotationAxis(Rotate.Y_AXIS);
+            setRotate(angle);
             break;
         default:
             break;
         }
     }
     public void setState(double x, double y, double z, double r, double scale){
-    	view.setTranslateX(x);
-    	view.setTranslateY(y);
-    	view.setTranslateZ(z);
-    	view.setRotate(r);
-    	view.setFitWidth(width*scale);
-    	view.setFitHeight(height*scale);
+    	setTranslateX(x);
+    	setTranslateY(y);
+    	setTranslateZ(z);
+    	setRotate(r);
+    	setFitWidth(width*scale);
+    	setFitHeight(height*scale);
     }
     public void addState(){
     	if(history.size()<=10){
@@ -189,21 +307,8 @@ public class TileMap {
 
         }
     }
-
     public ImageView getView() {
-        return view;
-    }
-
-    public void setView(ImageView view) {
-        this.view = view;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
+        return this;
     }
 
     public void setZ(double z) {
@@ -214,14 +319,6 @@ public class TileMap {
         this.r = r;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
     public double getZ() {
         return z;
     }
@@ -230,15 +327,7 @@ public class TileMap {
         return r;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
-    public double getWidth() {
+    public double getTileWidth() {
         return width;
     }
 
@@ -246,7 +335,7 @@ public class TileMap {
         this.width = width;
     }
 
-    public double getHeight() {
+    public double getTileHeight() {
         return height;
     }
 
@@ -295,7 +384,7 @@ public class TileMap {
     }
 
     public Bounds getCollisionBounds() {
-        return this.view.getLayoutBounds();
+        return this.getLayoutBounds();
     }
 
     public Rectangle2D getComplexBounds() {

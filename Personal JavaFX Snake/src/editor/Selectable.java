@@ -12,5 +12,9 @@ public class Selectable extends Region {
         this.getChildren().add( tile.getView());
         this.setPrefSize(width, height);
     }
+    public TileMap getTile(){
+
+    	return tile;
+    }
 
 }
