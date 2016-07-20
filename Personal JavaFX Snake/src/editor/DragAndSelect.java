@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -118,7 +119,6 @@ public class DragAndSelect{
             tile.setOnMouseReleased(onMouseReleasedEventHandler);
 
         }
-
         EventHandler<MouseEvent> onMousePressedEventHandler = new EventHandler<MouseEvent>() {
 
             @Override
