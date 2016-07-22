@@ -65,8 +65,8 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path));
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(250);
-		light.setZ(115);
+		light.setY(260);
+		light.setZ(110);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(5.0);
@@ -99,7 +99,6 @@ public class ImageEffectUtility {
 	public static synchronized Image precreatedLightedAndShadedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
-		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view = new ImageView(img);
 
@@ -108,12 +107,12 @@ public class ImageEffectUtility {
 //		light.setZ(140);
 
 //		light.setX(-120);
-//		light.setY(300);
+//		light.setY(350);
 //		light.setZ(130);
 
 		light.setX(-150);
-		light.setY(250);
-		light.setZ(115);
+		light.setY(260);
+		light.setZ(110);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(5.0);
@@ -136,8 +135,8 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(250);
-		light.setZ(115);
+		light.setY(260);
+		light.setZ(110);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(5.0);
@@ -160,8 +159,8 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(250);
-		light.setZ(115);
+		light.setY(260);
+		light.setZ(110);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(5.0);
@@ -201,8 +200,8 @@ public class ImageEffectUtility {
 		circle.setFill(color);
 		circle.setRadius(radius);
 		light.setX(-150);
-		light.setY(220);
-		light.setZ(115);
+		light.setY(260);
+		light.setZ(110);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(8.0);
@@ -268,13 +267,13 @@ public class ImageEffectUtility {
 		view.setImage(img);
 		light.setX(0);
 		light.setY(1300);
-		light.setZ(850);
+		light.setZ(1400);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
-			view.setEffect(lighting);
+		//	view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 		img = ImageEffectUtility.createImage(view);
