@@ -1,6 +1,5 @@
 package com.EudyContreras.Snake.HUDElements;
 
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
@@ -48,11 +47,11 @@ public class PauseMenu {
 
 
 	public PauseMenu(GameManager game, double x, double y, double width, double height) {
-		this.x = x/GameLoader.ResolutionScaleX;
-		this.y = y/GameLoader.ResolutionScaleY;
+		this.x = x;
+		this.y = y;
 		this.game = game;
-		this.width = width/GameLoader.ResolutionScaleX;
-		this.height = height/GameLoader.ResolutionScaleY;
+		this.width = width;
+		this.height = height;
 		this.initilialize();
 	}
 	public void initilialize(){
@@ -67,29 +66,29 @@ public class PauseMenu {
 		this.borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		this.mainBoard = new ImageView(GameImageBank.pause_menu);
 		this.continueBtt = new ImageView(GameImageBank.pause_continue);
-		this.continueBtt.setFitWidth(this.continueBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
-		this.continueBtt.setFitHeight(this.continueBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
+		this.continueBtt.setFitWidth(this.continueBtt.getImage().getWidth());
+		this.continueBtt.setFitHeight(this.continueBtt.getImage().getHeight());
 		this.restartBtt = new ImageView(GameImageBank.pause_restart);
-		this.restartBtt.setFitWidth(this.restartBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
-		this.restartBtt.setFitHeight(this.restartBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
+		this.restartBtt.setFitWidth(this.restartBtt.getImage().getWidth());
+		this.restartBtt.setFitHeight(this.restartBtt.getImage().getHeight());
 		this.mainMenuBtt = new ImageView(GameImageBank.pause_main);
-		this.mainMenuBtt.setFitWidth(this.mainMenuBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
-		this.mainMenuBtt.setFitHeight(this.mainMenuBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
+		this.mainMenuBtt.setFitWidth(this.mainMenuBtt.getImage().getWidth());
+		this.mainMenuBtt.setFitHeight(this.mainMenuBtt.getImage().getHeight());
 		this.quitGameBtt = new ImageView(GameImageBank.pause_quit);
-		this.quitGameBtt.setFitWidth(this.quitGameBtt.getImage().getWidth()/GameLoader.ResolutionScaleX);
-		this.quitGameBtt.setFitHeight(this.quitGameBtt.getImage().getHeight()/GameLoader.ResolutionScaleY);
-		this.mainBoard.setFitWidth((this.continueBtt.getImage().getWidth()/GameLoader.ResolutionScaleX+GameManager.ScaleX(100)));
-		this.mainBoard.setFitHeight(((this.continueBtt.getFitHeight()*4)+GameManager.ScaleY(90)));
+		this.quitGameBtt.setFitWidth(this.quitGameBtt.getImage().getWidth());
+		this.quitGameBtt.setFitHeight(this.quitGameBtt.getImage().getHeight());
+		this.mainBoard.setFitWidth((this.continueBtt.getImage().getWidth()+100));
+		this.mainBoard.setFitHeight(((this.continueBtt.getFitHeight()*4)+90));
 		this.x = GameSettings.WIDTH/2 - mainBoard.getFitWidth()/2;
 		this.y = 0 - mainBoard.getImage().getHeight();
 		this.continueBtt.setX(GameSettings.WIDTH/2-continueBtt.getImage().getWidth()/2);
-		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleY(40));
+		this.continueBtt.setY(mainBoard.getY()+40);
 		this.restartBtt.setX(continueBtt.getX());
 		this.restartBtt.setY(continueBtt.getY()+continueBtt.getFitHeight());
 		this.mainMenuBtt.setX(continueBtt.getX()-mainMenuBtt.getFitWidth());
-		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+GameManager.ScaleY(5));
+		this.mainMenuBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+5);
 		this.quitGameBtt.setX(continueBtt.getX()+continueBtt.getFitWidth());
-		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+GameManager.ScaleY(5));
+		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()/2+5);
 		this.game.getFourTeenthLayer().getChildren().add(mainBoard);
 		this.game.getFourTeenthLayer().getChildren().add(continueBtt);
 		this.game.getFourTeenthLayer().getChildren().add(restartBtt);
@@ -181,8 +180,8 @@ public class PauseMenu {
 		if(allowTouch){
 			if(show){
 				showSpeedY+=acceleration;
-				y = y + showSpeedY/GameManager.ScaleY;
-				x = x + showSpeedX/GameManager.ScaleX;
+				y = y + showSpeedY;
+				x = x + showSpeedX;
 				mainBoard.setX(x);
 				mainBoard.setY(y);
 				if (mainBoard.getY()>=GameSettings.HEIGHT/2-mainBoard.getFitHeight()/2){
@@ -192,8 +191,8 @@ public class PauseMenu {
 			}
 			if(hide){
 				hideSpeedY-=acceleration;
-				y = y + hideSpeedY/GameManager.ScaleY;
-				x = x + hideSpeedX/GameManager.ScaleX;
+				y = y + hideSpeedY;
+				x = x + hideSpeedX;
 				mainBoard.setX(x);
 				mainBoard.setY(y);
 				if(mainBoard.getY()<0-mainBoard.getImage().getHeight()){
@@ -241,7 +240,7 @@ public class PauseMenu {
 
 		}
 		this.continueBtt.setX(GameSettings.WIDTH/2-this.continueBtt.getFitWidth()/2);
-		this.continueBtt.setY(mainBoard.getY()+GameManager.ScaleY(40));
+		this.continueBtt.setY(mainBoard.getY()+40);
 		this.restartBtt.setX(continueBtt.getX());
 		this.restartBtt.setY(continueBtt.getY()+continueBtt.getFitHeight());
 		this.mainMenuBtt.setX(continueBtt.getX());

@@ -53,28 +53,28 @@ public class HealthBarOne {
 		this.game = game;
 		this.x = 0;
 		this.y = 1;
-		this.width = GameManager.ScaleX(515);
-		this.height = GameManager.ScaleY(110);
+		this.width = 515;
+		this.height = 110;
 		this.maxHealth = width*0.64;
 		this.player = game.getGameLoader().getPlayerOne();
 		this.healthBarGreen.setWidth(width*0.8);
 		this.healthBarGreen.setHeight(height*0.3);
-		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(180));
-		this.healthBarGreen.setTranslateY(y+GameManager.ScaleY(9));
+		this.healthBarGreen.setTranslateX(x+180);
+		this.healthBarGreen.setTranslateY(y+9);
 		this.healthBarGreen.setRotationAxis(Rotate.Y_AXIS);
 		this.healthBarRed.setWidth(width*0.8);
 		this.healthBarRed.setHeight(height*0.3);
-		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(180));
-		this.healthBarRed.setTranslateY(y+GameManager.ScaleY(9));
+		this.healthBarRed.setTranslateX(x+180);
+		this.healthBarRed.setTranslateY(y+9);
 		this.healthBarRed.setRotationAxis(Rotate.Y_AXIS);
 		this.healthBarBorder.setWidth(width);
 		this.healthBarBorder.setHeight(height);
 		this.healthBarBorder.setTranslateX(x);
 		this.healthBarBorder.setTranslateY(y);
 		this.healthBarBorder.setRotationAxis(Rotate.Y_AXIS);
-		this.playerHead.setRadius(GameManager.ScaleX(40));
-		this.playerHead.setCenterX(x+GameManager.ScaleX(60));
-		this.playerHead.setTranslateY(y+GameManager.ScaleY(60));
+		this.playerHead.setRadius(40);
+		this.playerHead.setCenterX(x+60);
+		this.playerHead.setTranslateY(y+60);
 		this.playerHead.setFill(new ImagePattern(GameImageBank.snakeOneEating));
 		this.healthBarRed.setFill(new ImagePattern(GameImageBank.red_health));
 		this.healthBarGreen.setFill(new ImagePattern(GameImageBank.green_health));
@@ -98,9 +98,9 @@ public class HealthBarOne {
 	}
 	private void popIn(){
 		this.moveX+=velX;
-		this.healthBarGreen.setTranslateX(x+GameManager.ScaleX(180)+moveX);
-		this.healthBarRed.setTranslateX(x+GameManager.ScaleX(180)+moveX);
-		this.playerHead.setCenterX(x+GameManager.ScaleX(60)+moveX);
+		this.healthBarGreen.setTranslateX(x+180+moveX);
+		this.healthBarRed.setTranslateX(x+180+moveX);
+		this.playerHead.setCenterX(x+6+moveX);
 		this.healthBarBorder.setTranslateX(x+moveX);
 		if(healthBarBorder.getTranslateX()<0-healthBarBorder.getWidth()){
 			this.stopMoving();
@@ -112,10 +112,10 @@ public class HealthBarOne {
 		game.getScoreBoardOne().setMoveX(moveX);
 	}
 	public void moveLeft(){
-		velX = GameManager.ScaleX(-15);
+		velX = -15;
 	}
 	public void moveRight(){
-		velX = GameManager.ScaleX(15);
+		velX = 15;
 	}
 	public void stopMoving(){
 		this.velX = 0;

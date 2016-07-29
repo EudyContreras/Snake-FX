@@ -1,7 +1,5 @@
 package com.EudyContreras.Snake.ImageBanks;
 
-import com.EudyContreras.Snake.FrameWork.GameLoader;
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
 
@@ -34,23 +32,23 @@ public class GameImageBank {
 		public static final Image glowingCircleTwo= ImageEffectUtility.preCreateAlternateGlowingCircle(Color.RED,1, 300, 0.6, 20);
 		public static final Image glowingCircleThree= ImageEffectUtility.preCreateAlternateGlowingCircleTwo(Color.RED,1, 500, 0.8, 0, 0);
 		public static final Image fruit = ImageEffectUtility.precreatedLightedAndShadedImage("apple.png", GameSettings.GlOBAL_ILLUMINATION, 0,
-				150 / GameLoader.ResolutionScaleX, 192 / GameLoader.ResolutionScaleY);
+				150, 192 );
 		public static final Image classicSnakeFruit = ImageEffectUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
 		public static final Image fruitDebrisOne = ImageEffectUtility.preCreateShadedCircle(Color.RED, 2, 1.8,
-				10 / GameLoader.ResolutionScaleX);
+				10);
 		public static final Image fruitDebrisTwo = ImageEffectUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY + 0.4, 10 / GameLoader.ResolutionScaleX, 10 / GameLoader.ResolutionScaleY);
-		public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("sand_grain.png", 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY + 0.4, 10, 10 );
+		public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("sand_grain.png", 20, 20 );
 		public static final Image snakeBones = ImageEffectUtility.precreatedLightedAndShadedSnake("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY-0.5, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY-0.5, 197, 176 );
 		public static final Image snakeSkull = ImageEffectUtility.precreatedLightedAndShadedSnake("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY-0.5, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY-0.5, 111, 97 );
 		public static final Image snakeTail = ImageEffectUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 114 / GameLoader.ResolutionScaleX, 243 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 114, 243 );
 		public static final Image dirt_grain = ImageEffectUtility.precreatedLightedImage("dirt_grain.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY-0.8, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY-0.8, 20, 20 );
 		public static final Image dirt = ImageEffectUtility.precreatedLightedImage("dirt_grain.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY-0.8, 20 / GameLoader.ResolutionScaleX, 20 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY-0.8, 20, 20 );
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
 		 * Player one
@@ -58,20 +56,20 @@ public class GameImageBank {
 		////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public static final Image snakeOneHead = ImageEffectUtility.precreatedLightedImage("desert-snake-head3.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 111, 97 );
 		public static final Image snakeOneBlinking = ImageEffectUtility.precreatedLightedImage("desert-snake-head-blink3.png",
-				GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX,
-				97 / GameLoader.ResolutionScaleY);
+				GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 111,
+				97 );
 		public static final Image snakeOneEating = ImageEffectUtility.precreatedLightedImage("desert-snake-head-eat3.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
-		public static final Image snakeOneHeadBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("desert-snake-head-eat3.png", 145 / GameLoader.ResolutionScaleX,
-				145 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 111, 97 );
+		public static final Image snakeOneHeadBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("desert-snake-head-eat3.png", 145,
+				145 );
 		public static final Image snakeOneSkin = ImageEffectUtility.precreatedLightedAndShadedSnake("snake_skin_one.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		public static final Image snakeOneSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_one.png", 197 / GameLoader.ResolutionScaleX,
-				176 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 197, 176 );
+		public static final Image snakeOneSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_one.png", 197,
+				176 );
 		public static final Image snakeOneDebris = ImageEffectUtility.precreatedLightedImage("snake_skin_one_debris.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY-1.5, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY-1.5, 5, 5 );
 		public static final Circle snakeOneSphere = new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(snakeOneHead));
 		public static final Circle slither = new Circle(GameSettings.SLITHER_SIZE * 1.4, new ImagePattern(snakeOneHead));
 		public static final ImagePattern normalPatternOneHead = new ImagePattern(snakeOneHead);
@@ -87,18 +85,18 @@ public class GameImageBank {
 		 */
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		public static final Image snakeTwoHead = ImageEffectUtility.precreatedLightedImage("desert-snake-head5.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 111, 97 );
 		public static final Image snakeTwoBlinking = ImageEffectUtility.precreatedLightedImage("desert-snake-head-blink5.png",
-				GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX,
-				97 / GameLoader.ResolutionScaleY);
+				GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 111,
+				97 );
 		public static final Image snakeTwoEating = ImageEffectUtility.precreatedLightedImage("desert-snake-head-eat5.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 111 / GameLoader.ResolutionScaleX, 97 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 111, 97 );
 		public static final Image snakeTwoSkin = ImageEffectUtility.precreatedLightedAndShadedSnake("snake_skin_two.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY, 197 / GameLoader.ResolutionScaleX, 176 / GameLoader.ResolutionScaleY);
-		public static final Image snakeTwoSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_two.png", 197 / GameLoader.ResolutionScaleX,
-				176 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY, 197, 176 );
+		public static final Image snakeTwoSkinBlurred = ImageEffectUtility.preCreateImageWithMotionBlur("snake_skin_two.png", 197,
+				176 );
 		public static final Image snakeTwoDebris = ImageEffectUtility.precreatedLightedImage("snake_skin_two_debris.png", GameSettings.GlOBAL_ILLUMINATION,
-				GameSettings.GLOBAL_SPECULARITY-1.5, 5 / GameLoader.ResolutionScaleX, 5 / GameLoader.ResolutionScaleY);
+				GameSettings.GLOBAL_SPECULARITY-1.5, 5, 5 );
 		public static final Circle snakeTwoSphere = new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(snakeTwoHead));
 		public static final ImagePattern tailImage = new ImagePattern(snakeTail);
 		public static final ImagePattern snakeTwoBody = new ImagePattern(snakeTwoSkin);
@@ -110,10 +108,10 @@ public class GameImageBank {
 		 * heads up display elements
 		 */
 		public static final Image hud_bar = new Image(ImageEffectUtility.loadResource("hud_bar_plain.png"));
-		public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,GameManager.ScaleY(100),false, true);
-		public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,GameManager.ScaleY(70),false, true);
-		public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,GameManager.ScaleY(100));
-		public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameManager.ScaleX(100),GameSettings.HEIGHT*2);
+		public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,100,false, true);
+		public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,70,false, true);
+		public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,100);
+		public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
 		public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
 		public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 		public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info.png"));

@@ -59,7 +59,7 @@ public class ScoreBoard {
 		this.text.setTranslateX(x);
 		this.text.setTranslateY(y);
 		this.text.setText(message + " 00" + score);
-		this.text.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(32)));
+		this.text.setFont( Font.font(null,FontWeight.BOLD, 32));
         this.text.setEffect(textGlow);
         this.text.setId("MainTimer");
 		this.game.getEleventhLayer().getChildren().add(this.text);
@@ -74,10 +74,10 @@ public class ScoreBoard {
 		this.text.setTranslateX(x+moveX);
 	}
 	public void moveLeft(){
-		this.velX = GameManager.ScaleX(-10);
+		this.velX = -10;
 	}
 	public void moveRight(){
-		this.velX = GameManager.ScaleX(10);
+		this.velX = 10;
 	}
 	public void stopMoving(){
 		this.velX = 0;

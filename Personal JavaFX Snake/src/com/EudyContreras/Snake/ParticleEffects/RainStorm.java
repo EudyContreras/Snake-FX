@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.ParticleEffects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
@@ -18,21 +17,21 @@ public class RainStorm extends AbstractParticlesEffect {
 	private double radius;
 	private double decay;
 	private double lifeTime = 4.0f;
-	private double width = GameSettings.SAND_SIZE/GameLoader.ResolutionScaleX;
-	private double height = GameSettings.SAND_SIZE/GameLoader.ResolutionScaleY;
+	private double width = GameSettings.SAND_SIZE;
+	private double height = GameSettings.SAND_SIZE;
 	private double expireTime = Math.random() * (1 - 0.01 + 1) + 0.01;
 
 	public RainStorm(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
-		this.radius = (radius / 2)/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.radius = (radius / 2);
 		this.shape = new Circle(radius, x, y);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
-		this.velY = Math.random() * (8 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velX = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velY = Math.random() * (8 - 2 + 1) + 2 ;
+		this.velX = Math.random() * (8 - -5 + 1) + -5 ;
 		init();
 	}
 
@@ -44,8 +43,8 @@ public class RainStorm extends AbstractParticlesEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velY = Math.random() * (6 - 2 + 1) + 2 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velX = Math.random() * (8 - -5 + 1) + -5 / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velY = Math.random() * (6 - 2 + 1) + 2 ;
+		this.velX = Math.random() * (8 - -5 + 1) + -5 ;
 		init();
 	}
 
@@ -75,7 +74,7 @@ public class RainStorm extends AbstractParticlesEffect {
 	public void move() {
 		super.move();
 		lifeTime -= decay;
-		velY += GameSettings.WIND_SPEED / (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		velY += GameSettings.WIND_SPEED ;
 		velX -= 0.002;
 	}
 

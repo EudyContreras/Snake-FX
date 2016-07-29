@@ -21,13 +21,13 @@ public class GlowParticle extends AbstractParticlesEffect{
 
 	public GlowParticle(GameManager game,Image image, double expireTime, double radius, double x, double y,  Point2D velocity) {
 		this.game = game;
-		this.radius = GameManager.ScaleX_Y(radius/2);
+		this.radius = radius/2;
 		this.shape = new Circle(-200,-200,0);
 		this.imagePattern = new ImagePattern(image);
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016/expireTime;
-		this.velX = GameManager.ScaleX(velocity.getX());
-		this.velY = GameManager.ScaleY(velocity.getY());
+		this.velX = velocity.getX();
+		this.velY = velocity.getY();
 		this.x = x;
 		this.y = y;
 		init();

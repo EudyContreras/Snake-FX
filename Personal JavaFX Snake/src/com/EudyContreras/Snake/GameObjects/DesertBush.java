@@ -146,7 +146,7 @@ public class DesertBush extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(10), y + GameManager.ScaleY(50), width - GameManager.ScaleX(60), height - GameManager.ScaleY(90));
+			Rectangle bounds = new Rectangle(x+10, y + 50, width - 60, height - 90);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -158,7 +158,7 @@ public class DesertBush extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x+GameManager.ScaleX(10), y + GameManager.ScaleY(50), width - GameManager.ScaleX(60), height - GameManager.ScaleY(90));
+		return new Rectangle2D(x+10, y + 50, width - 60, height - 90);
 	}
 
 	public Bounds getCollisionBounds() {

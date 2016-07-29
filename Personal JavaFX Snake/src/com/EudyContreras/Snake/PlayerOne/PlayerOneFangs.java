@@ -83,16 +83,16 @@ public class PlayerOneFangs extends AbstractObject {
 	}
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
-			this.offsetY = GameManager.ScaleY(-25);
+			this.offsetY = -25;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.offsetY = GameManager.ScaleY(25);
+			this.offsetY = 25;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.offsetX = GameManager.ScaleX(-25);
+			this.offsetX = -25;
 			this.offsetY = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.offsetX = GameManager.ScaleX(25);
+			this.offsetX = 25;
 			this.offsetY = 0;
 		}
 	}

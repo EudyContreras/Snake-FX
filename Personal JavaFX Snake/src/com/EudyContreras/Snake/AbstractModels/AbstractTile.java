@@ -1,7 +1,6 @@
 
 package com.EudyContreras.Snake.AbstractModels;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
@@ -130,9 +129,9 @@ public abstract class AbstractTile {
 	}
 
 	public void move() {
-		x = x + (velX * GameSettings.FRAME_SCALE)/GameManager.ScaleX;
-		y = y + (velY * GameSettings.FRAME_SCALE)/GameManager.ScaleY;
-		r = r + (velR * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
+		x = x + (velX * GameSettings.FRAME_SCALE);
+		y = y + (velY * GameSettings.FRAME_SCALE);
+		r = r + (velR * GameSettings.FRAME_SCALE);
 	}
 
 	public Image getImage() {

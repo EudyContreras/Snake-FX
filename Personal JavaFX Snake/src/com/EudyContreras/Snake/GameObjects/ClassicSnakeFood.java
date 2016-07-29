@@ -206,17 +206,17 @@ public class ClassicSnakeFood extends AbstractObject {
 	 */
 	public void lookAtMe() {
 		if (minSize) {
-			size += (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
+			size += (0.5 * GameSettings.FRAME_SCALE);
 			circle.setRadius(size);
-			if (size >= targetSize + GameManager.ScaleX_Y(10)) {
+			if (size >= targetSize + 10) {
 				minSize = false;
 				maxSize = true;
 			}
 		}
 		if (maxSize) {
-			size -= (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
+			size -= (0.5 * GameSettings.FRAME_SCALE);
 			circle.setRadius(size);
-			if (size <= targetSize - GameManager.ScaleX_Y(5)) {
+			if (size <= targetSize - 5) {
 				maxSize = false;
 				minSize = true;
 			}
@@ -311,8 +311,8 @@ public class ClassicSnakeFood extends AbstractObject {
 
 	}
 	public void relocate(){
-		x = RandomGenUtility.getRandomDouble(GameManager.ScaleX(60), (GameSettings.WIDTH - GameManager.ScaleX(90)));
-		y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
+		x = RandomGenUtility.getRandomDouble(0, (GameSettings.WIDTH -90));
+		y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
 	}
 	/**
 	 * Method which changes the opacity of this object

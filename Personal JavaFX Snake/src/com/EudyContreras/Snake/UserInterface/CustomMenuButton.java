@@ -1,7 +1,5 @@
 package com.EudyContreras.Snake.UserInterface;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
-
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.effect.DropShadow;
@@ -64,9 +62,9 @@ public class CustomMenuButton {
     	this.buttonName = name;
     	this.textColor = textColor;
     	this.style = style;
-    	this.fontSize = GameManager.ScaleX_Y(fontSize);
-    	this.buttonWidth = GameManager.ScaleX(buttonWidth);
-    	this.buttonHeight = GameManager.ScaleY(buttonHeight);
+    	this.fontSize = fontSize;
+    	this.buttonWidth = buttonWidth;
+    	this.buttonHeight = buttonHeight;
     	this.pressedGlow = pressedGlow;
     	this.buttonAlignment = alignment;
     	this.frameOpacity = 1;
@@ -90,7 +88,7 @@ public class CustomMenuButton {
 		this.setActive(false);
 	}
 	private void initializeButtonTwo() {
-		this.buttonGlow = new DropShadow(GameManager.ScaleX_Y(15), Color.WHITE);
+		this.buttonGlow = new DropShadow(15, Color.WHITE);
 		this.buttonFrame = new Rectangle(buttonWidth, buttonHeight);
 		this.buttonFrame.setFill(buttonImageTwo);
 		this.buttonFrame.setArcHeight(0);

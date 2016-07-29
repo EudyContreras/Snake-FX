@@ -59,6 +59,7 @@ public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
 	protected GameModeID modeID = GameModeID.ClassicMode;
+	protected Pane sceneRoot;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
 	protected Service<Void> backgroundThread;
@@ -144,9 +145,9 @@ public abstract class AbstractGameModel extends Application {
 	protected int levelLenght;
 	protected double splashFadeDuration;
 	protected double splashFadeDelay;
-	public static double ScaleX = GameLoader.ResolutionScaleX;
-	public static double ScaleY = GameLoader.ResolutionScaleY;
-	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
+//	public static double ScaleX = GameLoader.ResolutionScaleX;
+//	public static double ScaleY = GameLoader.ResolutionScaleY;
+//	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
 
 	public HealthBarOne getHealthBarOne() {
 		return healthBarOne;
@@ -272,7 +273,8 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setRoot(Parent root) {
 		scene.setFill(Color.BLACK);
-		scene.setRoot(root);
+		sceneRoot.getChildren().clear();
+		sceneRoot.getChildren().add(root);
 	}
 
 	public Pane getSnakeOneLayer() {

@@ -37,6 +37,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -54,7 +55,6 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -81,11 +81,6 @@ import javafx.util.Duration;
 public class GameManager extends AbstractGameModel{
 
 	public void start(Stage primaryStage) {
-		GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
-		GameLoader.scalePlayerSize();
-		ScaleX = GameLoader.ResolutionScaleX;
-		ScaleY = GameLoader.ResolutionScaleY;
-		ScaleX_ScaleY = (GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY)/2;
 		mainWindow = primaryStage;
 		initialize();
 		showSplashScreen();
@@ -104,7 +99,16 @@ public class GameManager extends AbstractGameModel{
     	splashLayout.setBackground(Background.EMPTY);
     	splashLayout.setEffect(new DropShadow());
     }
+    private void resizeListener(final Scene scene, final Pane contentPane) {
 
+        final double initWidth  = GameSettings.WIDTH;
+        final double initHeight = GameSettings.HEIGHT;
+        final double ratio      = initWidth / initHeight;
+
+        RsizeListener sizeListener = new RsizeListener(scene, ratio, initHeight, initWidth, contentPane);
+        scene.widthProperty().addListener(sizeListener);
+        scene.heightProperty().addListener(sizeListener);
+      }
     public void showSplashScreen() {
         splashScene = new Scene(splashLayout);
         splashScene.setFill(Color.TRANSPARENT);
@@ -160,28 +164,29 @@ public class GameManager extends AbstractGameModel{
         mainRoot.setMaxHeight(GameSettings.HEIGHT);
         scene.getStylesheets().add(GameManager.class.getResource("text.css").toExternalForm());
         scene.setFill(Color.BLACK);
-//        loader.loadPixelMap();
+
         loadHUDElements();
         processGameInput();
         processGestures();
         menuManager.setupMainMenu();
         mainWindow.setScene(scene);
         mainWindow.setResizable(true);
+        //mainWindow.setFullScreen(false);
         mainWindow.setTitle(title);
-        if(!(GameSettings.MANUAL_SIZE_SCALE>1.0) && !(GameSettings.MANUAL_SIZE_SCALE<1.0))
-        mainWindow.setFullScreen(true);
-        mainWindow.setFullScreenExitHint("");
-        mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+//        mainWindow.setFullScreenExitHint("");
+//        mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         mainWindow.setOnCloseRequest(e->{
             closeGame();
         });
         mainWindow.setTitle(title);
         mainWindow.show();
+        resizeListener(scene,sceneRoot);
         Platform.setImplicitExit(false);
         translateObjects(mainRoot.getChildren());
         pauseGame();
         objectChecker();
 		gameLoop();
+
 //		frameBaseGameLoop();
 //		nonUIThread();
 //		backgroundScheduledThread();
@@ -205,8 +210,9 @@ public class GameManager extends AbstractGameModel{
         frameGameLoop = new Timeline();
         mainRoot = new Pane();
         root = new Pane();
+        sceneRoot = new Pane();
         menuManager = new MenuManager(this);
-        scene = new Scene(menuManager.getMenuRoot(), GameSettings.WIDTH, GameSettings.HEIGHT);
+        scene = new Scene(new Group(sceneRoot), Color.BLACK);
         baseLayer = new Pane();
         dirtLayer = new Pane();
         debrisLayer = new Pane();
@@ -244,7 +250,6 @@ public class GameManager extends AbstractGameModel{
         gestures = new TouchInputHandler();
         mouseInput = new MouseInputHandler();
         debrisManager = new GameDebrisController(this);
-
         if(GameSettings.PARENT_CACHE){
         	cacheAllLayers();
         }
@@ -252,17 +257,15 @@ public class GameManager extends AbstractGameModel{
     private void loadHUDElements(){
     	rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
         sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-        energyBarOne = new EnergyBarOne(this, 185 /ScaleX, 45/ScaleY, 275/ScaleX, 35/ScaleY);
-        energyBarTwo = new EnergyBarTwo(this, GameSettings.WIDTH - 465 / ScaleX, 45/ScaleY, 275 / ScaleX, 35/ScaleY);
+        energyBarOne = new EnergyBarOne(this, 185 , 45, 275, 35);
+        energyBarTwo = new EnergyBarTwo(this, GameSettings.WIDTH - 465, 45, 275, 35);
         healthBarOne = new HealthBarOne(this);
         healthBarTwo = new HealthBarTwo(this);
         pauseMenu = new PauseMenu(this,0,0,GameSettings.WIDTH,300);
-        gameHud = new GameHud(this, ScaleX(-5), ScaleY(-25), GameSettings.WIDTH + ScaleX(10), 115 / ScaleY);
+        gameHud = new GameHud(this, -5, -25, GameSettings.WIDTH + 10, 115);
         scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
-        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + GameManager.ScaleX(120),
-        		GameManager.ScaleY(55), Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
-        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - GameManager.ScaleX(190),
-                GameManager.ScaleY(55), Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
+        scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 120,55, Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
+        scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 190,55, Color.rgb(255, 150, 0),GameObjectID.PlayerTwoHUD);
         victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
         gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
         readyNotification = new ReadyNotification(this, GameImageBank.ready_notification.getWidth(), GameImageBank.ready_notification.getHeight(),fourTeenthLayer);
@@ -273,20 +276,7 @@ public class GameManager extends AbstractGameModel{
     	root.setCache(true);
     	root.setCacheHint(CacheHint.SPEED);
     }
-    public static double ScaleX(double value) {
-        double newSize = value/ScaleX;
-        return newSize;
-    }
 
-    public static double ScaleY(double value) {
-        double newSize = value/ScaleY;
-        return newSize;
-    }
-
-    public static double ScaleX_Y(double value){
-    	double newSize = value/((ScaleX+ScaleY)/2);
-    	return newSize;
-    }
     public void resumeGame() {
         if (GameSettings.RENDER_GAME == true)
             return;
@@ -919,11 +909,11 @@ public class GameManager extends AbstractGameModel{
      */
     public void translateObjects(ObservableList<Node> rootPane) {
         TextFPS = new Text("FPS : ");
-        TextFPS.setX(ScaleX(10));
-        TextFPS.setY(ScaleY(30));
+        TextFPS.setX(10);
+        TextFPS.setY(30);
         TextFPS.setOpacity(0.5);
         TextFPS.setFill(Color.WHITE);
-        TextFPS.setFont(Font.font("AERIAL", FontWeight.EXTRA_BOLD, ScaleX(25)));
+        TextFPS.setFont(Font.font("AERIAL", FontWeight.EXTRA_BOLD, 25));
         rootPane.add(fadeScreenLayer);
         rootPane.add(tenthLayer);
         rootPane.add(eleventhLayer);
@@ -1006,8 +996,8 @@ public class GameManager extends AbstractGameModel{
         PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
         PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
         ClassicSnake.SPEED = GameSettings.PLAYER_ONE_SPEED;
-        GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
-        GameLoader.scalePlayerSize();
+//        GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE, GameSettings.MANUAL_SIZE_SCALE,true);
+//        GameLoader.scalePlayerSize();
         baseLayer.getChildren().clear();
         dirtLayer.getChildren().clear();
         debrisLayer.getChildren().clear();

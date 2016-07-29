@@ -56,8 +56,8 @@ public class CountDownScreen {
 	 */
 	public CountDownScreen(GameManager game, double width, double height, Pane layer) {
 		this.game = game;
-		this.width = width / GameManager.ScaleX;
-		this.height = height / GameManager.ScaleY;
+		this.width = width;
+		this.height = height;
 		this.baseWidth = this.width;
 		this.baseHeight = this.height;
 		this.layer = layer;
@@ -72,12 +72,12 @@ public class CountDownScreen {
 		this.index = 3;
 		this.expireTime = 31.0;
 		this.fadeTime = 0.032 / expireTime;
-		this.panVelocityX = 3.5 / GameManager.ScaleX;
-		this.panVelocityY = 5.0 / GameManager.ScaleY;
+		this.panVelocityX = 3.5;
+		this.panVelocityY = 5.0;
 		this.x = GameSettings.WIDTH / 2 - width / 2;
 		this.y = GameSettings.HEIGHT / 2 - height / 2;
-		this.velX = -3.0 / GameManager.ScaleX;
-		this.velY = -5.0 / GameManager.ScaleY;
+		this.velX = -3.0;
+		this.velY = -5.0;
 		this.countView = new Rectangle(x, y, this.width, this.height);
 		this.countView.setFill(GameImageBank.count_three);
 		this.game.setStateID(GameStateID.COUNT_DOWN);
@@ -94,12 +94,12 @@ public class CountDownScreen {
 		this.lifeTime = 1.0;
 		this.expireTime = 1.0;
 		this.fadeTime = 0.032 / expireTime;
-		this.panVelocityX = 6.5 / GameManager.ScaleX;
-		this.panVelocityY = 10.0 / GameManager.ScaleY;
+		this.panVelocityX = 6.5;
+		this.panVelocityY = 10.0;
 		this.x = (GameSettings.WIDTH / 2 - baseWidth / 2);
-		this.y = (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(80);
-		this.velX = -1.0 / GameManager.ScaleX;
-		this.velY = -2.0 / GameManager.ScaleY;
+		this.y = (GameSettings.HEIGHT / 2 - baseHeight / 2)-80;
+		this.velX = -1.0;
+		this.velY = -2.0;
 		this.width = baseWidth;
 		this.height = baseHeight;
 		this.countView.setX(x);
@@ -282,16 +282,16 @@ public class CountDownScreen {
 		allowHide = true;
 		allowPan = true;
 		x = (double) (GameSettings.WIDTH / 2 - baseWidth / 2);
-		y = (double) (GameSettings.HEIGHT / 2 - baseHeight / 2)-GameManager.ScaleY(80);
+		y = (double) (GameSettings.HEIGHT / 2 - baseHeight / 2)-80;
 		if (lastCount) {
 			game.getScoreKeeper().swipeUp();
 			game.getGameHud().hideHUDCover();
 			game.setStateID(GameStateID.GAMEPLAY);
 			game.getScoreKeeper().startTimer();
-			height = baseHeight - GameManager.ScaleY(60);
-			width = baseWidth + GameManager.ScaleX(180);
+			height = baseHeight - 60;
+			width = baseWidth + 180;
 			x = (double) (GameSettings.WIDTH / 2 - width / 2);
-			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-GameManager.ScaleY(20);
+			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-20;
 			countView.setWidth(width);
 			countView.setHeight(height);
 			countView.setX(x);

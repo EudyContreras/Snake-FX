@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.UserInterface;
 
 import java.util.LinkedList;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 
 import javafx.geometry.Pos;
@@ -32,19 +31,19 @@ public class CustomMenuBox {
 	 * @param alignment
 	 */
 	public CustomMenuBox(double width, double height, int spacing, Paint fill, Pos alignment) {
-		this.width = GameManager.ScaleX(width);
-		this.height = GameManager.ScaleY(height);
-		this.background = new Rectangle(GameManager.ScaleX(width), GameManager.ScaleY(height));
+		this.width = width;
+		this.height = height;
+		this.background = new Rectangle(width, height);
 		this.background.setStyle(MenuButtonStyles.MENU_BOX_STYLE);
 		this.background.setFill(Color.BLACK);
 		this.background.setArcHeight(50);
 		this.background.setArcWidth(50);
-		this.menuBox = new VBox(GameManager.ScaleX_Y(spacing));
+		this.menuBox = new VBox(spacing);
 		this.menuBox.setAlignment(alignment);
 		this.pane = new StackPane();
 		this.buttonList = new LinkedList<CustomMenuButton>();
-		this.pane.setTranslateX(GameSettings.WIDTH / 2 - GameManager.ScaleX(width));
-		this.pane.setTranslateY(GameSettings.HEIGHT / 2 - GameManager.ScaleY(height));
+		this.pane.setTranslateX(GameSettings.WIDTH / 2 - width);
+		this.pane.setTranslateY(GameSettings.HEIGHT / 2 - height);
 		this.pane.getChildren().addAll(background, menuBox);
 	}
 
@@ -89,18 +88,18 @@ public class CustomMenuBox {
 	}
 
 	public void setMenuBoxSize(double width, double height) {
-		this.background.setWidth(GameManager.ScaleX(width));
-		this.background.setHeight(GameManager.ScaleY(height));
+		this.background.setWidth(width);
+		this.background.setHeight(height);
 	}
 
 	public void setMenuBoxCoordinates(double x, double y) {
-		this.pane.setTranslateX(GameManager.ScaleX(x));
-		this.pane.setTranslateY(GameManager.ScaleY(y));
+		this.pane.setTranslateX(x);
+		this.pane.setTranslateY(y);
 	}
 
 	public void setMenuBoxOffset(double offsetX, double offsetY) {
-		this.pane.setTranslateX((GameSettings.WIDTH / 2 - width / 2) + GameManager.ScaleX(offsetX));
-		this.pane.setTranslateY((GameSettings.HEIGHT / 2 - height / 2) + GameManager.ScaleY(offsetY));
+		this.pane.setTranslateX((GameSettings.WIDTH / 2 - width / 2) + offsetX);
+		this.pane.setTranslateY((GameSettings.HEIGHT / 2 - height / 2) + offsetY);
 	}
 
 	public void setMenuBoxBackground(Paint fill) {

@@ -86,8 +86,8 @@ public class VictoryScreen extends AbstractHudElement {
 		this.overlay = game.getOverlayEffect();
 		this.scoreLayer = new Pane();
 		this.baseBoardImage = boardImage;
-		this.width = GameManager.ScaleX(width);
-		this.height = GameManager.ScaleY(height);
+		this.width = width;
+		this.height = height;
 		this.borderGlow = new DropShadow();
 		this.borderGlow.setOffsetY(0f);
 		this.borderGlow.setOffsetX(0f);
@@ -113,18 +113,18 @@ public class VictoryScreen extends AbstractHudElement {
 		mainGameBoard.setFitHeight(height);
 		mainGameBoard.setImage(baseBoardImage);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		mainGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2 - GameManager.ScaleY(30));
+		mainGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2 - 30);
 		scoreScreen = new LocalScoreScreen(game, 0, 0, 0, 0, scoreLayer);
 		continue_btt = new ImageView(GameImageBank.continue_button);
 		quitGame_btt = new ImageView(GameImageBank.quit_button);
 		restart_btt = new ImageView(GameImageBank.restart_button);
 		optionsBoard = new ImageView(GameImageBank.options_board);
-		optionsBoard.setFitWidth(GameManager.ScaleX(800));
-		optionsBoard.setFitHeight(GameManager.ScaleY(450) / 4);
-		continue_btt.setFitWidth(GameManager.ScaleX(240));
-		continue_btt.setFitHeight(GameManager.ScaleY(70));
-		quitGame_btt.setFitWidth(GameManager.ScaleX(240));
-		quitGame_btt.setFitHeight(GameManager.ScaleY(70));
+		optionsBoard.setFitWidth(800);
+		optionsBoard.setFitHeight(450 / 4);
+		continue_btt.setFitWidth(240);
+		continue_btt.setFitHeight(70);
+		quitGame_btt.setFitWidth(240);
+		quitGame_btt.setFitHeight(70);
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
 		restart_btt.setFitHeight(quitGame_btt.getFitHeight());
 		scoreLayer.getChildren().addAll(baseGameBoard, mainGameBoard, optionsBoard, continue_btt, quitGame_btt, restart_btt);
@@ -465,7 +465,7 @@ public class VictoryScreen extends AbstractHudElement {
 	public void swipeRight() {
 		if (swipeRight == true) {
 			optionsBoard.setX(confirmX);
-			confirmX += confirmXPosition / GameManager.ScaleX;
+			confirmX += confirmXPosition ;
 			confirmXPosition += acceleration;
 			if (center) {
 				acceleration -= 0.80;
@@ -478,8 +478,8 @@ public class VictoryScreen extends AbstractHudElement {
 					}
 
 				}
-				if (confirmX >= GameSettings.WIDTH / 2 - GameManager.ScaleX(800) / 2) {
-					confirmX = GameSettings.WIDTH / 2 - GameManager.ScaleX(800) / 2;
+				if (confirmX >= GameSettings.WIDTH / 2 - 800 / 2) {
+					confirmX = GameSettings.WIDTH / 2 - 800 / 2;
 					optionsBoard.setX(confirmX);
 					confirmXPosition = 0;
 					acceleration = 0;
@@ -489,12 +489,12 @@ public class VictoryScreen extends AbstractHudElement {
 					processKeyHandling();
 				}
 			}
-			continue_btt.setX(optionsBoard.getX() + 20 / GameManager.ScaleX);
-			continue_btt.setY(optionsBoard.getY() + 20 / GameManager.ScaleY);
+			continue_btt.setX(optionsBoard.getX() + 20 );
+			continue_btt.setY(optionsBoard.getY() + 20);
 			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()
-					- 20 / GameManager.ScaleX);
-			quitGame_btt.setY(optionsBoard.getY() + 20 / GameManager.ScaleY);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth() + 23 / GameManager.ScaleX);
+					- 20 );
+			quitGame_btt.setY(optionsBoard.getY() + 20);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth() + 23 );
 			restart_btt.setY(continue_btt.getY());
 		}
 	}
@@ -504,8 +504,8 @@ public class VictoryScreen extends AbstractHudElement {
 			positionScoreScreen();
 			baseGameBoard.setX(confirmXTwo);
 			optionsBoard.setX(confirmX);
-			confirmX -= confirmXPosition / GameManager.ScaleX;
-			confirmXTwo -= confirmXPosition / GameManager.ScaleX;
+			confirmX -= confirmXPosition ;
+			confirmXTwo -= confirmXPosition ;
 			confirmXPosition += acceleration;
 			if (center) {
 				acceleration -= 0.50;
@@ -689,9 +689,9 @@ public class VictoryScreen extends AbstractHudElement {
 	 */
 	private void processPlayerScores() {
 		scoreScreen.setScores();
-		scoreScreen.relocateScoreOne(mainGameBoard.getX() + GameManager.ScaleX(135),
+		scoreScreen.relocateScoreOne(mainGameBoard.getX() + 135,
 				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + GameManager.ScaleX(25),
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + 25,
 				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
 	}
 
@@ -700,9 +700,9 @@ public class VictoryScreen extends AbstractHudElement {
 	 * at a desired location relative to the board element of this class
 	 */
 	private void positionScoreScreen() {
-		scoreScreen.relocateScoreOne(mainGameBoard.getX() + GameManager.ScaleX(135),
+		scoreScreen.relocateScoreOne(mainGameBoard.getX() + 135,
 				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + GameManager.ScaleX(25),
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + 25,
 				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
 	}
 

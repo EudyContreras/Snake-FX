@@ -1,6 +1,5 @@
  package com.EudyContreras.Snake.Utilities;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 
 import javafx.scene.Node;
@@ -57,7 +56,7 @@ public class ImageEffectUtility {
 		view.setEffect(null);
 		lighting.setContentInput(null);
 		shadow.setInput(null);
-		shadow.setBlurType(BlurType.THREE_PASS_BOX);
+		shadow.setBlurType(BlurType.TWO_PASS_BOX);
 	}
 	public static synchronized Image precreatedLightedImage(String path, double diffused, double specularMap, double width,
 			double height) {
@@ -85,9 +84,9 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.8));
-		shadow.setRadius(GameManager.ScaleX_Y(15));
-		shadow.setOffsetX(GameManager.ScaleX(20));
-		shadow.setOffsetY(GameManager.ScaleY(-15));
+		shadow.setRadius(15);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(shadow);
 		view.setFitWidth(width);
@@ -98,7 +97,6 @@ public class ImageEffectUtility {
 
 	public static synchronized Image precreatedLightedAndShadedImage(String path, double diffused, double specularMap, double width,
 			double height) {
-		resetInputeffects();
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view = new ImageView(img);
@@ -118,10 +116,10 @@ public class ImageEffectUtility {
 		lighting.setSpecularConstant(specularMap);
 		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
-		shadow.setRadius(GameManager.ScaleX_Y(20));
-		shadow.setOffsetX(GameManager.ScaleX(20));
-		shadow.setOffsetY(GameManager.ScaleY(-15));
+		shadow.setColor(Color.rgb(0, 0, 0, 0.65));
+		shadow.setRadius(25);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -143,9 +141,9 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
-		shadow.setRadius(GameManager.ScaleX_Y(20));
-		shadow.setOffsetX(GameManager.ScaleX(20));
-		shadow.setOffsetY(GameManager.ScaleY(-15));
+		shadow.setRadius(20);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -167,9 +165,9 @@ public class ImageEffectUtility {
 		lighting.setSurfaceScale(5.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
-		shadow.setRadius(GameManager.ScaleX_Y(5));
-		shadow.setOffsetX(GameManager.ScaleX(20));
-		shadow.setOffsetY(GameManager.ScaleY(-15));
+		shadow.setRadius(5);
+		shadow.setOffsetX(20);
+		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -207,8 +205,8 @@ public class ImageEffectUtility {
 		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(8.0);
 		blur.setIterations(2);
-		blur.setWidth(GameManager.ScaleX(10));
-		blur.setHeight(GameManager.ScaleY(10));
+		blur.setWidth(10);
+		blur.setHeight(0);
 		lighting.setContentInput(blur);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
@@ -222,8 +220,8 @@ public class ImageEffectUtility {
 		shadow.setColor(Color.rgb(0, 0, 0, 0.0));
 		shadow.setRadius(0);
 		shadow.setBlurType(BlurType.ONE_PASS_BOX);
-		shadow.setHeight(GameManager.ScaleX_Y(radius*5));
-		shadow.setWidth(GameManager.ScaleX_Y(radius*5));
+		shadow.setHeight(radius*5);
+		shadow.setWidth(radius*5);
 		shadow.setOffsetX(0);
 		shadow.setOffsetY(0);
 		circle.setEffect(shadow);

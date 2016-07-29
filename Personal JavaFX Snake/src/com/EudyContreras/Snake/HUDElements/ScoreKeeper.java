@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractHudElement;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.HUDElements.GameTimer.TimerStyle;
@@ -85,13 +84,13 @@ public class ScoreKeeper extends AbstractHudElement{
 	 * are used by this class and all the sub elements of those texts.
 	 */
 	private void setupText(){
-		this.yOne = GameManager.ScaleY(10);
-		this.yTwo = GameManager.ScaleY(0);
-		this.baseY = yTwo+GameManager.ScaleY(5);
-		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), GameManager.ScaleX(15));
+		this.yOne = 10;
+		this.yTwo = 0;
+		this.baseY = yTwo+5;
+		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-80, 15);
 		this.countText.setX(xTwo + (widthOne*0.52));
-		this.countText.setY(yOne+GameManager.ScaleY(45));
-		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, GameManager.ScaleX(38)));
+		this.countText.setY(yOne+45);
+		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, 38));
         this.dropShadowTwo = new DropShadow();
         this.dropShadowTwo.setColor(Color.RED);
         this.dropShadowTwo.setRadius(20);
@@ -100,23 +99,23 @@ public class ScoreKeeper extends AbstractHudElement{
         this.countText.setEffect(dropShadowTwo);
         this.countText.setId("MainScore");
 		this.board.setY(yTwo);
-		this.apple.setY(yOne + GameManager.ScaleY(5));
-		this.countText.setY(yOne+GameManager.ScaleY(48));
+		this.apple.setY(yOne + 5);
+		this.countText.setY(yOne+48);
         this.singlePlayerInfo();
 
 	}
 	public void multiplayerInfo(){
 		APPLE_COUNT = count;
-		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 690 / 2);
-		this.widthOne = GameManager.ScaleX(690);
-		this.heightOne = GameManager.ScaleY(85);
+		this.xTwo = GameSettings.WIDTH / 2 -  690 / 2;
+		this.widthOne = 690;
+		this.heightOne = 85;
 		this.board.setFill(multipLayer);
 		this.board.setX(xTwo);
 		this.board.setWidth(widthOne);
 		this.board.setHeight(heightOne);
-		this.apple.setX(xTwo + GameManager.ScaleX(690)*0.43);
-		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
+		this.apple.setX(xTwo + 690*0.43);
+		this.apple.setFitWidth(55);
+		this.apple.setFitHeight(55);
 		this.apple.setImage(GameImageBank.apple);
 		this.countText.setX(xTwo + (widthOne*0.51));
 		this.processCount();
@@ -124,16 +123,16 @@ public class ScoreKeeper extends AbstractHudElement{
 
 	public void singlePlayerInfo(){
 		this.initialAmount = 0;
-		this.xTwo = GameSettings.WIDTH / 2 - GameManager.ScaleX( 690 / 2);
-		this.widthOne = GameManager.ScaleX(690);
-		this.heightOne = GameManager.ScaleY(90);
+		this.xTwo = GameSettings.WIDTH / 2 -  690 / 2;
+		this.widthOne = 690;
+		this.heightOne = 90;
 		this.board.setFill(singlePlayer);
 		this.board.setX(xTwo);
 		this.board.setWidth(widthOne);
 		this.board.setHeight(heightOne);
-		this.apple.setX(xTwo + GameManager.ScaleX(690)*0.52);
-		this.apple.setFitWidth(55 / GameLoader.ResolutionScaleX);
-		this.apple.setFitHeight(55 / GameLoader.ResolutionScaleY);
+		this.apple.setX(xTwo + 690*0.52);
+		this.apple.setFitWidth(55);
+		this.apple.setFitHeight(55);
 		this.apple.setImage(GameImageBank.apple_alt);
 		this.countText.setX(xTwo + (widthOne*0.63));
 	}
@@ -168,11 +167,11 @@ public class ScoreKeeper extends AbstractHudElement{
 	 * to the movement of the main HUD.
 	 */
 	private void updatePositions() {
-		yTwo = yTwo + swipeSpeed/GameManager.ScaleY;
-		yOne = yOne + swipeSpeed/GameManager.ScaleY;
+		yTwo = yTwo + swipeSpeed;
+		yOne = yOne + swipeSpeed;
 		if (swipeDown) {
 			swipeSpeed = 2.8f;
-			if (yTwo > GameManager.ScaleY(110)) {
+			if (yTwo > 110) {
 				swipeSpeed = 0;
 			}
 		}
@@ -183,9 +182,9 @@ public class ScoreKeeper extends AbstractHudElement{
 			}
 		}
 		this.board.setY(yTwo);
-		this.apple.setY(yOne + GameManager.ScaleY(7));
-		this.countText.setY(yOne+GameManager.ScaleY(48));
-		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-GameManager.ScaleX(80), yOne + GameManager.ScaleX(5));
+		this.apple.setY(yOne + 7);
+		this.countText.setY(yOne+48);
+		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-80, yOne + 5);
 	}
 	/**
 	 * Method which shows or hide the board

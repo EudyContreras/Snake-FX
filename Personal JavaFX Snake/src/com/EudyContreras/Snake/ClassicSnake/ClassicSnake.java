@@ -35,7 +35,7 @@ public class ClassicSnake extends AbstractObject {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
-	private double accelaration = 0.5/GameManager.ScaleX_ScaleY;
+	private double accelaration = 0.5;
 	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
 	private double normalSpeed = GameSettings.CLASSIC_SNAKE_SPEED;
 	private double maxSpeed = GameSettings.CLASSIC_SNAKE_SPEED*2.5;

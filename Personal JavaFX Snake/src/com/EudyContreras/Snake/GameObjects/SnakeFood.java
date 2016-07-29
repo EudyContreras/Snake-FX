@@ -5,7 +5,6 @@ import java.util.Random;
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
@@ -211,7 +210,7 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void lookAtMe() {
 		if (minSize) {
-			size += (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
+			size += (0.5 * GameSettings.FRAME_SCALE);
 			circle.setRadius(size);
 			if (size >= targetSize + 10) {
 				minSize = false;
@@ -219,7 +218,7 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 		if (maxSize) {
-			size -= (0.5 * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
+			size -= (0.5 * GameSettings.FRAME_SCALE);
 			circle.setRadius(size);
 			if (size <= targetSize - 5) {
 				maxSize = false;
@@ -451,10 +450,8 @@ public class SnakeFood extends AbstractObject {
 	public void blowUp() {
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
-				particleSize = (Math.random() * (20 - 5 + 1) + 5)
-						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5)
-						/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+				particleSize = (Math.random() * (20 - 5 + 1) + 5);
+				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5);
 			}
 			game.getDebrisManager().addDebris(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
@@ -485,11 +482,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounce(PlayerOne snake, double x, double y) {
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleY;
+			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 		else {
 			this.velY = (float) (snake.getVelY()) * 9.5;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleX;
+			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 	}
 
@@ -503,11 +500,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounce(PlayerTwo snake, double x, double y) {
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleY;
+			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 		else {
 			this.velY = (float) (snake.getVelY()) * 9.5;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleX;
+			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 	}
 
@@ -521,11 +518,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounce(AbstractSection snake, double x, double y) {
 		if (snake.getVelX() > 0) {
 			this.velX = (float) (snake.getVelX()) * 8;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleY;
+			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 		if (snake.getVelY() > 0) {
 			this.velY = (float) (snake.getVelY()) * 8;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleX;
+			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 	}
 	public Bounds getRadialBounds() {
@@ -548,11 +545,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounceBack(AbstractSection section) {
 		if (section.getVelX() > 0 || section.getVelX() < 0) {
 			velX = -Math.abs(velX) + section.getVelX()*1.2;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleY;
+			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 		else{
 			velY = -Math.abs(velY) + section.getVelY()*1.2;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12)/GameManager.ScaleX;
+			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
 		}
 	}
 	/**
