@@ -76,8 +76,8 @@ public class GameOverScreen {
 		this.overlay = game.getOverlayEffect();
 		this.scoreLayer = new Pane();
 		this.boardImage = boardImage;
-		this.width = GameManager.ScaleX(width);
-		this.height = GameManager.ScaleY(height);
+		this.width = width;
+		this.height = height;
 		this.borderGlow = new DropShadow();
 		this.borderGlow.setOffsetY(0f);
 		this.borderGlow.setOffsetX(0f);
@@ -106,10 +106,10 @@ public class GameOverScreen {
 		baseGameBoard.setImage(boardImage);
 		baseGameBoard.setY(GameSettings.HEIGHT / 2 - mainGameBoard.getFitHeight() / 2);
 		scoreLayer.setPrefSize(GameSettings.WIDTH, GameSettings.HEIGHT);
-		optionsBoard.setFitWidth(GameManager.ScaleX(830));
-		optionsBoard.setFitHeight((GameManager.ScaleY(460)/4));
-		continue_btt.setFitWidth(GameManager.ScaleX(250));
-		continue_btt.setFitHeight(GameManager.ScaleY(80));
+		optionsBoard.setFitWidth(830);
+		optionsBoard.setFitHeight((460)/4);
+		continue_btt.setFitWidth(250);
+		continue_btt.setFitHeight(80);
 		quitGame_btt.setFitWidth(continue_btt.getFitWidth());
 		quitGame_btt.setFitHeight(continue_btt.getFitHeight());
 		restart_btt.setFitWidth((continue_btt.getFitWidth()));
@@ -118,11 +118,11 @@ public class GameOverScreen {
 		confirmXTwo = (float) (0 - optionsBoard.getFitWidth() - 100);
 		baseGameBoard.setX(confirmX);
 		optionsBoard.setX(confirmXTwo);
-		continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
-		continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-		quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-		quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+		continue_btt.setX(optionsBoard.getX()+20);
+		continue_btt.setY(optionsBoard.getY()+20);
+		quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20);
+		quitGame_btt.setY(optionsBoard.getY()+20);
+		restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23);
 		restart_btt.setY(continue_btt.getY());
 		scoreLayer.getChildren().addAll(baseGameBoard,mainGameBoard,optionsBoard, continue_btt, quitGame_btt, restart_btt);
 		baseGameBoard.setVisible(false);
@@ -427,8 +427,8 @@ public class GameOverScreen {
 		if (swipeRight == true) {
 			baseGameBoard.setX(confirmX);
 			optionsBoard.setX(confirmXTwo);
-			confirmX += confirmXPosition/GameManager.ScaleX;
-			confirmXTwo += confirmXPosition/GameManager.ScaleX;
+			confirmX += confirmXPosition;
+			confirmXTwo += confirmXPosition;
 			confirmXPosition += acceleration*1.05;
 			if (center) {
 				acceleration -= 1.00;
@@ -465,11 +465,11 @@ public class GameOverScreen {
 					optionsBoard.setX(confirmXTwo);
 				}
 			}
-			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
-			continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-			quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+			continue_btt.setX(optionsBoard.getX()+20);
+			continue_btt.setY(optionsBoard.getY()+20);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20);
+			quitGame_btt.setY(optionsBoard.getY()+20);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23);
 			restart_btt.setY(continue_btt.getY());
 		}
 	}
@@ -480,8 +480,8 @@ public class GameOverScreen {
 			baseGameBoard.setX(confirmX);
 			mainGameBoard.setX(confirmX);
 			optionsBoard.setX(confirmXTwo);
-			confirmX -= confirmXPosition/GameManager.ScaleX;
-			confirmXTwo -= confirmXPosition/GameManager.ScaleX;
+			confirmX -= confirmXPosition;
+			confirmXTwo -= confirmXPosition;
 			confirmXPosition += acceleration;
 			if (center) {
 				acceleration -= 0.50;
@@ -506,11 +506,11 @@ public class GameOverScreen {
 					center = false;
 				}
 			}
-			continue_btt.setX(optionsBoard.getX()+20/GameManager.ScaleX);
-			continue_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20/GameManager.ScaleX);
-			quitGame_btt.setY(optionsBoard.getY()+20/GameManager.ScaleY);
-			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23/GameManager.ScaleX);
+			continue_btt.setX(optionsBoard.getX()+20);
+			continue_btt.setY(optionsBoard.getY()+20);
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()-20);
+			quitGame_btt.setY(optionsBoard.getY()+20);
+			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth()+23);
 			restart_btt.setY(continue_btt.getY());
 		}
 	}
@@ -599,8 +599,8 @@ public class GameOverScreen {
 	 */
 	private void processPlayerScores(){
 		scoreScreen.setScores();
-		scoreScreen.relocateScoreOne(mainGameBoard.getX()+GameManager.ScaleX(135), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+GameManager.ScaleX(25), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreOne(mainGameBoard.getX()+135, mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+25, mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
 	}
 	/**
 	 * Method which updates the position of the local score
@@ -608,8 +608,8 @@ public class GameOverScreen {
 	 * element of this class
 	 */
 	private void positionScoreScreen(){
-		scoreScreen.relocateScoreOne(mainGameBoard.getX()+GameManager.ScaleX(135), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+GameManager.ScaleX(25), mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreOne(mainGameBoard.getX()+135, mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX()+mainGameBoard.getFitWidth()/2+25, mainGameBoard.getY()+mainGameBoard.getFitHeight()/1.3);
 	}
 	/**
 	 * Method which updates teh position of the various UI elements
@@ -669,8 +669,8 @@ public class GameOverScreen {
 	 */
 	private void resetBoard() {
 		game.getGameRoot().setEffect(null);
-		confirmX = 0 - baseGameBoard.getFitWidth() - GameManager.ScaleX(50);
-		confirmXTwo = 0 - optionsBoard.getFitWidth() - GameManager.ScaleX(100);
+		confirmX = 0 - baseGameBoard.getFitWidth() - 50;
+		confirmXTwo = 0 - optionsBoard.getFitWidth() - 100;
 		optionsBoard.setX(confirmXTwo);
 		baseGameBoard.setX(confirmX);
 		mainGameBoard.setOpacity(0);

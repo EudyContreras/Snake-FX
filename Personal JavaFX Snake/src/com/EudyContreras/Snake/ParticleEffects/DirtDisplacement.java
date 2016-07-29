@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.ParticleEffects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
@@ -15,7 +14,7 @@ import javafx.scene.paint.ImagePattern;
 public class DirtDisplacement extends AbstractParticlesEffect {
 
 	private GameDebrisID id;
-	private double radius = Math.random() * (3.5 - 1 + 1) + 1 / (GameLoader.ResolutionScaleX);
+	private double radius = Math.random() * (3.5 - 1 + 1) + 1;
 	private double decay;
 	private double lifeTime = 1.0f;
 	private double energyLoss = 0.9;
@@ -27,8 +26,8 @@ public class DirtDisplacement extends AbstractParticlesEffect {
 		this.view.setFitWidth(radius*2);
 		this.view.setFitHeight(radius*2);
 		this.decay = 0.026/expireTime;
-		this.velX = (double) velocity.getX() / (GameLoader.ResolutionScaleX)*0.8;
-		this.velY = (double) velocity.getY() / (GameLoader.ResolutionScaleX)*0.8;
+		this.velX = (double) velocity.getX()*0.8;
+		this.velY = (double) velocity.getY()*0.8;
 		this.layer = game.getDebrisLayer();
 		this.x = x;
 		this.y = y;

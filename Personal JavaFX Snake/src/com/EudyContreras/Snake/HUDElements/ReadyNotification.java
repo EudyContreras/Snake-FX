@@ -43,8 +43,8 @@ public class ReadyNotification {
 	 */
 	public ReadyNotification(GameManager game, double width, double height, Pane layer) {
 		this.game = game;
-		this.width = width / GameManager.ScaleX;
-		this.height = height / GameManager.ScaleY;
+		this.width = width;
+		this.height = height;
 		this.layer = layer;
 		this.initialize();
 		this.position();
@@ -59,7 +59,7 @@ public class ReadyNotification {
 	}
 	private void position(){
 		this.x = GameSettings.WIDTH/2 - readyView.getFitWidth()/2;
-		this.y = GameManager.ScaleY(10);
+		this.y = 10;
 		this.readyView.setTranslateX(x);
 		this.readyView.setTranslateY(y);
 	}

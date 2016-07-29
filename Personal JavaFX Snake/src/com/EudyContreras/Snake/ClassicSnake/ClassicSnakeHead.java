@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.ClassicSnake;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
@@ -40,7 +39,7 @@ public class ClassicSnakeHead extends AbstractObject {
 		this.game = game;
 		this.game.getClassicSnakeManager();
 		this.text = new Text();
-		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Plain", FontWeight.BOLD, 18);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
 		this.text.setText(GameSettings.PLAYER_ONE_NAME);

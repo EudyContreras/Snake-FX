@@ -1,7 +1,6 @@
 
 package com.EudyContreras.Snake.AbstractModels;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 
 import javafx.scene.image.Image;
@@ -68,33 +67,33 @@ public abstract class AbstractHudElement {
 	protected Rectangle rectFour;
 
 	public void move() {
-		xOne = (xOne + (velXOne * GameSettings.FRAME_SCALE)) / GameManager.ScaleX;
-		yOne = (yOne + (velYOne * GameSettings.FRAME_SCALE)) / GameManager.ScaleY;
-		rOne = (rOne + (velROne * GameSettings.FRAME_SCALE)) / GameManager.ScaleX_ScaleY;
-		xTwo = (xTwo + (velXTwo * GameSettings.FRAME_SCALE)) / GameManager.ScaleX;
-		yTwo = (yTwo + (velYTwo * GameSettings.FRAME_SCALE)) / GameManager.ScaleY;
-		rTwo = (rTwo + (velRTwo * GameSettings.FRAME_SCALE)) / GameManager.ScaleX_ScaleY;
-		xThree = (xThree + (velXThree * GameSettings.FRAME_SCALE)) / GameManager.ScaleX;
-		yThree = (yThree + (velYThree * GameSettings.FRAME_SCALE)) / GameManager.ScaleY;
-		rThree = (rThree + (velRThree * GameSettings.FRAME_SCALE)) / GameManager.ScaleX_ScaleY;
-		xFour = (xFour + (velXFour * GameSettings.FRAME_SCALE)) / GameManager.ScaleX;
-		yFour = (yFour + (velYFour * GameSettings.FRAME_SCALE)) / GameManager.ScaleY;
-		rFour = (rFour + (velRFour * GameSettings.FRAME_SCALE)) / GameManager.ScaleX_ScaleY;
+		xOne = (xOne + (velXOne * GameSettings.FRAME_SCALE)) ;
+		yOne = (yOne + (velYOne * GameSettings.FRAME_SCALE)) ;
+		rOne = (rOne + (velROne * GameSettings.FRAME_SCALE)) ;
+		xTwo = (xTwo + (velXTwo * GameSettings.FRAME_SCALE)) ;
+		yTwo = (yTwo + (velYTwo * GameSettings.FRAME_SCALE)) ;
+		rTwo = (rTwo + (velRTwo * GameSettings.FRAME_SCALE)) ;
+		xThree = (xThree + (velXThree * GameSettings.FRAME_SCALE)) ;
+		yThree = (yThree + (velYThree * GameSettings.FRAME_SCALE)) ;
+		rThree = (rThree + (velRThree * GameSettings.FRAME_SCALE)) ;
+		xFour = (xFour + (velXFour * GameSettings.FRAME_SCALE)) ;
+		yFour = (yFour + (velYFour * GameSettings.FRAME_SCALE)) ;
+		rFour = (rFour + (velRFour * GameSettings.FRAME_SCALE)) ;
 	}
 
 	public void scale() {
-		widthOne = (widthOne * GameSettings.SIZE_SCALE) / GameManager.ScaleX;
-		heightOne = (heightOne * GameSettings.SIZE_SCALE) / GameManager.ScaleY;
-		radiusOne = (radiusOne * GameSettings.SIZE_SCALE) / GameManager.ScaleX_ScaleY;
-		widthTwo = (widthTwo * GameSettings.SIZE_SCALE) / GameManager.ScaleX;
-		heightTwo = (heightTwo * GameSettings.SIZE_SCALE) / GameManager.ScaleY;
-		radiusTwo = (radiusTwo * GameSettings.SIZE_SCALE) / GameManager.ScaleX_ScaleY;
-		widthThree = (widthThree * GameSettings.SIZE_SCALE) / GameManager.ScaleX;
-		heightThree = (heightThree * GameSettings.SIZE_SCALE) / GameManager.ScaleY;
-		radiusThree = (radiusThree * GameSettings.SIZE_SCALE) / GameManager.ScaleX_ScaleY;
-		widthFour = (widthFour * GameSettings.SIZE_SCALE) / GameManager.ScaleX;
-		heightFour = (heightFour * GameSettings.SIZE_SCALE) / GameManager.ScaleY;
-		radiusFour = (radiusFour * GameSettings.SIZE_SCALE) / GameManager.ScaleX_ScaleY;
+		widthOne = (widthOne * GameSettings.SIZE_SCALE) ;
+		heightOne = (heightOne * GameSettings.SIZE_SCALE) ;
+		radiusOne = (radiusOne * GameSettings.SIZE_SCALE) ;
+		widthTwo = (widthTwo * GameSettings.SIZE_SCALE) ;
+		heightTwo = (heightTwo * GameSettings.SIZE_SCALE) ;
+		radiusTwo = (radiusTwo * GameSettings.SIZE_SCALE) ;
+		widthThree = (widthThree * GameSettings.SIZE_SCALE) ;
+		heightThree = (heightThree * GameSettings.SIZE_SCALE) ;
+		radiusThree = (radiusThree * GameSettings.SIZE_SCALE) ;
+		widthFour = (widthFour * GameSettings.SIZE_SCALE) ;
+		heightFour = (heightFour * GameSettings.SIZE_SCALE) ;
+		radiusFour = (radiusFour * GameSettings.SIZE_SCALE) ;
 	}
 
 	public void updateUI() {

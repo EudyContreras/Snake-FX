@@ -28,6 +28,7 @@ import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 
 /**
@@ -40,7 +41,7 @@ import javafx.stage.Screen;
  */
 public class GameLoader extends AbstractLoaderModel{
 
-
+	public static Scale scaleFactor;
 
 	public GameLoader(GameManager game) {
 		this.game = game;
@@ -64,22 +65,24 @@ public class GameLoader extends AbstractLoaderModel{
 	/**
 	 * Method which creates a resolution scale base on the systems's current resolution
 	 */
-	public static void scaleResolution(double scaleX, double scaleY, boolean manualScaling) {
+	public static void scaleResolution() {
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();
 		double resolutionY = Screen.getPrimary().getBounds().getHeight();
+
 		double baseResolutionX = 1920;
 		double baseResolutionY = 1080;
-		ResolutionScaleX = baseResolutionX / resolutionX;
-		ResolutionScaleY = baseResolutionY / resolutionY;
 
-		if(manualScaling==true){
-			ResolutionScaleX = ResolutionScaleX*scaleX;
-			ResolutionScaleY = ResolutionScaleY*scaleY;
-			FullScreen = false;
-		}
+		ResolutionScaleX = resolutionX / baseResolutionX ;
+		ResolutionScaleY = resolutionY / baseResolutionY ;
+		
+		scaleFactor = new Scale(ResolutionScaleX, ResolutionScaleY);
+
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
 
+	}
+	public void setScale(Scale scaleFactor){
+		game.getScene().getRoot().getTransforms().setAll(scaleFactor);
 	}
 	/**
 	 * Method which will attempt to scale the speed and the size of the snake according
@@ -135,10 +138,13 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 
 	public static void scalePlayerSize() {
+
 		int newSizeOne = (int) (GameSettings.PLAYER_ONE_SIZE / GameLoader.ResolutionScaleX);
 		int newSizeTwo = (int) (GameSettings.PLAYER_TWO_SIZE / GameLoader.ResolutionScaleX);
+
 		GameSettings.PLAYER_ONE_SIZE = newSizeOne;
 		GameSettings.PLAYER_TWO_SIZE = newSizeTwo;
+
 		System.out.println("new player radius: " + GameSettings.PLAYER_ONE_SIZE );
 	}
 
@@ -363,7 +369,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnSnakeFood() {
-		Circle fruit = new Circle(GameManager.ScaleX_Y(30), new ImagePattern(GameImageBank.fruit));
+		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
 				+ fruit.getRadius() * 3);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.MIN_Y+fruit.getRadius() + 1)
@@ -376,9 +382,9 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnClassicSnakeFood() {
-		Circle fruit = new Circle(GameManager.ScaleX_Y(30), new ImagePattern(GameImageBank.apple_alt));
-		double x = RandomGenUtility.getRandomDouble(GameManager.ScaleX(60), (GameSettings.WIDTH - GameManager.ScaleX(90)));
-		double y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + GameManager.ScaleY(60), (GameSettings.HEIGHT - GameManager.ScaleY(90)));
+		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.apple_alt));
+		double x = RandomGenUtility.getRandomDouble(60, (GameSettings.WIDTH - 90));
+		double y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
 		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
@@ -429,10 +435,10 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Loads a no spawn zone used to prevent objects such as apples from spawning at a desire location
 	 */
 	public void loadNoSpawnZone(){
-		double width = 160/ResolutionScaleX;
-		double height = 200/ResolutionScaleY;
+		double width = 160;
+		double height = 200;
 		float x = (float)(GameSettings.WIDTH/2-width/2);
-		float y = (float)((GameSettings.HEIGHT/2-height/2)-15/ResolutionScaleY);
+		float y = (float)((GameSettings.HEIGHT/2-height/2)-15);
 		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.noSpawnZone);
 		getTileManager().addTile(noSpawnZone);
 		game.getDirtLayer().getChildren().add(noSpawnZone.getDebugBounds());

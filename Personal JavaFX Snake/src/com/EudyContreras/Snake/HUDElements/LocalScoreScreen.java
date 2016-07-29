@@ -39,9 +39,9 @@ public class LocalScoreScreen extends AbstractHudElement{
 	 */
 	public LocalScoreScreen(GameManager game, double xOne, double yOne, double xTwo, double yTwo, Pane layer){
 		this.layer = layer;
-		this.xOne = xOne/GameManager.ScaleX;
-		this.xTwo = xTwo/GameManager.ScaleX;
-		this.yOne = yOne/GameManager.ScaleY;
+		this.xOne = xOne;
+		this.xTwo = xTwo;
+		this.yOne = yOne;
 		this.boardOne = game.getScoreBoardOne();
 		this.boardTwo = game.getScoreBoardTwo();
 		this.initialize();
@@ -59,8 +59,8 @@ public class LocalScoreScreen extends AbstractHudElement{
 		this.playerOneScore.setY(yOne);
 		this.playerTwoScore.setX(xTwo);
 		this.playerTwoScore.setY(yTwo);
-		this.playerOneScore.setFont(Font.font(null,FontWeight.BOLD, GameManager.ScaleX(185)));
-		this.playerTwoScore.setFont( Font.font(null,FontWeight.BOLD, GameManager.ScaleX(185)));
+		this.playerOneScore.setFont(Font.font(null,FontWeight.BOLD, 185));
+		this.playerTwoScore.setFont( Font.font(null,FontWeight.BOLD, 185));
 		this.playerOneScore.setText(""+boardOne.getScore());
 		this.playerTwoScore.setText(""+boardTwo.getScore());
         this.dropShadowOne.setColor(Color.DODGERBLUE);

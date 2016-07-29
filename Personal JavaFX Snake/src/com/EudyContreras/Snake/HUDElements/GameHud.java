@@ -5,6 +5,7 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
+
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -52,17 +53,17 @@ public class GameHud {
 		this.shadow.setOffsetX(0);
 		this.shadow.setOffsetY(15);
 		this.topHudBar.setWidth(width);
-		this.topHudBar.setHeight(height+GameManager.ScaleY(50));
+		this.topHudBar.setHeight(height+50);
 		this.topHudBar.setTranslateX(x);
-		this.topHudBar.setTranslateY(y-GameManager.ScaleY(20));
+		this.topHudBar.setTranslateY(y-20);
 		this.bottomHudBar.setWidth(width);
-		this.bottomHudBar.setHeight(height+GameManager.ScaleY(50));
-		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(20);
+		this.bottomHudBar.setHeight(height+50);
+		this.yTwo = GameSettings.HEIGHT-bottomHudBar.getHeight()+20;
 		this.bottomHudBar.setTranslateX(x);
 		this.bottomHudBar.setTranslateY(yTwo);
 		this.bottomHudBar.setRotate(180);
 		this.mainBar.setWidth(GameSettings.WIDTH+5);
-		this.mainBar.setHeight(height-GameManager.ScaleY(20));
+		this.mainBar.setHeight(height-20);
 		this.mainBar.setTranslateX(-2);
 		this.mainBar.setTranslateY(-1);
 		this.mainBar.setEffect(shadow);
@@ -79,21 +80,21 @@ public class GameHud {
 	 *
 	 */
 	public void updateHudBars() {
-		yOne = yOne + swipeSpeedTop/GameManager.ScaleY;
-		yTwo = yTwo + swipeSpeedBottom/GameManager.ScaleY;
+		yOne = yOne + swipeSpeedTop;
+		yTwo = yTwo + swipeSpeedBottom;
 		if (showHUDCover) {
 			swipeSpeedTop = 2.8;
-			if (yOne > -GameManager.ScaleY(41)) {
+			if (yOne > -41) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = -2.8;
-			if (yTwo < GameSettings.HEIGHT-bottomHudBar.getHeight()+GameManager.ScaleY(35)) {
+			if (yTwo < GameSettings.HEIGHT-bottomHudBar.getHeight()+35) {
 				swipeSpeedBottom = 0;
 			}
 		}
 		if (hideHUDCover) {
 			swipeSpeedTop = -2.8;
-			if (yOne < 0 - (topHudBar.getHeight()-GameManager.ScaleY(17))) {
+			if (yOne < 0 - (topHudBar.getHeight()-17)) {
 				swipeSpeedTop = 0;
 			}
 			swipeSpeedBottom = 2.8;
@@ -107,19 +108,19 @@ public class GameHud {
 	}
 	public void updateMovement(){
 		hideY+=hideVelY;
-		if(hideY<-GameManager.ScaleY(80)){
+		if(hideY<-80){
 			this.stopMoving();
 		}
 		if(hideY >0){
 			hideY = 0;
 		}
-		this.mainBar.setTranslateY(GameManager.ScaleY(-1)+hideY);
+		this.mainBar.setTranslateY(-1+hideY);
 	}
 	public void moveUp(){
-		hideVelY = GameManager.ScaleX(-4);
+		hideVelY = -4;
 	}
 	public void moveDown(){
-		hideVelY = GameManager.ScaleX(4);
+		hideVelY = 4;
 	}
 	public void stopMoving(){
 		hideVelY = 0;

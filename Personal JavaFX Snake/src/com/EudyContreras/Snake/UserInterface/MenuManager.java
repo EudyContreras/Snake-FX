@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.UserInterface;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractMenuElement;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
@@ -59,14 +58,14 @@ public class MenuManager extends AbstractMenuElement{
 		glowLED = new DropShadow();
 		glowLED.setColor(Color.LIME);
 		glowLED.setBlurType(BlurType.GAUSSIAN);
-		glowLED.setRadius(GameManager.ScaleX_Y(25));
+		glowLED.setRadius(25);
 		glowLED.setSpread(0.3);
 		menuLogo.setFill(new ImagePattern(MenuImageBank.gameLogo));
 		menuLogo.setEffect(glowLED);
-		menuLogo.setWidth((MenuImageBank.gameLogo.getWidth()*1.3)/GameLoader.ResolutionScaleX);
-		menuLogo.setHeight((MenuImageBank.gameLogo.getHeight()*1.3)/GameLoader.ResolutionScaleY);
-		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2)-GameManager.ScaleX(520));
-		menuLogo.setY(GameManager.ScaleY(10));
+		menuLogo.setWidth((MenuImageBank.gameLogo.getWidth()*1.3));
+		menuLogo.setHeight((MenuImageBank.gameLogo.getHeight()*1.3));
+		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2)-520);
+		menuLogo.setY(10);
 	}
 	public void addMusic() {
 		music = GameAudio.getAudio("AudioResources/Jungle Loop.wav");

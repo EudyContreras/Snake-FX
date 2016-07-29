@@ -28,6 +28,25 @@ public class MultiplayerClient extends Observable {
 	 * allow this items to be generated symmetrically on both sides and at
 	 * parallel times.
 	 *
+	 *
+	 *  7/28/2016
+	 *Sequence: STARTING THE MULTIPLAYER MODE:
+	 *
+	 *Enter multi-player mode.
+	 *Connect to server if not already connected.
+	 *show connection achieved message.
+	 *look for online player in the same map for 60 seconds. store level id and number!!
+	 *if match found server sends confirmation and creates a session between the two players!
+	 *server starts the match and displays a picture of the 2 player, level, location etc!!
+	 *server starts the game and enters the player ready state
+	 *once both player are ready the match starts else wait!
+	 *if no match was found inform the player and go idle until the player re-attempts to look for a potential match again!
+	 *
+	 *
+	 *Sequence: TRANSLATING POSITIONS AND MOVEMENTS TO THE RIVAL PLAYER
+	 *received real-time direct input from the server
+	 *
+	 *
 	 */
 	public MultiplayerClient(String IP_Address, int port, String userName) {
 

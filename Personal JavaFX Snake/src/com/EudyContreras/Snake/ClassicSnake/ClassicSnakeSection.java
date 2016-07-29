@@ -220,7 +220,7 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 	public void fadeDeath() {
 		if (fade == true) {
-			fadeValue -= 0.03/GameManager.ScaleX_ScaleY;
+			fadeValue -= 0.03;
 			this.circle.setOpacity(fadeValue);
 			if (fadeValue <= 0) {
 				fadeValue = 0;
@@ -279,8 +279,8 @@ public class ClassicSnakeSection extends AbstractSection {
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
-					particleSize = (Math.random() * (15 - 7 + 1) + 7)/GameManager.ScaleX_ScaleY;
-					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)/GameManager.ScaleX_ScaleY;
+					particleSize = (Math.random() * (15 - 7 + 1) + 7);
+					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5);
 				}
 				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.classicSnakeBodyDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
@@ -290,8 +290,8 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 
 	public void displace(){
-		this.velX = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
-		this.velY = RandomGenUtility.getRandomDouble(GameManager.ScaleX(-2), GameManager.ScaleY(2));
+		this.velX = RandomGenUtility.getRandomDouble(-2,2);
+		this.velY = RandomGenUtility.getRandomDouble(-2,2);
 		if (this.numericID == ClassicSnake.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
 		}

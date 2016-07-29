@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
+
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Background;
@@ -38,10 +39,10 @@ public class GameTimer {
 
 
 	public GameTimer(GameManager game, double width, double height, double size, TimerStyle style, Color background) {
-		this.size = GameManager.ScaleX_Y(size);
+		this.size = size;
 		this.timerText = new Text();
 		this.timerBox = new StackPane();
-		this.timerBox.setPrefSize(GameManager.ScaleX(width), GameManager.ScaleY(height));
+		this.timerBox.setPrefSize(width, height);
 		this.timerBox.setBackground(new Background(new BackgroundFill(background, null, null)));
 		this.timerBox.getChildren().add(timerText);
 		setupText(style);

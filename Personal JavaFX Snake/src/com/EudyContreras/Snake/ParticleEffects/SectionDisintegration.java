@@ -24,8 +24,8 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 		this.shape.setRadius(radius/2);
 		this.imagePattern = new ImagePattern(image);
 		this.decay = 0.016 / expireTime;
-		this.velX = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleX;
-		this.velY = (Math.random() * (2 - -2 + 1) + -2)/GameManager.ScaleY;
+		this.velX = (Math.random() * (2 - -2 + 1) + -2);
+		this.velY = (Math.random() * (2 - -2 + 1) + -2);
 		init();
 	}
 
@@ -44,8 +44,8 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 	public void move() {
 		super.move();
 		lifeTime -= decay;
-		velX += 0.05/GameManager.ScaleX;
-		velY -= 0.002/GameManager.ScaleY;
+		velX += 0.05;
+		velY -= 0.002;
 	}
 
 	public void collide() {

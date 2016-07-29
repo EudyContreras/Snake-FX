@@ -63,14 +63,14 @@ public class LevelBounds extends AbstractTile {
 		this.setDimensions_h(bottomBound);
 		this.setDimensions_v(leftBound);
 		this.setDimensions_v(rightBound);
-		this.leftBound.setX(-leftBound.getFitWidth()+GameManager.ScaleX(25));
-		this.rightBound.setX(GameSettings.WIDTH - GameManager.ScaleX(25));
-		this.topBound.setX(-GameManager.ScaleX(65));
-		this.topBound.setY(topBound.getFitHeight()+GameManager.ScaleY(25));
-		this.topBoundV.setX(GameManager.ScaleX(-3));
+		this.leftBound.setX(-leftBound.getFitWidth()+25);
+		this.rightBound.setX(GameSettings.WIDTH - 25);
+		this.topBound.setX(-65);
+		this.topBound.setY(topBound.getFitHeight()+25);
+		this.topBoundV.setX(-3);
 		this.topBoundV.setY(0);
-		this.bottomBound.setX(-GameManager.ScaleX(65));
-		this.bottomBound.setY(GameSettings.HEIGHT-GameManager.ScaleY(25));
+		this.bottomBound.setX(-65);
+		this.bottomBound.setY(GameSettings.HEIGHT-25);
 		this.displayBounds();
 		this.setBoundaries();
 	}
@@ -81,12 +81,12 @@ public class LevelBounds extends AbstractTile {
 		MIN_X = (int) (leftBound.getX()+leftBound.getFitWidth());
 	}
 	public void setDimensions_h(ImageView view){
-		view.setFitWidth(GameManager.ScaleX(view.getImage().getWidth())+GameManager.ScaleY(30));
-		view.setFitHeight(GameManager.ScaleY(view.getImage().getHeight()));
+		view.setFitWidth(view.getImage().getWidth()+30);
+		view.setFitHeight(view.getImage().getHeight());
 	}
 	public void setDimensions_v(ImageView view){
-		view.setFitWidth(GameManager.ScaleX(view.getImage().getWidth()));
-		view.setFitHeight(GameManager.ScaleY(view.getImage().getHeight()));
+		view.setFitWidth(view.getImage().getWidth());
+		view.setFitHeight(view.getImage().getHeight());
 	}
 	public void displayBounds(){
 		this.layer.getChildren().add(leftBound);

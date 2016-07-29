@@ -248,7 +248,7 @@ public class PlayerOneSection extends AbstractSection {
 	}
 	public void fadeToBones() {
 		if (fade == true) {
-			fadeValue -= 0.03/GameManager.ScaleX_ScaleY;
+			fadeValue -= 0.03;
 			this.circle.setOpacity(fadeValue);
 			if (fadeValue <= 0) {
 				fadeValue = 0;
@@ -317,8 +317,8 @@ public class PlayerOneSection extends AbstractSection {
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
-					particleSize = (Math.random() * (10 - 5 + 1) + 5)/GameManager.ScaleX_ScaleY;
-					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)/GameManager.ScaleX_ScaleY;
+					particleSize = (Math.random() * (10 - 5 + 1) + 5);
+					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5);
 				}
 				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));

@@ -20,15 +20,15 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.0;
+//	public static double MANUAL_SIZE_SCALE = 1.0;
 
-	public static int MIN_X = 1920;
+	public static int MIN_X = 0;
 	public static int MAX_X = 0;
-	public static int MIN_Y = (int) (80/GameManager.ScaleY); //This number must be a whole number
+	public static int MIN_Y = (int)80; //This number must be a whole number
 	public static int MAX_Y = 0;
 
-	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/MANUAL_SIZE_SCALE);
-	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/MANUAL_SIZE_SCALE);
+	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
+	public static int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
 	public static int APPLE_COUNT = 10;
@@ -51,14 +51,14 @@ public class GameSettings {
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;
 
-	public static double HEALTH_REGENERATION_SPEED = 0.2/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double ENERGY_COMSUMPTION_SPEED = 6/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double ENERGY_REGENRATION_SPEED = 0.5/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double DAMAGE_AMOUNT = 50/GameManager.ScaleX/MANUAL_SIZE_SCALE;
+	public static double HEALTH_REGENERATION_SPEED = 0.2;
+	public static double ENERGY_COMSUMPTION_SPEED = 6;
+	public static double ENERGY_REGENRATION_SPEED = 0.5;
+	public static double DAMAGE_AMOUNT = 50;
 
-	public static double PLAYER_ONE_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double PLAYER_TWO_SPEED = 6.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
-	public static double CLASSIC_SNAKE_SPEED = 9.0/GameLoader.ResolutionScaleX/MANUAL_SIZE_SCALE;
+	public static double PLAYER_ONE_SPEED = 6.0;
+	public static double PLAYER_TWO_SPEED = 6.0;
+	public static double CLASSIC_SNAKE_SPEED = 9.0;
 
 	public static double PLAYER_HEALTH = 100.0;
 

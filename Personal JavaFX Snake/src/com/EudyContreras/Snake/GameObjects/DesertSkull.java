@@ -62,7 +62,7 @@ public class DesertSkull extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + GameManager.ScaleY(30), width - GameManager.ScaleX(30), height - GameManager.ScaleY(30));
+			Rectangle bounds = new Rectangle(x, y +30, width - 30, height - 30);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

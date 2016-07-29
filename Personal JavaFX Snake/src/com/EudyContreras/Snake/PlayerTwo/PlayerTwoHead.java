@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.PlayerTwo;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
@@ -55,7 +54,7 @@ public class PlayerTwoHead extends AbstractObject {
 		this.game = game;
 		this.playerManager = game.getPlayerTwoManager();
 		this.text = new Text();
-		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Plain", FontWeight.BOLD, 18);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
 		this.text.setText(GameSettings.PLAYER_TWO_NAME);

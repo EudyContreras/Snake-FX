@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.ParticleEffects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
@@ -28,10 +27,8 @@ public class FruitSplashOne extends AbstractParticlesEffect {
 		this.shape.setRadius(this.radius);
 		this.decay = 0.016 / expireTime;
 		this.color = fill;
-		this.velX = (Math.random() * (10 - -10 + 1) + -10)
-				/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
-		this.velY = (Math.random() * (10 - -10 + 1) + -10)
-				/ (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY / 2);
+		this.velX = (Math.random() * (10 - -10 + 1) + -10);
+		this.velY = (Math.random() * (10 - -10 + 1) + -10);
 		this.x = x;
 		this.y = y;
 		this.shape.setFill(color);
