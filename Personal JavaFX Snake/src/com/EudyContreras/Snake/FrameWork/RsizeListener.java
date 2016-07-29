@@ -32,8 +32,10 @@ public class RsizeListener implements ChangeListener<Number> {
 		double scaleFactor = newWidth / newHeight > ratio ? newHeight / initHeight : newWidth / initWidth;
 
 		Scale scale = new Scale(scaleFactor, scaleFactor);
+		
 		scale.setPivotX(0);
 		scale.setPivotY(0);
+		
 		scene.getRoot().getTransforms().setAll(scale);
 
 		pane.setPrefWidth(newWidth / scaleFactor);

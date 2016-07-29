@@ -82,8 +82,10 @@ public class GameManager extends AbstractGameModel{
 
 	public void start(Stage primaryStage) {
 		mainWindow = primaryStage;
+		GameLoader.scaleResolution();
 		initialize();
 		showSplashScreen();
+		System.out.println(GameSettings.WIDTH);
 	}
     public void fullScreenOff(){
         getMainWindow().setFullScreen(false);
@@ -106,8 +108,11 @@ public class GameManager extends AbstractGameModel{
         final double ratio      = initWidth / initHeight;
 
         RsizeListener sizeListener = new RsizeListener(scene, ratio, initHeight, initWidth, contentPane);
+
         scene.widthProperty().addListener(sizeListener);
         scene.heightProperty().addListener(sizeListener);
+
+        loader.setScale(GameLoader.scaleFactor);
       }
     public void showSplashScreen() {
         splashScene = new Scene(splashLayout);
@@ -171,10 +176,10 @@ public class GameManager extends AbstractGameModel{
         menuManager.setupMainMenu();
         mainWindow.setScene(scene);
         mainWindow.setResizable(true);
-        //mainWindow.setFullScreen(false);
+        mainWindow.setFullScreen(true);
         mainWindow.setTitle(title);
 //        mainWindow.setFullScreenExitHint("");
-//        mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+//        mainWindow.setFullScreenExitKeyCombination(new KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN));
         mainWindow.setOnCloseRequest(e->{
             closeGame();
         });

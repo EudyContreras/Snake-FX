@@ -28,6 +28,7 @@ import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 
 /**
@@ -40,7 +41,7 @@ import javafx.stage.Screen;
  */
 public class GameLoader extends AbstractLoaderModel{
 
-
+	public static Scale scaleFactor;
 
 	public GameLoader(GameManager game) {
 		this.game = game;
@@ -64,35 +65,24 @@ public class GameLoader extends AbstractLoaderModel{
 	/**
 	 * Method which creates a resolution scale base on the systems's current resolution
 	 */
-	public static void scaleResolution(double scaleX, double scaleY, boolean manualScaling) {
+	public static void scaleResolution() {
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();
 		double resolutionY = Screen.getPrimary().getBounds().getHeight();
 
 		double baseResolutionX = 1920;
 		double baseResolutionY = 1080;
 
-		ResolutionScaleX = baseResolutionX / resolutionX;
-		ResolutionScaleY = baseResolutionY / resolutionY;
+		ResolutionScaleX = resolutionX / baseResolutionX ;
+		ResolutionScaleY = resolutionY / baseResolutionY ;
+		
+		scaleFactor = new Scale(ResolutionScaleX, ResolutionScaleY);
 
-		if(manualScaling==true){
-			ResolutionScaleX = ResolutionScaleX*scaleX;
-			ResolutionScaleY = ResolutionScaleY*scaleY;
-			FullScreen = false;
-
-		}
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
 
 	}
-	public void setScale(Double scale){
-		if(scale<1){
-			game.getMainWindow().setFullScreen(false);
-		}
-		else{
-			game.getMainWindow().setFullScreen(true);
-		}
-		game.getScene().getRoot().setScaleX(scale);
-		game.getScene().getRoot().setScaleY(scale);
+	public void setScale(Scale scaleFactor){
+		game.getScene().getRoot().getTransforms().setAll(scaleFactor);
 	}
 	/**
 	 * Method which will attempt to scale the speed and the size of the snake according

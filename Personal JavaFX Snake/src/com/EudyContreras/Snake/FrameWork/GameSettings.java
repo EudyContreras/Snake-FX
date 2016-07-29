@@ -22,13 +22,13 @@ public class GameSettings {
 	public static double FRAME_SCALE = 1.0f;
 //	public static double MANUAL_SIZE_SCALE = 1.0;
 
-	public static int MIN_X = 1920;
+	public static int MIN_X = 0;
 	public static int MAX_X = 0;
 	public static int MIN_Y = (int)80; //This number must be a whole number
 	public static int MAX_Y = 0;
 
-	public static final int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth());
-	public static final int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight());
+	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
+	public static int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
 	public static int APPLE_COUNT = 10;

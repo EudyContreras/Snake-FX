@@ -177,6 +177,9 @@ public class KeyInputHandler {
 				if (e.getCode() == KeyCode.NUMPAD6) {
 
 				}
+				if (e.getCode() == KeyCode.ENTER && e.isAltDown()) {
+					game.getMainWindow().setFullScreen(true);
+				}
 			}
 		});
 		scene.setOnKeyReleased(new EventHandler<KeyEvent>() {

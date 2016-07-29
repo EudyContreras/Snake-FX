@@ -100,7 +100,7 @@ public class HealthBarOne {
 		this.moveX+=velX;
 		this.healthBarGreen.setTranslateX(x+180+moveX);
 		this.healthBarRed.setTranslateX(x+180+moveX);
-		this.playerHead.setCenterX(x+6+moveX);
+		this.playerHead.setCenterX(x+60+moveX);
 		this.healthBarBorder.setTranslateX(x+moveX);
 		if(healthBarBorder.getTranslateX()<0-healthBarBorder.getWidth()){
 			this.stopMoving();
