@@ -57,6 +57,9 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -115,7 +118,7 @@ public class GameManager extends AbstractGameModel {
 
 		ResizeListener sizeListener = new ResizeListener(stage, scene, ratio, initHeight, initWidth, pane);
 
-		ResizeHelper.addSceneManipulation(stage,scene);
+		ResizeHelper.addSceneManipulation(this,stage,scene);
 
 		scene.widthProperty().addListener(sizeListener);
 		scene.heightProperty().addListener(sizeListener);
@@ -172,8 +175,8 @@ public class GameManager extends AbstractGameModel {
 		getGameRoot().getChildren().add(ninthLayer);
 		getGameRoot().getChildren().add(outerParticleLayer);
 		mainRoot.getChildren().add(getGameRoot());
-		mainRoot.setMaxWidth(GameSettings.WIDTH-40);
-		mainRoot.setMaxHeight(GameSettings.HEIGHT-40);
+		mainRoot.setMaxWidth(GameSettings.WIDTH);
+		mainRoot.setMaxHeight(GameSettings.HEIGHT);
 		scene.getStylesheets().add(GameManager.class.getResource("application.css").toExternalForm());
 
 		loadHUDElements();
@@ -186,10 +189,8 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.setResizable(false);
 		mainWindow.setFullScreen(true);
 		mainWindow.setTitle(title);
-
-		// mainWindow.setFullScreenExitHint("");
-		// mainWindow.setFullScreenExitKeyCombination(new
-		// KeyCodeCombination(KeyCode.W, KeyCombination.CONTROL_DOWN));
+		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
+		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		mainWindow.setOnCloseRequest(e -> {
 			closeGame();
 		});

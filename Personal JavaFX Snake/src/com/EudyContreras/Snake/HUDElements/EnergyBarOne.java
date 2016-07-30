@@ -156,6 +156,7 @@ public class EnergyBarOne {
 	 */
 	public void setVisible(boolean state){
 		energyBar.setVisible(state);
+		energyBarRed.setVisible(state);
 	}
 	public boolean isSpeedThrust() {
 		return speedThrust;

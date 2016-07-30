@@ -360,26 +360,38 @@ public class PauseMenu {
 				}
 				break;
 			case ENTER:
-				if (currentChoice == 1) {
-					if(fadeLevel>=1)
-					resumeGame();
-				}
-				if (currentChoice == 2) {
-					if(fadeLevel>=1){
-					game.setStateID(GameStateID.LEVEL_RESTART);
-					restartLevel();
+				if(!e.isControlDown()){
+					if (currentChoice == 1) {
+						if (fadeLevel >= 1)
+							resumeGame();
+					}
+					if (currentChoice == 2) {
+						if (fadeLevel >= 1) {
+							game.setStateID(GameStateID.LEVEL_RESTART);
+							restartLevel();
+						}
+					}
+					if (currentChoice == 3) {
+						if (fadeLevel >= 1) {
+							game.setStateID(GameStateID.MAIN_MENU);
+							game.getFadeScreenHandler().menu_fade_screen();
+							goToMainMenu();
+						}
+					}
+					if (currentChoice == 4) {
+						if (fadeLevel >= 1)
+							game.closeGame();
 					}
 				}
-				if (currentChoice == 3) {
-					if(fadeLevel>=1){
-					game.setStateID(GameStateID.MAIN_MENU);
-					game.getFadeScreenHandler().menu_fade_screen();
-					goToMainMenu();
+				if(e.isControlDown()){
+					if(!game.getMainWindow().isFullScreen()){
+						game.getMainWindow().setFullScreen(true);
+						game.getGameBorder().showBorders(false);
 					}
-				}
-				if (currentChoice == 4) {
-					if(fadeLevel>=1)
-					game.closeGame();
+					else{
+						game.getMainWindow().setFullScreen(false);
+						game.getGameBorder().showBorders(true);
+					}
 				}
 				break;
 			case SPACE:

@@ -126,9 +126,21 @@ public class KeyInputHandler {
 					}
 				}
 				if (e.getCode() == KeyCode.ENTER) {
-					if (playerTwo != null)
+					if (playerTwo != null){
 						if (playerTwo.isAllowThrust())
 							playerTwo.setSpeedThrust(true);
+					}
+
+					if(e.isControlDown()){
+						if(!game.getMainWindow().isFullScreen()){
+							game.getMainWindow().setFullScreen(true);
+							game.getGameBorder().showBorders(false);
+						}
+						else{
+							game.getMainWindow().setFullScreen(false);
+							game.getGameBorder().showBorders(true);
+						}
+					}
 				}
 				if (e.getCode() == KeyCode.CONTROL) {
 					if (playerTwo != null)
@@ -176,9 +188,6 @@ public class KeyInputHandler {
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
 
-				}
-				if (e.getCode() == KeyCode.ENTER && e.isAltDown()) {
-					game.getMainWindow().setFullScreen(true);
 				}
 			}
 		});

@@ -75,7 +75,19 @@ public class ModesMenu extends AbstractMenuElement {
 				MODES_MENU_BOX.getButton(3).deactivate();
 				break;
 			case ENTER:
-				MODES_MENU_BOX.getButton(currentChoice).activate();
+				if(!e.isControlDown()){
+					MODES_MENU_BOX.getButton(currentChoice).activate();
+				}
+				if(e.isControlDown()){
+					if(!game.getMainWindow().isFullScreen()){
+						game.getMainWindow().setFullScreen(true);
+						game.getGameBorder().showBorders(false);
+					}
+					else{
+						game.getMainWindow().setFullScreen(false);
+						game.getGameBorder().showBorders(true);
+					}
+				}
 				break;
 			case SPACE:
 				MODES_MENU_BOX.getButton(currentChoice).activate();
@@ -86,13 +98,15 @@ public class ModesMenu extends AbstractMenuElement {
 		game.getScene().setOnKeyReleased(e -> {
 			switch (e.getCode()) {
 			case ENTER:
-				MODES_MENU_BOX.getButton(currentChoice).deactivate();
+				if(!e.isControlDown()){
+					MODES_MENU_BOX.getButton(currentChoice).deactivate();
+				}
 				break;
 			case SPACE:
 				MODES_MENU_BOX.getButton(currentChoice).deactivate();
 				break;
 			case ESCAPE:
-			
+
 				break;
 			default:
 				break;

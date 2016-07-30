@@ -155,6 +155,14 @@ public abstract class AbstractGameModel extends Application {
 //	public static double ScaleY = GameLoader.ResolutionScaleY;
 //	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
 
+	public BorderPane getRootLayer(){
+		return sceneRoot;
+	}
+
+	public GameBorder getGameBorder(){
+		return gameBorder;
+	}
+
 	public HealthBarOne getHealthBarOne() {
 		return healthBarOne;
 	}

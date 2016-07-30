@@ -161,6 +161,7 @@ public class EnergyBarTwo {
 	 */
 	public void setVisible(boolean state){
 		energyBar.setVisible(state);
+		energyBarRed.setVisible(state);
 	}
 	public boolean isDepleated() {
 		return depleated;

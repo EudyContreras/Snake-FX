@@ -244,15 +244,27 @@ public class GameOverScreen {
 				}
 				break;
 			case ENTER:
-				if (currentChoice == 1) {
-					game.setStateID(GameStateID.LEVEL_RESTART);
-					if(!transitioning)
-					restartLevel();
+				if (!e.isControlDown()) {
+					if (currentChoice == 1) {
+						game.setStateID(GameStateID.LEVEL_RESTART);
+						if (!transitioning)
+							restartLevel();
+					}
+					if (currentChoice == 2) {
+						game.setStateID(GameStateID.MAIN_MENU);
+						if (!transitioning)
+							game.getFadeScreenHandler().menu_fade_screen();
+					}
 				}
-				if (currentChoice == 2) {
-					game.setStateID(GameStateID.MAIN_MENU);
-					if(!transitioning)
-					game.getFadeScreenHandler().menu_fade_screen();
+				if(e.isControlDown()){
+					if(!game.getMainWindow().isFullScreen()){
+						game.getMainWindow().setFullScreen(true);
+						game.getGameBorder().showBorders(false);
+					}
+					else{
+						game.getMainWindow().setFullScreen(false);
+						game.getGameBorder().showBorders(true);
+					}
 				}
 				break;
 			case SPACE:
@@ -588,6 +600,8 @@ public class GameOverScreen {
 		sceneSnapshot = null;
 		show(false);
 		sceneSnapshot = new ImageView(game.getScene().snapshot(null));
+		sceneSnapshot.setFitWidth(GameSettings.WIDTH);
+		sceneSnapshot.setFitHeight(GameSettings.HEIGHT);
 		show(true);
 		game.getNinthLayer().getChildren().add(sceneSnapshot);
 		overlay.removeBlur();

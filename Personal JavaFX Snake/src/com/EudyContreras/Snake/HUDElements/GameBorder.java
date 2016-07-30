@@ -28,9 +28,10 @@ public class GameBorder extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.layer = layer;
-		setUpBounds();
+		setupBorders();
+		showBorders(false);
 	}
-	public void setUpBounds(){
+	public void setupBorders(){
 		this.leftBound = new ImageView(GameImageBank.vertical_border);
 		this.rightBound = new ImageView(GameImageBank.vertical_border);
 		this.topBound = new ImageView(GameImageBank.horizontal_border);
@@ -47,7 +48,7 @@ public class GameBorder extends AbstractTile {
 		this.topBound.setY(0);
 		this.bottomBound.setX(0);
 		this.bottomBound.setY(GameSettings.HEIGHT - borderSize);
-		this.displayBounds();
+		this.displayBorders();
 	}
 	public void setDimensions_h(ImageView view){
 		view.setFitWidth(GameSettings.WIDTH);
@@ -57,13 +58,13 @@ public class GameBorder extends AbstractTile {
 		view.setFitWidth(borderSize);
 		view.setFitHeight(GameSettings.HEIGHT);
 	}
-	public void displayBounds(){
+	public void displayBorders(){
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(topBound);
 		this.layer.getChildren().add(bottomBound);
 	}
-	public void showBounds(boolean state){
+	public void showBorders(boolean state){
 		this.leftBound.setVisible(state);
 		this.rightBound.setVisible(state);
 		this.topBound.setVisible(state);

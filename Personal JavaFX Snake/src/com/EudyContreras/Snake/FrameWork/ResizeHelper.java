@@ -17,9 +17,9 @@ public class ResizeHelper {
 
 
 
-	public static void addSceneManipulation(Stage stage, Scene scene) {
+	public static void addSceneManipulation(GameManager game,Stage stage, Scene scene) {
 
-		GestureListener gestureListener = new GestureListener(stage,scene);
+		GestureListener gestureListener = new GestureListener(game,stage,scene);
 
 		stage.getScene().addEventHandler(MouseEvent.MOUSE_MOVED, gestureListener);
 		stage.getScene().addEventHandler(MouseEvent.MOUSE_PRESSED, gestureListener);
@@ -30,6 +30,7 @@ public class ResizeHelper {
 	}
 	private static class GestureListener implements EventHandler<MouseEvent> {
 
+		private GameManager game;
 		private final Scene scene;
 		private final Stage stage;
 		private double factor = 1.01;
@@ -43,7 +44,8 @@ public class ResizeHelper {
 
 		private Cursor cursorEvent = Cursor.DEFAULT;
 
-		public GestureListener(Stage stage, Scene scene) {
+		public GestureListener(GameManager game, Stage stage, Scene scene) {
+			this.game = game;
 			this.scene = scene;
 			this.stage = stage;
 			this.handleGestures();
@@ -86,6 +88,7 @@ public class ResizeHelper {
 							stage.setHeight(GameSettings.HEIGHT);
 							baseWidth = GameSettings.WIDTH-100;
 							baseHeight = GameSettings.HEIGHT - 50;
+							game.getGameBorder().showBorders(false);
 							stage.setFullScreen(true);
 						}
 					}
