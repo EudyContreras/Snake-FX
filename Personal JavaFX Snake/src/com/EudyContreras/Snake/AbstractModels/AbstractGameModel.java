@@ -10,11 +10,14 @@ import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
 import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
+import com.EudyContreras.Snake.FrameWork.CursorUtility;
+import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
+import com.EudyContreras.Snake.HUDElements.GameBorder;
 import com.EudyContreras.Snake.HUDElements.GameHud;
 import com.EudyContreras.Snake.HUDElements.GameOverScreen;
 import com.EudyContreras.Snake.HUDElements.HealthBarOne;
@@ -46,10 +49,11 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -59,7 +63,7 @@ public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
 	protected GameModeID modeID = GameModeID.ClassicMode;
-	protected Pane sceneRoot;
+	protected BorderPane sceneRoot;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
 	protected Service<Void> backgroundThread;
@@ -78,6 +82,8 @@ public abstract class AbstractGameModel extends Application {
 	protected PlayerTwoSectionManager sectManagerTwo;
 	protected ClassicSnakeSectionManager sectManagerThree;
 	protected CountDownScreen countDownScreen;
+	protected Group rootContainer;
+	protected GameBorder gameBorder;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected Thread mainThread;
@@ -273,8 +279,7 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setRoot(Parent root) {
 		scene.setFill(Color.BLACK);
-		sceneRoot.getChildren().clear();
-		sceneRoot.getChildren().add(root);
+		sceneRoot.setCenter(root);
 	}
 
 	public Pane getSnakeOneLayer() {
@@ -535,10 +540,10 @@ public abstract class AbstractGameModel extends Application {
 
 	public void showCursor(boolean choice, Scene scene) {
 		if (!choice)
-			scene.setCursor(Cursor.NONE);
+			CursorUtility.setCursor(CursorID.NONE, scene);
 
 		else if (choice)
-			scene.setCursor(Cursor.DEFAULT);
+			CursorUtility.setCursor(CursorID.NORMAL, scene);
 	}
 
 	public int getLevelLenght() {

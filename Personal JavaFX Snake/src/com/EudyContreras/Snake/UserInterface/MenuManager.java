@@ -9,7 +9,6 @@ import com.EudyContreras.Snake.Utilities.GameAudio;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -19,7 +18,7 @@ import javafx.scene.shape.Rectangle;
 
 public class MenuManager extends AbstractMenuElement{
 
-	private ImageView backgroundImage;
+	private Rectangle backgroundImage;
 	private Pane fadeScreen = new Pane();
 	private Pane menuRoot = new Pane();
 	private Pane menuContainer = new Pane();
@@ -42,7 +41,7 @@ public class MenuManager extends AbstractMenuElement{
 
 	}
 	public void setUpBackground(){
-		backgroundImage = new ImageView(MenuImageBank.mainMenuBackground);
+		backgroundImage = new Rectangle(20, 20, GameSettings.WIDTH-40, GameSettings.HEIGHT-40);
 		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		clearUp.setFill(Color.BLACK);
 	}
@@ -51,6 +50,7 @@ public class MenuManager extends AbstractMenuElement{
 		fadeScreen.getChildren().add(clearUp);
 		setMenu(main_menu.main_menu_screen());
 		menuRoot.getChildren().addAll(backgroundImage, menuLogo, menuContainer, fadeScreen);
+//		menuRoot.setId("ROOTNODE");
 		game.setRoot(menuRoot);
 	}
 	public void setupLogo(){

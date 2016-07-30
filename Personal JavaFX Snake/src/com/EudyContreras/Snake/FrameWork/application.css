@@ -1,1 +1,102 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+#ROOTNODE {
+-fx-background-radius: 30.0;
+-fx-border-radius: 5.0;
+-fx-border-width:20.0;
+-fx-border-color:limegreen;
+}
+#root {
+        -fx-background-color:  linear-gradient(darkgray, gray);
+}
+.ScreenSpace {
+    -fx-fill: radial-gradient(center 50.0% 50.0%, radius 70.0%, rgba(0.0, 0.0, 0.0, 0.1) 40.0%, rgba(0.0, 0.0, 0.0, 0.8) 100.0%);
+}
+#sand_shade {
+    -fx-fill: radial-gradient(center 50.0% 50.0%, radius 70.0%, rgba(0.0, 0.0, 0.0, 0.1) 40.0%, rgba(0.0, 0.0, 0.0, 0.8) 100.0%);
+}
+.sand {
+	-fx-fill: radial-gradient(center 50.0% -40.0%, radius 200.0%, #FFD39B 45.0%, #8B7355 50.0%);
+	-fx-effect: dropshadow( one-pass-box , #333333 , 5.0 , 5.0 , 0.0 , 0.0);
+}
+.snake-section {
+	-fx-fill: radial-gradient(center 50.0% -40.0%, radius 200.0%, #56C2FC 45.0%, #1e90ff 50.0%);
+	-fx-effect: dropshadow( one-pass-box , #333333 , 5.0 , 5.0 , 0.0 , 0.0);
+}
+#MainTimer {
+        -fx-fill:  linear-gradient(cyan , dodgerblue);
+}
+#LocalScores {
+        -fx-fill:  linear-gradient(cyan , dodgerblue);
+}
+#MenuStyleOn {
+        -fx-fill:  linear-gradient(cyan , dodgerblue);
+}
+
+#MainScore{
+        -fx-fill: linear-gradient(red, orange);
+}
+
+#ScoreBoard{
+        -fx-fill: linear-gradient(orange, orangered);
+}
+
+#JavaFX2{
+        -fx-fill:linear-gradient(green, seagreen);
+
+}
+#fancytext {
+    -fx-fill: white;
+    -fx-font: 20.0px Harlow;
+}
+#PlayerScore{
+        -fx-fill: linear-gradient(#ffd65b, #e68400),
+                linear-gradient(#ffea6a, #efaa22),
+                linear-gradient(#ffe657 0.0%, #f8c202 50.0%, #eea10b 100.0%),
+                linear-gradient(from 0.0% 0.0% to 15.0% 50.0%, rgba(255.0,255.0,255.0,0.9), rgba(255.0,255.0,255.0,0.0));
+
+ }
+ #btn1{
+	-fx-background-color: radial-gradient(center 50.0% -40.0%, radius 200.0%, #00FFFF 45.0%, #00BFFF 50.0%);
+    -fx-text-fill: black;
+    -fx-font-size: 20.0px;
+    -fx-padding: 5.0 30.0 5.0 30.0;
+
+
+}
+
+#btn2{
+	-fx-background-color:  linear-gradient(greenyellow   , limegreen );
+    -fx-text-fill: black;
+    -fx-font-size: 20.0px;
+    -fx-padding: 5.0 30.0 5.0 30.0;
+   }
+
+#btn3{
+	-fx-background-color:	linear-gradient(orange, orangered );
+	-fx-text-fill: black;
+	-fx-font-size: 20.0px;
+	-fx-padding: 5.0 30.0 5.0 30.0;
+    }
+
+#btn4{
+	-fx-text-fill:white;
+	-fx-font-size: 20.0px;
+	-fx-background-color: linear-gradient(#999999 0.0%, #000000 50.0%, #999999 100.0%);
+	-fx-padding: 5.0 30.0 5.0 30.0;
+
+    }
+#btn5 {
+    -fx-text-fill:white;
+    -fx-padding: 15.0 30.0 15.0 30.0;
+    -fx-font-family: "Helvetica";
+    -fx-font-size: 18.0px;
+    -fx-font-weight: bold;
+
+    -fx-background-color:
+    linear-gradient(#686868 0.0%, #232723 25.0%, #373837 75.0%, #757575 100.0%),
+    linear-gradient(#020b02, #3a3a3a),
+    linear-gradient(#9d9e9d 0.0%, #6b6a6b 20.0%, #343534 80.0%, #242424 100.0%),
+    linear-gradient(#8a8a8a 0.0%, #6b6a6b 20.0%, #343534 80.0%, #262626 100.0%),
+    linear-gradient(#777777 0.0%, #606060 50.0%, #505250 51.0%, #2a2b2a 100.0%);
+    -fx-background-insets: 0.0,1.0,4.0,5.0,6.0;
+    -fx-background-radius: 9.0,8.0,5.0,4.0,3.0;
+}

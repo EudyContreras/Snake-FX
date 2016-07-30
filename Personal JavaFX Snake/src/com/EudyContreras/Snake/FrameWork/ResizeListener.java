@@ -5,8 +5,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 
-public class RsizeListener implements ChangeListener<Number> {
+public class ResizeListener implements ChangeListener<Number> {
 
 	private final Pane pane;
 	private final Scene scene;
@@ -14,8 +15,7 @@ public class RsizeListener implements ChangeListener<Number> {
 	private final double initHeight;
 	private final double initWidth;
 
-
-	public RsizeListener(Scene scene, double ratio, double initHeight, double initWidth, Pane pane) {
+	public ResizeListener(Stage stage, Scene scene, double ratio, double initHeight, double initWidth, Pane pane) {
 		this.pane = pane;
 		this.scene = scene;
 		this.ratio = ratio;
@@ -32,14 +32,16 @@ public class RsizeListener implements ChangeListener<Number> {
 		double scaleFactor = newWidth / newHeight > ratio ? newHeight / initHeight : newWidth / initWidth;
 
 		Scale scale = new Scale(scaleFactor, scaleFactor);
-		
+
 		scale.setPivotX(0);
 		scale.setPivotY(0);
-		
+
 		scene.getRoot().getTransforms().setAll(scale);
 
 		pane.setPrefWidth(newWidth / scaleFactor);
 		pane.setPrefHeight(newHeight / scaleFactor);
 
 	}
+
+
 }

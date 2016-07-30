@@ -60,22 +60,22 @@ public class GameLoader extends AbstractLoaderModel{
 		this.setLevelWidth((int) getLevel().getWidth());
 		this.setLevelHeight((int) getLevel().getHeight());
 		this.game.setLevelLenght(128 * 64);
-		System.out.print("loaded");
 	}
 	/**
 	 * Method which creates a resolution scale base on the systems's current resolution
 	 */
 	public static void scaleResolution() {
+
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();
 		double resolutionY = Screen.getPrimary().getBounds().getHeight();
 
 		double baseResolutionX = 1920;
 		double baseResolutionY = 1080;
 
-		ResolutionScaleX = resolutionX / baseResolutionX ;
-		ResolutionScaleY = resolutionY / baseResolutionY ;
-		
-		scaleFactor = new Scale(ResolutionScaleX, ResolutionScaleY);
+		ResolutionScaleX = resolutionX / baseResolutionX;
+		ResolutionScaleY = resolutionY / baseResolutionY;
+
+		scaleFactor = new Scale(ResolutionScaleX , ResolutionScaleY);
 
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
