@@ -72,5 +72,16 @@ public class GameBorder extends AbstractTile {
 		this.topBound.setVisible(state);
 		this.bottomBound.setVisible(state);
 	}
-
+	public void removeBorders(){
+		this.layer.getChildren().remove(leftBound);
+		this.layer.getChildren().remove(rightBound);
+		this.layer.getChildren().remove(topBound);
+		this.layer.getChildren().remove(bottomBound);
+	}
+	public void readdBorders(){
+		this.layer.getChildren().add(leftBound);
+		this.layer.getChildren().add(rightBound);
+		this.layer.getChildren().add(topBound);
+		this.layer.getChildren().add(bottomBound);
+	}
 }

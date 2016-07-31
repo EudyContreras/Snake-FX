@@ -84,6 +84,10 @@ public class GameLoader extends AbstractLoaderModel{
 	public void setScale(Scale scaleFactor){
 		game.getScene().getRoot().getTransforms().setAll(scaleFactor);
 	}
+	public void setScale(Double scale){
+		game.getScene().getRoot().setScaleX(scale);
+		game.getScene().getRoot().setScaleY(scale);
+	}
 	/**
 	 * Method which will attempt to scale the speed and the size of the snake according
 	 * to the new scaled resolution, The size and the speed are relative. The size must be

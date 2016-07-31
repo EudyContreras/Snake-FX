@@ -256,10 +256,17 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.initStyle(StageStyle.UNDECORATED);
 		mainWindow.setTitle(title);
 		mainWindow.show();
+
 		resizeListener(mainWindow, scene, sceneRoot);
 		setNewRatio(false);
 		getMainWindow().setFullScreen(false);
 		getGameBorder().showBorders(true);
+		ResizeHelper.baseWidth = ResizeHelper.baseWidth*.6;
+		ResizeHelper.baseHeight = ResizeHelper.baseHeight*.6;
+
+		setWindowSize(ResizeHelper.baseWidth,ResizeHelper.baseHeight);
+		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-ResizeHelper.baseWidth/2, Screen.getPrimary().getBounds().getHeight()/2-ResizeHelper.baseHeight/2);
+
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
@@ -1179,8 +1186,14 @@ public class GameManager extends AbstractGameModel {
 		getScoreBoardOne().show(state);
 		getScoreBoardTwo().show(state);
 	}
-
-
+	public void setWindowSize(double width, double height){
+		mainWindow.setWidth(width);
+		mainWindow.setHeight(height);
+	}
+	public void setWindowLocation(double x, double y){
+		mainWindow.setX(x);
+		mainWindow.setY(y);
+	}
 	public void allowMouseInput(boolean choice) {
 		if (choice)
 			mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);

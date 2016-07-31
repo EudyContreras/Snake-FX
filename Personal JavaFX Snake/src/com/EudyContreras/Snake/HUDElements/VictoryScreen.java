@@ -691,9 +691,20 @@ public class VictoryScreen extends AbstractHudElement {
 		game.getNinthLayer().getChildren().remove(sceneSnapshot);
 		sceneSnapshot = null;
 		show(false);
-		sceneSnapshot = new ImageView(game.getScene().snapshot(null));
-		sceneSnapshot.setFitWidth(GameSettings.WIDTH);
-		sceneSnapshot.setFitHeight(GameSettings.HEIGHT);
+		if(game.getMainWindow().isFullScreen()){
+			sceneSnapshot = new ImageView(game.getScene().snapshot(null));
+			sceneSnapshot.setFitWidth(GameSettings.WIDTH);
+			sceneSnapshot.setFitHeight(GameSettings.HEIGHT);
+		}
+		else{
+			game.getGameBorder().removeBorders();
+			sceneSnapshot = new ImageView(game.getScene().snapshot(null));
+			sceneSnapshot.setFitWidth(GameSettings.SCREEN_WIDTH);
+			sceneSnapshot.setFitHeight(GameSettings.SCREEN_HEIGHT);
+			sceneSnapshot.setTranslateX(-20);
+			sceneSnapshot.setTranslateY(-20);
+			game.getGameBorder().readdBorders();
+		}
 		show(true);
 		game.getNinthLayer().getChildren().add(sceneSnapshot);
 		overlay.removeBlur();
