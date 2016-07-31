@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.FrameWork;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeManager;
@@ -38,6 +37,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
+import com.EudyContreras.Snake.Utilities.GUIElements;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -57,9 +57,9 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -116,7 +116,7 @@ public class GameManager extends AbstractGameModel {
 
 		final double ratio = initWidth / initHeight;
 
-		ResizeListener sizeListener = new ResizeListener(stage, scene, ratio, initHeight, initWidth, pane);
+		sizeListener = new ResizeListener(stage, scene, ratio, initHeight, initWidth, pane);
 
 		ResizeHelper.addSceneManipulation(this,stage,scene);
 
@@ -125,16 +125,76 @@ public class GameManager extends AbstractGameModel {
 
 		loader.setScale(GameLoader.scaleFactor);
 	}
+	public void setNewRatio(boolean state){
+		if(sizeListener!=null){
+			if(state){
+				final double initWidth = GameSettings.WIDTH;
+				final double initHeight = GameSettings.HEIGHT;
 
+				final double ratio = initWidth / initHeight;
+				sizeListener.setNewRatio(ratio, initHeight, initWidth);
+			}
+			else{
+				final double initWidth = GameSettings.SCREEN_WIDTH;
+				final double initHeight = GameSettings.SCREEN_HEIGHT;
+
+				final double ratio = initWidth / initHeight;
+				sizeListener.setNewRatio(ratio, initHeight, initWidth);
+			}
+		}
+	}
+	private void handleTopBarEvents(){
+		 	topBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent event) {
+	                xOffset = mainWindow.getX() - event.getScreenX();
+	                yOffset = mainWindow.getY() - event.getScreenY();
+	            }
+	        });
+	        topBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent event) {
+	                mainWindow.setX(event.getScreenX() + xOffset);
+	                mainWindow.setY(event.getScreenY() + yOffset);
+	            }
+	        });
+	        topBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent mouseEvent) {
+	                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+	                    if (mouseEvent.getClickCount() == 2) {
+	                    	mainWindow.setFullScreen(true);
+	                        sceneRoot.getChildren().remove(topBar);
+	                        gameBorder.showBorders(false);
+	                    }
+	                }
+	            }
+	        });
+	        topBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent mouseEvent) {
+	                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+	                    if (mouseEvent.getClickCount() == 2) {
+	                        if (!layoutContainer.getChildren().contains(topBar)) {
+	                            mainWindow.setFullScreen(false);
+	                            layoutContainer.getChildren().add(0, topBar);
+	                        }
+	                    }
+	                }
+	            }
+	        });
+	}
 	public void showSplashScreen() {
 		splashScene = new Scene(splashLayout);
 		splashScene.setFill(Color.TRANSPARENT);
 		bounds = Screen.getPrimary().getBounds();
+
 		mainWindow.initStyle(StageStyle.TRANSPARENT);
 		mainWindow.setScene(splashScene);
 		mainWindow.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashWidth / 2);
 		mainWindow.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashHeight / 2);
 		mainWindow.show();
+
 		fadeSplash = new FadeTransition(Duration.seconds(splashFadeDuration), splashLayout);
 		fadeSplash.setDelay(Duration.seconds(splashFadeDelay));
 		fadeSplash.setFromValue(1.0);
@@ -187,7 +247,8 @@ public class GameManager extends AbstractGameModel {
 		menuManager.setupMainMenu();
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
-		mainWindow.setFullScreen(true);
+		gameBorder.showBorders(true);
+		mainWindow.setFullScreen(false);
 		mainWindow.setTitle(title);
 		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -227,6 +288,7 @@ public class GameManager extends AbstractGameModel {
 		frameGameLoop = new Timeline();
 		mainRoot = new Pane();
 		root = new Pane();
+		topBar = GUIElements.createTopBar();
 		sceneRoot = new BorderPane();
 		menuManager = new MenuManager(this);
 		rootContainer = new Group(sceneRoot);
@@ -481,12 +543,12 @@ public class GameManager extends AbstractGameModel {
 					FPS = 0;
 				}
 				lastTime = currentTime;
-				if(mainWindow.getX()<0){
-					mainWindow.setX(0);
-				}
-				if(mainWindow.getY()<0){
-					mainWindow.setY(0);
-				}
+//				if(mainWindow.getX()<0){
+//					mainWindow.setX(0);
+//				}
+//				if(mainWindow.getY()<0){
+//					mainWindow.setY(0);
+//				}
 			}
 
 		};
@@ -1121,6 +1183,36 @@ public class GameManager extends AbstractGameModel {
 	public void allowMouseInput(boolean choice) {
 		if (choice)
 			mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);
+	}
+	public static void maximize() {
+		if (!mainWindow.isMaximized()) {
+			mainWindow.setWidth(GameSettings.SCREEN_WIDTH);
+			mainWindow.setHeight(GameSettings.SCREEN_HEIGHT);
+			mainWindow.setX(0);
+			mainWindow.setY(0);
+			mainWindow.setMaximized(true);
+		} else {
+			if (mainWindow.getX() != 0 && mainWindow.getY() != 0) {
+				mainWindow.setWidth(GameSettings.SCREEN_WIDTH);
+				mainWindow.setHeight(GameSettings.SCREEN_HEIGHT);
+				mainWindow.setX(0);
+				mainWindow.setY(0);
+			} else if (mainWindow.getX() == 0 && mainWindow.getY() == 0) {
+				mainWindow.setMaximized(false);
+				mainWindow.setWidth(GameSettings.SCREEN_WIDTH * .8);
+				mainWindow.setHeight(GameSettings.SCREEN_HEIGHT * .8);
+				mainWindow.setX(200);
+				mainWindow.setY(85);
+			}
+		}
+	}
+
+	public static void minimize() {
+		mainWindow.setIconified(true);
+	}
+
+	public static void exit() {
+		Platform.exit();
 	}
 
 	public static void main(String[] args) {

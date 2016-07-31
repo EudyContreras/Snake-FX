@@ -776,7 +776,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void setSpeedThrust(boolean thrust){
-		if (allowThrust) {
+		if (allowThrust && direction!=PlayerMovement.STANDING_STILL) {
 			if (thrust == true) {
 				this.thrust = thrust;
 				this.game.getEnergyBarOne().setSpeedThrust(true);

@@ -5,7 +5,6 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
 import javafx.event.EventHandler;
 import javafx.event.EventType;
-import javafx.geometry.Bounds;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
@@ -26,6 +25,7 @@ public class ResizeHelper {
 		stage.getScene().addEventHandler(MouseEvent.MOUSE_DRAGGED, gestureListener);
 		stage.getScene().addEventHandler(MouseEvent.MOUSE_EXITED, gestureListener);
 		stage.getScene().addEventHandler(MouseEvent.MOUSE_EXITED_TARGET, gestureListener);
+		stage.getScene().addEventHandler(MouseEvent.MOUSE_RELEASED, gestureListener);
 
 	}
 	private static class GestureListener implements EventHandler<MouseEvent> {
@@ -33,7 +33,7 @@ public class ResizeHelper {
 		private GameManager game;
 		private final Scene scene;
 		private final Stage stage;
-		private double factor = 1.01;
+		private double factor = 1.0;
 		private double border = 5;
 		private double baseWidth = 0;
 		private double baseHeight = 0;
@@ -56,42 +56,26 @@ public class ResizeHelper {
 		}
 		private void handleGestures() {
 
-			baseWidth = GameSettings.WIDTH-100;
-			baseHeight = GameSettings.HEIGHT - 50;
+			baseWidth = GameSettings.SCREEN_WIDTH-100;
+			baseHeight = GameSettings.SCREEN_HEIGHT-58;
 
 			scene.setOnScroll(e -> {
 
 				if (e.isControlDown()) {
 
-					double factor = e.getDeltaY();
-				    double oldScale = stage.getHeight()/stage.getWidth();
-				    double scale = oldScale * e.getDeltaY();
-
-					double aspectRatioX = factor > 1 ? 1.01 : 0.99;
-					double aspectRatioY = factor > 1 ? 1.01 : 0.99;
-
 					if (!stage.isFullScreen()) {
-
 						zoom(stage, e);
-//
-//					    if (scale < 0.15){ scale = 0.15;}
-//					    if (scale > 1){scale = 1.015;}
-//
-//						baseWidth = baseWidth * scale;
-//						baseHeight = baseHeight * scale;
-//
-//						stage.setWidth(baseWidth);
-//						stage.setHeight(baseHeight);
-
-						if(baseWidth>GameSettings.SCREEN_WIDTH+10 && baseHeight>GameSettings.SCREEN_HEIGHT){
-							stage.setWidth(GameSettings.WIDTH);
-							stage.setHeight(GameSettings.HEIGHT);
-							baseWidth = GameSettings.WIDTH-100;
-							baseHeight = GameSettings.HEIGHT - 50;
-							game.getGameBorder().showBorders(false);
-							stage.setFullScreen(true);
-						}
 					}
+				}
+			});
+			scene.setOnScrollFinished(e ->{
+				if (!stage.isFullScreen()) {
+					game.setNewRatio(false);
+				}
+			});
+			scene.setOnScrollStarted(e ->{
+				if (!stage.isFullScreen()) {
+					game.setNewRatio(false);
 				}
 			});
 		}
@@ -159,44 +143,47 @@ public class ResizeHelper {
 							}
 							else{
 
-								if(mouseEvent.getSceneX()>stretchContextX){
-									factor = 1.001;
-								}
-								else if(mouseEvent.getSceneX()<stretchContextX){
-									factor = 0.999;
-								}
-								if(mouseEvent.getSceneY()>stretchContextY){
-									factor = 1.001;
-								}
-								else if(mouseEvent.getSceneY()<stretchContextY){
-									factor = 0.999;
-								}
-
-								double aspectRatioX = factor > 1 ? 1.05 : 0.995;
-								double aspectRatioY = factor > 1 ? 1.05 : 0.995;
-
-								baseWidth = baseWidth * aspectRatioX;
-								baseHeight = baseHeight * aspectRatioY;
-
-								stage.setWidth(baseWidth);
-								stage.setHeight(baseHeight);
-
-								if(baseWidth>GameSettings.SCREEN_WIDTH+50 && baseHeight>GameSettings.SCREEN_HEIGHT){
-									stage.setWidth(GameSettings.WIDTH);
-									stage.setHeight(GameSettings.HEIGHT);
-									baseWidth = GameSettings.WIDTH-100;
-									baseHeight = GameSettings.HEIGHT - 50;
-									stage.setFullScreen(true);
-								}
+//								if(mouseEvent.getSceneX()>stretchContextX){
+//									factor = 1.001;
+//								}
+//								else if(mouseEvent.getSceneX()<stretchContextX){
+//									factor = 0.999;
+//								}
+//								if(mouseEvent.getSceneY()>stretchContextY){
+//									factor = 1.001;
+//								}
+//								else if(mouseEvent.getSceneY()<stretchContextY){
+//									factor = 0.999;
+//								}
+//
+//								double aspectRatioX = factor > 1 ? 1.05 : 0.995;
+//								double aspectRatioY = factor > 1 ? 1.05 : 0.995;
+//
+//								baseWidth = baseWidth * aspectRatioX;
+//								baseHeight = baseHeight * aspectRatioY;
+//
+//								stage.setWidth(baseWidth);
+//								stage.setHeight(baseHeight);
+//
+//								if(baseWidth>GameSettings.SCREEN_WIDTH+50 && baseHeight>GameSettings.SCREEN_HEIGHT){
+//									stage.setWidth(GameSettings.SCREEN_WIDTH);
+//									stage.setHeight(GameSettings.SCREEN_HEIGHT);
+//									baseWidth = GameSettings.SCREEN_WIDTH-100;
+//									baseHeight = GameSettings.SCREEN_HEIGHT - 58;
+//									stage.setFullScreen(true);
+//								}
 							}
 
 					}
+				}
+				else if(MouseEvent.MOUSE_RELEASED.equals(mouseEventType)){
+
 				}
 			}
 		}
 		public void zoom(Stage stage, double scaleFactor, double x, double y) {
 
-		    double oldScale = 1;
+		    double oldScale = game.getRootLayer().getScaleX();
 		    double scale = oldScale * scaleFactor;
 
 		    if (scale < 0.15){ scale = 0.15;}
@@ -214,6 +201,5 @@ public class ResizeHelper {
 		    zoom(stage, Math.pow(1.001, event.getDeltaY()), event.getSceneX(), event.getSceneY());
 		}
 	}
-
 
 }

@@ -5,7 +5,6 @@ import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.UserInterface.CustomMenuButton.ButtonStyle;
 
 import javafx.geometry.Pos;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -80,10 +79,12 @@ public class MainMenu extends AbstractMenuElement {
 				}
 				if(e.isControlDown()){
 					if(!game.getMainWindow().isFullScreen()){
+						game.setNewRatio(true);
 						game.getMainWindow().setFullScreen(true);
 						game.getGameBorder().showBorders(false);
 					}
 					else{
+						game.setNewRatio(false);
 						game.getMainWindow().setFullScreen(false);
 						game.getGameBorder().showBorders(true);
 					}
@@ -94,18 +95,7 @@ public class MainMenu extends AbstractMenuElement {
 			default:
 				break;
 			}
-			if (e.getCode() == KeyCode.F) {
-				if(e.isControlDown()){
-				if(!game.getMainWindow().isFullScreen()){
-					game.getMainWindow().setFullScreen(true);
-					game.getGameBorder().showBorders(false);
-				}
-				else{
-					game.getMainWindow().setFullScreen(false);
-					game.getGameBorder().showBorders(true);
-				}
-				}
-			}
+
 		});
 		game.getScene().setOnKeyReleased(e -> {
 			switch (e.getCode()) {

@@ -1,13 +1,13 @@
 	package com.EudyContreras.Snake.ImageBanks;
 
 	import com.EudyContreras.Snake.FrameWork.GameSettings;
-	import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
+import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
 
-	import javafx.scene.ImageCursor;
-	import javafx.scene.image.Image;
-	import javafx.scene.paint.Color;
-	import javafx.scene.paint.ImagePattern;
-	import javafx.scene.shape.Circle;
+import javafx.scene.ImageCursor;
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 
 	/**
 	 * This is the class where we load all images. we first precreate a shaded,
@@ -108,15 +108,15 @@
 			/**
 			 * heads up display elements
 			 */
+			
+			
 			public static final Image hud_bar = new Image(ImageEffectUtility.loadResource("hud_bar_plain.png"));
 			public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,100,false, true);
 			public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,70,false, true);
 			public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,100);
 			public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
-			public static final Image horizontal_border1 = new Image(ImageEffectUtility.loadResource("border_h1.png"));
-			public static final Image vertical_border1 = new Image(ImageEffectUtility.loadResource("border_v1.png"));
-			public static final Image horizontal_border2 = new Image(ImageEffectUtility.loadResource("border_h2.png"));
-			public static final Image vertical_border2 = new Image(ImageEffectUtility.loadResource("border_v2.png"));
+			public static final Image horizontal_border = new Image(ImageEffectUtility.loadResource("border_h.png"));
+			public static final Image vertical_border = new Image(ImageEffectUtility.loadResource("border_v.png"));
 			public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
 			public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 			public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info.png"));
@@ -161,7 +161,9 @@
 			public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
 			public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go_alt.png")));
 
-
+			public static final Image maximize = new Image(ImageEffectUtility.loadResource("maximize.png"));
+			public static final Image minimize = new Image(ImageEffectUtility.loadResource("minimize.png"));
+			public static final Image exit = new Image(ImageEffectUtility.loadResource("exit.png"));
 			public static ImageCursor normalCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("normalCursor.png")));
 			public static ImageCursor dragCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("dragMarker.png")));
 			public static ImageCursor stretchCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("stretchMarker.png")));

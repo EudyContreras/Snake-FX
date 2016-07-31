@@ -14,6 +14,7 @@ import com.EudyContreras.Snake.FrameWork.CursorUtility;
 import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
+import com.EudyContreras.Snake.FrameWork.ResizeListener;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
@@ -64,8 +65,11 @@ public abstract class AbstractGameModel extends Application {
 	protected GameStateID stateID;
 	protected GameModeID modeID = GameModeID.ClassicMode;
 	protected BorderPane sceneRoot;
+	protected BorderPane layoutContainer;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
+    protected BorderPane topBar;
+    protected ResizeListener sizeListener;
 	protected Service<Void> backgroundThread;
 	protected ScheduledExecutorService scheduledExecutor;
 	protected AnimationTimer playerMovementLoop;
@@ -91,7 +95,7 @@ public abstract class AbstractGameModel extends Application {
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Pane mainRoot;
-	protected Stage mainWindow;
+	protected static Stage mainWindow;
 	protected Pane root;
 	protected Pane splashLayout;
 	protected Pane levelLayer;
@@ -151,6 +155,8 @@ public abstract class AbstractGameModel extends Application {
 	protected int levelLenght;
 	protected double splashFadeDuration;
 	protected double splashFadeDelay;
+	protected double yOffset = 0;
+	protected double xOffset = 0;
 //	public static double ScaleX = GameLoader.ResolutionScaleX;
 //	public static double ScaleY = GameLoader.ResolutionScaleY;
 //	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
@@ -158,7 +164,6 @@ public abstract class AbstractGameModel extends Application {
 	public BorderPane getRootLayer(){
 		return sceneRoot;
 	}
-
 	public GameBorder getGameBorder(){
 		return gameBorder;
 	}
@@ -267,10 +272,6 @@ public abstract class AbstractGameModel extends Application {
 
 	public Stage getMainWindow() {
 		return mainWindow;
-	}
-
-	public void setMainWindow(Stage mainWindow) {
-		this.mainWindow = mainWindow;
 	}
 
 	public GameLoader getGameLoader() {

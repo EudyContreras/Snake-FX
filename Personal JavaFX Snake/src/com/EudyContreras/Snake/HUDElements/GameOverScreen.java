@@ -258,10 +258,12 @@ public class GameOverScreen {
 				}
 				if(e.isControlDown()){
 					if(!game.getMainWindow().isFullScreen()){
+						game.setNewRatio(true);
 						game.getMainWindow().setFullScreen(true);
 						game.getGameBorder().showBorders(false);
 					}
 					else{
+						game.setNewRatio(false);
 						game.getMainWindow().setFullScreen(false);
 						game.getGameBorder().showBorders(true);
 					}

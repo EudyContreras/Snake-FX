@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
  *
  */
 public class GameBorder extends AbstractTile {
+	private GameManager game;
 	private double borderSize = 20;
 	private ImageView leftBound;
 	private ImageView rightBound;
@@ -24,6 +25,7 @@ public class GameBorder extends AbstractTile {
 	private Group layer;
 
 	public GameBorder(GameManager game, Group layer) {
+		this.game = game;
 		this.velX = 0;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
@@ -32,10 +34,10 @@ public class GameBorder extends AbstractTile {
 		showBorders(false);
 	}
 	public void setupBorders(){
-		this.leftBound = new ImageView(GameImageBank.vertical_border1);
-		this.rightBound = new ImageView(GameImageBank.vertical_border2);
-		this.topBound = new ImageView(GameImageBank.horizontal_border1);
-		this.bottomBound = new ImageView(GameImageBank.horizontal_border2);
+		this.leftBound = new ImageView(GameImageBank.vertical_border);
+		this.rightBound = new ImageView(GameImageBank.vertical_border);
+		this.topBound = new ImageView(GameImageBank.horizontal_border);
+		this.bottomBound = new ImageView(GameImageBank.horizontal_border);
 
 		this.setDimensions_h(bottomBound);
 		this.setDimensions_h(topBound);
@@ -43,20 +45,20 @@ public class GameBorder extends AbstractTile {
 		this.setDimensions_v(rightBound);
 
 		this.leftBound.setX(0);
-		this.rightBound.setX(GameSettings.WIDTH - borderSize);
+		this.rightBound.setX(GameSettings.SCREEN_WIDTH - borderSize);
 		this.topBound.setX(0);
 		this.topBound.setY(0);
 		this.bottomBound.setX(0);
-		this.bottomBound.setY(GameSettings.HEIGHT - borderSize);
+		this.bottomBound.setY(GameSettings.SCREEN_HEIGHT - borderSize);
 		this.displayBorders();
 	}
 	public void setDimensions_h(ImageView view){
-		view.setFitWidth(GameSettings.WIDTH);
+		view.setFitWidth(GameSettings.SCREEN_WIDTH);
 		view.setFitHeight(borderSize);
 	}
 	public void setDimensions_v(ImageView view){
 		view.setFitWidth(borderSize);
-		view.setFitHeight(GameSettings.HEIGHT);
+		view.setFitHeight(GameSettings.SCREEN_HEIGHT);
 	}
 	public void displayBorders(){
 		this.layer.getChildren().add(leftBound);

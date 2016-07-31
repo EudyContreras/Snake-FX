@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 
 public class ResizeListener implements ChangeListener<Number> {
 
-	private final Pane pane;
-	private final Scene scene;
-	private final double ratio;
-	private final double initHeight;
-	private final double initWidth;
+	private Pane pane;
+	private Scene scene;
+	private double ratio;
+	private double initHeight;
+	private double initWidth;
 
 	public ResizeListener(Stage stage, Scene scene, double ratio, double initHeight, double initWidth, Pane pane) {
 		this.pane = pane;
@@ -22,7 +22,11 @@ public class ResizeListener implements ChangeListener<Number> {
 		this.initHeight = initHeight;
 		this.initWidth = initWidth;
 	}
-
+	public void setNewRatio(double ratio, double initHeight, double initWidth){
+		this.ratio = ratio;
+		this.initHeight = initHeight;
+		this.initWidth = initWidth;
+	}
 	@Override
 	public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
 

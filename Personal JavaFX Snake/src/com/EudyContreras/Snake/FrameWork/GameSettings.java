@@ -30,8 +30,8 @@ public class GameSettings {
 	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
 	public static int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
 
-	public static int SCREEN_WIDTH = (int) (Screen.getPrimary().getBounds().getWidth());
-	public static int SCREEN_HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight());
+	public static int SCREEN_WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX)+40;
+	public static int SCREEN_HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY)+40;
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 

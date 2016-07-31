@@ -1,11 +1,14 @@
 #ROOTNODE {
--fx-background-radius: 30.0;
--fx-border-radius: 5.0;
--fx-border-width:20.0;
--fx-border-color:limegreen;
+	-fx-background-radius: 30.0;
+	-fx-border-radius: 5.0;
+	-fx-border-width:20.0;
+	-fx-border-color:limegreen;
+}
+#toolbar {
+	-fx-base: #292929;
 }
 #root {
-        -fx-background-color:  linear-gradient(darkgray, gray);
+    -fx-background-color:  linear-gradient(darkgray, gray);
 }
 .ScreenSpace {
     -fx-fill: radial-gradient(center 50.0% 50.0%, radius 70.0%, rgba(0.0, 0.0, 0.0, 0.1) 40.0%, rgba(0.0, 0.0, 0.0, 0.8) 100.0%);
