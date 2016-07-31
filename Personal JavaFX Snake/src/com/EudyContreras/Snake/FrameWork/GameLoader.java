@@ -69,8 +69,8 @@ public class GameLoader extends AbstractLoaderModel{
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();
 		double resolutionY = Screen.getPrimary().getBounds().getHeight();
 
-		double baseResolutionX = 1920;
-		double baseResolutionY = 1080;
+		final double baseResolutionX = 1920;
+		final double baseResolutionY = 1080;
 
 		ResolutionScaleX = resolutionX / baseResolutionX;
 		ResolutionScaleY = resolutionY / baseResolutionY;
@@ -81,6 +81,7 @@ public class GameLoader extends AbstractLoaderModel{
 		System.out.println("height scale = " + ResolutionScaleY);
 
 	}
+
 	public void setScale(Scale scaleFactor){
 		game.getScene().getRoot().getTransforms().setAll(scaleFactor);
 	}

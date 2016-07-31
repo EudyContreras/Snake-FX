@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.UserInterface;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractMenuElement;
 import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.UserInterface.CustomMenuButton.ButtonStyle;
 
@@ -78,7 +79,7 @@ public class ModesMenu extends AbstractMenuElement {
 				if(!e.isControlDown()){
 					MODES_MENU_BOX.getButton(currentChoice).activate();
 				}
-				if(!game.getMainWindow().isFullScreen()){
+				if(!game.getMainWindow().isFullScreen()&& ResizeHelper.isSupportedRatio()){
 					game.setNewRatio(true);
 					game.getMainWindow().setFullScreen(true);
 					game.getGameBorder().showBorders(false);

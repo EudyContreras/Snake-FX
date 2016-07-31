@@ -133,6 +133,10 @@ public class GameManager extends AbstractGameModel {
 
 				final double ratio = initWidth / initHeight;
 				sizeListener.setNewRatio(ratio, initHeight, initWidth);
+				
+				for(Node node: sceneRoot.getChildren()){
+					node.setTranslateY(0);
+				}
 			}
 			else{
 				final double initWidth = GameSettings.SCREEN_WIDTH;
@@ -140,8 +144,13 @@ public class GameManager extends AbstractGameModel {
 
 				final double ratio = initWidth / initHeight;
 				sizeListener.setNewRatio(ratio, initHeight, initWidth);
+				
+				for(Node node: sceneRoot.getChildren()){
+					node.setTranslateY(25);
+				}
 			}
 		}
+		
 	}
 	private void handleTopBarEvents(){
 		 	topBar.setOnMousePressed(new EventHandler<MouseEvent>() {

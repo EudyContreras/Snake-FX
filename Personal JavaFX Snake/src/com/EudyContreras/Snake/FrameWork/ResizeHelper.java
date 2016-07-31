@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class ResizeHelper {
@@ -213,5 +214,17 @@ public class ResizeHelper {
 	    stage.setHeight(baseHeight);
 
 	}
+	public static boolean isSupportedRatio(){
 
+		double resolutionX = Screen.getPrimary().getBounds().getWidth();
+		double resolutionY = Screen.getPrimary().getBounds().getHeight();
+
+		double ratio = resolutionX/resolutionY;
+
+		if(ratio>1.7 && ratio<1.8){
+			return true;
+		}
+		return false;
+
+	}
 }

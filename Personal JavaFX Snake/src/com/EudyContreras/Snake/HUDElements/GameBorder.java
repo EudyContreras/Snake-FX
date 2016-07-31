@@ -40,31 +40,42 @@ public class GameBorder extends AbstractTile {
 		this.bottomBound = new ImageView(GameImageBank.horizontal_border);
 
 		this.setDimensions_h(bottomBound);
-		this.setDimensions_h(topBound);
+		this.setDimensions_h(topBound,60);
 		this.setDimensions_v(leftBound);
 		this.setDimensions_v(rightBound);
 
 		this.leftBound.setX(0);
 		this.rightBound.setX(GameSettings.SCREEN_WIDTH - borderSize);
-		this.topBound.setX(0);
+		this.leftBound.setY(60);
+		this.rightBound.setY(60);
+		this.topBound.setX(-5);
 		this.topBound.setY(0);
-		this.bottomBound.setX(0);
+		this.bottomBound.setX(-5);
 		this.bottomBound.setY(GameSettings.SCREEN_HEIGHT - borderSize);
 		this.displayBorders();
 	}
 	public void setDimensions_h(ImageView view){
-		view.setFitWidth(GameSettings.SCREEN_WIDTH);
-		view.setFitHeight(borderSize);
+		view.setFitWidth(GameSettings.SCREEN_WIDTH+5);
+		view.setFitHeight(borderSize+5);
+	}
+	public void setDimensions_h(ImageView view, double height){
+		view.setFitWidth(GameSettings.SCREEN_WIDTH+5);
+		view.setFitHeight(height);
 	}
 	public void setDimensions_v(ImageView view){
 		view.setFitWidth(borderSize);
+		view.setFitHeight(GameSettings.SCREEN_HEIGHT-80);
+	}
+	public void setDimensions_v(ImageView view, double width){
+		view.setFitWidth(width);
 		view.setFitHeight(GameSettings.SCREEN_HEIGHT);
 	}
 	public void displayBorders(){
-		this.layer.getChildren().add(leftBound);
-		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(topBound);
 		this.layer.getChildren().add(bottomBound);
+		this.layer.getChildren().add(leftBound);
+		this.layer.getChildren().add(rightBound);
+
 	}
 	public void showBorders(boolean state){
 		this.leftBound.setVisible(state);

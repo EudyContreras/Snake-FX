@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.InputHandlers;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
@@ -132,7 +133,7 @@ public class KeyInputHandler {
 					}
 
 					if(e.isControlDown()){
-						if(!game.getMainWindow().isFullScreen()){
+						if(!game.getMainWindow().isFullScreen() && ResizeHelper.isSupportedRatio()){
 							game.setNewRatio(true);
 							game.getMainWindow().setFullScreen(true);
 							game.getGameBorder().showBorders(false);

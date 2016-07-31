@@ -4,6 +4,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractHudElement;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
@@ -283,7 +284,7 @@ public class VictoryScreen extends AbstractHudElement {
 					}
 				}
 				if(e.isControlDown()){
-					if(!game.getMainWindow().isFullScreen()){
+					if(!game.getMainWindow().isFullScreen()&& ResizeHelper.isSupportedRatio()){
 						game.setNewRatio(true);
 						game.getMainWindow().setFullScreen(true);
 						game.getGameBorder().showBorders(false);
@@ -702,9 +703,10 @@ public class VictoryScreen extends AbstractHudElement {
 			sceneSnapshot.setFitWidth(GameSettings.SCREEN_WIDTH);
 			sceneSnapshot.setFitHeight(GameSettings.SCREEN_HEIGHT);
 			sceneSnapshot.setTranslateX(-20);
-			sceneSnapshot.setTranslateY(-20);
+			sceneSnapshot.setTranslateY(-55);
 			game.getGameBorder().readdBorders();
 		}
+
 		show(true);
 		game.getNinthLayer().getChildren().add(sceneSnapshot);
 		overlay.removeBlur();

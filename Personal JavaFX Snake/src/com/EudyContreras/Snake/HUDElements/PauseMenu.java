@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
@@ -384,7 +385,7 @@ public class PauseMenu {
 					}
 				}
 				if(e.isControlDown()){
-					if(!game.getMainWindow().isFullScreen()){
+					if(!game.getMainWindow().isFullScreen() && ResizeHelper.isSupportedRatio()){
 						game.setNewRatio(true);
 						game.getMainWindow().setFullScreen(true);
 						game.getGameBorder().showBorders(false);
