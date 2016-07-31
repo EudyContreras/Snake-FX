@@ -247,8 +247,6 @@ public class GameManager extends AbstractGameModel {
 		menuManager.setupMainMenu();
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
-		gameBorder.showBorders(true);
-		mainWindow.setFullScreen(false);
 		mainWindow.setTitle(title);
 		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
@@ -259,6 +257,9 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.setTitle(title);
 		mainWindow.show();
 		resizeListener(mainWindow, scene, sceneRoot);
+		setNewRatio(false);
+		getMainWindow().setFullScreen(false);
+		getGameBorder().showBorders(true);
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
