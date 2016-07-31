@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
  *
  */
 public class GameBorder extends AbstractTile {
-	private double borderSize = 10;
+	private double borderSize = 20;
 	private ImageView leftBound;
 	private ImageView rightBound;
 	private ImageView topBound;
@@ -32,10 +32,10 @@ public class GameBorder extends AbstractTile {
 		showBorders(false);
 	}
 	public void setupBorders(){
-		this.leftBound = new ImageView(GameImageBank.vertical_border);
-		this.rightBound = new ImageView(GameImageBank.vertical_border);
-		this.topBound = new ImageView(GameImageBank.horizontal_border);
-		this.bottomBound = new ImageView(GameImageBank.horizontal_border);
+		this.leftBound = new ImageView(GameImageBank.vertical_border1);
+		this.rightBound = new ImageView(GameImageBank.vertical_border2);
+		this.topBound = new ImageView(GameImageBank.horizontal_border1);
+		this.bottomBound = new ImageView(GameImageBank.horizontal_border2);
 
 		this.setDimensions_h(bottomBound);
 		this.setDimensions_h(topBound);

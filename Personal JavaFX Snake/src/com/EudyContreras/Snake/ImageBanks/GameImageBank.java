@@ -1,14 +1,14 @@
 	package com.EudyContreras.Snake.ImageBanks;
-	
+
 	import com.EudyContreras.Snake.FrameWork.GameSettings;
 	import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
-	
+
 	import javafx.scene.ImageCursor;
 	import javafx.scene.image.Image;
 	import javafx.scene.paint.Color;
 	import javafx.scene.paint.ImagePattern;
 	import javafx.scene.shape.Circle;
-	
+
 	/**
 	 * This is the class where we load all images. we first precreate a shaded,
 	 * lighted, glowing or regular image here and then we use it in the game. This
@@ -22,7 +22,7 @@
 	 *
 	 */
 	public class GameImageBank {
-	
+
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			 /*
 			 * Game objects
@@ -55,7 +55,7 @@
 			 * Player one
 			 */
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+
 			public static final Image snakeOneHead = ImageEffectUtility.precreatedLightedImage("desert-snake-head3.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY, 111, 97 );
 			public static final Image snakeOneBlinking = ImageEffectUtility.precreatedLightedImage("desert-snake-head-blink3.png",
@@ -78,8 +78,8 @@
 			public static final ImagePattern normalPatternOne = new ImagePattern(snakeOneSkin);
 			public static final ImagePattern speedPatternOne = new ImagePattern(snakeOneSkinBlurred);
 			public static final ImagePattern snakeOneBody = new ImagePattern(snakeOneSkin);
-	
-	
+
+
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			/**
 			 * Player 2
@@ -103,8 +103,8 @@
 			public static final ImagePattern snakeTwoBody = new ImagePattern(snakeTwoSkin);
 			public static final ImagePattern normalPatternTwo = new ImagePattern(snakeTwoSkin);
 			public static final ImagePattern speedPatternTwo = new ImagePattern(snakeTwoSkinBlurred);
-	
-	
+
+
 			/**
 			 * heads up display elements
 			 */
@@ -113,8 +113,10 @@
 			public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,70,false, true);
 			public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,100);
 			public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
-			public static final Image horizontal_border = ImageEffectUtility.GLOWING_RECTANGLE(Color.LIMEGREEN, 0, 0.35, GameSettings.WIDTH,50);
-			public static final Image vertical_border = ImageEffectUtility.GLOWING_RECTANGLE(Color.LIMEGREEN, 0, 0.35, 50,GameSettings.HEIGHT);
+			public static final Image horizontal_border1 = new Image(ImageEffectUtility.loadResource("border_h1.png"));
+			public static final Image vertical_border1 = new Image(ImageEffectUtility.loadResource("border_v1.png"));
+			public static final Image horizontal_border2 = new Image(ImageEffectUtility.loadResource("border_h2.png"));
+			public static final Image vertical_border2 = new Image(ImageEffectUtility.loadResource("border_v2.png"));
 			public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
 			public static final Image score_keeper_multiPlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info_thin.png"));
 			public static final Image score_keeper_singlePlayer = new Image(ImageEffectUtility.loadResource("hud_bar_info.png"));
@@ -158,8 +160,8 @@
 			public static final ImagePattern count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
 			public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
 			public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go_alt.png")));
-	
-			
+
+
 			public static ImageCursor normalCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("normalCursor.png")));
 			public static ImageCursor dragCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("dragMarker.png")));
 			public static ImageCursor stretchCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("stretchMarker.png")));
@@ -177,13 +179,13 @@
 			public static final Image classicSnakeBodyDebris = ImageEffectUtility.preCreateAlternateGlowingCircle(Color.GREEN,1, 300, 0.2, GameSettings.PLAYER_ONE_SIZE*5);
 			public static final Image classicSnakeBodyBlurred = ImageEffectUtility.preCreateShadedBlurredCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
 			public static final Image transparentFill = ImageEffectUtility.preCreateCircle(Color.GREEN, GameSettings.PLAYER_ONE_SIZE*.75);
-	
-	
+
+
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
+
+
 			public static final String loadResource(String resource) {
 			return GameImageBank.class.getResource(resource).toExternalForm();
 		}
-	
+
 	}

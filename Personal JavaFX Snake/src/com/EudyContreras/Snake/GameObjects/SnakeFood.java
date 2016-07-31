@@ -450,7 +450,7 @@ public class SnakeFood extends AbstractObject {
 	public void blowUp() {
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
-				particleSize = (Math.random() * (20 - 5 + 1) + 5);
+				particleSize = (Math.random() * (15 - 5 + 1) + 5);
 				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5);
 			}
 			game.getDebrisManager().addDebris(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
