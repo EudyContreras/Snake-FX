@@ -68,7 +68,6 @@ public abstract class AbstractGameModel extends Application {
 	protected BorderPane layoutContainer;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
-    protected BorderPane topBar;
     protected ResizeListener sizeListener;
 	protected Service<Void> backgroundThread;
 	protected ScheduledExecutorService scheduledExecutor;

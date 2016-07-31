@@ -5,8 +5,10 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 /**
  * This class aims to represent a game ready notification which determines
@@ -23,13 +25,14 @@ public class ReadyNotification {
 	private double width;
 	private double height;
 	private double fadeValue = 0;;
-	private double fadeSpeed = 0.025;
+	private double fadeSpeed = 0.035;
 	private double showCounter = 0;
 	private Pane layer;
 	private Boolean hideNotice = false;
 	private Boolean waiting = false;
 	private Boolean fadeState = false;
 	private ImageView readyView;
+	private DropShadow glow;
 	private GameManager game;
 
 	/**
@@ -52,6 +55,10 @@ public class ReadyNotification {
 		this.display();
 	}
 	private void initialize(){
+		this.glow = new DropShadow();
+		this.glow.setColor(Color.LIMEGREEN);
+		this.glow.setRadius(50);
+		this.glow.setSpread(.4);
 		this.readyView = new ImageView(GameImageBank.ready_notification);
 		this.readyView.setPreserveRatio(true);
 		this.readyView.setFitWidth(width*.5);
@@ -60,7 +67,7 @@ public class ReadyNotification {
 	}
 	private void position(){
 		this.x = GameSettings.WIDTH/2 - readyView.getFitWidth()/2;
-		this.y = 10;
+		this.y = 20;
 		this.readyView.setTranslateX(x);
 		this.readyView.setTranslateY(y);
 	}
@@ -77,6 +84,8 @@ public class ReadyNotification {
 		processEvent();
 	}
 	public void hideNotification(){
+		readyView.setEffect(glow);
+		fadeValue = 1;
 		waiting = false;
 		hideNotice = true;
 	}
@@ -86,8 +95,8 @@ public class ReadyNotification {
 			if (fadeValue <= 0) {
 				fadeValue = 0;
 				hideNotice = false;
+				readyView.setEffect(null);
 				startCounter();
-
 			}
 		}
 		this.readyView.setOpacity(fadeValue);

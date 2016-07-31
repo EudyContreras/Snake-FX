@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.FrameWork;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeManager;
@@ -37,7 +38,6 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
-import com.EudyContreras.Snake.Utilities.GUIElements;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -58,8 +58,6 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -133,7 +131,7 @@ public class GameManager extends AbstractGameModel {
 
 				final double ratio = initWidth / initHeight;
 				sizeListener.setNewRatio(ratio, initHeight, initWidth);
-				
+
 				for(Node node: sceneRoot.getChildren()){
 					node.setTranslateY(0);
 				}
@@ -144,55 +142,15 @@ public class GameManager extends AbstractGameModel {
 
 				final double ratio = initWidth / initHeight;
 				sizeListener.setNewRatio(ratio, initHeight, initWidth);
-				
+
 				for(Node node: sceneRoot.getChildren()){
 					node.setTranslateY(25);
 				}
 			}
 		}
-		
+
 	}
-	private void handleTopBarEvents(){
-		 	topBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                xOffset = mainWindow.getX() - event.getScreenX();
-	                yOffset = mainWindow.getY() - event.getScreenY();
-	            }
-	        });
-	        topBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent event) {
-	                mainWindow.setX(event.getScreenX() + xOffset);
-	                mainWindow.setY(event.getScreenY() + yOffset);
-	            }
-	        });
-	        topBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent mouseEvent) {
-	                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-	                    if (mouseEvent.getClickCount() == 2) {
-	                    	mainWindow.setFullScreen(true);
-	                        sceneRoot.getChildren().remove(topBar);
-	                        gameBorder.showBorders(false);
-	                    }
-	                }
-	            }
-	        });
-	        topBar.setOnMouseClicked(new EventHandler<MouseEvent>() {
-	            @Override
-	            public void handle(MouseEvent mouseEvent) {
-	                if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
-	                    if (mouseEvent.getClickCount() == 2) {
-	                        if (!layoutContainer.getChildren().contains(topBar)) {
-	                            mainWindow.setFullScreen(false);
-	                            layoutContainer.getChildren().add(0, topBar);
-	                        }
-	                    }
-	                }
-	            }
-	        });
-	}
+
 	public void showSplashScreen() {
 		splashScene = new Scene(splashLayout);
 		splashScene.setFill(Color.TRANSPARENT);
@@ -305,7 +263,6 @@ public class GameManager extends AbstractGameModel {
 		frameGameLoop = new Timeline();
 		mainRoot = new Pane();
 		root = new Pane();
-		topBar = GUIElements.createTopBar();
 		sceneRoot = new BorderPane();
 		menuManager = new MenuManager(this);
 		rootContainer = new Group(sceneRoot);

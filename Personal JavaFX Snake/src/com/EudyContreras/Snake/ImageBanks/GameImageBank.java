@@ -108,8 +108,8 @@ import javafx.scene.shape.Circle;
 			/**
 			 * heads up display elements
 			 */
-			
-			
+
+
 			public static final Image hud_bar = new Image(ImageEffectUtility.loadResource("hud_bar_plain.png"));
 			public static final Image hud_bar_orange = new Image(ImageEffectUtility.loadResource("hud_bar_orange.png"),GameSettings.WIDTH*2,100,false, true);
 			public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,70,false, true);
@@ -161,9 +161,8 @@ import javafx.scene.shape.Circle;
 			public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
 			public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go_alt.png")));
 
-			public static final Image maximize = new Image(ImageEffectUtility.loadResource("maximize.png"));
-			public static final Image minimize = new Image(ImageEffectUtility.loadResource("minimize.png"));
-			public static final Image exit = new Image(ImageEffectUtility.loadResource("exit.png"));
+
+			public static final Image snakeIcon = new Image(ImageEffectUtility.loadResource("snakeIcon.png"));
 			public static ImageCursor normalCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("normalCursor.png")));
 			public static ImageCursor dragCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("dragMarker.png")));
 			public static ImageCursor stretchCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("stretchMarker.png")));
