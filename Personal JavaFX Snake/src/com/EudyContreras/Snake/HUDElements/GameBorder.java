@@ -70,15 +70,15 @@ public class GameBorder extends AbstractTile {
 
 		this.leftBound.setX(0);
 		this.rightBound.setX(GameSettings.SCREEN_WIDTH - borderSize);
-		this.leftBound.setY(60);
-		this.rightBound.setY(60);
+		this.leftBound.setY(0);
+		this.rightBound.setY(0);
 		this.topBound.setX(-5);
 		this.topBound.setY(0);
 		this.bottomBound.setX(-5);
 		this.bottomBound.setY(GameSettings.SCREEN_HEIGHT - borderSize);
-		this.exit.setTranslateX(GameSettings.SCREEN_WIDTH/2 - 40);
-		this.exit.setFitWidth(40);
-		this.exit.setFitHeight(40);
+		this.exit.setTranslateX(GameSettings.SCREEN_WIDTH/2 - 45);
+		this.exit.setFitWidth(35);
+		this.exit.setFitHeight(35);
 		this.pane.getChildren().setAll(topBound, new ImageView(GameImageBank.snakeIcon), exit);
 		this.displayBorders();
 	}
@@ -92,7 +92,7 @@ public class GameBorder extends AbstractTile {
 	}
 	public void setDimensions_v(ImageView view){
 		view.setFitWidth(borderSize);
-		view.setFitHeight(GameSettings.SCREEN_HEIGHT-80);
+		view.setFitHeight(GameSettings.SCREEN_HEIGHT);
 	}
 	public void setDimensions_v(ImageView view, double width){
 		view.setFitWidth(width);
@@ -108,6 +108,7 @@ public class GameBorder extends AbstractTile {
 		exit.setOnMouseClicked(e ->{
 			game.closeGame();
 		});
+
 	 	topBound.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -122,6 +123,12 @@ public class GameBorder extends AbstractTile {
             	CursorUtility.setCursor(CursorID.DRAG, game.getScene());
             	game.getMainWindow().setX(event.getScreenX() + xOffset);
             	game.getMainWindow().setY(event.getScreenY() + yOffset);
+            }
+        });
+	 	topBound.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+            	CursorUtility.setCursor(CursorID.NORMAL, game.getScene());
             }
         });
 	 	topBound.setOnMouseReleased(new EventHandler<MouseEvent>(){
@@ -153,10 +160,10 @@ public class GameBorder extends AbstractTile {
         });
 	}
 	public void displayBorders(){
-		this.layer.getChildren().add(pane);
 		this.layer.getChildren().add(bottomBound);
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
+		this.layer.getChildren().add(pane);
 
 	}
 	public void showBorders(boolean state){
@@ -171,10 +178,10 @@ public class GameBorder extends AbstractTile {
 		this.layer.getChildren().remove(pane);
 		this.layer.getChildren().remove(bottomBound);
 	}
-	public void readdBorders(){
+	public void reAddBorders(){
+		this.layer.getChildren().add(bottomBound);
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(pane);
-		this.layer.getChildren().add(bottomBound);
 	}
 }

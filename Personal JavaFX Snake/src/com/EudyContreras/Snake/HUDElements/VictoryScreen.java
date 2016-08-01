@@ -704,7 +704,7 @@ public class VictoryScreen extends AbstractHudElement {
 			sceneSnapshot.setFitHeight(GameSettings.SCREEN_HEIGHT);
 			sceneSnapshot.setTranslateX(-20);
 			sceneSnapshot.setTranslateY(-55);
-			game.getGameBorder().readdBorders();
+			game.getGameBorder().reAddBorders();
 		}
 
 		show(true);

@@ -1,8 +1,5 @@
 package com.EudyContreras.Snake.FrameWork;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeManager;
@@ -88,6 +85,7 @@ public class GameManager extends AbstractGameModel {
 	private double animationHeight = 0;
 	private boolean allowStageScale = false;
 	private Task<Void> task;
+
 	public void start(Stage primaryStage) {
 		mainWindow = primaryStage;
 		GameLoader.scaleResolution();
@@ -216,6 +214,7 @@ public class GameManager extends AbstractGameModel {
 
 		CursorUtility.setCursor(CursorID.NORMAL, scene);
 
+		menuManager.setupMainMenu();
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
 		mainWindow.setTitle(title);
@@ -241,20 +240,19 @@ public class GameManager extends AbstractGameModel {
 		animationHeight = ResizeHelper.baseHeight*.05;
 		allowStageScale = true;
 
-		setWindowSize(animationWidth, animationHeight);
-		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-animationWidth/2, Screen.getPrimary().getBounds().getHeight()/2-animationHeight/2);
+//		setWindowSize(animationWidth, animationHeight);
+//		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-animationWidth/2, Screen.getPrimary().getBounds().getHeight()/2-animationHeight/2);
+
+		setWindowSize(ResizeHelper.baseWidth,ResizeHelper.baseHeight);
+		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-ResizeHelper.baseWidth/2, Screen.getPrimary().getBounds().getHeight()/2-ResizeHelper.baseHeight/2);
 
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
+//		 backgroundWorkerTwo();
 		objectChecker();
 		gameLoop();
 
-		// frameBaseGameLoop();
-		// nonUIThread();
-//		backgroundScheduledThread();
-		// backgroundTaskThread();
-		 backgroundWorkerTwo();
 
 	}
 
@@ -553,136 +551,7 @@ public class GameManager extends AbstractGameModel {
 		gameLoop.start();
 	}
 
-	/**
-	 * As the name says, this is a frame based game loop. virtually every object
-	 * in the game is processed, rendered, and moved here by calling the update
-	 * methods of every manager. The time line is controlled by keyFrames which
-	 * specify the speed, delays and more. this loop gives a bit more control to
-	 * the user.
-	 */
-	public void frameBaseGameLoop() {
-		frameGameLoop = new Timeline();
-		frameGameLoop.setCycleCount(Timeline.INDEFINITE);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.seconds(GameSettings.FRAMECAP), // 60FPS
-
-				new EventHandler<ActionEvent>() {
-					long startTime = System.currentTimeMillis();
-					long cummulativeTime = startTime;
-					long lastTime = System.nanoTime();
-					long nanoSecond = 1000000000;
-					long currentTime = 0;
-					long timePassed = 0;
-					long now = 0;
-					double delta = 0;
-					double FPS = 0;
-
-					public void handle(ActionEvent e) {
-						FPS++;
-						now = System.nanoTime();
-						currentTime = now;
-						delta += currentTime - lastTime;
-						timePassed = System.currentTimeMillis() - cummulativeTime;
-						cummulativeTime += timePassed;
-						if (!GameSettings.RENDER_GAME) {
-							menuManager.transition();
-
-						}
-						if (GameSettings.RENDER_GAME) {
-							countDownScreen.update();
-
-							overlayEffect.updateEffect();
-
-							fadeHandler.updateFade();
-
-							pauseMenu.updateTouchPanel();
-
-							gameHud.updateHudBars();
-
-							victoryScreen.updateUI();
-
-							gameOverScreen.updateUI();
-
-							scoreKeeper.updateUI();
-
-							objectManager.updateAll(timePassed);
-
-							debrisManager.updateAll();
-
-							loader.updateLevelObjects();
-
-							if (getGameLoader().getPlayerOne() != null) {
-								playerOneManager.updateAllLogic(timePassed);
-								sectManagerOne.updateAllLogic(timePassed);
-								for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
-									playerOneManager.updateAllMovement();
-									sectManagerOne.updateAllMovement(timePassed);
-								}
-							}
-
-							if (getGameLoader().getPlayerTwo() != null) {
-								playerTwoManager.updateAllLogic(timePassed);
-								sectManagerTwo.updateAllLogic(timePassed);
-								for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-									playerTwoManager.updateAllMovement();
-									sectManagerTwo.updateAllMovement(timePassed);
-								}
-							}
-
-							if (getGameLoader().getClassicSnake() != null) {
-								classicSnakeManager.updateAllLogic(timePassed);
-								sectManagerThree.updateAllLogic(timePassed);
-								for (int speed = 0; speed < ClassicSnake.SPEED; speed += 1) {
-									classicSnakeManager.updateAllMovement();
-									sectManagerThree.updateAllMovement(timePassed);
-								}
-							}
-
-							if (GameSettings.SAND_STORM) {
-								sandEmitter.move();
-								sandEmitter.emit();
-							}
-
-							if (GameSettings.RAIN_STORM) {
-								rainEmitter.move();
-								rainEmitter.emit();
-							}
-
-							if (loader.getPlayerOne() != null && getHealthBarOne() != null
-									&& getEnergyBarOne() != null) {
-								getHealthBarOne().update();
-								getEnergyBarOne().update();
-								if (scoreBoardOne != null) {
-									scoreBoardOne.updateUI();
-								}
-							}
-
-							if (loader.getPlayerTwo() != null && getHealthBarTwo() != null
-									&& getEnergyBarTwo() != null) {
-								getHealthBarTwo().update();
-								getEnergyBarTwo().update();
-								if (scoreBoardTwo != null) {
-									scoreBoardTwo.updateUI();
-								}
-							}
-
-							if (!outerParticleLayer.getChildren().isEmpty()) {
-								if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-									outerParticleLayer.getChildren().remove(0);
-								}
-							}
-						}
-						if (delta > nanoSecond) {
-							TextFPS.setText("FPS :" + FPS);
-							delta -= nanoSecond;
-							FPS = 0;
-						}
-						lastTime = currentTime;
-					}
-				});
-		frameGameLoop.getKeyFrames().add(keyFrame);
-		frameGameLoop.play();
-	}
 
 	/**
 	 * Thread used for updating non graphical elements or any other elements
@@ -769,119 +638,23 @@ public class GameManager extends AbstractGameModel {
 			private void updateAt5() {
 
 			}
-
 			private void updateAt15() {
 			}
-
 			private void updateAt30() {
 
 			}
-
 			private void updateAt60(long timePassed) {
 
 			}
-
 			private void updateAt120() {
 
 			}
-
 			private void updateAt240() {
 
 			}
-
 			private void maxFrameUpdate() {
-				if (!GameSettings.RENDER_GAME) {
 
-					menuManager.transition();
-
-				}
-				if (GameSettings.RENDER_GAME) {
-
-					countDownScreen.update();
-
-					overlayEffect.updateEffect();
-
-					fadeHandler.updateFade();
-
-					pauseMenu.updateTouchPanel();
-
-					gameHud.updateHudBars();
-
-					victoryScreen.updateUI();
-
-					gameOverScreen.updateUI();
-
-					readyNotification.updateUI();
-
-					scoreKeeper.updateUI();
-
-					objectManager.updateAll(timePassed);
-
-					debrisManager.updateAll();
-
-					loader.updateLevelObjects();
-
-					if (getGameLoader().getPlayerOne() != null) {
-						playerOneManager.updateAllLogic(timePassed);
-						sectManagerOne.updateAllLogic(timePassed);
-						for (int speed = 0; speed < PlayerOne.SPEED; speed += 1) {
-							playerOneManager.updateAllMovement();
-							sectManagerOne.updateAllMovement(timePassed);
-						}
-					}
-
-					if (getGameLoader().getPlayerTwo() != null) {
-						playerTwoManager.updateAllLogic(timePassed);
-						sectManagerTwo.updateAllLogic(timePassed);
-						for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-							playerTwoManager.updateAllMovement();
-							sectManagerTwo.updateAllMovement(timePassed);
-						}
-					}
-
-					if (getGameLoader().getClassicSnake() != null) {
-						classicSnakeManager.updateAllLogic(timePassed);
-						sectManagerThree.updateAllLogic(timePassed);
-						for (int speed = 0; speed < ClassicSnake.SPEED; speed += 1) {
-							classicSnakeManager.updateAllMovement();
-							sectManagerThree.updateAllMovement(timePassed);
-						}
-					}
-
-					if (GameSettings.SAND_STORM) {
-						sandEmitter.move();
-						sandEmitter.emit();
-					}
-
-					if (GameSettings.RAIN_STORM) {
-						rainEmitter.move();
-						rainEmitter.emit();
-					}
-
-					if (loader.getPlayerOne() != null && getHealthBarOne() != null && getEnergyBarOne() != null) {
-						getHealthBarOne().update();
-						getEnergyBarOne().update();
-						if (scoreBoardOne != null) {
-							scoreBoardOne.updateUI();
-						}
-					}
-
-					if (loader.getPlayerTwo() != null && getHealthBarTwo() != null && getEnergyBarTwo() != null) {
-						getHealthBarTwo().update();
-						getEnergyBarTwo().update();
-						if (scoreBoardTwo != null) {
-							scoreBoardTwo.updateUI();
-						}
-					}
-
-					if (!outerParticleLayer.getChildren().isEmpty()) {
-						if (outerParticleLayer.getChildren().size() >= GameSettings.PARTICLE_LIMIT) {
-							outerParticleLayer.getChildren().remove(0);
-						}
-					}
-				}
 			}
-
 			private void updateAnimation(long timePassed) {
 
 			}
@@ -891,6 +664,7 @@ public class GameManager extends AbstractGameModel {
 		mainThread.start();
 	}
 
+	@SuppressWarnings("unused")
 	private void backgroundWorkerTwo() {
 		task = new Task<Void>() {
 			@Override
@@ -913,21 +687,9 @@ public class GameManager extends AbstractGameModel {
 
 	}
 
-	@SuppressWarnings("unused")
-	private void backgroundScheduledThread() {
-		scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-		scheduledExecutor.schedule(()->{
-
-			while (allowStageScale) {
-				windowScaleAnimation();
-			}
-
-		}, 0, TimeUnit.MINUTES);
-	}
-
 	/**
 	 * Thread which can be used to updates elements and values that are not part
-	 * of the JavaFX UI eg: this thread may update the x variable used for
+	 * of the JavaFX UI e.g: this thread may update the x variable used for
 	 * translating a and element from point a to be but it may not update the
 	 * element itself within its run method
 	 *
