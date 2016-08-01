@@ -115,6 +115,7 @@ import javafx.scene.shape.Circle;
 			public static final Image hud_bar_black = new Image(ImageEffectUtility.loadResource("hud_bar_black.png"),GameSettings.WIDTH+5,70,false, true);
 			public static final Image clipping_bar_h = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, GameSettings.WIDTH*2,100);
 			public static final Image clipping_bar_v = ImageEffectUtility.GLOWING_RECTANGLE(Color.ORANGE, 0, 0.35, 100,GameSettings.HEIGHT*2);
+			public static final Image horizontal_border_alt = new Image(ImageEffectUtility.loadResource("border_h.png"));
 			public static final Image horizontal_border = new Image(ImageEffectUtility.loadResource("border_h1.png"));
 			public static final Image vertical_border = new Image(ImageEffectUtility.loadResource("border_v1.png"));
 			public static final Image hud_bar_cover = new Image(ImageEffectUtility.loadResource("hud_bar_cover.png"));
@@ -162,6 +163,7 @@ import javafx.scene.shape.Circle;
 			public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go_alt.png")));
 
 
+			public static final Image Exit = new Image(ImageEffectUtility.loadResource("exit_alt.png"));
 			public static final Image snakeIcon = new Image(ImageEffectUtility.loadResource("snakeIcon.png"));
 			public static ImageCursor normalCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("normalCursor.png")));
 			public static ImageCursor dragCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("dragMarker.png")));

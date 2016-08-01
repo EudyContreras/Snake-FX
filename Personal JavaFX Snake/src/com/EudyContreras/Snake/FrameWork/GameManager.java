@@ -84,6 +84,10 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel {
 
+	private double animationWidth = 0;
+	private double animationHeight = 0;
+	private boolean allowStageScale = false;
+	private Task<Void> task;
 	public void start(Stage primaryStage) {
 		mainWindow = primaryStage;
 		GameLoader.scaleResolution();
@@ -211,7 +215,7 @@ public class GameManager extends AbstractGameModel {
 		processGestures();
 
 		CursorUtility.setCursor(CursorID.NORMAL, scene);
-		menuManager.setupMainMenu();
+
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
 		mainWindow.setTitle(title);
@@ -220,6 +224,7 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.setOnCloseRequest(e -> {
 			closeGame();
 		});
+
 		mainWindow.initStyle(StageStyle.UNDECORATED);
 		mainWindow.setTitle(title);
 		mainWindow.show();
@@ -228,11 +233,16 @@ public class GameManager extends AbstractGameModel {
 		setNewRatio(false);
 		getMainWindow().setFullScreen(false);
 		getGameBorder().showBorders(true);
+
 		ResizeHelper.baseWidth = ResizeHelper.baseWidth*.6;
 		ResizeHelper.baseHeight = ResizeHelper.baseHeight*.6;
 
-		setWindowSize(ResizeHelper.baseWidth,ResizeHelper.baseHeight);
-		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-ResizeHelper.baseWidth/2, Screen.getPrimary().getBounds().getHeight()/2-ResizeHelper.baseHeight/2);
+		animationWidth = ResizeHelper.baseWidth*.05;
+		animationHeight = ResizeHelper.baseHeight*.05;
+		allowStageScale = true;
+
+		setWindowSize(animationWidth, animationHeight);
+		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-animationWidth/2, Screen.getPrimary().getBounds().getHeight()/2-animationHeight/2);
 
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
@@ -242,9 +252,9 @@ public class GameManager extends AbstractGameModel {
 
 		// frameBaseGameLoop();
 		// nonUIThread();
-		// backgroundScheduledThread();
+//		backgroundScheduledThread();
 		// backgroundTaskThread();
-		// backgroundWorkerTwo();
+		 backgroundWorkerTwo();
 
 	}
 
@@ -393,7 +403,21 @@ public class GameManager extends AbstractGameModel {
 	public void setBackgroundImage(Image image) {
 		backgroundImage.setImage(image);
 	}
+	private void windowScaleAnimation(){
+		animationWidth = animationWidth*1.008;
+		animationHeight = animationHeight*1.008;
 
+		setWindowSize(animationWidth, animationHeight);
+		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-animationWidth/2, Screen.getPrimary().getBounds().getHeight()/2-animationHeight/2);
+
+		if(animationWidth >= ResizeHelper.baseWidth && animationHeight >= ResizeHelper.baseHeight){
+			allowStageScale = false;
+			setWindowSize(ResizeHelper.baseWidth,ResizeHelper.baseHeight);
+			setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-ResizeHelper.baseWidth/2, Screen.getPrimary().getBounds().getHeight()/2-ResizeHelper.baseHeight/2);
+			menuManager.setupMainMenu();
+			task.cancel();
+		}
+	}
 	/**
 	 * This is the game loop. virtually every object in the game is processed,
 	 * rendered, and moved here by calling the update methods of every manager.
@@ -867,37 +891,38 @@ public class GameManager extends AbstractGameModel {
 		mainThread.start();
 	}
 
-	@SuppressWarnings("unused")
 	private void backgroundWorkerTwo() {
-		Task<Void> task = new Task<Void>() {
+		task = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
 				while (true) {
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
-
+							if(allowStageScale)
+							windowScaleAnimation();
 						}
 					});
 					Thread.sleep(1);
 				}
 			}
 		};
-		Thread th = new Thread(task);
-		th.setDaemon(true);
-		th.start();
+		Thread thread = new Thread(task);
+		thread.setDaemon(true);
+		thread.start();
+
 	}
 
 	@SuppressWarnings("unused")
 	private void backgroundScheduledThread() {
 		scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
-		scheduledExecutor.scheduleAtFixedRate(() -> {
+		scheduledExecutor.schedule(()->{
 
-			Platform.runLater(() -> {
+			while (allowStageScale) {
+				windowScaleAnimation();
+			}
 
-			});
-
-		}, 0, 16, TimeUnit.MILLISECONDS);
+		}, 0, TimeUnit.MINUTES);
 	}
 
 	/**

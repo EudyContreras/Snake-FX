@@ -8,12 +8,16 @@ import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
+
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 /**
  * Bounds class which can be used for adding specific events to objects
@@ -23,13 +27,19 @@ import javafx.scene.layout.StackPane;
  *
  */
 public class GameBorder extends AbstractTile {
+
 	private GameManager game;
+
 	private StackPane pane;
 	private ImageView leftBound;
 	private ImageView rightBound;
 	private ImageView topBound;
 	private ImageView bottomBound;
+	private ImageView exit;
+
+	private DropShadow glow;
 	private Group layer;
+
 	private double borderSize = 20;
 	protected double yOffset = 0;
 	protected double xOffset = 0;
@@ -45,10 +55,12 @@ public class GameBorder extends AbstractTile {
 		handleTopBarEvents();
 	}
 	public void setupBorders(){
+		this.glow = new DropShadow(BlurType.THREE_PASS_BOX, Color.RED, 25, 0.5, 0, 0);
 		this.pane = new StackPane();
+		this.exit = new ImageView(GameImageBank.Exit);
 		this.leftBound = new ImageView(GameImageBank.vertical_border);
 		this.rightBound = new ImageView(GameImageBank.vertical_border);
-		this.topBound = new ImageView(GameImageBank.horizontal_border);
+		this.topBound = new ImageView(GameImageBank.horizontal_border_alt);
 		this.bottomBound = new ImageView(GameImageBank.horizontal_border);
 
 		this.setDimensions_h(bottomBound);
@@ -64,7 +76,10 @@ public class GameBorder extends AbstractTile {
 		this.topBound.setY(0);
 		this.bottomBound.setX(-5);
 		this.bottomBound.setY(GameSettings.SCREEN_HEIGHT - borderSize);
-		this.pane.getChildren().setAll(topBound, new ImageView(GameImageBank.snakeIcon));
+		this.exit.setTranslateX(GameSettings.SCREEN_WIDTH/2 - 40);
+		this.exit.setFitWidth(40);
+		this.exit.setFitHeight(40);
+		this.pane.getChildren().setAll(topBound, new ImageView(GameImageBank.snakeIcon), exit);
 		this.displayBorders();
 	}
 	public void setDimensions_h(ImageView view){
@@ -84,6 +99,15 @@ public class GameBorder extends AbstractTile {
 		view.setFitHeight(GameSettings.SCREEN_HEIGHT);
 	}
 	private void handleTopBarEvents(){
+		exit.setOnMouseEntered(e ->{
+			exit.setEffect(glow);
+		});
+		exit.setOnMouseExited(e ->{
+			exit.setEffect(null);
+		});
+		exit.setOnMouseClicked(e ->{
+			game.closeGame();
+		});
 	 	topBound.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
