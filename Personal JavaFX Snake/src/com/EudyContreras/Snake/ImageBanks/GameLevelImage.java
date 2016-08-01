@@ -65,11 +65,11 @@ public class GameLevelImage {
 		public static final Image verticalFence = ImageEffectUtility.precreatedLightedAndShadedImage("vertical_spike_fence_alt.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 55,170 );
 		public static final Image desert_rock = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_one.png", GameSettings.GlOBAL_ILLUMINATION,
-			GameSettings.GLOBAL_SPECULARITY, 150, 150 );
+			GameSettings.GLOBAL_SPECULARITY-0.8, 150, 150 );
 		public static final Image desert_rock_alt = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_two.png", GameSettings.GlOBAL_ILLUMINATION,
-			GameSettings.GLOBAL_SPECULARITY-0.4, 150, 150 );
-		public static final Image desert_bark = ImageEffectUtility.precreatedLightedAndShadedImageTwo("desert_tree_bark_four.png", GameSettings.GlOBAL_ILLUMINATION,
-			GameSettings.GLOBAL_SPECULARITY-0.4, 480, 210 );
+			GameSettings.GLOBAL_SPECULARITY-0.8, 150, 150 );
+		public static final Image desert_bark = ImageEffectUtility.precreatedLightedAndShadedImage("desert_tree_bark_four.png", GameSettings.GlOBAL_ILLUMINATION,
+			GameSettings.GLOBAL_SPECULARITY-1, 480, 210 );
 		public static final Image desert_cactus_big = ImageEffectUtility.precreatedLightedAndShadedImage("big_cactus_thick.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 145,205 );
 		public static final Image desert_cactus_big_alt = ImageEffectUtility.precreatedLightedAndShadedImage("big_cactus_thick_alt.png",

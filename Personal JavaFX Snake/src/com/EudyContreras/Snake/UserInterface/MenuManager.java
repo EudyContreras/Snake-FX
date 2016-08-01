@@ -112,6 +112,7 @@ public class MenuManager extends AbstractMenuElement{
 			}
 			if (opacity >= 1.0) {
 				removeMenu(main_menu.main_menu_screen());
+				removeMenu(modes_menu.modes_menu_screen());
 				menuLogo.setVisible(false);
 			}
 			if (opacity >=1.5) {
