@@ -64,9 +64,9 @@ public class GameLevelImage {
 			GameSettings.GLOBAL_SPECULARITY, 180, 65 );
 		public static final Image verticalFence = ImageEffectUtility.precreatedLightedAndShadedImage("vertical_spike_fence_alt.png",
 			GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 55,170 );
-		public static final Image desert_rock = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_one.png", GameSettings.GlOBAL_ILLUMINATION,
+		public static final Image desert_rock = ImageEffectUtility.precreatedLightedAndShadedImageTwo("desert_rock_one.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY-0.8, 150, 150 );
-		public static final Image desert_rock_alt = ImageEffectUtility.precreatedLightedAndShadedImage("desert_rock_two.png", GameSettings.GlOBAL_ILLUMINATION,
+		public static final Image desert_rock_alt = ImageEffectUtility.precreatedLightedAndShadedImageTwo("desert_rock_two.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY-0.8, 150, 150 );
 		public static final Image desert_bark = ImageEffectUtility.precreatedLightedAndShadedImage("desert_tree_bark_four.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY-1, 480, 210 );

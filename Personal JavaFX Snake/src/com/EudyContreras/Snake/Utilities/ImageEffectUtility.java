@@ -1,5 +1,6 @@
  package com.EudyContreras.Snake.Utilities;
 
+import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 
 import javafx.scene.Node;
@@ -56,19 +57,19 @@ public class ImageEffectUtility {
 		view.setEffect(null);
 		lighting.setContentInput(null);
 		shadow.setInput(null);
-		shadow.setBlurType(BlurType.TWO_PASS_BOX);
+		shadow.setBlurType(BlurType.THREE_PASS_BOX);
 	}
 	public static synchronized Image precreatedLightedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
-		img = new Image(loadResource(path));
+		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(260);
-		light.setZ(110);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(5.0);
+		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
 			view.setEffect(lighting);
@@ -98,26 +99,27 @@ public class ImageEffectUtility {
 	public static synchronized Image precreatedLightedAndShadedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
+		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view = new ImageView(img);
+		light.setX(-200);
+		light.setY(250);
+		light.setZ(130);
 
 //		light.setX(-150);
-//		light.setY(300);
-//		light.setZ(140);
-
-//		light.setX(-120);
 //		light.setY(350);
-//		light.setZ(130);
-
-		light.setX(-150);
-		light.setY(260);
-		light.setZ(110);
+//		light.setZ(140);
+//
+//
+//		light.setX(-150);
+//		light.setY(220);
+//		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(5.0);
+		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
-		shadow.setColor(Color.rgb(0, 0, 0, 0.65));
-		shadow.setRadius(25);
+		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
+		shadow.setRadius(20);
 		shadow.setOffsetX(20);
 		shadow.setOffsetY(-15);
 		lighting.setContentInput(shadow);
@@ -134,11 +136,11 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(260);
-		light.setZ(110);
+		light.setY(300);
+		light.setZ(140);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(5.0);
+		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.6));
 		shadow.setRadius(20);
@@ -158,11 +160,11 @@ public class ImageEffectUtility {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
 		light.setX(-150);
-		light.setY(260);
-		light.setZ(110);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
-		lighting.setSpecularConstant(specularMap);
-		lighting.setSurfaceScale(5.0);
+		lighting.setSpecularConstant(2);
+		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
 		shadow.setRadius(5);
@@ -199,14 +201,14 @@ public class ImageEffectUtility {
 		circle.setFill(color);
 		circle.setRadius(radius);
 		light.setX(-150);
-		light.setY(260);
-		light.setZ(110);
+		light.setY(220);
+		light.setZ(115);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(8.0);
 		blur.setIterations(2);
 		blur.setWidth(10);
-		blur.setHeight(0);
+		blur.setHeight(10);
 		lighting.setContentInput(blur);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
@@ -266,13 +268,13 @@ public class ImageEffectUtility {
 		view.setImage(img);
 		light.setX(0);
 		light.setY(1300);
-		light.setZ(1400);
+		light.setZ(850);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
 		if (GameSettings.ADD_LIGHTING)
-		//	view.setEffect(lighting);
+			view.setEffect(lighting);
 		view.setFitWidth(width);
 		view.setFitHeight(height);
 		img = ImageEffectUtility.createImage(view);
