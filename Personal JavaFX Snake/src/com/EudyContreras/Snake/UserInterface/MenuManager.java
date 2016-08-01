@@ -91,6 +91,7 @@ public class MenuManager extends AbstractMenuElement{
 		menuContainer.getChildren().add(menu);
 	}
 	public void removeMenu(Pane menu){
+		if(menuContainer.getChildren().contains(menu))
 		menuContainer.getChildren().remove(menu);
 	}
 
@@ -106,8 +107,14 @@ public class MenuManager extends AbstractMenuElement{
 		}
 		if (hideMenu) {
 			opacity += 0.05;
-			clearUp.setOpacity(opacity);
+			if(opacity<=1){
+				clearUp.setOpacity(opacity);
+			}
 			if (opacity >= 1.0) {
+				removeMenu(main_menu.main_menu_screen());
+				menuLogo.setVisible(false);
+			}
+			if (opacity >=1.5) {
 				opacity = 1.0;
 				introTheGame();
 				hideMenu = false;
@@ -127,6 +134,7 @@ public class MenuManager extends AbstractMenuElement{
 	 * game.
 	 */
 	public void setMainMenu() {
+		menuLogo.setVisible(true);
 		menuRoot.getChildren().add(fadeScreen);
 		showMenu = true;
 		startingGame = false;
@@ -157,7 +165,6 @@ public class MenuManager extends AbstractMenuElement{
 			//TODO: Show a loading screen
 			game.setModeID(modeID);
 			game.prepareGame();
-			removeMenu(main_menu.main_menu_screen());
 			menuRoot.getChildren().remove(fadeScreen);
 			game.resumeGame();
 			game.showCursor(false, game.getScene());
