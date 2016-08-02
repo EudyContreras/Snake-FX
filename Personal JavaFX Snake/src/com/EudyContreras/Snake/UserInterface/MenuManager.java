@@ -64,8 +64,8 @@ public class MenuManager extends AbstractMenuElement{
 		menuLogo.setEffect(glowLED);
 		menuLogo.setWidth((MenuImageBank.gameLogo.getWidth()*1.3));
 		menuLogo.setHeight((MenuImageBank.gameLogo.getHeight()*1.3));
-		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2)-520);
-		menuLogo.setY(10);
+		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2));
+		menuLogo.setY(25);
 	}
 	public void addMusic() {
 		music = GameAudio.getAudio("AudioResources/Jungle Loop.wav");

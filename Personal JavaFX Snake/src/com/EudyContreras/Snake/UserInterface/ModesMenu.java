@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 public class ModesMenu extends AbstractMenuElement {
 
 	private final static Pane GAME_MODE_MENU = new Pane();
-	private final static CustomMenuBox MODES_MENU_BOX = new CustomMenuBox(700, 700, 30, Color.BLACK,Pos.CENTER);
+	private final static CustomMenuBox MODES_MENU_BOX = new CustomMenuBox(1200, 700, 30, Color.BLACK,Pos.CENTER);
 
 	public ModesMenu(GameManager game, MenuManager menu) {
 		this.game = game;
@@ -23,7 +23,7 @@ public class ModesMenu extends AbstractMenuElement {
 
 	public void setUp() {
 
-		MODES_MENU_BOX.setMenuBoxOffset(-520,150);
+		MODES_MENU_BOX.setMenuBoxOffset(0,150);
 
 		MODES_MENU_BOX.addButtons(
 				new CustomMenuButton("CLASSIC MODE", Pos.CENTER, ButtonStyle.BLACK, Color.WHITE, fontSize, buttonSizeW,

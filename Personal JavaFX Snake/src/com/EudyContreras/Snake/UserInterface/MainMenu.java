@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 public class MainMenu extends AbstractMenuElement {
 
 	private final static Pane MAIN_MENU = new Pane();
-	private final static CustomMenuBox MAIN_MENU_BOX = new CustomMenuBox(700, 700, 30, Color.BLACK, Pos.CENTER);
+	private final static CustomMenuBox MAIN_MENU_BOX = new CustomMenuBox(1200, 700, 30, Color.BLACK, Pos.CENTER);
 
 	public MainMenu(GameManager game, MenuManager menu) {
 		this.game = game;
@@ -22,7 +22,7 @@ public class MainMenu extends AbstractMenuElement {
 
 	public void setUp() {
 
-		MAIN_MENU_BOX.setMenuBoxOffset(-520,150);
+		MAIN_MENU_BOX.setMenuBoxOffset(0,150);
 
 		MAIN_MENU_BOX.addButtons(
 				new CustomMenuButton("START GAME", Pos.CENTER, ButtonStyle.BLACK, Color.WHITE, fontSize, buttonSizeW,
