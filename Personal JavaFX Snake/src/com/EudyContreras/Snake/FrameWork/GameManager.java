@@ -1,10 +1,5 @@
 package com.EudyContreras.Snake.FrameWork;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeManager;
@@ -91,13 +86,11 @@ public class GameManager extends AbstractGameModel {
 	private boolean allowStageScale = false;
 	private Task<Void> task;
 
-
 	public void start(Stage primaryStage) {
 		mainWindow = primaryStage;
 		GameLoader.scaleResolution();
 		initialize();
 		showSplashScreen();
-
 	}
 
 	public void fullScreenOff() {
@@ -226,7 +219,6 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.setResizable(false);
 		mainWindow.setTitle(title);
 		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
-		mainWindow.getIcons().add(GameImageBank.snakeIcon);
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		mainWindow.setOnCloseRequest(e -> {
 			closeGame();
@@ -985,64 +977,13 @@ public class GameManager extends AbstractGameModel {
 	public static void minimize() {
 		mainWindow.setIconified(true);
 	}
+
 	public static void exit() {
 		Platform.exit();
 	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
-	public class Date{
 
-		private boolean validDay = false;
-		private boolean validMonth = false;
-		private boolean validYear = false;
-		private int day;
-		private int month;
-		private int year;
-		private Calendar cal = Calendar.getInstance();
-
-		public Date(int day, int month, int year){
-			/*
-			 *All of these conditions can also be individually used to check the conditions you
-			 *want to check. simply create 3 texfields and put them in a HBox all values must be entered
-			 *separately !
-			 */
-			if(day>=cal.get(Calendar.DAY_OF_MONTH) && day<=cal.getActualMaximum(Calendar.DAY_OF_MONTH)){
-				this.day = day;
-				this.validDay = true;
-			}
-			else{
-				//TODO: handle
-			}
-			if(month>=cal.get(Calendar.MONTH) && month<=12){
-				this.month = month;
-				this.validMonth= true;
-			}
-			else{
-				//TODO: handle
-			}
-			if(year>=cal.get(Calendar.YEAR)){
-				this.year = year;
-				this.validYear = true;
-			}
-			else{
-				//TODO: handle
-			}
-		}
-		public boolean isDateValid(){
-			return validDay && validMonth && validYear;
-		}
-		public String getDate(){
-			return day+"."+month+"."+year;
-		}
-		public int getDay() {
-			return day;
-		}
-		public int getMonth() {
-			return month;
-		}
-		public int getYear() {
-			return year;
-		}
-	}
 }
