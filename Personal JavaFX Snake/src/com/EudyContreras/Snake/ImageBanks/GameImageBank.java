@@ -156,7 +156,6 @@ import javafx.scene.shape.Circle;
 			public static final Image pause_main = new Image(ImageEffectUtility.loadResource("pause_main_menu.png"));
 			public static final Image pause_quit = new Image(ImageEffectUtility.loadResource("pause_quit.png"));
 			public static final Image ready_notification = new Image(ImageEffectUtility.loadResource("ready.png"));
-			public static final Image ready_notification_alt = new Image(ImageEffectUtility.loadResource("ready_alt.png"));
 			public static final ImagePattern count_one = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_one.png")));
 			public static final ImagePattern count_two = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_two.png")));
 			public static final ImagePattern count_three = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_three.png")));
@@ -164,6 +163,7 @@ import javafx.scene.shape.Circle;
 
 
 			public static final Image Exit = new Image(ImageEffectUtility.loadResource("exit_alt.png"));
+			public static final Image appIcon = new Image(ImageEffectUtility.loadResource("snake.png"));
 			public static final Image snakeIcon = new Image(ImageEffectUtility.loadResource("snakeIcon.png"));
 			public static ImageCursor normalCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("normalCursor.png")));
 			public static ImageCursor dragCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("dragMarker.png")));

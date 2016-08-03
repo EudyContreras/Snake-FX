@@ -57,8 +57,8 @@ public class ReadyNotification {
 	private void initialize(){
 		this.glow = new DropShadow();
 		this.glow.setColor(Color.LIMEGREEN);
-		this.glow.setRadius(50);
-		this.glow.setSpread(.4);
+		this.glow.setRadius(45);
+		this.glow.setSpread(.6);
 		this.readyView = new ImageView(GameImageBank.ready_notification);
 		this.readyView.setPreserveRatio(true);
 		this.readyView.setFitWidth(width*.5);

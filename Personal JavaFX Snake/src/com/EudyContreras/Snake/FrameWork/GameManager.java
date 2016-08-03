@@ -219,6 +219,7 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.setResizable(false);
 		mainWindow.setTitle(title);
 		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
+		mainWindow.getIcons().add(GameImageBank.appIcon);
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
 		mainWindow.setOnCloseRequest(e -> {
 			closeGame();
