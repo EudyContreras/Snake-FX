@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.MultiplayerServer;
 import com.EudyContreras.Snake.Identifiers.GameLevelID;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 
-public class OnlineSession {
+public class GameSession {
 	private int sessionID;
 	private MultiplayerClient playerOne;
 	private MultiplayerClient playerTwo;
@@ -11,7 +11,7 @@ public class OnlineSession {
 	private GameThemeID themeID;
 	private GameLevelID levelID;
 
-	public OnlineSession(GameThemeID themeID, GameLevelID levelID, MultiplayerClient playerOne, MultiplayerClient playerTwo){
+	public GameSession(GameThemeID themeID, GameLevelID levelID, MultiplayerClient playerOne, MultiplayerClient playerTwo){
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
 

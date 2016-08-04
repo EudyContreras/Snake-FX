@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import com.EudyContreras.Snake.DataPackage.InfoPack;
-import com.EudyContreras.Snake.DataPackage.PlayerDetails;
 
 /**
  * This class is used to handle clients and all actions from each client
@@ -18,7 +17,7 @@ import com.EudyContreras.Snake.DataPackage.PlayerDetails;
  * @author Eudy Contreras, Mikael Malmgren, Johannes Berggren
  *
  */
-public class ClientManager extends MultiplayerServer{
+public class SessionManager extends MultiplayerServer{
 
 	private HashMap<String, MultiplayerClient> all_clients;
 	private HashMap<String, MultiplayerClient> online_clients;
@@ -32,7 +31,7 @@ public class ClientManager extends MultiplayerServer{
 	 * Constructor which takes the GUI as an argument.
 	 * @param GUI the servers graphical user interface.
 	 */
-	public ClientManager(ServerGUI GUI) {
+	public SessionManager(ServerGUI GUI) {
 		super();
 		this.GUI = GUI;
 		all_clients = new HashMap<>();
@@ -335,10 +334,12 @@ public class ClientManager extends MultiplayerServer{
 	 * @param client
 	 */
 	public synchronized void receiveNewUser(Object object, MultiplayerClient client) {
-		PlayerDetails pack;
+		InfoPack pack;
 		if(object instanceof InfoPack){
-			pack = (PlayerDetails)object;
-			processUserInformation(pack, client);
+			pack = (InfoPack)object;
+			if(pack.getCommand() == 4.0){
+				processUserInformation(pack, client);
+			}
 		}
 	}
 	/**

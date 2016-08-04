@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import javafx.geometry.Point2D;
 
-public class DataPacket implements Serializable {
+public class ClientEvent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	Integer command;
@@ -17,7 +17,7 @@ public class DataPacket implements Serializable {
 	double r;
 	byte[] data;
 
-	public DataPacket(Integer command, String playerID, double x, double y, double r) {
+	public ClientEvent(Integer command, String playerID, double x, double y, double r) {
 		super();
 		this.command = command;
 		this.playerID = playerID;
@@ -26,14 +26,14 @@ public class DataPacket implements Serializable {
 		this.r = r;
 	}
 
-	public DataPacket(Integer command, String message, String playerID) {
+	public ClientEvent(Integer command, String message, String playerID) {
 		super();
 		this.command = command;
 		this.message = message;
 		this.playerID = playerID;
 	}
 
-	public DataPacket(Integer command) {
+	public ClientEvent(Integer command) {
 		super();
 		this.command = command;
 	}

@@ -97,13 +97,14 @@ public class MultiplayerClient extends Thread{
 		}
 		try {
 
-			Object object = input.readObject();
-			inbox.add(object);
+			inbox.add(input.readObject());
 			if(inbox.size()>0){
-			manager.receiveNewUser(ObjectPop(0), this);
+				manager.receiveNewUser(ObjectPop(0), this);
 			}
 			String newUserConnected = username + " has connected to the server!";
 			server.getGUI().showServerEvent(newUserConnected);
+			
+			
 		} catch (ClassNotFoundException | IOException e) {
 			server.logToConsole("Unable to fetch username " + e.getMessage() );
 			e.printStackTrace();
@@ -177,10 +178,6 @@ public class MultiplayerClient extends Thread{
 		}
 		}
 	}
-	/**
-	 * Run method for this thread which receives objects and populates
-	 * this inbox of this particular client.
-	 */
 	public void run() {
 		while (connected && !socket.isClosed()) {
 			try {

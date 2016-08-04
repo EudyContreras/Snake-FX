@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class MultiplayerServer extends Thread {
 
-	protected static int UNIQUE_ID;
+	protected static int UNIQUE_ID = 1000;
 	private Thread thread;
 	private ServerGUI GUI;
 	private Boolean connected;
@@ -62,8 +62,11 @@ public class MultiplayerServer extends Thread {
 	public void run() {
 		Socket clientSocket = null;
 		try (ServerSocket serverSocket = new ServerSocket(port)) {
-			this.GUI.showServerEvent("Server has been started");
+			
+			GUI.showServerEvent("Server has been started");
 			logToConsole("Local server address: " + InetAddress.getLocalHost().toString());
+			
+			
 			while (getConnected()) {
 				try {
 					clientSocket = serverSocket.accept();
