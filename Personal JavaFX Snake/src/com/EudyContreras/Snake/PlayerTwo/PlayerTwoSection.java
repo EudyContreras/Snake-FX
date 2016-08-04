@@ -272,27 +272,23 @@ public class PlayerTwoSection extends AbstractSection {
 			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.MIN_Y + radius
 					&& y < GameSettings.HEIGHT - radius) {
 				if (this.direction == PlayerMovement.MOVE_DOWN) {
-					if (y - previousSection.getY()>= this.radius) {
-						y = previousSection.getY() + this.radius;
-						x = previousSection.getX();
+					if (previousSection.getY() - y >= this.radius) {
+						y = previousSection.getY() - this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_UP) {
-					if (previousSection.getY() - y >= this.radius) {
-						y = previousSection.getY() - this.radius;
-						x = previousSection.getX();
+					if (y - previousSection.getY() >= this.radius) {
+						y = previousSection.getY() + this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_LEFT) {
-					if (previousSection.getX() - x >= this.radius) {
-						x = previousSection.getX() - this.radius;
-						y = previousSection.getY();
+					if (x - previousSection.getX() >= this.radius) {
+						x = previousSection.getX() + this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_RIGHT) {
-					if (x - previousSection.getX() >= this.radius) {
-						x = previousSection.getX() + this.radius;
-						y = previousSection.getY();
+					if (previousSection.getX() - x >= this.radius) {
+						x = previousSection.getX() - this.radius;
 					}
 				}
 			}

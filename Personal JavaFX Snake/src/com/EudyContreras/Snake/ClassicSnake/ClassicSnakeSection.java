@@ -247,33 +247,31 @@ public class ClassicSnakeSection extends AbstractSection {
 			if (x > LevelBounds.MIN_X + radius && x < LevelBounds.MAX_X - radius && y >  LevelBounds.MIN_Y + radius
 					&& y < LevelBounds.MAX_Y - radius) {
 				if (this.direction == PlayerMovement.MOVE_DOWN) {
-					if (y - previousSection.getY()>= this.radius) {
-						y = previousSection.getY() + this.radius;
-						x = previousSection.getX();
+					if (previousSection.getY() - y >= this.radius) {
+						y = previousSection.getY() - this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_UP) {
-					if (previousSection.getY() - y >= this.radius) {
-						y = previousSection.getY() - this.radius;
-						x = previousSection.getX();
+					if (y - previousSection.getY() >= this.radius) {
+						y = previousSection.getY() + this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_LEFT) {
-					if (previousSection.getX() - x >= this.radius) {
-						x = previousSection.getX() - this.radius;
-						y = previousSection.getY();
+					if (x - previousSection.getX() >= this.radius) {
+						x = previousSection.getX() + this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_RIGHT) {
-					if (x - previousSection.getX() >= this.radius) {
-						x = previousSection.getX() + this.radius;
-						y = previousSection.getY();
+					if (previousSection.getX() - x >= this.radius) {
+						x = previousSection.getX() - this.radius;
 					}
 				}
 			}
 		}
 	}
-
+	public int currentDistance(){
+		return (int) (Math.hypot(x - previousSection.getX(), y - previousSection.getY()) - circle.getRadius() - circle.getRadius());
+	}
 	public void blowUp() {
 		fade = true;
 		if (blowUp == true) {
