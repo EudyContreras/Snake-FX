@@ -1,22 +1,25 @@
 package com.EudyContreras.Snake.DataPackage;
 
 import java.io.Serializable;
+
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import javafx.geometry.Point2D;
 
 public class GameEvent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+
+
 	private PlayerMovement direction;
 	private Integer command;
 	private Point2D coordinates;
 	private String message;
 	private String playerID;
 	private String objectID;
-	double x;
-	double y;
-	double r;
-	byte[] data;
+	private double x;
+	private double y;
+	private double r;
+	private byte[] data;
 
 	public GameEvent(Integer command, String playerID, double x, double y, double r) {
 		super();

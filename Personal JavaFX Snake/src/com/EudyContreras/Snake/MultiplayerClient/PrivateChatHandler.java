@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
-import com.EudyContreras.Snake.DataPackage.InfoPack;
+import com.EudyContreras.Snake.DataPackage.ServerResponse;
 
 public class PrivateChatHandler {
 	private PrivateChatGUI PM;
@@ -73,7 +73,7 @@ public class PrivateChatHandler {
 	public void sendConfirmationToSelected(){
 			for(int r = 0; r<PM.getOnlineUsers().size(); r++){
 			if(PM.getOnlineUsers().get(r).isSelected()){
-				InfoPack pack = new InfoPack(PM.getUserInterface().getUserName(),PM.getUserInterface().getClient().getOnlineUsers().get(r),PM.getUserInterface().getUserName() + ": Hi there", 3.0);
+				ServerResponse pack = new ServerResponse(PM.getUserInterface().getUserName(),PM.getUserInterface().getClient().getOnlineUsers().get(r),PM.getUserInterface().getUserName() + ": Hi there", 3.0);
 				PM.getUserInterface().getClient().sendPackage(pack);
 			}
 		}
@@ -87,7 +87,7 @@ public class PrivateChatHandler {
 			for(int r = 0; r<PM.getOnlineUsers().size(); r++){
 			if(PM.getOnlineUsers().get(r).isSelected()){
 				if(PM.getUserInterface().getClient().getOnlineUsers().get(i).contentEquals(PM.getOnlineUsers().get(r).getText())){
-				InfoPack pack = new InfoPack(PM.getUserInterface().getUserName(),PM.getUserInterface().getClient().getOnlineUsers().get(i),PM.getUserInterface().getUserName() + ": "+message,2.0 );
+				ServerResponse pack = new ServerResponse(PM.getUserInterface().getUserName(),PM.getUserInterface().getClient().getOnlineUsers().get(i),PM.getUserInterface().getUserName() + ": "+message,2.0 );
 				PM.getUserInterface().getClient().sendPackage(pack);
 			}}
 		}}
@@ -100,7 +100,7 @@ public class PrivateChatHandler {
 	public void sendTextToSelected(String message){
 		for(int r = 0; r<PM.getOnlineUsers().size(); r++){
 			if(PM.getOnlineUsers().get(r).isSelected()){
-				InfoPack pack = new InfoPack(PM.getUserInterface().getUserName(),PM.getOnlineUsers().get(r).getText(),PM.getUserInterface().getUserName() + ": "+message,2.0 );
+				ServerResponse pack = new ServerResponse(PM.getUserInterface().getUserName(),PM.getOnlineUsers().get(r).getText(),PM.getUserInterface().getUserName() + ": "+message,2.0 );
 				PM.getUserInterface().getClient().sendPackage(pack);
 			}
 		}

@@ -23,8 +23,6 @@ public class MenuManager extends AbstractMenuElement{
 	private Pane menuRoot = new Pane();
 	private Pane menuContainer = new Pane();
 	private GaussianBlur blur = new GaussianBlur();
-	private Rectangle clearUp;
-	private Rectangle menuLogo;
 	private MediaPlayer music;
 	private MainMenu main_menu;
 	private ModesMenu modes_menu;
@@ -50,7 +48,6 @@ public class MenuManager extends AbstractMenuElement{
 		fadeScreen.getChildren().add(clearUp);
 		setMenu(main_menu.main_menu_screen());
 		menuRoot.getChildren().addAll(backgroundImage, menuLogo, menuContainer, fadeScreen);
-//		menuRoot.setId("ROOTNODE");
 		game.setRoot(menuRoot);
 	}
 	public void setupLogo(){
@@ -97,7 +94,7 @@ public class MenuManager extends AbstractMenuElement{
 
 	public void transition() {
 		if (showMenu) {
-			opacity -= 0.01;
+			opacity -= fadeSpeed;
 			clearUp.setOpacity(opacity);
 			if (opacity <= 0) {
 				opacity = 0.0;
@@ -106,7 +103,7 @@ public class MenuManager extends AbstractMenuElement{
 			}
 		}
 		if (hideMenu) {
-			opacity += 0.05;
+			opacity += fadeSpeed;
 			if(opacity<=1){
 				clearUp.setOpacity(opacity);
 			}
@@ -139,9 +136,10 @@ public class MenuManager extends AbstractMenuElement{
 		menuRoot.getChildren().add(fadeScreen);
 		showMenu = true;
 		startingGame = false;
+		fadeSpeed = 0.01;
 		opacity = 1.0;
-		setMenu(main_menu.main_menu_screen());
 		clearUp.setOpacity(opacity);
+		setMenu(main_menu.main_menu_screen());
 		game.showCursor(true, game.getScene());
 		game.setRoot(menuRoot);
 		game.pauseGame();
@@ -152,13 +150,23 @@ public class MenuManager extends AbstractMenuElement{
 	 */
 	public void startSelected(GameModeID modeID) {
 		if(!startingGame){
-		this.startingGame = true;
-		this.modeID = modeID;
-		this.opacity = 0;
-		this.clearUp.setOpacity(opacity);
-		this.menuRoot.getChildren().remove(fadeScreen);
-		this.menuRoot.getChildren().add(fadeScreen);
-		this.hideMenu = true;
+			if (opacity <= 0) {
+				this.startingGame = true;
+				this.modeID = modeID;
+				this.fadeSpeed = 0.05;
+				this.opacity = 0;
+				this.clearUp.setOpacity(opacity);
+				this.menuRoot.getChildren().remove(fadeScreen);
+				this.menuRoot.getChildren().add(fadeScreen);
+				this.hideMenu = true;
+			}
+			else if(opacity > 0){
+				this.fadeSpeed = 0.03;
+				this.showMenu = false;
+				this.startingGame = true;
+				this.modeID = modeID;
+				this.hideMenu = true;
+			}
 		}
 	}
 	public void introTheGame(){

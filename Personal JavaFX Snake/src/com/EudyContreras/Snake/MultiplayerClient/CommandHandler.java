@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.MultiplayerClient;
 
 import java.awt.image.BufferedImage;
 
-import com.EudyContreras.Snake.DataPackage.InfoPack;
+import com.EudyContreras.Snake.DataPackage.ServerResponse;
 
 /**
  * This class is in charge of handling the commands received through the infopacks.
@@ -30,7 +30,7 @@ public class CommandHandler{
 	 * it will then perform an action according to that command.
 	 * @param pack
 	 */
-	public void handleServerCommand(InfoPack pack){
+	public void handleServerCommand(ServerResponse pack){
 		if(pack.getCommand() == 1.0){
 			client.setOnlineUsers(pack.getGroup());
 			for(int i = 0; i<client.getOnlineUsers().size(); i++){

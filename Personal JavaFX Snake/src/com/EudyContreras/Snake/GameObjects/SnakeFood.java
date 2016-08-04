@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.HUDElements.GamePoint;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
@@ -456,6 +457,7 @@ public class SnakeFood extends AbstractObject {
 			game.getDebrisManager().addDebris(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 		}
+		game.getNinthLayer().getChildren().add(new GamePoint(game.getEighthLayer(),x,y));
 	}
 
 	/**

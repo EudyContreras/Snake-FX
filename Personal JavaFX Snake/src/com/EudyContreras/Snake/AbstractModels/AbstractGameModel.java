@@ -288,7 +288,7 @@ public abstract class AbstractGameModel extends Application {
 	public void setRoot(Parent root) {
 		scene.setFill(Color.BLACK);
 		if(!mainWindow.isFullScreen()){
-			root.setTranslateY(25);
+			root.setTranslateY(15);
 		}
 		else{
 			root.setTranslateY(0);

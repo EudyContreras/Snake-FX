@@ -76,8 +76,8 @@ public class CountDownScreen {
 		this.panVelocityY = 5.0;
 		this.x = GameSettings.WIDTH / 2 - width / 2;
 		this.y = GameSettings.HEIGHT / 2 - height / 2;
-		this.velX = -3.0;
-		this.velY = -5.0;
+		this.velX = -5.0;
+		this.velY = -8.0;
 		this.countView = new Rectangle(x, y, this.width, this.height);
 		this.countView.setFill(GameImageBank.count_three);
 		this.game.setStateID(GameStateID.COUNT_DOWN);
@@ -187,10 +187,8 @@ public class CountDownScreen {
 	 */
 	private void panOut() {
 		if (allowPan ) {
-			//if(showCounter <= 0){
 			width -= panVelocityX;
 			height -= panVelocityY;
-			//}
 			countView.setWidth(width);
 			countView.setHeight(height);
 			if (height <= 0 || lifeTime <= 0) {
@@ -209,8 +207,8 @@ public class CountDownScreen {
 			countView.setX(x);
 			countView.setY(y);
 			if(showCounter <= 0){
-			x -= velX;
-			y -= velY;
+				x -= velX;
+				y -= velY;
 			}
 			if (x < 0 - width || y < 0 - height) {
 				allowHide = false;

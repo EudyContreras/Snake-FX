@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.MultiplayerClient;
 
 import java.io.IOException;
 
-import com.EudyContreras.Snake.DataPackage.InfoPack;
+import com.EudyContreras.Snake.DataPackage.ServerResponse;
 
 public class ClientGUIHandler {
 	private ClientGUI GUI;
@@ -35,7 +35,7 @@ public class ClientGUIHandler {
 				client.setUserName(GUI.getUserName());
 				try {
 					client.connect();
-					client.sendPackage(new InfoPack(GUI.getUserName(), GUI.getPassWord(), "User information", 4.0));
+					client.sendPackage(new ServerResponse(GUI.getUserName(), GUI.getPassWord(), "User information", 4.0));
 				} catch (IOException e) {
 					GUI.getServerMessageLabel().setText("Server offline !");
 					client.showEvent(

@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ScrollPaneConstants;
 
-import com.EudyContreras.Snake.DataPackage.InfoPack;
+import com.EudyContreras.Snake.DataPackage.ServerResponse;
 
 /**
  * This class is the client graphical user interface
@@ -413,7 +413,7 @@ public class ClientGUI extends JPanel{
      * the user the option to respond
      * @param pack
      */
-	public void privateChatNotification(InfoPack pack){
+	public void privateChatNotification(ServerResponse pack){
 		if(showNotifications){
 			if(!onlineUsers.getFrame().isVisible()){
 			String sender = pack.getID();
@@ -434,7 +434,7 @@ public class ClientGUI extends JPanel{
 	 * messages that are queued.
 	 * @param pack
 	 */
-	public void showNotificationMessage(InfoPack pack) {
+	public void showNotificationMessage(ServerResponse pack) {
 		if (amountOfQueuedMessages <= 1) {
 			if (showNotifications) {
 				if (!onlineUsers.getFrame().isVisible()) {

@@ -146,7 +146,7 @@ public class GameManager extends AbstractGameModel {
 				sizeListener.setNewRatio(ratio, initHeight, initWidth);
 
 				for(Node node: sceneRoot.getChildren()){
-					node.setTranslateY(25);
+					node.setTranslateY(15);
 				}
 			}
 		}

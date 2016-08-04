@@ -43,8 +43,8 @@ public class MultiplayerServer extends Thread {
 	public void startThread(int port){
 		if(thread==null){
 			this.thread = new Thread(this);
-		this.port = port;
-		this.thread.start();
+			this.port = port;
+			this.thread.start();
 		}
 	}
 	/**
@@ -63,7 +63,7 @@ public class MultiplayerServer extends Thread {
 		Socket clientSocket = null;
 		try (ServerSocket serverSocket = new ServerSocket(port)) {
 			
-			GUI.showServerEvent("Server has been started");
+			logToConsole("Server has been started");
 			logToConsole("Local server address: " + InetAddress.getLocalHost().toString());
 			
 			
@@ -84,7 +84,7 @@ public class MultiplayerServer extends Thread {
 			thread = null;
 		} catch (IOException e) {
 			logToConsole("Unable to initialize the server socket " + e.getMessage());
-			GUI.showNotification("Current port is already in use!");
+			logToConsole("Current port is already in use!");
 			thread = null;
 			setConnected(false);
 		}
@@ -95,7 +95,7 @@ public class MultiplayerServer extends Thread {
 	 * @param event
 	 */
 	public synchronized void logToConsole(String event){
-		GUI.showServerEvent("SERVER CONSOLE: " + event);
+		logToConsole("SERVER CONSOLE: " + event);
 	}
 
 	public synchronized Boolean getConnected() {

@@ -15,7 +15,7 @@ import java.util.Observable;
 
 import javax.imageio.ImageIO;
 
-import com.EudyContreras.Snake.DataPackage.InfoPack;
+import com.EudyContreras.Snake.DataPackage.ServerResponse;
 /**
  * This class represents a client that can connect to a
  * server.
@@ -163,7 +163,7 @@ public class ChatClient extends Observable{
 	 */
 	public void sendPictureMessage(BufferedImage image, String imageName){
 		byte[] imageByteArray  = ImageToByte(image);
-		InfoPack pack = new InfoPack(userName,5.0,imageByteArray,imageName,true);
+		ServerResponse pack = new ServerResponse(userName,5.0,imageByteArray,imageName,true);
 		try {
 			output.writeObject(pack);
 			output.flush();
@@ -182,7 +182,7 @@ public class ChatClient extends Observable{
 	 */
 	public void sendPrivateObject(String sender, String receiver, String message, Double command, BufferedImage image) {
 		byte[] imageByteArray  = ImageToByte(image);
-		InfoPack pack = new InfoPack(sender,receiver,message,command,imageByteArray);
+		ServerResponse pack = new ServerResponse(sender,receiver,message,command,imageByteArray);
 		try {
 			output.writeObject(pack);
 			output.flush();
@@ -304,14 +304,14 @@ public class ChatClient extends Observable{
 	 * @param obj
 	 */
 	public void handleObject(Object obj) {
-		InfoPack pack;
+		ServerResponse pack;
 		String text;
 		String sender;
 		BufferedImage image;
 		Double command;
 
-		if (obj instanceof InfoPack) {
-			pack = (InfoPack) obj;
+		if (obj instanceof ServerResponse) {
+			pack = (ServerResponse) obj;
 			sender = pack.getID();
 			if (pack.getCommand() == null) {
 				if (pack.getImage() != null) {

@@ -26,6 +26,7 @@ public abstract class AbstractMenuElement {
 	protected double buttonSizeW = 400;
 	protected double buttonSizeH = 80;
 	protected double fontSize = 50;
+	protected double fadeSpeed = 0.01;
 	protected boolean showMenu = false;
 	protected boolean hideMenu = false;
 	protected boolean startingGame = false;

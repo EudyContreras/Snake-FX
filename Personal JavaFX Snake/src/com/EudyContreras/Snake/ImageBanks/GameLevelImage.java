@@ -54,9 +54,9 @@ public class GameLevelImage {
 				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		public static final Image desertBackgroundNine = ImageEffectUtility.preCreateShadedBackground("desert_level_background_6.png",
 				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		public static final Image desertBackgroundTen = ImageEffectUtility.preCreateShadedBackground("desert_level_background_3.png",
+		public static final Image desertBackgroundTen = ImageEffectUtility.preCreateShadedBackground("desert_level_background_4.png",
 				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		public static final Image desertBackgroundEleven = ImageEffectUtility.preCreateShadedBackground("desert_level_background_5.png",
+		public static final Image desertBackgroundEleven = ImageEffectUtility.preCreateShadedBackground("desert_level_background_8.png",
 				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 
 

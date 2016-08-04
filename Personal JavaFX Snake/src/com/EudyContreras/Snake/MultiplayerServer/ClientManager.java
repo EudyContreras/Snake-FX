@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import com.EudyContreras.Snake.DataPackage.InfoPack;
+import com.EudyContreras.Snake.DataPackage.ServerResponse;
 import com.EudyContreras.Snake.DataPackage.PlayerDetails;
 
 /**
@@ -71,55 +71,7 @@ public class ClientManager extends MultiplayerServer{
 		return offline_user_info;
 	}
 
-	/**
-	 * This method checks the objects received by the clients and then
-	 * determines the type of objects. Once it is done it sends it forward for processing
-	 * @param obj
-	 * @param client
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	public synchronized void handleObject(Object obj, MultiplayerClient client) throws ClassNotFoundException, IOException{
-		if(obj instanceof InfoPack){
-			handleInfoPack(obj, client);
-		}
-		else if(obj instanceof Double){
-			handleUserCommand(obj, client);
-		}
-		else{
-			broadcastMessageToAll(obj);
-		}
-	}
-	/**
-	 * Sends incoming objects to all online clients.
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	public void sendIncoming() throws ClassNotFoundException, IOException{
-		InfoPack pack;
 
-		for (MultiplayerClient client : online_clients.values()) {
-			if(client.readPackage() instanceof InfoPack){
-				pack = (InfoPack) client.readPackage();
-				if(client.getUsername().contentEquals(pack.getReceiver())){
-					client.sendPackage(pack);
-				}
-			}else{
-				client.sendPackage(client.readPackage());
-			}
-		}
-	}
-	/**
-	 * Sends a specific object to all online clients.
-	 * @param obj
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	public void sendPackage(Object obj) throws ClassNotFoundException, IOException{
-		for (MultiplayerClient client : online_clients.values()) {
-				client.sendPackage(obj);
-		}
-	}
 	/**
 	 * Sends a welcome message to a specified client
 	 * @param client
@@ -189,74 +141,6 @@ public class ClientManager extends MultiplayerServer{
 		}
 		return offlineUsers;
 	}
-	/**
-	 * Method responsible of handling all infopacks that travel through this server
-	 * this method will determining both the content and nature of the infopack, this method will
-	 * then process or send the infopack further for processing.
-	 * @param obj
-	 * @param client
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	public void handleInfoPack(Object obj, MultiplayerClient client) throws ClassNotFoundException, IOException {
-		InfoPack pack = (InfoPack) obj;
-		Boolean isImage = pack.getImageStatus();
-		String sender = pack.getID();
-		String getter = pack.getReceiver();
-		String message = pack.getMessage();
-		String imageName = pack.getImageName();
-		String sms = sender + ": " + message;
-		if (pack.getCommand() == null) {
-			if(online_clients.containsKey(getter)){
-				online_clients.get(getter).sendPackage(sms);
-			}
-
-		}
-		else if (pack.getCommand() != null) {
-			handleSpecialPackage(client, pack);
-		}
-	}
-	/**
-	 * Sends an infopack to specified online client from a specified sender.
-	 * @param member
-	 * @param pack
-	 * @param sender
-	 */
-	public void sendToOnlineMember(String member, InfoPack pack, String sender){
-		if(online_clients.containsKey(member)){
-			online_clients.get(member).sendPackage(pack);
-		}
-	}
-	/**
-	 * Sends a private message to a specific client.
-	 * details about the client and the sender are
-	 * stored in the infopack.
-	 * @param pack
-	 */
-	public void sendPrivateMessage(InfoPack pack){
-		String sender = pack.getID();
-		String receiver = pack.getReceiver();
-		String message = pack.getMessage();
-		String time = GUI.getTime() + ":  "+ sender + ": "  + message;
-
-		if(online_clients.containsKey(receiver)){
-			online_clients.get(receiver).sendPackage(new InfoPack(sender,receiver ,message,5.0));
-		}
-	}
-	/**
-	 * Method used to send infopacks containing images or
-	 * additional objects which are not messages. details about the client and the sender are
-	 * stored in the infopack.
-	 * @param pack
-	 */
-	public void sendPrivateObject(InfoPack pack){
-		String sender = pack.getID();
-		String receiver = pack.getReceiver();
-		String message = pack.getMessage();
-		if(online_clients.containsKey(receiver)){
-			online_clients.get(receiver).sendPackage(new InfoPack(sender,null,message,9.0,pack.getData()));
-		}
-	}
 
 	/**
 	 * Method which sends a private chat confirmation
@@ -264,71 +148,22 @@ public class ClientManager extends MultiplayerServer{
 	 * and the starter of the private chat
 	 * @param pack
 	 */
-	public void privateChatConfirm(InfoPack pack){
+	public void privateChatConfirm(ServerResponse pack){
 		String sender = pack.getID();
 		String receiver = pack.getReceiver();
 		String message = pack.getMessage();
 
 		if(online_clients.containsKey(receiver)){
 			if(online_clients.get(receiver).isConnected()){
-				online_clients.get(receiver).sendPackage(new InfoPack(sender,receiver ,message,4.0));
+				online_clients.get(receiver).sendPackage(new ServerResponse(sender,receiver ,message,4.0));
 			}
 		}
 		if(online_clients.containsKey(sender)){
-				online_clients.get(sender).sendPackage(new InfoPack("Server:", sender, "You have started a private chat with "+receiver, 5.0));
+				online_clients.get(sender).sendPackage(new ServerResponse("Server:", sender, "You have started a private chat with "+receiver, 5.0));
 
 		}
 	}
-	/**
-	 * Sends a private chat start confirmation to the starter of the chat.
-	 * @param recipient
-	 * @param pack
-	 * @param sender
-	 */
-	public void sendToMember(MultiplayerClient recipient, InfoPack pack, String sender){
-		recipient.sendPackage(pack);
-		if(online_clients.containsKey(sender)){
-			online_clients.get(sender).sendPackage(new InfoPack("Server:", sender,"You have started a private chat with: " + recipient.getUsername(), 5.0));
-		}
-	}
-	/**
-	 * Sends an infopack to all the online clients but the sender.
-	 * @param pack
-	 */
-	public void sendDataPack(InfoPack pack) {
-		String sender = pack.getID();
-		for (MultiplayerClient client : online_clients.values()) {
-			if (!client.getUsername().contentEquals(sender)) {
-				client.sendPackage(new InfoPack(sender, 8.0, pack.getData()));
-			}
-			if (client.getUsername().contentEquals(sender)) {
-				client.sendPackage("Server: You have sent an image!");
-			}
-		}
-	}
-	/**
-	 * Method responsible for handling of packages containing special command
-	 * the method will then determine an action base on the command given
-	 * confined within the package.
-	 * @param client
-	 * @param pack
-	 */
-	public void handleSpecialPackage(MultiplayerClient client, InfoPack pack){
-		if	(pack.getCommand() == 1.0){
-		}
-		else if(pack.getCommand() == 2.0){
-			sendPrivateMessage(pack);
-		}
-		else if(pack.getCommand() == 3.0){
-			privateChatConfirm(pack);
-		}
-		else if(pack.getCommand() == 5.0){
-			sendDataPack(pack);
-		}
-		else if(pack.getCommand() == 6.0){
-			sendPrivateObject(pack);
-		}
-	}
+
 	/**
 	 * This method is in charge of receiving login information.
 	 * @param object
@@ -336,7 +171,7 @@ public class ClientManager extends MultiplayerServer{
 	 */
 	public synchronized void receiveNewUser(Object object, MultiplayerClient client) {
 		PlayerDetails pack;
-		if(object instanceof InfoPack){
+		if(object instanceof ServerResponse){
 			pack = (PlayerDetails)object;
 			processUserInformation(pack, client);
 		}
@@ -347,10 +182,10 @@ public class ClientManager extends MultiplayerServer{
 	 * @param pack
 	 * @param client
 	 */
-	public void processUserInformation(InfoPack pack, MultiplayerClient client){
-		client.setName(pack.getID());
-		client.setUsername(pack.getID());
-		client.setPassword(pack.getReceiver());
+	public void processUserInformation(PlayerDetails pack, MultiplayerClient client){
+		client.setName(pack.getName());
+		client.setUsername(pack.getUserName());
+		client.setPassword(pack.getPassWord());
 	}
 	/**
 	 * This method is used for sending updated list containing
@@ -358,8 +193,8 @@ public class ClientManager extends MultiplayerServer{
 	 * @param client
 	 */
 	public void confirmOnlineUsers(String client){
-		InfoPack pack =	new InfoPack("Server: ", client, getAllUsers(),"List of online users", 1.0);
-		InfoPack pack2 = new InfoPack("", "", getDisconnectedUsers(),"",10.0);
+		ServerResponse pack =	new ServerResponse("Server: ", client, getAllUsers(),"List of online users", 1.0);
+		ServerResponse pack2 = new ServerResponse("", "", getDisconnectedUsers(),"",10.0);
 		try {
 			sendPackage(pack);
 			sendPackage(pack2);
@@ -371,55 +206,9 @@ public class ClientManager extends MultiplayerServer{
 	 * Broadcasts a messages to all connected users.
 	 * @param obj
 	 */
-	public void broadcastMessageToAll(Object obj){
-		String message = (String)obj;
-		String time = GUI.getTime() + ":  " + message;
-		if(GUI.getShowClientLog()==true){
-			GUI.showServerEvent(message);
-		}
+	public void sendPackage(Object obj) throws ClassNotFoundException, IOException{
 		for (MultiplayerClient client : online_clients.values()) {
-			client.sendPackage(obj);
-		}
-	}
-	/**
-	 * Handles a variety of commands sent by clients.
-	 * this method is responsible for processing commands such
-	 * as disconnect request.
-	 * @param obj
-	 * @param client
-	 */
-	public void handleUserCommand(Object obj, MultiplayerClient client){
-		Double command = (Double) obj;
-		Double closingCommand = 1.0;
-
-		if (command == 1.0) {
-			online_clients.remove(client.getUsername());
-			addOfflineUser(client);
-			rearrangeLists(client);
-			client.sendPackage(closingCommand);
-			client.setConnection(false);
-			client.closeConnection();
-			//
-			confirmOnlineUsers(client.getUsername());
-			//
-			try {
-				sendPackage(new InfoPack("Server: ", client.getUsername(), getDisconnectedUsers(),"",2.0));
-				sendPackage(new InfoPack(client.getUsername(),"All users",getAllUsers(),client.getUsername(),1.0));
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
-			client = null;
-		}
-		else if (command == 2.0) {
-			try {
-				sendPackage(new InfoPack(client.getUsername(),"All users",getAllUsers(),client.getUsername(),1.0));
-				sendPackage(new InfoPack(client.getUsername(),"All users",getDisconnectedUsers(),client.getUsername(),10.0));
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
-			}
-		}
-		else if (command == 4.0) {
-
+				client.sendPackage(obj);
 		}
 	}
 	/**
@@ -470,8 +259,8 @@ public class ClientManager extends MultiplayerServer{
 		confirmOnlineUsers(client.getUsername());
 		//
 		try {
-			sendPackage(new InfoPack("Server: ", client.getUsername(), getDisconnectedUsers(),"",2.0));
-			sendPackage(new InfoPack(client.getUsername(),"All users",getAllUsers(),client.getUsername(),1.0));
+			sendPackage(new ServerResponse("Server: ", client.getUsername(), getDisconnectedUsers(),"",2.0));
+			sendPackage(new ServerResponse(client.getUsername(),"All users",getAllUsers(),client.getUsername(),1.0));
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
