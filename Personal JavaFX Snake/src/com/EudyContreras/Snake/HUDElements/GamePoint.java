@@ -20,8 +20,8 @@ public class GamePoint extends Text{
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000), this);
         fade.setFromValue(1);
         fade.setToValue(0);
-        translate.setByX(15);
-        translate.setByY(-40);
+        translate.setByX(25);
+        translate.setByY(-55);
         fade.play();
         translate.play();
         fade.setOnFinished(e ->{

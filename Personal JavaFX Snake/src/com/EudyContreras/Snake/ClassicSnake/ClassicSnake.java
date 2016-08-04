@@ -36,7 +36,7 @@ public class ClassicSnake extends AbstractObject {
 	private int appleCount = 0;
 	private int counter = 0;
 	private double accelaration = 0.5;
-	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
+	private double maxSize = GameSettings.CLASSIC_SNAKE_SIZE+2;
 	private double normalSpeed = GameSettings.CLASSIC_SNAKE_SPEED;
 	private double maxSpeed = GameSettings.CLASSIC_SNAKE_SPEED*2.5;
 	private double minimumSpeed = GameSettings.CLASSIC_SNAKE_SPEED/2;
@@ -109,9 +109,9 @@ public class ClassicSnake extends AbstractObject {
 	}
 
 	public void move() {
-		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
+		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING  && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
-		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
+		this.circle.setRadius(GameSettings.CLASSIC_SNAKE_SIZE);
 	}
 
 	public void logicUpdate() {
@@ -315,37 +315,29 @@ public class ClassicSnake extends AbstractObject {
 					switch (direction) {
 					case MOVE_UP:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-
 								turnDelay(PlayerMovement.MOVE_UP);
 						} else {
-
 								moveUp();
 						}
 						break;
 					case MOVE_DOWN:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-
 								turnDelay(PlayerMovement.MOVE_DOWN);
 						} else {
-
 								moveDown();
 						}
 						break;
 					case MOVE_LEFT:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-
 								turnDelay(PlayerMovement.MOVE_LEFT);
 						} else {
-
 								moveLeft();
 						}
 						break;
 					case MOVE_RIGHT:
 						if (!GameSettings.ALLOW_FAST_TURNS) {
-
 								turnDelay(PlayerMovement.MOVE_RIGHT);
 						} else {
-
 								moveRight();
 						}
 						break;
@@ -380,7 +372,7 @@ public class ClassicSnake extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
-		velY = -GameSettings.SNAKE_ONE_SPEED;
+		velY = -GameSettings.SNAKE_THREE_SPEED;
 		velX = 0;
 		r = 180;
 		if (!GameSettings.ALLOW_FAST_TURNS){
@@ -401,7 +393,7 @@ public class ClassicSnake extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
-		velY = GameSettings.SNAKE_ONE_SPEED;
+		velY = GameSettings.SNAKE_THREE_SPEED;
 		velX = 0;
 		r = 0;
 		if (!GameSettings.ALLOW_FAST_TURNS){
@@ -422,7 +414,7 @@ public class ClassicSnake extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
-		velX = GameSettings.SNAKE_ONE_SPEED;
+		velX = GameSettings.SNAKE_THREE_SPEED;
 		velY = 0;
 		r = -90;
 		if (!GameSettings.ALLOW_FAST_TURNS){
@@ -443,7 +435,7 @@ public class ClassicSnake extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
-		velX = -GameSettings.SNAKE_ONE_SPEED;
+		velX = -GameSettings.SNAKE_THREE_SPEED;
 		velY = 0;
 		r = 90;
 		if (!GameSettings.ALLOW_FAST_TURNS){
@@ -476,24 +468,24 @@ public class ClassicSnake extends AbstractObject {
 	public void addbaseSections() {
 		for (int i = 0; i < 2 + 1; i++) {
 			sectManager.addSection(new ClassicSnakeSection(this, game, layer,
-					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.classicSnakeBody)), x, y,
+					new Circle(GameSettings.CLASSIC_SNAKE_SIZE, new ImagePattern(GameImageBank.classicSnakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 		}
 	}
 
 	public void addSection() {
-		if (GameSettings.PLAYER_ONE_SIZE < maxSize) {
+		if (GameSettings.CLASSIC_SNAKE_SIZE < maxSize) {
 			counter++;
 			if (counter >= 15) {
 				counter = 0;
 				if(GameSettings.ALLOW_SNAKE_GROWTH)
-					GameSettings.PLAYER_ONE_SIZE += 2;
+					GameSettings.CLASSIC_SNAKE_SIZE += 2;
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			sectManager.addSection(new ClassicSnakeSection(this, game, layer,
-					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.classicSnakeBody)), x, y,
+					new Circle(GameSettings.CLASSIC_SNAKE_SIZE, new ImagePattern(GameImageBank.classicSnakeBody)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
 			appleCount++;
@@ -503,19 +495,19 @@ public class ClassicSnake extends AbstractObject {
 	}
 
 	public boolean withinBounds() {
-		return x > LevelBounds.MIN_X - radius && x < LevelBounds.MAX_X + radius && y > LevelBounds.MIN_Y - radius
-				&& y < LevelBounds.MAX_Y + radius;
+		return x > LevelBounds.MIN_X - radius - 1 && x < LevelBounds.MAX_X + radius + 1 && y > LevelBounds.MIN_Y - radius - 1
+				&& y < LevelBounds.MAX_Y + radius + 1;
 	}
 
 	public void checkBounds() {
 		if (x < LevelBounds.MIN_X - radius) {
-			x = (double) (LevelBounds.MAX_X + radius);
+			x = (float) (LevelBounds.MAX_X + radius);
 		} else if (x > LevelBounds.MAX_X + radius) {
-			x = (double) (LevelBounds.MIN_X - radius);
+			x = (float) (LevelBounds.MIN_X - radius);
 		} else if (y < LevelBounds.MIN_Y - radius) {
-			y = (double) (LevelBounds.MAX_Y + radius);
+			y = (float) (LevelBounds.MAX_Y + radius);
 		} else if (y > LevelBounds.MAX_Y + radius) {
-			y = (double) (LevelBounds.MIN_Y - radius);
+			y = (float) (LevelBounds.MIN_Y - radius);
 		}
 	}
 
@@ -523,25 +515,25 @@ public class ClassicSnake extends AbstractObject {
 	public void headAdjustment() {
 		if (this.direction == PlayerMovement.MOVE_DOWN) {
 			if (y - neighbor.getY() >= this.radius) {
-				y = (double) (neighbor.getY() + this.radius);
+				y = (float) (neighbor.getY() + this.radius);
 				x = neighbor.getX();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_UP) {
 			if (neighbor.getY() - y >= this.radius) {
-				y = (double) (neighbor.getY() - this.radius);
+				y = (float) (neighbor.getY() - this.radius);
 				x = neighbor.getX();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_LEFT) {
 			if (neighbor.getX() - x >= this.radius) {
-				x = (double) (neighbor.getX() - this.radius);
+				x = (float) (neighbor.getX() - this.radius);
 				y = neighbor.getY();
 			}
 		}
 		if (this.direction == PlayerMovement.MOVE_RIGHT) {
 			if (x - neighbor.getX() >= this.radius) {
-				x = (double) (neighbor.getX() + this.radius);
+				x = (float) (neighbor.getX() + this.radius);
 				y = neighbor.getY();
 			}
 		}

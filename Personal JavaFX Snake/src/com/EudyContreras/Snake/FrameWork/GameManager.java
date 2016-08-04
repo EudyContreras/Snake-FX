@@ -870,12 +870,11 @@ public class GameManager extends AbstractGameModel {
 	public void clearAll() {
 		GameSettings.PLAYER_ONE_SIZE = 30;
 		GameSettings.PLAYER_TWO_SIZE = 30;
+		GameSettings.CLASSIC_SNAKE_SIZE = 30;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
-		ClassicSnake.SPEED = GameSettings.PLAYER_ONE_SPEED;
-		// GameLoader.scaleResolution(GameSettings.MANUAL_SIZE_SCALE,
-		// GameSettings.MANUAL_SIZE_SCALE,true);
-		// GameLoader.scalePlayerSize();
+		ClassicSnake.SPEED = GameSettings.CLASSIC_SNAKE_SPEED;
+
 		baseLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();
 		debrisLayer.getChildren().clear();
@@ -916,6 +915,7 @@ public class GameManager extends AbstractGameModel {
 		getEnergyBarTwo().refill();
 		getKeyInput().setPlayerOne(getGameLoader().getPlayerOne());
 		getKeyInput().setPlayerTwo(getGameLoader().getPlayerTwo());
+		getKeyInput().setClassicSnake(getGameLoader().getClassicSnake());
 	}
 
 	public void removePlayers() {

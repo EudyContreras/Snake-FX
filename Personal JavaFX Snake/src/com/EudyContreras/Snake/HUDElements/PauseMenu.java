@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.HUDElements;
 
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
@@ -475,6 +476,7 @@ public class PauseMenu {
 		game.restart();
 		PlayerOne.LEVEL_COMPLETED = false;
 		PlayerTwo.LEVEL_COMPLETED = false;
+		ClassicSnake.LEVEL_COMPLETED = false;
 		selectionReset();
 		hideAndReset();
 		game.getScoreKeeper().resetTimer();

@@ -40,14 +40,17 @@ public class GameSettings {
 	public static int SECTIONS_TO_ADD = 3;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
+
 	public static int SNAKE_ONE_SPEED = 1;
 	public static int SNAKE_TWO_SPEED = 1;
+	public static int SNAKE_THREE_SPEED = 1;
 
 	public static int SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
 
 	public static double PLAYER_ONE_SIZE = 30; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
 	public static double PLAYER_TWO_SIZE = 30; // Must be even or divisible by two
+	public static double CLASSIC_SNAKE_SIZE = 30;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 
 	public static int TURN_DELAY = 6;
