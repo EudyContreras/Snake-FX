@@ -116,11 +116,11 @@ public class KeyInputHandler {
 						}
 					}
 					else if (game.getStateID() != GameStateID.GAME_OVER) {
-						if(PlayerOne.DEAD){
+						if(PlayerOne.DEAD && !PlayerOne.ALLOW_FADE){
 							playerOne.setManualGameOver(true);
 							PlayerOne.ALLOW_FADE = true;
 						}
-						else if(PlayerTwo.DEAD){
+						if(PlayerTwo.DEAD && !PlayerTwo.ALLOW_FADE){
 							playerTwo.setManualGameOver(true);
 							PlayerTwo.ALLOW_FADE = true;
 						}

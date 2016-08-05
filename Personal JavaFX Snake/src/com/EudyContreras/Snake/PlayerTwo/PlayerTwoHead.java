@@ -89,7 +89,7 @@ public class PlayerTwoHead extends AbstractObject {
 	private void loadMouth(){
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.25, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.35, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
 	public void move() {

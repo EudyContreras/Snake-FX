@@ -54,7 +54,7 @@ public class PlayerTwo extends AbstractObject {
 	private boolean eatCoolDown = false;
 	private boolean setDelay = false;
 	private boolean allowDamage = true;
-	private boolean manualGameOver = false;
+	private boolean gameOverOverride = false;
 	private boolean allowScreenShake = true;
 	private boolean allowCollision = true;
 	private boolean hasBaseBody = false;
@@ -78,8 +78,8 @@ public class PlayerTwo extends AbstractObject {
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
-	public static boolean DEAD = false;
-	public static double SPEED = 6;
+	public static Double SPEED = 6.0;
+	public static Boolean DEAD = false;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;
 	public static Boolean MOUTH_OPEN = false;
@@ -140,7 +140,6 @@ public class PlayerTwo extends AbstractObject {
 		updateSpeedDirt();
 		updateDirt();
 		checkTurns();
-		fadeOut();
 		speedUp();
 		speedDown();
 		//slowDown();
@@ -786,13 +785,6 @@ public class PlayerTwo extends AbstractObject {
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 	}
 
-	public void fadeOut() {
-		if (ALLOW_FADE) {
-			//overlay.addFadeScreen(10, GameStateID.GAME_OVER,()->game.getGameOverScreen().gameOver());
-			//ALLOW_FADE = false;
-		}
-	}
-
 	public Image getAnimationImage() {
 		return anim.getImage();
 	}
@@ -917,10 +909,11 @@ public class PlayerTwo extends AbstractObject {
 		return appleCount;
 	}
 	public void setManualGameOver(boolean state){
-		this.manualGameOver = state;
+		if(game.getStateID()==GameStateID.DEATH_ANIMATION)
+		this.gameOverOverride = state;
 	}
 	public boolean getManualGameOver() {
-		return manualGameOver;
+		return gameOverOverride;
 	}
 
 }

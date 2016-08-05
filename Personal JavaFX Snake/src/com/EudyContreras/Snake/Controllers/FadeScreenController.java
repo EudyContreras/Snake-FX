@@ -155,6 +155,7 @@ public class FadeScreenController{
 					game.restart();
 					fadeOut = true;
 					fadeIn = false;
+					game.processGameInput();
 					game.getReadyNotification().showNotification(150);
 
 				}

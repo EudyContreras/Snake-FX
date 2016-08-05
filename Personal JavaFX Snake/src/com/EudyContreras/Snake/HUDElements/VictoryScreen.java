@@ -805,6 +805,7 @@ public class VictoryScreen extends AbstractHudElement {
 		quitGame_btt.setVisible(state);
 		restart_btt.setVisible(state);
 		scoreScreen.show(state);
+		game.getGameHud().showShadow(state);
 	}
 	/**
 	 * Method which resets the board along with most of the other UI elements of

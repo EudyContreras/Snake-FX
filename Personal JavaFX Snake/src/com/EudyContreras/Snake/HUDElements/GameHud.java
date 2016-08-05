@@ -186,6 +186,9 @@ public class GameHud {
 		bottomHudBar.setVisible(true);
 		mainBar.setVisible(true);
 	}
+	public void showShadow(boolean state){
+		mainBar.setEffect( state? shadow: null);
+	}
 	public double getTopCoverY(){
 		return topHudBar.getY();
 	}

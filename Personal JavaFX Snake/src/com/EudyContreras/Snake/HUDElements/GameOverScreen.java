@@ -145,6 +145,7 @@ public class GameOverScreen {
 	 * died. This method marks the end of the game being played
 	 */
 	private void endGame() {
+		game.getScene().setOnKeyPressed(e -> {});
 		game.showCursor(true, game.getScene());
 		game.getScoreKeeper().stopTimer();
 		if(PlayerOne.DEAD){
@@ -347,9 +348,6 @@ public class GameOverScreen {
 			game.getGameHud().showHUDCover();
 			endGame();
 			LEVEL_FAILED = true;
-			PlayerOne.ALLOW_FADE = false;
-			PlayerTwo.ALLOW_FADE = false;
-			ClassicSnake.ALLOW_FADE = false;
 		}
 	}
 	/**
@@ -421,7 +419,6 @@ public class GameOverScreen {
 			PlayerOne.LEVEL_COMPLETED = false;
 			PlayerTwo.LEVEL_COMPLETED = false;
 			ClassicSnake.LEVEL_COMPLETED = false;
-			game.processGameInput();
 			game.getFadeScreenHandler().restart_fade_screen();
 			transitionOne.stop();
 		});
@@ -517,7 +514,6 @@ public class GameOverScreen {
 					PlayerTwo.LEVEL_COMPLETED = false;
 					ClassicSnake.LEVEL_COMPLETED = false;
 					removeBoard();
-					game.processGameInput();
 					center = false;
 				}
 			}
@@ -731,6 +727,7 @@ public class GameOverScreen {
 		quitGame_btt.setVisible(state);
 		restart_btt.setVisible(state);
 		scoreScreen.show(state);
+		game.getGameHud().showShadow(state);
 	}
 	/**
 	 * Method which when called will
