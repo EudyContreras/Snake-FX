@@ -132,6 +132,7 @@ public class GameOverScreen {
 		continue_btt.setVisible(false);
 		quitGame_btt.setVisible(false);
 		restart_btt.setVisible(false);
+		removeBoard();
 		processMouseHandling();
 
 	}
@@ -154,7 +155,7 @@ public class GameOverScreen {
 		else if(PlayerTwo.DEAD){
 			this.boardImage = GameImageBank.player_two_loses;
 		}
-		else{
+		else if(ClassicSnake.DEAD){
 			this.boardImage = GameImageBank.player_one_loses;
 		}
 		resetBoard();
@@ -192,8 +193,10 @@ public class GameOverScreen {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
-			if(!transitioning)
-			game.getFadeScreenHandler().menu_fade_screen();
+			if(!transitioning){
+				allowSlowMo = false;
+				game.getFadeScreenHandler().menu_fade_screen();
+			}
 		});
 		restart_btt.setOnMouseEntered(e -> {
 			selectionReset();
@@ -668,6 +671,7 @@ public class GameOverScreen {
 	 * all the UI elements of this board not visible
 	 */
 	public void removeBoard() {
+		allowSlowMo = false;
 		baseGameBoard.setVisible(false);
 		mainGameBoard.setVisible(false);
 		optionsBoard.setVisible(false);
@@ -753,6 +757,5 @@ public class GameOverScreen {
 		PlayerTwo.LEVEL_COMPLETED = false;
 		PlayerOne.LEVEL_COMPLETED = false;
 		ClassicSnake.LEVEL_COMPLETED = false;
-		removeBoard();
 	}
 }

@@ -71,7 +71,7 @@ public class ClassicSnakeFangs extends AbstractObject {
 
 	public void killTheSnake() {
 		if (ClassicSnake.DEAD == true) {
-			for(int i = 0; i<12; i++	){
+			for(int i = 0; i<2; i++	){
 			if (sectManager.getSectionList().size() > 0) {
 					AbstractSection sectToKill = sectManager.getSectionList().get(index);
 					sectToKill.die();

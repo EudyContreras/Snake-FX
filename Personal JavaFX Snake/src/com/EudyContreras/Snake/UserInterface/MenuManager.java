@@ -169,19 +169,21 @@ public class MenuManager extends AbstractMenuElement{
 			}
 		}
 	}
-	public void introTheGame(){
-		if(showMenu==false){
-			//TODO: Show a loading screen
+
+	public void introTheGame() {
+		if (showMenu == false) {
+			// TODO: Show a loading screen
 			game.setModeID(modeID);
 			game.prepareGame();
 			menuRoot.getChildren().remove(fadeScreen);
 			game.resumeGame();
 			game.showCursor(false, game.getScene());
 			game.setRoot(game.getMainRoot());
-			game.getFadeScreenHandler().intro_fade_screen(() -> game.getReadyNotification().showNotification(60)) ;
+			game.getFadeScreenHandler().intro_fade_screen(() -> game.getReadyNotification().showNotification(60));
 			game.processGameInput();
 			hideMenu = false;
-			}
+		}
+
 	}
 	/**
 	 * Sets up the optionsmenu

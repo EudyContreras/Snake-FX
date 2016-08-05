@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.UserInterface;
 public class MenuButtonStyles {
 	public static final String STANDARD_BUTTON_STYLE =
 			" -fx-fill-radius: "+30+";"
-//			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, rgba(185,0,0,1) 45%, rgba(255,0,0,1) 50%);"
+//			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, rgba(145,0,0,1) 45%, rgba(200,0,0,1) 50%);"
 			+"-fx-fill:"
 			+ "linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),"
 			+ "linear-gradient(#020b02, #3a3a3a),"

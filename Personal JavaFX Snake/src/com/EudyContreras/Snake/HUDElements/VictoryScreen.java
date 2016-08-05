@@ -212,8 +212,10 @@ public class VictoryScreen extends AbstractHudElement {
 		});
 		quitGame_btt.setOnMouseClicked(e -> {
 			game.setStateID(GameStateID.MAIN_MENU);
-			if(!transitioning)
-			game.getFadeScreenHandler().menu_fade_screen();
+			if(!transitioning){
+				game.getFadeScreenHandler().menu_fade_screen();
+				allowSlowMo = false;
+			}
 		});
 		restart_btt.setOnMouseEntered(e -> {
 			currentChoice = 3;
@@ -367,7 +369,7 @@ public class VictoryScreen extends AbstractHudElement {
 			showScores();
 			swipeRight();
 			panIn();
-			hide();
+			swipeLeft();
 			setSlowMotion();
 		}
 	}
@@ -514,7 +516,7 @@ public class VictoryScreen extends AbstractHudElement {
 		}
 	}
 
-	public void hide() {
+	public void swipeLeft() {
 		if (swipeLeft == true) {
 			positionScoreScreen();
 			baseGameBoard.setX(confirmXTwo);
@@ -544,8 +546,10 @@ public class VictoryScreen extends AbstractHudElement {
 						PlayerOne.LEVEL_COMPLETED = false;
 						PlayerTwo.LEVEL_COMPLETED = false;
 						ClassicSnake.LEVEL_COMPLETED = false;
+						allowSlowMo = false;
 					} else if (goToNext) {
 						game.getFadeScreenHandler().continue_fade_screen();
+						allowSlowMo = false;
 					}
 					center = false;
 				}

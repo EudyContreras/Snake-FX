@@ -120,7 +120,7 @@ public class KeyInputHandler {
 							playerOne.setManualGameOver(true);
 							PlayerOne.ALLOW_FADE = true;
 						}
-						if(PlayerTwo.DEAD && !PlayerTwo.ALLOW_FADE){
+						else if(PlayerTwo.DEAD && !PlayerTwo.ALLOW_FADE){
 							playerTwo.setManualGameOver(true);
 							PlayerTwo.ALLOW_FADE = true;
 						}

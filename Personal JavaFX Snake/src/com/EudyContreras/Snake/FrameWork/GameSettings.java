@@ -20,7 +20,7 @@ public class GameSettings {
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
 	public static double FRAME_SCALE = 1.0f;
-//	public static double MANUAL_SIZE_SCALE = 1.0;
+	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static int MIN_X = 0;
 	public static int MAX_X = 0;
@@ -59,13 +59,13 @@ public class GameSettings {
 	public static int COLLISION_DELAY = 0;
 
 	public static double HEALTH_REGENERATION_SPEED = 0.2;
-	public static double ENERGY_COMSUMPTION_SPEED = 6;
-	public static double ENERGY_REGENRATION_SPEED = 0.5;
+	public static double ENERGY_COMSUMPTION_SPEED = 3;
+	public static double ENERGY_REGENRATION_SPEED = 1.0;
 	public static double DAMAGE_AMOUNT = 50;
 
-	public static double PLAYER_ONE_SPEED = 6.0;
-	public static double PLAYER_TWO_SPEED = 6.0;
-	public static double CLASSIC_SNAKE_SPEED = 9.0;
+	public static final double PLAYER_ONE_SPEED = 6.0;
+	public static final double PLAYER_TWO_SPEED = 6.0;
+	public static final double CLASSIC_SNAKE_SPEED = 9.0;
 
 	public static double PLAYER_HEALTH = 100.0;
 

@@ -49,12 +49,14 @@ public class CustomMenuBox {
 
 	public void addMenuButton(CustomMenuButton button, int index) {
 		this.menuBox.getChildren().add(index, button.BUTTON());
+		this.menuBox.setMaxWidth(button.getButtonWidth());
 		this.buttonList.add(index, button);
 	}
 
 	public void addButtons(CustomMenuButton... buttons) {
 		for (int i = 0; i < buttons.length; i++) {
 			this.menuBox.getChildren().add(buttons[i].BUTTON());
+			this.menuBox.setMaxWidth(buttons[i].getButtonWidth());
 			this.buttonList.add(buttons[i]);
 		}
 	}
