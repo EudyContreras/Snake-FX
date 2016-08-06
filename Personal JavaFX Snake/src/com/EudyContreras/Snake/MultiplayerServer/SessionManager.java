@@ -3,10 +3,6 @@ package com.EudyContreras.Snake.MultiplayerServer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
 
@@ -22,6 +18,7 @@ public class SessionManager extends MultiplayerServer{
 	private HashMap<String, MultiplayerClient> all_clients;
 	private HashMap<String, MultiplayerClient> online_clients;
 	private HashMap<String, MultiplayerClient> offline_clients;
+
 	private HashMap<String, String> online_user_info;
 	private HashMap<String, String> offline_user_info;
 

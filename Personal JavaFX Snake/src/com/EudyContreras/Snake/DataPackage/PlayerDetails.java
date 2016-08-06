@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class PlayerDetails implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String name;
-	private String lastName;
-	private String userName;
-	private String passWord;
-	private String location;
-	private Boolean returning;
-	private byte[] profilePic;
-	private int level;
-	private int age;
+	private String name = "";
+	private String lastName = "";
+	private String userName = "";
+	private String passWord = "";
+	private String location = "";
+	private Boolean returning = false;
+	private byte[] profilePic = null;
+	private int level = 0;
+	private int age = 0;
 
 	public PlayerDetails(String name, String lastName, String userName, String passWord, String location, int level, int age, byte[] profilePic) {
 		super();

@@ -1,15 +1,8 @@
 package com.EudyContreras.Snake.MultiplayerServer;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
-import com.EudyContreras.Snake.DataPackage.PlayerDetails;
 
 /**
  * This class is used to handle clients and all actions from each client
@@ -18,13 +11,13 @@ import com.EudyContreras.Snake.DataPackage.PlayerDetails;
  * @author Eudy Contreras, Mikael Malmgren, Johannes Berggren
  *
  */
-public class PackageManager extends MultiplayerServer{
+public class PackageManager{
 
 	/**
 	 * Constructor which takes the GUI as an argument.
 	 * @param GUI the servers graphical user interface.
 	 */
-	public PackageManager() {
+	public PackageManager(ClientManager clientManager) {
 		super();
 
 	}
@@ -38,12 +31,8 @@ public class PackageManager extends MultiplayerServer{
 	 * @throws IOException
 	 */
 	public synchronized void handleObject(Object obj, MultiplayerClient client) throws ClassNotFoundException, IOException{
-		if(obj instanceof ServerResponse){
-			handleInfoPack(obj, client);
-		}
-		else if(obj instanceof Double){
-			handleUserCommand(obj, client);
-		}
+			 if(obj instanceof ServerResponse){handleInfoPack(obj, client);}
+		else if(obj instanceof Double){handleUserCommand(obj, client);}
 
 	}
 	/**

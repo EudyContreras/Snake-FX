@@ -2,6 +2,8 @@ package com.EudyContreras.Snake.MultiplayerServer;
 
 import java.io.IOException;
 
+import com.EudyContreras.Snake.Commands.ServerCommand;
+import com.EudyContreras.Snake.DataPackage.ServerEvent;
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
 /**
  * Class used to check if the user has previously logged into the system. this class
@@ -107,7 +109,6 @@ public class ClientAuthentification {
 	 */
 	public void processReturningClient(MultiplayerClient client){
 		manager.getOffline_user_info().remove(client.getPassword());
-
 		manager.getOffline_clients().remove(client.getUsername());
 
 	}
@@ -122,16 +123,17 @@ public class ClientAuthentification {
 	public void initializeClient(MultiplayerClient client, String status, String scenario){
 		client.sendPackage(new ServerResponse(status, scenario ,client.getResponse(), 7.0));
 		client.sendPackage(new ServerResponse(client.getUsername(),"All users",manager.getAllUsers(),client.getUsername(),1.0));
-		client.sendPackage(new ServerResponse("Server: ", "All users", manager.getDisconnectedUsers(),"",10.0));
+		client.sendPackage(new ServerResponse("Server: ", "All users", manager.getOfflineClients(),"",10.0));
+
 		try {
 			manager.sendWelcomeMessage(client,"Server: " + client.getUsername() + " has joined the chat");
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
-		manager.confirmOnlineUsers(client.getUsername());
+		manager.updateOnlineClients(client.getUsername());
 		try {
-			manager.sendPackage(new ServerResponse(client.getUsername(),"All users",manager.getAllUsers(),client.getUsername(),1.0));
-			manager.sendPackage(new ServerResponse("Server: ", "All users", manager.getDisconnectedUsers(),"",10.0));
+			manager.sendBroadcastPackage(new ServerResponse(client.getUsername(),"All users",manager.getAllUsers(),client.getUsername(),1.0));
+			manager.sendBroadcastPackage(new ServerResponse("Server: ", "All users", manager.getOfflineClients(),"",10.0));
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -145,8 +147,7 @@ public class ClientAuthentification {
 	public void disconnectClient(MultiplayerClient client){
 		manager.getOnline_clients().remove(client);
 		client.sendPackage(new ServerResponse("Server", client.getUsername(),client.getResponse(), 6.0));
-		Double closingCommand = 1.0;
-		client.sendPackage(closingCommand);
+		client.sendPackage(new ServerEvent(ServerCommand.DISCONNECT));
 		client.setConnection(false);
 		client.closeConnection();
 		client = null;

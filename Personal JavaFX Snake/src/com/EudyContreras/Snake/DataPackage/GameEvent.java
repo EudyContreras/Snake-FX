@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.DataPackage;
 import java.io.Serializable;
 
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+
 import javafx.geometry.Point2D;
 
 public class GameEvent implements Serializable {
@@ -112,9 +113,5 @@ public class GameEvent implements Serializable {
 
 	public void setData(byte[] data) {
 		this.data = data;
-	}
-	public enum ClientCommands{
-
-
 	}
 }

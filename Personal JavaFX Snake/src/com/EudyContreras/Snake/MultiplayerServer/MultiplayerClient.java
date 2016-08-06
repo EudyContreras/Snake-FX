@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.LinkedList;
 
+import com.EudyContreras.Snake.DataPackage.MatchRequest;
+
 /**
  * allow the player to open a multiplayer menu, in the menu he will see users
  * currently online and also be able to see if the users are currently playing
@@ -50,16 +52,19 @@ public class MultiplayerClient extends Thread {
 
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
-	private ClientManager manager;
+	private ClientManager clientManager;
+	private PackageManager packageManager;
 	private MultiplayerServer server;
 	private SocketAddress address;
-	private LinkedList<Object> inbox;
-	private String username = "unknown:";
+	private LinkedList<Object> chatInbox;
+	private LinkedList<MatchRequest> requestInbox;
+	private String name;
+	private String username = "unknown";
 	private String password = "password";
 	private String response;
 	private String location;
-	private String userName;
 	private Socket socket;
+	private byte[] profilePic;
 	private boolean connected;
 	private int uniqueID;
 	private int level;
@@ -67,20 +72,18 @@ public class MultiplayerClient extends Thread {
 
 	/**
 	 * This constructors takes a socket and ID as an argument.
-	 * 
-	 * @param socket:
-	 *            socket created thought this connection.
-	 * @param ID:
-	 *            the unique id of this client.
+	 *
+	 * @param socket: socket created thought this connection.
+	 * @param ID: the unique id of this client.
 	 */
 	public MultiplayerClient(MultiplayerServer server, ClientManager manager, Socket socket, int uiqueID) {
 		this.server = server;
-		this.manager = manager;
+		this.clientManager = manager;
 		this.socket = socket;
 		this.connected = true;
 		this.uniqueID = uiqueID;
 		this.address = socket.getRemoteSocketAddress();
-		this.inbox = new LinkedList<>();
+		this.chatInbox = new LinkedList<>();
 		try {
 			output = new ObjectOutputStream(socket.getOutputStream());
 			output.flush();
@@ -92,8 +95,8 @@ public class MultiplayerClient extends Thread {
 		}
 		try {
 
-			inbox.add(input.readObject());
-			if (inbox.size() > 0) {
+			chatInbox.add(input.readObject());
+			if (chatInbox.size() > 0) {
 				manager.receiveNewUser(ObjectPop(0), this);
 			}
 			String newUserConnected = username + " has connected to the server!";
@@ -107,33 +110,33 @@ public class MultiplayerClient extends Thread {
 
 	/**
 	 * Adds objects to this client's in-box list
-	 * 
+	 *
 	 * @param obj
 	 */
 	public synchronized void populateInbox(Object obj) {
-		inbox.addLast(obj);
+		chatInbox.addLast(obj);
 		this.notifyAll();
 	}
 
 	/**
 	 * removes and returns the first element in the inbox
-	 * 
+	 *
 	 * @return
 	 */
 	public synchronized Object sendIncoming() {
-		while (inbox.isEmpty()) {
+		while (chatInbox.isEmpty()) {
 			try {
 				this.wait();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		return inbox.removeFirst();
+		return chatInbox.removeFirst();
 	}
 
 	/**
 	 * method which sends a generic package containing an object to the client
-	 * 
+	 *
 	 * @param object
 	 */
 	public void sendPackage(Object object) {
@@ -150,7 +153,7 @@ public class MultiplayerClient extends Thread {
 
 	/**
 	 * method which reads packages which are received through the input stream.
-	 * 
+	 *
 	 * @return
 	 * @throws ClassNotFoundException
 	 * @throws IOException
@@ -185,14 +188,14 @@ public class MultiplayerClient extends Thread {
 			try {
 				Object object = input.readObject();
 				populateInbox(object);
-				if (inbox.size() > 0) {
-					manager.handleObject(sendIncoming(), this);
+				if (chatInbox.size() > 0) {
+					packageManager.handleObject(sendIncoming(), this);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				if (connected) {
 					server.logToConsole("Failed to read package from client :" + username);
 					e.printStackTrace();
-					manager.disconnectClient2(this);
+					clientManager.disconnectClient2(this);
 					closeConnection();
 					break;
 				}
@@ -200,66 +203,108 @@ public class MultiplayerClient extends Thread {
 			}
 		}
 	}
+	public void setProfilePic(byte[] profilePicture) {
+		this.profilePic = profilePicture;
 
-	protected boolean isConnected() {
+	}
+
+	public boolean isConnected() {
 		return connected;
 	}
 
-	protected void setConnection(boolean status) {
+	public void setConnection(boolean status) {
 		this.connected = status;
 	}
 
-	protected Socket getSocket() {
+	public Socket getSocket() {
 		return socket;
 	}
 
-	protected SocketAddress getSocketAddress() {
+	public SocketAddress getSocketAddress() {
 		return address;
 	}
 
-	protected int getID() {
+	public int getID() {
 		return uniqueID;
 	}
 
-	protected void setResponse(String response) {
+	public void setResponse(String response) {
 		this.response = response;
 	}
 
-	protected String getResponse() {
+	public String getResponse() {
 		return response;
 	}
 
-	protected String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	protected void setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	protected void setUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
-	protected String getUsername() {
+	public void setPlayerName(String name){
+		this.name = name;
+	}
+
+	public void setLocation(String location){
+		this.location = location;
+	}
+
+	public void setLevel(int level){
+		this.level = level;
+	}
+
+	public void setAge(int age){
+		this.age = age;
+	}
+
+	public final String getPlayerName() {
+		return name;
+	}
+
+	public final String getLocation() {
+		return location;
+	}
+
+	public final byte[] getProfilePic() {
+		return profilePic;
+	}
+
+	public final int getLevel() {
+		return level;
+	}
+
+	public final int getAge() {
+		return age;
+	}
+
+	public String getUsername() {
 		return username;
 	}
 
-	protected LinkedList<Object> getInbox() {
-		return inbox;
+	public LinkedList<Object> getInbox() {
+		return chatInbox;
 	}
 
-	protected Object ObjectPop(int index) {
-		if (inbox.isEmpty())
+	public Object ObjectPop(int index) {
+		if (chatInbox.isEmpty())
 			return null;
-		return inbox.remove(index);
+		return chatInbox.remove(index);
 	}
 
-	protected Object getObject(int index) {
-		return inbox.get(index);
+	public Object getObject(int index) {
+		return chatInbox.get(index);
 	}
 
 	public enum Status {
 		PLAYING, IDLE, WAITING, SEARCHING, DISCONNECTED,
 	}
+
+
 }

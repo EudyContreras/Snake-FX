@@ -2,47 +2,43 @@ package com.EudyContreras.Snake.DataPackage;
 
 import java.io.Serializable;
 
+import com.EudyContreras.Snake.Commands.ServerCommand;
+
 import javafx.geometry.Point2D;
 
 public class ServerEvent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	Integer command;
-	Point2D coordinates;
-	String message;
-	String playerID;
-	String objectID;
-	double x;
-	double y;
-	double r;
+	private ServerCommand command;
+	private Point2D coordinates;
+	private String message;
+	private String playerID;
+	private String objectID;
 	byte[] data;
 
-	public ServerEvent(Integer command, String playerID, double x, double y, double r) {
+	public ServerEvent(ServerCommand command, String playerID) {
 		super();
 		this.command = command;
 		this.playerID = playerID;
-		this.x = x;
-		this.y = y;
-		this.r = r;
 	}
 
-	public ServerEvent(Integer command, String message, String playerID) {
+	public ServerEvent(ServerCommand command, String message, String playerID) {
 		super();
 		this.command = command;
 		this.message = message;
 		this.playerID = playerID;
 	}
 
-	public ServerEvent(Integer command) {
+	public ServerEvent(ServerCommand command) {
 		super();
 		this.command = command;
 	}
 
-	public Integer getCommand() {
+	public ServerCommand getCommand() {
 		return command;
 	}
 
-	public void setCommand(Integer command) {
+	public void setCommand(ServerCommand command) {
 		this.command = command;
 	}
 
@@ -76,30 +72,6 @@ public class ServerEvent implements Serializable {
 
 	public void setID(String iD) {
 		objectID = iD;
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public double getR() {
-		return r;
-	}
-
-	public void setR(double r) {
-		this.r = r;
 	}
 
 	public byte[] getData() {

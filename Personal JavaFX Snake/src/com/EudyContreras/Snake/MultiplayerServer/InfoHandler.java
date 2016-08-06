@@ -2,6 +2,8 @@ package com.EudyContreras.Snake.MultiplayerServer;
 
 import java.io.IOException;
 
+import com.EudyContreras.Snake.MultiplayerClient.DialogUtility;
+
 public class InfoHandler{
 	private ClientManager manager;
 	private MultiplayerServer server;
@@ -77,7 +79,7 @@ public class InfoHandler{
 		int answer = DialogUtility.showConfirmationDialog(GUI.getWindow(), "Are you sure that you want to shutdown the server?", "Attention!", options);
 		if (answer == DialogUtility.YES_OPTION) {
 			try {
-				manager.sendPackage("Server: Server is now offline, try again at a later time!");
+				manager.sendBroadcastPackage("Server: Server is now offline, try again at a later time!");
 				manager.disconnectAll();
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
