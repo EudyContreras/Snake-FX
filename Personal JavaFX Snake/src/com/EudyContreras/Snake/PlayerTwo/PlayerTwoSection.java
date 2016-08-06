@@ -133,6 +133,7 @@ public class PlayerTwoSection extends AbstractSection {
 
 	public void move() {
 		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
+		this.radius = circle.getRadius();
 		checkBounds();
 		disguiseLast();
 		sectionAdjustment();
@@ -214,7 +215,7 @@ public class PlayerTwoSection extends AbstractSection {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt_grain,1.5, x, y,
 						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
 			}
 		}
@@ -223,16 +224,9 @@ public class PlayerTwoSection extends AbstractSection {
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt_grain,1.5, x, y,
 						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
 			}
-		}
-	}
-	public void hideLast() {
-		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
-			this.circle.setVisible(false);
-		} else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
-			this.circle.setVisible(true);
 		}
 	}
 
@@ -248,10 +242,12 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 	public void fadeToBones() {
 		if (fade == true) {
-			fadeValue -= 0.03;
-			this.circle.setOpacity(fadeValue);
-			if (fadeValue <= 0) {
-				fadeValue = 0;
+			if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+				fadeValue -= 0.03;
+				this.circle.setOpacity(fadeValue);
+				if (fadeValue <= 0) {
+					fadeValue = 0;
+				}
 			}
 		}
 	}
@@ -301,12 +297,12 @@ public class PlayerTwoSection extends AbstractSection {
 			bones.setRotate(r-90);
 		}
 		else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
-			bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-			game.getBaseLayer().getChildren().add(bones);
-			bones.setRotate(r-90);
+			if (this.numericID > 0) {
+				bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
+				game.getBaseLayer().getChildren().add(bones);
+				bones.setRotate(r - 90);
+			}
 		}
-
-
 	}
 
 	public void blowUp() {

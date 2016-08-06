@@ -177,6 +177,30 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+	public static synchronized Image precreatedLightedAndShadedTail(String path, double diffused, double specularMap, double width,
+			double height) {
+		resetInputeffects();
+		img = new Image(loadResource(path), width, height, true, true);
+		view.setImage(img);
+		light.setX(-150);
+		light.setY(220);
+		light.setZ(115);
+		lighting.setDiffuseConstant(diffused);
+		lighting.setSpecularConstant(2);
+		lighting.setSurfaceScale(10.0);
+		lighting.setLight(light);
+		shadow.setColor(Color.rgb(0, 0, 0, 0.5));
+		shadow.setRadius(20);
+		shadow.setOffsetX(0);
+		shadow.setOffsetY(0);
+		lighting.setContentInput(shadow);
+		if (GameSettings.ADD_LIGHTING)
+			view.setEffect(lighting);
+		view.setFitWidth(width);
+		view.setFitHeight(height);
+		img = ImageEffectUtility.createImage(view);
+		return img;
+	}
 	public static synchronized Image preCreateShadedCircle(Color color, double diffused, double specularMap, double radius) {
 		resetInputeffects();
 		Image img;
@@ -265,10 +289,10 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(0);
-		light.setY(1300);
+		light.setX(1000);
+		light.setY(1920);
 		light.setZ(850);
-		lighting.setDiffuseConstant(diffused);
+		lighting.setDiffuseConstant(diffused-.2);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);

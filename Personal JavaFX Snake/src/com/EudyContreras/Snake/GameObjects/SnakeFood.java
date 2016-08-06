@@ -254,14 +254,14 @@ public class SnakeFood extends AbstractObject {
 		}
 	}
 	public void checkBoundaries() {
-		if (x < 0 + radius) {
-			x = (float) (GameSettings.WIDTH - radius);
-		} else if (x > GameSettings.WIDTH - radius) {
-			x = (float) (0 + radius);
-		} else if (y < GameSettings.MIN_Y + radius) {
-			y = (float) (GameSettings.HEIGHT - radius);
-		} else if (y > GameSettings.HEIGHT - radius) {
-			y = (float) (GameSettings.MIN_Y + radius);
+		if (x < 0 + radius/2) {
+			x = (float) (GameSettings.WIDTH - radius/2);
+		} else if (x > GameSettings.WIDTH - radius/2) {
+			x = (float) (0 + radius/2);
+		} else if (y < GameSettings.MIN_Y + radius/2) {
+			y = (float) (GameSettings.HEIGHT - radius/2);
+		} else if (y > GameSettings.HEIGHT - radius/2) {
+			y = (float) (GameSettings.MIN_Y + radius/2);
 		}
 	}
 	/**
@@ -457,6 +457,9 @@ public class SnakeFood extends AbstractObject {
 			game.getDebrisManager().addDebris(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
 					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
 		}
+	}
+
+	public void getPoint(){
 		game.getNinthLayer().getChildren().add(new GamePoint(game.getEighthLayer(),x,y));
 	}
 

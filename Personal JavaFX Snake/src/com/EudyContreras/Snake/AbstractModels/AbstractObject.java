@@ -403,6 +403,7 @@ public abstract class AbstractObject {
 		x = x + velX * GameSettings.FRAME_SCALE;
 		y = y + velY * GameSettings.FRAME_SCALE;
 		r = r + velR * GameSettings.FRAME_SCALE;
+		radius = circle.getRadius();
 	}
 
 	public boolean isAlive() {
@@ -511,6 +512,9 @@ public abstract class AbstractObject {
 
 	}
 	public void blowUp() {
+
+	}
+	public void getPoint(){
 
 	}
 	public void blowUpAlt() {

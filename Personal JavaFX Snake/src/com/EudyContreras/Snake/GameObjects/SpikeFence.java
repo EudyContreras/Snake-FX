@@ -11,6 +11,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 /**
  * this class is an object which will kill the player
@@ -51,10 +52,16 @@ public class SpikeFence extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		if(orientation==1)
+		if(orientation==1){
 			collisionBounds = new Rectangle2D(x, y+20, width, height-40);
-		if(orientation==2)
+		}
+		if(orientation==2){
+			if(x>0){
+				this.view.setRotationAxis(Rotate.Y_AXIS);
+				
+			}
 			collisionBounds = new Rectangle2D(x+15, y, width-65, height);
+		}
 	}
 	/**
 	 * Moves this object

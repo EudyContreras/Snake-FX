@@ -221,6 +221,7 @@ public class GameManager extends AbstractGameModel {
 		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
 		mainWindow.getIcons().add(GameImageBank.appIcon);
 		mainWindow.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
 		mainWindow.setOnCloseRequest(e -> {
 			closeGame();
 		});
@@ -868,8 +869,8 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	public void clearAll() {
-		GameSettings.PLAYER_ONE_SIZE = 30;
-		GameSettings.PLAYER_TWO_SIZE = 30;
+		GameSettings.PLAYER_ONE_SIZE = 22;
+		GameSettings.PLAYER_TWO_SIZE = 22;
 		GameSettings.CLASSIC_SNAKE_SIZE = 30;
 		PlayerOne.SPEED = GameSettings.PLAYER_ONE_SPEED;
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;

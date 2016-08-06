@@ -75,6 +75,8 @@ public class PlayerOneFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snakeHead.getX() + offsetX);
 		y = (float) (snakeHead.getY() + offsetY);
+		circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.30);
+
 
 	}
 	public void logicUpdate() {
@@ -83,16 +85,16 @@ public class PlayerOneFangs extends AbstractObject {
 	}
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
-			this.offsetY = -25;
+			this.offsetY = -this.snakeHead.getRadius()*.65;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.offsetY = 25;
+			this.offsetY = this.snakeHead.getRadius()*.65;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.offsetX = -25;
+			this.offsetX = -this.snakeHead.getRadius()*.65;
 			this.offsetY = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.offsetX = 25;
+			this.offsetX = this.snakeHead.getRadius()*.65;
 			this.offsetY = 0;
 		}
 	}
@@ -120,6 +122,7 @@ public class PlayerOneFangs extends AbstractObject {
 							snake.closeMouth();
 							game.getScoreKeeper().decreaseCount();
 							tempObject.blowUp();
+							tempObject.getPoint();
 							tempObject.remove();
 							break;
 						}
@@ -136,7 +139,7 @@ public class PlayerOneFangs extends AbstractObject {
 					if (tempObject.getId() == GameObjectID.SnakeSection) {
 						if (tempObject.getNumericID() > 4) {
 							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-									snake.die();
+								snake.die();
 							}
 						}
 					}
@@ -195,4 +198,6 @@ public class PlayerOneFangs extends AbstractObject {
 		this.offsetY = offsetY;
 
 	}
+
+
 }

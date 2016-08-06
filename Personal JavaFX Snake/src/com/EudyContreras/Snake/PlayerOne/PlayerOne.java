@@ -40,7 +40,7 @@ public class PlayerOne extends AbstractObject {
 	private int appleCount = 0;
 	private int counter = 0;
 	private double accelaration = 0.5;
-	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
+	private double maxSize = 30;
 	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
@@ -104,7 +104,7 @@ public class PlayerOne extends AbstractObject {
 	}
 	private void loadHead(){
 		this.snakeHead = new PlayerOneHead(this, game, layer,
-				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
+				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.5, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getPlayerOneManager().addObject(snakeHead);
 	}
@@ -200,6 +200,8 @@ public class PlayerOne extends AbstractObject {
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
+			bounds.setWidth(radius);
+			bounds.setHeight(radius);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -414,7 +416,49 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
-
+	public void setGestureDirection(PlayerMovement direction) {
+		if (game.getStateID() == GameStateID.GAMEPLAY) {
+			if (!GameSettings.ALLOW_SELF_COLLISION) {
+				setDirectCoordinates(direction);
+			}
+			if (GameSettings.ALLOW_SELF_COLLISION) {
+				if (!LEVEL_COMPLETED && !DEAD) {
+					if (this.direction == direction) {
+						this.direction = direction;
+					} else {
+						switch (direction) {
+						case MOVE_UP:
+							if (this.direction != PlayerMovement.MOVE_DOWN) {
+								if (allowTurnUp)
+									moveUp();
+							}
+							break;
+						case MOVE_DOWN:
+							if (this.direction != PlayerMovement.MOVE_UP) {
+								if (allowTurnDown)
+									moveDown();
+							}
+							break;
+						case MOVE_LEFT:
+							if (this.direction != PlayerMovement.MOVE_RIGHT) {
+								if (allowTurnLeft)
+									moveLeft();
+							}
+							break;
+						case MOVE_RIGHT:
+							if (this.direction != PlayerMovement.MOVE_LEFT) {
+								if (allowTurnRight)
+									moveRight();
+							}
+							break;
+						case STANDING_STILL:
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
 	public void turnDelay(PlayerMovement newDirection) {
 		turns.add(newDirection);
 	}
@@ -617,7 +661,7 @@ public class PlayerOne extends AbstractObject {
 	public void addSection() {
 		if (GameSettings.PLAYER_ONE_SIZE < maxSize) {
 			counter++;
-			if (counter >= 15) {
+			if (counter >= 10) {
 				counter = 0;
 				if(GameSettings.ALLOW_SNAKE_GROWTH)
 					GameSettings.PLAYER_ONE_SIZE += 2;

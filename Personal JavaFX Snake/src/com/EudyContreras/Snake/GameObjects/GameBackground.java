@@ -75,6 +75,7 @@ import javafx.scene.image.ImageView;
 		if (INDEX > 11) {
 			INDEX = 1;
 		}
+		BACKGROUND_VIEW.setTranslateX(-5);
 		game.getGameRoot().getChildren().remove(BACKGROUND_VIEW);
 		game.getGameRoot().getChildren().add(0, BACKGROUND_VIEW);
 	}

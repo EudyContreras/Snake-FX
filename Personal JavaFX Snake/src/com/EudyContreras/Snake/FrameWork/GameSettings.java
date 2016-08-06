@@ -24,8 +24,8 @@ public class GameSettings {
 
 	public static int MIN_X = 0;
 	public static int MAX_X = 0;
-	public static int MIN_Y = (int)80; //This number must be a whole number
-	public static int MAX_Y = 0;
+	public static int MIN_Y = 80;
+	public static int MAX_Y = 1920;
 
 	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
 	public static int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
@@ -35,7 +35,7 @@ public class GameSettings {
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 10;
+	public static int APPLE_COUNT = 80;
 	public static int BUFF_COUNT = 0;
 	public static int SECTIONS_TO_ADD = 3;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
@@ -48,13 +48,13 @@ public class GameSettings {
 	public static int SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
 
-	public static double PLAYER_ONE_SIZE = 30; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
-	public static double PLAYER_TWO_SIZE = 30; // Must be even or divisible by two
+	public static double PLAYER_ONE_SIZE = 22; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting
+	public static double PLAYER_TWO_SIZE = 22; // Must be even or divisible by two
 	public static double CLASSIC_SNAKE_SIZE = 30;
 	public static double SECTION_DISTANCE = 1; // Must be a number divisible by the speed
 
-	public static int TURN_DELAY = 6;
-	public static int BITE_DELAY = 10;
+	public static int TURN_DELAY = 2;
+	public static int BITE_DELAY = 6;
 	public static int IMMUNITY_TIME = 20;
 	public static int COLLISION_DELAY = 0;
 
@@ -76,21 +76,21 @@ public class GameSettings {
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
 	public static int PARTICLE_LIMIT = 350;
 	public static int MAX_DEBRIS_AMOUNT = 50;
-	public static int SAND_SPAWN_DELAY = 1;
+	public static int SAND_SPAWN_DELAY = 2;
 	public static int RAIN_SPAWN_DELAY = 1;
 	public static int SAND_AMOUNT = 4;
 	public static int RAIN_AMOUNT = 0;
 	public static int DIRT_AMOUNT = 4;
 
 	public static double SAND_SIZE = 5;
-	public static double WIND_FORCE = 0.8;
+	public static double WIND_FORCE = 0.7;
 	public static double WIND_SPEED = 0.2;
 
 
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 
-	public static boolean ALLOW_SNAKE_GROWTH = false;
+	public static boolean ALLOW_SNAKE_GROWTH = true;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;

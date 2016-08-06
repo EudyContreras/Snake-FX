@@ -89,7 +89,7 @@ public class PlayerTwoHead extends AbstractObject {
 	private void loadMouth(){
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.35, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.30, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
 	public void move() {
@@ -97,7 +97,7 @@ public class PlayerTwoHead extends AbstractObject {
 			if (GameSettings.DEBUG_MODE) {
 				adjustBounds();
 			}
-			this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE*1.4);
+			this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE*1.5);
 			this.radius = circle.getRadius();
 			this.y = snake.getY();
 			this.x = snake.getX();
@@ -118,6 +118,8 @@ public class PlayerTwoHead extends AbstractObject {
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius*1.1 / 2 + offsetX);
 			bounds.setY(y - radius*1.1 / 2 + offsetY);
+			bounds.setWidth(radius*1.1);
+			bounds.setHeight(radius*1.1);
 		}
 	}
 	public void showTheSkull() {
@@ -322,10 +324,16 @@ public class PlayerTwoHead extends AbstractObject {
 		this.circle.setFill(scene);
 	}
 	public void addBones() {
-		skull = new Circle(x, y, this.radius*0.8, new ImagePattern(GameImageBank.snakeSkull));
+		skull = new Circle(this.radius * .8, new ImagePattern(GameImageBank.snakeSkull));
+		skull.setTranslateX(x);
+		skull.setTranslateY(y);
 		skull.setRotate(r);
 		game.getBaseLayer().getChildren().add(skull);
 	}
+	public double getRadius(){
+		return this.circle.getRadius();
+	}
+
 	public boolean isShowTheSkull() {
 		return showTheSkull;
 	}
@@ -355,6 +363,17 @@ public class PlayerTwoHead extends AbstractObject {
 		this.headBoundsBottom.setY(y + radius - headBoundsBottom.getHeight() / 2);
 		this.clearFromCollision.setX(x - radius);
 		this.clearFromCollision.setY(y - radius);
+
+		this.headBoundsLeft.setWidth(circle.getRadius() * .5);
+		this.headBoundsLeft.setHeight(circle.getRadius() * .5);
+		this.headBoundsRight.setWidth(circle.getRadius() * .5);
+		this.headBoundsRight.setHeight(circle.getRadius() * .5);
+		this.headBoundsTop.setWidth(circle.getRadius() * .5);
+		this.headBoundsTop.setHeight(circle.getRadius() * .5);
+		this.headBoundsBottom.setWidth(circle.getRadius() * .5);
+		this.headBoundsBottom.setHeight(circle.getRadius() * .5);
+		this.clearFromCollision.setWidth(circle.getRadius() * 2);
+		this.clearFromCollision.setHeight(circle.getRadius() * 2);
 	}
 	public Bounds getRadialBounds(){
 		return radialBounds.getBoundsInParent();

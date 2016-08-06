@@ -69,15 +69,15 @@ public class GameBorder extends AbstractTile {
 
 		this.leftBound.setX(0);
 		this.rightBound.setX(GameSettings.SCREEN_WIDTH - borderSize);
-		this.leftBound.setY(0);
-		this.rightBound.setY(0);
-		this.topBound.setX(-5);
-		this.topBound.setY(0);
+		this.leftBound.setY(3);
+		this.rightBound.setY(3);
+		this.topBound.setTranslateX(3);
+		this.topBound.setTranslateY(0);
 		this.bottomBound.setX(-5);
 		this.bottomBound.setY(GameSettings.SCREEN_HEIGHT - borderSize);
 		this.exit.setTranslateX(GameSettings.SCREEN_WIDTH/2 - 45);
-		this.exit.setFitWidth(35);
-		this.exit.setFitHeight(35);
+		this.exit.setFitWidth(100*.7);
+		this.exit.setFitHeight(47*.7);
 		this.pane.getChildren().setAll(topBound, new ImageView(GameImageBank.snakeIcon), exit);
 		this.displayBorders();
 	}
@@ -86,12 +86,12 @@ public class GameBorder extends AbstractTile {
 		view.setFitHeight(borderSize+5);
 	}
 	public void setDimensions_h(ImageView view, double height){
-		view.setFitWidth(GameSettings.SCREEN_WIDTH+5);
+		view.setFitWidth(GameSettings.SCREEN_WIDTH-6);
 		view.setFitHeight(height);
 	}
 	public void setDimensions_v(ImageView view){
 		view.setFitWidth(borderSize);
-		view.setFitHeight(GameSettings.SCREEN_HEIGHT);
+		view.setFitHeight(GameSettings.SCREEN_HEIGHT-3);
 	}
 	public void setDimensions_v(ImageView view, double width){
 		view.setFitWidth(width);

@@ -264,8 +264,10 @@ public class PauseMenu {
 
 			public void handle(SwipeEvent event) {
 				if(game.getStateID()==GameStateID.GAMEPLAY){
-				showTouchPanel();
-				event.consume();
+					if(event.getSceneY()<=200){
+						showTouchPanel();
+					}
+					event.consume();
 				}
 			}
 		});

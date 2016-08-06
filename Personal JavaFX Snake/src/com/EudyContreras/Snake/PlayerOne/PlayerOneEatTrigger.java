@@ -54,6 +54,7 @@ public class PlayerOneEatTrigger extends AbstractObject {
 
 	public void move() {
 		super.move();
+		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.8);
 		if (snake.getCurrentDirection() == PlayerMovement.MOVE_UP) {
 			this.y = (float) (snake.getY() - this.circle.getRadius() * 3);
 			this.x = snake.getX();

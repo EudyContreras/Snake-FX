@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.InputHandlers;
 import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.SwipeEvent;
@@ -28,34 +29,39 @@ public class TouchInputHandler {
 			game.getScene().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
 				public void handle(SwipeEvent event) {
-					game.getGameLoader().getPlayerTwo().setGestureDirection(PlayerMovement.MOVE_UP);
+					if (game.getStateID() == GameStateID.GAMEPLAY)
+					game.getGameLoader().getPlayerOne().setGestureDirection(PlayerMovement.MOVE_UP);
 					event.consume();
 				}
 			});
 			game.getScene().setOnSwipeDown(new EventHandler<SwipeEvent>() {
 
 				public void handle(SwipeEvent event) {
-					game.getGameLoader().getPlayerTwo().setGestureDirection(PlayerMovement.MOVE_DOWN);
+					if (game.getStateID() == GameStateID.GAMEPLAY)
+					game.getGameLoader().getPlayerOne().setGestureDirection(PlayerMovement.MOVE_DOWN);
 					event.consume();
 				}
 			});
 			game.getScene().setOnSwipeLeft(new EventHandler<SwipeEvent>() {
 				public void handle(SwipeEvent event) {
-					game.getGameLoader().getPlayerTwo().setGestureDirection(PlayerMovement.MOVE_LEFT);
+					if (game.getStateID() == GameStateID.GAMEPLAY)
+					game.getGameLoader().getPlayerOne().setGestureDirection(PlayerMovement.MOVE_LEFT);
 					event.consume();
 				}
 			});
 			game.getScene().setOnSwipeRight(new EventHandler<SwipeEvent>() {
 				public void handle(SwipeEvent event) {
-					game.getGameLoader().getPlayerTwo().setGestureDirection(PlayerMovement.MOVE_RIGHT);
+					if (game.getStateID() == GameStateID.GAMEPLAY)
+					game.getGameLoader().getPlayerOne().setGestureDirection(PlayerMovement.MOVE_RIGHT);
 					event.consume();
 				}
 			});
 			game.getScene().setOnTouchStationary(new EventHandler<TouchEvent>() {
 				public void handle(TouchEvent event) {
 					if (event.isShiftDown()) {
-						if (game.getGameLoader().getPlayerTwo().isAllowThrust())
-							game.getGameLoader().getPlayerTwo().setSpeedThrust(true);
+						if (game.getStateID() == GameStateID.GAMEPLAY)
+						if (game.getGameLoader().getPlayerOne().isAllowThrust())
+							game.getGameLoader().getPlayerOne().setSpeedThrust(true);
 						;
 						event.consume();
 					}
@@ -63,7 +69,7 @@ public class TouchInputHandler {
 			});
 			game.getScene().setOnTouchReleased(new EventHandler<TouchEvent>() {
 				public void handle(TouchEvent event) {
-					game.getGameLoader().getPlayerTwo().setSpeedThrust(false);
+					game.getGameLoader().getPlayerOne().setSpeedThrust(false);
 					event.consume();
 				}
 			});

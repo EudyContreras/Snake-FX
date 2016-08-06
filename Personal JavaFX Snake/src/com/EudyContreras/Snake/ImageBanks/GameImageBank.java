@@ -40,14 +40,14 @@ import javafx.scene.shape.Circle;
 			public static final Image fruitDebrisTwo = ImageEffectUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY + 0.4, 10, 10 );
 			public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("sand_grain.png", 20, 20 );
-			public static final Image snakeBones = ImageEffectUtility.precreatedLightedAndShadedSnake("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
+			public static final Image snakeBones = ImageEffectUtility.precreatedLightedImage("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY-0.5, 197, 176 );
-			public static final Image snakeSkull = ImageEffectUtility.precreatedLightedAndShadedSnake("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
+			public static final Image snakeSkull = ImageEffectUtility.precreatedLightedImage("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY-0.5, 111, 97 );
-			public static final Image snakeTail = ImageEffectUtility.precreatedLightedAndShadedSnake("desert-snake-tail2.png", GameSettings.GlOBAL_ILLUMINATION,
+			public static final Image snakeTail = ImageEffectUtility.precreatedLightedAndShadedTail("desert-snake-tail2.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY, 114, 243 );
 			public static final Image dirt_grain = ImageEffectUtility.precreatedLightedImage("dirt_grain.png", GameSettings.GlOBAL_ILLUMINATION,
-					GameSettings.GLOBAL_SPECULARITY-0.8, 20, 20 );
+					GameSettings.GLOBAL_SPECULARITY-1.2, 20, 20 );
 			public static final Image dirt = ImageEffectUtility.precreatedLightedImage("dirt_grain.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY-0.8, 20, 20 );
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -162,7 +162,7 @@ import javafx.scene.shape.Circle;
 			public static final ImagePattern count_go = new ImagePattern(new Image(ImageEffectUtility.loadResource("counter_go_alt.png")));
 
 
-			public static final Image Exit = new Image(ImageEffectUtility.loadResource("exit_alt.png"));
+			public static final Image Exit = new Image(ImageEffectUtility.loadResource("exit.png"));
 			public static final Image appIcon = new Image(ImageEffectUtility.loadResource("snake.png"));
 			public static final Image snakeIcon = new Image(ImageEffectUtility.loadResource("snakeIcon.png"));
 			public static ImageCursor normalCursor = new ImageCursor(new Image(ImageEffectUtility.loadResource("normalCursor.png")));

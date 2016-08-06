@@ -143,7 +143,6 @@ public class LevelManager extends AbstractLoaderModel{
 							}
 						}
 					}
-
 				});
 				return null;
 			}
@@ -164,7 +163,7 @@ public class LevelManager extends AbstractLoaderModel{
 				green = (pixel >> 8) & 0xff;
 				blue = (pixel) & 0xff;
 				if (red == 255 && green == 255 && blue == 255) {
-					SpikeFence texture = new SpikeFence(game, (float) (row * 150 )-(float)(20),
+					SpikeFence texture = new SpikeFence(game, (float) (row * 150 )-(float)(80),
 							(float) (col * 55 ), 0, 0, 1,GameLevelImage.horizontalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(texture);
@@ -196,26 +195,26 @@ public class LevelManager extends AbstractLoaderModel{
 							(float) (col * 55 ), 0, 0, 1,GameLevelImage.horizontalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(texture);
-					game.getFirstLayer().getChildren().add(texture.getView());
+					game.getFithLayer().getChildren().add(texture.getView());
 				}
 				if (red == 0 && green == 0 && blue == 255) {
 					SpikeFence texture = new SpikeFence(game, (float) (row * 52.0 )-(float)(25),
 							(float) (col * 150 ), 0, 0, 2,GameLevelImage.verticalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(texture);
-					game.getFirstLayer().getChildren().add(texture.getView());
+					game.getFithLayer().getChildren().add(texture.getView());
 				}
 				if (red == 255 && green == 0 && blue == 255) {
-					SpikeFence textureOne = new SpikeFence(game, (float) (row * 50.5-5 )-(float)(5),
+					SpikeFence textureOne = new SpikeFence(game, (float) (row * 52.0)-(float)(25),
 							(float) (col * 150 ), 0, 0, 2,GameLevelImage.verticalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(textureOne);
-					game.getFirstLayer().getChildren().add(textureOne.getView());
+					game.getFithLayer().getChildren().add(textureOne.getView());
 					SpikeFence textureTwo = new SpikeFence(game, (float) (row * 150 )-(float)(5),
 							(float) (col * 55 ), 0, 0, 1,GameLevelImage.horizontalFence,
 							GameLevelObjectID.fence);
 					loader.getTileManager().addTrap(textureTwo);
-					game.getFirstLayer().getChildren().add(textureTwo.getView());
+					game.getFithLayer().getChildren().add(textureTwo.getView());
 				}
 			}
 		}
