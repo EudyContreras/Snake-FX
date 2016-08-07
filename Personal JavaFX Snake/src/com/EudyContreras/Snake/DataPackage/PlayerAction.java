@@ -2,25 +2,23 @@ package com.EudyContreras.Snake.DataPackage;
 
 import java.io.Serializable;
 
-import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-
 public class PlayerAction implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private PlayerMovement turnEvent;
+	private TurnEvent turnEvent;
 	private boolean eatEvent;
 	private boolean boostEvent;
 
 
-	public PlayerAction(PlayerMovement turnEvent, boolean eatEvent, boolean boostEvent) {
+	public PlayerAction(TurnEvent turnEvent, boolean eatEvent, boolean boostEvent) {
 		super();
 		this.turnEvent = turnEvent;
 		this.eatEvent = eatEvent;
 		this.boostEvent = boostEvent;
 	}
 
-	public final PlayerMovement getTurnEvent() {
+	public final TurnEvent getTurnEvent() {
 		return turnEvent;
 	}
 
@@ -32,8 +30,8 @@ public class PlayerAction implements Serializable {
 		return boostEvent;
 	}
 
-	public enum ClientCommands{
-
+	public enum TurnEvent implements Serializable {
+		LEFT, RIGHT, UP, DOWN,
 
 	}
 }

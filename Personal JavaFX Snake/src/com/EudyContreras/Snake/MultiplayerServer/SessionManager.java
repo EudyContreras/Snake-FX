@@ -347,7 +347,7 @@ public class SessionManager extends MultiplayerServer{
 	 */
 	public void processUserInformation(ServerResponse pack, MultiplayerClient client){
 		client.setName(pack.getID());
-		client.setUsername(pack.getID());
+		client.setUserName(pack.getID());
 		client.setPassword(pack.getReceiver());
 	}
 	/**

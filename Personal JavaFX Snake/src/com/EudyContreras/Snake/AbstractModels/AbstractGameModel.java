@@ -70,6 +70,7 @@ public abstract class AbstractGameModel extends Application {
 	protected Timeline frameGameLoop;
     protected ResizeListener sizeListener;
 	protected Service<Void> backgroundThread;
+	protected Task<Void> task;
 	protected ScheduledExecutorService scheduledExecutor;
 	protected AnimationTimer playerMovementLoop;
 	protected KeyInputHandler keyInput;
@@ -90,11 +91,11 @@ public abstract class AbstractGameModel extends Application {
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
 	protected Thread mainThread;
+	protected Stage splashWindow;
 	protected MenuManager menuManager;
 	protected Scene scene;
 	protected Scene splashScene;
 	protected Pane mainRoot;
-	protected static Stage mainWindow;
 	protected Pane root;
 	protected Pane splashLayout;
 	protected Pane levelLayer;
@@ -156,6 +157,7 @@ public abstract class AbstractGameModel extends Application {
 	protected double splashFadeDelay;
 	protected double yOffset = 0;
 	protected double xOffset = 0;
+	protected static Stage mainWindow;
 //	public static double ScaleX = GameLoader.ResolutionScaleX;
 //	public static double ScaleY = GameLoader.ResolutionScaleY;
 //	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;

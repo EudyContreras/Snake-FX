@@ -2,13 +2,29 @@ package com.EudyContreras.Snake.MultiplayerServer;
 
 import java.io.IOException;
 
+import com.EudyContreras.Snake.Commands.ClientCommand;
+import com.EudyContreras.Snake.DataPackage.ClientEvent;
+import com.EudyContreras.Snake.DataPackage.GameEvent;
+import com.EudyContreras.Snake.DataPackage.GameStatus;
+import com.EudyContreras.Snake.DataPackage.MatchRequest;
+import com.EudyContreras.Snake.DataPackage.MatchStatus;
+import com.EudyContreras.Snake.DataPackage.PlayerAction;
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
 
 /**
- * This class is used to handle clients and all actions from each client
- * this class organizes the logic used to send objects to specific clients
- * and it also handles the information that travels through the server.
- * @author Eudy Contreras, Mikael Malmgren, Johannes Berggren
+ * This class handles packages sent by the client attached to this class.
+ * this class determines what to do and where to redirect the packages for
+ * further processing. Some packages may be processed directly by this class
+ * for low latency purposes!
+ *
+ *send to client manager
+ *process package
+ *if mathch request
+ *handle
+ *if request accepted create session
+ *handle information based on the status of client
+ *
+ * @author Eudy Contreras
  *
  */
 public class PackageManager{
@@ -25,16 +41,62 @@ public class PackageManager{
 	/**
 	 * This method checks the objects received by the clients and then
 	 * determines the type of objects. Once it is done it sends it forward for processing
-	 * @param obj
+	 * @param object
 	 * @param client
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	public synchronized void handleObject(Object obj, MultiplayerClient client) throws ClassNotFoundException, IOException{
-			 if(obj instanceof ServerResponse){handleInfoPack(obj, client);}
-		else if(obj instanceof Double){handleUserCommand(obj, client);}
+	public void handleObject(Object object, MultiplayerClient client){
+			 if(object instanceof GameEvent){handleGameEvent((GameEvent)object, client);}
+		else if(object instanceof ClientEvent){handleClientEvent((ClientEvent)object, client);}
+		else if(object instanceof MatchRequest){HandleMatchRequest((MatchRequest)object, client);}
+		else if(object instanceof MatchStatus){HandleMatchStatus((MatchStatus)object, client);}
+		else if(object instanceof PlayerAction){HandlePlayerAction((PlayerAction)object, client);}
+		else if(object instanceof GameStatus){HandleStatusUpdate((GameStatus)object, client);}
 
 	}
+	private void HandleStatusUpdate(GameStatus obj, MultiplayerClient client) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void HandlePlayerAction(PlayerAction obj, MultiplayerClient client) {
+
+
+	}
+
+	private void HandleMatchStatus(MatchStatus obj, MultiplayerClient client) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void HandleMatchRequest(MatchRequest obj, MultiplayerClient client) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void handleGameEvent(GameEvent obj, MultiplayerClient client) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private void handleClientEvent(ClientEvent obj, MultiplayerClient client) {
+		// TODO Auto-generated method stub
+
+	}
+	private void handleClientCommand(ClientCommand command){
+
+		switch(command){
+		case DISCONNECT:
+			break;
+		case RESEND:
+			break;
+		default:
+			break;
+
+		}
+	}
+
 	/**
 	 * Method responsible of handling all infopacks that travel through this server
 	 * this method will determining both the content and nature of the infopack, this method will

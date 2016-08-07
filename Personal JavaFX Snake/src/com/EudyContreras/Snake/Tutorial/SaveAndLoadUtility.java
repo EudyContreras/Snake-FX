@@ -53,6 +53,7 @@ public enum SaveAndLoadUtility {
 	/**
 	 * Desktop !
 	 */
+	@SuppressWarnings("unused")
 	private final String PATH_ROOT_ALT = System.getProperty("user.home") + "/Desktop" + File.separator + DIRECTORY_NAME;
 
 	private final String SAVE_FILE = "gameData.saveSlot";
@@ -193,9 +194,9 @@ public enum SaveAndLoadUtility {
 		}
 	}
 	/**
-	 * Method which converts a byte array to a ImageView
+	 * Method which converts a byte array to an Image
 	 * @param data: byte array to be converted.
-	 * @return: imageView of the byte array
+	 * @return: image of the byte array
 	 */
 	public final Image byteToImage(byte[] data) {
 		BufferedImage newImage = null;

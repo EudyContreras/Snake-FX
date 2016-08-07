@@ -48,7 +48,7 @@ import com.EudyContreras.Snake.DataPackage.MatchRequest;
  *
  *
  */
-public class MultiplayerClient extends Thread {
+public class MultiplayerClient extends Thread{
 
 	private ObjectOutputStream output;
 	private ObjectInputStream input;
@@ -64,7 +64,9 @@ public class MultiplayerClient extends Thread {
 	private String response;
 	private String location;
 	private Socket socket;
+	private Status status;
 	private byte[] profilePic;
+	private boolean guestUser;
 	private boolean connected;
 	private int uniqueID;
 	private int level;
@@ -82,8 +84,10 @@ public class MultiplayerClient extends Thread {
 		this.socket = socket;
 		this.connected = true;
 		this.uniqueID = uiqueID;
+		this.status = Status.IDLE;
 		this.address = socket.getRemoteSocketAddress();
 		this.chatInbox = new LinkedList<>();
+		this.requestInbox = new LinkedList<>();
 		try {
 			output = new ObjectOutputStream(socket.getOutputStream());
 			output.flush();
@@ -97,13 +101,13 @@ public class MultiplayerClient extends Thread {
 
 			chatInbox.add(input.readObject());
 			if (chatInbox.size() > 0) {
-				manager.receiveNewUser(ObjectPop(0), this);
+				manager.receiveNewUser(ObjectPop(), this);
 			}
 			String newUserConnected = username + " has connected to the server!";
 			server.logToConsole(newUserConnected);
 
 		} catch (ClassNotFoundException | IOException e) {
-			server.logToConsole("Unable to fetch username " + e.getMessage());
+			server.logToConsole("Unable to fetch user details" + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -152,21 +156,6 @@ public class MultiplayerClient extends Thread {
 	}
 
 	/**
-	 * method which reads packages which are received through the input stream.
-	 *
-	 * @return
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	public Object readPackage() throws ClassNotFoundException, IOException {
-		if (isConnected()) {
-			Object object = input.readObject();
-			return object;
-		}
-		return "No Connection!";
-	}
-
-	/**
 	 * Method which closes all connection for this client and closes the input
 	 * and output streams.
 	 */
@@ -189,13 +178,26 @@ public class MultiplayerClient extends Thread {
 				Object object = input.readObject();
 				populateInbox(object);
 				if (chatInbox.size() > 0) {
+					switch(status){
+					case IDLE:
+						break;
+					case IN_MATCH:
+						break;
+					case SEARCHING:
+						break;
+					case WAITING:
+						break;
+					default:
+						break;
+
+					}
 					packageManager.handleObject(sendIncoming(), this);
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				if (connected) {
 					server.logToConsole("Failed to read package from client :" + username);
 					e.printStackTrace();
-					clientManager.disconnectClient2(this);
+					clientManager.disconnectClient(this);
 					closeConnection();
 					break;
 				}
@@ -244,7 +246,7 @@ public class MultiplayerClient extends Thread {
 		this.password = password;
 	}
 
-	public void setUsername(String username) {
+	public void setUserName(String username) {
 		this.username = username;
 	}
 
@@ -288,22 +290,47 @@ public class MultiplayerClient extends Thread {
 		return username;
 	}
 
+	public boolean isGuest(){
+		return guestUser;
+	}
+
+	private void setGuest(boolean type){
+		this.guestUser = type;
+	}
+
+	public void addRequest(MatchRequest request){
+		this.requestInbox.add(request);
+	}
+
+	public MatchRequest popRequest(){
+		if (chatInbox.isEmpty())
+			return null;
+		return requestInbox.removeFirst();
+	}
+
 	public LinkedList<Object> getInbox() {
 		return chatInbox;
 	}
 
-	public Object ObjectPop(int index) {
+	public synchronized Object ObjectPop() {
 		if (chatInbox.isEmpty())
 			return null;
-		return chatInbox.remove(index);
+		return chatInbox.removeFirst();
 	}
 
 	public Object getObject(int index) {
 		return chatInbox.get(index);
 	}
 
+	public void setStatus(Status status){
+		this.status = status;
+	}
+
+	public Status getStatus(){
+		return status;
+	}
 	public enum Status {
-		PLAYING, IDLE, WAITING, SEARCHING, DISCONNECTED,
+		PLAYING, IDLE, WAITING, SEARCHING, DISCONNECTED, IN_MATCH,
 	}
 
 

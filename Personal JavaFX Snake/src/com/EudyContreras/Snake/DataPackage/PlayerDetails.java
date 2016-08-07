@@ -7,7 +7,7 @@ public class PlayerDetails implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name = "";
 	private String lastName = "";
-	private String userName = "";
+	private String userName = null;
 	private String passWord = "";
 	private String location = "";
 	private Boolean returning = false;
@@ -40,6 +40,10 @@ public class PlayerDetails implements Serializable {
 	public PlayerDetails(String userName, int level) {
 		super();
 		this.userName = userName;
+		this.level = level;
+	}
+
+	public PlayerDetails(int level){
 		this.level = level;
 	}
 

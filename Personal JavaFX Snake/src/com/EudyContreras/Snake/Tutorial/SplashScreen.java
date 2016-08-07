@@ -1,10 +1,8 @@
 package com.EudyContreras.Snake.Tutorial;
 
-
 import javafx.animation.FadeTransition;
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
@@ -20,98 +18,88 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 /**
-
- *
+ * This class represents a splash screen which is to be shown while the game is loading!
+ * one the game has loaded the splash screen will fade out!
  * @author Eudy Contreras
  *
  */
-public class SplashScreen extends Application{
+
+public class SplashScreen{
 
 	protected FadeTransition fadeSplash;
-	protected Scene scene;
-	protected Scene splashScene;
-	protected Stage mainWindow;
 
-	protected Pane splashLayout;
+	private Pane splashLayout;
 
-	protected ImageView splash;
-	protected Rectangle2D bounds;
+	private ImageView splash;
 
-	protected boolean isRunning = true;
-	protected boolean gameRunning = false;
+	private int splashWidth;
+	private int splashHeight;
 
-	protected double splashFadeDuration = 0;
-	protected double splashFadeDelay = 1;
+	private Image splash_image;
 
-	protected int splashWidth;
-	protected int splashHeight;
-	protected int levelLenght;
-
-	private Image splash_image = new Image("image.png");
-
-	public void start(Stage primaryStage) {
-		initSplash();
-		initializeGame();
-		showSplashScreen();
+	public SplashScreen(Stage stage, Image splash_Image, Runnable initializeMethod, InitCompletionHandler showGameMethod){
+		this.splash_image = splash_Image;
+		this.splash = new ImageView(splash_image);
+		this.splashWidth = (int) splash.getImage().getWidth();
+		this.splashHeight = (int) splash.getImage().getHeight();
+		this.splashLayout = new StackPane();
+		this.splashLayout.getChildren().addAll(splash);
+		this.splashLayout.setBackground(Background.EMPTY);
+		this.splashLayout.setEffect(new DropShadow());
+		this.initSplash(stage,initializeMethod,showGameMethod);
 	}
-	public void initSplash() {
-		splash = new ImageView(splash_image);
-		splashWidth = (int) splash.getImage().getWidth();
-		splashHeight = (int) splash.getImage().getHeight();
-		splashLayout = new StackPane();
-		splashLayout.getChildren().add(splash);
-		splashLayout.setBackground(Background.EMPTY);
-		splashLayout.setEffect(new DropShadow());
+	public void initSplash(Stage primaryStage, Runnable initializeMethod, InitCompletionHandler showGameMethod) {
+		final Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
+		final Rectangle2D bounds = Screen.getPrimary().getBounds();
+		final FadeTransition fade = new FadeTransition(Duration.millis(500),splashLayout);
+		fade.setFromValue(0);
+		fade.setToValue(1);
+		fade.play();
+		fade.setOnFinished( e ->{
+			final Task<Void> task = new Task<Void>() {
+	            @Override
+	            protected Void call() throws InterruptedException {
+	            	if(initializeMethod!=null){
+	            		initializeMethod.run();
+	            	}
+	                return null;
+	            }
+	        };
+			new Thread(task).start();
+			showSplashScreen(primaryStage, task,showGameMethod);
+		});
+		primaryStage.setScene(splashScene);
+		primaryStage.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashWidth / 2);
+		primaryStage.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashHeight / 2);
+		primaryStage.initStyle(StageStyle.TRANSPARENT);
+		primaryStage.setAlwaysOnTop(true);
+		primaryStage.show();
+
 	}
 
-	public void showSplashScreen() {
-		splashScene = new Scene(splashLayout, Color.TRANSPARENT);
-		bounds = Screen.getPrimary().getBounds();
-
-		mainWindow.initStyle(StageStyle.TRANSPARENT);
-
-		mainWindow.setScene(splashScene);
-
-		mainWindow.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashWidth / 2);
-		mainWindow.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashHeight / 2);
-
-		mainWindow.show();
-
-		fadeSplash = new FadeTransition(Duration.seconds(splashFadeDuration), splashLayout);
-
-		fadeSplash.setDelay(Duration.seconds(splashFadeDelay));
-		fadeSplash.setFromValue(1.0);
-		fadeSplash.setToValue(0.0);
-
-		fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent actionEvent) {
-				mainWindow.hide();
-				mainWindow = null;
-				mainWindow = new Stage();
-				if (!gameRunning) {
-					showGame();
-					gameRunning = true;
-				}
+	private void showSplashScreen(final Stage initStage, Task<?> task, InitCompletionHandler initCompletionHandler) {
+		task.stateProperty().addListener((observableValue, oldState, newState) -> {
+			if (newState == Worker.State.SUCCEEDED) {
+				initStage.toFront();
+				FadeTransition fadeSplash = new FadeTransition(Duration.seconds(1.2), splashLayout);
+				fadeSplash.setFromValue(1.0);
+				fadeSplash.setToValue(0.0);
+				fadeSplash.setOnFinished(actionEvent -> initStage.hide());
+				fadeSplash.play();
+				initCompletionHandler.complete();
+				fadeSplash.setOnFinished(e ->{
+					splashLayout = null;
+					splash = null;
+					initStage.close();
+				});
 			}
 		});
-		fadeSplash.play();
 	}
-	private void initializeGame() {
 
+	public interface InitCompletionHandler {
+		void complete();
 	}
-	public void showGame() {
-		fadeSplash = null;
-		splashLayout = null;
-		splash = null;
-		splashScene = null;
 
-		mainWindow.setScene(scene);
-		mainWindow.initStyle(StageStyle.UNDECORATED);
-		mainWindow.show();
 
-	}
-	public static void main(String[] args) {
-		launch(args);
-	}
 
 }

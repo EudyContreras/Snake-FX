@@ -22,8 +22,10 @@ public class ClientManager extends MultiplayerServer{
 	private HashMap<String, MultiplayerClient> all_clients;
 	private HashMap<String, MultiplayerClient> online_clients;
 	private HashMap<String, MultiplayerClient> offline_clients;
-	private HashMap<String, String> online_user_info;
-	private HashMap<String, String> offline_user_info;
+	private HashMap<String, String> online_user_info; // Key: passWord, Value: userName
+	private HashMap<String, String> offline_user_info; // Key: passWord, Value: userName
+
+	private byte[] dafaultPicture;
 
 	private ClientAuthentification authentification;
 	/**
@@ -82,11 +84,31 @@ public class ClientManager extends MultiplayerServer{
 	 */
 	public void processUserInformation(PlayerDetails pack, MultiplayerClient client){
 		client.setPlayerName(pack.getName());
-		client.setUsername(pack.getUserName());
 		client.setPassword(pack.getPassWord());
 		client.setAge(pack.getAge());
 		client.setLevel(pack.getLevel());
-		client.setProfilePic(pack.getProfilePicture());
+
+		if (pack.getUserName() != null) {
+			client.setUserName(pack.getUserName());
+		}
+		else{
+			createUserName(client);
+		}
+
+		if(client.getProfilePic()!=null){
+			client.setProfilePic(pack.getProfilePicture());
+		}
+		else{
+			client.setProfilePic(dafaultPicture);
+		}
+	}
+	private void createUserName(MultiplayerClient client){
+		if(!clientExist("Player" + MultiplayerServer.UNIQUE_ID)){
+			client.setUserName("Player" + MultiplayerServer.UNIQUE_ID);
+		}
+		else{
+			client.setUserName("Player"+client.getSocketAddress().toString()+MultiplayerServer.UNIQUE_ID);
+		}
 	}
 
 	/**
@@ -135,7 +157,19 @@ public class ClientManager extends MultiplayerServer{
 	public void addOfflineUser(MultiplayerClient client){
 		if(!offline_clients.containsKey(client.getUsername())) {
 			offline_clients.put(client.getUsername(),client);
-			online_clients.remove(client.getUsername());
+			online_clients.remove(client.getUsername(), client);
+		}
+	}
+
+	public void removeFromServer(MultiplayerClient client){
+		if(online_clients.containsKey(client.getUsername())){
+			online_clients.remove(client.getUsername(), client);
+		}
+		if(all_clients.containsKey(client.getUsername())){
+			all_clients.remove(client.getUsername(), client);
+		}
+		if(online_user_info.containsValue(client.getUsername())) {
+			online_user_info.remove(client.getUsername(), client);
 		}
 	}
 	/**
@@ -205,7 +239,7 @@ public class ClientManager extends MultiplayerServer{
 	 * @param client
 	 */
 	public void rearrangeLists(MultiplayerClient client){
-		online_user_info.remove(client.getPassword());
+		online_user_info.remove(client.getPassword(), client.getUsername());
 		offline_user_info.put(client.getPassword(), client.getUsername());
 	}
 
@@ -213,7 +247,7 @@ public class ClientManager extends MultiplayerServer{
 		client.closeConnection();
 	}
 	public void removeClient(MultiplayerClient client) {
-		this.online_clients.remove(client);
+		this.online_clients.remove(client.getUsername(),client);
 	}
 	public void clearAll() {
 		this.online_clients.clear();
@@ -223,9 +257,12 @@ public class ClientManager extends MultiplayerServer{
 	public MultiplayerClient findSpecificClient(String id) {
 		return online_clients.get(id);
 	}
-	public void showOnConsole(String event){
-		System.out.println("ClientManager: " + event);
+	public boolean clientExist(String userName){
+		if(online_clients.containsKey(userName)){ return true;}
+		else if(offline_clients.containsKey(userName)){return true;}
+		else{return false;}
 	}
+
 	public void disconnectAll() {
 		for (Map.Entry<String, MultiplayerClient> entry : online_clients.entrySet()) {
 			MultiplayerClient client = entry.getValue();
@@ -235,10 +272,15 @@ public class ClientManager extends MultiplayerServer{
 			client = null;
 		}
 	}
-	public void disconnectClient(MultiplayerClient client) {
-		addOfflineUser(client);
-		rearrangeLists(client);
 
+	public void disconnectClient(MultiplayerClient client) {
+		if (!client.isGuest()) {
+			addOfflineUser(client);
+			rearrangeLists(client);
+		}
+		else {
+			removeFromServer(client);
+		}
 		client.sendPackage(new ServerEvent(ServerCommand.DISCONNECT));
 		client.setConnection(false);
 		client.closeConnection();
@@ -252,5 +294,9 @@ public class ClientManager extends MultiplayerServer{
 			e.printStackTrace();
 		}
 		client = null;
+	}
+
+	public void showOnConsole(String event){
+		System.out.println("ClientManager: " + event);
 	}
 }

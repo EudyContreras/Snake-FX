@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 /**
  * This is the server class which is in charge of starting a server
@@ -62,11 +63,11 @@ public class MultiplayerServer extends Thread {
 	public void run() {
 		Socket clientSocket = null;
 		try (ServerSocket serverSocket = new ServerSocket(port)) {
-			
+
 			logToConsole("Server has been started");
 			logToConsole("Local server address: " + InetAddress.getLocalHost().toString());
-			
-			
+
+
 			while (getConnected()) {
 				try {
 					clientSocket = serverSocket.accept();

@@ -10,6 +10,16 @@ public class MatchRequest implements Serializable {
 	private int themeID;
 
 
+	public final String getUserName() {
+		return userName;
+	}
+
+
+	public final int getThemeID() {
+		return themeID;
+	}
+
+
 	public enum CommandID{
 
 		startMatch,

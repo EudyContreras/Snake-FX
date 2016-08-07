@@ -6,11 +6,11 @@ public class PlayerStatus implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private boolean damageEvent;
-	private boolean collisionEvent;
-	private boolean selfCollisionEvent;
-	private boolean teleportEvent;
-	private boolean deathEvent;
+	private final boolean damageEvent;
+	private final boolean collisionEvent;
+	private final boolean selfCollisionEvent;
+	private final boolean teleportEvent;
+	private final boolean deathEvent;
 
 
 	/**

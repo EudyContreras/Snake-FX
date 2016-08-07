@@ -34,6 +34,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
+import com.EudyContreras.Snake.Utilities.SplashScreen;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -44,8 +45,10 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -84,29 +87,15 @@ public class GameManager extends AbstractGameModel {
 	private double animationWidth = 0;
 	private double animationHeight = 0;
 	private boolean allowStageScale = false;
-	private Task<Void> task;
+
 
 	public void start(Stage primaryStage) {
-		mainWindow = primaryStage;
 		GameLoader.scaleResolution();
-		initialize();
-		showSplashScreen();
+		new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
 	}
 
 	public void fullScreenOff() {
 		getMainWindow().setFullScreen(false);
-	}
-
-	public void initSplash() {
-		splashFadeDelay = 0;
-		splashFadeDuration = 1;
-		splash = new ImageView(GameImageBank.splash_screen);
-		splashWidth = (int) splash.getImage().getWidth();
-		splashHeight = (int) splash.getImage().getHeight();
-		splashLayout = new StackPane();
-		splashLayout.getChildren().add(splash);
-		splashLayout.setBackground(Background.EMPTY);
-		splashLayout.setEffect(new DropShadow());
 	}
 
 	private void resizeListener(final Stage stage, final Scene scene, final Pane pane) {
@@ -153,40 +142,13 @@ public class GameManager extends AbstractGameModel {
 
 	}
 
-	public void showSplashScreen() {
-		splashScene = new Scene(splashLayout);
-		splashScene.setFill(Color.TRANSPARENT);
-		bounds = Screen.getPrimary().getBounds();
 
-		mainWindow.initStyle(StageStyle.TRANSPARENT);
-		mainWindow.setScene(splashScene);
-		mainWindow.setX(bounds.getMinX() + bounds.getWidth() / 2 - splashWidth / 2);
-		mainWindow.setY(bounds.getMinY() + bounds.getHeight() / 2 - splashHeight / 2);
-		mainWindow.show();
-
-		fadeSplash = new FadeTransition(Duration.seconds(splashFadeDuration), splashLayout);
-		fadeSplash.setDelay(Duration.seconds(splashFadeDelay));
-		fadeSplash.setFromValue(1.0);
-		fadeSplash.setToValue(0.0);
-		fadeSplash.setOnFinished(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent actionEvent) {
-				mainWindow.hide();
-				mainWindow = null;
-				mainWindow = new Stage();
-				if (!gameRunning) {
-					initGame();
-					gameRunning = true;
-				}
-			}
-		});
-		fadeSplash.play();
-	}
-
-	public void initGame() {
+	public void showGame() {
 		fadeSplash = null;
 		splashLayout = null;
 		splash = null;
 		splashScene = null;
+		mainWindow = new Stage();
 		getGameRoot().getChildren().add(dirtLayer);
 		getGameRoot().getChildren().add(baseLayer);
 		getGameRoot().getChildren().add(debrisLayer);
@@ -208,7 +170,6 @@ public class GameManager extends AbstractGameModel {
 		mainRoot.setMaxHeight(GameSettings.HEIGHT);
 		scene.getStylesheets().add(GameManager.class.getResource("application.css").toExternalForm());
 
-		loadHUDElements();
 		processGameInput();
 		processGestures();
 
@@ -248,11 +209,11 @@ public class GameManager extends AbstractGameModel {
 		setWindowSize(ResizeHelper.baseWidth,ResizeHelper.baseHeight);
 		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-ResizeHelper.baseWidth/2, Screen.getPrimary().getBounds().getHeight()/2-ResizeHelper.baseHeight/2);
 
-		Platform.setImplicitExit(false);
+//		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
-//		 backgroundWorkerTwo();
-		objectChecker();
+//		backgroundWorkerTwo();
+//		objectChecker();
 		gameLoop();
 
 
@@ -269,7 +230,7 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	private void initialize() {
-		initSplash();
+
 		frameGameLoop = new Timeline();
 		mainRoot = new Pane();
 		root = new Pane();
@@ -318,6 +279,7 @@ public class GameManager extends AbstractGameModel {
 		if (GameSettings.PARENT_CACHE) {
 			cacheAllLayers();
 		}
+		loadHUDElements();
 	}
 
 	private void loadHUDElements() {
