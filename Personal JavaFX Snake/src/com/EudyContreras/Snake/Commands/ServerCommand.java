@@ -6,5 +6,9 @@ public enum ServerCommand implements Serializable {
 
 	DISCONNECT,
 	RESEND,
+	REQUEST_FAILED,
+	REQUEST_SUCESS,
+	REQUEST_DECLINED,
+	REQUEST_ACCEPTED
 
 }

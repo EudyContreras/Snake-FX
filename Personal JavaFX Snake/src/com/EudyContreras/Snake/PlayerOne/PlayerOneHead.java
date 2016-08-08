@@ -192,9 +192,9 @@ public class PlayerOneHead extends AbstractObject {
 
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (!PlayerOne.DEAD) {
+		if (!PlayerOne.DEAD && PlayerOne.KEEP_MOVING) {
 			for (int i = 0; i < 2; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,0.5, (double) x, (double) y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game,game.getSixthLayer(),GameImageBank.dirt,0.5, (double) x, (double) y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -327,7 +327,7 @@ public class PlayerOneHead extends AbstractObject {
 		skull = new Circle(this.radius * .8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setTranslateX(x);
 		skull.setTranslateY(y);
-		skull.setRotate(r);
+		skull.setRotate(circle.getRotate());
 		game.getBaseLayer().getChildren().add(skull);
 	}
 	public double getRadius(){

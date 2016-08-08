@@ -96,7 +96,13 @@ public class ScreenEffectUtility {
 			speedDistortion = speed;
 		}
 	}
-
+	public synchronized void addDistortion() {
+		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
+			layer.setEffect(motionEffect);
+			motionEffect.setAngle(10);
+			motionEffect.setRadius(25);
+		}
+	}
 	/**
 	 * Adds a soft blur effect to the layer. max lifetime = 63. min lifetime =
 	 * 0.

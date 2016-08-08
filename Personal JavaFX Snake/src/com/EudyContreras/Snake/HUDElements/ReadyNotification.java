@@ -104,7 +104,7 @@ public class ReadyNotification {
 	private void startCounter() {
 		layer.getChildren().remove(readyView);
 		game. processGameInput();
-		game.getCountDownScreen().startCountdown();
+		game.getCountDownScreen().startCountdown(0);
 	}
 	private void fadeAnimation(){
 		showCounter++;
@@ -145,6 +145,7 @@ public class ReadyNotification {
 			case ENTER:
 				if(!e.isControlDown()){
 					hideNotification();
+
 				}
 				else{
 					if(!game.getMainWindow().isFullScreen() && ResizeHelper.isSupportedRatio()){
@@ -158,6 +159,7 @@ public class ReadyNotification {
 						game.getGameBorder().showBorders(true);
 					}
 				}
+
 				break;
 			case SPACE:
 				hideNotification();

@@ -34,34 +34,26 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.Utilities.SplashScreen;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-
+import com.EudyContreras.Snake.Utilities.SplashScreen;
 import javafx.animation.AnimationTimer;
-import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -177,7 +169,7 @@ public class GameManager extends AbstractGameModel {
 
 		menuManager.setupMainMenu();
 		mainWindow.setScene(scene);
-		mainWindow.setResizable(false);
+		mainWindow.setResizable(true);
 		mainWindow.setTitle(title);
 		mainWindow.setFullScreenExitHint("Press Ctrl+Enter to exit fullscreen mode!");
 		mainWindow.getIcons().add(GameImageBank.appIcon);
@@ -193,6 +185,7 @@ public class GameManager extends AbstractGameModel {
 
 		resizeListener(mainWindow, scene, sceneRoot);
 		setNewRatio(false);
+
 		getMainWindow().setFullScreen(false);
 		getGameBorder().showBorders(true);
 
@@ -276,10 +269,11 @@ public class GameManager extends AbstractGameModel {
 		gestures = new TouchInputHandler();
 		mouseInput = new MouseInputHandler();
 		debrisManager = new GameDebrisController(this);
+		loadHUDElements();
 		if (GameSettings.PARENT_CACHE) {
 			cacheAllLayers();
 		}
-		loadHUDElements();
+
 	}
 
 	private void loadHUDElements() {

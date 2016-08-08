@@ -482,7 +482,7 @@ public class PauseMenu {
 		selectionReset();
 		hideAndReset();
 		game.getScoreKeeper().resetTimer();
-		game.getCountDownScreen().startCountdown();
+		game.getCountDownScreen().startCountdown(30);
 	}
 	public synchronized void blurOut(){
 		game.getOuterParticleLayer().getChildren().clear();

@@ -101,6 +101,7 @@ public class ImageLoadingUtility {
 		String url = GameSettings.IMAGE_SOURCE_DIRECTORY + image;
 		return url;
 	}
+
 	public static Image getImage(){
 		return image;
 	}

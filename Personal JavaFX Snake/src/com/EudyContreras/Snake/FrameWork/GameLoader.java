@@ -320,6 +320,7 @@ public class GameLoader extends AbstractLoaderModel{
 		else{
 			levelBounds.showBounds(true);
 		}
+		
 	}
 	public void loadMultiplayerMode(){
 		if(levelBounds!=null){

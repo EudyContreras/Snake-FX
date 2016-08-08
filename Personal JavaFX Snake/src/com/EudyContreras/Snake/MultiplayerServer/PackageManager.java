@@ -3,13 +3,18 @@ package com.EudyContreras.Snake.MultiplayerServer;
 import java.io.IOException;
 
 import com.EudyContreras.Snake.Commands.ClientCommand;
+import com.EudyContreras.Snake.Commands.ServerCommand;
 import com.EudyContreras.Snake.DataPackage.ClientEvent;
 import com.EudyContreras.Snake.DataPackage.GameEvent;
 import com.EudyContreras.Snake.DataPackage.GameStatus;
 import com.EudyContreras.Snake.DataPackage.MatchRequest;
 import com.EudyContreras.Snake.DataPackage.MatchStatus;
 import com.EudyContreras.Snake.DataPackage.PlayerAction;
+import com.EudyContreras.Snake.DataPackage.RequestResponse;
+import com.EudyContreras.Snake.DataPackage.ServerEvent;
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
+import com.EudyContreras.Snake.DataPackage.RequestResponse.Response;
+import com.EudyContreras.Snake.MultiplayerServer.MultiplayerClient.Status;
 
 /**
  * This class handles packages sent by the client attached to this class.
@@ -29,13 +34,16 @@ import com.EudyContreras.Snake.DataPackage.ServerResponse;
  */
 public class PackageManager{
 
+	private MultiplayerClient client;
+	private ClientManager clientManager;
 	/**
 	 * Constructor which takes the GUI as an argument.
 	 * @param GUI the servers graphical user interface.
 	 */
-	public PackageManager(ClientManager clientManager) {
+	public PackageManager(MultiplayerClient client, ClientManager clientManager) {
 		super();
-
+		this.client = client;
+		this.clientManager = clientManager;
 	}
 
 	/**
@@ -46,33 +54,47 @@ public class PackageManager{
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	public void handleObject(Object object, MultiplayerClient client){
+	public void handleObject(Object object){
 			 if(object instanceof GameEvent){handleGameEvent((GameEvent)object, client);}
 		else if(object instanceof ClientEvent){handleClientEvent((ClientEvent)object, client);}
-		else if(object instanceof MatchRequest){HandleMatchRequest((MatchRequest)object, client);}
-		else if(object instanceof MatchStatus){HandleMatchStatus((MatchStatus)object, client);}
-		else if(object instanceof PlayerAction){HandlePlayerAction((PlayerAction)object, client);}
-		else if(object instanceof GameStatus){HandleStatusUpdate((GameStatus)object, client);}
+		else if(object instanceof MatchRequest){handleMatchRequest((MatchRequest)object, client);}
+		else if(object instanceof RequestResponse){handleRequestResponse((RequestResponse)object, client);}
+		else if(object instanceof MatchStatus){handleMatchStatus((MatchStatus)object, client);}
+		else if(object instanceof PlayerAction){handlePlayerAction((PlayerAction)object, client);}
+		else if(object instanceof GameStatus){handleStatusUpdate((GameStatus)object, client);}
 
 	}
-	private void HandleStatusUpdate(GameStatus obj, MultiplayerClient client) {
+	private void handleStatusUpdate(GameStatus obj, MultiplayerClient client) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void HandlePlayerAction(PlayerAction obj, MultiplayerClient client) {
+	private void handlePlayerAction(PlayerAction obj, MultiplayerClient client) {
 
 
 	}
 
-	private void HandleMatchStatus(MatchStatus obj, MultiplayerClient client) {
+	private void handleMatchStatus(MatchStatus obj, MultiplayerClient client) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void HandleMatchRequest(MatchRequest obj, MultiplayerClient client) {
-		// TODO Auto-generated method stub
-
+	private void handleMatchRequest(MatchRequest obj, MultiplayerClient client) {
+		if(clientManager.getOnline_clients().get(obj.getUserName()).getStatus()==Status.IDLE){
+			clientManager.sendPackage(obj.getUserName(), new MatchRequest(client.getUsername(),obj.getThemeID(),client.getProfilePic()));
+			client.setStatus(Status.WAITING);
+		}
+		else{
+			client.sendPackage(new ServerEvent(ServerCommand.REQUEST_FAILED, "The request could not be deliver to player!"));
+		}
+	}
+	private void handleRequestResponse(RequestResponse obj, MultiplayerClient client){
+		if(obj.getResponse()==Response.ACCEPT){
+			clientManager.createSession(client, obj.getUserName(), obj.getDetails());
+		}
+		else if(obj.getResponse()==Response.DECLINE){
+			clientManager.sendPackage(obj.getUserName(), new ServerEvent(ServerCommand.REQUEST_DECLINED, "The player has declined the request!"));
+		}
 	}
 
 	private void handleGameEvent(GameEvent obj, MultiplayerClient client) {

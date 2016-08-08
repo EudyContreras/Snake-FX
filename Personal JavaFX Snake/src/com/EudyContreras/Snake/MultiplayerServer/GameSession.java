@@ -9,21 +9,22 @@ import com.EudyContreras.Snake.DataPackage.GameStatus;
 import com.EudyContreras.Snake.DataPackage.MatchRequest;
 import com.EudyContreras.Snake.DataPackage.MatchStatus;
 import com.EudyContreras.Snake.DataPackage.PlayerAction;
+import com.EudyContreras.Snake.DataPackage.SessionDetails;
 import com.EudyContreras.Snake.Identifiers.GameLevelID;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 
 public class GameSession {
 	private int sessionID;
+	private SessionDetails details;
 	private MultiplayerClient playerOne;
 	private MultiplayerClient playerTwo;
 	private Status sessionStatus;
-	private GameThemeID themeID;
-	private GameLevelID levelID;
 
-	public GameSession(GameThemeID themeID, GameLevelID levelID, MultiplayerClient playerOne, MultiplayerClient playerTwo){
+
+	public GameSession(SessionDetails details, MultiplayerClient playerOne, MultiplayerClient playerTwo, long sessionID){
 		this.playerOne = playerOne;
 		this.playerTwo = playerTwo;
-
+		this.details = details;
 	}
 	/**
 	 * This method checks the objects received by the clients and then

@@ -64,8 +64,10 @@ public enum SaveAndLoadUtility {
 	private SaveSlot savedData;
 
 
-
-	public void saveToFile() {
+	/**
+	 * Can be called in order to create a save game
+	 */
+	public void createSaveSlot() {
 		BufferedImage image = SwingFXUtils.fromFXImage(GameSettings.profilePic, null);
 		SaveSlot saveData = new SaveSlot(GameSettings.profileName,ImageToByte(image),GameSettings.score,GameSettings.level,GameSettings.gameVolume,GameSettings.resolutionX,GameSettings.resolutionY);
 		saveGame(saveData);
@@ -77,7 +79,7 @@ public enum SaveAndLoadUtility {
 	 * to a specified directory.
 	 * @param saveData
 	 */
-	public void saveGame(SaveSlot saveData) {
+	private void saveGame(SaveSlot saveData) {
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
@@ -173,7 +175,7 @@ public enum SaveAndLoadUtility {
 	 * @return: byte array of the image
 	 * @throws IOException
 	 */
-	public final byte[] ImageToByte(BufferedImage image) {
+	private final byte[] ImageToByte(BufferedImage image) {
 		ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 		byte[] imageInByte = null;
 		try {
@@ -198,7 +200,7 @@ public enum SaveAndLoadUtility {
 	 * @param data: byte array to be converted.
 	 * @return: image of the byte array
 	 */
-	public final Image byteToImage(byte[] data) {
+	private final Image byteToImage(byte[] data) {
 		BufferedImage newImage = null;
 		Image image = null;
 		try {

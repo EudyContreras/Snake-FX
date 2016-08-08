@@ -6,17 +6,17 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Logger;
 
 /**
  * This is the server class which is in charge of starting a server
  * which is going to handle all clients.
- * @author Eudy Contreras, Mikael Malmgren, Johannes Berggren
+ * @author Eudy Contreras
  *
  */
 public class MultiplayerServer extends Thread {
 
 	protected static int UNIQUE_ID = 1000;
+
 	private Thread thread;
 	private ServerGUI GUI;
 	private Boolean connected;
@@ -66,7 +66,6 @@ public class MultiplayerServer extends Thread {
 
 			logToConsole("Server has been started");
 			logToConsole("Local server address: " + InetAddress.getLocalHost().toString());
-
 
 			while (getConnected()) {
 				try {

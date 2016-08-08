@@ -292,7 +292,7 @@ public class ImageEffectUtility {
 		light.setX(1000);
 		light.setY(1920);
 		light.setZ(850);
-		lighting.setDiffuseConstant(diffused-.2);
+		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
 		lighting.setLight(light);
@@ -493,7 +493,7 @@ public class ImageEffectUtility {
 		return img;
 	}
 
-	public static String loadResource(String image) {
+	private static String loadResource(String image) {
 		String url = GameSettings.IMAGE_SOURCE_DIRECTORY + image;
 		return url;
 	}

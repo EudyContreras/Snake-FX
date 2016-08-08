@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.ImageBanks;
 
 import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
+import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -104,10 +105,10 @@ public class GameLevelImage {
 */
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-		public static final Image jungle_rain = new Image(ImageEffectUtility.loadResource("rainDrop.png"),10,10, true, true);
+		public static final Image jungle_rain = new Image(ImageLoadingUtility.loadResource("rainDrop.png"),10,10, true, true);
 
 
-		public static final Image classic_background = new Image(ImageEffectUtility.loadResource("grid.png"),
+		public static final Image classic_background = new Image(ImageLoadingUtility.loadResource("grid.png"),
 				GameSettings.WIDTH, GameSettings.HEIGHT, false, true);
 
 

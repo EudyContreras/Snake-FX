@@ -14,7 +14,7 @@ public class GamePoint extends Text{
 		setTranslateX(x-10);
 		setTranslateY(y);
 		setText("+1");
-		setFont(Font.font(null,FontWeight.EXTRA_BOLD, 55));
+		setFont(Font.font("IMPACT",FontWeight.EXTRA_BOLD, 75));
         setId("point");
         FadeTransition fade = new FadeTransition(Duration.millis(1000),this);
         TranslateTransition translate = new TranslateTransition(Duration.millis(1000), this);

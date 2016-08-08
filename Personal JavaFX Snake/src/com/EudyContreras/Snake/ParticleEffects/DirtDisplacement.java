@@ -9,6 +9,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 
 public class DirtDisplacement extends AbstractParticlesEffect {
@@ -33,7 +34,20 @@ public class DirtDisplacement extends AbstractParticlesEffect {
 		this.y = y;
 		init();
 	}
-
+	public DirtDisplacement(GameManager game,Pane layer, Image image,double expireTime, double x, double y, Point2D velocity) {
+		this.game = game;
+		this.imagePattern = new ImagePattern(image);
+		this.view = new ImageView(image);
+		this.view.setFitWidth(radius*2);
+		this.view.setFitHeight(radius*2);
+		this.decay = 0.026/expireTime;
+		this.velX = (double) velocity.getX()*0.8;
+		this.velY = (double) velocity.getY()*0.8;
+		this.layer = layer;
+		this.x = x;
+		this.y = y;
+		init();
+	}
 	public void init() {
 		addToLayer(view);
 	}

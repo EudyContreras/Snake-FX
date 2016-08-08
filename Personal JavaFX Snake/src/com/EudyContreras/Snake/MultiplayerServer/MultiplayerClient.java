@@ -68,6 +68,7 @@ public class MultiplayerClient extends Thread{
 	private byte[] profilePic;
 	private boolean guestUser;
 	private boolean connected;
+	private long sessionID;
 	private int uniqueID;
 	private int level;
 	private int age;
@@ -85,6 +86,7 @@ public class MultiplayerClient extends Thread{
 		this.connected = true;
 		this.uniqueID = uiqueID;
 		this.status = Status.IDLE;
+		this.packageManager = new PackageManager(this,manager);
 		this.address = socket.getRemoteSocketAddress();
 		this.chatInbox = new LinkedList<>();
 		this.requestInbox = new LinkedList<>();
@@ -178,20 +180,7 @@ public class MultiplayerClient extends Thread{
 				Object object = input.readObject();
 				populateInbox(object);
 				if (chatInbox.size() > 0) {
-					switch(status){
-					case IDLE:
-						break;
-					case IN_MATCH:
-						break;
-					case SEARCHING:
-						break;
-					case WAITING:
-						break;
-					default:
-						break;
-
-					}
-					packageManager.handleObject(sendIncoming(), this);
+					packageManager.handleObject(sendIncoming());
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				if (connected) {
@@ -230,6 +219,13 @@ public class MultiplayerClient extends Thread{
 		return uniqueID;
 	}
 
+	public void setSessionID(long sessionID){
+		this.sessionID = sessionID;
+	}
+
+	public long getSessionID(){
+		return sessionID;
+	}
 	public void setResponse(String response) {
 		this.response = response;
 	}
@@ -294,7 +290,7 @@ public class MultiplayerClient extends Thread{
 		return guestUser;
 	}
 
-	private void setGuest(boolean type){
+	public void setGuest(boolean type){
 		this.guestUser = type;
 	}
 
@@ -330,7 +326,7 @@ public class MultiplayerClient extends Thread{
 		return status;
 	}
 	public enum Status {
-		PLAYING, IDLE, WAITING, SEARCHING, DISCONNECTED, IN_MATCH,
+		IDLE, WAITING, SEARCHING, DISCONNECTED, IN_MATCH, AWAY,
 	}
 
 

@@ -9,6 +9,7 @@ import com.EudyContreras.Snake.Commands.ServerCommand;
 import com.EudyContreras.Snake.DataPackage.PlayerDetails;
 import com.EudyContreras.Snake.DataPackage.ServerEvent;
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
+import com.EudyContreras.Snake.DataPackage.SessionDetails;
 
 /**
  * This class is used to handle clients and all actions from each client
@@ -28,6 +29,7 @@ public class ClientManager extends MultiplayerServer{
 	private byte[] dafaultPicture;
 
 	private ClientAuthentification authentification;
+	private SessionManager sessionManager;
 	/**
 	 * Constructor which takes the GUI as an argument.
 	 * @param GUI the servers graphical user interface.
@@ -39,7 +41,9 @@ public class ClientManager extends MultiplayerServer{
 		offline_clients = new HashMap<>();
 		online_user_info = new HashMap<>();
 		offline_user_info = new HashMap<>();
+		sessionManager = new SessionManager(this);
 		authentification = new ClientAuthentification(this);
+
 	}
 
 	public HashMap<String, MultiplayerClient> getAll_clients() {
@@ -57,7 +61,9 @@ public class ClientManager extends MultiplayerServer{
 	public HashMap<String, String> getOffline_user_info() {
 		return offline_user_info;
 	}
-
+	public SessionManager getSessionManager(){
+		return sessionManager;
+	}
 	/**
 	 * Receives a new connecting client and sends it
 	 * to be revised for uniqueness.
@@ -110,7 +116,9 @@ public class ClientManager extends MultiplayerServer{
 			client.setUserName("Player"+client.getSocketAddress().toString()+MultiplayerServer.UNIQUE_ID);
 		}
 	}
-
+	public void createSession(MultiplayerClient client, String adversary, SessionDetails details){
+		sessionManager.createGameSession(client,online_clients.get(adversary), details);
+	}
 	/**
 	 * Sends a welcome message to a specified client
 	 * @param client
@@ -232,6 +240,10 @@ public class ClientManager extends MultiplayerServer{
 		for (Map.Entry<String, MultiplayerClient> entry : online_clients.entrySet()) {
 			entry.getValue().sendPackage(obj);
 		}
+	}
+	public synchronized void sendPackage(String client, Object obj){
+		if(online_clients.containsKey(client))
+		online_clients.get(client).sendPackage(obj);
 	}
 	/**
 	 * Removes a clients information from an online list and moves it into a offline client
