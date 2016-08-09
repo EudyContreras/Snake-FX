@@ -19,8 +19,6 @@ import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.image.Image;
 
 /**
@@ -67,89 +65,73 @@ public class LevelManager extends AbstractLoaderModel{
 	}
 
 	public void loadDesertLevels() {
-//		Task<Void> task = new Task<Void>() {
-//			@Override
-//			public Void call() {
-//				Platform.runLater(new Runnable() {
-//					@Override
-//					public void run() {
-						for (double row = 0; row < loader.getLevelWidth(); row++) {
-							for (double col = 0; col < loader.getLevelHeight(); col++) {
-								pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
-								red = (pixel >> 16) & 0xff;
-								green = (pixel >> 8) & 0xff;
-								blue = (pixel) & 0xff;
-								if (red == 0 && green == 0 && blue == 255) {
-									DesertBush texture = new DesertBush(game, (float) (row * 50) - (float) (5),
-											(float) (col * 55.5) - (float) 20, 0, GameLevelImage.desert_bush,
-											GameLevelObjectID.bush);
-									loader.getTileManager().addTile(texture);
-									game.getThirdLayer().getChildren().add(texture.getView());
-								} else if (red == 255 && green == 0 && blue == 0) {
-									DesertRock texture = new DesertRock(game, (float) (row * 55) - (float) (5),
-											(float) (col * 53) - (float) (20), 0, 0, GameLevelImage.desert_rock,
-											GameLevelObjectID.rock);
-									loader.getTileManager().addBlock(texture);
-									game.getFirstLayer().getChildren().add(texture.getView());
-								} else if (red == 0 && green == 255 && blue == 0) {
-									DesertCactusBig texture = new DesertCactusBig((float) (row * 53) - (float) (5),
-											(float) (col * 50) - (float) (20), 4, GameLevelImage.desert_cactus_big,
-											GameLevelObjectID.longCactus);
-									loader.getTileManager().addTile(texture);
-									game.getSecondLayer().getChildren().add(texture.getView());
-								} else if (red == 255 && green == 255 && blue == 0) {
-									DesertSkull texture = new DesertSkull(game, (float) (row * 57) - (float) (5),
-											(float) (col * 57) - (float) (20), 0, 0, GameLevelImage.desert_skull,
-											GameLevelObjectID.skeleton);
-									loader.getTileManager().addTile(texture);
-									game.getDirtLayer().getChildren().add(texture.getView());
-								} else if (red == 255 && green == 140 && blue == 0) {
-									DesertBones texture = new DesertBones(game, (float) (row * 57) - (float) (5),
-											(float) (col * 57) - (float) (20), 0, 0, GameLevelImage.desert_bones,
-											GameLevelObjectID.skeleton);
-									loader.getTileManager().addTile(texture);
-									game.getBaseLayer().getChildren().add(texture.getView());
-								} else if (red == 0 && green == 100 && blue == 0) {
-									DesertCactusSmall texture = new DesertCactusSmall(game,
-											(float) (row * 50) - (float) (5), (float) (col * 48.5) - (float) (20), 0, 0,
-											GameLevelImage.desert_cactus_small, GameLevelObjectID.cactus);
-									loader.getTileManager().addTile(texture);
-									game.getSecondLayer().getChildren().add(texture.getView());
-								} else if (red == 255 && green == 0 && blue == 125) {
-									DesertTrap texture = new DesertTrap(game, (float) (row * 50) - (float) (5),
-											(float) (col * 48.5) - (float) (20), 0, 0, GameLevelImage.desert_trap,
-											GameLevelObjectID.fence);
-									loader.getTileManager().addTrap(texture);
-									game.getSecondLayer().getChildren().add(texture.getView());
-								} else if (red == 255 && green == 0 && blue == 255) {
-									DesertBush texture = new DesertBush(game, (float) (row * 50) - (float) (5),
-											(float) (col * 47.5) - (float) (20), 0, GameLevelImage.desert_bush,
-											GameLevelObjectID.bush);
-									loader.getTileManager().addTile(texture);
-									game.getThirdLayer().getChildren().add(texture.getView());
-								} else if (red == 255 && green == 200 && blue == 255) {
-									DesertFlower texture = new DesertFlower(game, (float) (row * 50) - (float) (5),
-											(float) (col * 47.5) - (float) (20), 0, 0, GameLevelImage.desert_flower,
-											GameLevelObjectID.flower);
-									loader.getTileManager().addTile(texture);
-									game.getThirdLayer().getChildren().add(texture.getView());
-								} else if (red == 0 && green == 255 && blue == 255) {
-									DesertBark texture = new DesertBark(game, (float) (row * 44) - (float) (5),
-											(float) (col * 55) - (float) (20), 0, 0, GameLevelImage.desert_bark,
-											GameLevelObjectID.treeBark);
-									loader.getTileManager().addTile(texture);
-									game.getEighthLayer().getChildren().add(texture.getView());
-								}
-							}
-						}
-//					}
-//				});
-//				return null;
-//			}
-//		};
-//		Thread thread = new Thread(task);
-//		thread.setDaemon(true);
-//		thread.start();
+		for (double row = 0; row < loader.getLevelWidth(); row++) {
+			for (double col = 0; col < loader.getLevelHeight(); col++) {
+				pixel = loader.getLevel().getPixelReader().getArgb((int) row, (int) col);
+				red = (pixel >> 16) & 0xff;
+				green = (pixel >> 8) & 0xff;
+				blue = (pixel) & 0xff;
+				if (red == 0 && green == 0 && blue == 255) {
+					DesertBush texture = new DesertBush(game, (float) (row * 50) - (float) (5),
+							(float) (col * 55.5) - (float) 20, 0, GameLevelImage.desert_bush, GameLevelObjectID.bush);
+					loader.getTileManager().addTile(texture);
+					game.getThirdLayer().getChildren().add(texture.getView());
+				} else if (red == 255 && green == 0 && blue == 0) {
+					DesertRock texture = new DesertRock(game, (float) (row * 55) - (float) (5),
+							(float) (col * 53) - (float) (20), 0, 0, GameLevelImage.desert_rock,
+							GameLevelObjectID.rock);
+					loader.getTileManager().addBlock(texture);
+					game.getFirstLayer().getChildren().add(texture.getView());
+				} else if (red == 0 && green == 255 && blue == 0) {
+					DesertCactusBig texture = new DesertCactusBig((float) (row * 53) - (float) (5),
+							(float) (col * 50) - (float) (20), 4, GameLevelImage.desert_cactus_big,
+							GameLevelObjectID.longCactus);
+					loader.getTileManager().addTile(texture);
+					game.getSecondLayer().getChildren().add(texture.getView());
+				} else if (red == 255 && green == 255 && blue == 0) {
+					DesertSkull texture = new DesertSkull(game, (float) (row * 57) - (float) (5),
+							(float) (col * 57) - (float) (20), 0, 0, GameLevelImage.desert_skull,
+							GameLevelObjectID.skeleton);
+					loader.getTileManager().addTile(texture);
+					game.getDirtLayer().getChildren().add(texture.getView());
+				} else if (red == 255 && green == 140 && blue == 0) {
+					DesertBones texture = new DesertBones(game, (float) (row * 57) - (float) (5),
+							(float) (col * 57) - (float) (20), 0, 0, GameLevelImage.desert_bones,
+							GameLevelObjectID.skeleton);
+					loader.getTileManager().addTile(texture);
+					game.getBaseLayer().getChildren().add(texture.getView());
+				} else if (red == 0 && green == 100 && blue == 0) {
+					DesertCactusSmall texture = new DesertCactusSmall(game, (float) (row * 50) - (float) (5),
+							(float) (col * 48.5) - (float) (20), 0, 0, GameLevelImage.desert_cactus_small,
+							GameLevelObjectID.cactus);
+					loader.getTileManager().addTile(texture);
+					game.getSecondLayer().getChildren().add(texture.getView());
+				} else if (red == 255 && green == 0 && blue == 125) {
+					DesertTrap texture = new DesertTrap(game, (float) (row * 50) - (float) (5),
+							(float) (col * 48.5) - (float) (20), 0, 0, GameLevelImage.desert_trap,
+							GameLevelObjectID.fence);
+					loader.getTileManager().addTrap(texture);
+					game.getSecondLayer().getChildren().add(texture.getView());
+				} else if (red == 255 && green == 0 && blue == 255) {
+					DesertBush texture = new DesertBush(game, (float) (row * 50) - (float) (5),
+							(float) (col * 47.5) - (float) (20), 0, GameLevelImage.desert_bush, GameLevelObjectID.bush);
+					loader.getTileManager().addTile(texture);
+					game.getThirdLayer().getChildren().add(texture.getView());
+				} else if (red == 255 && green == 200 && blue == 255) {
+					DesertFlower texture = new DesertFlower(game, (float) (row * 50) - (float) (5),
+							(float) (col * 47.5) - (float) (20), 0, 0, GameLevelImage.desert_flower,
+							GameLevelObjectID.flower);
+					loader.getTileManager().addTile(texture);
+					game.getThirdLayer().getChildren().add(texture.getView());
+				} else if (red == 0 && green == 255 && blue == 255) {
+					DesertBark texture = new DesertBark(game, (float) (row * 44) - (float) (5),
+							(float) (col * 55) - (float) (20), 0, 0, GameLevelImage.desert_bark,
+							GameLevelObjectID.treeBark);
+					loader.getTileManager().addTile(texture);
+					game.getEighthLayer().getChildren().add(texture.getView());
+				}
+			}
+		}
 
 	}
 	/**

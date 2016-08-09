@@ -5,13 +5,8 @@ import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
 /**
  * This class aims to represent a count down shown in game which determines
@@ -22,19 +17,30 @@ import javafx.util.Duration;
  *
  */
 public class CountDownScreen {
-	private int startUpTime;
+	private int count;
 	private int index;
 	private double x;
 	private double y;
+	private double velX;
+	private double velY;
 	private double width;
 	private double height;
 	private double baseWidth;
 	private double baseHeight;
-	private double expireTime;
+	private double fadeTime;
 	private double lifeTime;
-	private Boolean allowCount = false;
+	private double expireTime;
+	private double showCounter;
+	private double panVelocityX;
+	private double panVelocityY;
+	private Boolean allowPan = false;
+	private Boolean allowFade = false;
+	private Boolean allowHide = false;
+	private Boolean allowCount = true;
+	private Boolean allowCheck = false;
 	private Boolean allowCountdown = false;
 	private Pane layer;
+	private Rectangle countView;
 	private GameManager game;
 	public static Boolean COUNTDOWN_OVER = false;
 
@@ -55,6 +61,26 @@ public class CountDownScreen {
 		this.baseWidth = this.width;
 		this.baseHeight = this.height;
 		this.layer = layer;
+		this.initialize();
+	}
+
+	/**
+	 * Method which gives a initial value to nearly all the predefined variables
+	 * that are used by this count down class
+	 */
+	private void initialize() {
+		this.index = 3;
+		this.expireTime = 31.0;
+		this.fadeTime = 0.032 / expireTime;
+		this.panVelocityX = 3.5;
+		this.panVelocityY = 5.0;
+		this.x = GameSettings.WIDTH / 2 - width / 2;
+		this.y = GameSettings.HEIGHT / 2 - height / 2;
+		this.velX = -5.0;
+		this.velY = -8.0;
+		this.countView = new Rectangle(x, y, this.width, this.height);
+		this.countView.setFill(GameImageBank.count_three);
+		this.game.setStateID(GameStateID.COUNT_DOWN);
 	}
 
 	/**
@@ -65,17 +91,36 @@ public class CountDownScreen {
 	public void startCountdown(int startUpTime) {
 		this.game.setStateID(GameStateID.COUNT_DOWN);
 		this.index = 3;
-		this.startUpTime = startUpTime;
 		this.lifeTime = 1.0;
-		this.expireTime = 0.022 / 1;
+		this.expireTime = 1.0;
+		this.fadeTime = 0.032 / expireTime;
+		this.panVelocityX = 6.5;
+		this.panVelocityY = 10.0;
 		this.x = (GameSettings.WIDTH / 2 - baseWidth / 2);
 		this.y = (GameSettings.HEIGHT / 2 - baseHeight / 2)-80;
+		this.velX = -1.0;
+		this.velY = -2.0;
 		this.width = baseWidth;
 		this.height = baseHeight;
+		this.countView.setX(x);
+		this.countView.setY(y);
+		this.countView.setWidth(baseWidth);
+		this.countView.setHeight(baseHeight);
+		this.countView.setVisible(false);
+		this.countView.setFill(GameImageBank.count_three);
+		this.layer.getChildren().remove(countView);
+		this.layer.getChildren().add(countView);
 		this.game.setStateID(GameStateID.COUNT_DOWN);
 		this.allowCountdown = false;
+		this.allowCheck = true;
+		this.allowFade = true;
+		this.allowHide = true;
+		this.allowPan = true;
 		this.allowCount = true;
+		this.count = startUpTime;
+		this.showCounter = 10.0;
 		COUNTDOWN_OVER = false;
+		this.countDown();
 	}
 
 	/**
@@ -102,20 +147,86 @@ public class CountDownScreen {
 	 * the fading and the panning are updated through this method.
 	 */
 	public void update() {
-		if (allowCount) {
-			startUpTime--;
-			if (allowCountdown) {
+		count--;
+		if (allowCountdown) {
+			fade();
+			panOut();
+			hide();
+			checkLife();
+		} else {
+			if (count <= 0) {
+				count = 0;
+				allowCountdown = true;
+				countView.setVisible(true);
+			}
+		}
+	}
 
-				lifeTime -= expireTime;
+	/**
+	 * Method which makes the UI element fade until the UI element is completely
+	 * transparent
+	 */
+	private void fade() {
+		if (allowFade) {
+			showCounter--;
+			if (showCounter <= 0) {
+				showCounter = 0.0;
+				lifeTime -= fadeTime;
+			}
+			countView.setOpacity(lifeTime);
+			if (lifeTime <= 0) {
+				allowFade = false;
+			}
+		}
 
-				if (lifeTime < 0) {
-					countDown();
-				}
-			} else {
-				if (startUpTime <= 0) {
-					startUpTime = 0;
-					allowCountdown = true;
-				}
+	}
+
+	/**
+	 * Method which zooms out the object: decreases the size of the object as
+	 * long as the object is still visible.
+	 */
+	private void panOut() {
+		if (allowPan ) {
+			width -= panVelocityX;
+			height -= panVelocityY;
+			countView.setWidth(width);
+			countView.setHeight(height);
+			if (height <= 0 || lifeTime <= 0) {
+				allowPan = false;
+			}
+		}
+	}
+
+	/**
+	 * Method wich attempts to move the object from the center of the screen all
+	 * the way to the left top corner of the screen until the object is no
+	 * longer visible
+	 */
+	private void hide() {
+		if (allowHide) {
+			countView.setX(x);
+			countView.setY(y);
+			if(showCounter <= 0){
+				x -= velX;
+				y -= velY;
+			}
+			if (x < 0 - width || y < 0 - height) {
+				allowHide = false;
+			}
+		}
+
+	}
+
+	/**
+	 * Method which checks the life of the current count being shown. If the
+	 * lifetime of the current UI element is zero a count down happens where for
+	 * example a three is replace by a two nad so forth until the last index is
+	 * reach which triggers a specified event.
+	 */
+	private void checkLife() {
+		if (allowCheck) {
+			if (lifeTime <= 0) {
+				countDown();
 			}
 		}
 	}
@@ -125,77 +236,30 @@ public class CountDownScreen {
 	 * current index of the count down.
 	 */
 	private void countDown() {
+		allowCheck = false;
 		if (allowCount) {
 			if (index == -1) {
 				go();
 			}
 			if (index == 0) {
+				countView.setFill(GameImageBank.count_go);
 				reset(1.0, true);
-				new CountDown(layer,GameImageBank.count_go,x,y,width,height,1000,1000,null);
 			}
-			else if (index == 1) {
+			if (index == 1) {
+				countView.setFill(GameImageBank.count_one);
 				reset(1.0, false);
-				new CountDown(layer,GameImageBank.count_one,x,y,width,height,1200,1500,1500,null);
 			}
-			else if (index == 2) {
+			if (index == 2) {
+				countView.setFill(GameImageBank.count_two);
 				reset(1.0, false);
-				new CountDown(layer,GameImageBank.count_two,x,y,width,height,1200,1500,1500,null);
 			}
-			else if (index == 3) {
+			if (index == 3) {
+				countView.setFill(GameImageBank.count_three);
 				reset(1.0, false);
-				new CountDown(layer,GameImageBank.count_three,x,y,width,height,1200,1500,1500,null);
 			}
 		}
 	}
 
-	private class CountDown extends Rectangle {
-		public CountDown(Pane layer,ImagePattern image, double x, double y, double width, double height, double fadeDuration, double scaleDuration, Runnable script) {
-			super(x, y, width, height);
-			FadeTransition fade = new FadeTransition(Duration.millis(fadeDuration), this);
-			ScaleTransition scale = new ScaleTransition(Duration.millis(scaleDuration), this);
-			setFill(image);
-			fade.setFromValue(1);
-			fade.setToValue(0);
-			scale.setFromY(1);
-			scale.setFromX(1);
-			scale.setToX(0);
-			scale.setToY(0);
-			fade.play();
-			scale.play();
-			layer.getChildren().add(this);
-			fade.setOnFinished(e -> {
-				if (script != null) {
-					script.run();
-				}
-				layer.getChildren().remove(this);
-			});
-		}
-		public CountDown(Pane layer, ImagePattern image, double x, double y, double width, double height, double fadeDuration, double scaleDuration, double translateDuation,Runnable script) {
-			super(x, y, width, height);
-			FadeTransition fade = new FadeTransition(Duration.millis(fadeDuration), this);
-			ScaleTransition scale = new ScaleTransition(Duration.millis(scaleDuration), this);
-			TranslateTransition translate = new TranslateTransition(Duration.millis(translateDuation), this);
-			setFill(image);
-			fade.setFromValue(1);
-			fade.setToValue(0);
-			scale.setFromY(1);
-			scale.setFromX(1);
-			scale.setToX(0);
-			scale.setToY(0);
-			translate.setByX(-200);
-			translate.setByY(-200);
-			fade.play();
-//			scale.play();
-//			translate.play();
-			layer.getChildren().add(this);
-			fade.setOnFinished(e -> {
-				if (script != null) {
-					script.run();
-				}
-				layer.getChildren().remove(this);
-			});
-		}
-	}
 	/**
 	 * Method which resets the dimensions, opacity and position of the UI
 	 * element in order to allow for another number or index to be shown. This
@@ -207,7 +271,14 @@ public class CountDownScreen {
 		index -= 1;
 		width = baseWidth;
 		height = baseHeight;
-		lifeTime = 1;
+		lifeTime = life;
+		expireTime = 1.0;
+		fadeTime = 0.032 / expireTime;
+		showCounter = 10.0;
+		allowCheck = true;
+		allowFade = true;
+		allowHide = true;
+		allowPan = true;
 		x = (double) (GameSettings.WIDTH / 2 - baseWidth / 2);
 		y = (double) (GameSettings.HEIGHT / 2 - baseHeight / 2)-80;
 		if (lastCount) {
@@ -219,7 +290,13 @@ public class CountDownScreen {
 			width = baseWidth + 180;
 			x = (double) (GameSettings.WIDTH / 2 - width / 2);
 			y = (double) (GameSettings.HEIGHT / 2 - height / 2)-20;
+			countView.setWidth(width);
+			countView.setHeight(height);
+			countView.setX(x);
+			countView.setY(y);
 			COUNTDOWN_OVER = true;
+			allowHide = false;
+			allowPan = false;
 		}
 	}
 
@@ -228,6 +305,7 @@ public class CountDownScreen {
 	 * This method gets called at the end of the count down
 	 */
 	private void go() {
+		layer.getChildren().remove(countView);
 		allowCount = false;
 		allowCountdown = false;
 	}

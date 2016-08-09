@@ -402,7 +402,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadClassicSnake() {
 		game.setPlayerInfoVisibility(false);
 		classicSnake = null;
-		float x = (float) (GameSettings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius()/2);
+		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.CLASSIC_SNAKE_SIZE/2);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		classicSnake = new ClassicSnake(game, game.getSnakeOneLayer(),
 				new Circle(GameSettings.CLASSIC_SNAKE_SIZE, new ImagePattern(GameImageBank.classicSnakeHead)), x, y, 0, 0, 0, 0,
