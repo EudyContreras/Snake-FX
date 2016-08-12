@@ -1,6 +1,6 @@
  package com.EudyContreras.Snake.Utilities;
 
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameSettings;
 
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;

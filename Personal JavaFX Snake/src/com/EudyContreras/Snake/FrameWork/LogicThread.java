@@ -1,5 +1,8 @@
 package com.EudyContreras.Snake.FrameWork;
 
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+
 /**
  * Thread used for updating non graphical elements or any other elements
  * that do not involve x and y translations within nodes.

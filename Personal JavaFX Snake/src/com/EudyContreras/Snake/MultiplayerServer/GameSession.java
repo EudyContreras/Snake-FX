@@ -10,8 +10,6 @@ import com.EudyContreras.Snake.DataPackage.MatchRequest;
 import com.EudyContreras.Snake.DataPackage.MatchStatus;
 import com.EudyContreras.Snake.DataPackage.PlayerAction;
 import com.EudyContreras.Snake.DataPackage.SessionDetails;
-import com.EudyContreras.Snake.Identifiers.GameLevelID;
-import com.EudyContreras.Snake.Identifiers.GameThemeID;
 
 public class GameSession {
 	private int sessionID;

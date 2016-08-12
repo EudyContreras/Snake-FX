@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 
 public class GameDebrisController {
 

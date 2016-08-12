@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 
 import javafx.geometry.Bounds;

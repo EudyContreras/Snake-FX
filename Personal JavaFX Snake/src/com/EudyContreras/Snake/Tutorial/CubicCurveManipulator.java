@@ -3,10 +3,16 @@ package com.EudyContreras.Snake.Tutorial;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.EventHandler;
-import javafx.scene.*;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurve;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeType;
 import javafx.stage.Stage;
 
 /** Example of how a cubic curve works, drag the anchors around to change the curve. */

@@ -2,8 +2,8 @@ package com.EudyContreras.Snake.EffectEmitter;
 
 import java.util.Random;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.ParticleEffects.RainStorm;

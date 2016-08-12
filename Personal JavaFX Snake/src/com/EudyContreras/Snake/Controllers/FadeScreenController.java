@@ -1,7 +1,7 @@
 package com.EudyContreras.Snake.Controllers;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 import javafx.scene.shape.Rectangle;

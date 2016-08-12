@@ -1,9 +1,9 @@
 package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractHudElement;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.HUDElements.GameTimer.TimerStyle;
 import com.EudyContreras.Snake.HUDElements.GameTimer.TimerType;
 import com.EudyContreras.Snake.Identifiers.GameModeID;

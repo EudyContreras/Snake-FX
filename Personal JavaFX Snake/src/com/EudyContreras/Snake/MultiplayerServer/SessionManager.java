@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.EudyContreras.Snake.DataPackage.SessionDetails;
 import com.EudyContreras.Snake.MultiplayerServer.MultiplayerClient.Status;
-import com.EudyContreras.Snake.Tutorial.SaveAndLoadUtility;
 
 /**
  * This class is used to handle clients and all actions from each client

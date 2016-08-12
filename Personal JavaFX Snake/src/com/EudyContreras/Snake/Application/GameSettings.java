@@ -1,4 +1,6 @@
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.Application;
+
+import com.EudyContreras.Snake.FrameWork.GameLoader;
 
 import javafx.stage.Screen;
 
@@ -45,7 +47,7 @@ public class GameSettings {
 	public static int SNAKE_TWO_SPEED = 1;
 	public static int SNAKE_THREE_SPEED = 1;
 
-	public static int SLITHER_SPEED = 8;
+	public static double SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
 
 	public static double PLAYER_ONE_SIZE = 22; // Must be even or divisible by two 24 25 26 27 28 29 30 May still bugout while teleporting

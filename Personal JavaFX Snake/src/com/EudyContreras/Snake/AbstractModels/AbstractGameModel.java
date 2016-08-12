@@ -39,6 +39,7 @@ import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
+import com.EudyContreras.Snake.SlitherSnake.SlitherSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -207,6 +208,10 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setSectManagerThree(ClassicSnakeSectionManager sectManagerThree) {
 		this.sectManagerThree = sectManagerThree;
+	}
+	public SlitherSectionManager getSlitherSectManager() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public void setHealthBarOne(HealthBarOne healthBarOne) {

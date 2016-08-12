@@ -1,7 +1,7 @@
 
 package com.EudyContreras.Snake.AbstractModels;
 
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
 import javafx.geometry.Bounds;

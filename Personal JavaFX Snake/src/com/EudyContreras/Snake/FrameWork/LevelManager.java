@@ -1,6 +1,8 @@
 package com.EudyContreras.Snake.FrameWork;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.GameObjects.DesertBark;
 import com.EudyContreras.Snake.GameObjects.DesertBones;
 import com.EudyContreras.Snake.GameObjects.DesertBush;

@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.UserInterface;
 
 import java.util.LinkedList;
 
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameSettings;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;

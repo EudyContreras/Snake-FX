@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractGameStates;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 
 /**

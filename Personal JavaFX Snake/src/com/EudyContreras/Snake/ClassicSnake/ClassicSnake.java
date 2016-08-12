@@ -3,9 +3,9 @@ package com.EudyContreras.Snake.ClassicSnake;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;

@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.FrameWork;
+package com.EudyContreras.Snake.Application;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
@@ -9,7 +9,11 @@ import com.EudyContreras.Snake.Controllers.GameDebrisController;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
 import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
+import com.EudyContreras.Snake.FrameWork.CursorUtility;
 import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
+import com.EudyContreras.Snake.FrameWork.GameLoader;
+import com.EudyContreras.Snake.FrameWork.ResizeHelper;
+import com.EudyContreras.Snake.FrameWork.ResizeListener;
 import com.EudyContreras.Snake.HUDElements.CountDownScreen;
 import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
 import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
@@ -37,6 +41,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 import com.EudyContreras.Snake.Utilities.SplashScreen;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -939,5 +944,6 @@ public class GameManager extends AbstractGameModel {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 
 }

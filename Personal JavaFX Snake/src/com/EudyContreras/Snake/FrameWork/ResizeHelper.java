@@ -1,5 +1,8 @@
 package com.EudyContreras.Snake.FrameWork;
 
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.ScrollEvent;

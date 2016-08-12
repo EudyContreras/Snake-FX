@@ -1,10 +1,10 @@
 package com.EudyContreras.Snake.HUDElements;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.CursorUtility;
 import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 

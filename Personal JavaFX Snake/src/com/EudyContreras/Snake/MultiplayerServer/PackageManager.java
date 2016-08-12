@@ -11,9 +11,9 @@ import com.EudyContreras.Snake.DataPackage.MatchRequest;
 import com.EudyContreras.Snake.DataPackage.MatchStatus;
 import com.EudyContreras.Snake.DataPackage.PlayerAction;
 import com.EudyContreras.Snake.DataPackage.RequestResponse;
+import com.EudyContreras.Snake.DataPackage.RequestResponse.Response;
 import com.EudyContreras.Snake.DataPackage.ServerEvent;
 import com.EudyContreras.Snake.DataPackage.ServerResponse;
-import com.EudyContreras.Snake.DataPackage.RequestResponse.Response;
 import com.EudyContreras.Snake.MultiplayerServer.MultiplayerClient.Status;
 
 /**

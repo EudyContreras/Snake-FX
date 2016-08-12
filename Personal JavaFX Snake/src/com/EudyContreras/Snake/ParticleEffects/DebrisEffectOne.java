@@ -1,7 +1,7 @@
 package com.EudyContreras.Snake.ParticleEffects;
 import com.EudyContreras.Snake.AbstractModels.AbstractParticlesEffect;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Point2D;

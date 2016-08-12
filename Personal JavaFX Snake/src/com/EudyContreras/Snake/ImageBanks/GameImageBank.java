@@ -1,6 +1,6 @@
 	package com.EudyContreras.Snake.ImageBanks;
 
-	import com.EudyContreras.Snake.FrameWork.GameSettings;
+	import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Utilities.ImageEffectUtility;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 

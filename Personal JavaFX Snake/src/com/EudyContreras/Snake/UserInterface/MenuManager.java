@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.UserInterface;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractMenuElement;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Utilities.GameAudio;
 

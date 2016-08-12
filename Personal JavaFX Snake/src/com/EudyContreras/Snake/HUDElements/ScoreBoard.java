@@ -1,6 +1,6 @@
 package com.EudyContreras.Snake.HUDElements;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;

@@ -2,10 +2,10 @@
 
 import java.util.Random;
 
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.Controllers.GameTileController;
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.LevelManager;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.LevelBounds;

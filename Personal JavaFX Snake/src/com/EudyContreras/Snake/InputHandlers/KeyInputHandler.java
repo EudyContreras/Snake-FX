@@ -1,7 +1,7 @@
 package com.EudyContreras.Snake.InputHandlers;
 
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
-import com.EudyContreras.Snake.FrameWork.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.Identifiers.GameStateID;

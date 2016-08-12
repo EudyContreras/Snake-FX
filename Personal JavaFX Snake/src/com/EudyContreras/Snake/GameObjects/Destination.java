@@ -2,7 +2,7 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 
 import javafx.scene.image.Image;
 

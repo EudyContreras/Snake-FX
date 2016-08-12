@@ -1,6 +1,8 @@
 package com.EudyContreras.Snake.FrameWork;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 
 import javafx.scene.image.ImageView;
 

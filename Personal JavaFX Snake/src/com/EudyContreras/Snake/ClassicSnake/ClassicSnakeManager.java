@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 /**

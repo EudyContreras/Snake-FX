@@ -1,6 +1,6 @@
 package com.EudyContreras.Snake.HUDElements;
 
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;

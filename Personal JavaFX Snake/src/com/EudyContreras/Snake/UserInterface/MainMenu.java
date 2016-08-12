@@ -1,7 +1,7 @@
 package com.EudyContreras.Snake.UserInterface;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractMenuElement;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.UserInterface.CustomMenuButton.ButtonStyle;
 

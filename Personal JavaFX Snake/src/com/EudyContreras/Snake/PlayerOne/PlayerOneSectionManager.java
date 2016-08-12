@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 
 import javafx.geometry.Point2D;

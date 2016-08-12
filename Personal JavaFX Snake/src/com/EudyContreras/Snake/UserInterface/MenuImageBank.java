@@ -1,6 +1,6 @@
 package com.EudyContreras.Snake.UserInterface;
 
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.Image;

@@ -4,6 +4,8 @@ package com.EudyContreras.Snake.FrameWork;
 import java.util.Random;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.GameObjects.BackgroundDirt;
