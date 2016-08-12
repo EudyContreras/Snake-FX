@@ -82,7 +82,6 @@ public class GameManager extends AbstractGameModel {
 
 
 	public void start(Stage primaryStage) {
-		GameLoader.scaleResolution();
 		new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
 	}
 
@@ -196,13 +195,10 @@ public class GameManager extends AbstractGameModel {
 		animationHeight = ResizeHelper.baseHeight*.05;
 		allowStageScale = true;
 
-//		setWindowSize(animationWidth, animationHeight);
-//		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-animationWidth/2, Screen.getPrimary().getBounds().getHeight()/2-animationHeight/2);
-
 		setWindowSize(ResizeHelper.baseWidth,ResizeHelper.baseHeight);
 		setWindowLocation(Screen.getPrimary().getBounds().getWidth()/2-ResizeHelper.baseWidth/2, Screen.getPrimary().getBounds().getHeight()/2-ResizeHelper.baseHeight/2);
 
-//		Platform.setImplicitExit(false);
+		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
 		pauseGame();
 //		backgroundWorkerTwo();
@@ -223,7 +219,7 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	private void initialize() {
-
+		GameLoader.scaleResolution();
 		frameGameLoop = new Timeline();
 		mainRoot = new Pane();
 		root = new Pane();
