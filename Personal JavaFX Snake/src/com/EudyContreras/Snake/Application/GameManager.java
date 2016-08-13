@@ -32,6 +32,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
+import com.EudyContreras.Snake.PathFinder.PathFindingAI;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
@@ -266,6 +267,7 @@ public class GameManager extends AbstractGameModel {
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
 		sectManagerThree = new ClassicSnakeSectionManager(this);
+		snakeAI = new PathFindingAI(this, loader.getPlayerTwo());
 		keyInput = new KeyInputHandler();
 		gestures = new TouchInputHandler();
 		mouseInput = new MouseInputHandler();
@@ -407,6 +409,9 @@ public class GameManager extends AbstractGameModel {
 
 					}
 					if (GameSettings.RENDER_GAME) {
+
+						snakeAI.updateSimulation();
+
 						countDownScreen.update();
 
 						overlayEffect.updateEffect();
@@ -863,6 +868,7 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	public void assignPlayer() {
+		getPathFinder().setPlayer();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
 		getEnergyBarOne().setPlayer();

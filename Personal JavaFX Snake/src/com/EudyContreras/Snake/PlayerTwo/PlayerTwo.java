@@ -31,6 +31,7 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerTwo extends AbstractObject {
 
+	public static final boolean AI_CONTROLLED = true;
 	private int turnDelay = GameSettings.TURN_DELAY;
 	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int dirtDelay = 10;
@@ -669,10 +670,13 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
+			if(!PlayerTwo.AI_CONTROLLED){
+			
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
+			}
 			appleCount++;
 		}
 		game.getScoreBoardTwo().increaseScore();

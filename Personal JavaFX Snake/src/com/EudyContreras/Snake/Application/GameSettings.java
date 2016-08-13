@@ -87,7 +87,7 @@ public class GameSettings {
 
 	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 0.7;
-	public static double WIND_SPEED = 0.2;
+	public static double WIND_SPEED = 0.0;
 
 
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;

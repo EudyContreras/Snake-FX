@@ -391,6 +391,7 @@ public abstract class AbstractObject {
 	}
 
 	public void setRemovable(boolean removable) {
+		this.isAlive = false;
 		this.removable = removable;
 	}
 	public void logicUpdate(){
@@ -455,7 +456,9 @@ public abstract class AbstractObject {
 	public double getCenterY() {
 		return y + height * 0.5;
 	}
-
+	public double getRadius(){
+		return circle.getRadius();
+	}
 	public Bounds getRadialBounds() {
 		return circle.getBoundsInParent();
 	}

@@ -289,9 +289,9 @@ public class ImageEffectUtility {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
-		light.setX(1000);
+		light.setX(0);
 		light.setY(1920);
-		light.setZ(850);
+		light.setZ(1000);
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(0);
 		lighting.setSurfaceScale(10.0);
