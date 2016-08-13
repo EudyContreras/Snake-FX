@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ComputerPlayer.SnakeAI;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 
@@ -31,6 +32,8 @@ public class PlayerTwoSectionManager {
 	private LinkedList<AbstractObject> objectList;
 	private Point2D[] coordinates = new Point2D[4];
 	private SnakeAI snakeAI;
+	private double moveDelay = 0;
+	private AbstractObject objective = null;
 
 	private boolean above = false;
 	private boolean toLeft = false;
@@ -47,7 +50,7 @@ public class PlayerTwoSectionManager {
 	}
 
 
-	private Objective findClosest(){
+	private AbstractObject findClosest(){
 
 		Distance[] distance = new Distance[4];
 
@@ -56,28 +59,67 @@ public class PlayerTwoSectionManager {
 		}
 		double closest = distance[0].distance;
 
-		double positionX = 0;
-		double positionY = 0;
-
-		AbstractObject objective = null;
-
 		for(int i = 0; i<distance.length; i++){
 			if(distance[i].distance<closest){
 				closest = distance[i].distance;
-				positionX = distance[i].object.getX();
-				positionY = distance[i].object.getY();
 				objective = distance[i].object;
 			}
 		}
-		return new Objective(objective,new Point2D(positionX,positionY));
+		return objective;
 	}
 	private void reRoute(){
 
 	}
-	private void createPath(Objective objective){
-		toLeft = objective.object.getX()<snakeAI.getX() ? true : false;
-		above = objective.object.getY()<snakeAI.getY() ? true : false;
+	private void createPath(AbstractObject objective){
 
+		toLeft = objective.getX()<snakeAI.getX() ? true : false;
+		above = objective.getY()<snakeAI.getY() ? true : false;
+
+		if(Math.abs(snakeAI.getX()-objective.getX())<Math.abs(snakeAI.getY()-objective.getY())){
+			if(Math.abs(snakeAI.getX()-objective.getX())>GameSettings.WIDTH/2){
+				if(toLeft){
+					performMove();
+				}
+				else{
+					performMove();
+				}
+			}
+			else{
+
+			}
+		}
+		else{
+			if(Math.abs(snakeAI.getY()-objective.getY())>GameSettings.HEIGHT/2){
+				if(above){
+					performMove();
+				}
+				else{
+					performMove();
+				}
+			}
+			else{
+
+			}
+		}
+
+	}
+	private void checkCurrentLocation(){
+		if(snakeAI.getX()==objective.getX()){
+			if(above){
+				snakeAI.setDirection(PlayerMovement.MOVE_UP);
+			}else{
+				snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
+			}
+		}
+		else if(snakeAI.getY()==objective.getY()){
+			if(toLeft){
+				snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
+			}else{
+				snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
+			}
+		}
+	}
+	private void performMove(){
 
 	}
 	private class Distance{
@@ -88,13 +130,6 @@ public class PlayerTwoSectionManager {
 			this.object = object;
 		}
 	}
-	private class Objective{
-		AbstractObject object;
-		Point2D coordinates;
-		public Objective(AbstractObject object, Point2D coordinates){
-			this.object = object;
-			this.coordinates = coordinates;
-		}
-	}
+
 
 }
