@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
@@ -14,19 +14,19 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PlayerTwoFangs extends AbstractObject {
+public class SnakeAIFangs extends AbstractObject {
 	private int index;
 	private int counter = 0;
 	private boolean stop = false;
 	private double offsetX = 0;
 	private double offsetY = 0;
 	private GameManager game;
-	private PlayerTwo snake;
-	private PlayerTwoSectionManager sectManager;
-	private PlayerTwoHead snakeHead;
+	private SnakeAI snake;
+	private SnakeAISectionManager sectManager;
+	private SnakeAIHead snakeHead;
 	private GameObjectController gom;
 
-	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, GameManager game, Pane layer, Circle node, double x,
+	public SnakeAIFangs(SnakeAIHead snakeHead, SnakeAI snake, GameManager game, Pane layer, Circle node, double x,
 			double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.snakeHead = snakeHead;
@@ -69,7 +69,7 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 
 	public void move() {
-		if (PlayerTwo.DEAD == false) {
+		if (SnakeAI.DEAD == false) {
 			this.index = sectManager.getSectionList().size() - 1;
 		}
 		checkOffset();
@@ -112,12 +112,12 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 
 	public void checkCollision() {
-		if (PlayerTwo.DEAD == false) {
+		if (SnakeAI.DEAD == false) {
 			for (int i = 0; i < gom.getFruitList().size(); i++) {
 				AbstractObject tempObject = gom.getFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						if (PlayerTwo.MOUTH_OPEN) {
+						if (SnakeAI.MOUTH_OPEN) {
 							snake.addSection();
 							snake.closeMouth();
 							game.getScoreKeeper().decreaseCount();
@@ -149,7 +149,7 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 
 	public void killTheSnake() {
-		if (PlayerTwo.DEAD == true) {
+		if (SnakeAI.DEAD == true) {
 			counter++;
 			if (sectManager.getSectionList().size() > 0) {
 				if (counter >= 4) {
@@ -176,10 +176,10 @@ public class PlayerTwoFangs extends AbstractObject {
 	public void showGameOver() {
 		if (stop && !snake.getManualGameOver()) {
 			showCounter++;
-			if (showCounter > 60 && !PlayerTwo.ALLOW_FADE) {
+			if (showCounter > 60 && !SnakeAI.ALLOW_FADE) {
 				if (allowGameOver) {
 					allowGameOver = false;
-					PlayerTwo.ALLOW_FADE = true;
+					SnakeAI.ALLOW_FADE = true;
 					game.setStateID(GameStateID.GAME_OVER);
 				}
 			}

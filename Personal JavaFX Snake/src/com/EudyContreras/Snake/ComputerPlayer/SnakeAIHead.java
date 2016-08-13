@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
@@ -24,7 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class PlayerTwoHead extends AbstractObject {
+public class SnakeAIHead extends AbstractObject {
 	private double targetRotation = 0.0;
 	private double fadeValue = 1.0;
 	private double offsetX = 0;
@@ -36,17 +36,17 @@ public class PlayerTwoHead extends AbstractObject {
 	private GameManager game;
 	private Circle skull;
 	private Circle radialBounds;
-	private PlayerTwo snake;
+	private SnakeAI snake;
 	private Rectangle bounds;
 	private Rectangle headBoundsLeft;
 	private Rectangle headBoundsRight;
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
-	private PlayerTwoManager playerManager;
+	private SnakeAIManager playerManager;
 	private PlayerMovement newDirection;
 
-	public PlayerTwoHead(PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
+	public SnakeAIHead(SnakeAI snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.r = snake.getR();
@@ -87,13 +87,13 @@ public class PlayerTwoHead extends AbstractObject {
 		this.loadMouth();
 	}
 	private void loadMouth(){
-		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new SnakeAIEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.30, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new SnakeAIFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.30, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
 	public void move() {
-		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
+		if (SnakeAI.DEAD == false && SnakeAI.LEVEL_COMPLETED == false && SnakeAI.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
 			if (GameSettings.DEBUG_MODE) {
 				adjustBounds();
 			}
@@ -107,7 +107,7 @@ public class PlayerTwoHead extends AbstractObject {
 
 	}
 	public void updateUI(){
-		if(!PlayerTwo.DEAD)
+		if(!SnakeAI.DEAD)
 		super.updateUI();
 	}
 	public void logicUpdate(){
@@ -192,7 +192,7 @@ public class PlayerTwoHead extends AbstractObject {
 
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (!PlayerTwo.DEAD && PlayerTwo.KEEP_MOVING) {
+		if (!SnakeAI.DEAD && SnakeAI.KEEP_MOVING) {
 			for (int i = 0; i < 2; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game,game.getSixthLayer(), GameImageBank.dirt,0.5, (double) x, (double) y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));

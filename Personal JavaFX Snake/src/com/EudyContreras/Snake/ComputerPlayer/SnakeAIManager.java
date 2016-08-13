@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,13 +17,13 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
  * @author Eudy Contreras
  *
  */
-public class PlayerTwoManager {
+public class SnakeAIManager {
 
 	private LinkedList<AbstractObject> playerTwoList;
 	private AbstractObject tempPlayerTwoObject;
 	private GameManager game;
 
-	public PlayerTwoManager(GameManager gameJavaFX) {
+	public SnakeAIManager(GameManager gameJavaFX) {
 		this.game = gameJavaFX;
 		initialize();
 	}

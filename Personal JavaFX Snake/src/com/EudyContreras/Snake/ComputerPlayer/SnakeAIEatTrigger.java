@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.Application.GameManager;
@@ -10,11 +10,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class PlayerTwoEatTrigger extends AbstractObject {
+public class SnakeAIEatTrigger extends AbstractObject {
 	private GameManager game;
-	private PlayerTwo snake;
+	private SnakeAI snake;
 
-	public PlayerTwoEatTrigger(PlayerTwoHead head, PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y,
+	public SnakeAIEatTrigger(SnakeAIHead head, SnakeAI snake, GameManager game, Pane layer, Circle node, double x, double y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;
@@ -75,7 +75,7 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 			AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
+					if (SnakeAI.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
 						snake.openMouth();
 						break;
 					}

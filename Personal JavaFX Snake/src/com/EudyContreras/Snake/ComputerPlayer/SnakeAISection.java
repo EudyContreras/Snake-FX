@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
@@ -17,20 +17,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
-public class PlayerTwoSection extends AbstractSection {
+public class SnakeAISection extends AbstractSection {
 	private double particleLife;
 	private double particleSize;
 	private double fadeValue = 1.0;
 	private boolean fade = false;
 	private boolean blowUp = true;
 	private int dirtDelay = 10;
-	private PlayerTwo playerTwo;
+	private SnakeAI playerTwo;
 	private GameManager game;
 	private Circle bones;
 	private AbstractSection previousSection;
-	private PlayerTwoSectionManager sectManager;
+	private SnakeAISectionManager sectManager;
 
-	public PlayerTwoSection(PlayerTwo snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+	public SnakeAISection(SnakeAI snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
@@ -137,7 +137,7 @@ public class PlayerTwoSection extends AbstractSection {
 		checkBounds();
 		disguiseLast();
 		sectionAdjustment();
-		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
+		if (SnakeAI.DEAD == false && SnakeAI.LEVEL_COMPLETED == false && SnakeAI.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
 			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
@@ -194,7 +194,7 @@ public class PlayerTwoSection extends AbstractSection {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
-				if (PlayerTwo.KEEP_MOVING) {
+				if (SnakeAI.KEEP_MOVING) {
 					displaceDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
@@ -205,7 +205,7 @@ public class PlayerTwoSection extends AbstractSection {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
-				if (PlayerTwo.KEEP_MOVING) {
+				if (SnakeAI.KEEP_MOVING) {
 					displaceSpeedDirt(x + width / 2, y + height / 2, 18, 18);
 					dirtDelay = 10;
 				}
@@ -213,7 +213,7 @@ public class PlayerTwoSection extends AbstractSection {
 		}
 	}
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
+		if (direction != PlayerMovement.STANDING_STILL && !SnakeAI.DEAD && !SnakeAI.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt_grain,1.5, x, y,
 						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
@@ -222,7 +222,7 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
-		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
+		if (direction != PlayerMovement.STANDING_STILL && !SnakeAI.DEAD && !SnakeAI.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
 				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt_grain,1.5, x, y,
 						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
@@ -231,18 +231,18 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 
 	public void disguiseLast() {
-		if (!PlayerTwo.DEAD) {
-			if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
+		if (!SnakeAI.DEAD) {
+			if (this.numericID == SnakeAI.NUMERIC_ID - 1) {
 				this.circle.setFill(GameImageBank.tailImage);
 			}
-			else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+			else if (this.numericID != SnakeAI.NUMERIC_ID - 1) {
 				setMotionBlur();
 			}
 		}
 	}
 	public void fadeToBones() {
 		if (fade == true) {
-			if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+			if (this.numericID != SnakeAI.NUMERIC_ID - 1) {
 				fadeValue -= 0.03;
 				this.circle.setOpacity(fadeValue);
 				if (fadeValue <= 0) {
@@ -291,12 +291,12 @@ public class PlayerTwoSection extends AbstractSection {
 		}
 	}
 	public void loadBones() {
-		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
+		if (this.numericID == SnakeAI.NUMERIC_ID - 1) {
 			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
 			game.getBaseLayer().getChildren().add(bones);
 			bones.setRotate(r-90);
 		}
-		else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+		else if (this.numericID != SnakeAI.NUMERIC_ID - 1) {
 			if (this.numericID > 0) {
 				bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
 				game.getBaseLayer().getChildren().add(bones);

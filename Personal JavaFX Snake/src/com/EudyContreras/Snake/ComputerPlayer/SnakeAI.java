@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import java.util.LinkedList;
 
@@ -28,8 +28,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-
-public class PlayerTwo extends AbstractObject {
+/**
+ * 
+ * Sequence:
+ * 
+ * check coordinates of all fruits and determine closest!
+ * if distance X is less than distance y take distance X and viceVersa!
+ * if object encounter while following path calculate way around it through closest turn
+ * 
+ * 
+ * @author Eudy
+ *
+ */
+public class SnakeAI extends AbstractObject {
 
 	private int turnDelay = GameSettings.TURN_DELAY;
 	private int immunity = GameSettings.IMMUNITY_TIME;
@@ -69,9 +80,9 @@ public class PlayerTwo extends AbstractObject {
 	private AnimationUtility anim;
 	private Rectangle bounds;
 	private ScreenEffectUtility overlay;
-	private PlayerTwoHead snakeHead;
-	private PlayerTwoSection neighbor;
-	private PlayerTwoSectionManager sectManager;
+	private SnakeAIHead snakeHead;
+	private SnakeAISection neighbor;
+	private SnakeAISectionManager sectManager;
 	private BoxBlur motionBlur;
 	private ImagePattern eatingFrame;
 	private ImagePattern blinkingFrame;
@@ -87,7 +98,7 @@ public class PlayerTwo extends AbstractObject {
 	public static Boolean KEEP_MOVING = true;
 	public static Boolean ALLOW_FADE = false;
 
-	public PlayerTwo(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+	public SnakeAI(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
 			double velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
@@ -103,7 +114,7 @@ public class PlayerTwo extends AbstractObject {
 		this.moveDown();
 	}
 	private void loadHead(){
-		this.snakeHead = new PlayerTwoHead(this, game, layer,
+		this.snakeHead = new SnakeAIHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.5, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getPlayerTwoManager().addObject(snakeHead);
@@ -652,7 +663,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public void addbaseSections() {
 		for (int i = 0; i < 2 + 1; i++) {
-			sectManager.addSection(new PlayerTwoSection(this, game, layer,
+			sectManager.addSection(new SnakeAISection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
@@ -669,7 +680,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
-			sectManager.addSection(new PlayerTwoSection(this, game, layer,
+			sectManager.addSection(new SnakeAISection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
@@ -747,7 +758,7 @@ public class PlayerTwo extends AbstractObject {
 		}
 	}
 
-	public void setNeighbor(PlayerTwoSection snakeSection) {
+	public void setNeighbor(SnakeAISection snakeSection) {
 		this.neighbor = snakeSection;
 	}
 
@@ -888,7 +899,7 @@ public class PlayerTwo extends AbstractObject {
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
 
-	public PlayerTwoHead getHead() {
+	public SnakeAIHead getHead() {
 		return snakeHead;
 	}
 

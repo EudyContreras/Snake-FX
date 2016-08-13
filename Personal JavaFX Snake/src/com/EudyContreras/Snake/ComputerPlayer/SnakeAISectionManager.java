@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.AI_Snake;
+package com.EudyContreras.Snake.ComputerPlayer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +20,12 @@ import javafx.geometry.Point2D;
  * @author Eudy Contreras
  *
  */
-public class PlayerTwoSectionManager {
+public class SnakeAISectionManager {
 
 	private ArrayList<AbstractSection> sectionList;
 	private AbstractSection tempSection;
 
-	public PlayerTwoSectionManager(GameManager gameJavaFX) {
+	public SnakeAISectionManager(GameManager gameJavaFX) {
 		initialize();
 	}
 

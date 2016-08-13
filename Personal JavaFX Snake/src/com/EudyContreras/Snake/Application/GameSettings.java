@@ -68,6 +68,7 @@ public class GameSettings {
 	public static final double PLAYER_ONE_SPEED = 6.0;
 	public static final double PLAYER_TWO_SPEED = 6.0;
 	public static final double CLASSIC_SNAKE_SPEED = 9.0;
+	public static final double PLAYER_SIZE = 24;
 
 	public static double PLAYER_HEALTH = 100.0;
 
