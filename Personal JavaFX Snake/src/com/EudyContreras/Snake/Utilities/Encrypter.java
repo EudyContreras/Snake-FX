@@ -114,7 +114,7 @@ public class Encrypter {
 	 * @param message
 	 * @return
 	 */
-	public static String DecypherEncryption(String message) {
+	private static String DecypherEncryption(String message) {
 		String[] code_and_case = message.split("¤¤¤¤");
 		String codeMessage;
 		String caseMessage;
@@ -171,7 +171,7 @@ public class Encrypter {
 				else {code[i] = code[i];}
 			}
 		if (code_and_case.length == 2) {
-			for (int i = 0; i < caseMessage.length(); i++) {
+			for (int i = 0; i < caseMessage.length()-1; i++) {
 				if (caseMessage.charAt(i) == '1') {
 					code[i] = Character.toUpperCase(code[i]);
 				} else if (caseMessage.charAt(i) == '0') {
@@ -366,6 +366,7 @@ public class Encrypter {
 		System.out.println("");
 		System.out.println("");
 		System.out.println("");
-		System.out.println(Encrypter.decrypt(Encrypter.encrypt("Whats up man, how are you doing today?")));
+		byte[] encryption = Encrypter.encrypt("Whats up man, how are you doing today?");
+		System.out.println(Encrypter.decrypt(encryption));
 	}
 }
