@@ -60,7 +60,6 @@ public class SandEmitter {
 
 	public void emit() {
 		if (GameSettings.SAND_STORM && !PlayerOne.DEAD && !PlayerTwo.DEAD && !PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED && game.getStateID()!=GameStateID.GAME_MENU) {
-
 			interval++;
 			if (interval == GameSettings.SAND_SPAWN_DELAY && GameSettings.SAND_AMOUNT>1) {
 				for (int i = 0; i < GameSettings.SAND_AMOUNT; i++) {

@@ -492,7 +492,7 @@ public class PlayerTwo extends AbstractObject {
 			if(turns.size()>0)
 				turns.remove(0);
 		}
-		turnDelay = GameSettings.TURN_DELAY;
+		turnDelay = GameSettings.TURN_DELAY+2;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
@@ -514,7 +514,7 @@ public class PlayerTwo extends AbstractObject {
 			if(turns.size()>0)
 				turns.remove(0);
 		}
-		turnDelay = GameSettings.TURN_DELAY;
+		turnDelay = GameSettings.TURN_DELAY+2;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
@@ -536,7 +536,7 @@ public class PlayerTwo extends AbstractObject {
 			if(turns.size()>0)
 				turns.remove(0);
 		}
-		turnDelay = GameSettings.TURN_DELAY;
+		turnDelay = GameSettings.TURN_DELAY+2;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
@@ -558,7 +558,7 @@ public class PlayerTwo extends AbstractObject {
 			if(turns.size()>0)
 				turns.remove(0);
 		}
-		turnDelay = GameSettings.TURN_DELAY;
+		turnDelay = GameSettings.TURN_DELAY+2;
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
@@ -671,7 +671,7 @@ public class PlayerTwo extends AbstractObject {
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
 			if(!PlayerTwo.AI_CONTROLLED){
-			
+
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
@@ -680,8 +680,10 @@ public class PlayerTwo extends AbstractObject {
 			appleCount++;
 		}
 		game.getScoreBoardTwo().increaseScore();
-		if (ScoreKeeper.APPLE_COUNT > 4)
+		if (ScoreKeeper.APPLE_COUNT > 4){
 			game.getGameLoader().spawnSnakeFood();
+			game.getPathFinder().findObjective();
+		}
 	}
 
 	public boolean withinBounds() {

@@ -46,11 +46,11 @@ public class SnakeFood extends AbstractObject {
 	private double glowValue = 0.0;
 	private double staticRadius = 0;
 	private double lifeTime = 0;
-	private boolean remainStatic = false;
 	private boolean maxSize = false;
 	private boolean minSize = true;
 	private boolean maxGlow = false;
 	private boolean noGlow = true;
+	private boolean indicator = false;
 	private Circle bounds;
 	private Rectangle rectBounds;
 	private DropShadow borderGlow = new DropShadow();
@@ -467,6 +467,7 @@ public class SnakeFood extends AbstractObject {
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
 	public void blowUpAlt() {
+		if(indicator==false){
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = Math.random()*(200 - 40 +1)+40;
@@ -474,6 +475,8 @@ public class SnakeFood extends AbstractObject {
 
 				game.getDebrisManager().addParticle(new GlowParticle(game,GameImageBank.glowingCircleOne, particleLife,particleSize,(float) (x+width/2), (float) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12)));
 			}
+		}
+		indicator = true;
 		}
 	}
 

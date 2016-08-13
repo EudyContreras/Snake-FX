@@ -133,6 +133,9 @@ public class EnergyBarTwo {
 			player.setAllowThrust(true);
 		}
 	}
+	public double getEnergyLevel(){
+		return width;
+	}
 	/**
 	 * Method which when called will refill energy
 	 * levels to their maximun levels

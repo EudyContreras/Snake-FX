@@ -7,6 +7,11 @@ import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 
 /**
  * This manager class is the core of every game fruits and is responsible for
@@ -20,7 +25,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
  */
 public class GameObjectController {
 
-	private LinkedList<AbstractObject> fruits;
+	private ObservableList<AbstractObject> fruits;
 	private LinkedList<AbstractObject> buffs;
 	private AbstractObject tempFruit;
 	private AbstractObject tempBuff;
@@ -34,7 +39,18 @@ public class GameObjectController {
 	 * method used to initialize the list.
 	 */
 	public void initialize() {
-		this.fruits = new LinkedList<AbstractObject>();
+		LinkedList<AbstractObject> fruitList = new LinkedList<AbstractObject>();
+		fruits = FXCollections.observableList(fruitList);
+		fruits.addListener(new ListChangeListener<AbstractObject>() {
+
+			@Override
+			public void onChanged(@SuppressWarnings("rawtypes") ListChangeListener.Change change) {
+				System.out.println("Detected a change! ");
+				if(game.getStateID() == GameStateID.GAMEPLAY)
+				game.getPathFinder().findObjective();
+			}
+		});
+
 	}
 
 	/**
@@ -218,12 +234,14 @@ public class GameObjectController {
 		}
 	}
 
-	public LinkedList<AbstractObject> getFruitList() {
+	public ObservableList<AbstractObject> getFruitList() {
 		return fruits;
 	}
+
 	public LinkedList<AbstractObject> getBuffList() {
 		return buffs;
 	}
+
 	public void addFruit(AbstractObject object) {
 		this.fruits.add(object);
 	}
@@ -231,6 +249,7 @@ public class GameObjectController {
 	public void removeFruit(AbstractObject object) {
 		this.fruits.remove(object);
 	}
+
 	public void addBuff(AbstractObject object) {
 		this.fruits.add(object);
 	}

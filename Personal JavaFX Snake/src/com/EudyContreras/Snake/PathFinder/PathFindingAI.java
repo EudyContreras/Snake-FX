@@ -1,20 +1,13 @@
 package com.EudyContreras.Snake.PathFinder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.Random;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
-import com.EudyContreras.Snake.ComputerPlayer.SnakeAI;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-
-import javafx.geometry.Point2D;
 
 /**
  * This manager class is the core of every game section and is responsible for
@@ -28,20 +21,19 @@ import javafx.geometry.Point2D;
  */
 public class PathFindingAI {
 
-
+    private AbstractObject objective;
     private GameManager game;
     private PlayerTwo snakeAI;
-    private AbstractObject objective = null;
+    private Random rand;
 
     private double positionX = 0;
     private double positionY = 0;
 
-    private boolean above = false;
-    private boolean toLeft = false;
-
-    private double turnOffset = 50;
+    private double turnOffset = 100;
     private boolean makingUTurn = false;
+    private int randomBoost = 200;
 
+    private ObjectivePosition location;
     private PlayerMovement turn;
 
     public PathFindingAI(GameManager game, PlayerTwo snakeAI) {
@@ -51,36 +43,62 @@ public class PathFindingAI {
     }
 
     public void initialize() {
+        rand = new Random();
+    }
+    public void findObjective(){
+         createPath(objective);
 
     }
     public void startSimulation(){
         createPath(findClosest());
     }
     public void updateSimulation(){
-        if(game.getStateID()==GameStateID.GAMEPLAY){
-			checkCurrentLocation();
-			checkObjectiveStatus();
-			reRoute();
+        if(game.getStateID()==GameStateID.GAMEPLAY && objective!=null){
+            checkCurrentLocation();
+            addRandomBoost(true);
+            checkObjectiveStatus();
+            reRoute();
         }
+    }
+    public void addRandomBoost(boolean random) {
+        if (random && rand.nextInt(randomBoost) != 0) {
+            return;
+        }
+        if(snakeAI!=null){
+            if(game.getEnergyBarTwo().getEnergyLevel()>50){
+            	snakeAI.setSpeedThrust(true);
+            }
+            else{
+            	snakeAI.setSpeedThrust(false);
+            }
+        }
+
     }
     private AbstractObject findClosest(){
 
-        Distance[] distance = new Distance[4];
+        Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
 
         for(int i = 0; i<game.getGameObjectController().getFruitList().size(); i++){
-            distance[i] = new Distance(Math.hypot(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX(), snakeAI.getY()-game.getGameObjectController().getFruitList().get(i).getY()), game.getGameObjectController().getFruitList().get(i));
+            distance[i] = new Distance(Math.hypot(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX(), snakeAI.getY()-game.getGameObjectController().getFruitList().get(i).getY()),
+                    game.getGameObjectController().getFruitList().get(i));
         }
-        double closest = distance[0].distance;
+
+        double closest = distance[0].getDistance();
 
         for(int i = 0; i<distance.length; i++){
-            if(distance[i].distance<closest){
-                closest = distance[i].distance;
-                positionX = distance[i].object.getX();
-                positionY = distance[i].object.getY();
-                objective = distance[i].object;
+            if(distance[i].getDistance()<closest){
+                closest = distance[i].getDistance();
             }
         }
-//        objective.blowUpAlt();
+        for(int i = 0; i<distance.length; i++){
+            if(distance[i].getDistance() == closest){
+                objective = distance[i].getObject();
+                positionX = distance[i].getObject().getX();
+                positionY = distance[i].getObject().getY();
+            }
+        }
+//        if(objective!=null)
+//        	objective.blowUpAlt();
         return objective;
     }
     private void reRoute(){
@@ -92,64 +110,72 @@ public class PathFindingAI {
             }
         }
     }
+
     private void log(String str){
-    	System.out.println(str);
+        System.out.println(str);
     }
     private void createPath(AbstractObject objective){
+        if (Math.abs(snakeAI.getX() - objective.getX()) < Math.abs(snakeAI.getY() - objective.getY())) {
+			if (Math.abs(snakeAI.getX() - objective.getX()) > GameSettings.WIDTH*.75) {
+				if (objective.getX() > snakeAI.getX()) {
+					log("right");
+					location = ObjectivePosition.EAST;
+					performMove(PlayerMovement.MOVE_LEFT);
 
-        toLeft = objective.getX()<snakeAI.getX() ? true : false;
-        above = objective.getY()<snakeAI.getY() ? true : false;
+				} else if (objective.getX() < snakeAI.getX()) {
+					log("left");
+					location = ObjectivePosition.WEST;
+					performMove(PlayerMovement.MOVE_RIGHT);
+				}
+			}
+			else {
+				if (objective.getX() > snakeAI.getX()) {
+					log("right");
+					location = ObjectivePosition.EAST;
+					performMove(PlayerMovement.MOVE_RIGHT);
 
-        if(Math.abs(snakeAI.getX()-objective.getX())<Math.abs(snakeAI.getY()-objective.getY())){
-        	log("x is closest");
-//            if(Math.abs(snakeAI.getX()-objective.getX())>GameSettings.WIDTH/2){
-//                if(toLeft){
-//                    performMove(PlayerMovement.MOVE_RIGHT);
-//                }
-//                else{
-//                    performMove(PlayerMovement.MOVE_LEFT);
-//                }
-//            }
-//            else{
-                if(toLeft){
-                    performMove(PlayerMovement.MOVE_LEFT);
-                }
-                else{
-                    performMove(PlayerMovement.MOVE_RIGHT);
-                }
-//            }
+				} else if (objective.getX() < snakeAI.getX()) {
+					log("left");
+					location = ObjectivePosition.WEST;
+					performMove(PlayerMovement.MOVE_LEFT);
+				}
+			}
         }
-        else{
-        	log("y is closest");
-//            if(Math.abs(snakeAI.getY()-objective.getY())>GameSettings.HEIGHT/2){
-//                if(above){
-//                    performMove(PlayerMovement.MOVE_DOWN);
-//                }
-//                else{
-//                    performMove(PlayerMovement.MOVE_UP);
-//                }
-//            }
-//            else{
-                if(above){
-                    performMove(PlayerMovement.MOVE_UP);
-                }
-                else{
-                    performMove(PlayerMovement.MOVE_DOWN);
-                }
-//            }
-        }
-
+        else {
+			if (Math.abs(snakeAI.getY() - objective.getY()) > GameSettings.HEIGHT*.75) {
+				if (objective.getY() > snakeAI.getY()) {
+					log("under");
+					location = ObjectivePosition.SOUTH;
+					performMove(PlayerMovement.MOVE_UP);
+				} else if (objective.getY() < snakeAI.getY()) {
+					log("above");
+					location = ObjectivePosition.NORTH;
+					performMove(PlayerMovement.MOVE_DOWN);
+				}
+			}
+			else {
+				if (objective.getY() > snakeAI.getY()) {
+					log("under");
+					location = ObjectivePosition.SOUTH;
+					performMove(PlayerMovement.MOVE_DOWN);
+				} else if (objective.getY() < snakeAI.getY()) {
+					log("above");
+					location = ObjectivePosition.NORTH;
+					performMove(PlayerMovement.MOVE_UP);
+				}
+			}
+		}
     }
     private void checkCurrentLocation(){
         if (objective != null) {
             if (snakeAI.getX() > objective.getX()-objective.getRadius()/2 && snakeAI.getX()< objective.getX()+objective.getRadius()/2) {
-                if (above) {
+                if (objective.getY()<snakeAI.getY()) {
                     snakeAI.setDirection(PlayerMovement.MOVE_UP);
                 } else {
                     snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
                 }
             } else if (snakeAI.getY() > objective.getY()-objective.getRadius()/2 && snakeAI.getY()< objective.getY()+objective.getRadius()/2) {
-                if (toLeft) {
+                if (objective.getX()<snakeAI.getX()) {
                     snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
                 } else {
                     snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
@@ -158,35 +184,33 @@ public class PathFindingAI {
         }
     }
     private void checkObjectiveStatus(){
-        if(objective==null || !objective.isAlive()){
-            createPath(findClosest());
+        if(objective.isRemovable()){
+             findClosest();
         }
-        else{
-            if(objective.getX()!=positionX || objective.getY()!=positionY){
-                createPath(findClosest());
-            }
+        if(objective.getX()!=positionX || objective.getY()!=positionY){
+           findClosest();
         }
     }
     private void performMove(PlayerMovement move){
         if(move == PlayerMovement.MOVE_UP && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_DOWN){
             makeUTurn(snakeAI.getCurrentDirection());
         }
-        if(move == PlayerMovement.MOVE_DOWN && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_UP){
+        else if(move == PlayerMovement.MOVE_DOWN && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_UP){
             makeUTurn(snakeAI.getCurrentDirection());
         }
-        if(move == PlayerMovement.MOVE_LEFT && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_RIGHT){
+        else if(move == PlayerMovement.MOVE_LEFT && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_RIGHT){
             makeUTurn(snakeAI.getCurrentDirection());
         }
-        if(move == PlayerMovement.MOVE_RIGHT && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_LEFT){
+        else if(move == PlayerMovement.MOVE_RIGHT && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_LEFT){
             makeUTurn(snakeAI.getCurrentDirection());
         }
         else{
-        	snakeAI.setDirection(move);
+            snakeAI.setDirection(move);
         }
     }
     private void makeUTurn(PlayerMovement move){
         if(move == PlayerMovement.MOVE_DOWN || move == PlayerMovement.MOVE_UP){
-            if(toLeft){
+            if(objective.getX()<snakeAI.getX()){
                 snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
                 makingUTurn = true;
                 turnOffset = snakeAI.getRadius();
@@ -197,8 +221,8 @@ public class PathFindingAI {
                 turnOffset = snakeAI.getRadius();
             }
         }
-        if(move == PlayerMovement.MOVE_RIGHT || move == PlayerMovement.MOVE_LEFT){
-            if(above){
+        else if(move == PlayerMovement.MOVE_RIGHT || move == PlayerMovement.MOVE_LEFT){
+            if(objective.getY()<snakeAI.getY()){
                 snakeAI.setDirection(PlayerMovement.MOVE_UP);
                 makingUTurn = true;
                 turnOffset = snakeAI.getRadius();
@@ -211,11 +235,19 @@ public class PathFindingAI {
         }
     }
     private class Distance{
-        double distance;
-        AbstractObject object;
+
+        private Double distance;
+        private AbstractObject object;
+
         public Distance(double distance, AbstractObject object){
             this.distance = distance;
             this.object = object;
+        }
+        public double getDistance(){
+        	return distance;
+        }
+        public AbstractObject getObject(){
+        	return object;
         }
     }
     public void setPlayer() {
@@ -223,6 +255,8 @@ public class PathFindingAI {
         this.snakeAI = game.getGameLoader().getPlayerTwo();
 
     }
-
+    private enum ObjectivePosition{
+        NORTH,SOUTH,WEST,EAST
+    }
 
 }

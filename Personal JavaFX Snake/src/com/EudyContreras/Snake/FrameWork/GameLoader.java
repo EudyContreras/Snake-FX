@@ -170,6 +170,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
+		setLevel(desertLevel_5);
 		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
@@ -322,7 +323,7 @@ public class GameLoader extends AbstractLoaderModel{
 		else{
 			levelBounds.showBounds(true);
 		}
-		
+
 	}
 	public void loadMultiplayerMode(){
 		if(levelBounds!=null){

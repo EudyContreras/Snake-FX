@@ -75,7 +75,7 @@ public class GameSettings {
 	public static double GlOBAL_ILLUMINATION = 2.0;
 	public static double GLOBAL_SPECULARITY = 1.5;
 
-	public static int BLUR_RANDOMNESS = 200;
+	public static int BLUR_RANDOMNESS = 500;
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
 	public static int PARTICLE_LIMIT = 350;
 	public static int MAX_DEBRIS_AMOUNT = 50;

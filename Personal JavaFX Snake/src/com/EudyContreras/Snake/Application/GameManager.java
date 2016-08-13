@@ -777,7 +777,7 @@ public class GameManager extends AbstractGameModel {
 
 	public void goToNext() {
 		resetGame();
-		loader.switcLevel();
+
 		loader.loadPixelMap();
 		showCursor(false, getScene());
 		processGameInput();

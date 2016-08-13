@@ -55,6 +55,7 @@ public abstract class AbstractObject {
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
+	protected boolean remainStatic = false;
 	protected boolean drawBounds = false;
 	protected boolean hitBounds = false;
 	protected boolean hitBoundsTop = false;
@@ -462,7 +463,9 @@ public abstract class AbstractObject {
 	public Bounds getRadialBounds() {
 		return circle.getBoundsInParent();
 	}
-
+	public boolean isStatic(){
+		return remainStatic;
+	}
 	public Rectangle2D getBounds() {
 
 		return new Rectangle2D(x, y, width, height);
