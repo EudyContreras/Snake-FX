@@ -31,7 +31,7 @@ import javafx.scene.shape.Rectangle;
 
 public class PlayerTwo extends AbstractObject {
 
-	public static final boolean AI_CONTROLLED = true;
+	public static boolean AI_CONTROLLED = true;
 	private int turnDelay = GameSettings.TURN_DELAY;
 	private int immunity = GameSettings.IMMUNITY_TIME;
 	private int dirtDelay = 10;
@@ -682,7 +682,6 @@ public class PlayerTwo extends AbstractObject {
 		game.getScoreBoardTwo().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4){
 			game.getGameLoader().spawnSnakeFood();
-//			game.getPathFinder().findObjective();
 		}
 	}
 

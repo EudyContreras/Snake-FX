@@ -45,7 +45,7 @@ public class PathFindingAI {
 	}
 
 	public void findObjective() {
-		if (game.getModeID() == GameModeID.LocalMultiplayer)
+		if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
 			createPath(objective);
 
 	}
@@ -54,7 +54,7 @@ public class PathFindingAI {
 	 * to initiate the simulation
 	 */
 	public void startSimulation() {
-		if (game.getModeID() == GameModeID.LocalMultiplayer)
+		if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
 			createPath(findClosest());
 	}
 	/*

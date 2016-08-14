@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.Identifiers.GameDebrisID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
@@ -20,6 +21,21 @@ public class FruitSplashOne extends AbstractParticlesEffect {
 	private double lifeTime = 1.0f;
 	private double energyLoss = 0.9;
 
+	public FruitSplashOne(GameManager game, Pane layer, Paint fill, double expireTime, double radius, double x, double y) {
+		this.game = game;
+		this.layer = layer;
+		this.radius = radius / 2;
+		this.shape = new Circle();
+		this.shape.setRadius(this.radius);
+		this.decay = 0.016 / expireTime;
+		this.color = fill;
+		this.velX = (Math.random() * (10 - -10 + 1) + -10)/1.5;
+		this.velY = (Math.random() * (10 - -10 + 1) + -10)/1.5;
+		this.x = x;
+		this.y = y;
+		this.shape.setFill(color);
+		init();
+	}
 	public FruitSplashOne(GameManager game, Paint fill, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
@@ -34,7 +50,6 @@ public class FruitSplashOne extends AbstractParticlesEffect {
 		this.shape.setFill(color);
 		init();
 	}
-
 	public FruitSplashOne(GameManager game, Image image, double expireTime, double radius, double x, double y) {
 		this.game = game;
 		this.radius = radius / 2;
@@ -48,6 +63,7 @@ public class FruitSplashOne extends AbstractParticlesEffect {
 	}
 
 	public void init() {
+		if(layer==null)
 		this.layer = game.getInnerParticleLayer();
 		addToLayer(shape);
 	}

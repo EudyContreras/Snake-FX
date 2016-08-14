@@ -410,8 +410,6 @@ public class GameManager extends AbstractGameModel {
 					}
 					if (GameSettings.RENDER_GAME) {
 
-						snakeAI.updateSimulation();
-
 						countDownScreen.update();
 
 						overlayEffect.updateEffect();
@@ -435,7 +433,9 @@ public class GameManager extends AbstractGameModel {
 						debrisManager.updateAll();
 
 						loader.updateLevelObjects();
-
+						if (GameSettings.ALLOW_AI_CONTROLL){
+							snakeAI.updateSimulation();
+						}
 						if (getGameLoader().getPlayerOne() != null) {
 							playerOneManager.updateAllLogic(timePassed);
 							sectManagerOne.updateAllLogic(timePassed);
@@ -804,6 +804,7 @@ public class GameManager extends AbstractGameModel {
 		PlayerTwo.DEAD = false;
 		PlayerTwo.MOUTH_CLOSE = true;
 		PlayerTwo.KEEP_MOVING = true;
+		PlayerTwo.AI_CONTROLLED = GameSettings.ALLOW_AI_CONTROLL;
 		ClassicSnake.NUMERIC_ID = 0;
 		ClassicSnake.DEAD = false;
 		ClassicSnake.MOUTH_CLOSE = true;

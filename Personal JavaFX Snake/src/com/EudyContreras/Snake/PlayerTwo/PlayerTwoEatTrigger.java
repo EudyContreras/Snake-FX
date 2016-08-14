@@ -78,7 +78,7 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 				}
 			}
 		}
-		if (!PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
+		if (PlayerTwo.AI_CONTROLLED && GameSettings.ALLOW_AI_CONTROLL) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
 				if (tempTile.getId() == GameLevelObjectID.cactus) {

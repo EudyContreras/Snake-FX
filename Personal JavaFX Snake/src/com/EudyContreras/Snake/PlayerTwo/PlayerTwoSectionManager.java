@@ -193,7 +193,7 @@ public class PlayerTwoSectionManager {
 		return sectionList;
 	}
 
-	public void addSection(AbstractSection sect) {
+	public void addSection(AbstractSection... sect) {
 		Collections.addAll(sectionList,sect);
 	}
 

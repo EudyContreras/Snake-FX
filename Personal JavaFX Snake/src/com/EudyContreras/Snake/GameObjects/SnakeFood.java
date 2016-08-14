@@ -449,14 +449,20 @@ public class SnakeFood extends AbstractObject {
 	 * Method which makes this object blow up into smaller pieces
 	 */
 	public void blowUp() {
-		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
+		FruitSplashOne[] fruitPiecesUnder = new FruitSplashOne[GameSettings.MAX_DEBRIS_AMOUNT/2];
+		FruitSplashOne[] fruitPiecesAbove = new FruitSplashOne[GameSettings.MAX_DEBRIS_AMOUNT/2];
+		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT/2; i++) {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = (Math.random() * (15 - 5 + 1) + 5);
 				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5);
 			}
-			game.getDebrisManager().addDebris(new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
-					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
+			fruitPiecesUnder[i] = new FruitSplashOne(game, new ImagePattern(GameImageBank.fruitDebrisOne),
+					particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2));
+			fruitPiecesAbove[i] = new FruitSplashOne(game, game.getOuterParticleLayer(), new ImagePattern(GameImageBank.fruitDebrisOne),
+					particleLife/2, particleSize/2, (double) (x + this.radius / 2), (double) (y + this.radius / 2));
 		}
+		game.getDebrisManager().addDebris(fruitPiecesUnder);
+		game.getDebrisManager().addDebris(fruitPiecesAbove);
 	}
 
 	public void getPoint(){
@@ -469,9 +475,9 @@ public class SnakeFood extends AbstractObject {
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
 	public void blowUpAlt() {
-		GlowParticle[] particles = new GlowParticle[10];
+		GlowParticle[] particles = new GlowParticle[15];
 		if(indicator==false){
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 15; i++) {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = Math.random()*(200 - 40 +1)+40;
 				particleLife = Math.random()*(0.5 - 0.1+1)+0.1;

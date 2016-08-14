@@ -42,10 +42,8 @@ public class GameObjectController {
 		LinkedList<AbstractObject> fruitList = new LinkedList<AbstractObject>();
 		fruits = FXCollections.observableList(fruitList);
 		fruits.addListener(new ListChangeListener<AbstractObject>() {
-
 			@Override
 			public void onChanged(@SuppressWarnings("rawtypes") ListChangeListener.Change change) {
-				System.out.println("Detected a change! ");
 				if(game.getStateID() == GameStateID.GAMEPLAY)
 				game.getPathFinder().findObjective();
 			}

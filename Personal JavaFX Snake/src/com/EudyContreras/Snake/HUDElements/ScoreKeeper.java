@@ -90,11 +90,11 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.timer.setLocation(GameSettings.WIDTH/2 - timer.getWidth()/2-80, 15);
 		this.countText.setX(xTwo + (widthOne*0.52));
 		this.countText.setY(yOne+45);
-		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, 38));
+		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, 40));
         this.dropShadowTwo = new DropShadow();
-        this.dropShadowTwo.setColor(Color.RED);
-        this.dropShadowTwo.setRadius(20);
-        this.dropShadowTwo.setSpread(0.1);
+        this.dropShadowTwo.setColor(Color.ORANGE);
+        this.dropShadowTwo.setRadius(25);
+        this.dropShadowTwo.setSpread(0.2);
         this.dropShadowTwo.setBlurType(BlurType.TWO_PASS_BOX);
         this.countText.setEffect(dropShadowTwo);
         this.countText.setId("MainScore");

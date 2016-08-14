@@ -29,8 +29,7 @@ public class GameDebrisController {
 	public void addParticle(AbstractParticlesEffect... particle) {
 		Collections.addAll(particles, particle);
 	}
-
-	public void addDebris(AbstractParticlesEffect debrisEffect) {
+	public void addDebris(AbstractParticlesEffect... debrisEffect) {
 		Collections.addAll(debris, debrisEffect);
 	}
 

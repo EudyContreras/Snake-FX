@@ -27,7 +27,6 @@ public class PlayerOneSection extends AbstractSection {
 	private PlayerOne playerOne;
 	private GameManager game;
 	private Circle bones;
-	private AbstractSection previousSection;
 	private PlayerOneSectionManager sectManager;
 
 	public PlayerOneSection(PlayerOne snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
@@ -83,7 +82,6 @@ public class PlayerOneSection extends AbstractSection {
 			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
 				AbstractSection previousSect = sectManager.getSectionList().get(i);
 				if (previousSect.getNumericID() == this.numericID - 1) {
-					previousSection = previousSect;
 					switch (previousSect.getLastDirection()) {
 					case MOVE_UP:
 						setLastDirection(PlayerMovement.MOVE_UP);
@@ -135,8 +133,6 @@ public class PlayerOneSection extends AbstractSection {
 		this.circle.setRadius(GameSettings.PLAYER_ONE_SIZE);
 		this.radius = circle.getRadius();
 		checkBounds();
-		disguiseLast();
-		sectionAdjustment();
 		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
@@ -175,11 +171,13 @@ public class PlayerOneSection extends AbstractSection {
 		}
 	}
 	public void logicUpdate(){
-		if(GameSettings.ALLOW_DIRT)
+		if(GameSettings.ALLOW_DIRT){
 			updateDirt();
-		if(playerOne.getSpeedThrust())
+		}
+		if(playerOne.getSpeedThrust()){
 			updateSpeedDirt();
-
+		}
+		disguiseLast();
 		fadeToBones();
 	}
 	public void setMotionBlur(){
@@ -264,31 +262,30 @@ public class PlayerOneSection extends AbstractSection {
 	}
 
 	public void sectionAdjustment() {
-		if (previousSection != null) {
-			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.MIN_Y + radius
-					&& y < GameSettings.HEIGHT - radius) {
-				if (this.direction == PlayerMovement.MOVE_DOWN) {
-					if (previousSection.getY() - y >= this.radius) {
-						y = previousSection.getY() - this.radius;
-					}
-				}
-				if (this.direction == PlayerMovement.MOVE_UP) {
-					if (y - previousSection.getY() >= this.radius) {
-						y = previousSection.getY() + this.radius;
-					}
-				}
-				if (this.direction == PlayerMovement.MOVE_LEFT) {
-					if (x - previousSection.getX() >= this.radius) {
-						x = previousSection.getX() + this.radius;
-					}
-				}
-				if (this.direction == PlayerMovement.MOVE_RIGHT) {
-					if (previousSection.getX() - x >= this.radius) {
-						x = previousSection.getX() - this.radius;
-					}
-				}
-			}
-		}
+//		if (previousSection != null) {
+//			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.MIN_Y + radius && y < GameSettings.HEIGHT - radius) {
+//				if (this.direction == PlayerMovement.MOVE_DOWN) {
+//					if (previousSection.getY() - y >= this.radius) {
+//						y = previousSection.getY() - this.radius;
+//					}
+//				}
+//				if (this.direction == PlayerMovement.MOVE_UP) {
+//					if (y - previousSection.getY() >= this.radius) {
+//						y = previousSection.getY() + this.radius;
+//					}
+//				}
+//				if (this.direction == PlayerMovement.MOVE_LEFT) {
+//					if (x - previousSection.getX() >= this.radius) {
+//						x = previousSection.getX() + this.radius;
+//					}
+//				}
+//				if (this.direction == PlayerMovement.MOVE_RIGHT) {
+//					if (previousSection.getX() - x >= this.radius) {
+//						x = previousSection.getX() - this.radius;
+//					}
+//				}
+//			}
+//		}
 	}
 	public void loadBones() {
 		if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
@@ -307,14 +304,16 @@ public class PlayerOneSection extends AbstractSection {
 
 	public void blowUp() {
 		if (blowUp == true) {
+			SectionDisintegration[] sectParticle = new SectionDisintegration[GameSettings.MAX_DEBRIS_AMOUNT];
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
 					particleSize = (Math.random() * (10 - 5 + 1) + 5);
 					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5);
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeOneDebris,
-						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
+				sectParticle[i] = new SectionDisintegration(game, GameImageBank.snakeOneDebris,
+						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2));
 			}
+			game.getDebrisManager().addParticle(sectParticle);
 			blowUp = false;
 		}
 	}
