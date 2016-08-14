@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.Tutorial;
+package com.EudyContreras.Snake.Utilities;
 
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;

@@ -170,7 +170,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-//		setLevel(desertLevel_5);
+		setLevel(desertLevel_5);
 		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
@@ -341,7 +341,7 @@ public class GameLoader extends AbstractLoaderModel{
 				spawnBackgroundStuff(true);
 			}
 			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5)
-				levelManager.loadDesertBorder();
+//				levelManager.loadDesertBorder();
 			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5) {
 				levelManager.loadSpikeFence();
 			}

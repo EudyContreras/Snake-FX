@@ -26,32 +26,10 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 		this.snake = snake;
 		this.head = head;
 		this.game = game;
-		if (Direction == PlayerMovement.MOVE_UP) {
-			this.y = (float) (y - this.circle.getRadius() * 3);
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_DOWN) {
-			this.y = (float) (y + this.circle.getRadius() * 3);
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_LEFT) {
-			this.x = (float) (x - this.circle.getRadius() * 3);
-			this.y = y;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_RIGHT) {
-			this.x = (float) (x + this.circle.getRadius() * 3);
-			this.y = y;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.STANDING_STILL) {
-			this.y = (float) (y + this.circle.getRadius() * 3);
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		}
+		this.y = (float) (y + this.circle.getRadius() * 3);
+		this.x = x;
+		this.velX = snake.getVelX();
+		this.velY = snake.getVelY();
 		if (GameSettings.DEBUG_MODE) {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);
@@ -113,11 +91,7 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ALLOW_ROCK_COLLISION) {
-							if(getBounds().intersects(tempTile.getBounds())){
-								game.getPathFinder().avoidObstacle(tempTile);
-							}
-						}
+						game.getPathFinder().avoidObstacle(tempTile);
 					}
 				}
 			}

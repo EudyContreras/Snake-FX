@@ -62,7 +62,7 @@ public class PlayerOneHead extends AbstractObject {
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
-		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
+		this.clearFromCollision = new Rectangle(x-radius, y-radius, node.getRadius() * 2, node.getRadius() * 2);
 		this.radialBounds = new Circle(radius,x,y, Color.TRANSPARENT);
 		if (GameSettings.DEBUG_MODE) {
 			this.headBoundsRight.setFill(Color.BLUE);
@@ -82,6 +82,7 @@ public class PlayerOneHead extends AbstractObject {
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
 			this.drawBoundingBox();
+			this.adjustBounds();
 		}
 		this.layer.getChildren().add(text);
 		this.loadMouth();

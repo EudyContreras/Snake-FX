@@ -461,6 +461,8 @@ public class SnakeFood extends AbstractObject {
 
 	public void getPoint(){
 		game.getNinthLayer().getChildren().add(new GamePoint(game.getEighthLayer(),x,y));
+		this.rectBounds.setStroke(Color.TRANSPARENT);
+		this.bounds.setStroke(Color.TRANSPARENT);
 	}
 
 	/**

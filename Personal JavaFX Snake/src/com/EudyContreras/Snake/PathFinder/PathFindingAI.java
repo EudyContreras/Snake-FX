@@ -5,7 +5,6 @@ import java.util.Random;
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
@@ -24,12 +23,12 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 public class PathFindingAI {
 
 	private AbstractObject objective;
+	private AbstractTile obstacle;
 	private GameManager game;
 	private PlayerTwo snakeAI;
 	private Random rand;
 
 	private boolean makingUTurn = false;
-	private boolean avoidingObstacle = false;
 
 	private double positionX = 0;
 	private double positionY = 0;
@@ -38,7 +37,6 @@ public class PathFindingAI {
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
-	private PlayerMovement turn;
 
 	public PathFindingAI(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
@@ -106,9 +104,11 @@ public class PathFindingAI {
 		}
 		for (int i = 0; i < distance.length; i++) {
 			if (distance[i].getDistance() == closest) {
-				objective = distance[i].getObject();
-				positionX = distance[i].getObject().getX();
-				positionY = distance[i].getObject().getY();
+				if (distance[i].getObject().isAlive()) {
+					objective = distance[i].getObject();
+					positionX = distance[i].getObject().getX();
+					positionY = distance[i].getObject().getY();
+				}
 			}
 		}
 		if (objective != null)
@@ -126,80 +126,68 @@ public class PathFindingAI {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void log(String str) {
 		System.out.println(str);
 	}
 
 	private void createPath(AbstractObject objective) {
 		if (Math.abs(snakeAI.getX() - objective.getX()) < Math.abs(snakeAI.getY() - objective.getY())) {
-			// if (Math.abs(snakeAI.getX() - objective.getX()) >
-			// GameSettings.WIDTH*.75) {
-			if (objective.getX() > snakeAI.getX()) {
-				log("right");
-				location = ObjectivePosition.EAST;
-				performMove(PlayerMovement.MOVE_RIGHT);
-
-			} else if (objective.getX() < snakeAI.getX()) {
-				log("left");
-				location = ObjectivePosition.WEST;
-				performMove(PlayerMovement.MOVE_LEFT);
-			}
-			// }
-			// else {
-			// if (objective.getX() > snakeAI.getX()) {
-			// log("right");
-			// location = ObjectivePosition.EAST;
-			// performMove(PlayerMovement.MOVE_RIGHT);
-			//
-			// } else if (objective.getX() < snakeAI.getX()) {
-			// log("left");
-			// location = ObjectivePosition.WEST;
-			// performMove(PlayerMovement.MOVE_LEFT);
-			// }
-			// }
-		} else {
-			// if (Math.abs(snakeAI.getY() - objective.getY()) >
-			// GameSettings.HEIGHT*.75) {
 			if (objective.getY() > snakeAI.getY()) {
-				log("under");
 				location = ObjectivePosition.SOUTH;
 				performMove(PlayerMovement.MOVE_DOWN);
-			} else if (objective.getY() < snakeAI.getY()) {
-				log("above");
+			}
+			else{
 				location = ObjectivePosition.NORTH;
 				performMove(PlayerMovement.MOVE_UP);
 			}
-			// }
-			// else {
-			// if (objective.getY() > snakeAI.getY()) {
-			// log("under");
-			// location = ObjectivePosition.SOUTH;
-			// performMove(PlayerMovement.MOVE_DOWN);
-			// } else if (objective.getY() < snakeAI.getY()) {
-			// log("above");
-			// location = ObjectivePosition.NORTH;
-			// performMove(PlayerMovement.MOVE_UP);
-			// }
-			// }
+		} else {
+			if (objective.getX() > snakeAI.getX()) {
+				location = ObjectivePosition.EAST;
+				performMove(PlayerMovement.MOVE_RIGHT);
+			}
+			else{
+				location = ObjectivePosition.WEST;
+				performMove(PlayerMovement.MOVE_LEFT);
+			}
 		}
 	}
 
-	private void findShorcut() {
-
-	}
-
 	public void avoidObstacle(AbstractTile obstacle) {
+		this.obstacle = obstacle;
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
-			avoidingObstacle = true;
 			switch (snakeAI.getCurrentDirection()) {
 			case MOVE_DOWN:
-				if (obstacle.getWidth() / 2 < snakeAI.getHead().getRadius())
+				if ((obstacle.getBounds().getWidth()+obstacle.getBounds().getMinX()) - (snakeAI.getHead().getRadius()+snakeAI.getX())> obstacle.getBounds().getWidth()/2){
+					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
+				}
+				else{
+					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
+				}
 					break;
 			case MOVE_LEFT:
+				if((obstacle.getBounds().getHeight()+obstacle.getBounds().getMinY()) - (snakeAI.getHead().getRadius()+snakeAI.getY())> obstacle.getBounds().getHeight()/2){
+					snakeAI.setDirection(PlayerMovement.MOVE_UP);
+				}
+				else{
+					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
+				}
 				break;
 			case MOVE_RIGHT:
+				if((obstacle.getBounds().getHeight()+obstacle.getBounds().getMinY()) - (snakeAI.getHead().getRadius()+snakeAI.getY())> obstacle.getBounds().getHeight()/2){
+					snakeAI.setDirection(PlayerMovement.MOVE_UP);
+				}
+				else{
+					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
+				}
 				break;
 			case MOVE_UP:
+				if ((obstacle.getBounds().getWidth()+obstacle.getBounds().getMinX()) - (snakeAI.getHead().getRadius()+snakeAI.getX())> obstacle.getBounds().getWidth()/2){
+					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
+				}
+				else{
+					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
+				}
 				break;
 			case STANDING_STILL:
 				break;
@@ -211,21 +199,20 @@ public class PathFindingAI {
 	}
 
 	private void checkCurrentLocation() {
-		if (snakeAI.getX() > objective.getX() - objective.getRadius() / 2
-				&& snakeAI.getX() < objective.getX() + objective.getRadius() / 2) {
-			if (objective.getY() < snakeAI.getY()) {
-				snakeAI.setDirection(PlayerMovement.MOVE_UP);
-			} else {
-				snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
+			if (snakeAI.getX() > objective.getX() - objective.getRadius() / 2 && snakeAI.getX() < objective.getX() + objective.getRadius() / 2) {
+				if (objective.getY() < snakeAI.getY()) {
+					snakeAI.setDirection(PlayerMovement.MOVE_UP);
+				} else {
+					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
+				}
 			}
-		} else if (snakeAI.getY() > objective.getY() - objective.getRadius() / 2
-				&& snakeAI.getY() < objective.getY() + objective.getRadius() / 2) {
-			if (objective.getX() < snakeAI.getX()) {
-				snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
-			} else {
-				snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
+			else if (snakeAI.getY() > objective.getY() - objective.getRadius() / 2 && snakeAI.getY() < objective.getY() + objective.getRadius() / 2) {
+				if (objective.getX() < snakeAI.getX()) {
+					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
+				} else {
+					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
+				}
 			}
-		}
 	}
 
 	private void checkObjectiveStatus() {
@@ -294,15 +281,28 @@ public class PathFindingAI {
 			return object;
 		}
 	}
-
 	public void setPlayer() {
 		this.snakeAI = null;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
+	}
 
+	public ObjectivePosition getLocation() {
+		return location;
+	}
+
+	public void setLocation(ObjectivePosition location) {
+		this.location = location;
+	}
+
+	public AbstractTile getObstacle() {
+		return obstacle;
+	}
+
+	public void setObstacle(AbstractTile obstacle) {
+		this.obstacle = obstacle;
 	}
 
 	private enum ObjectivePosition {
 		NORTH, SOUTH, WEST, EAST
 	}
-
 }

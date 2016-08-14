@@ -335,6 +335,8 @@ public class ClassicSnakeFood extends AbstractObject {
 			}
 		}
 		game.getDebrisManager().addParticle(particle);
+		this.layer.getChildren().remove(rectBounds);
+		this.bounds.setVisible(false);
 	}
 
 	/**

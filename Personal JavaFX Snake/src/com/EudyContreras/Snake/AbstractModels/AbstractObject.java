@@ -52,7 +52,7 @@ public abstract class AbstractObject {
 	protected double accelarationY;
 	protected double stopX;
 	protected double stopY;
-	protected boolean isAlive = false;
+	protected boolean isAlive = true;
 	protected boolean removable = false;
 	protected boolean canMove = true;
 	protected boolean remainStatic = false;

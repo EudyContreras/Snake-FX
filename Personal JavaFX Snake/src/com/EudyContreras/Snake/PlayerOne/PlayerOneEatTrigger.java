@@ -19,32 +19,11 @@ public class PlayerOneEatTrigger extends AbstractObject {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;
 		this.game = game;
-		if (Direction == PlayerMovement.MOVE_UP) {
-			this.y = (float) (y - this.circle.getRadius() * 3);
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_DOWN) {
-			this.y = (float) (y + this.circle.getRadius() * 3);
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_LEFT) {
-			this.x = (float) (x - this.circle.getRadius() * 3);
-			this.y = y;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.MOVE_RIGHT) {
-			this.x = (float) (x + this.circle.getRadius() * 3);
-			this.y = y;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		} else if (Direction == PlayerMovement.STANDING_STILL) {
-			this.y = (float) (y + this.circle.getRadius() * 3);
-			this.x = x;
-			this.velX = snake.getVelX();
-			this.velY = snake.getVelY();
-		}
+		this.y = (float) (y + this.circle.getRadius() * 3);
+		this.x = x;
+		this.velX = snake.getVelX();
+		this.velY = snake.getVelY();
+
 		if (GameSettings.DEBUG_MODE) {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);

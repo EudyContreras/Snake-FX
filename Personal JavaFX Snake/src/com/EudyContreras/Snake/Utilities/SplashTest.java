@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.Tutorial;
+package com.EudyContreras.Snake.Utilities;
 
 import java.util.Random;
 

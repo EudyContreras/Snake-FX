@@ -123,7 +123,6 @@ public class PlayerTwoFangs extends AbstractObject {
 							game.getScoreKeeper().decreaseCount();
 							tempObject.blowUp();
 							tempObject.getPoint();
-
 							tempObject.remove();
 							break;
 						}
