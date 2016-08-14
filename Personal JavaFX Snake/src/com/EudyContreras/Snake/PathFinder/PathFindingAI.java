@@ -5,18 +5,14 @@ import java.util.Random;
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 /**
- * This manager class is the core of every game section and is responsible for
- * updating, drawing, adding physics, animating, removing, moving every section
- * and checking whether the sections is alive or not meaning no longer used. the
- * sections updated by this class are mob sections meaning sections that move,
- * interact and collide.
- *
+
  * @author Eudy Contreras
  *
  */
@@ -53,12 +49,19 @@ public class PathFindingAI {
 			createPath(objective);
 
 	}
-
+	/*
+	 * Gets called when the game begins in order 
+	 * to initiate the simulation
+	 */
 	public void startSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer)
 			createPath(findClosest());
 	}
-
+	/*
+	 * this method gets called from the game loop and it 
+	 * is called at 60fps. The method update and keeps track
+	 * of things
+	 */
 	public void updateSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY && objective != null) {
@@ -69,7 +72,11 @@ public class PathFindingAI {
 			}
 		}
 	}
-
+	/**
+	 * Method which under certain conditions will activate 
+	 * the speed boost of the snake
+	 * @param random
+	 */
 	public void addRandomBoost(boolean random) {
 		if (random && rand.nextInt(randomBoost) != 0) {
 			return;
@@ -83,7 +90,11 @@ public class PathFindingAI {
 		}
 
 	}
-
+	/**
+	 * Method which when called will attempt to find the apple which is closest
+	 * to the current position of the snake!
+	 * @return
+	 */
 	private AbstractObject findClosest() {
 
 		Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
@@ -111,11 +122,15 @@ public class PathFindingAI {
 				}
 			}
 		}
-		if (objective != null)
+		if (objective != null && GameSettings.DEBUG_MODE)
 			objective.blowUpAlt();
 		return objective;
 	}
-
+	/**
+	 * Method which gets called in the update method and 
+	 * will create a new path after the snake has perform 
+	 * a uTurn!
+	 */
 	private void reRoute() {
 		if (makingUTurn) {
 			turnOffset--;
@@ -130,7 +145,14 @@ public class PathFindingAI {
 	private void log(String str) {
 		System.out.println(str);
 	}
-
+	/*
+	 * Method which attempts to determine the best course of action in order
+	 * to move towards the objective! The method will first check if the x distance 
+	 * is less or greater than the y distance and based on that it will decide to perform 
+	 * a horizontal or vertical move.  if the method to be perform is a vertical move
+	 * the method will check if the objective is above or below and then perform a move
+	 * based on the objectives coordinates!
+	 */
 	private void createPath(AbstractObject objective) {
 		if (Math.abs(snakeAI.getX() - objective.getX()) < Math.abs(snakeAI.getY() - objective.getY())) {
 			if (objective.getY() > snakeAI.getY()) {
@@ -152,7 +174,15 @@ public class PathFindingAI {
 			}
 		}
 	}
-
+	/**BUGGGY!!
+	 * 
+	 * This method attempts to determine a course of action once a special bound has intersected any 
+	 * obstacle! the method attempts to determine what action the snake should take base on the position
+	 * of the snake relative to the coordinates and dimensions of the obstacle encountered! The method does 
+	 * not work as intended. NEED HELP =(
+	 * 
+	 * @param obstacle
+	 */
 	public void avoidObstacle(AbstractTile obstacle) {
 		this.obstacle = obstacle;
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
@@ -197,7 +227,11 @@ public class PathFindingAI {
 			}
 		}
 	}
-
+	/**
+	 * Method which performs actions based on the current location of the snake and the objective!
+	 * if the snake is within a predetermined threshold the snake will perform the appropriate turn 
+	 * in order to collect the objective! 
+	 */
 	private void checkCurrentLocation() {
 			if (snakeAI.getX() > objective.getX() - objective.getRadius() / 2 && snakeAI.getX() < objective.getX() + objective.getRadius() / 2) {
 				if (objective.getY() < snakeAI.getY()) {
@@ -214,7 +248,10 @@ public class PathFindingAI {
 				}
 			}
 	}
-
+	/**
+	 * Method which checks the status of the current objective and base on the objective's status it will try
+	 * to re-determine a new objective once the current objective has been collected or it has moved! 
+	 */
 	private void checkObjectiveStatus() {
 		if (objective.isRemovable()) {
 			findClosest();
@@ -224,7 +261,11 @@ public class PathFindingAI {
 			findClosest();
 		}
 	}
-
+	/**
+	 * Method which when called will determine if the snake has to make an u-turn or 
+	 * if the snake can perform the desired turn without complications! NEEDS ANALYSIS!!!!
+	 * @param move: Move which the AI desires to perform
+	 */
 	private void performMove(PlayerMovement move) {
 		if (move == PlayerMovement.MOVE_UP && snakeAI.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
 			makeUTurn(snakeAI.getCurrentDirection());
@@ -238,7 +279,13 @@ public class PathFindingAI {
 			snakeAI.setDirection(move);
 		}
 	}
-
+	/**
+	 * Method which when called will perform a turn based on the location of the objective! once the turn 
+	 * is made the path will be recalculated by the reRoute method! The method only gets called when the snake
+	 * attempts to perform an illegal turn!
+	 * @param currentDirection
+	 */
+	
 	private void makeUTurn(PlayerMovement currentDirection) {
 		if (currentDirection == PlayerMovement.MOVE_DOWN || currentDirection == PlayerMovement.MOVE_UP) {
 			if (objective.getX() < snakeAI.getX()) {
@@ -262,7 +309,12 @@ public class PathFindingAI {
 			}
 		}
 	}
-
+	/**
+	 * Class which holds the distance and the nearest object 
+	 * and the object!
+	 * @author Eudy Contreras
+	 *
+	 */
 	private class Distance {
 
 		private Double distance;
