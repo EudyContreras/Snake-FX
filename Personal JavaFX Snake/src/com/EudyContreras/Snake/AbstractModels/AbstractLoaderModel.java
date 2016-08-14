@@ -17,7 +17,7 @@ import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 import javafx.scene.image.WritableImage;
 
 public abstract class AbstractLoaderModel {
-	public static int LEVEL = 6;
+	public static int LEVEL = 5;
 	protected GameThemeID levelTheme;
 	protected WritableImage border;
 	protected WritableImage fence;

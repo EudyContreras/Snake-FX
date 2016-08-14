@@ -652,7 +652,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < 2 + 1; i++) {
+		for (int i = 0; i < 4 + 1; i++) {
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
@@ -682,7 +682,7 @@ public class PlayerTwo extends AbstractObject {
 		game.getScoreBoardTwo().increaseScore();
 		if (ScoreKeeper.APPLE_COUNT > 4){
 			game.getGameLoader().spawnSnakeFood();
-			game.getPathFinder().findObjective();
+//			game.getPathFinder().findObjective();
 		}
 	}
 

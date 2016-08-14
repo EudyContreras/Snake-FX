@@ -467,15 +467,18 @@ public class SnakeFood extends AbstractObject {
 	 * Alternate method which makes this object blow up into smaller pieces
 	 */
 	public void blowUpAlt() {
+		GlowParticle[] particles = new GlowParticle[10];
 		if(indicator==false){
-		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
+		for (int i = 0; i < 10; i++) {
 			if (GameSettings.ADD_VARIATION) {
 				particleSize = Math.random()*(200 - 40 +1)+40;
 				particleLife = Math.random()*(0.5 - 0.1+1)+0.1;
 
-				game.getDebrisManager().addParticle(new GlowParticle(game,GameImageBank.glowingCircleOne, particleLife,particleSize,(float) (x+width/2), (float) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12)));
+				particles[i] = new GlowParticle(game,GameImageBank.glowingCircleOne, particleLife,particleSize,(float) (x+width/2), (float) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12));
 			}
 		}
+		game.getDebrisManager().addParticle(particles);
+
 		indicator = true;
 		}
 	}

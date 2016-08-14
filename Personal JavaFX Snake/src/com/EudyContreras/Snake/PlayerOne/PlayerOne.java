@@ -650,7 +650,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < 2 + 1; i++) {
+		for (int i = 0; i < 4 + 1; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
