@@ -14,6 +14,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.PathFinder.PathFindingAI.ActionState;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -48,6 +49,8 @@ public class PlayerTwo extends AbstractObject {
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
+	private double offsetY_AI;
+	private double offsetX_AI;
 	private boolean isDead = false;
 	private boolean collision = false;
 	private boolean notEating = true;
@@ -66,6 +69,7 @@ public class PlayerTwo extends AbstractObject {
 	private boolean goSlow = false;
 	private boolean thrust = false;
 	private boolean allowThrust = true;
+	private Rectangle boundBox;
 	private GameManager game;
 	private AnimationUtility anim;
 	private Rectangle bounds;
@@ -203,6 +207,10 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
+			this.boundBox.setX(x - snakeHead.getRadius() / 2 + offsetX_AI);
+			this.boundBox.setY(y - snakeHead.getRadius() / 2 + offsetY_AI);
+			this.boundBox.setWidth(snakeHead.getRadius());
+			this.boundBox.setHeight(snakeHead.getRadius());
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -484,6 +492,8 @@ public class PlayerTwo extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
+		offsetX_AI = 0;
+		offsetY_AI = -60;
 		velY = -GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 180;
@@ -506,6 +516,8 @@ public class PlayerTwo extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
+		offsetX_AI = 0;
+		offsetY_AI = 60;
 		velY = GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 0;
@@ -528,6 +540,8 @@ public class PlayerTwo extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
+		offsetX_AI = 60;
+		offsetY_AI = 0;
 		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = -90;
@@ -550,6 +564,8 @@ public class PlayerTwo extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
+		offsetX_AI = -60;
+		offsetY_AI = 0;
 		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = 90;
@@ -595,6 +611,10 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
+					if (getAIBounds().intersects(tempTile.getBounds())) {
+						if (PlayerTwo.AI_CONTROLLED)
+						game.getPathFinder().avoidObstacle(tempTile);
+					}
 				}
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
@@ -617,6 +637,18 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
+					else if (getAIBounds().intersects(tempTile.getBounds())) {
+						if (PlayerTwo.AI_CONTROLLED) {
+							if (GameSettings.ALLOW_ROCK_COLLISION) {
+								this.allowThrust = false;
+								this.thrust = false;
+								this.game.getEnergyBarTwo().setDelay();
+								this.game.getEnergyBarTwo().setSpeedThrust(false);
+								this.game.getPathFinder().avoidObstacle(tempTile);
+								System.out.println("COLLISION: " +x + ", " +y);
+							}
+						}
+					}
 				}
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
@@ -633,6 +665,10 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
+					if (getAIBounds().intersects(tempTile.getBounds())) {
+						if (PlayerTwo.AI_CONTROLLED)
+						game.getPathFinder().avoidObstacle(tempTile);
+					}
 				}
 				if (tempTile.getId() == GameLevelObjectID.trap) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
@@ -646,9 +682,14 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
+					if (getAIBounds().intersects(tempTile.getBounds())) {
+						if (PlayerTwo.AI_CONTROLLED)
+						game.getPathFinder().avoidObstacle(tempTile);
+					}
 				}
 			}
 		}
+
 	}
 
 	public void addbaseSections() {
@@ -693,12 +734,20 @@ public class PlayerTwo extends AbstractObject {
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
+			game.getPathFinder().findClosest();
+			game.getPathFinder().findObjective(ActionState.TRACKING);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
+			game.getPathFinder().findClosest();
+			game.getPathFinder().findObjective(ActionState.TRACKING);
 		} else if (y < GameSettings.MIN_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
+			game.getPathFinder().findClosest();
+			game.getPathFinder().findObjective(ActionState.TRACKING);
 		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (GameSettings.MIN_Y - radius);
+			game.getPathFinder().findClosest();
+			game.getPathFinder().findObjective(ActionState.TRACKING);
 		}
 	}
 
@@ -763,6 +812,11 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
+			this.boundBox = new Rectangle(x - snakeHead.getRadius()/2,y - snakeHead.getRadius()/2,snakeHead.getRadius(),snakeHead.getRadius());
+			this.boundBox.setStroke(Color.WHITE);
+			this.boundBox.setStrokeWidth(3);
+			this.boundBox.setFill(Color.TRANSPARENT);
+			this.layer.getChildren().add(boundBox);
 			game.getSeventhLayer().getChildren().add(bounds);
 		}
 	}
@@ -892,7 +946,9 @@ public class PlayerTwo extends AbstractObject {
 
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
-
+	public Rectangle2D getAIBounds() {
+		return new Rectangle2D(x - snakeHead.getRadius() / 2 + offsetX_AI, y - snakeHead.getRadius() / 2 + offsetY_AI, snakeHead.getRadius(), snakeHead.getRadius() );
+	}
 	public PlayerTwoHead getHead() {
 		return snakeHead;
 	}

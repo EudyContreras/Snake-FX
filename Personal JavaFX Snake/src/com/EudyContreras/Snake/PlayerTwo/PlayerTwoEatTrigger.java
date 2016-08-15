@@ -1,23 +1,19 @@
 package com.EudyContreras.Snake.PlayerTwo;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 public class PlayerTwoEatTrigger extends AbstractObject {
 	private GameManager game;
 	private PlayerTwo snake;
-	private Rectangle boundBox;
 	private PlayerTwoHead head;
 
 	public PlayerTwoEatTrigger(PlayerTwoHead head, PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y,
@@ -33,11 +29,6 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 		if (GameSettings.DEBUG_MODE) {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);
-			this.boundBox = new Rectangle(x,y,head.getRadius()*2,head.getRadius()*2);
-			this.boundBox.setStroke(Color.WHITE);
-			this.boundBox.setStrokeWidth(3);
-			this.boundBox.setFill(Color.TRANSPARENT);
-			this.layer.getChildren().add(boundBox);
 		}
 
 	}
@@ -58,52 +49,24 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 			this.x = (float) (snake.getX() + this.circle.getRadius() * 3);
 			this.y = snake.getY();
 		}
-		if(GameSettings.DEBUG_MODE){
-		this.boundBox.setX(x - head.getRadius());
-		this.boundBox.setY(y - head.getRadius());
-		this.boundBox.setWidth(head.getRadius() * 2);
-		this.boundBox.setHeight(head.getRadius() * 2);
-		}
 	}
 
 	public void checkCollision() {
-		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-			AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
-			if (tempObject.getId() == GameObjectID.Fruit) {
-				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
-						snake.openMouth();
-						break;
-					}
-				}
-			}
-		}
 		if (PlayerTwo.AI_CONTROLLED && GameSettings.ALLOW_AI_CONTROLL) {
-			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
-				if (tempTile.getId() == GameLevelObjectID.cactus) {
-					if(getBounds().intersects(tempTile.getBounds())){
-						game.getPathFinder().avoidObstacle(tempTile);
+			for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
+				AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
+				if (tempObject.getId() == GameObjectID.Fruit) {
+					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
+						if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
+							snake.openMouth();
+							break;
+						}
 					}
-				}
-			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
-					if (getBounds().intersects(tempTile.getBounds())) {
-						game.getPathFinder().avoidObstacle(tempTile);
-					}
-				}
-			}
-			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
-				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
-				if(getBounds().intersects(tempTile.getBounds())){
-					game.getPathFinder().avoidObstacle(tempTile);
 				}
 			}
 		}
 	}
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - head.getRadius(), y - head.getRadius(), head.getRadius()*2, head.getRadius()*2);
+		return new Rectangle2D(x - head.getRadius() / 2, y - head.getRadius() / 2, head.getRadius(), head.getRadius() );
 	}
 }
