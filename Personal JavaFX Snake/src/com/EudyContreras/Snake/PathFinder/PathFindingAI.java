@@ -324,16 +324,16 @@ public class PathFindingAI {
 		case TRACKING:
 			if (snakeAI.getX() > objective.getX() - objective.getRadius()*.25 && snakeAI.getX() < objective.getX() + objective.getRadius()*.25) {
 				if (objective.getY() < snakeAI.getY()) {
-					snakeAI.setDirection(PlayerMovement.MOVE_UP);
+					snakeAI.setDirection(PlayerMovement.MOVE_UP);applyThrust();
 				} else {
-					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
+					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);applyThrust();
 				}
 			}
 			else if (snakeAI.getY() > objective.getY() - objective.getRadius()*.25 && snakeAI.getY() < objective.getY() + objective.getRadius()*.25) {
 				if (objective.getX() < snakeAI.getX()) {
-					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
+					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);applyThrust();
 				} else {
-					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
+					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);applyThrust();
 				}
 			}
 			break;
@@ -342,6 +342,15 @@ public class PathFindingAI {
 
 		}
 
+	}
+	private void applyThrust(){
+		if (game.getEnergyBarTwo().getEnergyLevel() > 50) {
+			if (snakeAI.isAllowThrust() && !snakeAI.getSpeedThrust()) {
+				snakeAI.setSpeedThrust(true);
+			}
+		} else {
+			snakeAI.setSpeedThrust(false);
+		}
 	}
 	/**
 	 * Method which checks the status of the current objective and base on the objective's status it will try
@@ -490,5 +499,9 @@ public class PathFindingAI {
 
 	public enum ActionState{
 		TRACKING, AVOIDING, FINDING,
+	}
+
+	public enum LegalTurns{
+		LEFT,RIGHT,UP,DOWN
 	}
 }
