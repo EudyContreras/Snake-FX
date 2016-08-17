@@ -40,7 +40,7 @@ import javafx.scene.shape.Circle;
 					10);
 			public static final Image fruitDebrisTwo = ImageEffectUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY + 0.4, 10, 10 );
-			public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("sand_grain.png", 20, 20 );
+			public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("dirt_grain.png", 20, 20 );
 			public static final Image snakeBones = ImageEffectUtility.precreatedLightedImage("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY-0.5, 197, 176 );
 			public static final Image snakeSkull = ImageEffectUtility.precreatedLightedImage("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,

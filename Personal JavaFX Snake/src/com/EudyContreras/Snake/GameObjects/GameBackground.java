@@ -9,6 +9,7 @@ import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
 
 /**
  * This class represents a cactus which creates a moving or wind caused waving
@@ -66,13 +67,17 @@ import javafx.scene.image.ImageView;
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTen);
 			}else if (INDEX == 11) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundEleven);
+			}else if (INDEX == 12) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwelve);
+			}else if (INDEX == 13) {
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThirteen);
 			}
 		}
 		else if (gameTheme == null) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.classicBackground);
 		}
 		INDEX += 1;
-		if (INDEX > 11) {
+		if (INDEX > 13) {
 			INDEX = 1;
 		}
 		BACKGROUND_VIEW.setTranslateX(-5);

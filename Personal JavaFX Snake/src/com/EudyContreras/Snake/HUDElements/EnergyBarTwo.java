@@ -108,7 +108,7 @@ public class EnergyBarTwo {
 	 * can start regenerating
 	 */
 	public void setDelay() {
-		delay = 60;
+		delay = GameSettings.ENERGY_REGENRATION_DELAY;
 	}
 
 	/**

@@ -194,8 +194,8 @@ public class GameManager extends AbstractGameModel {
 		getMainWindow().setFullScreen(false);
 		getGameBorder().showBorders(true);
 
-		ResizeHelper.baseWidth = ResizeHelper.baseWidth*.6;
-		ResizeHelper.baseHeight = ResizeHelper.baseHeight*.6;
+		ResizeHelper.baseWidth = ResizeHelper.baseWidth*.75;
+		ResizeHelper.baseHeight = ResizeHelper.baseHeight*.75;
 
 		animationWidth = ResizeHelper.baseWidth*.05;
 		animationHeight = ResizeHelper.baseHeight*.05;

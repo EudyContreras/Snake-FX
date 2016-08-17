@@ -12,6 +12,7 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
+import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -40,6 +41,7 @@ public class ImageEffectUtility {
 	private static DropShadow borderGlow = new DropShadow();
 	private static BoxBlur blur = new BoxBlur();
 	private static GaussianBlur gaussianBlur = new GaussianBlur();
+	private static MotionBlur motionBlur = new MotionBlur();
 	private static Bloom bloom = new Bloom(0.1);
 	private static Glow glow = new Glow(1.0);
 	private static Circle circle = new Circle();
@@ -229,7 +231,7 @@ public class ImageEffectUtility {
 		lighting.setDiffuseConstant(diffused);
 		lighting.setSpecularConstant(2);
 		lighting.setSurfaceScale(8.0);
-		blur.setIterations(2);
+		blur.setIterations(1);
 		blur.setWidth(10);
 		blur.setHeight(10);
 		lighting.setContentInput(blur);
@@ -442,10 +444,8 @@ public class ImageEffectUtility {
 		shadow.setRadius(4);
 		shadow.setOffsetX(15);
 		shadow.setOffsetY(-10);
-		blur.setIterations(2);
-		blur.setWidth(10);
-		blur.setHeight(10);
-		shadow.setInput(blur);
+		gaussianBlur.setRadius(20);
+		shadow.setInput(gaussianBlur);
 		lighting.setContentInput(shadow);
 		if(GameSettings.ADD_LIGHTING)
 		view.setEffect(lighting);

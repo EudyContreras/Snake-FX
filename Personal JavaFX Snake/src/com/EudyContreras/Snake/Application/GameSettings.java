@@ -63,6 +63,7 @@ public class GameSettings {
 	public static double HEALTH_REGENERATION_SPEED = 0.2;
 	public static double ENERGY_COMSUMPTION_SPEED = 3;
 	public static double ENERGY_REGENRATION_SPEED = 1.0;
+	public static double ENERGY_REGENRATION_DELAY = 40;
 	public static double DAMAGE_AMOUNT = 50;
 
 	public static final double PLAYER_ONE_SPEED = 6.0;
@@ -106,7 +107,7 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean DEBUG_MODE = true;
+	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 
@@ -121,5 +122,6 @@ public class GameSettings {
 	public static boolean ADD_LIGHTING = true;
 	public static boolean ADD_BLUR = true;
 	public static boolean ADD_GLOW = true;
+
 
 }

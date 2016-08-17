@@ -370,7 +370,69 @@ public abstract class AbstractObject {
 	public void setVelR(double velR) {
 		this.velR = velR;
 	}
+	public double getXDistance(double x){
+		return Math.abs(x-this.x);
+	}
+	public double getYDistance(double y){
+		return Math.abs(y-this.y);
+	}
+	public double getDistance(double x, double y){
+		return Math.abs(x - this.x)+Math.abs(y - this.y);
+	}
+	public double getInterpolarXDistance(double x){
+		double dX;
+		double xDistance;
+		if(this.x > x){
+			dX = GameSettings.WIDTH - x;
+			xDistance = Math.abs(dX - this.x);
+		}
+		else{
+			dX = x - GameSettings.WIDTH;
+			xDistance = Math.abs(dX - this.x);
+		}
+		return xDistance;
+	}
+	public double getInterpolarYDistance(double y){
+		double dX;
+		double xDistance;
+		if(this.y > y){
+			dX = GameSettings.WIDTH - y;
+			xDistance = Math.abs(dX - this.y);
+		}
+		else{
+			dX = y - GameSettings.WIDTH;
+			xDistance = Math.abs(dX - this.y);
+		}
+		return xDistance;
+	}
+	public double getInterpolarDistance(double x, double y){
+		double dX;
+		double dY;
+		double distance;
 
+		if(this.x > x){
+			dX = GameSettings.WIDTH - x;
+
+			if(this.y > y){
+				dY = GameSettings.HEIGHT - y;
+			}else{
+				dY = y - GameSettings.HEIGHT;
+			}
+			distance = Math.abs(dX-this.x)-Math.abs(dY-this.y);
+		}
+		else{
+			dX = x - GameSettings.WIDTH;
+
+			if(this.y > y){
+				dY = GameSettings.HEIGHT - y;
+			}else{
+				dY = y - GameSettings.HEIGHT;
+			}
+			distance = Math.abs(dX-this.x)-Math.abs(dY-this.y);
+		}
+		return distance;
+
+	}
 	public double getHealth() {
 		return health;
 	}

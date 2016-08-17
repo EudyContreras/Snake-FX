@@ -18,7 +18,8 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
  */
 public class PathFindingAI {
 
-	private AbstractObject objective;
+	private AbstractObject closestObjective;
+	private AbstractObject farthestObjective;
 	private AbstractTile obstacle;
 	private GameManager game;
 	private PlayerTwo snakeAI;
@@ -54,7 +55,7 @@ public class PathFindingAI {
 			break;
 		case TRACKING:
 			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
-				createPath(objective);
+				createPath(closestObjective);
 			break;
 		default:
 			break;
@@ -77,10 +78,10 @@ public class PathFindingAI {
 	 */
 	public void updateSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
-			if (game.getStateID() == GameStateID.GAMEPLAY && objective != null) {
+			if (game.getStateID() == GameStateID.GAMEPLAY && closestObjective != null) {
 				checkCurrentLocation();
-				addRandomBoost(true);
 				checkObjectiveStatus();
+				addRandomBoost(true);
 				reRoute();
 			}
 		}
@@ -120,37 +121,54 @@ public class PathFindingAI {
 			Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
 
 			for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-				distance[i] = new Distance(
-						Math.hypot(snakeAI.getX() - game.getGameObjectController().getFruitList().get(i).getX(),
-								snakeAI.getY() - game.getGameObjectController().getFruitList().get(i).getY()),
-						game.getGameObjectController().getFruitList().get(i));
+			//	distance[i] = new Distance(Math.hypot(snakeAI.getX() - game.getGameObjectController().getFruitList().get(i).getX(),snakeAI.getY() - game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
+				distance[i] = new Distance(Math.abs(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX()) + Math.abs(snakeAI.getY()- game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
 			}
 
 			double closest = distance[0].getDistance();
+			double farthest = distance[0].getDistance();
 
+			
 			for (int i = 0; i < distance.length; i++) {
 				if (distance[i].getDistance() < closest) {
 					closest = distance[i].getDistance();
 				}
+				if (distance[i].getDistance() > closest) {
+					farthest = distance[i].getDistance();
+				}
 			}
+		
 			for (int i = 0; i < distance.length; i++) {
 				if (distance[i].getDistance() == closest) {
 					if (distance[i].getObject().isAlive()) {
-						objective = distance[i].getObject();
+						closestObjective = distance[i].getObject();
 						positionX = distance[i].getObject().getX();
 						positionY = distance[i].getObject().getY();
 					}
 				}
 			}
-			if (objective != null && GameSettings.DEBUG_MODE)
-				objective.blowUpAlt();
+			for (int i = 0; i < distance.length; i++) {
+				if(distance[i].getDistance() == farthest){
+					if (distance[i].getObject().isAlive()) {
+						farthestObjective = distance[i].getObject();
+						positionX = distance[i].getObject().getX();
+						positionY = distance[i].getObject().getY();
+					}
+				}
+			}
+
+			if (closestObjective != null && !GameSettings.DEBUG_MODE){
+				closestObjective.blowUpAlt();
+				this.farthestObjective.blowUpAlt();
+			
+			}
 			break;
 		default:
 			break;
 
 		}
 
-		return objective;
+		return closestObjective;
 	}
 	/**
 	 * Method which gets called in the update method and
@@ -162,7 +180,7 @@ public class PathFindingAI {
 			turnOffset--;
 			if (turnOffset <= 0) {
 				makingUTurn = false;
-				createPath(objective);
+				createPath(closestObjective);
 			}
 		}
 	}
@@ -179,32 +197,59 @@ public class PathFindingAI {
 	 * the method will check if the objective is above or below and then perform a move
 	 * based on the objectives coordinates!
 	 */
-	private void createPath(AbstractObject objective) {
+	private void createPath(AbstractObject closestObjective) {
 		switch(state){
 		case AVOIDING:
 			break;
 		case FINDING:
 			break;
 		case TRACKING:
-			if (Math.abs(snakeAI.getX() - objective.getX()) < Math.abs(snakeAI.getY() - objective.getY())) {
-				if (objective.getY() > snakeAI.getY()) {
-					location = ObjectivePosition.SOUTH;
-					performMove(PlayerMovement.MOVE_DOWN);
+//
+			if (Math.abs(snakeAI.getX() - closestObjective.getX()) < Math.abs(snakeAI.getY() - closestObjective.getY())) {
+				if (closestObjective.getY() > snakeAI.getY()) {
+					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.5){
+						location = ObjectivePosition.SOUTH;
+						performMove(PlayerMovement.MOVE_UP);
+					}
+					else{
+						location = ObjectivePosition.SOUTH;
+						performMove(PlayerMovement.MOVE_DOWN);
+					}
 				}
 				else{
-					location = ObjectivePosition.NORTH;
-					performMove(PlayerMovement.MOVE_UP);
+					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.5){
+						location = ObjectivePosition.NORTH;
+						performMove(PlayerMovement.MOVE_DOWN);
+					}
+					else{
+						location = ObjectivePosition.NORTH;
+						performMove(PlayerMovement.MOVE_UP);
+					}
 				}
 			} else {
-				if (objective.getX() > snakeAI.getX()) {
-					location = ObjectivePosition.EAST;
-					performMove(PlayerMovement.MOVE_RIGHT);
+				if (closestObjective.getX() > snakeAI.getX()) {
+					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.5){
+						location = ObjectivePosition.EAST;
+						performMove(PlayerMovement.MOVE_LEFT);
+					}
+					else{
+						location = ObjectivePosition.EAST;
+						performMove(PlayerMovement.MOVE_RIGHT);
+					}
 				}
 				else{
-					location = ObjectivePosition.WEST;
-					performMove(PlayerMovement.MOVE_LEFT);
+					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.5){
+						location = ObjectivePosition.WEST;
+						performMove(PlayerMovement.MOVE_RIGHT);
+					}
+					else{
+						location = ObjectivePosition.WEST;
+						performMove(PlayerMovement.MOVE_LEFT);
+					}
 				}
 			}
+//			}
+
 			break;
 		default:
 			break;
@@ -227,7 +272,7 @@ public class PathFindingAI {
 		if (game.getModeID() == GameModeID.LocalMultiplayer && game.getStateID() == GameStateID.GAMEPLAY) {
 			switch (snakeAI.getCurrentDirection()) {
 			case MOVE_DOWN:
-				if (objective.getX()<snakeAI.getX()){
+				if (closestObjective.getX()<snakeAI.getX()){
 					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				else{
@@ -235,7 +280,7 @@ public class PathFindingAI {
 				}
 					break;
 			case MOVE_LEFT:
-				if(objective.getY()<snakeAI.getY()){
+				if(closestObjective.getY()<snakeAI.getY()){
 					snakeAI.setDirection(PlayerMovement.MOVE_UP);
 				}
 				else{
@@ -243,7 +288,7 @@ public class PathFindingAI {
 				}
 				break;
 			case MOVE_RIGHT:
-				if(objective.getY()<snakeAI.getY()){
+				if(closestObjective.getY()<snakeAI.getY()){
 					snakeAI.setDirection(PlayerMovement.MOVE_UP);
 				}
 				else{
@@ -251,7 +296,7 @@ public class PathFindingAI {
 				}
 				break;
 			case MOVE_UP:
-				if (objective.getX()<snakeAI.getX()){
+				if (closestObjective.getX()<snakeAI.getX()){
 					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 				}
 				else{
@@ -322,15 +367,15 @@ public class PathFindingAI {
 		case FINDING:
 			break;
 		case TRACKING:
-			if (snakeAI.getX() > objective.getX() - objective.getRadius()*.25 && snakeAI.getX() < objective.getX() + objective.getRadius()*.25) {
-				if (objective.getY() < snakeAI.getY()) {
+			if (snakeAI.getX() > closestObjective.getX() - closestObjective.getRadius()*.25 && snakeAI.getX() < closestObjective.getX() + closestObjective.getRadius()*.25) {
+				if (closestObjective.getY() < snakeAI.getY()) {
 					snakeAI.setDirection(PlayerMovement.MOVE_UP);applyThrust();
 				} else {
 					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);applyThrust();
 				}
 			}
-			else if (snakeAI.getY() > objective.getY() - objective.getRadius()*.25 && snakeAI.getY() < objective.getY() + objective.getRadius()*.25) {
-				if (objective.getX() < snakeAI.getX()) {
+			else if (snakeAI.getY() > closestObjective.getY() - closestObjective.getRadius()*.25 && snakeAI.getY() < closestObjective.getY() + closestObjective.getRadius()*.25) {
+				if (closestObjective.getX() < snakeAI.getX()) {
 					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);applyThrust();
 				} else {
 					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);applyThrust();
@@ -363,11 +408,11 @@ public class PathFindingAI {
 		case FINDING:
 			break;
 		case TRACKING:
-			if (objective.isRemovable()) {
+			if (closestObjective.isRemovable()) {
 				findClosest();
-				createPath(objective);
+				createPath(closestObjective);
 			}
-			if (objective.getX() != positionX || objective.getY() != positionY) {
+			if (closestObjective.getX() != positionX || closestObjective.getY() != positionY) {
 				findClosest();
 			}
 			break;
@@ -421,7 +466,7 @@ public class PathFindingAI {
 			break;
 		case TRACKING:
 			if (currentDirection == PlayerMovement.MOVE_DOWN || currentDirection == PlayerMovement.MOVE_UP) {
-				if (objective.getX() < snakeAI.getX()) {
+				if (closestObjective.getX() < snakeAI.getX()) {
 					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 					makingUTurn = true;
 					turnOffset = snakeAI.getRadius();
@@ -431,7 +476,7 @@ public class PathFindingAI {
 					turnOffset = snakeAI.getRadius();
 				}
 			} else if (currentDirection == PlayerMovement.MOVE_RIGHT || currentDirection == PlayerMovement.MOVE_LEFT) {
-				if (objective.getY() < snakeAI.getY()) {
+				if (closestObjective.getY() < snakeAI.getY()) {
 					snakeAI.setDirection(PlayerMovement.MOVE_UP);
 					makingUTurn = true;
 					turnOffset = snakeAI.getRadius();
@@ -472,6 +517,25 @@ public class PathFindingAI {
 			return object;
 		}
 	}
+	private class BorderDistance {
+
+		private Double objectDistance;
+		private Double playerDistance;
+		private AbstractObject object;
+
+		public BorderDistance(double objectDistance, double playerDistance, AbstractObject object) {
+			this.object = object;
+			this.objectDistance = objectDistance;
+			this.playerDistance = playerDistance;
+		}
+
+		public AbstractObject getObject() {
+			return object;
+		}
+	}
+	private class Objective{
+
+	}
 	public void setPlayer() {
 		this.snakeAI = null;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
@@ -503,5 +567,8 @@ public class PathFindingAI {
 
 	public enum LegalTurns{
 		LEFT,RIGHT,UP,DOWN
+	}
+	public static double calcDistance(double x1, double y1, double x2, double y2) {
+	    return Math.hypot(x2 - x1, y2 - y1);
 	}
 }

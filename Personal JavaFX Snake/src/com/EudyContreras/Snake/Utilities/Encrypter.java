@@ -9,8 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.EudyContreras.Snake.MultiplayerServer.MultiplayerClient;
-
 
 
 /**
@@ -27,29 +25,26 @@ import com.EudyContreras.Snake.MultiplayerServer.MultiplayerClient;
 
 public class Encrypter {
 
-	private final char[] plain =
-			{'A','B','C','D','E','F','G','H',
-			 'I','J','K','L','M','N','O','P',
-			 'Q','R','S','T','U','V','W','X',
-			 'Y','Z','Ö','Ä','Å','0','1','2',
-			 '3','4','5','6','7','8','9',' ',
-			 ',','?','.'};
+	private static final char[] plain =
+		{'A','B','C','D','E','F','G','H',
+		 'I','J','K','L','M','N','O','P',
+		 'Q','R','S','T','U','V','W','X',
+		 'Y','Z','Ö','Ä','Å','0','1','2',
+		 '3','4','5','6','7','8','9',' ',','};
 
-	private final char[] key   =
-			{'D',',','6','9','X','Ä','U','J',
-			 'A','L','3','Å','N','?','P','Q',
-			 'W','S',' ','Ö','I','V','R','H',
-			 'Y','M','K','B','O','4','F','1',
-			 '8','Z','2','G','0','.','7','T',
-			 'E','C','5'};
+private static final char[] key   =
+		{'D',' ','F','G','H','Ä','U','J',
+		 'A','L','Z','Å','N',',','P','Q',
+		 'W','S','T','Ö','I','V','R','X',
+		 'Y','M','K','B','O','4','6','1',
+		 '8','3','2','9','0','5','7','E','C'};
 
-	private final char[] added  =
-			{'L','7','Z','G','H','Ä','U','J',
-			 'A','D','.','Å','0','C','M','Y',
-			 'W','2','B','Ö','I','V','?','1',
-			 'Q','P','K','T','O','4','6','X',
-			 '8','3','S','9','N',',','E',' ',
-			 '5','R','F'};
+private static final char[] added  =
+		{'L','E','Z','G','H','Ä','U','J',
+		 'A','D','F','Å','N','C','M','Y',
+		 'W','S','B','Ö','I','V','R','1',
+		 'Q','P','K','T','O','4','6','X',
+		 '8','3','2','9','0','5','7'};
 
 	private final String[] byte_Plain =
 			{"1","2","3","4","5","6","7","8","9","0"};
@@ -89,17 +84,13 @@ public class Encrypter {
 		}
 	}
 
-	private final int operationCount = 16;
-
 	/**
 	 * This method will will used a simple key
 	 * and encrypt a message
 	 * @param message
 	 * @return
 	 */
-	public Encrypter(){
-
-	}
+	public Encrypter(){}
 	public Encrypter(char[] new_Key){
 		if(new_Key!=null){
 			key_Map.clear();
@@ -118,6 +109,63 @@ public class Encrypter {
 			}
 		}
 	}
+	private char[] swapCharacters(char[] chars){
+		for(int i = 0; i<chars.length-2; i++){
+			char temp = chars[i];
+			chars[i] = chars[i+2];
+			chars[i+2] = temp;
+
+			for(int r = 0; r<chars.length-6; r++){
+				char temp2 = chars[r];
+				chars[r] = chars[r+6];
+				chars[r+6] = temp2;
+
+				for(int s = 0; s<chars.length-4; s++){
+					char temp3 = chars[s];
+					chars[s] = chars[s+4];
+					chars[s+4] = temp3;
+
+					for(int t = 3; t<chars.length; t++){
+						char temp4 = chars[t];
+						chars[t] = chars[t-3];
+						chars[t-3] = temp4;
+					}
+				}
+			}
+		}
+		return chars;
+	}
+
+	private char[] revertCharacterSwap(char[] chars) {
+		for (int i = chars.length - 3; i >= 0; i--) {
+
+			for (int r = chars.length - 7; r >= 0; r--) {
+
+				for (int s = chars.length - 5; s >= 0; s--) {
+
+					for (int t = chars.length - 1; t >= 3; t--) {
+						char temp4 = chars[t];
+						chars[t] = chars[t - 3];
+						chars[t - 3] = temp4;
+					}
+
+					char temp3 = chars[s];
+					chars[s] = chars[s + 4];
+					chars[s + 4] = temp3;
+				}
+
+				char temp2 = chars[r];
+				chars[r] = chars[r + 6];
+				chars[r + 6] = temp2;
+			}
+
+			char temp = chars[i];
+			chars[i] = chars[i + 2];
+			chars[i + 2] = temp;
+		}
+		return chars;
+	}
+
 	private final String applySubstitution(String message) {
 
 		char[] case_Binary = new char[message.length()];
@@ -136,7 +184,7 @@ public class Encrypter {
 			upper_Case_Message[i] = Character.toUpperCase(message.charAt(i));
 		}
 
-		char[] code = upper_Case_Message;
+		char[] code = swapCharacters(upper_Case_Message);
 
 		for (int i = 0; i < code.length; i++) {
 			if(plain_Map.containsKey(code[i])){
@@ -165,7 +213,7 @@ public class Encrypter {
 			case_Message = null;
 		}
 
-		char[] code = code_Message.toCharArray();
+		char[] code = revertCharacterSwap(code_Message.toCharArray());
 
 		for (int i = 0; i < code.length; i++) {
 			if(key_Map.containsKey(code[i])){
@@ -173,11 +221,12 @@ public class Encrypter {
 			}
 		}
 		if (code_and_case.length == 2) {
-			for (int i = 0; i < case_Message.length()-1; i++) {
-				if (case_Message.charAt(i) == '1') {
+			char[] case_code = case_Message.toCharArray();
+			for (int i = 0; i < case_code.length-1; i++) {
+				if (case_code[i] == '1') {
 					code[i] = Character.toUpperCase(code[i]);
 				}
-				else if (case_Message.charAt(i) == '0') {
+				else if (case_code[i] == '0') {
 					code[i] = Character.toLowerCase(code[i]);
 				}
 			}
@@ -211,7 +260,7 @@ public class Encrypter {
 		cypherList.addFirst("" + (getRandom(999 - 100 + 1) + 100));
 		cypherList.add(code_Case + getRandom(10));
 
-		return swap(cypherList);
+		return cypherList;
 
 	}
 	/**
@@ -241,72 +290,7 @@ public class Encrypter {
 		}
 		return String.valueOf(unscrambled);
 	}
-	/**
-	 * Swaps the content of the array the as many times as
-	 * the operation count.
-	 * @param code
-	 * @return
-	 */
-	private final LinkedList<String> swap(LinkedList<String> code) {
-		LinkedList<String> output = new LinkedList<>();
-		LinkedList<char[]> chars = new LinkedList<>();
-		String[] swapped_Array = new String[code.size()];
 
-		for (int index = 0; index < code.size(); index++) {
-
-			swapped_Array[index] = code.get(index);
-			chars.add(swapped_Array[index].toCharArray());
-		}
-
-		for (int iteration = 0; iteration < operationCount; iteration++) {
-			for (int i = 1; i < chars.size() - 2; i++) {
-				for (int r = 0; r < chars.get(i).length - 1; r++) {
-
-					char tempChar = chars.get(i)[r];
-					chars.get(i)[r] = chars.get(i + 1)[r];
-					chars.get(i + 1)[r] = tempChar;
-				}
-			}
-		}
-
-		for (int i = 0; i < chars.size(); i++) {
-			output.add(String.valueOf(chars.get(i)));
-		}
-		return output;
-	}
-	/**
-	 * unswaps the content of the array in order to make it
-	 * ready to be deciphered
-	 * @param code
-	 * @return
-	 */
-	private final List<String> unSwap(List<String> code) {
-		List<String> output = new LinkedList<>();
-		List<char[]> chars = new LinkedList<>();
-		String[] unswapped_Array = new String[code.size()];
-
-		for (int index = 0; index < code.size(); index++) {
-
-			unswapped_Array[index] = code.get(index);
-			chars.add(unswapped_Array[index].toCharArray());
-		}
-
-		for (int iteration = 0; iteration < operationCount; iteration++) {
-			for (int i = chars.size() - 2; i >= 1; i--) {
-				for (int r = chars.get(i).length - 1; r >= 0; r--) {
-
-					char tempChar = chars.get(i)[r];
-					chars.get(i)[r] = chars.get(i + 1)[r];
-					chars.get(i + 1)[r] = tempChar;
-				}
-			}
-		}
-		for (int i = 0; i < chars.size(); i++) {
-			output.add(String.valueOf(chars.get(i)));
-		}
-
-		return output;
-	}
 
 	private final String printBytes(byte[] binaryEncription){
 
@@ -416,9 +400,7 @@ public class Encrypter {
 
 		List<String> list  = fromStringToList(new String(unswapped_Bytes, Charset.forName("UTF-8")));
 
-		List<String> unSwapped = unSwap(list);
-
-		String unScrambled = unScramble(unSwapped);
+		String unScrambled = unScramble(list);
 
 		String decyphered = revertSubstitution(unScrambled);
 
@@ -426,32 +408,11 @@ public class Encrypter {
 	}
 
 	public static void main(String[] args) {
-		char[] key   =
-			{'O',',','O','O','O','O','U','O',
-			 'O','O','O','O','O','?','O','Q',
-			 'O','O',' ','O','O','O','O','O',
-			 'O','O','O','O','O','4','O','1',
-			 '8','O','2','G','0','.','O','O',
-			 'O','O','O'};
-			char[] key2   =
-				{'O',',','O','O','O','O','U','O',
-				 'O','O','O','O','O','?','O','Q',
-				 'O','O',' ','O','O','O','O','O',
-				 'O','O','O','O','O','4','O','1',
-				 '8','O','2','G','0','.','O','O',
-				 'O','O','O'};
 		Encrypter encrypter = new Encrypter();
-		System.out.println(encrypter.applySubstitution("Whats up man, how are you doing today?"));
-		System.out.println(encrypter.scramble("Whats up man, how are you doing today?"));
-		System.out.println(encrypter.unSwap(encrypter.scramble("Whats up man, how are you doing today?")));
-		System.out.println("");
-		System.out.println(encrypter.revertSubstitution(encrypter.unScramble(encrypter.unSwap(encrypter.scramble("Whats up man, how are you doing today?")))));
-		System.out.println(encrypter.revertSubstitution("HIGYFS"));
-		System.out.println("");
 
 
 		long startTime = System.currentTimeMillis();
-		byte[] encryption = encrypter.encrypt("Whats up man, how are you doing today?");
+		byte[] encryption = encrypter.encrypt("Whats up man, how are you doing today?, Would you come over to play some video games!!");
 		long endTime = System.currentTimeMillis();
 		System.out.println("Encryption speed: "+(endTime - startTime)+ " Milliseconds");
 
