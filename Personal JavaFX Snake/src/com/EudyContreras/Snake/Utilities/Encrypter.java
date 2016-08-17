@@ -11,18 +11,26 @@ import java.util.Map;
 
 
 
+
 /**
- * This is a class which can be used to encrypt any sort of string,
- * the class provides a simple encryption program which uses a scrambler/adder/replacer/swapper.
- * The encrypted message is sent as an object which can then be casted
- * into a byte array which can then be formated and decrypted by this software using the decrypt method.
- * If the message is infiltrated while traveling through a socket the thief
- * wont be able to see the content of the message without the key used by this class
+ * <h1>String Encrypter</h1>
+ * 
+ * This programs allows you encrypt a string and store as a byte array.
+ * the program provides a simple encryption set of methods which make use of
+ * scrambling/adding/replacing/swapping/ the core structure of the string. 
+ * The encrypted message is the store as byte array object which can be sent through sockets
+ * or stored locally. In order to be able to view the content of the string the object
+ * must be passed through the decrypt method of this program which will format and reconstruc the
+ * string to it's original state.
+ * 
+ * If the message is infiltrated while stored as an encrypted byte array whether if it is traveling 
+ * through a socket or store locally on a system. the thief wont be able to see
+ * the content of the message without the key used by this class 
  *
  * @author Eudy Contreras
- *
+ * @version 1.1
+ * @since 2016-08-16
  */
-
 public class Encrypter {
 
 	private static final char[] plain =
@@ -84,21 +92,47 @@ private static final char[] added  =
 		}
 	}
 
-	/**
-	 * This method will will used a simple key
-	 * and encrypt a message
-	 * @param message
-	 * @return
-	 */
 	public Encrypter(){}
+	
+	/**
+	 * This constructor allows the input of a new key to be used
+	 * by this program. The key must contain all letters of the
+	 * swedish dictionary as well as a space character represented as
+	 * a character with a space in between and the standard comma sign.
+	 * 
+	 * <h1>Knowing the key used by this program is not enough in order
+	 * to decode the content of the strings encrypted by this program!</h1>
+	 * <p>
+	 * @param new_Key :The key to be passed as a new replacement key. The key set must 
+	 * be 41 characters long and cannot contain duplicates. the standard
+	 * comma sign must be included as well as the space chararcter ' '.
+	 */
 	public Encrypter(char[] new_Key){
-		if(new_Key!=null){
+		if(new_Key!=null && new_Key.length==41){
 			key_Map.clear();
 			for(int i = 0; i<key.length; i++){
 				key_Map.put(new_Key[i],plain[i]);
 			}
 		}
 	}
+	/**
+	 * This constructor allows the input of a new character set and a new key to be used
+	 * by this program in replacement of the originals. The character set passed through
+	 * this constructor cannot contain any duplicates.
+	 * <p>
+	 * <h1>The character set and the key set must be 
+	 * of equal lenghts and neither the character set nor the key may have repeating element.
+	 * Every element found in the character set must be present in the key set and most preferably 
+	 * at a different index<h1>
+	 * <p>
+	 * <h1>Knowing either the chararcter set or the key used by this program doest not garantee
+	 * the ability to decode the content of the strings encrypted by this program!</h1>
+	 * <p>
+	 * @param new_CharSet : The new character set to be passed as a new chararcter set. The character
+	 * set cannot contain duplicates.
+	 * @param new_Key :The key to be passed as a new replacement key. The key set must contain
+	 * all the characters present in the character set and cannot contain duplicates
+	 */
 	public Encrypter(char[] new_CharSet, char[]new_Key){
 		if(new_Key!=null && new_CharSet!=null){
 			key_Map.clear();
@@ -109,6 +143,13 @@ private static final char[] added  =
 			}
 		}
 	}
+	/*
+	 * Method used to swapp the elements of the input array.
+	 * The elements will be swapped using 4 nested loops with
+	 * different swap indexes. The elements are swapped around 
+	 * approximately 2,825,761 times while using the original 41
+	 * character char set and key set.
+	 */
 	private char[] swapCharacters(char[] chars){
 		for(int i = 0; i<chars.length-2; i++){
 			char temp = chars[i];
@@ -135,7 +176,10 @@ private static final char[] added  =
 		}
 		return chars;
 	}
-
+	/*
+	 * Method used to to swapp the elements which were previously swapped 
+	 * by the swapCharacters method back to their original index.
+	 */
 	private char[] revertCharacterSwap(char[] chars) {
 		for (int i = chars.length - 3; i >= 0; i--) {
 
@@ -165,7 +209,9 @@ private static final char[] added  =
 		}
 		return chars;
 	}
-
+	/*
+	 * Method which 
+	 */
 	private final String applySubstitution(String message) {
 
 		char[] case_Binary = new char[message.length()];
