@@ -25,8 +25,11 @@ public class PathFindingAI {
 	private PlayerTwo snakeAI;
 	private Random rand;
 
+	private boolean farthestIsClosest = false;
 	private boolean makingUTurn = false;
 
+	private double closest;
+	private double farthest;
 	private double positionX = 0;
 	private double positionY = 0;
 	private double turnOffset = 100;
@@ -55,7 +58,7 @@ public class PathFindingAI {
 			break;
 		case TRACKING:
 			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
-				createPath(closestObjective);
+				createPath();
 			break;
 		default:
 			break;
@@ -69,7 +72,8 @@ public class PathFindingAI {
 	 */
 	public void startSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
-			createPath(findClosest());
+			findClosest();
+			createPath();
 	}
 	/*
 	 * this method gets called from the game loop and it
@@ -124,11 +128,12 @@ public class PathFindingAI {
 			//	distance[i] = new Distance(Math.hypot(snakeAI.getX() - game.getGameObjectController().getFruitList().get(i).getX(),snakeAI.getY() - game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
 				distance[i] = new Distance(Math.abs(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX()) + Math.abs(snakeAI.getY()- game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
 			}
-
-			double closest = distance[0].getDistance();
-			double farthest = distance[0].getDistance();
-
 			
+			if(distance.length>0){
+				closest = distance[0].getDistance();
+				farthest = distance[0].getDistance();
+			}
+
 			for (int i = 0; i < distance.length; i++) {
 				if (distance[i].getDistance() < closest) {
 					closest = distance[i].getDistance();
@@ -137,7 +142,7 @@ public class PathFindingAI {
 					farthest = distance[i].getDistance();
 				}
 			}
-		
+
 			for (int i = 0; i < distance.length; i++) {
 				if (distance[i].getDistance() == closest) {
 					if (distance[i].getObject().isAlive()) {
@@ -159,8 +164,8 @@ public class PathFindingAI {
 
 			if (closestObjective != null && !GameSettings.DEBUG_MODE){
 				closestObjective.blowUpAlt();
-				this.farthestObjective.blowUpAlt();
-			
+//				farthestObjective.blowUpAlt();
+
 			}
 			break;
 		default:
@@ -180,7 +185,7 @@ public class PathFindingAI {
 			turnOffset--;
 			if (turnOffset <= 0) {
 				makingUTurn = false;
-				createPath(closestObjective);
+				createPath();
 			}
 		}
 	}
@@ -197,17 +202,16 @@ public class PathFindingAI {
 	 * the method will check if the objective is above or below and then perform a move
 	 * based on the objectives coordinates!
 	 */
-	private void createPath(AbstractObject closestObjective) {
+	private void createPath() {
 		switch(state){
 		case AVOIDING:
 			break;
 		case FINDING:
 			break;
 		case TRACKING:
-//
 			if (Math.abs(snakeAI.getX() - closestObjective.getX()) < Math.abs(snakeAI.getY() - closestObjective.getY())) {
 				if (closestObjective.getY() > snakeAI.getY()) {
-					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.5){
+					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.45){
 						location = ObjectivePosition.SOUTH;
 						performMove(PlayerMovement.MOVE_UP);
 					}
@@ -217,7 +221,7 @@ public class PathFindingAI {
 					}
 				}
 				else{
-					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.5){
+					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.45){
 						location = ObjectivePosition.NORTH;
 						performMove(PlayerMovement.MOVE_DOWN);
 					}
@@ -228,7 +232,7 @@ public class PathFindingAI {
 				}
 			} else {
 				if (closestObjective.getX() > snakeAI.getX()) {
-					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.5){
+					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.45){
 						location = ObjectivePosition.EAST;
 						performMove(PlayerMovement.MOVE_LEFT);
 					}
@@ -238,7 +242,7 @@ public class PathFindingAI {
 					}
 				}
 				else{
-					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.5){
+					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.45){
 						location = ObjectivePosition.WEST;
 						performMove(PlayerMovement.MOVE_RIGHT);
 					}
@@ -248,8 +252,7 @@ public class PathFindingAI {
 					}
 				}
 			}
-//			}
-
+			
 			break;
 		default:
 			break;
@@ -410,7 +413,7 @@ public class PathFindingAI {
 		case TRACKING:
 			if (closestObjective.isRemovable()) {
 				findClosest();
-				createPath(closestObjective);
+				createPath();
 			}
 			if (closestObjective.getX() != positionX || closestObjective.getY() != positionY) {
 				findClosest();

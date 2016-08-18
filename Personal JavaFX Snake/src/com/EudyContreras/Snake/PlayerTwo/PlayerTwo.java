@@ -474,18 +474,20 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void makeTurn() {
-		if (turns.get(0) == PlayerMovement.MOVE_UP) {
-			moveUp();
-			this.direction = PlayerMovement.MOVE_UP;
-		} else if (turns.get(0) == PlayerMovement.MOVE_DOWN) {
-			moveDown();
-			this.direction = PlayerMovement.MOVE_DOWN;
-		} else if (turns.get(0) == PlayerMovement.MOVE_LEFT) {
-			moveLeft();
-			this.direction = PlayerMovement.MOVE_LEFT;
-		} else if (turns.get(0) == PlayerMovement.MOVE_RIGHT) {
-			moveRight();
-			this.direction = PlayerMovement.MOVE_RIGHT;
+		if (withinBounds()) {
+			if (turns.get(0) == PlayerMovement.MOVE_UP) {
+				moveUp();
+				this.direction = PlayerMovement.MOVE_UP;
+			} else if (turns.get(0) == PlayerMovement.MOVE_DOWN) {
+				moveDown();
+				this.direction = PlayerMovement.MOVE_DOWN;
+			} else if (turns.get(0) == PlayerMovement.MOVE_LEFT) {
+				moveLeft();
+				this.direction = PlayerMovement.MOVE_LEFT;
+			} else if (turns.get(0) == PlayerMovement.MOVE_RIGHT) {
+				moveRight();
+				this.direction = PlayerMovement.MOVE_RIGHT;
+			}
 		}
 	}
 
@@ -727,8 +729,8 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public boolean withinBounds() {
-		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
-				&& y < GameSettings.HEIGHT + radius + 1;
+		return x > 0 - radius - +1 && x < GameSettings.WIDTH + radius -1 && y > 0 - radius +1
+				&& y < GameSettings.HEIGHT + radius - 1;
 	}
 
 	public void checkBounds() {

@@ -9,7 +9,6 @@ import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.transform.Rotate;
 
 /**
  * This class represents a cactus which creates a moving or wind caused waving
