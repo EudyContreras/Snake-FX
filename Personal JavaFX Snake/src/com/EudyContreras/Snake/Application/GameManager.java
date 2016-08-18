@@ -434,6 +434,7 @@ public class GameManager extends AbstractGameModel {
 
 						loader.updateLevelObjects();
 						if (GameSettings.ALLOW_AI_CONTROLL){
+
 							snakeAI.updateSimulation();
 						}
 						if (getGameLoader().getPlayerOne() != null) {
