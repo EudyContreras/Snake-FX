@@ -125,7 +125,7 @@ public class ObjectEvasionAI {
 			//	distance[i] = new Distance(Math.hypot(snakeAI.getX() - game.getGameObjectController().getFruitList().get(i).getX(),snakeAI.getY() - game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
 				distance[i] = new Distance(Math.abs(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX()) + Math.abs(snakeAI.getY()- game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
 			}
-			
+
 			if(distance.length>0){
 				closest = distance[0].getDistance();
 			}
@@ -232,7 +232,7 @@ public class ObjectEvasionAI {
 					}
 				}
 			}
-			
+
 			break;
 		default:
 			break;
@@ -457,69 +457,17 @@ public class ObjectEvasionAI {
 			return object;
 		}
 	}
-	public class AllowedTurns{
-		
-		private boolean allowedLeftTurns = true;
-		private boolean allowedRightTurns = true;
-		private boolean allowedUpTurns = true;
-		private boolean allowedDownTurns = true;
-		
-		public AllowedTurns(){
-			
-		}
-		public void checkAllowedTurns(){
-			
-		}
-		public boolean isAllowedLeftTurns() {
-			return allowedLeftTurns;
-		}
-
-		public void setAllowedLeftTurns(boolean allowedLeftTurns) {
-			this.allowedLeftTurns = allowedLeftTurns;
-		}
-
-		public boolean isAllowedRightTurns() {
-			return allowedRightTurns;
-		}
-
-		public void setAllowedRightTurns(boolean allowedRightTurns) {
-			this.allowedRightTurns = allowedRightTurns;
-		}
-
-		public boolean isAllowedUpTurns() {
-			return allowedUpTurns;
-		}
-
-		public void setAllowedUpTurns(boolean allowedUpTurns) {
-			this.allowedUpTurns = allowedUpTurns;
-		}
-
-		public boolean isAllowedDownTurns() {
-			return allowedDownTurns;
-		}
-
-		public void setAllowedDownTurns(boolean allowedDownTurns) {
-			this.allowedDownTurns = allowedDownTurns;
-		}
-
+	public double getX(){
+		return snakeAI.getX();
 	}
-	public static class CollisionPredicter{
-		private double x;
-		private double y;
-		private double radius;
-		private PlayerTwo player;
-		private RayDirection direction;
-		
-		public CollisionPredicter(PlayerTwo player){
-			this.x = player.getX();
-			this.y = player.getY();
-			this.radius = player.getRadius();
-		}
-		
-		private enum RayDirection{
-			UP,DOWN,LEFT,RIGHT
-		}
-		
+	public double getY(){
+		return snakeAI.getY();
+	}
+	public double getWidth(){
+		return snakeAI.getBounds().getWidth();
+	}
+	public double getHeight(){
+		return snakeAI.getBounds().getHeight();
 	}
 	public void setPlayer() {
 		this.snakeAI = null;

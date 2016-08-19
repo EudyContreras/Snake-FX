@@ -1,13 +1,10 @@
 
 package com.EudyContreras.Snake.PathFinder;
 
+import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameSettings;
-import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
-import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  * This class is the game tile super class and is the class that every tile
@@ -19,97 +16,52 @@ import javafx.scene.image.ImageView;
  */
 public abstract class AbstractCollisionMonitor {
 
-	protected Image image;
-	protected ImageView view = new ImageView();
+
 	protected double x;
 	protected double y;
-	protected double r;
 	protected double velX;
 	protected double velY;
-	protected double velR;
-	protected boolean status = true;
 	protected double width;
 	protected double height;
-	protected GameLevelObjectID id;
+	protected boolean alive = true;
+	protected boolean proneToCollision = false;
+	protected AbstractTile collideTarget;
+	protected RayDirection direction;
 
 	public AbstractCollisionMonitor() {
 
 	}
-	public AbstractCollisionMonitor(double x, double y) {
+
+	public AbstractCollisionMonitor(double x, double y, RayDirection direction) {
+		super();
 		this.x = x;
 		this.y = y;
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-	}
-	public AbstractCollisionMonitor(double x, double y, Image image) {
-		this.x = x;
-		this.y = y;
-		this.image = image;
-		this.view.setImage(image);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-	}
-	public AbstractCollisionMonitor(double x, double y,GameLevelObjectID id) {
-		this.x = x;
-		this.y = y;
-		this.id = id;
-	}
-	public AbstractCollisionMonitor(double x, double y, Image image, GameLevelObjectID id) {
-		this.x = x;
-		this.y = y;
-		this.id = id;
-		this.image = image;
-		this.view.setImage(image);
-		this.width = image.getWidth();
-		this.height = image.getHeight();
-	}
-	public AbstractCollisionMonitor(double x, double y, double width, double height, Image image, GameLevelObjectID id) {
-		this.x = x;
-		this.y = y;
-		this.id = id;
-		this.image = image;
-		this.view.setImage(image);
-		this.width = width;
-		this.height = height;
-		this.view.setFitWidth(width);
-		this.view.setFitHeight(height);
-	}
-	public ImageView getView() {
-		return view;
+		this.direction = direction;
 	}
 
-	public void setView(ImageView view) {
-		this.view = view;
+	public AbstractCollisionMonitor(double x, double y, double width, double height, RayDirection direction) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.direction = direction;
 	}
 
 	public double getX() {
 		return x;
 	}
 
+	public void setX(double x) {
+		this.x = x;
+	}
+
 	public double getY() {
 		return y;
 	}
 
-	public double getR() {
-		return r;
-	}
-
-	public void setR(double r) {
-		this.r = r;
-	}
-
-	public double getVelR() {
-		return velR;
-	}
-
-	public void setVelR(double velR) {
-		this.velR = velR;
-	}
-
-	public void relocate(double x, double y) {
-		view.setTranslateX(x);
-		view.setTranslateY(y);
-		view.setRotate(r);
+	public void setY(double y) {
+		this.y = y;
 	}
 
 	public double getVelX() {
@@ -128,20 +80,6 @@ public abstract class AbstractCollisionMonitor {
 		this.velY = velY;
 	}
 
-	public void move() {
-		x = x + (velX * GameSettings.FRAME_SCALE);
-		y = y + (velY * GameSettings.FRAME_SCALE);
-		r = r + (velR * GameSettings.FRAME_SCALE);
-	}
-
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
 	public double getWidth() {
 		return width;
 	}
@@ -158,70 +96,63 @@ public abstract class AbstractCollisionMonitor {
 		this.height = height;
 	}
 
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-
-	public void setId(GameLevelObjectID id) {
-		this.id = id;
-	}
-
-	public GameLevelObjectID getId() {
-		return id;
-	}
-
-	public boolean isBehindCharacter() {
-		if (view.getFitWidth() > 0)
-			return x < 0 - view.getFitWidth() * 98;
-		else
-			return x < 0 - image.getWidth() * 98;
-	}
-
 	public boolean isAlive() {
-		return status;
+		return alive;
 	}
 
-	public void setAlive(boolean status) {
-		this.status = status;
+	public void setAlive(boolean alive) {
+		this.alive = alive;
 	}
 
-	public void updateUI() {
-		view.setTranslateX(x);
-		view.setTranslateY(y);
-		view.setRotate(r);
+	public boolean isProneToCollision() {
+		return proneToCollision;
+	}
+
+	public void setProneToCollision(boolean proneToCollision) {
+		this.proneToCollision = proneToCollision;
+	}
+
+	public RayDirection getDirection() {
+		return direction;
+	}
+
+	public void setDirection(RayDirection direction) {
+		this.direction = direction;
+	}
+	public void updateLogic(){
+
+	}
+	public void checkCollision(){
+
+	}
+	public void checkRemovability() {
+		if(x>GameSettings.WIDTH || x<0 || y<0 || y>GameSettings.HEIGHT){
+			this.setAlive(false);
+		}
+	}
+	public void move() {
+		x = x + velX;
+		y = y + velY;
+	}
+
+	public AbstractTile getEminentCollider() {
+		return collideTarget;
+	}
+
+	public void setEminentCollider(AbstractTile collideTarget) {
+		this.collideTarget = collideTarget;
 	}
 
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x, y, width, height);
 	}
 
-	public Rectangle2D getBoundsTop() {
-		return new Rectangle2D(x + 20, y, width - 40, height);
+	public enum RayDirection{
+		UP,DOWN,LEFT,RIGHT,UP_LEFT,UP_RIGHT,DOWN_LEFT,DOWN_RIGHT
+	}
+	public enum Status{
+		TRAVELING,COLLIDED
 	}
 
-	public Rectangle2D getBoundsRight() {
-		return new Rectangle2D(x + width - 20, y + 10, 20, height - 10);
-	}
-
-	public Rectangle2D getBoundsLeft() {
-		return new Rectangle2D(x, y + 10, 20, height - 10);
-	}
-
-	public Bounds getCollisionBounds() {
-		return this.view.getLayoutBounds();
-	}
-
-	public Rectangle2D getBounds2D() {
-		return null;
-	}
-
-	public void checkCollision() {
-
-	}
 
 }
