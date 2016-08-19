@@ -37,9 +37,9 @@ public class GameSettings {
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 100;
+	public static int APPLE_COUNT = 900;
 	public static int BUFF_COUNT = 0;
-	public static int SECTIONS_TO_ADD = 3;
+	public static int SECTIONS_TO_ADD = 1;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
 
@@ -90,12 +90,13 @@ public class GameSettings {
 	public static double WIND_FORCE = 0.7;
 	public static double WIND_SPEED = 0.0;
 
+	protected static final boolean WINDOW_ALWAYS_VISIBLE = true;
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 
 	public static boolean ALLOW_AI_CONTROLL = true;
 	public static boolean ALLOW_SNAKE_GROWTH = true;
-	public static boolean ALLOW_SELF_COLLISION = true;
+	public static boolean ALLOW_SELF_COLLISION = false;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;
 	public static boolean ALLOW_DAMAGE_IMMUNITY = false;

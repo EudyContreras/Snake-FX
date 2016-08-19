@@ -164,7 +164,6 @@ public class PathFindingAI {
 
 			if (closestObjective != null && !GameSettings.DEBUG_MODE){
 				closestObjective.blowUpAlt();
-//				farthestObjective.blowUpAlt();
 
 			}
 			break;
@@ -472,21 +471,21 @@ public class PathFindingAI {
 				if (closestObjective.getX() < snakeAI.getX()) {
 					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 					makingUTurn = true;
-					turnOffset = snakeAI.getRadius();
+					turnOffset = snakeAI.getRadius()*2;
 				} else {
 					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
 					makingUTurn = true;
-					turnOffset = snakeAI.getRadius();
+					turnOffset = snakeAI.getRadius()*2;
 				}
 			} else if (currentDirection == PlayerMovement.MOVE_RIGHT || currentDirection == PlayerMovement.MOVE_LEFT) {
 				if (closestObjective.getY() < snakeAI.getY()) {
 					snakeAI.setDirection(PlayerMovement.MOVE_UP);
 					makingUTurn = true;
-					turnOffset = snakeAI.getRadius();
+					turnOffset = snakeAI.getRadius()*2;
 				} else {
 					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
 					makingUTurn = true;
-					turnOffset = snakeAI.getRadius();
+					turnOffset = snakeAI.getRadius()*2;
 				}
 			}
 			break;

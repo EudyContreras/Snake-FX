@@ -15,6 +15,7 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
 import com.EudyContreras.Snake.PathFinder.PathFindingAI.ActionState;
+import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -134,6 +135,7 @@ public class PlayerTwo extends AbstractObject {
 		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
 		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
+
 	}
 
 	public void logicUpdate() {
@@ -143,14 +145,20 @@ public class PlayerTwo extends AbstractObject {
 		updateTurns();
 		updateImmunity();
 		updateSpeedDirt();
-		updateDirt();
 		checkTurns();
 		speedUp();
 		speedDown();
-		//slowDown();
+		relax();
+
 
 	}
-
+	private void relax(){
+		if(PlayerOne.DEAD){
+			thrust = false;
+			goSlow = true;
+			slowDown();
+		}
+	}
 	public void controlEating() {
 		if (!DEAD) {
 			maxOpenTime--;
@@ -226,20 +234,8 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
-
-	public void updateDirt() {
-		if (GameSettings.ALLOW_DIRT) {
-			dirtDelay--;
-			if (dirtDelay <= 0) {
-				if (KEEP_MOVING && game.getStateID()== GameStateID.GAMEPLAY) {
-					displaceDirt(x + width / 2, y + height / 2, 18, 18);
-					dirtDelay = 10;
-				}
-			}
-		}
-	}
 	public void updateSpeedDirt() {
-		if (thrust) {
+		if (thrust && GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
 			if (dirtDelay <= 0) {
 				if (KEEP_MOVING && game.getStateID()== GameStateID.GAMEPLAY) {
@@ -290,8 +286,8 @@ public class PlayerTwo extends AbstractObject {
 		}
 	}
 	public void speedDown(){
-		if(!thrust){
-			SPEED-=(accelaration/2);
+		if(!thrust && !goSlow){
+			SPEED-=(accelaration*.4);
 			if(SPEED<=normalSpeed){
 				SPEED = normalSpeed;
 			}
@@ -299,7 +295,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 	public void slowDown(){
 		if(!thrust && goSlow){
-			SPEED-=accelaration;
+			SPEED-=(accelaration*.1);
 			if(SPEED<= minimumSpeed){
 				SPEED = minimumSpeed;
 			}

@@ -141,9 +141,9 @@ public class SnakeFood extends AbstractObject {
 	public void move() {
 		super.move();
 		if(velX!=0)
-		velX *= 0.90;
+		velX *= 0.93;
 		if(velY!=0)
-		velY *= 0.90;
+		velY *= 0.93;
 	}
 
 	/**
@@ -236,8 +236,7 @@ public class SnakeFood extends AbstractObject {
 	 * @return
 	 */
 	public boolean isApproximateTo(AbstractObject object) {
-		double distance = Math
-				.sqrt((x - object.getX()) * (x - object.getX()) + (y - object.getY()) * (y - object.getY()));
+		double distance = Math.sqrt((x - object.getX()) * (x - object.getX()) + (y - object.getY()) * (y - object.getY()));
 		if (distance < 15) {
 			return true;
 		}
@@ -253,15 +252,28 @@ public class SnakeFood extends AbstractObject {
 			this.fadeValue = 0;
 		}
 	}
+
 	public void checkBoundaries() {
-		if (x < 0 + radius/2) {
-			x = (float) (GameSettings.WIDTH - radius/2);
-		} else if (x > GameSettings.WIDTH - radius/2) {
-			x = (float) (0 + radius/2);
-		} else if (y < GameSettings.MIN_Y + radius/2) {
-			y = (float) (GameSettings.HEIGHT - radius/2);
-		} else if (y > GameSettings.HEIGHT - radius/2) {
-			y = (float) (GameSettings.MIN_Y + radius/2);
+		if (velX != 0 || velY != 0) {
+			if (x < 0 - radius / 2) {
+				x = (float) (GameSettings.WIDTH + radius / 2);
+			} else if (x > GameSettings.WIDTH + radius / 2) {
+				x = (float) (0 - radius / 2);
+			} else if (y < GameSettings.MIN_Y - radius / 2) {
+				y = (float) (GameSettings.HEIGHT + radius / 2);
+			} else if (y > GameSettings.HEIGHT + radius / 2) {
+				y = (float) (GameSettings.MIN_Y - radius / 2);
+			}
+		}else {
+			if (x < 0) {
+				x = (float) (GameSettings.WIDTH);
+			} else if (x > GameSettings.WIDTH) {
+				x = (float) 0;
+			} else if (y < GameSettings.MIN_Y) {
+				y = (float) (GameSettings.HEIGHT);
+			} else if (y > GameSettings.HEIGHT) {
+				y = (float) (GameSettings.MIN_Y);
+			}
 		}
 	}
 	/**

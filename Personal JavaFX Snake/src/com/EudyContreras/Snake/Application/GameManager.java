@@ -433,6 +433,7 @@ public class GameManager extends AbstractGameModel {
 						debrisManager.updateAll();
 
 						loader.updateLevelObjects();
+						
 						if (GameSettings.ALLOW_AI_CONTROLL){
 
 							snakeAI.updateSimulation();
@@ -504,12 +505,20 @@ public class GameManager extends AbstractGameModel {
 					FPS = 0;
 				}
 				lastTime = currentTime;
-//				if(mainWindow.getX()<0){
-//					mainWindow.setX(0);
-//				}
-//				if(mainWindow.getY()<0){
-//					mainWindow.setY(0);
-//				}
+				if (GameSettings.WINDOW_ALWAYS_VISIBLE && !mainWindow.isFullScreen()) {
+					if (mainWindow.getX() < 0) {
+						mainWindow.setX(0);
+					}
+					if (mainWindow.getY() < 0) {
+						mainWindow.setY(0);
+					}
+					if (mainWindow.getX() > GameSettings.WIDTH - mainWindow.getWidth()) {
+						mainWindow.setX(GameSettings.WIDTH - mainWindow.getWidth());
+					}
+					if (mainWindow.getY() > GameSettings.HEIGHT - mainWindow.getHeight()) {
+						mainWindow.setY(GameSettings.HEIGHT - mainWindow.getHeight());
+					}
+				}
 			}
 
 		};

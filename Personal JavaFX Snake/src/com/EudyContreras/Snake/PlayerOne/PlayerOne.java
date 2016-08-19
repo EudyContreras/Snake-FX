@@ -14,6 +14,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -75,7 +76,7 @@ public class PlayerOne extends AbstractObject {
 	private BoxBlur motionBlur;
 	private ImagePattern eatingFrame;
 	private ImagePattern blinkingFrame;
-	private LinkedList<PlayerMovement> turns = new LinkedList<>();
+	private LinkedList<PlayerMovement> turnBuffer = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
 	public static Double SPEED = 6.0;
@@ -138,14 +139,19 @@ public class PlayerOne extends AbstractObject {
 		updateTurns();
 		updateImmunity();
 		updateSpeedDirt();
-		updateDirt();
 		checkTurns();
 		speedUp();
 		speedDown();
-		//slowDown();
+		relax();
 
 	}
-
+	private void relax(){
+		if(PlayerTwo.DEAD){
+			thrust = false;
+			goSlow = true;
+			slowDown();
+		}
+	}
 	public void controlEating() {
 		if (!DEAD) {
 			maxOpenTime--;
@@ -241,7 +247,7 @@ public class PlayerOne extends AbstractObject {
 		}
 	}
 	public void updateTurns() {
-		if (turns.size() > 0) {
+		if (turnBuffer.size() > 0) {
 			turnDelay--;
 			if (turnDelay <= 0) {
 				makeTurn();
@@ -281,7 +287,7 @@ public class PlayerOne extends AbstractObject {
 		}
 	}
 	public void speedDown(){
-		if(!thrust){
+		if(!thrust && !goSlow){
 			SPEED-=(accelaration/2);
 			if(SPEED<=normalSpeed){
 				SPEED = normalSpeed;
@@ -460,21 +466,21 @@ public class PlayerOne extends AbstractObject {
 		}
 	}
 	public void turnDelay(PlayerMovement newDirection) {
-		turns.add(newDirection);
+		turnBuffer.add(newDirection);
 	}
 
 	public void makeTurn() {
 		if (withinBounds()) {
-			if (turns.get(0) == PlayerMovement.MOVE_UP) {
+			if (turnBuffer.get(0) == PlayerMovement.MOVE_UP) {
 				moveUp();
 				this.direction = PlayerMovement.MOVE_UP;
-			} else if (turns.get(0) == PlayerMovement.MOVE_DOWN) {
+			} else if (turnBuffer.get(0) == PlayerMovement.MOVE_DOWN) {
 				moveDown();
 				this.direction = PlayerMovement.MOVE_DOWN;
-			} else if (turns.get(0) == PlayerMovement.MOVE_LEFT) {
+			} else if (turnBuffer.get(0) == PlayerMovement.MOVE_LEFT) {
 				moveLeft();
 				this.direction = PlayerMovement.MOVE_LEFT;
-			} else if (turns.get(0) == PlayerMovement.MOVE_RIGHT) {
+			} else if (turnBuffer.get(0) == PlayerMovement.MOVE_RIGHT) {
 				moveRight();
 				this.direction = PlayerMovement.MOVE_RIGHT;
 			}
@@ -489,8 +495,8 @@ public class PlayerOne extends AbstractObject {
 		r = 180;
 		snakeHead.setR(180);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -511,8 +517,8 @@ public class PlayerOne extends AbstractObject {
 		r = 0;
 		snakeHead.setR(0);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -533,8 +539,8 @@ public class PlayerOne extends AbstractObject {
 		r = -90;
 		snakeHead.setR(-90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -555,8 +561,8 @@ public class PlayerOne extends AbstractObject {
 		r = 90;
 		snakeHead.setR(90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {

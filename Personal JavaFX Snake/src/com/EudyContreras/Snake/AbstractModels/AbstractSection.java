@@ -50,6 +50,7 @@ public abstract class AbstractSection {
 	protected double height;
 	protected double radius;
 	protected double health = 50;
+	protected double speed = 1.0f;
 	protected double damage;
 	protected int numericID;
 	protected boolean isAlive = false;
