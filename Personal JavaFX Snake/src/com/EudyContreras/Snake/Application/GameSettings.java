@@ -108,7 +108,7 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean DEBUG_MODE = false;
+	public static boolean DEBUG_MODE = true;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 

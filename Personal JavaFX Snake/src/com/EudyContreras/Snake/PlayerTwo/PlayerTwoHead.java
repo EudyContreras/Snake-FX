@@ -346,7 +346,7 @@ public class PlayerTwoHead extends AbstractObject {
 
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
-			bounds.setStroke(Color.WHITE);
+			bounds.setStroke(Color.GREEN);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
 			game.getSeventhLayer().getChildren().add(bounds);

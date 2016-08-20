@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.PathFinder;
 
+import java.util.LinkedList;
 import java.util.Random;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
@@ -11,6 +12,8 @@ import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
+import javafx.geometry.Rectangle2D;
+
 /**
 
  * @author Eudy Contreras
@@ -18,10 +21,12 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
  */
 public class ObjectEvasionAI {
 
+	private LinkedList<CollideObject> possibleColliders;
 	private AbstractObject closestObjective;
 	private AbstractTile obstacle;
 	private GameManager game;
 	private PlayerTwo snakeAI;
+	private TurnMonitor monitor;
 	private Random rand;
 
 	private boolean makingUTurn = false;
@@ -39,6 +44,14 @@ public class ObjectEvasionAI {
 	public ObjectEvasionAI(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
+		this.initialize();
+	}
+
+	public ObjectEvasionAI(GameManager game, PlayerTwo snakeAI, TurnMonitor turnMonitor,LinkedList<CollideObject> possibleColliders) {
+		this.game = game;
+		this.snakeAI = snakeAI;
+		this.monitor = turnMonitor;
+		this.possibleColliders = possibleColliders;
 		this.initialize();
 	}
 
@@ -464,10 +477,10 @@ public class ObjectEvasionAI {
 		return snakeAI.getY();
 	}
 	public double getWidth(){
-		return snakeAI.getBounds().getWidth();
+		return snakeAI.getAIBounds().getWidth();
 	}
 	public double getHeight(){
-		return snakeAI.getBounds().getHeight();
+		return snakeAI.getAIBounds().getHeight();
 	}
 	public void setPlayer() {
 		this.snakeAI = null;
@@ -479,27 +492,24 @@ public class ObjectEvasionAI {
 	public ObjectivePosition getLocation() {
 		return location;
 	}
-
+	public Rectangle2D getCollisionBounds(){
+		return snakeAI.getAIBounds();
+	}
 	public void setLocation(ObjectivePosition location) {
 		this.location = location;
 	}
-
 	public AbstractTile getObstacle() {
 		return obstacle;
 	}
-
 	public void setObstacle(AbstractTile obstacle) {
 		this.obstacle = obstacle;
 	}
-
 	private enum ObjectivePosition {
 		NORTH, SOUTH, WEST, EAST
 	}
-
 	public enum ActionState{
 		TRACKING, AVOIDING, FINDING,
 	}
-
 	public enum LegalTurns{
 		LEFT,RIGHT,UP,DOWN
 	}

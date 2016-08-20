@@ -50,8 +50,6 @@ public class PlayerTwo extends AbstractObject {
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
-	private double offsetY_AI;
-	private double offsetX_AI;
 	private boolean isDead = false;
 	private boolean collision = false;
 	private boolean notEating = true;
@@ -215,10 +213,10 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
-			this.boundBox.setX(x - snakeHead.getRadius() / 2 + offsetX_AI);
-			this.boundBox.setY(y - snakeHead.getRadius() / 2 + offsetY_AI);
-			this.boundBox.setWidth(snakeHead.getRadius());
-			this.boundBox.setHeight(snakeHead.getRadius());
+			boundBox.setX(snakeHead.getX() - snakeHead.getRadius()*1.5/2);
+			boundBox.setY(snakeHead.getY() - snakeHead.getRadius()*1.5/2);
+			boundBox.setWidth(snakeHead.getRadius()*1.5);
+			boundBox.setHeight(snakeHead.getRadius()*1.5);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -490,8 +488,6 @@ public class PlayerTwo extends AbstractObject {
 	private void moveUp() {
 		offsetX = 0;
 		offsetY = -20;
-		offsetX_AI = 0;
-		offsetY_AI = -60;
 		velY = -GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 180;
@@ -514,8 +510,6 @@ public class PlayerTwo extends AbstractObject {
 	private void moveDown() {
 		offsetX = 0;
 		offsetY = 20;
-		offsetX_AI = 0;
-		offsetY_AI = 60;
 		velY = GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 0;
@@ -538,8 +532,6 @@ public class PlayerTwo extends AbstractObject {
 	private void moveRight() {
 		offsetX = 20;
 		offsetY = 0;
-		offsetX_AI = 60;
-		offsetY_AI = 0;
 		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = -90;
@@ -562,8 +554,6 @@ public class PlayerTwo extends AbstractObject {
 	private void moveLeft() {
 		offsetX = -20;
 		offsetY = 0;
-		offsetX_AI = -60;
-		offsetY_AI = 0;
 		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = 90;
@@ -807,14 +797,14 @@ public class PlayerTwo extends AbstractObject {
 
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
-			bounds.setStroke(Color.WHITE);
+			bounds.setStroke(Color.YELLOW);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
-			this.boundBox = new Rectangle(x - snakeHead.getRadius()/2,y - snakeHead.getRadius()/2,snakeHead.getRadius(),snakeHead.getRadius());
-			this.boundBox.setStroke(Color.WHITE);
-			this.boundBox.setStrokeWidth(3);
-			this.boundBox.setFill(Color.TRANSPARENT);
-			this.layer.getChildren().add(boundBox);
+			boundBox = new Rectangle(x - snakeHead.getRadius()/2,y - snakeHead.getRadius()/2,snakeHead.getRadius(),snakeHead.getRadius());
+			boundBox.setStroke(Color.RED);
+			boundBox.setStrokeWidth(3);
+			boundBox.setFill(Color.TRANSPARENT);
+		    layer.getChildren().add(boundBox);
 			game.getSeventhLayer().getChildren().add(bounds);
 		}
 	}
@@ -945,7 +935,7 @@ public class PlayerTwo extends AbstractObject {
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
 	public Rectangle2D getAIBounds() {
-		return new Rectangle2D(x - snakeHead.getRadius() / 2 + offsetX_AI, y - snakeHead.getRadius() / 2 + offsetY_AI, snakeHead.getRadius(), snakeHead.getRadius() );
+		return new Rectangle2D(snakeHead.getX() - snakeHead.getRadius()*1.5/2, snakeHead.getY() - snakeHead.getRadius()*1.5/2, snakeHead.getRadius()*1.5, snakeHead.getRadius()*1.5 );
 	}
 	public PlayerTwoHead getHead() {
 		return snakeHead;

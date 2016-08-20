@@ -29,6 +29,7 @@ public abstract class AbstractCollisionMonitor {
 	protected boolean proneToCollision = false;
 	protected AbstractTile collideTarget;
 	protected RayDirection direction;
+	protected Status status;
 
 	public AbstractCollisionMonitor() {
 
@@ -129,7 +130,12 @@ public abstract class AbstractCollisionMonitor {
 	public void setProneToCollision(boolean proneToCollision) {
 		this.proneToCollision = proneToCollision;
 	}
-
+	public Status getStatus(){
+		return status;
+	}
+	public void setStatus(Status status){
+		this.status = status;
+	}
 	public RayDirection getDirection() {
 		return direction;
 	}
@@ -146,6 +152,7 @@ public abstract class AbstractCollisionMonitor {
 	public void checkRemovability() {
 		if(x>GameSettings.WIDTH || x<0 || y<0 || y>GameSettings.HEIGHT){
 			this.setAlive(false);
+			this.setStatus(Status.OUT_OF_RANGE);
 		}
 	}
 	public void move() {
@@ -169,7 +176,7 @@ public abstract class AbstractCollisionMonitor {
 		UP,DOWN,LEFT,RIGHT,UP_LEFT,UP_RIGHT,DOWN_LEFT,DOWN_RIGHT
 	}
 	public enum Status{
-		TRAVELING,COLLIDED
+		TRAVELING,COLLIDED,OUT_OF_RANGE
 	}
 
 

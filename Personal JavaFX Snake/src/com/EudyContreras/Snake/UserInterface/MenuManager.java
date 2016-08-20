@@ -41,11 +41,13 @@ public class MenuManager extends AbstractMenuElement{
 	public void setUpBackground(){
 		backgroundImage = new Rectangle(20, 20, GameSettings.WIDTH-40, GameSettings.HEIGHT-40);
 		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
+		clearUp.setPickOnBounds(false);
 		clearUp.setFill(Color.BLACK);
 	}
 	public void setupMainMenu() {
 		showMenu = true;
 		fadeScreen.getChildren().add(clearUp);
+		fadeScreen.setPickOnBounds(false);
 		setMenu(main_menu.main_menu_screen());
 		menuRoot.getChildren().addAll(backgroundImage, menuLogo, menuContainer, fadeScreen);
 		game.setRoot(menuRoot);

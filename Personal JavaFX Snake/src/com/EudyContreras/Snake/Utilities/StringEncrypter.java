@@ -34,6 +34,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
  * @since 2016-08-16
  */
 public class StringEncrypter {
+	@SuppressWarnings("unused")
 	private static char[] base_char_set =
 			   {'–','—','‘','’','‚','“','”','„','†',' ','‡','•','&','…','(',')','*','+',',','-','.',
 				'/','0','‰','1','2','3','4','5','6','7','8','9','‹',':','›',';','<','=','>','?','@',
@@ -628,23 +629,25 @@ public class StringEncrypter {
      * higher the number of added characters and vice versa.
      */
     private final static void setSecurityLevel(String password, SecurityLevel security){
+		SecureRandom insertRandom = new SecureRandom();
+		insertRandom.setSeed(password.getBytes(StandardCharsets.UTF_8));
     	if(security!=null){
     		switch(security){
 			case LOW:
-				max_decoys = 1;
-				insertion_index = 0;
+				max_decoys = insertRandom.nextInt(2 + 1 -0)+0;
+				insertion_index = 1;
 				break;
 			case MEDIUM:
-				max_decoys = 4;
-				insertion_index = 3;
-				break;
-			case HIGH:
-				max_decoys = 8;
+				max_decoys = insertRandom.nextInt(5 + 1 -3)+3;;
 				insertion_index = 2;
 				break;
+			case HIGH:
+				max_decoys = insertRandom.nextInt(9 + 1 -5)+5;
+				insertion_index = 3;
+				break;
 			case VERY_HIGH:
-				max_decoys = 16;
-				insertion_index = 4;
+				max_decoys = insertRandom.nextInt(16 + 1 -10)+10;
+				insertion_index = 5;
 				break;
 			default:
 				break;
@@ -772,6 +775,7 @@ public class StringEncrypter {
             SecureRandom rand = new SecureRandom();
             return rand.nextInt(maxValue + 1 - minValue) + minValue;
         }
+
         /*
          * Method which returns a random String of the specified
          * Length containing a non random element located at the given index.
@@ -848,6 +852,7 @@ public class StringEncrypter {
 		private SecureRandom charRandom;
 		private SecureRandom byteRandom;
 
+
 		public KeyGenerator(String password, char[] charSet, String[] byteSet) {
 			this.charRandom = this.getSha1Prng();
 			this.byteRandom = this.getSha1Prng();
@@ -864,6 +869,7 @@ public class StringEncrypter {
 		 */
 		private void generateKey(String password,SecureRandom charRandom, char[] baseChars) {
 			charRandom.setSeed(password.getBytes(StandardCharsets.UTF_8));
+
 			char_base_set = new char[baseChars.length];
 			char_base_set = Arrays.copyOf(baseChars, baseChars.length);
 			char_key_set = new char[char_base_set.length];
@@ -999,12 +1005,12 @@ public class StringEncrypter {
              'Q','R','S','T','U','V','W','X',
              'Y','Z','Ö','Ä','Å','0','1','2',
              '3','4','5','6','7','8','9',' ',
-             ',','?','.','!'};
+             ',','?','.','!','-'};
 
 
 
         long encrypt_start_time = System.currentTimeMillis();
-        byte[] encryption = StringEncrypter.encrypt("Your message is now secure!", new Password("password"));
+        byte[] encryption = StringEncrypter.encrypt("Your message is now secure!", new Password("password"),plain_char_set);
         long encrypt_end_time = System.currentTimeMillis();
         System.out.println("Encryption speed: "+(encrypt_end_time - encrypt_start_time)+ " Milliseconds");
 
@@ -1018,7 +1024,7 @@ public class StringEncrypter {
 
 
         long decrypt_start_time = System.currentTimeMillis();
-        System.out.println(StringEncrypter.decrypt(encryption,new Password("password")));
+        System.out.println(StringEncrypter.decrypt(encryption,new Password("password"),plain_char_set));
         System.out.println(StringEncrypter.decrypt(Base64.decode("HJYTHTgcPiMcHBgNGhw+HBgcOBgYJBzDGhMOHTYzPh80HIUcwx8+GBgcDYUdOBwYGB9fPh8cNjMzNyQYPhwLGD4QNcM+GDU+wxgdPhwfYgs0Djgkwz5fDSY+OBIRMxA2Iic5HBhfND43GITDEhgYOT4LPpZhPhgdEyM1DZYcPhwaCz4+GBg5NjcyORwzwxwzNzI3MzQeJsMzGAs+HGEzEF83Mzc+GBw3hDMcHA4cNCVRPjY4GBEyEYVTOT4YNxwHPiccHA4YGDQYHBzDNhwaOT8+BwccGBgcHBw0ND4+NR0cHJY1HAc+NTI2Bx1h"),new Password("password")));
         long decrypt_end_time = System.currentTimeMillis();
         System.out.println("Decryption speed: "+(decrypt_end_time - decrypt_start_time)+ " Milliseconds");
