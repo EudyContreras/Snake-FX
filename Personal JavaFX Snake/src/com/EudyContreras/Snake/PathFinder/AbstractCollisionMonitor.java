@@ -23,7 +23,9 @@ public abstract class AbstractCollisionMonitor {
 	protected double velY;
 	protected double width;
 	protected double height;
+	protected double lifeTime = 60;
 	protected boolean alive = true;
+	protected boolean hasTarger = false;
 	protected boolean proneToCollision = false;
 	protected AbstractTile collideTarget;
 	protected RayDirection direction;
@@ -102,6 +104,22 @@ public abstract class AbstractCollisionMonitor {
 
 	public void setAlive(boolean alive) {
 		this.alive = alive;
+	}
+
+	public double getLifeTime() {
+		return lifeTime;
+	}
+
+	public void setLifeTime(double lifeTime) {
+		this.lifeTime = lifeTime;
+	}
+
+	public boolean hasTarget() {
+		return hasTarger;
+	}
+
+	public void setHasTarger(boolean hasTarger) {
+		this.hasTarger = hasTarger;
 	}
 
 	public boolean isProneToCollision() {

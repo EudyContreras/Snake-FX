@@ -4,26 +4,24 @@ import java.util.List;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.Application.GameSettings;
 
 public class CollisionPredicter extends AbstractCollisionMonitor{
-	private ObjectEvasionAI evader;
-	private GameManager game;
 	private List<AbstractTile> tileContainer;
 
 	public CollisionPredicter(GameManager game, ObjectEvasionAI evader, double x, double y, RayDirection direction ){
 		super(x,y,direction);
-		this.game = game;
-		this.evader = evader;
-		this.width = 35;
-		this.height = 35;
+		this.width = evader.getWidth();
+		this.height = evader.getHeight();
 		this.tileContainer = game.getGameLoader().getTileManager().getBlock();
 	}
 	public void updateLogic(){
 		checkCoordinates();
 	}
 	public void checkCoordinates(){
-
+		lifeTime--;
+		if(lifeTime<0){
+			setAlive(false);
+		}
 	}
 	public void move(){
 		this.move();
@@ -73,6 +71,6 @@ public class CollisionPredicter extends AbstractCollisionMonitor{
 	}
 	public void processCollision(AbstractTile object){
 		this.setEminentCollider(object);
-		this.setAlive(false);
+		this.setHasTarger(true);
 	}
 }

@@ -29,7 +29,7 @@ import javafx.collections.ObservableList;
 public class AI_Controller {
 
 	private LinkedList<AbstractCollisionMonitor> predictorList;
-	private LinkedList<TargetDistance> eminentColliders;
+	private LinkedList<TargetDistance> possibleColliders;
 	private ObjectEvasionAI evasiveAI;
 	private AbstractCollisionMonitor tempPredicter;
 	private PlayerTwo snakeAI;
@@ -46,7 +46,7 @@ public class AI_Controller {
 	public void initialize() {
 		evasiveAI = new ObjectEvasionAI(game,snakeAI);
 		predictorList = new LinkedList<AbstractCollisionMonitor>();
-		eminentColliders = new LinkedList<TargetDistance>();
+		possibleColliders = new LinkedList<TargetDistance>();
 
 	}
 
@@ -64,15 +64,18 @@ public class AI_Controller {
 			warning.checkCollision();
 			warning.updateLogic();
 			warning.checkRemovability();
-			if (!warning.isAlive() ) {
-				addEminentCollider(new TargetDistance(evasiveAI, warning.getX(), warning.getY(), warning.getWidth(), warning.getHeight()));
+			if (warning.hasTarget()) {
+				addPossibleColliders(new TargetDistance(evasiveAI,warning));
+				predictors.remove();
+				continue;
+			}
+			else if(!warning.isAlive()){
 				predictors.remove();
 				continue;
 			}
 		}
-
 	}
-	
+
 	/**
 	 * Method used to update every fruits in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
@@ -81,14 +84,20 @@ public class AI_Controller {
 	public void updateAI(long timePassed) {
 
 	}
-	public void processEmminentColliders(){
-		
+	public void processPossibleColliders(){
+		Iterator<TargetDistance> colliders = possibleColliders.iterator();
+		while (colliders.hasNext()) {
+			TargetDistance target = colliders.next();
+
+		}
 	}
 	public LinkedList<AbstractCollisionMonitor> getPredictors() {
 		return predictorList;
 	}
-	public void addEminentCollider(TargetDistance objectDistance){
-		eminentColliders.add(objectDistance);
+	public void addPossibleColliders(TargetDistance objectDistance){
+		if(!possibleColliders.contains(objectDistance)){
+			possibleColliders.add(objectDistance);
+		}
 	}
 	public void addPredictor(AbstractCollisionMonitor object) {
 		this.predictorList.add(object);

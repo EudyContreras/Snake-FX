@@ -5,15 +5,21 @@ public class TargetDistance {
 	private double y;
 	private double width;
 	private double height;
-	private ObjectEvasionAI evader;
+	private Double distance;
+	private Double distanceX;
+	private Double distanceY;
+	private Double pseudoMagnitude;
 
-	public TargetDistance(ObjectEvasionAI evader, double x, double y, double width, double height) {
+	public TargetDistance(ObjectEvasionAI evader, AbstractCollisionMonitor warning) {
 		super();
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.evader = evader;
+		this.x = warning.getX();
+		this.y = warning.getY();
+		this.width = warning.getWidth();
+		this.height = warning.getHeight();
+		this.pseudoMagnitude = width+height;
+		this.distanceX = Math.abs(evader.getX() - x);
+		this.distanceY = Math.abs(evader.getY() - y);
+		this.distance = Math.abs(evader.getX() - x)+Math.abs(evader.getY() - y);
 	}
 
 	public double getX() {
@@ -47,9 +53,36 @@ public class TargetDistance {
 	public void setHeight(double height) {
 		this.height = height;
 	}
-
+	public double getDistanceX() {
+		return distanceX;
+	}
+	public double getDistanceY() {
+		return distanceY;
+	}
 	public double getDistance() {
-		return Math.abs(evader.getX() - x)+Math.abs(evader.getY() - y);
+		return distance;
+	}
+
+	public enum Location{
+		NORTH,SOUTH,EAST,WEST
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if ((obj == null) || (obj.getClass() != this.getClass()))
+			return false;
+
+		TargetDistance test = (TargetDistance) obj;
+		return pseudoMagnitude == test.pseudoMagnitude && (distance == test.distance || (distance != null && distance.equals(test.distance)));
+	}
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		Double data = distance;
+		hash = (int) (31 * hash + distance);
+		hash = 31 * hash + (null == data ? 0 : data.hashCode());
+		return hash;
 	}
 
 }

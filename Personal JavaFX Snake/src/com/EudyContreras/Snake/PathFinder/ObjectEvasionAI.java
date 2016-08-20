@@ -473,7 +473,9 @@ public class ObjectEvasionAI {
 		this.snakeAI = null;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 	}
-
+	public PlayerMovement getDirection(){
+		return snakeAI.getCurrentDirection();
+	}
 	public ObjectivePosition getLocation() {
 		return location;
 	}
