@@ -64,8 +64,6 @@ public class PlayerTwoFangs extends AbstractObject {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);
 		}
-		this.game.getGameLoader().spawnSnakeFood();
-		this.game.getGameLoader().spawnSnakeFood();
 	}
 
 	public void move() {

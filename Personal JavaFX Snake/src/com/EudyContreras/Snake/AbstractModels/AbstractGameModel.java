@@ -100,7 +100,7 @@ public abstract class AbstractGameModel extends Application {
     protected Scene splashScene;
     protected Pane mainRoot;
     protected Pane root;
-    protected Pane baseLayer;
+    protected Pane gridLayer;
     protected Pane splashLayout;
     protected Pane levelLayer;
     protected Pane snakeOneLayer;
@@ -309,7 +309,7 @@ public abstract class AbstractGameModel extends Application {
         sceneRoot.setCenter(root);
     }
     public Pane getBaseLayer(){
-    	return baseLayer;
+    	return gridLayer;
     }
     public Pane getSnakeOneLayer() {
         return snakeOneLayer;

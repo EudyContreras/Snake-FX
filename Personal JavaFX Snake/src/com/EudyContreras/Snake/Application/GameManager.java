@@ -146,7 +146,7 @@ public class GameManager extends AbstractGameModel {
 		splash = null;
 		splashScene = null;
 		mainWindow = new Stage();
-		getGameRoot().getChildren().add(baseLayer);
+		getGameRoot().getChildren().add(gridLayer);
 		getGameRoot().getChildren().add(fruitLayer);
 		getGameRoot().getChildren().add(dirtLayer);
 		getGameRoot().getChildren().add(debrisLayer);
@@ -235,7 +235,7 @@ public class GameManager extends AbstractGameModel {
 		rootContainer = new Group(sceneRoot);
 		gameBorder = new GameBorder(this,rootContainer);
 		scene = new Scene(rootContainer, Color.BLACK);
-		baseLayer = new Pane();
+		gridLayer = new Pane();
 		fruitLayer = new Pane();
 		dirtLayer = new Pane();
 		debrisLayer = new Pane();
@@ -853,7 +853,7 @@ public class GameManager extends AbstractGameModel {
 		PlayerTwo.SPEED = GameSettings.PLAYER_TWO_SPEED;
 		ClassicSnake.SPEED = GameSettings.CLASSIC_SNAKE_SPEED;
 
-		baseLayer.getChildren().clear();
+//		gridLayer.getChildren().clear();
 		fruitLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();
 		debrisLayer.getChildren().clear();

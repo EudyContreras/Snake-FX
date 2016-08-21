@@ -70,7 +70,11 @@ public class AI_Controller {
 		pathFindingGrid = new PathFindingGrid(game,this,GameSettings.WIDTH,GameSettings.HEIGHT,45,1,true,possibleColliders, targetList);
 		pathFindingGrid.placeCells();
 	}
-
+	public void updateGrid(){
+		obtainAllColliders();
+		pathFindingGrid.setColliderList(possibleColliders);
+		pathFindingGrid.computeValidCells();
+	}
 	public void update_AI_Simulation(long timePassed) {
 //		updatePotentialColliders(timePassed);
 		processAIEvents();
@@ -82,7 +86,9 @@ public class AI_Controller {
 	private void processAIEvents() {
 		evasiveAI.updateSimulation();
 	}
-
+	public PathFindingGrid getGrid(){
+		return pathFindingGrid;
+	}
 	public void updateCollisionAwarenessI(long timePassed) {
 		Iterator<AbstractCollisionMonitor> awarenessList = collisionAwarenessList.iterator();
 		while (awarenessList.hasNext()) {
@@ -152,6 +158,7 @@ public class AI_Controller {
 //		turnMonitor.setAllowMoveRight(right);
 //	}
 	public void obtainAllColliders(){
+		clearAll();
 		for(int i = 0; i<game.getGameLoader().getTileManager().getBlock().size(); i++){
 			AbstractTile blocks = game.getGameLoader().getTileManager().getBlock().get(i);
 			addPossibleCollideBlock(new CollideObject(evasiveAI, blocks));
@@ -181,7 +188,7 @@ public class AI_Controller {
 	}
 
 	public void clearAll() {
-		this.collisionAwarenessList.clear();
+//		this.collisionAwarenessList.clear();
 		this.possibleColliders.clear();
 	}
 	public ObjectEvasionAI getEvasiveAI(){

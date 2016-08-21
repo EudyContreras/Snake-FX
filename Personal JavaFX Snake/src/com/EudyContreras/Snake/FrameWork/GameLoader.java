@@ -22,6 +22,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
+import com.EudyContreras.Snake.PathFinder.PathFindingGrid.Cell;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
@@ -192,7 +193,10 @@ public class GameLoader extends AbstractLoaderModel{
 			break;
 
 		}
-		game.getAIController().initialize();
+		game.getAIController().updateGrid();
+		for(int i = 0; i<4; i++){
+			this.spawnSnakeFood();
+		}
 
 	}
 
@@ -379,14 +383,22 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnSnakeFood() {
-		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
-		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.MIN_Y+fruit.getRadius() + 1)
-				+ GameSettings.MIN_Y+fruit.getRadius());
-		SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
-		game.getGameObjectController().addFruit(food);
-		appleNumber++;
+		int rows = game.getAIController().getGrid().getRowCount();
+		int cols = game.getAIController().getGrid().getColumnCount();
+		Cell cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
+
+		if(cell.isValid() && cell.isSpawnAllowed()){
+			Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
+			int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
+			int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
+			SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, cell, appleNumber);
+			game.getGameObjectController().addFruit(food);
+			game.getAIController().updateGrid();
+			appleNumber++;
+		}
+		else{
+			spawnSnakeFood();
+		}
 	}
 	/**
 	 * Method responsible for spawning the food on the level
