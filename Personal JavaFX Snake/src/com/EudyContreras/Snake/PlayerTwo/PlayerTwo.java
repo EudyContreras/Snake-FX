@@ -604,7 +604,6 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						game.getAIController().getEvasiveAI().evade(tempTile);
 						if (GameSettings.ALLOW_ROCK_COLLISION && !GameSettings.ALLOW_AI_CONTROLL) {
 							if (allowCollision) {
 								this.allowThrust = false;
@@ -620,9 +619,6 @@ public class PlayerTwo extends AbstractObject {
 								allowCollision = false;
 							}
 						}
-					}
-					if (this.getAIBounds().intersects(tempTile.getBounds())) {
-						game.getAIController().getEvasiveAI().evade(tempTile);
 					}
 				}
 			}

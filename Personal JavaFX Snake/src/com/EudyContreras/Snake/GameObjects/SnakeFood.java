@@ -13,7 +13,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.FruitSplashOne;
 import com.EudyContreras.Snake.ParticleEffects.GlowParticle;
-import com.EudyContreras.Snake.PathFinder.PathFindingGrid.Cell;
+import com.EudyContreras.Snake.PathFinder.PathFindingCell;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.RandomGenUtility;
@@ -51,7 +51,7 @@ public class SnakeFood extends AbstractObject {
 	private boolean maxGlow = false;
 	private boolean noGlow = true;
 	private boolean indicator = false;
-	private Cell cell;
+	private PathFindingCell cell;
 	private Circle bounds;
 	private Rectangle rectBounds;
 	private DropShadow borderGlow = new DropShadow();
@@ -86,7 +86,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param id
 	 */
 
-	public SnakeFood(GameManager game, Pane layer, Circle node, float x, float y, GameObjectID id, Cell cell,int numericCode) {
+	public SnakeFood(GameManager game, Pane layer, Circle node, float x, float y, GameObjectID id, PathFindingCell cell,int numericCode) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 		this.cell = cell;

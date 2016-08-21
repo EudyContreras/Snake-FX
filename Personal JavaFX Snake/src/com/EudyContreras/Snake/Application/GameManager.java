@@ -32,7 +32,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
-import com.EudyContreras.Snake.PathFinder.AI_Controller;
+import com.EudyContreras.Snake.PathFinder.AIController;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
@@ -270,7 +270,7 @@ public class GameManager extends AbstractGameModel {
 		sectManagerTwo = new PlayerTwoSectionManager(this);
 		sectManagerThree = new ClassicSnakeSectionManager(this);
 //		snakeAI = new PathFindingAI(this, loader.getPlayerTwo());
-		aiController = new AI_Controller(this);
+		aiController = new AIController(this);
 		keyInput = new KeyInputHandler();
 		gestures = new TouchInputHandler();
 		mouseInput = new MouseInputHandler();

@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
-import javafx.geometry.Rectangle2D;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -14,13 +13,11 @@ import javafx.scene.shape.Circle;
 public class PlayerTwoEatTrigger extends AbstractObject {
 	private GameManager game;
 	private PlayerTwo snake;
-	private PlayerTwoHead head;
 
 	public PlayerTwoEatTrigger(PlayerTwoHead head, PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;
-		this.head = head;
 		this.game = game;
 		this.y = (float) (y + this.circle.getRadius() * 3);
 		this.x = x;
@@ -52,21 +49,16 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 	}
 
 	public void checkCollision() {
-		if (PlayerTwo.AI_CONTROLLED && GameSettings.ALLOW_AI_CONTROLL) {
-			for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-				AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
-				if (tempObject.getId() == GameObjectID.Fruit) {
-					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-						if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
-							snake.openMouth();
-							break;
-						}
+		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
+			AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
+			if (tempObject.getId() == GameObjectID.Fruit) {
+				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
+					if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING || GameSettings.ALLOW_AI_CONTROLL) {
+						snake.openMouth();
+						break;
 					}
 				}
 			}
 		}
-	}
-	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - head.getRadius() / 2, y - head.getRadius() / 2, head.getRadius(), head.getRadius() );
 	}
 }

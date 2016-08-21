@@ -1,15 +1,11 @@
 package com.EudyContreras.Snake.PathFinder;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-
-import javafx.collections.ObservableList;
 
 /**
  * Class than handles logic behind all the classes that the Object evasion AI depends on.
@@ -42,32 +38,27 @@ import javafx.collections.ObservableList;
  * @author Eudy Contreras
  *
  */
-public class AI_Controller {
+public class AIController {
 
-	private LinkedList<AbstractCollisionMonitor> collisionAwarenessList;
 	private LinkedList<CollideObject> possibleColliders;
-	private ObservableList<AbstractObject> targetList;
 	private PathFindingGrid pathFindingGrid;
 	private ObjectEvasionAI evasiveAI;
-	private TurnMonitor turnMonitor;
 	private PlayerTwo snakeAI;
 	private GameManager game;
 
 
-	public AI_Controller(GameManager game) {
+	public AIController(GameManager game) {
 		this.game = game;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
-		this.turnMonitor = new TurnMonitor();
-		this.collisionAwarenessList = new LinkedList<AbstractCollisionMonitor>();
 		this.possibleColliders = new LinkedList<CollideObject>();
-		this.evasiveAI = new ObjectEvasionAI(game, snakeAI, turnMonitor, possibleColliders);
+		this.evasiveAI = new ObjectEvasionAI(game, snakeAI, possibleColliders);
 		this.initialize();
 	}
 
 	public void initialize() {
 		obtainAllColliders();
 		pathFindingGrid = null;
-		pathFindingGrid = new PathFindingGrid(game,this,GameSettings.WIDTH,GameSettings.HEIGHT,45,1,true,possibleColliders, targetList);
+		pathFindingGrid = new PathFindingGrid(game,this,GameSettings.WIDTH,GameSettings.HEIGHT,45,1,true,possibleColliders, game.getGameObjectController().getFruitList());
 		pathFindingGrid.placeCells();
 	}
 	public void updateGrid(){
@@ -76,7 +67,6 @@ public class AI_Controller {
 		pathFindingGrid.computeValidCells();
 	}
 	public void update_AI_Simulation(long timePassed) {
-//		updatePotentialColliders(timePassed);
 		processAIEvents();
 
 	}
@@ -89,74 +79,11 @@ public class AI_Controller {
 	public PathFindingGrid getGrid(){
 		return pathFindingGrid;
 	}
-	public void updateCollisionAwarenessI(long timePassed) {
-		Iterator<AbstractCollisionMonitor> awarenessList = collisionAwarenessList.iterator();
-		while (awarenessList.hasNext()) {
-			AbstractCollisionMonitor awareNess = awarenessList.next();
-			awareNess.move();
-			awareNess.checkCollision();
-			awareNess.updateLogic();
-			awareNess.checkRemovability();
-			if (awareNess.hasTarget()) {
-				addPossibleCollideBlock(new CollideObject(evasiveAI, awareNess.getEminentCollider()));
-				awarenessList.remove();
-				continue;
-			} else if (!awareNess.isAlive()) {
-				awarenessList.remove();
-				continue;
-			}
-		}
+	public void findPath(){
+//		PathFindingAlgorithm alg = new PathFindingAlgorithm();
+//		alg.getPath(grid, start, end);
 	}
 
-	public void updateCollisionAwareness(long timePassed) {
-		for (int i = 0; i < collisionAwarenessList.size(); i++) {
-			AbstractCollisionMonitor awareness = collisionAwarenessList.get(i);
-			awareness.move();
-			awareness.checkCollision();
-			awareness.updateLogic();
-			awareness.checkRemovability();
-			if (awareness.hasTarget()) {
-				addPossibleCollideBlock(new CollideObject(evasiveAI, awareness.getEminentCollider()));
-				collisionAwarenessList.remove(i);
-			} else if (!awareness.isAlive()) {
-				collisionAwarenessList.remove(i);
-				continue;
-			}
-		}
-	}
-
-//	private void computePossibleDirections(CollideObject collider) {
-//		if (collider.getRiskFactor() == RiskFactor.HIGH) {
-//			if(collider.getRange() == RangeFactor.WITHIN_RANGE){
-//				switch(collider.getLocation()){
-//				case EAST_OF_PlAYER:
-//					computeDecision(true,true,false,true);
-//					break;
-//				case NORTH_OF_PLAYER:
-//					computeDecision(false,true,true,true);
-//					break;
-//				case SOUTH_OF_PLAYER:
-//					computeDecision(true,false,true,true);
-//					break;
-//				case WEST_OF_PLAYER:
-//					computeDecision(true,true,true,false);
-//					break;
-//				default:
-//					break;
-//				}
-//			}
-//			else{
-//				computeDecision(true,true,true,true);
-//			}
-//		}
-//	}
-
-//	private void computeDecision(boolean up, boolean down, boolean right, boolean left) {
-//		turnMonitor.setAllowMoveUp(up);
-//		turnMonitor.setAllowMoveDown(down);
-//		turnMonitor.setAllowMoveLeft(left);
-//		turnMonitor.setAllowMoveRight(right);
-//	}
 	public void obtainAllColliders(){
 		clearAll();
 		for(int i = 0; i<game.getGameLoader().getTileManager().getBlock().size(); i++){
@@ -167,28 +94,14 @@ public class AI_Controller {
 			AbstractTile traps = game.getGameLoader().getTileManager().getTrap().get(i);
 			addPossibleCollideBlock(new CollideObject(evasiveAI, traps));
 		}
-		this.targetList = game.getGameObjectController().getFruitList();
 	}
-	public LinkedList<AbstractCollisionMonitor> getAwarenessList() {
-		return collisionAwarenessList;
-	}
-
 	public void addPossibleCollideBlock(CollideObject collideObject) {
 		if (!possibleColliders.contains(collideObject)) {
 			possibleColliders.add(collideObject);
 		}
 	}
 
-	public void addAwarenessVector(AbstractCollisionMonitor object) {
-		this.collisionAwarenessList.add(object);
-	}
-
-	public void removeAwarenessVector(AbstractCollisionMonitor object) {
-		this.collisionAwarenessList.remove(object);
-	}
-
 	public void clearAll() {
-//		this.collisionAwarenessList.clear();
 		this.possibleColliders.clear();
 	}
 	public ObjectEvasionAI getEvasiveAI(){

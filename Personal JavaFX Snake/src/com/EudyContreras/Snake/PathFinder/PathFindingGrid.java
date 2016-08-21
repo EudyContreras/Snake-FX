@@ -8,28 +8,25 @@ import com.EudyContreras.Snake.Application.GameManager;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Dimension2D;
-import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class PathFindingGrid {
 
+	private int cellID;
 	private int cellSize;
 	private int columnCount;
 	private int rowCount;
 	private int cellPadding;
 	private boolean showCells;
-	private Cell gridCell;
-	private Cell[][] gridCells2D;
+	private PathFindingCell gridCell;
+	private PathFindingCell[][] gridCells2D;
 	private GameManager game;
 	private Dimension2D dimension;
-	private AI_Controller aiController;
+	private AIController aiController;
 	private LinkedList<CollideObject> blocks;
 	private ObservableList<AbstractObject> targetList;
 
 
-	public PathFindingGrid(GameManager game, AI_Controller aiController, double width, double height, int cellSize, int cellPadding, boolean showCells, LinkedList<CollideObject> blocks,ObservableList<AbstractObject> targetList){
+	public PathFindingGrid(GameManager game, AIController aiController, double width, double height, int cellSize, int cellPadding, boolean showCells, LinkedList<CollideObject> blocks,ObservableList<AbstractObject> targetList){
 		this.game = game;
 		this.blocks = blocks;
 		this.cellSize = cellSize;
@@ -43,12 +40,13 @@ public class PathFindingGrid {
 	private void calculateCells(){
 		rowCount = (int) (dimension.getWidth()/cellSize);
 		columnCount = (int) (dimension.getHeight()/cellSize);
-		gridCells2D = new Cell[rowCount][columnCount];
+		gridCells2D = new PathFindingCell[rowCount][columnCount];
 	}
 	public void placeCells(){
 		for(int col = 0; col<gridCells2D.length; col++){
 			for(int row = 0; row<gridCells2D[col].length; row++){
-				gridCells2D[col][row] = new Cell(cellPadding * (col + 1) + cellSize * col, cellPadding * (row + 1) + cellSize * row,cellSize,cellSize);
+				gridCells2D[col][row] = new PathFindingCell(cellPadding * (col + 1) + cellSize * col, cellPadding * (row + 1) + cellSize * row,cellSize,cellSize,cellID,new Index2D(row,col));
+				cellID++;
 				if(showCells)
 				game.getBaseLayer().getChildren().add(gridCells2D[col][row].getVisualRep());
 			}
@@ -57,7 +55,8 @@ public class PathFindingGrid {
 	public void placeCellsAlt() {
 		for (int row = 0; row < columnCount; row++) {
 			for (int col = 0; col < rowCount; col++) {
-				gridCell = new Cell(cellPadding * (col + 1) + cellSize * col, cellPadding * (row + 1) + cellSize * row, cellSize, cellSize);
+				gridCell = new PathFindingCell(cellPadding * (col + 1) + cellSize * col, cellPadding * (row + 1) + cellSize * row, cellSize, cellSize,cellID, new Index2D(row,col));
+				cellID++;
 				if(showCells)
 				game.getBaseLayer().getChildren().add(gridCell.getVisualRep());
 			}
@@ -79,15 +78,72 @@ public class PathFindingGrid {
 				for (int i = 0; i < blocks.size(); i++) {
 					if (gridCells2D[row][col].placeChecker().intersects(blocks.get(i).getCollideRadius())) {
 						gridCells2D[row][col].setValid(false);
-						if (showCells) {
-							gridCells2D[row][col].visualRep.setFill(Color.RED);
-						}
-						gridCells2D[row][col].valid = false;
+						gridCells2D[row][col].setTraversable(false);
 					}
 				}
 			}
 		}
 	}
+	/**
+	 * Get neighboring cells relative to the given cell. By default they are top/right/bottom/left.
+	 * If allowDiagonals is enabled, then also top-left, top-right, bottom-left, bottom-right cells are in the results.
+	 * @param cell
+	 * @param allowDiagonals
+	 * @return
+	 */
+	public PathFindingCell[] getNeighbors(PathFindingCell cell) {
+
+		PathFindingCell[] neighbors = new PathFindingCell[4];
+
+		int currentColumn = cell.getIndex().getCol();
+		int currentRow = cell.getIndex().getRow();
+
+		int neighborColumn;
+		int neighborRow;
+
+		// top
+		neighborColumn = currentColumn;
+		neighborRow = currentRow - 1;
+
+		if (neighborRow >= 0) {
+			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
+				neighbors[0] = gridCells2D[neighborRow][neighborColumn];
+			}
+		}
+
+		// bottom
+		neighborColumn = currentColumn;
+		neighborRow = currentRow + 1;
+
+		if (neighborRow < rowCount) {
+			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
+				neighbors[1] = gridCells2D[neighborRow][neighborColumn];
+			}
+		}
+
+		// left
+		neighborColumn = currentColumn - 1;
+		neighborRow = currentRow;
+
+		if ( neighborColumn >= 0) {
+			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
+				neighbors[2] = gridCells2D[neighborRow][neighborColumn];
+			}
+		}
+
+		// right
+		neighborColumn = currentColumn + 1;
+		neighborRow = currentRow;
+
+		if ( neighborColumn < columnCount) {
+			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
+				neighbors[3] = gridCells2D[neighborRow][neighborColumn];
+			}
+		}
+
+		return neighbors;
+	}
+
 	private void findNeighbors(int row, int col){
 		int startPosX = (row - 1 < 0) ? row : row-1;
 		int startPosY = (col - 1 < 0) ? col : col-1;
@@ -99,8 +155,11 @@ public class PathFindingGrid {
 		    }
 		}
 	}
-	public Cell[][] getCells(){
+	public PathFindingCell[][] getCells(){
 		return gridCells2D;
+	}
+	public PathFindingCell getCell(int row, int col){
+		return gridCells2D[row][col];
 	}
 	public void setColliderList(LinkedList<CollideObject> list){
 		this.blocks = list;
@@ -141,120 +200,7 @@ public class PathFindingGrid {
 	public final void setDimension(Dimension2D dimension) {
 		this.dimension = dimension;
 	}
-
-	public class Cell {
-		private Point2D location;
-		private Dimension2D dimension;
-		private Rectangle visualRep;
-		private boolean spawnAllowed = true;
-		private boolean targetCell = false;
-		private boolean visited = false;
-		private boolean valid = true;
-
-		public Cell(double x, double y, double width, double height) {
-			this.location = new Point2D(x, y);
-			this.dimension = new Dimension2D(width, height);
-			if (showCells) {
-				this.visualRep = new Rectangle(width, height);
-				this.visualRep.setX(location.getX());
-				this.visualRep.setY(location.getY());
-				this.visualRep.setFill(Color.rgb(0, 0, 0, .3));
-			}
-//			this.checkValidity();
-		}
-
-
-		public void setLocation(double x, double y) {
-			this.location = new Point2D(x, y);
-			if (showCells) {
-				this.visualRep.setX(x);
-				this.visualRep.setY(y);
-			}
-		}
-
-//		public void checkValidity() {
-//			for (int i = 0; i < blocks.size(); i++) {
-//				if (placeChecker().intersects(blocks.get(i).getCollideRadius())) {
-//					if (showCells) {
-//						visualRep.setFill(Color.RED);
-//					}
-//					valid = false;
-//				}
-//			}
-//		}
-
-		public void setDimension(double width, double height) {
-			this.dimension = new Dimension2D(width, height);
-		}
-
-		public void setContainsTarget(boolean state) {
-			setTargetCell(state);
-			if (showCells) {
-				visualRep.setFill(state? Color.GREEN : Color.rgb(0, 0, 0, 0.3) );
-			}
-		}
-		public void setSpawnAllowed(boolean state) {
-			this.spawnAllowed = state;
-			if (showCells) {
-				visualRep.setFill(state? Color.rgb(0, 0, 0, 0.3) : Color.ORANGE );
-			}
-		}
-		public final void setValid(boolean valid) {
-			this.valid = valid;
-			if (showCells) {
-				visualRep.setFill(valid? Color.rgb(0, 0, 0, 0.3) : Color.RED );
-			}
-		}
-		public void setFree(boolean state) {
-			if (showCells) {
-				visualRep.setFill(Color.BLACK);
-			}
-		}
-
-		public Rectangle getVisualRep() {
-			return visualRep;
-		}
-
-		public final Point2D getLocation() {
-			return location;
-		}
-
-		public final void setLocation(Point2D location) {
-			this.location = location;
-		}
-
-		public final Dimension2D getDimension() {
-			return dimension;
-		}
-
-		public final void setDimension(Dimension2D dimension) {
-			this.dimension = dimension;
-		}
-
-		public final boolean isVisited() {
-			return visited;
-		}
-
-		public final boolean isSpawnAllowed() {
-			return spawnAllowed;
-		}
-
-		public final boolean isTargetCell() {
-			return targetCell;
-		}
-		public void setTargetCell(boolean state){
-			this.targetCell = state;
-		}
-		public final void setVisited(boolean visited) {
-			this.visited = visited;
-		}
-
-		public final boolean isValid() {
-			return valid;
-		}
-
-		public Rectangle2D placeChecker() {
-			return new Rectangle2D(location.getX(), location.getY(), dimension.getWidth(), dimension.getHeight());
-		}
+	public enum CellState{
+		CLOSE,OPEN
 	}
 }

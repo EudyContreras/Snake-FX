@@ -35,7 +35,7 @@ import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
-import com.EudyContreras.Snake.PathFinder.AI_Controller;
+import com.EudyContreras.Snake.PathFinder.AIController;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
@@ -88,7 +88,7 @@ public abstract class AbstractGameModel extends Application {
     protected PlayerTwoSectionManager sectManagerTwo;
     protected ClassicSnakeSectionManager sectManagerThree;
     protected CountDownScreen countDownScreen;
-    protected AI_Controller aiController;
+    protected AIController aiController;
     protected Group rootContainer;
     protected GameBorder gameBorder;
     protected FadeTransition fadeSplash;
@@ -166,7 +166,7 @@ public abstract class AbstractGameModel extends Application {
 //	public static double ScaleY = GameLoader.ResolutionScaleY;
 //	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
 
-    public AI_Controller getAIController(){
+    public AIController getAIController(){
     	return aiController;
     }
     public BorderPane getRootLayer(){
