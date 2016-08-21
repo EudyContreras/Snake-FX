@@ -192,6 +192,7 @@ public class GameLoader extends AbstractLoaderModel{
 			break;
 
 		}
+		game.getAIController().initialize();
 
 	}
 
@@ -383,7 +384,7 @@ public class GameLoader extends AbstractLoaderModel{
 				+ fruit.getRadius() * 3);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.MIN_Y+fruit.getRadius() + 1)
 				+ GameSettings.MIN_Y+fruit.getRadius());
-		SnakeFood food = new SnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
+		SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
 	}
@@ -394,7 +395,7 @@ public class GameLoader extends AbstractLoaderModel{
 		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.apple_alt));
 		double x = RandomGenUtility.getRandomDouble(60, (GameSettings.WIDTH - 90));
 		double y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
-		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
+		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
 	}

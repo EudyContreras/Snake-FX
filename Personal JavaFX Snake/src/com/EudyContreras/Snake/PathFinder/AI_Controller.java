@@ -3,11 +3,13 @@ package com.EudyContreras.Snake.PathFinder;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.PathFinder.CollideObject.RangeFactor;
-import com.EudyContreras.Snake.PathFinder.CollideObject.RiskFactor;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
+
+import javafx.collections.ObservableList;
 
 /**
  * Class than handles logic behind all the classes that the Object evasion AI depends on.
@@ -27,7 +29,16 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
  * <li>If the snake's direction is a direction which the turn monitor has labeled as unsafe or not allowed, the snake will change direction to an allowed direction
  * <li>While the snake is only setting its directions to the allowed ones, it will also consider the best direction among all allowed directions. The best
  * direction is determined by calculating the position of the objective and the current position of the snake.
- *
+ * <h1><li>NOTES:</h1>
+ * <li>Rethinks the process.
+ * <li>Maybe it is best to pre-calculate turns.
+ * <li>Make a mechanism that finds the closest apple.
+ * <li>Once the apple has been found calculate how many turns it will take for the snake to reach the apple
+ * and where will the turns be made! The pixels between turns must also be calculated. If a turn leads to a collision with an object
+ * calculate the objects dimension and the position of the objective. if the object is met while traveling to the right calculate the
+ * height of the object. Determine the distance between the snake and the apple if the snake travels up to avoid the object and the distance
+ * if the snake travels down. Compute closest distance and place the turn marker and direction
+ * <li>Always start trajectory based on the closest path. Calculate both the x and the y distance to the object.
  * @author Eudy Contreras
  *
  */
@@ -35,30 +46,38 @@ public class AI_Controller {
 
 	private LinkedList<AbstractCollisionMonitor> collisionAwarenessList;
 	private LinkedList<CollideObject> possibleColliders;
+	private ObservableList<AbstractObject> targetList;
+	private PathFindingGrid pathFindingGrid;
 	private ObjectEvasionAI evasiveAI;
 	private TurnMonitor turnMonitor;
 	private PlayerTwo snakeAI;
 	private GameManager game;
 
+
 	public AI_Controller(GameManager game) {
 		this.game = game;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
+		this.turnMonitor = new TurnMonitor();
+		this.collisionAwarenessList = new LinkedList<AbstractCollisionMonitor>();
+		this.possibleColliders = new LinkedList<CollideObject>();
+		this.evasiveAI = new ObjectEvasionAI(game, snakeAI, turnMonitor, possibleColliders);
 		this.initialize();
 	}
 
 	public void initialize() {
-		turnMonitor = new TurnMonitor();
-		evasiveAI = new ObjectEvasionAI(game, snakeAI, turnMonitor, possibleColliders);
-		collisionAwarenessList = new LinkedList<AbstractCollisionMonitor>();
-		possibleColliders = new LinkedList<CollideObject>();
-
+		obtainAllColliders();
+		pathFindingGrid = null;
+		pathFindingGrid = new PathFindingGrid(game,this,GameSettings.WIDTH,GameSettings.HEIGHT,45,1,true,possibleColliders, targetList);
+		pathFindingGrid.placeCells();
 	}
 
 	public void update_AI_Simulation(long timePassed) {
-		updateCollisionAwareness(timePassed);
-		updatePotentialColliders(timePassed);
+//		updatePotentialColliders(timePassed);
 		processAIEvents();
 
+	}
+	public void nofifyAI(){
+		evasiveAI.findObjective();
 	}
 	private void processAIEvents() {
 		evasiveAI.updateSimulation();
@@ -100,48 +119,39 @@ public class AI_Controller {
 		}
 	}
 
-	private void updatePotentialColliders(long timePassed) {
-		Iterator<CollideObject> collider = possibleColliders.iterator();
-		while (collider.hasNext()) {
-			CollideObject objects = collider.next();
-			objects.updateProperties();
-			computePossibleDirections(objects);
-		}
-	}
+//	private void computePossibleDirections(CollideObject collider) {
+//		if (collider.getRiskFactor() == RiskFactor.HIGH) {
+//			if(collider.getRange() == RangeFactor.WITHIN_RANGE){
+//				switch(collider.getLocation()){
+//				case EAST_OF_PlAYER:
+//					computeDecision(true,true,false,true);
+//					break;
+//				case NORTH_OF_PLAYER:
+//					computeDecision(false,true,true,true);
+//					break;
+//				case SOUTH_OF_PLAYER:
+//					computeDecision(true,false,true,true);
+//					break;
+//				case WEST_OF_PLAYER:
+//					computeDecision(true,true,true,false);
+//					break;
+//				default:
+//					break;
+//				}
+//			}
+//			else{
+//				computeDecision(true,true,true,true);
+//			}
+//		}
+//	}
 
-	private void computePossibleDirections(CollideObject collider) {
-		if (collider.getRiskFactor() == RiskFactor.HIGH) {
-			if(collider.getRange() == RangeFactor.WITHIN_RANGE){
-				switch(collider.getLocation()){
-				case EAST_OF_PlAYER:
-					computeDecision(true,true,false,true);
-					break;
-				case NORTH_OF_PLAYER:
-					computeDecision(false,true,true,true);
-					break;
-				case SOUTH_OF_PLAYER:
-					computeDecision(true,false,true,true);
-					break;
-				case WEST_OF_PLAYER:
-					computeDecision(true,true,true,false);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-		else{
-			computeDecision(true,true,true,true);
-		}
-	}
-
-	private void computeDecision(boolean up, boolean down, boolean right, boolean left) {
-		turnMonitor.setAllowMoveUp(up);
-		turnMonitor.setAllowMoveDown(down);
-		turnMonitor.setAllowMoveLeft(left);
-		turnMonitor.setAllowMoveRight(right);
-	}
-	private void obtainAllColliders(){
+//	private void computeDecision(boolean up, boolean down, boolean right, boolean left) {
+//		turnMonitor.setAllowMoveUp(up);
+//		turnMonitor.setAllowMoveDown(down);
+//		turnMonitor.setAllowMoveLeft(left);
+//		turnMonitor.setAllowMoveRight(right);
+//	}
+	public void obtainAllColliders(){
 		for(int i = 0; i<game.getGameLoader().getTileManager().getBlock().size(); i++){
 			AbstractTile blocks = game.getGameLoader().getTileManager().getBlock().get(i);
 			addPossibleCollideBlock(new CollideObject(evasiveAI, blocks));
@@ -150,6 +160,7 @@ public class AI_Controller {
 			AbstractTile traps = game.getGameLoader().getTileManager().getTrap().get(i);
 			addPossibleCollideBlock(new CollideObject(evasiveAI, traps));
 		}
+		this.targetList = game.getGameObjectController().getFruitList();
 	}
 	public LinkedList<AbstractCollisionMonitor> getAwarenessList() {
 		return collisionAwarenessList;
@@ -171,6 +182,9 @@ public class AI_Controller {
 
 	public void clearAll() {
 		this.collisionAwarenessList.clear();
+		this.possibleColliders.clear();
 	}
-
+	public ObjectEvasionAI getEvasiveAI(){
+		return evasiveAI;
+	}
 }

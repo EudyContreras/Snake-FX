@@ -44,7 +44,6 @@ public class SnakeFood extends AbstractObject {
 	private double particleSize;
 	private double fadeValue = 0.0;
 	private double glowValue = 0.0;
-	private double staticRadius = 0;
 	private double lifeTime = 0;
 	private boolean maxSize = false;
 	private boolean minSize = true;
@@ -92,9 +91,8 @@ public class SnakeFood extends AbstractObject {
 		this.circle.setOpacity(fadeValue);
 		this.size = circle.getRadius();
 		this.targetSize = size;
-		this.staticRadius = (targetSize *2)+5;
 		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
-		this.rectBounds = new Rectangle(x,y, staticRadius+5, staticRadius+5);
+		this.rectBounds = new Rectangle(x,y,size*2,size*2);
 		this.rectBounds.setFill(Color.TRANSPARENT);
 		this.layer.getChildren().add(bounds);
 		this.addGLow();
@@ -168,8 +166,10 @@ public class SnakeFood extends AbstractObject {
 		bounds.setCenterX(x);
 		bounds.setCenterY(y);
 		bounds.setRadius(size * .8);
-		rectBounds.setX(x - staticRadius / 2);
-		rectBounds.setY(y - staticRadius / 2);
+		rectBounds.setX(x - size*2 / 2);
+		rectBounds.setY(y - size*2 / 2);
+		rectBounds.setWidth(size*2);
+		rectBounds.setHeight(size*2);
 
 	}
 	/**
@@ -589,7 +589,7 @@ public class SnakeFood extends AbstractObject {
 	 * @return
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - staticRadius / 2, y - staticRadius / 2, staticRadius, staticRadius);
+		return new Rectangle2D(x - size*2 / 2, y - size*2 / 2, size*2, size*2);
 	}
 
 	/**
@@ -598,7 +598,7 @@ public class SnakeFood extends AbstractObject {
 	 * @return
 	 */
 	public Rectangle2D getCollisionBounds() {
-		return new Rectangle2D(x - staticRadius / 2, y - staticRadius / 2, staticRadius, staticRadius);
+		return getBounds();
 	}
 	public Rectangle2D getNormalBounds(){
 		return new Rectangle2D(rectBounds.getX(), rectBounds.getY(), rectBounds.getWidth(), rectBounds.getHeight());

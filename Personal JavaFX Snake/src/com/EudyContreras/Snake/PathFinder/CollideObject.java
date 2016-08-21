@@ -21,8 +21,6 @@ public class CollideObject {
 	private double threshold;
 	private double clearRadius;
 	private Double distance;
-	private Double distanceX;
-	private Double distanceY;
 	private Dimension2D dimension;
 	private ObjectEvasionAI evader;
 	private RangeFactor range;
@@ -31,16 +29,15 @@ public class CollideObject {
 	public CollideObject(ObjectEvasionAI evader, AbstractTile warning) {
 		super();
 		this.evader = evader;
-		this.x = warning.getX();
-		this.y = warning.getY();
-		this.width = warning.getWidth();
-		this.height = warning.getHeight();
-		this.clearRadius = 30;
+		this.x = warning.getBounds().getMinX();
+		this.y = warning.getBounds().getMinY();
+		this.width = warning.getBounds().getWidth();
+		this.height = warning.getBounds().getHeight();
+		this.clearRadius = 1;
 		this.threshold = 120;
 		this.dimension = new Dimension2D(width,height);
 	}
 	public void updateProperties(){
-		updateDistances();
 		calculateRelativeLocation(evader,evader.getX(),evader.getY());
 	}
 	private void calculateRelativeLocation(ObjectEvasionAI evader, double evaderX, double evaderY){
@@ -68,13 +65,9 @@ public class CollideObject {
 			range = RangeFactor.OUT_OF_RANGE;
 		}
 	}
-	public void updateDistances(){
-		distanceX = Math.abs(evader.getX() - x);
-		distanceY = Math.abs(evader.getY() - y);
-		distance = Math.abs(evader.getX() - x)+Math.abs(evader.getY() - y);
-	}
-	public RiskFactor getRiskFactor(){
-		if(distance<=threshold){
+
+	public RiskFactor getRiskFactor(double x, double y){
+		if(getDistance(x,y)<=threshold){
 			return RiskFactor.HIGH;
 		}
 		else{
@@ -96,14 +89,14 @@ public class CollideObject {
 	public Dimension2D Dimension(){
 		return dimension;
 	}
-	public double getRangeX() {
-		return distanceX;
+	public double getRangeX(double x) {
+		return Math.abs(x - this.x);
 	}
-	public double getRangeY() {
-		return distanceY;
+	public double getRangeY(double y) {
+		return Math.abs(y - this.y);
 	}
-	public double getDistance() {
-		return distance;
+	public double getDistance(double x, double y) {
+		return Math.abs(x - this.x)+Math.abs(y - this.y);
 	}
 	public RangeFactor getRange(){
 		return range;

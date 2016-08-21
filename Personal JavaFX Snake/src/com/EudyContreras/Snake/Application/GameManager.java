@@ -32,7 +32,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
-import com.EudyContreras.Snake.PathFinder.PathFindingAI;
+import com.EudyContreras.Snake.PathFinder.AI_Controller;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
@@ -146,8 +146,9 @@ public class GameManager extends AbstractGameModel {
 		splash = null;
 		splashScene = null;
 		mainWindow = new Stage();
-		getGameRoot().getChildren().add(dirtLayer);
 		getGameRoot().getChildren().add(baseLayer);
+		getGameRoot().getChildren().add(fruitLayer);
+		getGameRoot().getChildren().add(dirtLayer);
 		getGameRoot().getChildren().add(debrisLayer);
 		getGameRoot().getChildren().add(innerParticleLayer);
 		getGameRoot().getChildren().add(snakeOneLayer);
@@ -235,6 +236,7 @@ public class GameManager extends AbstractGameModel {
 		gameBorder = new GameBorder(this,rootContainer);
 		scene = new Scene(rootContainer, Color.BLACK);
 		baseLayer = new Pane();
+		fruitLayer = new Pane();
 		dirtLayer = new Pane();
 		debrisLayer = new Pane();
 		snakeOneLayer = new Pane();
@@ -267,7 +269,8 @@ public class GameManager extends AbstractGameModel {
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
 		sectManagerThree = new ClassicSnakeSectionManager(this);
-		snakeAI = new PathFindingAI(this, loader.getPlayerTwo());
+//		snakeAI = new PathFindingAI(this, loader.getPlayerTwo());
+		aiController = new AI_Controller(this);
 		keyInput = new KeyInputHandler();
 		gestures = new TouchInputHandler();
 		mouseInput = new MouseInputHandler();
@@ -433,11 +436,7 @@ public class GameManager extends AbstractGameModel {
 						debrisManager.updateAll();
 
 						loader.updateLevelObjects();
-						
-						if (GameSettings.ALLOW_AI_CONTROLL){
 
-							snakeAI.updateSimulation();
-						}
 						if (getGameLoader().getPlayerOne() != null) {
 							playerOneManager.updateAllLogic(timePassed);
 							sectManagerOne.updateAllLogic(timePassed);
@@ -453,6 +452,11 @@ public class GameManager extends AbstractGameModel {
 							for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
 								playerTwoManager.updateAllMovement();
 								sectManagerTwo.updateAllMovement(timePassed);
+
+							}
+							if (GameSettings.ALLOW_AI_CONTROLL){
+								aiController.update_AI_Simulation(timePassed);
+//								snakeAI.updateSimulation();
 							}
 						}
 
@@ -850,6 +854,7 @@ public class GameManager extends AbstractGameModel {
 		ClassicSnake.SPEED = GameSettings.CLASSIC_SNAKE_SPEED;
 
 		baseLayer.getChildren().clear();
+		fruitLayer.getChildren().clear();
 		dirtLayer.getChildren().clear();
 		debrisLayer.getChildren().clear();
 		innerParticleLayer.getChildren().clear();
@@ -879,7 +884,7 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	public void assignPlayer() {
-		getPathFinder().setPlayer();
+		getAIController().getEvasiveAI().setPlayer();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
 		getEnergyBarOne().setPlayer();

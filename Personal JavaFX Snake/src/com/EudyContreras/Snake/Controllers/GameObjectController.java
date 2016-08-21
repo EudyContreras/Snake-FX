@@ -8,7 +8,6 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
-import com.EudyContreras.Snake.PathFinder.PathFindingAI.ActionState;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -46,7 +45,7 @@ public class GameObjectController {
 			@Override
 			public void onChanged(@SuppressWarnings("rawtypes") ListChangeListener.Change change) {
 				if(game.getStateID() == GameStateID.GAMEPLAY)
-				game.getPathFinder().findObjective(ActionState.TRACKING);
+				game.getAIController().nofifyAI();
 			}
 		});
 

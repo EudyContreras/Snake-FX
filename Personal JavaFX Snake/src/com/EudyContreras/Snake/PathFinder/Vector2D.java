@@ -10,6 +10,14 @@ public class Vector2D {
 		this.y = y;
 	}
 
+	public double getX(){
+		return x;
+	}
+
+	public double getY(){
+		return y;
+	}
+
 	public double magnitude() {
 		return (double) Math.sqrt(x * x + y * y);
 	}

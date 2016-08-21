@@ -35,7 +35,7 @@ import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
-import com.EudyContreras.Snake.PathFinder.PathFindingAI;
+import com.EudyContreras.Snake.PathFinder.AI_Controller;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
@@ -88,7 +88,7 @@ public abstract class AbstractGameModel extends Application {
     protected PlayerTwoSectionManager sectManagerTwo;
     protected ClassicSnakeSectionManager sectManagerThree;
     protected CountDownScreen countDownScreen;
-    protected PathFindingAI snakeAI;
+    protected AI_Controller aiController;
     protected Group rootContainer;
     protected GameBorder gameBorder;
     protected FadeTransition fadeSplash;
@@ -100,11 +100,12 @@ public abstract class AbstractGameModel extends Application {
     protected Scene splashScene;
     protected Pane mainRoot;
     protected Pane root;
+    protected Pane baseLayer;
     protected Pane splashLayout;
     protected Pane levelLayer;
     protected Pane snakeOneLayer;
     protected Pane snakeTwoLayer;
-    protected Pane baseLayer;
+    protected Pane fruitLayer;
     protected Pane dirtLayer;
     protected Pane innerParticleLayer;
     protected Pane outerParticleLayer;
@@ -165,8 +166,8 @@ public abstract class AbstractGameModel extends Application {
 //	public static double ScaleY = GameLoader.ResolutionScaleY;
 //	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX + GameLoader.ResolutionScaleY) / 2;
 
-    public PathFindingAI getPathFinder() {
-    	return snakeAI;
+    public AI_Controller getAIController(){
+    	return aiController;
     }
     public BorderPane getRootLayer(){
         return sceneRoot;
@@ -307,7 +308,9 @@ public abstract class AbstractGameModel extends Application {
         }
         sceneRoot.setCenter(root);
     }
-
+    public Pane getBaseLayer(){
+    	return baseLayer;
+    }
     public Pane getSnakeOneLayer() {
         return snakeOneLayer;
     }
@@ -388,8 +391,8 @@ public abstract class AbstractGameModel extends Application {
         this.keyInput = keyInput;
     }
 
-    public Pane getBaseLayer() {
-        return baseLayer;
+    public Pane getFruitLayer() {
+        return fruitLayer;
     }
 
     public Pane getDirtLayer() {
@@ -425,7 +428,7 @@ public abstract class AbstractGameModel extends Application {
     }
 
     public void setBaseLayer(Pane baseLayer) {
-        this.baseLayer = baseLayer;
+        this.fruitLayer = baseLayer;
     }
 
     public Pane getFirstLayer() {

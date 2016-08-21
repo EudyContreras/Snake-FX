@@ -286,7 +286,7 @@ public class CountDownScreen {
 			game.getGameHud().hideHUDCover();
 			game.setStateID(GameStateID.GAMEPLAY);
 			game.getScoreKeeper().startTimer();
-			game.getPathFinder().startSimulation();
+			game.getAIController().getEvasiveAI().startSimulation();
 			height = baseHeight - 60;
 			width = baseWidth + 180;
 			x = (double) (GameSettings.WIDTH / 2 - width / 2);

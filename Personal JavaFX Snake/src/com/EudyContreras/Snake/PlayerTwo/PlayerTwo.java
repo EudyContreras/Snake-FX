@@ -14,7 +14,6 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
-import com.EudyContreras.Snake.PathFinder.PathFindingAI.ActionState;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
@@ -213,8 +212,8 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
-			boundBox.setX(snakeHead.getX() - snakeHead.getRadius()*1.5/2);
-			boundBox.setY(snakeHead.getY() - snakeHead.getRadius()*1.5/2);
+			boundBox.setX(snakeHead.getX() - snakeHead.getRadius()*1.5/2 + offsetX*2);
+			boundBox.setY(snakeHead.getY() - snakeHead.getRadius()*1.5/2 + offsetY*2);
 			boundBox.setWidth(snakeHead.getRadius()*1.5);
 			boundBox.setHeight(snakeHead.getRadius()*1.5);
 		}
@@ -599,17 +598,14 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
-					if (getAIBounds().intersects(tempTile.getBounds())) {
-						if (PlayerTwo.AI_CONTROLLED)
-						game.getPathFinder().avoidObstacle(tempTile);
-					}
 				}
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.rock) {
 					if (getBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ALLOW_ROCK_COLLISION) {
+						game.getAIController().getEvasiveAI().evade(tempTile);
+						if (GameSettings.ALLOW_ROCK_COLLISION && !GameSettings.ALLOW_AI_CONTROLL) {
 							if (allowCollision) {
 								this.allowThrust = false;
 								this.thrust = false;
@@ -625,17 +621,8 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
-					else if (getAIBounds().intersects(tempTile.getBounds())) {
-						if (PlayerTwo.AI_CONTROLLED) {
-							if (GameSettings.ALLOW_ROCK_COLLISION) {
-								this.allowThrust = false;
-								this.thrust = false;
-								this.game.getEnergyBarTwo().setDelay();
-								this.game.getEnergyBarTwo().setSpeedThrust(false);
-								this.game.getPathFinder().avoidObstacle(tempTile);
-								System.out.println("COLLISION: " +x + ", " +y);
-							}
-						}
+					if (this.getAIBounds().intersects(tempTile.getBounds())) {
+						game.getAIController().getEvasiveAI().evade(tempTile);
 					}
 				}
 			}
@@ -653,10 +640,6 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
-					if (getAIBounds().intersects(tempTile.getBounds())) {
-						if (PlayerTwo.AI_CONTROLLED)
-						game.getPathFinder().avoidObstacle(tempTile);
-					}
 				}
 				if (tempTile.getId() == GameLevelObjectID.trap) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
@@ -670,14 +653,9 @@ public class PlayerTwo extends AbstractObject {
 							}
 						}
 					}
-					if (getAIBounds().intersects(tempTile.getBounds())) {
-						if (PlayerTwo.AI_CONTROLLED)
-						game.getPathFinder().avoidObstacle(tempTile);
-					}
 				}
 			}
 		}
-
 	}
 
 	public void addbaseSections() {
@@ -722,20 +700,20 @@ public class PlayerTwo extends AbstractObject {
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
-			game.getPathFinder().findClosest();
-			game.getPathFinder().findObjective(ActionState.TRACKING);
+			game.getAIController().getEvasiveAI().findClosest();
+			game.getAIController().getEvasiveAI().findObjective();
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-			game.getPathFinder().findClosest();
-			game.getPathFinder().findObjective(ActionState.TRACKING);
+			game.getAIController().getEvasiveAI().findClosest();
+			game.getAIController().getEvasiveAI().findObjective();
 		} else if (y < GameSettings.MIN_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
-			game.getPathFinder().findClosest();
-			game.getPathFinder().findObjective(ActionState.TRACKING);
+			game.getAIController().getEvasiveAI().findClosest();
+			game.getAIController().getEvasiveAI().findObjective();
 		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (GameSettings.MIN_Y - radius);
-			game.getPathFinder().findClosest();
-			game.getPathFinder().findObjective(ActionState.TRACKING);
+			game.getAIController().getEvasiveAI().findClosest();
+			game.getAIController().getEvasiveAI().findObjective();
 		}
 	}
 
@@ -935,7 +913,7 @@ public class PlayerTwo extends AbstractObject {
 		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
 	}
 	public Rectangle2D getAIBounds() {
-		return new Rectangle2D(snakeHead.getX() - snakeHead.getRadius()*1.5/2, snakeHead.getY() - snakeHead.getRadius()*1.5/2, snakeHead.getRadius()*1.5, snakeHead.getRadius()*1.5 );
+		return new Rectangle2D(snakeHead.getX() - snakeHead.getRadius()*1.5/2 + offsetX*2, snakeHead.getY() - snakeHead.getRadius()*1.5/2 + offsetY*2, snakeHead.getRadius()*1.5, snakeHead.getRadius()*1.5 );
 	}
 	public PlayerTwoHead getHead() {
 		return snakeHead;
