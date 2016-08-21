@@ -62,7 +62,9 @@ public class ObjectEvasionAI {
 
 	public void findObjective(ActionState state) {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
+			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
+				createPath();
 			break;
 		case FINDING:
 			break;
@@ -127,39 +129,14 @@ public class ObjectEvasionAI {
 	 */
 	public AbstractObject findClosest() {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
+			computeObjective();
 			break;
 		case FINDING:
+			computeObjective();
 			break;
 		case TRACKING:
-			Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
-
-			for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-			//	distance[i] = new Distance(Math.hypot(snakeAI.getX() - game.getGameObjectController().getFruitList().get(i).getX(),snakeAI.getY() - game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
-				distance[i] = new Distance(Math.abs(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX()) + Math.abs(snakeAI.getY()- game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
-			}
-
-			if(distance.length>0){
-				closest = distance[0].getDistance();
-			}
-
-			for (int i = 0; i < distance.length; i++) {
-				if (distance[i].getDistance() < closest) {
-					closest = distance[i].getDistance();
-				}
-			}
-			for (int i = 0; i < distance.length; i++) {
-				if (distance[i].getDistance() == closest) {
-					if (distance[i].getObject().isAlive()) {
-						closestObjective = distance[i].getObject();
-						positionX = distance[i].getObject().getX();
-						positionY = distance[i].getObject().getY();
-					}
-				}
-			}
-			if (closestObjective != null && !GameSettings.DEBUG_MODE){
-				closestObjective.blowUpAlt();
-			}
+			computeObjective();
 			break;
 		default:
 			break;
@@ -167,6 +144,36 @@ public class ObjectEvasionAI {
 		}
 
 		return closestObjective;
+	}
+	private void computeObjective(){
+		Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
+
+		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
+			distance[i] = new Distance(calculateDistanceAlt(snakeAI.getX(),game.getGameObjectController().getFruitList().get(i).getX(),snakeAI.getY(), game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
+		}
+
+		if(distance.length>0){
+			closest = distance[0].getDistance();
+		}
+
+		for (int i = 0; i < distance.length; i++) {
+			if (distance[i].getDistance() < closest) {
+				closest = distance[i].getDistance();
+			}
+		}
+		for (int i = 0; i < distance.length; i++) {
+			if (distance[i].getDistance() == closest) {
+				if (distance[i].getObject().isAlive()) {
+					closestObjective = distance[i].getObject();
+					positionX = distance[i].getObject().getX();
+					positionY = distance[i].getObject().getY();
+				}
+			}
+		}
+		if (closestObjective != null && !GameSettings.DEBUG_MODE){
+			closestObjective.blowUpAlt();
+		}
+
 	}
 	/**
 	 * Method which gets called in the update method and
@@ -197,61 +204,63 @@ public class ObjectEvasionAI {
 	 */
 	private void createPath() {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
 			break;
 		case FINDING:
 			break;
 		case TRACKING:
-			if (Math.abs(snakeAI.getX() - closestObjective.getX()) < Math.abs(snakeAI.getY() - closestObjective.getY())) {
-				if (closestObjective.getY() > snakeAI.getY()) {
-					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.45){
-						location = ObjectivePosition.SOUTH;
-						performMove(PlayerMovement.MOVE_UP);
-					}
-					else{
-						location = ObjectivePosition.SOUTH;
-						performMove(PlayerMovement.MOVE_DOWN);
-					}
-				}
-				else{
-					if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.45){
-						location = ObjectivePosition.NORTH;
-						performMove(PlayerMovement.MOVE_DOWN);
-					}
-					else{
-						location = ObjectivePosition.NORTH;
-						performMove(PlayerMovement.MOVE_UP);
-					}
-				}
-			} else {
-				if (closestObjective.getX() > snakeAI.getX()) {
-					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.45){
-						location = ObjectivePosition.EAST;
-						performMove(PlayerMovement.MOVE_LEFT);
-					}
-					else{
-						location = ObjectivePosition.EAST;
-						performMove(PlayerMovement.MOVE_RIGHT);
-					}
-				}
-				else{
-					if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.45){
-						location = ObjectivePosition.WEST;
-						performMove(PlayerMovement.MOVE_RIGHT);
-					}
-					else{
-						location = ObjectivePosition.WEST;
-						performMove(PlayerMovement.MOVE_LEFT);
-					}
-				}
-			}
-
+			computePath();
 			break;
 		default:
 			break;
 
 		}
 
+	}
+	private void computePath(){
+		if (Math.abs(snakeAI.getX() - closestObjective.getX()) < Math.abs(snakeAI.getY() - closestObjective.getY())) {
+			if (closestObjective.getY() > snakeAI.getY()) {
+				if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.45){
+					location = ObjectivePosition.SOUTH;
+					performMove(PlayerMovement.MOVE_UP);
+				}
+				else{
+					location = ObjectivePosition.SOUTH;
+					performMove(PlayerMovement.MOVE_DOWN);
+				}
+			}
+			else{
+				if(closestObjective.getYDistance(snakeAI.getY())>GameSettings.HEIGHT*.45){
+					location = ObjectivePosition.NORTH;
+					performMove(PlayerMovement.MOVE_DOWN);
+				}
+				else{
+					location = ObjectivePosition.NORTH;
+					performMove(PlayerMovement.MOVE_UP);
+				}
+			}
+		} else {
+			if (closestObjective.getX() > snakeAI.getX()) {
+				if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.45){
+					location = ObjectivePosition.EAST;
+					performMove(PlayerMovement.MOVE_LEFT);
+				}
+				else{
+					location = ObjectivePosition.EAST;
+					performMove(PlayerMovement.MOVE_RIGHT);
+				}
+			}
+			else{
+				if(closestObjective.getXDistance(snakeAI.getX())>GameSettings.WIDTH*.45){
+					location = ObjectivePosition.WEST;
+					performMove(PlayerMovement.MOVE_RIGHT);
+				}
+				else{
+					location = ObjectivePosition.WEST;
+					performMove(PlayerMovement.MOVE_LEFT);
+				}
+			}
+		}
 	}
 	/**BUGGGY!!
 	 *
@@ -263,49 +272,8 @@ public class ObjectEvasionAI {
 	 * @param obstacle
 	 */
 	public void avoidObstacle(AbstractTile obstacle) {
-		this.obstacle = obstacle;
-//		this.state = ActionState.AVOIDING;
-		if (game.getModeID() == GameModeID.LocalMultiplayer && game.getStateID() == GameStateID.GAMEPLAY) {
-			switch (snakeAI.getCurrentDirection()) {
-			case MOVE_DOWN:
-				if (closestObjective.getX()<snakeAI.getX()){
-					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
-				}
-				else{
-					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
-				}
-					break;
-			case MOVE_LEFT:
-				if(closestObjective.getY()<snakeAI.getY()){
-					snakeAI.setDirection(PlayerMovement.MOVE_UP);
-				}
-				else{
-					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
-				}
-				break;
-			case MOVE_RIGHT:
-				if(closestObjective.getY()<snakeAI.getY()){
-					snakeAI.setDirection(PlayerMovement.MOVE_UP);
-				}
-				else{
-					snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
-				}
-				break;
-			case MOVE_UP:
-				if (closestObjective.getX()<snakeAI.getX()){
-					snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
-				}
-				else{
-					snakeAI.setDirection(PlayerMovement.MOVE_RIGHT);
-				}
-				break;
-			case STANDING_STILL:
-				break;
-			default:
-				break;
-
-			}
-		}
+		
+		
 	}
 
 	/**
@@ -315,7 +283,7 @@ public class ObjectEvasionAI {
 	 */
 	private void checkCurrentLocation() {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
 			break;
 		case FINDING:
 			break;
@@ -356,7 +324,7 @@ public class ObjectEvasionAI {
 	 */
 	private void checkObjectiveStatus() {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
 			break;
 		case FINDING:
 			break;
@@ -382,7 +350,7 @@ public class ObjectEvasionAI {
 	 */
 	public void performMove(PlayerMovement move) {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
 			break;
 		case FINDING:
 			break;
@@ -413,7 +381,7 @@ public class ObjectEvasionAI {
 
 	private void makeUTurn(PlayerMovement currentDirection) {
 		switch(state){
-		case AVOIDING:
+		case AVADING:
 			break;
 		case FINDING:
 			break;
@@ -508,15 +476,15 @@ public class ObjectEvasionAI {
 		NORTH, SOUTH, WEST, EAST
 	}
 	public enum ActionState{
-		TRACKING, AVOIDING, FINDING,
+		TRACKING, AVADING, FINDING,
 	}
 	public enum LegalTurns{
 		LEFT,RIGHT,UP,DOWN
 	}
-	public static double calcDistance(double x1, double y1, double x2, double y2) {
-	    return Math.hypot(x2 - x1, y2 - y1);
+	public static double calculateDistance(double x1, double x2, double y1, double y2) {
+	    return Math.hypot(x1 - x2, y1 - y2);
 	}
-	public static double calcDistanceAlt(double x1, double y1, double x2, double y2) {
+	public static double calculateDistanceAlt(double x1, double y1, double x2, double y2) {
 		return Math.abs(x1 - x2)+Math.abs(y1 - y2);
 	}
 }

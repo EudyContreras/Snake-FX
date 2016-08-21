@@ -117,18 +117,21 @@ public class AI_Controller {
 					computeDecision(true,true,false,true);
 					break;
 				case NORTH_OF_PLAYER:
-					computeDecision(true,true,false,true);
+					computeDecision(false,true,true,true);
 					break;
 				case SOUTH_OF_PLAYER:
-					computeDecision(true,true,false,true);
+					computeDecision(true,false,true,true);
 					break;
 				case WEST_OF_PLAYER:
-					computeDecision(true,true,false,true);
+					computeDecision(true,true,true,false);
 					break;
 				default:
 					break;
 				}
 			}
+		}
+		else{
+			computeDecision(true,true,true,true);
 		}
 	}
 

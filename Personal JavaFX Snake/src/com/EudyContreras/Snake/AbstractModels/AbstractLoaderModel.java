@@ -67,7 +67,7 @@ public abstract class AbstractLoaderModel {
 		this.desertLevel_2 = ImageLoadingUtility.loadImage("desert-level-2.png");
 		this.desertLevel_3 = ImageLoadingUtility.loadImage("desert-level-3.png");
 		this.desertLevel_4 = ImageLoadingUtility.loadImage("desert-level-4.png");
-		this.desertLevel_5 = ImageLoadingUtility.loadImage("image.png");
+		this.desertLevel_5 = ImageLoadingUtility.loadImage("desert-level-5.png");
 		this.desertLevel_6 = ImageLoadingUtility.loadImage("image.png");
 		this.desertLevel_7 = ImageLoadingUtility.loadImage("image.png");
 		this.desertLevel_8 = ImageLoadingUtility.loadImage("image.png");
