@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFinder;
+package com.EudyContreras.Snake.PathFindingAI;
 
 public class Vector2D {
 

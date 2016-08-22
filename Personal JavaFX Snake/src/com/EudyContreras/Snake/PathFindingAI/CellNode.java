@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFinder;
+package com.EudyContreras.Snake.PathFindingAI;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -20,7 +20,6 @@ public class CellNode {
     private double movementPenalty = 0;
 	private double totalCost = 0;
 
-	private boolean valid = true;
 	private boolean visited = false;
 	private boolean showCells = true;
 	private boolean pathCell = false;
@@ -74,15 +73,6 @@ public class CellNode {
 			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.ORANGE);
 		}
 	}
-
-	public final void setValid(boolean valid) {
-		this.valid = valid;
-		this.setTraversable(false);
-		if (showCells) {
-			visualRep.setFill(valid ? Color.rgb(0, 0, 0, 0.3) : Color.RED);
-		}
-	}
-
 	public void setFree(boolean state) {
 		if (showCells) {
 			visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
@@ -90,7 +80,7 @@ public class CellNode {
 	}
 	public void setPathCell(boolean state) {
 		this.pathCell = state;
-		if (showCells) {
+		if (showCells && isTraversable()) {
 			visualRep.setFill(state ? Color.BLUE : Color.rgb(0, 0, 0, 0.3));
 		}
 
@@ -138,8 +128,11 @@ public class CellNode {
 		return isTraversable;
 	}
 
-	public final void setTraversable(boolean isTraversable) {
-		this.isTraversable = isTraversable;
+	public final void setTraversable(boolean state) {
+		this.isTraversable = state;
+		if (showCells) {
+			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.RED);
+		}
 	}
 
 	public final boolean isVisited() {
@@ -160,10 +153,6 @@ public class CellNode {
 
 	public final void setVisited(boolean visited) {
 		this.visited = visited;
-	}
-
-	public final boolean isValid() {
-		return valid;
 	}
 
 	public final double getHeuristic() {
@@ -200,7 +189,7 @@ public class CellNode {
 		this.visualRep = visualRep;
 	}
 
-	public Rectangle2D placeChecker() {
+	public Rectangle2D getBoundsCheck() {
 		return new Rectangle2D(location.getX(), location.getY(), dimension.getWidth(), dimension.getHeight());
 	}
 

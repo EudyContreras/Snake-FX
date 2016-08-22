@@ -35,7 +35,7 @@ import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
-import com.EudyContreras.Snake.PathFinder.AIController;
+import com.EudyContreras.Snake.PathFindingAI.AIController;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;

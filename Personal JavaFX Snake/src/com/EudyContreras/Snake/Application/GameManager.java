@@ -32,7 +32,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
 import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
 import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
-import com.EudyContreras.Snake.PathFinder.AIController;
+import com.EudyContreras.Snake.PathFindingAI.AIController;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
@@ -41,7 +41,6 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
-import com.EudyContreras.Snake.Utilities.SplashScreen;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;

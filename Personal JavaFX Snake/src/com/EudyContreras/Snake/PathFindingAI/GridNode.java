@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFinder;
+package com.EudyContreras.Snake.PathFindingAI;
 
 
 import java.util.HashSet;
@@ -83,7 +83,7 @@ public class GridNode {
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
 				for (int i = 0; i < blocks.size(); i++) {
-					if (cellNodes[row][col].placeChecker().intersects(blocks.get(i).getCollideRadius())) {
+					if (cellNodes[row][col].getBoundsCheck().intersects(blocks.get(i).getCollideRadius())) {
 						findNeighbors(row,col);
 					}
 				}
@@ -92,8 +92,7 @@ public class GridNode {
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
 				for (int i = 0; i < blocks.size(); i++) {
-					if (cellNodes[row][col].placeChecker().intersects(blocks.get(i).getCollideRadius())) {
-						cellNodes[row][col].setValid(false);
+					if (cellNodes[row][col].getBoundsCheck().intersects(blocks.get(i).getCollideRadius())) {
 						cellNodes[row][col].setTraversable(false);
 					}
 				}
@@ -106,12 +105,31 @@ public class GridNode {
 		for (int row = 0; row < getCells().length; row++) {
 			for (int col = 0; col < getCells()[row].length; col++) {
 				CellNode tempCell = getCells()[row][col];
-				if (tempCell.isValid() && tempCell.isSpawnAllowed() && !tempCell.isTargetCell()) {
+				if (tempCell.isTraversable() && !tempCell.isTargetCell()) {
 					tempCell.setFree(true);
 				}
-				if (tempCell.placeChecker().intersects(bounds.getMinX(), bounds.getMinY(), 10, 10)) {
-					tempCell.setPathCell(true);
+				if (tempCell.getBoundsCheck().intersects(bounds.getMinX(), bounds.getMinY(), 10, 10)) {
+					//tempCell.setPathCell(true);
 					cell = tempCell;
+				}
+			}
+		}
+		return cell;
+	}
+	public CellNode getRelativeCell() {
+		CellNode cell = null;
+		AbstractObject object = null;
+		for (int row = 0; row < getCells().length; row++) {
+			for (int col = 0; col < getCells()[row].length; col++) {
+				cell = getCells()[row][col];
+				if(cell.isTraversable())
+					cell.setContainsTarget(false);
+				for(int i = 0; i<targetList.size();i++){
+					object = targetList.get(i);
+					if(cell.getBoundsCheck().intersects(object.getBounds().getMinX()+object.getBounds().getWidth()/2,object.getBounds().getMinY()+object.getBounds().getHeight()/2,5,5 )){
+						object.setCell(cell);
+						cell.setContainsTarget(true);
+					}
 				}
 			}
 		}

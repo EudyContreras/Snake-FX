@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFinder;
+package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
 

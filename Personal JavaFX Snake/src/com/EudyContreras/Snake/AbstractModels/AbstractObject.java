@@ -4,7 +4,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
-import com.EudyContreras.Snake.PathFinder.CellNode;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSection;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
@@ -36,6 +36,7 @@ public abstract class AbstractObject {
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
+	protected CellNode cell;
 	protected Circle circle;
 	protected int numericCode;
 	protected double x;
@@ -531,9 +532,12 @@ public abstract class AbstractObject {
 	}
 
 	public CellNode getCell(){
-		return null;
+		return cell;
 	}
+	public void setCell(CellNode cell) {
+		this.cell = cell;
 
+	}
 	public Rectangle2D getBounds() {
 
 		return new Rectangle2D(x, y, width, height);
@@ -605,4 +609,5 @@ public abstract class AbstractObject {
 	public void checkCollision() {
 
 	}
+
 }

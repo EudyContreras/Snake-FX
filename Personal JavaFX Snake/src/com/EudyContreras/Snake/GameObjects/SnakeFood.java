@@ -13,7 +13,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.FruitSplashOne;
 import com.EudyContreras.Snake.ParticleEffects.GlowParticle;
-import com.EudyContreras.Snake.PathFinder.CellNode;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.RandomGenUtility;
@@ -51,7 +51,6 @@ public class SnakeFood extends AbstractObject {
 	private boolean maxGlow = false;
 	private boolean noGlow = true;
 	private boolean indicator = false;
-	private CellNode cell;
 	private Circle bounds;
 	private Rectangle rectBounds;
 	private DropShadow borderGlow = new DropShadow();
@@ -128,6 +127,7 @@ public class SnakeFood extends AbstractObject {
 	 * Updates methods which do not involve movement
 	 */
 	public void logicUpdate() {
+		game.getAIController().getGrid().getRelativeCell();
 		fadeUpdate();
 		fruitFadein();
 		lookAtMe();
@@ -142,10 +142,14 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void move() {
 		super.move();
-		if(velX!=0)
-		velX *= 0.93;
-		if(velY!=0)
-		velY *= 0.93;
+		if (velX != 0) {
+			velX *= 0.93;
+			game.getAIController().getGrid().getRelativeCell();
+		}
+		if (velY != 0) {
+			velY *= 0.93;
+			game.getAIController().getGrid().getRelativeCell();
+		}
 	}
 
 	/**
@@ -248,8 +252,7 @@ public class SnakeFood extends AbstractObject {
 	}
 
 	public void resetBounds() {
-		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.MIN_Y + radius
-				|| y > GameSettings.HEIGHT - radius * 3) {
+		if (x < radius * 3 || x > GameSettings.WIDTH - radius * 3 || y < GameSettings.MIN_Y + radius || y > GameSettings.HEIGHT - radius * 3) {
 			x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
 			y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.MIN_Y + radius) + 1)
 					+ GameSettings.MIN_Y + radius);
@@ -293,8 +296,8 @@ public class SnakeFood extends AbstractObject {
 				}
 				if (getNormalBounds().intersects(tempTile.getBounds2D())) {
 					this.blowUp();
-					this.game.getGameLoader().spawnSnakeFood();
 					this.remove();
+					this.game.getGameLoader().spawnSnakeFood();
 					break;
 				}
 			}
@@ -302,9 +305,9 @@ public class SnakeFood extends AbstractObject {
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
 			if (tempTile.getId() == GameLevelObjectID.cactus) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
-						this.blowUp();
-						this.game.getGameLoader().spawnSnakeFood();
-						this.remove();
+					this.blowUp();
+					this.remove();
+					this.game.getGameLoader().spawnSnakeFood();
 						break;
 
 				}
@@ -382,7 +385,7 @@ public class SnakeFood extends AbstractObject {
 		game.getDebrisManager().addDebris(fruitPiecesAbove);
 		rectBounds.setStroke(Color.TRANSPARENT);
 		bounds.setStroke(Color.TRANSPARENT);
-		cell.setContainsTarget(false);
+
 	}
 
 	public void getPoint(){
@@ -418,6 +421,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerOne snake, double x, double y) {
+
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -436,6 +440,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerTwo snake, double x, double y) {
+
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -454,6 +459,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(AbstractSection snake, double x, double y) {
+
 		if (snake.getVelX() > 0) {
 			this.velX = (float) (snake.getVelX()) * 8;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -474,10 +480,13 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounceBack(AbstractTile tile) {
+
 		velX = -Math.abs(velX) + tile.getVelX()*.7;
 		velY = -Math.abs(velY) + tile.getVelY()*.7;
 		if(velX==0 && velY==0){
-			relocate();
+			this.blowUp();
+			this.remove();
+			this.game.getGameLoader().spawnSnakeFood();
 		}
 	}
 	public void bounceBack(AbstractSection section) {
@@ -498,9 +507,7 @@ public class SnakeFood extends AbstractObject {
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - size*2 / 2, y - size*2 / 2, size*2, size*2);
 	}
-	public CellNode getCell(){
-		return cell;
-	}
+
 	/**
 	 * Method which returns alternate collision bounds for this object
 	 *

@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFinder;
+package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -51,6 +51,7 @@ public class AIPathFinder {
 
 	HashSet<CellNode> closedSet;
 	PriorityQueue<CellNode> openedSet;
+	LinkedList<CellNode> totalPath;
 
 	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
@@ -68,22 +69,21 @@ public class AIPathFinder {
 	public void initialize() {
 		rand = new Random();
 		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
+		totalPath = new LinkedList<>();
 		closedSet = new HashSet<>(cellCount);
 		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
-		state = ActionState.TRACKING;
+		state = ActionState.PATH_FINDING;
 	}
 
 	public void findObjective() {
 		switch (state) {
 		case EVADING:
-			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
-				//createPath();
 			break;
-		case FINDING:
+		case PATH_FINDING:
 			break;
-		case TRACKING:
+		case FREE_MODE:
 			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
-			//	createPath();
+				createPath();
 			break;
 		default:
 			break;
@@ -110,14 +110,14 @@ public class AIPathFinder {
 	public void updateSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
-//				if (closestObjective != null) {
-//					checkCurrentLocation();
-//					addRandomBoost(true);
-//					reRoute();
-//				}
-//				checkObjectiveStatus();
-//				computeClosestPath();
-//				controller.getRelativeCell(snakeAI.getBounds());
+				if (closestObjective != null) {
+					checkCurrentLocation();
+					addRandomBoost(true);
+					reRoute();
+				}
+				findClosest();
+				checkObjectiveStatus();
+				computeClosestPath(0,0);
 			}
 		}
 	}
@@ -186,6 +186,7 @@ public class AIPathFinder {
 		searching = false;
 		openedSet.clear();
 		closedSet.clear();
+		totalPath.clear();
 	}
     /**
      * returns the node with the lowest fCosts.
@@ -210,8 +211,6 @@ public class AIPathFinder {
 	 */
 	private List<CellNode> createPath(CellNode current) {
 
-		List<CellNode> totalPath = new LinkedList<>();
-
 		totalPath.add(current);
 
 		while ((current = current.getParentNode()) != null) {
@@ -222,23 +221,7 @@ public class AIPathFinder {
 
 		return totalPath;
 	}
-	 private List<CellNode> calculatePath(CellNode start, CellNode goal) {
 
-	        LinkedList<CellNode> path = new LinkedList<CellNode>();
-
-	        CellNode current = goal;
-	        boolean done = false;
-
-	        while (!done) {
-	            path.addFirst(current);
-	            current = (CellNode) current.getParentNode();
-
-	            if (current.equals(start)) {
-	                done = true;
-	            }
-	        }
-	        return path;
-	    }
 	/**
 	 * Method which under certain conditions will activate the speed boost of
 	 * the snake
@@ -246,19 +229,20 @@ public class AIPathFinder {
 	 * @param random
 	 */
 	public void addRandomBoost(boolean random) {
-		if (random && rand.nextInt(randomBoost) != 0) {
-			return;
-		}
-		if (snakeAI != null) {
-			if (game.getEnergyBarTwo().getEnergyLevel() > 50) {
-				if (snakeAI.isAllowThrust()) {
-					snakeAI.setSpeedThrust(true);
+		if (state == ActionState.FREE_MODE) {
+			if (random && rand.nextInt(randomBoost) != 0) {
+				return;
+			}
+			if (snakeAI != null) {
+				if (game.getEnergyBarTwo().getEnergyLevel() > 50) {
+					if (snakeAI.isAllowThrust()) {
+						snakeAI.setSpeedThrust(true);
+					}
+				} else {
+					snakeAI.setSpeedThrust(false);
 				}
-			} else {
-				snakeAI.setSpeedThrust(false);
 			}
 		}
-
 	}
 
 	/**
@@ -272,10 +256,10 @@ public class AIPathFinder {
 		case EVADING:
 			computeObjective();
 			break;
-		case FINDING:
+		case PATH_FINDING:
 			computeObjective();
 			break;
-		case TRACKING:
+		case FREE_MODE:
 			computeObjective();
 			break;
 		default:
@@ -321,6 +305,7 @@ public class AIPathFinder {
 	}
 	public void computeClosestPath(int row, int col){
 		controller.getGrid().resetCells();
+		if(closestObjective.getCell()!=null)
 		showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI.getBounds(),row,col),closestObjective.getCell()));
 	}
 	private void showPathToObjective(List<CellNode> cells){
@@ -359,10 +344,10 @@ public class AIPathFinder {
 		switch (state) {
 		case EVADING:
 			break;
-		case FINDING:
+		case PATH_FINDING:
 			break;
-		case TRACKING:
-		//	computeTrackingPath();
+		case FREE_MODE:
+			computeTrackingPath();
 			break;
 		default:
 			break;
@@ -421,9 +406,9 @@ public class AIPathFinder {
 		switch (state) {
 		case EVADING:
 			break;
-		case FINDING:
+		case PATH_FINDING:
 			break;
-		case TRACKING:
+		case FREE_MODE:
 			computeTrackingManeuver();
 			break;
 		default:
@@ -472,6 +457,10 @@ public class AIPathFinder {
 	private void checkObjectiveStatus() {
 		switch (state) {
 		case EVADING:
+			break;
+		case PATH_FINDING:
+			break;
+		case FREE_MODE:
 			if (closestObjective.isRemovable()) {
 				findClosest();
 				createPath();
@@ -479,17 +468,6 @@ public class AIPathFinder {
 			if (closestObjective.getX() != positionX || closestObjective.getY() != positionY) {
 				findClosest();
 			}
-			break;
-		case FINDING:
-			if (closestObjective.getX() != positionX || closestObjective.getY() != positionY) {
-				findClosest();
-			}
-			break;
-		case TRACKING:
-//
-//			if (closestObjective.getX() != positionX || closestObjective.getY() != positionY) {
-//				findClosest();
-//			}
 			break;
 		default:
 			break;
@@ -510,10 +488,9 @@ public class AIPathFinder {
 		switch (state) {
 		case EVADING:
 			break;
-		case FINDING:
-			computeTrackingDirection(move);
+		case PATH_FINDING:
 			break;
-		case TRACKING:
+		case FREE_MODE:
 			computeTrackingDirection(move);
 			break;
 		default:
@@ -549,9 +526,9 @@ public class AIPathFinder {
 		switch (state) {
 		case EVADING:
 			break;
-		case FINDING:
+		case PATH_FINDING:
 			break;
-		case TRACKING:
+		case FREE_MODE:
 			computeTrackingUTurn(currentDirection);
 			break;
 		default:
@@ -660,7 +637,7 @@ public class AIPathFinder {
 	}
 
 	public enum ActionState {
-		TRACKING, EVADING, FINDING,
+		FREE_MODE, EVADING, PATH_FINDING,
 	}
 
 	public enum LegalTurns {
