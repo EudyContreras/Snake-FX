@@ -3,11 +3,11 @@ package com.EudyContreras.Snake.PathFinder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
-import java.util.Set;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
@@ -25,7 +25,7 @@ import javafx.geometry.Rectangle2D;
  * @author Eudy Contreras
  *
  */
-public class PathFindingAI {
+public class AIPathFinder {
 
 	private AbstractObject closestObjective;
 	private AbstractTile obstacle;
@@ -34,6 +34,7 @@ public class PathFindingAI {
 	private PlayerTwo snakeAI;
 	private Random rand;
 
+	private boolean searching = false;
 	private boolean makingUTurn = false;
 
 	private double range = 20;
@@ -42,21 +43,22 @@ public class PathFindingAI {
 	private double positionY = 0;
 	private double turnOffset = 100;
 
+	private int cellCount = 0;
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
 	private ActionState state;
-	private LinkedList<PathFindingCell> openList;
-	private LinkedList<PathFindingCell> closedList;
-	private boolean done;
 
-	public PathFindingAI(GameManager game, PlayerTwo snakeAI) {
+	HashSet<CellNode> closedSet;
+	PriorityQueue<CellNode> openedSet;
+
+	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
 		this.initialize();
 	}
 
-	public PathFindingAI(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideObject> possibleColliders) {
+	public AIPathFinder(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
 		this.game = game;
 		this.controller = controller;
 		this.snakeAI = snakeAI;
@@ -65,6 +67,9 @@ public class PathFindingAI {
 
 	public void initialize() {
 		rand = new Random();
+		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
+		closedSet = new HashSet<>(cellCount);
+		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
 		state = ActionState.TRACKING;
 	}
 
@@ -121,39 +126,32 @@ public class PathFindingAI {
 	 * Find a path from start to goal using the A* algorithm
 	 */
 
-	public List<PathFindingCell> getPath(PathFindingGrid grid, PathFindingCell startingPoint, PathFindingCell objective) {
+	public List<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective) {
 
-		PathFindingCell current = null;
+		CellNode current = null;
 
 		boolean containsNeighbor;
 
-		int cellCount = grid.getRowCount() * grid.getColumnCount();
-
-		Set<PathFindingCell> closedSet = new HashSet<>(cellCount);
-
-		PriorityQueue<PathFindingCell> openSet = new PriorityQueue<PathFindingCell>(cellCount, new CellComparator());
-
-		openSet.add(startingPoint);
+		openedSet.add(startingPoint);
 
 		startingPoint.setMovementCost(0d);
 
 		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective));
 
-		boolean searching = true;
-		while (!openSet.isEmpty() && searching) {
+		searching = true;
 
-			current = openSet.poll();
+		while (!openedSet.isEmpty() && searching) {
+
+			current = getCheapestCellNode();
 
 			if (current.equals(objective)) {
-				openSet.clear();
-				closedSet.clear();
-				searching = false;
-				return reconstructPath(objective);
+				endPathSearch();
+				return createPath(objective);
 			}
 
 			closedSet.add(current);
 
-			for (PathFindingCell neighbor : grid.getNeighborCells(current)) {
+			for (CellNode neighbor : grid.getNeighborCells(current, closedSet)) {
 
 				if (neighbor == null) {
 					continue;
@@ -165,9 +163,9 @@ public class PathFindingAI {
 
 				double tentativeScoreG = current.getMovementCost() + distanceBetween(current, neighbor);
 
-				if (!(containsNeighbor = openSet.contains(neighbor))|| Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
+				if (!(containsNeighbor = openedSet.contains(neighbor))|| Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
 
-					neighbor.setParent(current);
+					neighbor.setParentNode(current);
 
 					neighbor.setMovementCost(tentativeScoreG);
 
@@ -175,145 +173,48 @@ public class PathFindingAI {
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
 					if (!containsNeighbor) {
-						openSet.add(neighbor);
+						openedSet.add(neighbor);
 					}
 				}
 			}
 		}
-		searching = false;
-		openSet.clear();
-		closedSet.clear();
+		endPathSearch();
 		return new ArrayList<>();
 	}
-//	/**
-//     * The main A Star Algorithm in Java.
-//     *
-//     * finds an allowed path from start to goal coordinates on this map.
-//     * <p>
-//     * This method uses the A Star algorithm. The hCosts value is calculated in
-//     * the given Node implementation.
-//     * <p>
-//     * This method will return a LinkedList containing the start node at the
-//     * beginning followed by the calculated shortest allowed path ending
-//     * with the end node.
-//     * <p>
-//     * If no allowed path exists, an empty list will be returned.
-//     * <p>
-//     * <p>
-//     * x/y must be bigger or equal to 0 and smaller or equal to width/hight.
-//     *
-//     * @param oldX x where the path starts
-//     * @param oldY y where the path starts
-//     * @param newX x where the path ends
-//     * @param newY y where the path ends
-//     * @return the path as calculated by the A Star algorithm
-//     */
-//    public final List<PathFindingCell> findPath(PathFindingGrid grid, PathFindingCell startingPoint, PathFindingCell objective) {
-//        openList = new LinkedList<PathFindingCell>();
-//        closedList = new LinkedList<PathFindingCell>();
-//        openList.add(startingPoint); // add starting node to open list
-//
-////		startingPoint.setMovementCost(0d);
-////
-////		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective));
-//
-//        done = false;
-//
-//        PathFindingCell current;
-//
-//        while (!done) {
-//            current = lowestFInOpen(); // get node with lowest fCosts from openList
-//            closedList.add(current); // add current node to closed list
-//            openList.remove(current); // delete current node from open list
-//
-//            if ((current.getIndex().getRow() == objective.getIndex().getRow()) && (current.getIndex().getCol() == objective.getIndex().getCol())) { // found goal
-//                done = true;
-//            	return calcPath(startingPoint, current);
-//
-//            }
-//
-//            // for all adjacent nodes:
-//            List<PathFindingCell> adjacentNodes = grid.getNeighborCells(current);
-//
-//            for (int i = 0; i < adjacentNodes.size(); i++) {
-//
-//            	PathFindingCell currentAdj = adjacentNodes.get(i);
-//
-//                if (!openList.contains(currentAdj)) { // node is not in openList
-//                    currentAdj.setParent(current); // set current node as previous for this node
-//                    currentAdj.sethCosts(objective); // set h costs of this node (estimated costs to goal)
-//                    currentAdj.setgCosts(current); // set g costs of this node (costs from start to this node)
-//                    openList.add(currentAdj); // add node to openList
-//                }
-//                else { // node is in openList
-//                    if (currentAdj.getMovementCost() > currentAdj.calculategCosts(current)) { // costs from current node are cheaper than previous costs
-//                        currentAdj.setParent(current); // set current node as previous for this node
-//                        currentAdj.setgCosts(current); // set g costs of this node (costs from start to this node)
-//                    }
-//                }
-//            }
-//
-//            if (openList.isEmpty()) { // no path exists4
-//                done = true;
-//                return new LinkedList<PathFindingCell>(); // return empty list
-//            }
-//        }
-//        return null; // unreachable
-//    }
-//
-//
-//    /**
-//     * calculates the found path between two points according to
-//     * their given <code>previousNode</code> field.
-//     *
-//     * @param start
-//     * @param goal
-//     * @return
-//     */
-//    private List<PathFindingCell> calcPath(PathFindingCell start, PathFindingCell goal) {
-//     // TODO if invalid nodes are given (eg cannot find from
-//     // goal to start, this method will result in an infinite loop!)
-//        LinkedList<PathFindingCell> path = new LinkedList<PathFindingCell>();
-//
-//        PathFindingCell curr = goal;
-//        boolean done = false;
-//        while (!done) {
-//            path.addFirst(curr);
-//            curr = (PathFindingCell) curr.getParent();
-//
-//            if (curr.equals(start)) {
-//                done = true;
-//            }
-//        }
-//        return path;
-//    }
-//
-//    /**
-//     * returns the node with the lowest fCosts.
-//     *
-//     * @return
-//     */
-//    private PathFindingCell lowestFInOpen() {
-//        // TODO currently, this is done by going through the whole openList!
-//        PathFindingCell cheapest = openList.get(0);
-//
-//        for (int i = 0; i < openList.size(); i++) {
-//            if (openList.get(i).getMovementCost() < cheapest.getMovementCost()) {
-//                cheapest = openList.get(i);
-//            }
-//        }
-//        return cheapest;
-//    }
+
+	private void endPathSearch(){
+		searching = false;
+		openedSet.clear();
+		closedSet.clear();
+	}
+    /**
+     * returns the node with the lowest fCosts.
+     *
+     * @return
+     */
+    private CellNode getCheapestCellNode() {
+
+        CellNode cheapest = openedSet.poll();
+
+        for(Iterator<CellNode> cells = openedSet.iterator(); cells.hasNext();){
+			CellNode cell = cells.next();
+			if(cell.getMovementCost()<cheapest.getMovementCost()){
+				cheapest = cell;
+				break;
+			}
+		}
+        return cheapest;
+    }
 	/**
 	 * Create final path of the A* algorithm. The path is from goal to start.
 	 */
-	private List<PathFindingCell> reconstructPath(PathFindingCell current) {
+	private List<CellNode> createPath(CellNode current) {
 
-		List<PathFindingCell> totalPath = new ArrayList<>(200);
+		List<CellNode> totalPath = new LinkedList<>();
 
 		totalPath.add(current);
 
-		while ((current = current.getParent()) != null) {
+		while ((current = current.getParentNode()) != null) {
 
 			totalPath.add(current);
 
@@ -321,7 +222,23 @@ public class PathFindingAI {
 
 		return totalPath;
 	}
+	 private List<CellNode> calculatePath(CellNode start, CellNode goal) {
 
+	        LinkedList<CellNode> path = new LinkedList<CellNode>();
+
+	        CellNode current = goal;
+	        boolean done = false;
+
+	        while (!done) {
+	            path.addFirst(current);
+	            current = (CellNode) current.getParentNode();
+
+	            if (current.equals(start)) {
+	                done = true;
+	            }
+	        }
+	        return path;
+	    }
 	/**
 	 * Method which under certain conditions will activate the speed boost of
 	 * the snake
@@ -373,10 +290,9 @@ public class PathFindingAI {
 		Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
 
 		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-			distance[i] = new Distance(
-					calculateDistanceAlt(snakeAI.getX(), game.getGameObjectController().getFruitList().get(i).getX(),
-							snakeAI.getY(), game.getGameObjectController().getFruitList().get(i).getY()),
-					game.getGameObjectController().getFruitList().get(i));
+			distance[i] = new Distance(calculateManhathanDistance(snakeAI.getX(), game.getGameObjectController().getFruitList().get(i).getX(),
+											   					  snakeAI.getY(), game.getGameObjectController().getFruitList().get(i).getY()),
+											   					  game.getGameObjectController().getFruitList().get(i));
 		}
 
 		if (distance.length > 0) {
@@ -407,9 +323,8 @@ public class PathFindingAI {
 		controller.getGrid().resetCells();
 		showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI.getBounds(),row,col),closestObjective.getCell()));
 	}
-	private void showPathToObjective(List<PathFindingCell> cells){
-		System.out.println("CHECK TWO: "+cells.size());
-		for(PathFindingCell cell: cells){
+	private void showPathToObjective(List<CellNode> cells){
+		for(CellNode cell: cells){
 			cell.setPathCell(true);
 		}
 	}
@@ -752,29 +667,37 @@ public class PathFindingAI {
 		LEFT, RIGHT, UP, DOWN
 	}
 
-	public static double calculateDistance(double x1, double x2, double y1, double y2) {
-		return Math.hypot(x1 - x2, y1 - y2);
+	public double calculateDistance(double fromX, double toX, double fromY, double toY) {
+		return Math.hypot(fromX - toX, fromY - toY);
 	}
 
-	public static double calculateDistanceAlt(double x1, double x2, double y1, double y2) {
-		return Math.abs(x1 - x2) + Math.abs(y1 - y2);
+	public double calculateManhathanDistance(double fromX, double toX, double fromY, double toY) {
+		return absoluteValue((int) (fromX - toX)) + absoluteValue((int) (fromY - toY));
 	}
 
-	private double distanceBetween(PathFindingCell current, PathFindingCell neighbor) {
+	public double calculateEuclidianDistance(double fromX, double toX, double fromY, double toY) {
+		return Math.sqrt((fromX - toX) * (fromX - toX) + (fromY - toY) * (fromY - toY));
+
+	}
+
+	private double distanceBetween(CellNode current, CellNode neighbor) {
 		return heuristicCostEstimate(current, neighbor);
 	}
 
-	private double heuristicCostEstimate(PathFindingCell start, PathFindingCell end) {
+	private double heuristicCostEstimate(CellNode start, CellNode end) {
 
-		return calculateDistance(start.getIndex().getRow(), end.getIndex().getRow(),start.getIndex().getCol() , end.getIndex().getCol());
+		return calculateDistance(start.getIndex().getRow(), end.getIndex().getRow(), start.getIndex().getCol(),
+				end.getIndex().getCol());
 	}
-
+    private int absoluteValue(int value) {
+        return value > 0 ? value : -value;
+    }
 	/**
 	 * Get the cell with the minimum f value.
 	 */
-	public class CellComparator implements Comparator<PathFindingCell> {
+	public class CellComparator implements Comparator<CellNode> {
 		@Override
-		public int compare(PathFindingCell a, PathFindingCell b) {
+		public int compare(CellNode a, CellNode b) {
 			return Double.compare(a.getTotalCost(), b.getTotalCost());
 		}
 	}

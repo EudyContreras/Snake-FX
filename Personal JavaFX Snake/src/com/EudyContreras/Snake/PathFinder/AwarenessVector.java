@@ -8,7 +8,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 public class AwarenessVector extends AbstractCollisionMonitor{
 	private List<AbstractTile> tileContainer;
 
-	public AwarenessVector(GameManager game, PathFindingAI evader, double x, double y, RayDirection direction ){
+	public AwarenessVector(GameManager game, AIPathFinder evader, double x, double y, RayDirection direction ){
 		super(x,y,direction);
 		this.width = evader.getCollisionBounds().getWidth();
 		this.height = evader.getCollisionBounds().getHeight();

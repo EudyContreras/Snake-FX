@@ -15,16 +15,16 @@ public class PathFindingAlgorithm {
 	 * Find a path from start to goal using the A* algorithm
 	 */
 
-	public List<PathFindingCell> getPath( PathFindingGrid grid, PathFindingCell startingPoint, PathFindingCell objective) {
+	public List<CellNode> getPath( GridNode grid, CellNode startingPoint, CellNode objective) {
 
-		PathFindingCell current = null;
+		CellNode current = null;
 		boolean containsNeighbor;
 
 		int cellCount = grid.getRowCount() * grid.getColumnCount();
 
-		Set<PathFindingCell> closedSet = new HashSet<>(cellCount);
+		HashSet<CellNode> closedSet = new HashSet<>(cellCount);
 
-	    PriorityQueue<PathFindingCell> openSet = new PriorityQueue<PathFindingCell>( cellCount, new CellComparator());
+	    PriorityQueue<CellNode> openSet = new PriorityQueue<CellNode>( cellCount, new CellComparator());
 
 		openSet.add( startingPoint);
 
@@ -43,7 +43,7 @@ public class PathFindingAlgorithm {
 
 			closedSet.add( current);
 
-			for( PathFindingCell neighbor: grid.getNeighborCells( current)) {
+			for( CellNode neighbor: grid.getNeighborCells( current, closedSet)) {
 
 				if( neighbor == null) {
 					continue;
@@ -57,7 +57,7 @@ public class PathFindingAlgorithm {
 
 				if( !(containsNeighbor=openSet.contains( neighbor)) || Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
 
-					neighbor.setParent(current);
+					neighbor.setParentNode(current);
 
 					neighbor.setMovementCost(tentativeScoreG);
 
@@ -77,13 +77,13 @@ public class PathFindingAlgorithm {
 	 * Create final path of the A* algorithm.
 	 * The path is from goal to start.
 	 */
-	private List<PathFindingCell> reconstructPath( PathFindingCell current) {
+	private List<CellNode> reconstructPath( CellNode current) {
 
-		List<PathFindingCell> totalPath = new ArrayList<>(200); // arbitrary value, we'll most likely have more than 10 which is default for java
+		List<CellNode> totalPath = new ArrayList<>(200); // arbitrary value, we'll most likely have more than 10 which is default for java
 
 		totalPath.add( current);
 
-		while( (current = current.getParent()) != null) {
+		while( (current = current.getParentNode()) != null) {
 
 			totalPath.add( current);
 
@@ -97,7 +97,7 @@ public class PathFindingAlgorithm {
 	 * Used in the algorithm as distance calculation between the current cell and a neighbor.
 	 * In our case we use the same distance which we use from the current cell to the goal.
 	 */
-	private double distanceBetween(PathFindingCell current, PathFindingCell neighbor) {
+	private double distanceBetween(CellNode current, CellNode neighbor) {
 		return heuristicCostEstimate( current, neighbor);
 	}
 
@@ -105,7 +105,7 @@ public class PathFindingAlgorithm {
 	 * Distance between two cells. We use the euclidian distance here.
 	 * Used in the algorithm as distance calculation between a cell and the goal.
 	 */
-	private double heuristicCostEstimate(PathFindingCell start, PathFindingCell end) {
+	private double heuristicCostEstimate(CellNode start, CellNode end) {
 
 		return Math.sqrt((start.getIndex().getCol()-end.getIndex().getCol())*(start.getIndex().getCol()-end.getIndex().getCol()) + (start.getIndex().getRow() - end.getIndex().getRow())*(start.getIndex().getRow()-end.getIndex().getRow()));
 
@@ -113,10 +113,10 @@ public class PathFindingAlgorithm {
 	/**
 	 * Get the cell with the minimum f value.
 	 */
-	public class CellComparator implements Comparator<PathFindingCell>
+	public class CellComparator implements Comparator<CellNode>
 	{
 	    @Override
-	    public int compare(PathFindingCell a, PathFindingCell b)
+	    public int compare(CellNode a, CellNode b)
 	    {
 	    	return Double.compare(a.getTotalCost(), b.getTotalCost());
 	    }

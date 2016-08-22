@@ -4,7 +4,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
-import com.EudyContreras.Snake.PathFinder.PathFindingCell;
+import com.EudyContreras.Snake.PathFinder.CellNode;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSection;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
@@ -530,7 +530,7 @@ public abstract class AbstractObject {
 		return remainStatic;
 	}
 
-	public PathFindingCell getCell(){
+	public CellNode getCell(){
 		return null;
 	}
 

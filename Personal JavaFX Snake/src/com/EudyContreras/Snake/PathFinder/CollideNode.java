@@ -13,7 +13,7 @@ import javafx.geometry.Rectangle2D;
  * @author Eudy Contreras
  *
  */
-public class CollideObject {
+public class CollideNode {
 	private double x;
 	private double y;
 	private double width;
@@ -22,11 +22,11 @@ public class CollideObject {
 	private double clearRadius;
 	private Double distance;
 	private Dimension2D dimension;
-	private PathFindingAI evader;
+	private AIPathFinder evader;
 	private RangeFactor range;
 	private Location location;
 
-	public CollideObject(PathFindingAI evader, AbstractTile warning) {
+	public CollideNode(AIPathFinder evader, AbstractTile warning) {
 		super();
 		this.evader = evader;
 		this.x = warning.getBounds().getMinX();
@@ -40,7 +40,7 @@ public class CollideObject {
 	public void updateProperties(){
 		calculateRelativeLocation(evader,evader.getX(),evader.getY());
 	}
-	private void calculateRelativeLocation(PathFindingAI evader, double evaderX, double evaderY){
+	private void calculateRelativeLocation(AIPathFinder evader, double evaderX, double evaderY){
 		if(evader.getCollisionBounds().getMaxX()>=getCollideRadius().getMinX()
 		&& evader.getCollisionBounds().getMinX()<=getCollideRadius().getMaxX()){
 			range = RangeFactor.WITHIN_RANGE;
@@ -123,7 +123,7 @@ public class CollideObject {
 		if ((obj == null) || (obj.getClass() != this.getClass()))
 			return false;
 
-		CollideObject test = (CollideObject) obj;
+		CollideNode test = (CollideNode) obj;
 		return dimension == test.dimension && (distance == test.distance || (distance != null && distance.equals(test.distance)));
 	}
 	@Override

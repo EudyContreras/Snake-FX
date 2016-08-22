@@ -6,17 +6,18 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class PathFindingCell {
+public class CellNode {
+
 	private Index2D index;
 	private Point2D location;
 	private Rectangle visualRep;
 	private Dimension2D dimension;
-	private PathFindingCell parent;
+	private CellNode parentNode;
 
 	private int id = 0;
 	private double heuristic = 0;
 	private double movementCost = 10;
-    private int movementPanelty = 0;
+    private double movementPenalty = 0;
 	private double totalCost = 0;
 
 	private boolean valid = true;
@@ -29,7 +30,7 @@ public class PathFindingCell {
 
 	private CellType cellType = CellType.FREE;
 
-	public PathFindingCell(double x, double y, double width, double height, int id, Index2D index) {
+	public CellNode(double x, double y, double width, double height, int id, Index2D index) {
 		this.id = id;
 		this.index = index;
 		this.location = new Point2D(x, y);
@@ -39,25 +40,14 @@ public class PathFindingCell {
 			this.visualRep.setX(location.getX());
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.rgb(0, 0, 0, .3));
-//			this.visualRep.setFocusTraversable(true);
-//			this.visualRep.setOnKeyPressed(e ->{
-//				this.setPathCell(true);
-//			});
 		}
 	}
 	public void resetValues(){
 		heuristic = 0;
 		movementCost = 10;
-	    movementPanelty = 0;
+	    movementPenalty = 0;
 	    totalCost = 0;
-	    parent = null;
-//		valid = true;
-//		visited = false;
-//		showCells = true;
-//		pathCell = false;
-//		targetCell = false;
-//		isTraversable = true;
-//		spawnAllowed = true;
+	    parentNode = null;
 	}
 	public void setLocation(double x, double y) {
 		this.location = new Point2D(x, y);
@@ -66,32 +56,6 @@ public class PathFindingCell {
 			this.visualRep.setY(y);
 		}
 	}
-    private void setgCosts(double gCosts) {
-        this.movementCost = gCosts + movementPanelty;
-	}
-
-	public void sethCosts(PathFindingCell endNode) {
-		this.setHeuristic((absolute(this.getIndex().getRow() - endNode.getIndex().getRow())
-				+ absolute(this.getIndex().getCol() - endNode.getIndex().getCol()) * movementCost));
-	}
-
-	public void setgCosts(PathFindingCell previousAbstractNode, double basicCost) {
-		setgCosts(previousAbstractNode.getMovementCost() + basicCost);
-	}
-
-	public void setgCosts(PathFindingCell previousAbstractNode) {
-
-		setgCosts(previousAbstractNode, movementCost);
-
-	}
-	public double calculategCosts(PathFindingCell previousAbstractNode) {
-            return (previousAbstractNode.getMovementCost() + movementCost + movementPanelty);
-
-    }
-    public double calculategCosts(PathFindingCell previousAbstractNode, double movementCost) {
-        return (previousAbstractNode.getMovementCost() + movementCost + movementPanelty);
-    }
-
 
 	public void setDimension(double width, double height) {
 		this.dimension = new Dimension2D(width, height);
@@ -131,12 +95,15 @@ public class PathFindingCell {
 		}
 
 	}
-	public final PathFindingCell getParent() {
-		return parent;
+	public boolean getPathCell(){
+		return pathCell;
+	}
+	public final CellNode getParentNode() {
+		return parentNode;
 	}
 
-	public final void setParent(PathFindingCell parent) {
-		this.parent = parent;
+	public final void setParentNode(CellNode parent) {
+		this.parentNode = parent;
 	}
 
 	public int getID() {
@@ -215,6 +182,12 @@ public class PathFindingCell {
 		this.movementCost = movementCost;
 	}
 
+	public double getMovementPenalty() {
+		return movementPenalty;
+	}
+	public void setMovementPlty(double movementPanelty) {
+		this.movementPenalty = movementPanelty;
+	}
 	public final double getTotalCost() {
 		return totalCost;
 	}
@@ -240,17 +213,9 @@ public class PathFindingCell {
 	}
 
 	public enum CellType {
-		BLOCKED, TRAVERSABLE, UNAVAILABLE, OCUPIED, FREE
+		BLOCKED, TRAVERSABLE, UNAVAILABLE, FREE
 	}
-    private int absolute(int a) {
-        return a > 0 ? a : -a;
-    }
-	 /**
-     * returns weather the coordinates of AbstractNodes are equal.
-     *
-     * @param obj
-     * @return
-     */
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -259,7 +224,7 @@ public class PathFindingCell {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final PathFindingCell other = (PathFindingCell) obj;
+        final CellNode other = (CellNode) obj;
         if (this.index.getRow() != other.index.getRow()) {
             return false;
         }
@@ -269,11 +234,6 @@ public class PathFindingCell {
         return true;
     }
 
-    /**
-     * returns hash code calculated with coordinates.
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         int hash = 3;

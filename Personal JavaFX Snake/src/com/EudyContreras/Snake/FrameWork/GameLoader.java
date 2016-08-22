@@ -22,7 +22,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.PathFinder.PathFindingCell;
+import com.EudyContreras.Snake.PathFinder.CellNode;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
@@ -385,7 +385,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void spawnSnakeFood() {
 		int rows = game.getAIController().getGrid().getRowCount();
 		int cols = game.getAIController().getGrid().getColumnCount();
-		PathFindingCell cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
+		CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
 
 		if(cell.isValid() && cell.isSpawnAllowed()){
 			Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
