@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.PathFinder;
 
 
 import java.util.LinkedList;
+import java.util.List;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.Application.GameManager;
@@ -51,6 +52,7 @@ public class PathFindingGrid {
 				game.getBaseLayer().getChildren().add(gridCells2D[col][row].getVisualRep());
 			}
 		}
+		computeValidCells();
 	}
 	public void placeCellsAlt() {
 		for (int row = 0; row < columnCount; row++) {
@@ -61,6 +63,7 @@ public class PathFindingGrid {
 				game.getBaseLayer().getChildren().add(gridCell.getVisualRep());
 			}
 		}
+		computeValidCells();
 	}
 
 	public void computeValidCells() {
@@ -84,16 +87,20 @@ public class PathFindingGrid {
 			}
 		}
 	}
-	/**
-	 * Get neighboring cells relative to the given cell. By default they are top/right/bottom/left.
-	 * If allowDiagonals is enabled, then also top-left, top-right, bottom-left, bottom-right cells are in the results.
-	 * @param cell
-	 * @param allowDiagonals
-	 * @return
-	 */
-	public PathFindingCell[] getNeighbors(PathFindingCell cell) {
+	private void findNeighbors(int row, int col){
+		int startPosX = (row - 1 < 0) ? row : row-1;
+		int startPosY = (col - 1 < 0) ? col : col-1;
+		int endPosX =   (row + 1 > rowCount-1) ? row : row+1;
+		int endPosY =   (col + 1 > columnCount-1) ? col : col+1;
+		for (int rowNum=startPosX; rowNum<=endPosX; rowNum++) {
+		    for (int colNum=startPosY; colNum<=endPosY; colNum++) {
+		    	gridCells2D[rowNum][colNum].setSpawnAllowed(false);
+		    }
+		}
+	}
+	public List<PathFindingCell> getNeighborCells(PathFindingCell cell) {
 
-		PathFindingCell[] neighbors = new PathFindingCell[4];
+		List<PathFindingCell>neighbors = new LinkedList<>();
 
 		int currentColumn = cell.getIndex().getCol();
 		int currentRow = cell.getIndex().getRow();
@@ -107,7 +114,7 @@ public class PathFindingGrid {
 
 		if (neighborRow >= 0) {
 			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
-				neighbors[0] = gridCells2D[neighborRow][neighborColumn];
+				neighbors.add( gridCells2D[neighborRow][neighborColumn]);
 			}
 		}
 
@@ -117,7 +124,7 @@ public class PathFindingGrid {
 
 		if (neighborRow < rowCount) {
 			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
-				neighbors[1] = gridCells2D[neighborRow][neighborColumn];
+				neighbors.add(gridCells2D[neighborRow][neighborColumn]);
 			}
 		}
 
@@ -127,7 +134,7 @@ public class PathFindingGrid {
 
 		if ( neighborColumn >= 0) {
 			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
-				neighbors[2] = gridCells2D[neighborRow][neighborColumn];
+				neighbors.add(gridCells2D[neighborRow][neighborColumn]);
 			}
 		}
 
@@ -137,24 +144,13 @@ public class PathFindingGrid {
 
 		if ( neighborColumn < columnCount) {
 			if( gridCells2D[neighborRow][neighborColumn].isTraversable()) {
-				neighbors[3] = gridCells2D[neighborRow][neighborColumn];
+				neighbors.add(gridCells2D[neighborRow][neighborColumn]);
 			}
 		}
 
 		return neighbors;
 	}
 
-	private void findNeighbors(int row, int col){
-		int startPosX = (row - 1 < 0) ? row : row-1;
-		int startPosY = (col - 1 < 0) ? col : col-1;
-		int endPosX =   (row + 1 > rowCount-1) ? row : row+1;
-		int endPosY =   (col + 1 > columnCount-1) ? col : col+1;
-		for (int rowNum=startPosX; rowNum<=endPosX; rowNum++) {
-		    for (int colNum=startPosY; colNum<=endPosY; colNum++) {
-		    	gridCells2D[rowNum][colNum].setSpawnAllowed(false);
-		    }
-		}
-	}
 	public PathFindingCell[][] getCells(){
 		return gridCells2D;
 	}
@@ -202,5 +198,17 @@ public class PathFindingGrid {
 	}
 	public enum CellState{
 		CLOSE,OPEN
+	}
+
+	public void resetCells() {
+		for (int row = 0; row < gridCells2D.length; row++) {
+			for (int col = 0; col < gridCells2D[row].length; col++) {
+				for (int i = 0; i < blocks.size(); i++) {
+					gridCells2D[row][col].resetValues();
+
+				}
+			}
+		}
+
 	}
 }

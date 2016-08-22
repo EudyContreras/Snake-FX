@@ -181,13 +181,13 @@ public class KeyInputHandler {
 						}
 				}
 				if (e.getCode() == KeyCode.NUMPAD8) {
-
+					game.getAIController().getPathFindingAI().computeClosestPath(0, 3);
 				}
 				if (e.getCode() == KeyCode.NUMPAD5) {
-
+					game.getAIController().getPathFindingAI().computeClosestPath(0, 5);
 				}
 				if (e.getCode() == KeyCode.NUMPAD4) {
-
+					game.getAIController().getPathFindingAI().computeClosestPath(3, 8);
 				}
 				if (e.getCode() == KeyCode.NUMPAD6) {
 

@@ -22,11 +22,11 @@ public class CollideObject {
 	private double clearRadius;
 	private Double distance;
 	private Dimension2D dimension;
-	private ObjectEvasionAI evader;
+	private PathFindingAI evader;
 	private RangeFactor range;
 	private Location location;
 
-	public CollideObject(ObjectEvasionAI evader, AbstractTile warning) {
+	public CollideObject(PathFindingAI evader, AbstractTile warning) {
 		super();
 		this.evader = evader;
 		this.x = warning.getBounds().getMinX();
@@ -40,7 +40,7 @@ public class CollideObject {
 	public void updateProperties(){
 		calculateRelativeLocation(evader,evader.getX(),evader.getY());
 	}
-	private void calculateRelativeLocation(ObjectEvasionAI evader, double evaderX, double evaderY){
+	private void calculateRelativeLocation(PathFindingAI evader, double evaderX, double evaderY){
 		if(evader.getCollisionBounds().getMaxX()>=getCollideRadius().getMinX()
 		&& evader.getCollisionBounds().getMinX()<=getCollideRadius().getMaxX()){
 			range = RangeFactor.WITHIN_RANGE;

@@ -88,7 +88,9 @@ public class GameManager extends AbstractGameModel {
 
 
 	public void start(Stage primaryStage) {
-		new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
+	//	new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
+		initialize();
+		showGame();
 	}
 
 	public void fullScreenOff() {
@@ -146,23 +148,23 @@ public class GameManager extends AbstractGameModel {
 		splash = null;
 		splashScene = null;
 		mainWindow = new Stage();
-		getGameRoot().getChildren().add(gridLayer);
-		getGameRoot().getChildren().add(fruitLayer);
-		getGameRoot().getChildren().add(dirtLayer);
-		getGameRoot().getChildren().add(debrisLayer);
-		getGameRoot().getChildren().add(innerParticleLayer);
-		getGameRoot().getChildren().add(snakeOneLayer);
-		getGameRoot().getChildren().add(snakeTwoLayer);
-		getGameRoot().getChildren().add(firstLayer);
-		getGameRoot().getChildren().add(secondLayer);
-		getGameRoot().getChildren().add(thirdLayer);
-		getGameRoot().getChildren().add(fourthLayer);
-		getGameRoot().getChildren().add(fithLayer);
-		getGameRoot().getChildren().add(sixthLayer);
-		getGameRoot().getChildren().add(seventhLayer);
-		getGameRoot().getChildren().add(eighthLayer);
-		getGameRoot().getChildren().add(ninthLayer);
-		getGameRoot().getChildren().add(outerParticleLayer);
+		addToGameRoot(gridLayer);
+		addToGameRoot(fruitLayer);
+		addToGameRoot(dirtLayer);
+		addToGameRoot(debrisLayer);
+		addToGameRoot(innerParticleLayer);
+		addToGameRoot(snakeOneLayer);
+		addToGameRoot(snakeTwoLayer);
+		addToGameRoot(firstLayer);
+		addToGameRoot(secondLayer);
+		addToGameRoot(thirdLayer);
+		addToGameRoot(fourthLayer);
+		addToGameRoot(fithLayer);
+		addToGameRoot(sixthLayer);
+		addToGameRoot(seventhLayer);
+		addToGameRoot(eighthLayer);
+		addToGameRoot(ninthLayer);
+		addToGameRoot(outerParticleLayer);
 		mainRoot.getChildren().add(getGameRoot());
 		mainRoot.setMaxWidth(GameSettings.WIDTH);
 		mainRoot.setMaxHeight(GameSettings.HEIGHT);
@@ -214,7 +216,10 @@ public class GameManager extends AbstractGameModel {
 
 
 	}
-
+	private void addToGameRoot(Pane pane){
+		pane.setFocusTraversable(true);
+		getGameRoot().getChildren().add(pane);
+	}
 	public Image copyBackground(Group content) {
 		Image image = content.snapshot(new SnapshotParameters(), null);
 		return image;
@@ -884,7 +889,7 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	public void assignPlayer() {
-		getAIController().getEvasiveAI().setPlayer();
+		getAIController().getPathFindingAI().setPlayer();
 		getHealthBarOne().setPlayer();
 		getHealthBarTwo().setPlayer();
 		getEnergyBarOne().setPlayer();

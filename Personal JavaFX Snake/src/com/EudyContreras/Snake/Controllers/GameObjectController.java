@@ -44,8 +44,10 @@ public class GameObjectController {
 		fruits.addListener(new ListChangeListener<AbstractObject>() {
 			@Override
 			public void onChanged(@SuppressWarnings("rawtypes") ListChangeListener.Change change) {
-				if(game.getStateID() == GameStateID.GAMEPLAY)
+				if(game.getStateID() == GameStateID.GAMEPLAY){
 				game.getAIController().nofifyAI();
+				game.getAIController().getPathFindingAI().computeClosestPath(5,5);
+				}
 			}
 		});
 

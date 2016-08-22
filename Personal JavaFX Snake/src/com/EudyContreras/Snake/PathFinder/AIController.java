@@ -7,6 +7,8 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
+import javafx.geometry.Rectangle2D;
+
 /**
  * Class than handles logic behind all the classes that the Object evasion AI depends on.
  *
@@ -42,7 +44,7 @@ public class AIController {
 
 	private LinkedList<CollideObject> possibleColliders;
 	private PathFindingGrid pathFindingGrid;
-	private ObjectEvasionAI evasiveAI;
+	private PathFindingAI pathFindingAI;
 	private PlayerTwo snakeAI;
 	private GameManager game;
 
@@ -51,14 +53,13 @@ public class AIController {
 		this.game = game;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 		this.possibleColliders = new LinkedList<CollideObject>();
-		this.evasiveAI = new ObjectEvasionAI(game, snakeAI, possibleColliders);
 		this.initialize();
 	}
 
 	public void initialize() {
 		obtainAllColliders();
-		pathFindingGrid = null;
 		pathFindingGrid = new PathFindingGrid(game,this,GameSettings.WIDTH,GameSettings.HEIGHT,45,1,true,possibleColliders, game.getGameObjectController().getFruitList());
+		pathFindingAI = new PathFindingAI(game,this, snakeAI, possibleColliders);
 		pathFindingGrid.placeCells();
 	}
 	public void updateGrid(){
@@ -71,28 +72,24 @@ public class AIController {
 
 	}
 	public void nofifyAI(){
-		evasiveAI.findObjective();
+		pathFindingAI.findClosest();
 	}
 	private void processAIEvents() {
-		evasiveAI.updateSimulation();
+		pathFindingAI.updateSimulation();
 	}
 	public PathFindingGrid getGrid(){
 		return pathFindingGrid;
-	}
-	public void findPath(){
-//		PathFindingAlgorithm alg = new PathFindingAlgorithm();
-//		alg.getPath(grid, start, end);
 	}
 
 	public void obtainAllColliders(){
 		clearAll();
 		for(int i = 0; i<game.getGameLoader().getTileManager().getBlock().size(); i++){
 			AbstractTile blocks = game.getGameLoader().getTileManager().getBlock().get(i);
-			addPossibleCollideBlock(new CollideObject(evasiveAI, blocks));
+			addPossibleCollideBlock(new CollideObject(pathFindingAI, blocks));
 		}
 		for(int i = 0; i<game.getGameLoader().getTileManager().getTrap().size(); i++){
 			AbstractTile traps = game.getGameLoader().getTileManager().getTrap().get(i);
-			addPossibleCollideBlock(new CollideObject(evasiveAI, traps));
+			addPossibleCollideBlock(new CollideObject(pathFindingAI, traps));
 		}
 	}
 	public void addPossibleCollideBlock(CollideObject collideObject) {
@@ -104,7 +101,26 @@ public class AIController {
 	public void clearAll() {
 		this.possibleColliders.clear();
 	}
-	public ObjectEvasionAI getEvasiveAI(){
-		return evasiveAI;
+	public PathFindingGrid getPathFindingGrid(){
+		return pathFindingGrid;
+	}
+	public PathFindingAI getPathFindingAI(){
+		return pathFindingAI;
+	}
+	public PathFindingCell getRelativeCell(Rectangle2D bounds, int r, int c) {
+		PathFindingCell cell = getGrid().getCells()[r][c];
+		for(int row = 0; row<pathFindingGrid.getCells().length; row++){
+			for(int col = 0; col<pathFindingGrid.getCells()[row].length; col++){
+				PathFindingCell tempCell = pathFindingGrid.getCells()[row][col];
+				if (tempCell.isValid() && tempCell.isSpawnAllowed()) {
+					tempCell.setFree(true);
+				}
+				if(tempCell.placeChecker().intersects(bounds.getMinX(),bounds.getMinY(),10,10)){
+					tempCell.setPathCell(true);
+					cell = tempCell;
+				}
+			}
+		}
+		return cell;
 	}
 }

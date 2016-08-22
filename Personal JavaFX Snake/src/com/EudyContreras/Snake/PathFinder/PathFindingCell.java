@@ -15,12 +15,14 @@ public class PathFindingCell {
 
 	private int id = 0;
 	private double heuristic = 0;
-	private double movementCost = 40;
+	private double movementCost = 10;
+    private int movementPanelty = 0;
 	private double totalCost = 0;
 
 	private boolean valid = true;
 	private boolean visited = false;
 	private boolean showCells = true;
+	private boolean pathCell = false;
 	private boolean targetCell = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
@@ -37,9 +39,26 @@ public class PathFindingCell {
 			this.visualRep.setX(location.getX());
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.rgb(0, 0, 0, .3));
+//			this.visualRep.setFocusTraversable(true);
+//			this.visualRep.setOnKeyPressed(e ->{
+//				this.setPathCell(true);
+//			});
 		}
 	}
-
+	public void resetValues(){
+		heuristic = 0;
+		movementCost = 10;
+	    movementPanelty = 0;
+	    totalCost = 0;
+	    parent = null;
+//		valid = true;
+//		visited = false;
+//		showCells = true;
+//		pathCell = false;
+//		targetCell = false;
+//		isTraversable = true;
+//		spawnAllowed = true;
+	}
 	public void setLocation(double x, double y) {
 		this.location = new Point2D(x, y);
 		if (showCells) {
@@ -47,6 +66,32 @@ public class PathFindingCell {
 			this.visualRep.setY(y);
 		}
 	}
+    private void setgCosts(double gCosts) {
+        this.movementCost = gCosts + movementPanelty;
+	}
+
+	public void sethCosts(PathFindingCell endNode) {
+		this.setHeuristic((absolute(this.getIndex().getRow() - endNode.getIndex().getRow())
+				+ absolute(this.getIndex().getCol() - endNode.getIndex().getCol()) * movementCost));
+	}
+
+	public void setgCosts(PathFindingCell previousAbstractNode, double basicCost) {
+		setgCosts(previousAbstractNode.getMovementCost() + basicCost);
+	}
+
+	public void setgCosts(PathFindingCell previousAbstractNode) {
+
+		setgCosts(previousAbstractNode, movementCost);
+
+	}
+	public double calculategCosts(PathFindingCell previousAbstractNode) {
+            return (previousAbstractNode.getMovementCost() + movementCost + movementPanelty);
+
+    }
+    public double calculategCosts(PathFindingCell previousAbstractNode, double movementCost) {
+        return (previousAbstractNode.getMovementCost() + movementCost + movementPanelty);
+    }
+
 
 	public void setDimension(double width, double height) {
 		this.dimension = new Dimension2D(width, height);
@@ -68,6 +113,7 @@ public class PathFindingCell {
 
 	public final void setValid(boolean valid) {
 		this.valid = valid;
+		this.setTraversable(false);
 		if (showCells) {
 			visualRep.setFill(valid ? Color.rgb(0, 0, 0, 0.3) : Color.RED);
 		}
@@ -75,10 +121,16 @@ public class PathFindingCell {
 
 	public void setFree(boolean state) {
 		if (showCells) {
-			visualRep.setFill(Color.BLACK);
+			visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
 		}
 	}
+	public void setPathCell(boolean state) {
+		this.pathCell = state;
+		if (showCells) {
+			visualRep.setFill(state ? Color.BLUE : Color.rgb(0, 0, 0, 0.3));
+		}
 
+	}
 	public final PathFindingCell getParent() {
 		return parent;
 	}
@@ -190,4 +242,46 @@ public class PathFindingCell {
 	public enum CellType {
 		BLOCKED, TRAVERSABLE, UNAVAILABLE, OCUPIED, FREE
 	}
+    private int absolute(int a) {
+        return a > 0 ? a : -a;
+    }
+	 /**
+     * returns weather the coordinates of AbstractNodes are equal.
+     *
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PathFindingCell other = (PathFindingCell) obj;
+        if (this.index.getRow() != other.index.getRow()) {
+            return false;
+        }
+        if (this.index.getCol() != other.index.getCol()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * returns hash code calculated with coordinates.
+     *
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 17 * hash + this.index.getRow();
+        hash = 17 * hash + this.index.getCol();
+        return hash;
+    }
+
+
+
 }

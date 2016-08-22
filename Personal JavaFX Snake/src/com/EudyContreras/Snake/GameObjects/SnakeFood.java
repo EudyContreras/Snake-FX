@@ -498,7 +498,9 @@ public class SnakeFood extends AbstractObject {
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - size*2 / 2, y - size*2 / 2, size*2, size*2);
 	}
-
+	public PathFindingCell getCell(){
+		return cell;
+	}
 	/**
 	 * Method which returns alternate collision bounds for this object
 	 *
