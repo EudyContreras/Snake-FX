@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
-import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -50,33 +49,27 @@ public class NoSpawnZone extends AbstractTile {
 	 * Draws the bounding box of this object for debugging purposes
 	 */
 	public void drawBoundingBox() {
-
-		bounds = new Rectangle(x, y, width, height);
-		if(GameSettings.DEBUG_MODE)
-		bounds.setStroke(Color.RED);
-		bounds.setFill(Color.TRANSPARENT);
-		bounds.setStrokeWidth(3);
-		game.getSeventhLayer().getChildren().add(bounds);
-
+		if (GameSettings.DEBUG_MODE) {
+			bounds = new Rectangle(x, y, width, height);
+			bounds.setStroke(Color.RED);
+			bounds.setFill(Color.TRANSPARENT);
+			bounds.setStrokeWidth(3);
+			game.getSeventhLayer().getChildren().add(bounds);
+		}
 	}
 	public void updateUI(){
 		if(ScoreKeeper.APPLE_COUNT<GameSettings.APPLE_COUNT	){
-			game.getDirtLayer().getChildren().remove(this.bounds);
 			this.setAlive(false);
+			if(GameSettings.DEBUG_MODE)
+			game.getSeventhLayer().getChildren().remove(bounds);
 		}
 	}
-	/**O
+	/**
 	 * This methods will return specified bounds of this object
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
 		return collisionBounds;
-	}
-	public Rectangle getDebugBounds(){
-		return bounds;
-	}
-	public Bounds getCollisionBounds() {
-		return this.bounds.getBoundsInParent();
 	}
 
 }

@@ -27,7 +27,7 @@ import javafx.geometry.Rectangle2D;
  */
 public class AIPathFinder {
 
-	private AbstractObject closestObjective;
+	private AbstractObject objective;
 	private AbstractTile obstacle;
 	private AIController controller;
 	private GameManager game;
@@ -42,6 +42,7 @@ public class AIPathFinder {
 	private double positionX = 0;
 	private double positionY = 0;
 	private double turnOffset = 100;
+	private double heuristicScale = 1.0;
 
 	private int cellCount = 0;
 	private int randomBoost = 200;
@@ -50,8 +51,8 @@ public class AIPathFinder {
 	private ActionState state;
 
 	HashSet<CellNode> closedSet;
-	PriorityQueue<CellNode> openedSet;
 	LinkedList<CellNode> totalPath;
+	PriorityQueue<CellNode> openedSet;
 
 	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
@@ -110,7 +111,7 @@ public class AIPathFinder {
 	public void updateSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
-				if (closestObjective != null) {
+				if (objective != null) {
 					checkCurrentLocation();
 					addRandomBoost(true);
 					reRoute();
@@ -130,19 +131,21 @@ public class AIPathFinder {
 
 		CellNode current = null;
 
+		double turnPenalty = 10;
+
 		boolean containsNeighbor;
 
 		openedSet.add(startingPoint);
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective));
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + getHeuristicCost(startingPoint, objective)); //The higher the scale the less the number of turn: scale from 1 to 2
 
 		searching = true;
 
 		while (!openedSet.isEmpty() && searching) {
 
-			current = getCheapestCellNode();
+			current = openedSet.poll();
 
 			if (current.equals(objective)) {
 				endPathSearch();
@@ -151,7 +154,7 @@ public class AIPathFinder {
 
 			closedSet.add(current);
 
-			for (CellNode neighbor : grid.getNeighborCells(current, closedSet)) {
+			for (CellNode neighbor : grid.getNeighborCells(current)) {
 
 				if (neighbor == null) {
 					continue;
@@ -161,15 +164,21 @@ public class AIPathFinder {
 					continue;
 				}
 
-				double tentativeScoreG = current.getMovementCost() + distanceBetween(current, neighbor);
+				double  tentativeScoreG = current.getMovementCost() + getHeuristicCost(current, neighbor); //The higher the scale the less the number of turn: scale from 1 to 2
 
+//				if (current.getParentNode() != null) {
+//					if (neighbor.getIndex().getRow() != current.getParentNode().getIndex().getRow() || neighbor.getIndex().getCol() != current.getParentNode().getIndex().getCol()) {
+//						tentativeScoreG = current.getMovementCost() + heuristicCostEstimate(current, neighbor) + turnPenalty;
+//					}
+//				}
 				if (!(containsNeighbor = openedSet.contains(neighbor))|| Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
 
 					neighbor.setParentNode(current);
 
 					neighbor.setMovementCost(tentativeScoreG);
 
-					neighbor.setTotalCost(heuristicCostEstimate(neighbor, objective));
+					neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective)); // If used with scaled up heuristic it gives least number of turns!
+
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
 					if (!containsNeighbor) {
@@ -193,7 +202,8 @@ public class AIPathFinder {
      *
      * @return
      */
-    private CellNode getCheapestCellNode() {
+    @SuppressWarnings("unused")
+	private CellNode getCheapestCellNode() {
 
         CellNode cheapest = openedSet.poll();
 
@@ -201,8 +211,11 @@ public class AIPathFinder {
 			CellNode cell = cells.next();
 			if(cell.getMovementCost()<cheapest.getMovementCost()){
 				cheapest = cell;
-				break;
 			}
+			else{
+				return cheapest;
+			}
+
 		}
         return cheapest;
     }
@@ -267,7 +280,7 @@ public class AIPathFinder {
 
 		}
 
-		return closestObjective;
+		return objective;
 	}
 
 	private void computeObjective() {
@@ -291,22 +304,22 @@ public class AIPathFinder {
 		for (int i = 0; i < distance.length; i++) {
 			if (distance[i].getDistance() == closest) {
 				if (distance[i].getObject().isAlive()) {
-					closestObjective = distance[i].getObject();
+					objective = distance[i].getObject();
 					positionX = distance[i].getObject().getX();
 					positionY = distance[i].getObject().getY();
 				}
 			}
 		}
 
-		if (closestObjective != null && GameSettings.DEBUG_MODE) {
-			closestObjective.blowUpAlt();
+		if (objective != null && GameSettings.DEBUG_MODE) {
+			objective.blowUpAlt();
 		}
 
 	}
 	public void computeClosestPath(int row, int col){
 		controller.getGrid().resetCells();
-		if(closestObjective.getCell()!=null)
-		showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI.getBounds(),row,col),closestObjective.getCell()));
+		if(objective.getCell()!=null)
+		showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI.getBounds(),row,col),controller.getGrid().getCell(55, 28)));
 	}
 	private void showPathToObjective(List<CellNode> cells){
 		for(CellNode cell: cells){
@@ -357,9 +370,9 @@ public class AIPathFinder {
 	}
 
 	private void computeTrackingPath() {
-		if (Math.abs(snakeAI.getX() - closestObjective.getX()) < Math.abs(snakeAI.getY() - closestObjective.getY())) {
-			if (closestObjective.getY() > snakeAI.getY()) {
-				if (closestObjective.getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
+		if (Math.abs(snakeAI.getX() - objective.getX()) < Math.abs(snakeAI.getY() - objective.getY())) {
+			if (objective.getY() > snakeAI.getY()) {
+				if (objective.getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
 					location = ObjectivePosition.SOUTH;
 					performMove(PlayerMovement.MOVE_UP);
 				} else {
@@ -367,7 +380,7 @@ public class AIPathFinder {
 					performMove(PlayerMovement.MOVE_DOWN);
 				}
 			} else {
-				if (closestObjective.getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
+				if (objective.getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
 					location = ObjectivePosition.NORTH;
 					performMove(PlayerMovement.MOVE_DOWN);
 				} else {
@@ -376,8 +389,8 @@ public class AIPathFinder {
 				}
 			}
 		} else {
-			if (closestObjective.getX() > snakeAI.getX()) {
-				if (closestObjective.getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
+			if (objective.getX() > snakeAI.getX()) {
+				if (objective.getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
 					location = ObjectivePosition.EAST;
 					performMove(PlayerMovement.MOVE_LEFT);
 				} else {
@@ -385,7 +398,7 @@ public class AIPathFinder {
 					performMove(PlayerMovement.MOVE_RIGHT);
 				}
 			} else {
-				if (closestObjective.getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
+				if (objective.getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
 					location = ObjectivePosition.WEST;
 					performMove(PlayerMovement.MOVE_RIGHT);
 				} else {
@@ -419,17 +432,17 @@ public class AIPathFinder {
 	}
 
 	private void computeTrackingManeuver() {
-		if (snakeAI.getX() > closestObjective.getX() - range && snakeAI.getX() < closestObjective.getX() + range) {
-			if (closestObjective.getY() < snakeAI.getY()) {
+		if (snakeAI.getX() > objective.getX() - range && snakeAI.getX() < objective.getX() + range) {
+			if (objective.getY() < snakeAI.getY()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_UP);
 				applyThrust();
 			} else {
 				snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
 				applyThrust();
 			}
-		} else if (snakeAI.getY() > closestObjective.getY() - range
-				&& snakeAI.getY() < closestObjective.getY() + range) {
-			if (closestObjective.getX() < snakeAI.getX()) {
+		} else if (snakeAI.getY() > objective.getY() - range
+				&& snakeAI.getY() < objective.getY() + range) {
+			if (objective.getX() < snakeAI.getX()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 				applyThrust();
 			} else {
@@ -461,11 +474,11 @@ public class AIPathFinder {
 		case PATH_FINDING:
 			break;
 		case FREE_MODE:
-			if (closestObjective.isRemovable()) {
+			if (objective.isRemovable()) {
 				findClosest();
 				createPath();
 			}
-			if (closestObjective.getX() != positionX || closestObjective.getY() != positionY) {
+			if (objective.getX() != positionX || objective.getY() != positionY) {
 				findClosest();
 			}
 			break;
@@ -540,7 +553,7 @@ public class AIPathFinder {
 
 	private void computeTrackingUTurn(PlayerMovement currentDirection) {
 		if (currentDirection == PlayerMovement.MOVE_DOWN || currentDirection == PlayerMovement.MOVE_UP) {
-			if (closestObjective.getX() < snakeAI.getX()) {
+			if (objective.getX() < snakeAI.getX()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 				makingUTurn = true;
 				turnOffset = snakeAI.getRadius() * 2;
@@ -550,7 +563,7 @@ public class AIPathFinder {
 				turnOffset = snakeAI.getRadius() * 2;
 			}
 		} else if (currentDirection == PlayerMovement.MOVE_RIGHT || currentDirection == PlayerMovement.MOVE_LEFT) {
-			if (closestObjective.getY() < snakeAI.getY()) {
+			if (objective.getY() < snakeAI.getY()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_UP);
 				makingUTurn = true;
 				turnOffset = snakeAI.getRadius() * 2;
@@ -649,26 +662,22 @@ public class AIPathFinder {
 	}
 
 	public double calculateManhathanDistance(double fromX, double toX, double fromY, double toY) {
-		return absoluteValue((int) (fromX - toX)) + absoluteValue((int) (fromY - toY));
+		return Math.abs(fromX - toX) + Math.abs(fromY - toY);
 	}
 
 	public double calculateEuclidianDistance(double fromX, double toX, double fromY, double toY) {
 		return Math.sqrt((fromX - toX) * (fromX - toX) + (fromY - toY) * (fromY - toY));
-
 	}
 
-	private double distanceBetween(CellNode current, CellNode neighbor) {
-		return heuristicCostEstimate(current, neighbor);
+	private double getHeuristicCost(CellNode start, CellNode end) {
+		double dx = Math.abs(start.getLocation().getX() - end.getLocation().getX());
+		double dy = Math.abs(start.getLocation().getY() - end.getLocation().getY());
+		return heuristicScale * (dx + dy);
 	}
-
 	private double heuristicCostEstimate(CellNode start, CellNode end) {
-
-		return calculateDistance(start.getIndex().getRow(), end.getIndex().getRow(), start.getIndex().getCol(),
-				end.getIndex().getCol());
+		double distance = calculateManhathanDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
+		return distance;
 	}
-    private int absoluteValue(int value) {
-        return value > 0 ? value : -value;
-    }
 	/**
 	 * Get the cell with the minimum f value.
 	 */

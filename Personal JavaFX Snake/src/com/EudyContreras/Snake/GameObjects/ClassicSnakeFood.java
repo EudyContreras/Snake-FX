@@ -284,7 +284,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
 
-			if (tempTile.getId() == GameLevelObjectID.noSpawnZone) {
+			if (tempTile.getId() == GameLevelObjectID.NO_SPAWN_ZONE) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					if (!remainStatic) {
 						relocate();

@@ -587,7 +587,7 @@ public class PlayerOne extends AbstractObject {
 		if (!DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
-				if (tempTile.getId() == GameLevelObjectID.cactus) {
+				if (tempTile.getId() == GameLevelObjectID.CACTUS) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage  && game.getStateID()== GameStateID.GAMEPLAY) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
@@ -605,7 +605,7 @@ public class PlayerOne extends AbstractObject {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							if (allowCollision) {
@@ -627,7 +627,7 @@ public class PlayerOne extends AbstractObject {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
-				if (tempTile.getId() == GameLevelObjectID.fence) {
+				if (tempTile.getId() == GameLevelObjectID.FENCE) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
@@ -640,7 +640,7 @@ public class PlayerOne extends AbstractObject {
 						}
 					}
 				}
-				if (tempTile.getId() == GameLevelObjectID.trap) {
+				if (tempTile.getId() == GameLevelObjectID.TRAP) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){

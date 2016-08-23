@@ -290,7 +290,7 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void checkCollision() {
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
-			if (tempTile.getId() == GameLevelObjectID.rock) {
+			if (tempTile.getId() == GameLevelObjectID.ROCK) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 				}
@@ -303,7 +303,7 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
-			if (tempTile.getId() == GameLevelObjectID.cactus) {
+			if (tempTile.getId() == GameLevelObjectID.CACTUS) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
 					this.remove();
@@ -312,25 +312,25 @@ public class SnakeFood extends AbstractObject {
 
 				}
 			}
-			if (tempTile.getId() == GameLevelObjectID.treeBark) {
+			if (tempTile.getId() == GameLevelObjectID.TREE) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
 				}
 			}
-			if (tempTile.getId() == GameLevelObjectID.flower) {
+			if (tempTile.getId() == GameLevelObjectID.FLOWER) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
 				}
 			}
-			if (tempTile.getId() == GameLevelObjectID.bush) {
+			if (tempTile.getId() == GameLevelObjectID.BUSH) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
 				}
 			}
-			if (tempTile.getId() == GameLevelObjectID.noSpawnZone) {
+			if (tempTile.getId() == GameLevelObjectID.NO_SPAWN_ZONE) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
@@ -338,11 +338,11 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTrap()) {
-			if (tempTile.getId() == GameLevelObjectID.fence || tempTile.getId() == GameLevelObjectID.trap) {
+			if (tempTile.getId() == GameLevelObjectID.FENCE || tempTile.getId() == GameLevelObjectID.TRAP) {
 				if (getNormalBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
-					this.game.getGameLoader().spawnSnakeFood();
 					this.remove();
+					this.game.getGameLoader().spawnSnakeFood();
 					break;
 
 			}
@@ -369,6 +369,7 @@ public class SnakeFood extends AbstractObject {
 	 * Method which makes this object blow up into smaller pieces
 	 */
 	public void blowUp() {
+
 		FruitSplashOne[] fruitPiecesUnder = new FruitSplashOne[GameSettings.MAX_DEBRIS_AMOUNT/2];
 		FruitSplashOne[] fruitPiecesAbove = new FruitSplashOne[GameSettings.MAX_DEBRIS_AMOUNT/2];
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT/2; i++) {
@@ -497,6 +498,14 @@ public class SnakeFood extends AbstractObject {
 		else{
 			velY = -Math.abs(velY) + section.getVelY()*1.2;
 			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
+		}
+	}
+	public void removeFromLayer() {
+		this.layer.getChildren().remove(this.imageView);
+		this.layer.getChildren().remove(this.circle);
+		if(GameSettings.DEBUG_MODE){
+			this.layer.getChildren().remove(rectBounds);
+			this.layer.getChildren().remove(bounds);
 		}
 	}
 	/**

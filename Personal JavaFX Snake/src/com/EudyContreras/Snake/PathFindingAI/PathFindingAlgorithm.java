@@ -43,7 +43,7 @@ public class PathFindingAlgorithm {
 
 			closedSet.add( current);
 
-			for( CellNode neighbor: grid.getNeighborCells( current, closedSet)) {
+			for( CellNode neighbor: grid.getNeighborCells( current)) {
 
 				if( neighbor == null) {
 					continue;

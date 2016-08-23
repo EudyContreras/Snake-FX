@@ -17,7 +17,7 @@ public class CellNode {
 	private int id = 0;
 	private double heuristic = 0;
 	private double movementCost = 10;
-    private double movementPenalty = 0;
+    private double penaltyCost = 0;
 	private double totalCost = 0;
 
 	private boolean visited = false;
@@ -44,7 +44,7 @@ public class CellNode {
 	public void resetValues(){
 		heuristic = 0;
 		movementCost = 10;
-	    movementPenalty = 0;
+	    penaltyCost = 0;
 	    totalCost = 0;
 	    parentNode = null;
 	}
@@ -147,6 +147,9 @@ public class CellNode {
 		return targetCell;
 	}
 
+	public final boolean isPenalized(){
+		return penaltyCost>0;
+	}
 	public void setTargetCell(boolean state) {
 		this.targetCell = state;
 	}
@@ -164,18 +167,18 @@ public class CellNode {
 	}
 
 	public final double getMovementCost() {
-		return movementCost;
+		return movementCost + getPenaltyCost();
 	}
 
 	public final void setMovementCost(double movementCost) {
 		this.movementCost = movementCost;
 	}
 
-	public double getMovementPenalty() {
-		return movementPenalty;
+	public double getPenaltyCost() {
+		return penaltyCost;
 	}
-	public void setMovementPlty(double movementPanelty) {
-		this.movementPenalty = movementPanelty;
+	public void setPenaltyCost(double movementPanelty) {
+		this.penaltyCost = movementPanelty;
 	}
 	public final double getTotalCost() {
 		return totalCost;

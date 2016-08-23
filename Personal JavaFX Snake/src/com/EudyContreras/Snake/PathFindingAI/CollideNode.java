@@ -20,59 +20,43 @@ public class CollideNode {
 	private double height;
 	private double threshold;
 	private double clearRadius;
-	private Double distance;
 	private Dimension2D dimension;
-	private AIPathFinder evader;
-	private RangeFactor range;
-	private Location location;
+	private RiskFactor riskFactor;
 
-	public CollideNode(AIPathFinder evader, AbstractTile warning) {
+	public CollideNode(AIPathFinder evader, AbstractTile warning, RiskFactor risk) {
 		super();
-		this.evader = evader;
-		this.x = warning.getBounds().getMinX();
-		this.y = warning.getBounds().getMinY();
-		this.width = warning.getBounds().getWidth();
-		this.height = warning.getBounds().getHeight();
-		this.clearRadius = 1;
-		this.threshold = 120;
+		this.x = warning.getX();
+		this.y = warning.getY();
+		this.width = warning.getWidth();
+		this.height = warning.getHeight();
+		if(warning.getBounds()!=null){
+			this.x = warning.getBounds().getMinX();
+			this.y = warning.getBounds().getMinY();
+			this.width = warning.getBounds().getWidth();
+			this.height = warning.getBounds().getHeight();
+		}
+		this.riskFactor = risk;
+		this.clearRadius = 0;
+		this.threshold = 100;
 		this.dimension = new Dimension2D(width,height);
-	}
-	public void updateProperties(){
-		calculateRelativeLocation(evader,evader.getX(),evader.getY());
-	}
-	private void calculateRelativeLocation(AIPathFinder evader, double evaderX, double evaderY){
-		if(evader.getCollisionBounds().getMaxX()>=getCollideRadius().getMinX()
-		&& evader.getCollisionBounds().getMinX()<=getCollideRadius().getMaxX()){
-			range = RangeFactor.WITHIN_RANGE;
-			if(y<evaderY){
-				location = Location.NORTH_OF_PLAYER;
-			}
-			else{
-				location = Location.SOUTH_OF_PLAYER;
-			}
-		}
-		if(evader.getCollisionBounds().getMaxY()>=getCollideRadius().getMinY()
-		&& evader.getCollisionBounds().getMinY()<=getCollideRadius().getMaxY()){
-			range = RangeFactor.WITHIN_RANGE;
-			if(x<evaderX){
-				location = Location.WEST_OF_PLAYER;
-			}
-			else{
-				location = Location.EAST_OF_PlAYER;
-			}
-		}
-		else{
-			range = RangeFactor.OUT_OF_RANGE;
-		}
 	}
 
 	public RiskFactor getRiskFactor(double x, double y){
-		if(getDistance(x,y)<=threshold){
+		if(getDistance(x,y)<=threshold/2){
+			return RiskFactor.VERY_HIGH;
+		}
+		else if(getDistance(x,y)<=threshold && getDistance(x,y)>threshold/2){
 			return RiskFactor.HIGH;
+		}
+		else if(getDistance(x,y)>threshold*1.2 && getDistance(x,y)<=threshold*2){
+			return RiskFactor.MEDIUM;
 		}
 		else{
 			return RiskFactor.LOW;
 		}
+	}
+	public RiskFactor getRiskFactor(){
+		return riskFactor;
 	}
 	public double getX() {
 		return x;
@@ -98,20 +82,8 @@ public class CollideNode {
 	public double getDistance(double x, double y) {
 		return Math.abs(x - this.x)+Math.abs(y - this.y);
 	}
-	public RangeFactor getRange(){
-		return range;
-	}
-	public Location getLocation(){
-		return location;
-	}
-	public enum Location{
-		NORTH_OF_PLAYER,SOUTH_OF_PLAYER,EAST_OF_PlAYER,WEST_OF_PLAYER
-	}
 	public enum RiskFactor{
-		HIGH,LOW
-	}
-	public enum RangeFactor{
-		WITHIN_RANGE,OUT_OF_RANGE
+		VERY_HIGH,HIGH,MEDIUM,LOW
 	}
 	public Rectangle2D getCollideRadius(){
 		return new Rectangle2D(x-clearRadius, y-clearRadius, width+clearRadius*2, height+clearRadius*2);
@@ -124,13 +96,14 @@ public class CollideNode {
 			return false;
 
 		CollideNode test = (CollideNode) obj;
-		return dimension == test.dimension && (distance == test.distance || (distance != null && distance.equals(test.distance)));
+		return (dimension.getWidth() == test.dimension.getWidth() &&  dimension.getHeight() == test.dimension.getHeight() &&
+			    x == test.x && y == test.y);
 	}
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		Double data = distance;
-		hash = (int) (31 * hash + distance);
+		Double data = dimension.getWidth()+dimension.getHeight()+x+y;
+		hash = (int) (31 * hash + data);
 		hash = 31 * hash + (null == data ? 0 : data.hashCode());
 		return hash;
 	}

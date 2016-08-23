@@ -171,7 +171,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		setLevel(desertLevel_5);
+		setLevel(desertLevel_1);
 		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
@@ -316,14 +316,11 @@ public class GameLoader extends AbstractLoaderModel{
 		game.getScoreKeeper().getTimer().showTimer(true);
 		game.getScoreKeeper().setboardMode(GameModeID.ClassicMode);
 		loadClassicSnake();
-//		for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
-//			spawnBackgroundStuff(true);
-//		}
 		GameBackground.SET_BACKGROUND(game, GameLevelImage.classic_background);
 		game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
 		if(levelBounds==null){
-		levelBounds = new LevelBounds(game, game.getTenthLayer());
-		getTileManager().addTile(levelBounds);
+			levelBounds = new LevelBounds(game, game.getTenthLayer());
+			getTileManager().addTile(levelBounds);
 		}
 		else{
 			levelBounds.showBounds(true);
@@ -387,7 +384,7 @@ public class GameLoader extends AbstractLoaderModel{
 		int cols = game.getAIController().getGrid().getColumnCount();
 		CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
 
-		if(cell.isTraversable() && cell.isSpawnAllowed()){
+		if(cell.isTraversable() && cell.isSpawnAllowed()&& !cell.isPenalized()){
 			Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
 			int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
 			int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
@@ -461,9 +458,9 @@ public class GameLoader extends AbstractLoaderModel{
 		double height = 200;
 		float x = (float)(GameSettings.WIDTH/2-width/2);
 		float y = (float)((GameSettings.HEIGHT/2-height/2)-15);
-		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.noSpawnZone);
+		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.NO_SPAWN_ZONE);
 		getTileManager().addTile(noSpawnZone);
-		game.getDirtLayer().getChildren().add(noSpawnZone.getDebugBounds());
+
 	}
 
 	/**

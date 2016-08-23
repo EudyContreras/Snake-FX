@@ -21,15 +21,15 @@ public abstract class AbstractTile {
 
 	protected Image image;
 	protected ImageView view = new ImageView();
-	protected double x;
-	protected double y;
+	protected double x = 0;
+	protected double y = 0;
 	protected double r;
 	protected double velX;
 	protected double velY;
 	protected double velR;
 	protected boolean status = true;
-	protected double width;
-	protected double height;
+	protected double width = 0;
+	protected double height = 0;
 	protected GameLevelObjectID id;
 
 	public AbstractTile() {

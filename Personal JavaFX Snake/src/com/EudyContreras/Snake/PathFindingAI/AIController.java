@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 import javafx.geometry.Rectangle2D;
@@ -59,81 +61,117 @@ import javafx.geometry.Rectangle2D;
  */
 public class AIController {
 
-	private LinkedList<CollideNode> possibleColliders;
-	private GridNode pathFindingGrid;
-	private AIPathFinder pathFindingAI;
-	private PlayerTwo snakeAI;
-	private GameManager game;
+    private LinkedList<CollideNode> collideNodes;
+    private LinkedList<CollideNode> penaltyNodes;
+    private GridNode pathFindingGrid;
+    private AIPathFinder pathFindingAI;
+    private PlayerTwo snakeAI;
+    private GameManager game;
 
-	public AIController(GameManager game) {
-		this.game = game;
-		this.snakeAI = game.getGameLoader().getPlayerTwo();
-		this.possibleColliders = new LinkedList<CollideNode>();
-		this.initialize();
-	}
+    public AIController(GameManager game) {
+        this.game = game;
+        this.snakeAI = game.getGameLoader().getPlayerTwo();
+        this.collideNodes = new LinkedList<CollideNode>();
+        this.penaltyNodes = new LinkedList<CollideNode>();
+        this.initialize();
+    }
 
-	public void initialize() {
-		obtainAllColliders();
-		pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT, 45, 1,possibleColliders, game.getGameObjectController().getFruitList());
-		pathFindingAI = new AIPathFinder(game, this, snakeAI, possibleColliders);
-		pathFindingGrid.placeCells();
-	}
+    public void initialize() {
+        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,30, 1);
+        pathFindingGrid.setObjectivesList(game.getGameObjectController().getFruitList());
+        pathFindingAI = new AIPathFinder(game, this, snakeAI, collideNodes);
+//        updateGrid();
+    }
 
-	public void updateGrid() {
-		obtainAllColliders();
-		pathFindingGrid.setColliderList(possibleColliders);
-		pathFindingGrid.computeValidCells();
-	}
+    public void updateGrid() {
+        obtainAllCollideNodes();
+        obtainAllPenaltyNodes();
+        pathFindingGrid.setColliderList(collideNodes);
+        pathFindingGrid.setPenaltiesList(penaltyNodes);
+        pathFindingGrid.computeValidCells();
+    }
 
-	public void update_AI_Simulation(long timePassed) {
-		processAIEvents();
+    public void update_AI_Simulation(long timePassed) {
+        processAIEvents();
 
-	}
+    }
 
-	public void nofifyAI() {
-		pathFindingAI.findClosest();
-	}
+    public void nofifyAI() {
+        pathFindingAI.findClosest();
+    }
 
-	private void processAIEvents() {
-		pathFindingAI.updateSimulation();
-	}
+    private void processAIEvents() {
+        pathFindingAI.updateSimulation();
+    }
 
-	public GridNode getGrid() {
-		return pathFindingGrid;
-	}
+    public GridNode getGrid() {
+        return pathFindingGrid;
+    }
 
-	public void obtainAllColliders() {
-		clearAll();
-		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
-			AbstractTile blocks = game.getGameLoader().getTileManager().getBlock().get(i);
-			addPossibleCollideBlock(new CollideNode(pathFindingAI, blocks));
-		}
-		for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
-			AbstractTile traps = game.getGameLoader().getTileManager().getTrap().get(i);
-			addPossibleCollideBlock(new CollideNode(pathFindingAI, traps));
-		}
-	}
+    public void obtainAllCollideNodes() {
+        clearColliders();
+        for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
+            AbstractTile blocks = game.getGameLoader().getTileManager().getBlock().get(i);
+            addPossibleCollideBlock(new CollideNode(pathFindingAI, blocks,RiskFactor.VERY_HIGH));
+        }
+        for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
+            AbstractTile traps = game.getGameLoader().getTileManager().getTrap().get(i);
+            addPossibleCollideBlock(new CollideNode(pathFindingAI, traps,RiskFactor.VERY_HIGH));
+        }
+    }
+    public void obtainAllPenaltyNodes(){
+        clearPenalties();
+        for(AbstractTile dangers: game.getGameLoader().getTileManager().getTile()){
+            if(dangers.getId() == GameLevelObjectID.CACTUS){
+            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.HIGH));
+            }
+            else if(dangers.getId() == GameLevelObjectID.BUSH){
+            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.MEDIUM));
+            }
+            else if(dangers.getId() == GameLevelObjectID.TREE){
+            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.MEDIUM));
+            }
+            else if(dangers.getId() == GameLevelObjectID.NO_SPAWN_ZONE){
+            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.MEDIUM));
+            }
+            else{
+            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.LOW));
+            }
+        }
+    }
+    public void addPossibleCollideBlock(CollideNode collideObject) {
+//        if (!collideNodes.contains(collideObject)) {
+            collideNodes.add(collideObject);
+//        }
+    }
+    public void addPossiblePenaltyNode(CollideNode penaltyObject) {
+        if (!penaltyNodes.contains(penaltyObject)){
+            penaltyNodes.add(penaltyObject);
+        }
+    }
+    public void clearColliders() {
+        this.collideNodes.clear();
+    }
+    public void clearPenalties(){
+        this.penaltyNodes.clear();
+    }
+    public LinkedList<CollideNode> getPenaltyNodes() {
+        return penaltyNodes;
+    }
+    public LinkedList<CollideNode> getCollideNodes() {
+    	return collideNodes;
+    }
 
-	public void addPossibleCollideBlock(CollideNode collideObject) {
-		if (!possibleColliders.contains(collideObject)) {
-			possibleColliders.add(collideObject);
-		}
-	}
+    public GridNode getPathFindingGrid() {
+        return pathFindingGrid;
+    }
 
-	public void clearAll() {
-		this.possibleColliders.clear();
-	}
+    public AIPathFinder getPathFindingAI() {
+        return pathFindingAI;
+    }
 
-	public GridNode getPathFindingGrid() {
-		return pathFindingGrid;
-	}
+    public CellNode getRelativeCell(Rectangle2D bounds, int r, int c) {
 
-	public AIPathFinder getPathFindingAI() {
-		return pathFindingAI;
-	}
-
-	public CellNode getRelativeCell(Rectangle2D bounds, int r, int c) {
-
-		return pathFindingGrid.getRelativeCell(bounds,r,c);
-	}
+        return pathFindingGrid.getRelativeCell(bounds,r,c);
+    }
 }

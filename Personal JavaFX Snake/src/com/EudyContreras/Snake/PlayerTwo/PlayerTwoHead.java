@@ -205,7 +205,7 @@ public class PlayerTwoHead extends AbstractObject {
 		if (GameSettings.DEBUG_MODE) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							showVisualQue(Color.RED);
@@ -229,7 +229,7 @@ public class PlayerTwoHead extends AbstractObject {
 		if (!GameSettings.DEBUG_MODE) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							displaceDirt(getBoundsLeft().getMinX(),getBoundsLeft().getMinY(),0,0);
@@ -298,7 +298,7 @@ public class PlayerTwoHead extends AbstractObject {
 	public void checkRadiusCollision() {
 		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-			if (tempTile.getId() == GameLevelObjectID.rock) {
+			if (tempTile.getId() == GameLevelObjectID.ROCK) {
 				if (getCollisionRadiusBounds().intersects(tempTile.getBounds()) == false) {
 					showVisualQue(Color.WHITE);
 				}
