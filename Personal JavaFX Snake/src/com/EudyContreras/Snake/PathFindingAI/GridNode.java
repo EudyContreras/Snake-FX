@@ -6,6 +6,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import javafx.collections.ObservableList;
@@ -180,35 +181,23 @@ public class GridNode {
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
 				cell = getCells()[row][col];
-				if (cell.getBoundsCheck().intersects(snakeAI.getBounds())){
-//
-//					switch(cell.getDirection()){
-//					case DOWN:
-//						System.out.println("CHECK");
-//						if(snakeAI.getX() == cell.getLocation().getX())
-//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
-//						break;
-//					case LEFT:
-//						if(snakeAI.getY()==cell.getLocation().getY())
-//						System.out.println("CHECK");
-//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
-//						break;
-//					case RIGHT:
-//						if(snakeAI.getY()==cell.getLocation().getY())
-//						System.out.println("CHECK");
-//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
-//						break;
-//					case UP:
-//						if(snakeAI.getX()==cell.getLocation().getX())
-//						System.out.println("CHECK");
-//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
-//						break;
-//					case NONE:
-////						System.out.println("CHECK");
-////						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.STANDING_STILL);
-//						break;
-//
-//					}
+				if (cell.getBoundsCheck().contains(snakeAI.getBounds())){
+					switch(cell.getDirection()){
+					case DOWN:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
+						break;
+					case LEFT:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
+						break;
+					case RIGHT:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
+						break;
+					case UP:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
+						break;
+					case NONE:break;
+
+					}
 				}
 			}
 		}

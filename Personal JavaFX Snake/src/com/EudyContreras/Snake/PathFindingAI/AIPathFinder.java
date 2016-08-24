@@ -74,7 +74,7 @@ public class AIPathFinder {
 		closedSet = new HashSet<>(cellCount);
 		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
 		heuristicType = HeuristicType.MANHATHAN;
-		state = ActionState.FREE_MODE;
+		state = ActionState.PATH_FINDING;
 	}
 
 	public void findObjective() {
@@ -110,16 +110,15 @@ public class AIPathFinder {
 	 * method update and keeps track of things
 	 */
 	public void updateSimulation() {
-//		finderCell = controller.getRelativeCell(snakeAI.getBounds(),0,0);
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
 				if (objective != null) {
 					checkCurrentLocation();
+					checkObjectiveStatus();
 					addRandomBoost(true);
 					reRoute();
 				}
-//				findClosest();
-				checkObjectiveStatus();
+				findClosest();
 //				computeClosestPath(0,0);
 			}
 		}
@@ -359,7 +358,7 @@ public class AIPathFinder {
 	public void computeClosestPath(int row, int col){
 		controller.getGrid().resetCells();
 		if(objective.getCell()!=null){
-			//System.out.println();
+			System.out.println();
 			showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
 		}
 	}

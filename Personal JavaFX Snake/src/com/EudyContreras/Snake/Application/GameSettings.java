@@ -99,7 +99,7 @@ public class GameSettings {
 
 	public static boolean ALLOW_AI_CONTROLL = true;
 	public static boolean ALLOW_SNAKE_GROWTH = true;
-	public static boolean ALLOW_SELF_COLLISION = false;
+	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;
 	public static boolean ALLOW_DAMAGE_IMMUNITY = true;

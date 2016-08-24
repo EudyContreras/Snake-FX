@@ -43,7 +43,7 @@ public class PlayerTwo extends AbstractObject {
 	private int counter = 0;
 	private double accelaration = 0.5;
 	private double maxSize = 30;
-	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED/8;
+	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED/2;
 	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double bodyTrigger;
@@ -213,10 +213,10 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
-			boundBox.setX(snakeHead.getX() - snakeHead.getRadius()*1.5/2 + offsetX*2);
-			boundBox.setY(snakeHead.getY() - snakeHead.getRadius()*1.5/2 + offsetY*2);
-			boundBox.setWidth(snakeHead.getRadius()*1.5);
-			boundBox.setHeight(snakeHead.getRadius()*1.5);
+			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2);
+			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2);
+			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-2);
+			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-2);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -895,7 +895,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2, GameSettings.PATH_FINDING_CELL_SIZE-2, GameSettings.PATH_FINDING_CELL_SIZE-2);
 	}
 	public Rectangle2D getAIBounds() {
 		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);

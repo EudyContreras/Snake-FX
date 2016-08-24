@@ -171,7 +171,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		setLevel(desertLevel_6);
+//		setLevel(desertLevel_6);
 		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
