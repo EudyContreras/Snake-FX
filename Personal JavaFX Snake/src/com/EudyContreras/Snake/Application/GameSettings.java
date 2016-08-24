@@ -24,6 +24,7 @@ public class GameSettings {
 	public static double FRAME_SCALE = 1.0f;
 	public static double MANUAL_SIZE_SCALE = 1.0;
 
+	public static int PATH_FINDING_CELL_SIZE = 40;
 	public static int MIN_X = 0;
 	public static int MAX_X = 0;
 	public static int MIN_Y = 80;
@@ -90,9 +91,9 @@ public class GameSettings {
 	public static double WIND_FORCE = 0.7;
 	public static double WIND_SPEED = 0.0;
 
-	public static final boolean WINDOW_ALWAYS_VISIBLE = true;
-	public static final boolean SHOW_SPLASHSCREEN = false;
-	public static final boolean SHOW_PATHFINDING_GRAPH = true;
+	public static boolean WINDOW_ALWAYS_VISIBLE = true;
+	public static boolean SHOW_SPLASHSCREEN = false;
+	public static boolean SHOW_PATHFINDING_GRAPH = true;
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 

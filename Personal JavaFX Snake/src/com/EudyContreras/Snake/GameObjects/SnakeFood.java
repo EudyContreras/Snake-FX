@@ -93,17 +93,17 @@ public class SnakeFood extends AbstractObject {
 		this.circle.setOpacity(fadeValue);
 		this.size = circle.getRadius();
 		this.targetSize = size;
-		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
-		this.rectBounds = new Rectangle(x,y,size*2,size*2);
-		this.rectBounds.setFill(Color.TRANSPARENT);
-		this.layer.getChildren().add(bounds);
 		this.cell.setContainsTarget(true);
 		this.addGLow();
 		if (GameSettings.DEBUG_MODE) {
+			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
+			this.rectBounds = new Rectangle(x,y,size*2,size*2);
+			this.rectBounds.setFill(Color.TRANSPARENT);
 			this.rectBounds.setStroke(Color.WHITE);
-			this.layer.getChildren().add(rectBounds);
 			this.bounds.setStroke(Color.WHITE);
 			this.bounds.setStrokeWidth(3);
+			this.layer.getChildren().add(bounds);
+			this.layer.getChildren().add(rectBounds);
 		}
 	}
 
@@ -169,14 +169,15 @@ public class SnakeFood extends AbstractObject {
 		}
 	}
 	public void adjustBounds(){
-		bounds.setCenterX(x);
-		bounds.setCenterY(y);
-		bounds.setRadius(size * .5);
-		rectBounds.setX(x - size*2 / 2);
-		rectBounds.setY(y - size*2 / 2);
-		rectBounds.setWidth(size*2);
-		rectBounds.setHeight(size*2);
-
+		if (GameSettings.DEBUG_MODE) {
+			bounds.setCenterX(x);
+			bounds.setCenterY(y);
+			bounds.setRadius(size * .5);
+			rectBounds.setX(x - size * 1.5 / 2);
+			rectBounds.setY(y - size * 1.5 / 2);
+			rectBounds.setWidth(size * 1.5);
+			rectBounds.setHeight(size * 1.5);
+		}
 	}
 	/**
 	 * Method in charge of updating the glow of the object
@@ -289,10 +290,10 @@ public class SnakeFood extends AbstractObject {
 	public void checkCollision() {
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
 			if (tempTile.getId() == GameLevelObjectID.ROCK) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 				}
-				if (getNormalBounds().intersects(tempTile.getBounds2D())) {
+				if (getBounds().intersects(tempTile.getBounds2D())) {
 					this.blowUp();
 					this.remove();
 					this.game.getGameLoader().spawnSnakeFood();
@@ -302,42 +303,40 @@ public class SnakeFood extends AbstractObject {
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTile()) {
 			if (tempTile.getId() == GameLevelObjectID.CACTUS) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
 					this.remove();
 					this.game.getGameLoader().spawnSnakeFood();
 						break;
-
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.TREE) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.FLOWER) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.BUSH) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
 
 				}
 			}
 			if (tempTile.getId() == GameLevelObjectID.NO_SPAWN_ZONE) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 						bounceBack(tempTile);
-
 				}
 			}
 		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getTrap()) {
 			if (tempTile.getId() == GameLevelObjectID.FENCE || tempTile.getId() == GameLevelObjectID.TRAP) {
-				if (getNormalBounds().intersects(tempTile.getBounds())) {
+				if (getBounds().intersects(tempTile.getBounds())) {
 					this.blowUp();
 					this.remove();
 					this.game.getGameLoader().spawnSnakeFood();
@@ -382,15 +381,18 @@ public class SnakeFood extends AbstractObject {
 		}
 		game.getDebrisManager().addDebris(fruitPiecesUnder);
 		game.getDebrisManager().addDebris(fruitPiecesAbove);
-		rectBounds.setStroke(Color.TRANSPARENT);
-		bounds.setStroke(Color.TRANSPARENT);
-
+		if(GameSettings.DEBUG_MODE){
+			this.rectBounds.setStroke(Color.TRANSPARENT);
+			this.bounds.setStroke(Color.TRANSPARENT);
+		}
 	}
 
 	public void getPoint(){
 		game.getNinthLayer().getChildren().add(new GamePoint(game.getEighthLayer(),x,y));
+		if(GameSettings.DEBUG_MODE){
 		this.rectBounds.setStroke(Color.TRANSPARENT);
 		this.bounds.setStroke(Color.TRANSPARENT);
+		}
 	}
 
 	/**
@@ -512,18 +514,11 @@ public class SnakeFood extends AbstractObject {
 	 * @return
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - size*2 / 2, y - size*2 / 2, size*2, size*2);
+		return new Rectangle2D(x - size*1.5 / 2, y - size*1.5 / 2, size*1.5, size*1.5);
 	}
 
-	/**
-	 * Method which returns alternate collision bounds for this object
-	 *
-	 * @return
-	 */
 	public Rectangle2D getCollisionBounds() {
 		return getBounds();
 	}
-	public Rectangle2D getNormalBounds(){
-		return new Rectangle2D(rectBounds.getX(), rectBounds.getY(), rectBounds.getWidth(), rectBounds.getHeight());
-	}
+
 }

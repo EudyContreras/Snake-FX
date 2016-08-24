@@ -10,8 +10,6 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
-import javafx.geometry.Rectangle2D;
-
 /**
  * Class than handles logic behind all the classes that the Object evasion AI
  * depends on.
@@ -78,7 +76,7 @@ public class AIController {
     }
 
     public void initialize() {
-        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,40, 1);
+        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,GameSettings.PATH_FINDING_CELL_SIZE, 1);
         pathFindingGrid.setObjectivesList(game.getGameObjectController().getFruitList());
         pathFindingAI = new AIPathFinder(game, this, snakeAI, collideNodes);
 //        updateGrid();

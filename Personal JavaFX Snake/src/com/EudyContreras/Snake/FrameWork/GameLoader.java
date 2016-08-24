@@ -171,7 +171,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-//		setLevel(desertLevel_1);
+		setLevel(desertLevel_6);
 		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
@@ -386,7 +386,7 @@ public class GameLoader extends AbstractLoaderModel{
 
 		while(!validCell){
 			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
-			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized()){
+			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized() && !cell.isOccupied()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
 				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
 				int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);

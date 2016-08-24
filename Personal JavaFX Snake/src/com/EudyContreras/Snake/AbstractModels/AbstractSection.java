@@ -372,18 +372,8 @@ public abstract class AbstractSection {
 		this.canMove = false;
 	}
 
-	/**
-	 * Abstract methods every object must have in order to determined the
-	 * condition in which the object will be removed and the objects collision
-	 * boundaries
-	 */
-	public void checkRemovability() {
-
-	}
-
-	public void checkCollision() {
-
-	}
+	public void checkRemovability() {}
+	public void checkCollision() {}
 
 	protected void removePerformedCoordinateChange() {
 		lastPosition.remove(0);

@@ -47,7 +47,7 @@ public class CellNode {
 	public void resetValues(){
 		directionInPath = Direction.NONE;
 //		targetCell = false;
-//		pathCell = false;
+		pathCell = false;
 		heuristic = 0;
 		movementCost = 10;
 	    penaltyCost = 0;
@@ -85,20 +85,13 @@ public class CellNode {
 
 	public void setSpawnAllowed(boolean state) {
 		this.spawnAllowed = state;
-		if (showCells) {
-			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.ORANGE);
-		}
+//		if (showCells) {
+//			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.ORANGE);
+//		}
 	}
-	public void setFree(boolean state) {
-		if (showCells) {
-			//visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
-		}
-	}
+
 	public void setPathCell(boolean state) {
 		this.pathCell = state;
-//		if (showCells && isTraversable()) {
-//			visualRep.setFill( Color.BLUE);
-//		}
 	}
 	public final void setTraversable(boolean state) {
 		this.isTraversable = state;
@@ -108,20 +101,26 @@ public class CellNode {
 	}
 	public void setOccupied(boolean state) {
 		this.occupied = state;
-		if (showCells && occupied &!targetCell) {
-			visualRep.setFill(state ? Color.rgb(255, 255, 255,0.5): Color.rgb(0, 0, 0, 0.3));
+		if (showCells) {
+			if (!pathCell && spawnAllowed && isTraversable) {
+				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5) : Color.rgb(0, 0, 0, 0.3));
+			}
+			if (pathCell) {
+				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5) : Color.BLUE);
+			}
+			if (!spawnAllowed) {
+				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5): Color.ORANGE);
+			}
+			if (!isTraversable) {
+				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5) : Color.RED);
+			}
 		}
-		if (showCells && occupied && targetCell) {
-			visualRep.setFill(state ? Color.BLUE: Color.rgb(0, 0, 0, 0.3));
-		}
-
-
 	}
 	public boolean validSpawnZone(){
-		return (location.getX() > 0) &&
+		return (location.getX() > 0+dimension.getWidth()) &&
 			   (location.getY() > GameSettings.MIN_Y) &&
-			   (location.getX() < GameSettings.WIDTH) &&
-			   (location.getY() < GameSettings.HEIGHT);
+			   (location.getX() < GameSettings.WIDTH-dimension.getWidth()) &&
+			   (location.getY() < GameSettings.HEIGHT-dimension.getHeight());
 	}
 	public boolean isPathCell(){
 		return pathCell;
@@ -245,7 +244,6 @@ public class CellNode {
 		@Override
 		public String toString(){
 			return this.name();
-
 		}
 	}
     @Override

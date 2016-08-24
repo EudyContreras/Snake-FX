@@ -25,7 +25,7 @@ import javafx.geometry.Rectangle2D;
  * @author Eudy Contreras
  *
  */
-public class AIPathFinder {
+public class AIPathFinder2 {
 
 	private AbstractObject objective;
 	private AIController controller;
@@ -54,13 +54,13 @@ public class AIPathFinder {
 	LinkedList<CellNode> totalPath;
 	PriorityQueue<CellNode> openedSet;
 
-	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
+	public AIPathFinder2(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
 		this.initialize();
 	}
 
-	public AIPathFinder(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
+	public AIPathFinder2(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
 		this.game = game;
 		this.controller = controller;
 		this.snakeAI = snakeAI;

@@ -2,14 +2,12 @@ package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-
 import javafx.collections.ObservableList;
 import javafx.geometry.Dimension2D;
 
@@ -87,7 +85,6 @@ public class GridNode {
 				cellNodes[row][col].setContainsTarget(false);
 				cellNodes[row][col].setSpawnAllowed(true);
 				cellNodes[row][col].setPathCell(false);
-				cellNodes[row][col].setFree(true);
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {
 						cellNodes[row][col].setTraversable(false);
@@ -110,8 +107,13 @@ public class GridNode {
 				}
 				for (int i = 0; i < penalties.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(penalties.get(i).getCollideRadius())) {
-						if(penalties.get(i).getRiskFactor() != RiskFactor.LOW)
+//						cellNodes[row][col].setPenaltyCost(10);
+						if(penalties.get(i).getRiskFactor()==RiskFactor.MEDIUM){
+							cellNodes[row][col].setSpawnAllowed(false);
+						}
+						else if(penalties.get(i).getRiskFactor()==RiskFactor.HIGH){
 							findNeighbors(row, col);
+						}
 					}
 				}
 			}
@@ -123,15 +125,12 @@ public class GridNode {
 		for (int row = 0; row < getCells().length; row++) {
 			for (int col = 0; col < getCells()[row].length; col++) {
 				CellNode tempCell = getCells()[row][col];
-				if (tempCell.isTraversable() && !tempCell.isTargetCell()) {
-//					tempCell.setFree(true);
-				}
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
-					tempCell.setOccupied(true);
 					cell = tempCell;
+//					tempCell.setOccupied(true);
 				}
 				if (tempCell.getBoundsCheck().intersects(snake.getBounds())) {
-					tempCell.setOccupied(true);
+
 				}
 			}
 		}
@@ -156,7 +155,7 @@ public class GridNode {
 				}
 				for (int i = 0; i < game.getSectManagerTwo().getSectionList().size(); i++) {
 					section =  game.getSectManagerTwo().getSectionList().get(i);
-					if (cell.getBoundsCheck().intersects(section.getBounds())) {
+					if (cell.getBoundsCheck().contains(section.getBounds())) {
 						if (section.getNumericID() != PlayerTwo.NUMERIC_ID - 1) {
 							cell.setOccupied(true);
 						}
@@ -221,8 +220,9 @@ public class GridNode {
 		int endPosY = (col + 1 > columnCount - 1) ? col : col + 1;
 		for (int rowIndex = startPosX; rowIndex <= endPosX; rowIndex++) {
 			for (int colIndex = startPosY; colIndex <= endPosY; colIndex++) {
-				if(cellNodes[rowIndex][colIndex].isTraversable())
+				if(cellNodes[rowIndex][colIndex].isTraversable()){
 					cellNodes[rowIndex][colIndex].setSpawnAllowed(false);
+				}
 			}
 		}
 	}
@@ -248,7 +248,6 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 		}
-
 		// bottom
 		aCol = col;
 		aRow = row + 1;
@@ -258,7 +257,6 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 		}
-
 		// left
 		aCol = col - 1;
 		aRow = row;
@@ -268,7 +266,6 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 		}
-
 		// right
 		aCol = col + 1;
 		aRow = row;
@@ -278,7 +275,6 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 		}
-
 		return neighbors;
 	}
 
