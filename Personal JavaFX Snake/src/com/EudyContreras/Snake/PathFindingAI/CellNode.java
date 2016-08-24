@@ -1,5 +1,7 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
+import com.EudyContreras.Snake.Application.GameSettings;
+
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -20,14 +22,15 @@ public class CellNode {
     private double penaltyCost = 0;
 	private double totalCost = 0;
 
-	private boolean visited = false;
 	private boolean showCells = true;
 	private boolean pathCell = false;
 	private boolean targetCell = false;
+	private boolean occupied = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
 
 	private CellType cellType = CellType.FREE;
+	private Direction directionInPath = Direction.NONE;
 
 	public CellNode(double x, double y, double width, double height, int id, Index2D index) {
 		this.id = id;
@@ -42,6 +45,9 @@ public class CellNode {
 		}
 	}
 	public void resetValues(){
+		directionInPath = Direction.NONE;
+//		targetCell = false;
+//		pathCell = false;
 		heuristic = 0;
 		movementCost = 10;
 	    penaltyCost = 0;
@@ -62,8 +68,18 @@ public class CellNode {
 
 	public void setContainsTarget(boolean state) {
 		setTargetCell(state);
-		if (showCells) {
+		if (showCells && state) {
 			visualRep.setFill(state ? Color.GREEN : Color.rgb(0, 0, 0, 0.3));
+		}
+		else if (showCells && !state){
+			if(spawnAllowed)
+				visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
+			if(!isSpawnAllowed())
+				visualRep.setFill(Color.ORANGE);
+			if(!isTraversable())
+				visualRep.setFill(Color.RED);
+			if(isPathCell())
+				visualRep.setFill(Color.BLUE);
 		}
 	}
 
@@ -75,17 +91,39 @@ public class CellNode {
 	}
 	public void setFree(boolean state) {
 		if (showCells) {
-			visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
+			//visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
 		}
 	}
 	public void setPathCell(boolean state) {
 		this.pathCell = state;
-		if (showCells && isTraversable()) {
-			visualRep.setFill(state ? Color.BLUE : Color.rgb(0, 0, 0, 0.3));
+//		if (showCells && isTraversable()) {
+//			visualRep.setFill( Color.BLUE);
+//		}
+	}
+	public final void setTraversable(boolean state) {
+		this.isTraversable = state;
+		if (showCells) {
+			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.RED);
+		}
+	}
+	public void setOccupied(boolean state) {
+		this.occupied = state;
+		if (showCells && occupied &!targetCell) {
+			visualRep.setFill(state ? Color.rgb(255, 255, 255,0.5): Color.rgb(0, 0, 0, 0.3));
+		}
+		if (showCells && occupied && targetCell) {
+			visualRep.setFill(state ? Color.BLUE: Color.rgb(0, 0, 0, 0.3));
 		}
 
+
 	}
-	public boolean getPathCell(){
+	public boolean validSpawnZone(){
+		return (location.getX() > 0) &&
+			   (location.getY() > GameSettings.MIN_Y) &&
+			   (location.getX() < GameSettings.WIDTH) &&
+			   (location.getY() < GameSettings.HEIGHT);
+	}
+	public boolean isPathCell(){
 		return pathCell;
 	}
 	public final CellNode getParentNode() {
@@ -128,19 +166,12 @@ public class CellNode {
 		return isTraversable;
 	}
 
-	public final void setTraversable(boolean state) {
-		this.isTraversable = state;
-		if (showCells) {
-			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.RED);
-		}
-	}
-
-	public final boolean isVisited() {
-		return visited;
+	public boolean isOccupied(){
+		return occupied;
 	}
 
 	public final boolean isSpawnAllowed() {
-		return spawnAllowed;
+		return spawnAllowed && validSpawnZone();
 	}
 
 	public final boolean isTargetCell() {
@@ -152,10 +183,6 @@ public class CellNode {
 	}
 	public void setTargetCell(boolean state) {
 		this.targetCell = state;
-	}
-
-	public final void setVisited(boolean visited) {
-		this.visited = visited;
 	}
 
 	public final double getHeuristic() {
@@ -195,7 +222,12 @@ public class CellNode {
 	public Rectangle2D getBoundsCheck() {
 		return new Rectangle2D(location.getX(), location.getY(), dimension.getWidth(), dimension.getHeight());
 	}
-
+	public Direction getDirection(){
+		return directionInPath;
+	}
+	public void setDirection(Direction direction){
+		this.directionInPath = direction;
+	}
 	public final CellType getCellType() {
 		return cellType;
 	}
@@ -207,7 +239,15 @@ public class CellNode {
 	public enum CellType {
 		BLOCKED, TRAVERSABLE, UNAVAILABLE, FREE
 	}
+	public enum Direction{
+		UP,DOWN,LEFT,RIGHT,NONE;
 
+		@Override
+		public String toString(){
+			return this.name();
+
+		}
+	}
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -233,6 +273,7 @@ public class CellNode {
         hash = 17 * hash + this.index.getCol();
         return hash;
     }
+
 
 
 

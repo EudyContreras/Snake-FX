@@ -11,7 +11,6 @@ import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
 import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
@@ -336,8 +335,5 @@ public class PlayerTwoSection extends AbstractSection {
 		fade = true;
 		blowUp();
 	}
-	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
-	}
 }

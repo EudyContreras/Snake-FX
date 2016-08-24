@@ -171,7 +171,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		setLevel(desertLevel_1);
+//		setLevel(desertLevel_1);
 		game.getGameHud().showHUDCover();
 		switch(game.getModeID()){
 		case CampaingMode:
@@ -380,22 +380,25 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnSnakeFood() {
+		boolean validCell = false;
 		int rows = game.getAIController().getGrid().getRowCount();
 		int cols = game.getAIController().getGrid().getColumnCount();
-		CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
 
-		if(cell.isTraversable() && cell.isSpawnAllowed()&& !cell.isPenalized()){
-			Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
-			int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
-			int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
-			SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, cell, appleNumber);
-			game.getGameObjectController().addFruit(food);
-			game.getAIController().updateGrid();
-			appleNumber++;
+		while(!validCell){
+			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
+			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized()){
+				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
+				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
+				int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
+				SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, cell, appleNumber);
+				game.getGameObjectController().addFruit(food);
+				game.getAIController().updateGrid();
+				appleNumber++;
+				validCell = true;
+				break;
+			}
 		}
-		else{
-			spawnSnakeFood();
-		}
+
 	}
 	/**
 	 * Method responsible for spawning the food on the level

@@ -41,6 +41,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
 import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
+import com.EudyContreras.Snake.Utilities.SplashScreen;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
@@ -87,9 +88,13 @@ public class GameManager extends AbstractGameModel {
 
 
 	public void start(Stage primaryStage) {
-	//	new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
+		if(GameSettings.SHOW_SPLASHSCREEN){
+			new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
+		}
+		else{
 		initialize();
 		showGame();
+		}
 	}
 
 	public void fullScreenOff() {

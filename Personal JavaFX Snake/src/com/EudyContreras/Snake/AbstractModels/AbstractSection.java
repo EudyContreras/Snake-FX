@@ -16,6 +16,7 @@ import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -33,6 +34,7 @@ public abstract class AbstractSection {
 	protected PlayerMovement direction = PlayerMovement.STANDING_STILL;
 	protected Image image;
 	protected ImageView imageView;
+	protected Rectangle boundBox;
 	protected ArrayList<Point2D> lastPosition = new ArrayList<>();
 	protected ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
 	protected Point2D position;
@@ -40,6 +42,7 @@ public abstract class AbstractSection {
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
+	protected int numericID;
 	protected double x;
 	protected double y;
 	protected double r;
@@ -52,7 +55,6 @@ public abstract class AbstractSection {
 	protected double health = 50;
 	protected double speed = 1.0f;
 	protected double damage;
-	protected int numericID;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -145,7 +147,9 @@ public abstract class AbstractSection {
 	}
 
 	public void addToLayer(Node node) {
+		this.setUpBoundBox();
 		this.layer.getChildren().add(0, node);
+
 	}
 
 	public void addToCanvas() {
@@ -155,6 +159,15 @@ public abstract class AbstractSection {
 	public void removeFromLayer() {
 		this.layer.getChildren().remove(this.imageView);
 		this.layer.getChildren().remove(this.circle);
+	}
+
+	private void setUpBoundBox() {
+		if (GameSettings.DEBUG_MODE) {
+			this.boundBox = new Rectangle();
+			this.boundBox.setStroke(Color.WHITE);
+			this.boundBox.setFill(Color.TRANSPARENT);
+			this.layer.getChildren().add(boundBox);
+		}
 	}
 
 	public Pane getLayer() {
@@ -275,12 +288,18 @@ public abstract class AbstractSection {
 		circle.setTranslateX(x);
 		circle.setTranslateY(y);
 		circle.setRotate(r);
+		if (GameSettings.DEBUG_MODE) {
+			boundBox.setX(x - radius * .5 / 2);
+			boundBox.setY(y - radius * .5 / 2);
+			boundBox.setWidth(radius * .5);
+			boundBox.setHeight(radius * .5);
+		}
 	}
 
-	public void logicUpdate(){
-
+	public void logicUpdate() {
 
 	}
+
 	public void createLevel() {
 
 	}
@@ -319,7 +338,7 @@ public abstract class AbstractSection {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x, y, width, height);
+		return new Rectangle2D(x - radius * .5 / 2, y - radius * .5 / 2, radius * .5, radius * .5);
 	}
 
 	public Rectangle2D getBoundsTop() {
@@ -358,12 +377,14 @@ public abstract class AbstractSection {
 	 * condition in which the object will be removed and the objects collision
 	 * boundaries
 	 */
-	public void checkRemovability(){
+	public void checkRemovability() {
 
 	}
-	public void checkCollision(){
+
+	public void checkCollision() {
 
 	}
+
 	protected void removePerformedCoordinateChange() {
 		lastPosition.remove(0);
 		lastDirection.remove(0);

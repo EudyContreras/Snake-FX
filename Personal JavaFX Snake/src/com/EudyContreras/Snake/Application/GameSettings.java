@@ -64,7 +64,7 @@ public class GameSettings {
 	public static double ENERGY_COMSUMPTION_SPEED = 3;
 	public static double ENERGY_REGENRATION_SPEED = 1.0;
 	public static double ENERGY_REGENRATION_DELAY = 40;
-	public static double DAMAGE_AMOUNT = 50;
+	public static double DAMAGE_AMOUNT = 0;
 
 	public static final double PLAYER_ONE_SPEED = 6.0;
 	public static final double PLAYER_TWO_SPEED = 6.0;
@@ -90,16 +90,18 @@ public class GameSettings {
 	public static double WIND_FORCE = 0.7;
 	public static double WIND_SPEED = 0.0;
 
-	protected static final boolean WINDOW_ALWAYS_VISIBLE = true;
+	public static final boolean WINDOW_ALWAYS_VISIBLE = true;
+	public static final boolean SHOW_SPLASHSCREEN = false;
+	public static final boolean SHOW_PATHFINDING_GRAPH = true;
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 
 	public static boolean ALLOW_AI_CONTROLL = true;
 	public static boolean ALLOW_SNAKE_GROWTH = true;
-	public static boolean ALLOW_SELF_COLLISION = true;
+	public static boolean ALLOW_SELF_COLLISION = false;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;
-	public static boolean ALLOW_DAMAGE_IMMUNITY = false;
+	public static boolean ALLOW_DAMAGE_IMMUNITY = true;
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 

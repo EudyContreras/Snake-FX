@@ -6,6 +6,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -77,7 +78,7 @@ public class AIController {
     }
 
     public void initialize() {
-        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,30, 1);
+        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,40, 1);
         pathFindingGrid.setObjectivesList(game.getGameObjectController().getFruitList());
         pathFindingAI = new AIPathFinder(game, this, snakeAI, collideNodes);
 //        updateGrid();
@@ -93,7 +94,8 @@ public class AIController {
 
     public void update_AI_Simulation(long timePassed) {
         processAIEvents();
-
+        if(game.getStateID() == GameStateID.GAMEPLAY)
+        pathFindingGrid.steerPlayer();
     }
 
     public void nofifyAI() {
@@ -140,9 +142,9 @@ public class AIController {
         }
     }
     public void addPossibleCollideBlock(CollideNode collideObject) {
-//        if (!collideNodes.contains(collideObject)) {
+        if (!collideNodes.contains(collideObject)) {
             collideNodes.add(collideObject);
-//        }
+        }
     }
     public void addPossiblePenaltyNode(CollideNode penaltyObject) {
         if (!penaltyNodes.contains(penaltyObject)){
@@ -170,8 +172,7 @@ public class AIController {
         return pathFindingAI;
     }
 
-    public CellNode getRelativeCell(Rectangle2D bounds, int r, int c) {
-
-        return pathFindingGrid.getRelativeCell(bounds,r,c);
+    public CellNode getRelativeCell(PlayerTwo snake, int r, int c) {
+        return pathFindingGrid.getRelativeCell(snake,r,c);
     }
 }

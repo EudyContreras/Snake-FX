@@ -25,6 +25,7 @@ import javafx.collections.ObservableList;
  */
 public class GameObjectController {
 
+	private ObservableList<AbstractObject> fruits;
 	private LinkedList<AbstractObject> fruitList;
 	private LinkedList<AbstractObject> buffs;
 	private AbstractObject tempFruit;
@@ -40,7 +41,6 @@ public class GameObjectController {
 	 */
 	public void initialize() {
 		fruitList = new LinkedList<AbstractObject>();
-		ObservableList<AbstractObject> fruits;
 		fruits = FXCollections.observableList(fruitList);
 		fruits.addListener(new ListChangeListener<AbstractObject>() {
 			@Override
@@ -48,6 +48,7 @@ public class GameObjectController {
 				if(game.getStateID() == GameStateID.GAMEPLAY){
 				game.getAIController().nofifyAI();
 				game.getAIController().getPathFindingAI().computeClosestPath(5,5);
+				System.out.println("WORKING");
 				}
 			}
 		});
@@ -61,7 +62,7 @@ public class GameObjectController {
 	 * be thrown
 	 */
 	public void updateFruits(long timePassed) {
-		Iterator<AbstractObject> fruitIter = fruitList.iterator();
+		Iterator<AbstractObject> fruitIter = fruits.iterator();
 		while (fruitIter.hasNext()) {
 			AbstractObject tempFruit = fruitIter.next();
 			tempFruit.move();
@@ -115,8 +116,8 @@ public class GameObjectController {
 	 */
 	public void updateAll(long timePassed) {
 
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.move();
 			tempFruit.updateUI();
 			tempFruit.checkCollision();
@@ -127,15 +128,15 @@ public class GameObjectController {
 			tempFruit.checkRemovability();
 			if (tempFruit.isRemovable() || !tempFruit.isAlive()) {
 				tempFruit.removeFromLayer();
-				fruitList.remove(i);
+				fruits.remove(i);
 			}
 		}
-		if(fruitList.size() > 4){
-			fruitList.get(fruitList.size()-1).setRemovable(true);
+		if(fruits.size() > 4){
+			fruits.get(fruits.size()-1).setRemovable(true);
 		}
 		if(GameSettings.APPLE_COUNT <= 4){
-			if(fruitList.size() > GameSettings.APPLE_COUNT){
-				fruitList.get(fruitList.size()-1).setRemovable(true);
+			if(fruits.size() > GameSettings.APPLE_COUNT){
+				fruits.get(fruits.size()-1).setRemovable(true);
 			}
 		}
 	}
@@ -145,8 +146,8 @@ public class GameObjectController {
 	 */
 	public void updateUI() {
 
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.updateUI();
 		}
 	}
@@ -156,8 +157,8 @@ public class GameObjectController {
 	 */
 	public void updateAnimation(long timePassed) {
 
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.updateAnimation(timePassed);
 		}
 	}
@@ -167,8 +168,8 @@ public class GameObjectController {
 	 */
 	public void move() {
 
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.move();
 		}
 	}
@@ -178,8 +179,8 @@ public class GameObjectController {
 	 */
 	public void draw() {
 
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.draw();
 		}
 	}
@@ -189,28 +190,28 @@ public class GameObjectController {
 	 */
 	public void addPhysics() {
 
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.addPhysics();
 		}
 	}
 
 	/**
-	 * Method used to check if the fruitList should be removed
+	 * Method used to check if the fruits should be removed
 	 */
 	public void checkIfRemoveable() {
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.checkRemovability();
 		}
 	}
 
 	/**
-	 * Method used to check if the fruitList has collied with another fruitList
+	 * Method used to check if the fruits has collied with another fruits
 	 */
 	public void checkCollisions() {
-		for (int i = 0; i < fruitList.size(); i++) {
-			tempFruit = fruitList.get(i);
+		for (int i = 0; i < fruits.size(); i++) {
+			tempFruit = fruits.get(i);
 			tempFruit.checkCollision();
 		}
 	}
@@ -228,15 +229,15 @@ public class GameObjectController {
 	 * Procedurally places the objects in the level
 	 */
 	public void procedurallyCreateLevel() {
-		Iterator<? extends AbstractObject> spriteIter = fruitList.iterator();
+		Iterator<? extends AbstractObject> spriteIter = fruits.iterator();
 		while (spriteIter.hasNext()) {
 			AbstractObject sprite = spriteIter.next();
 			sprite.createLevel();
 		}
 	}
 
-	public LinkedList<AbstractObject> getFruitList() {
-		return fruitList;
+	public ObservableList<AbstractObject> getFruitList() {
+		return fruits;
 	}
 
 	public LinkedList<AbstractObject> getBuffList() {
@@ -244,34 +245,34 @@ public class GameObjectController {
 	}
 
 	public void addFruit(AbstractObject object) {
-		this.fruitList.add(object);
+		this.fruits.add(object);
 	}
 
 	public void removeFruit(AbstractObject object) {
-		this.fruitList.remove(object);
+		this.fruits.remove(object);
 	}
 
 	public void addBuff(AbstractObject object) {
-		this.fruitList.add(object);
+		this.fruits.add(object);
 	}
 
 	public void removeBuff(AbstractObject object) {
-		this.fruitList.remove(object);
+		this.fruits.remove(object);
 	}
 	/**
-	 * Clears the fruitList list.
+	 * Clears the fruits list.
 	 */
 	public void clearAll() {
-		this.fruitList.clear();
+		this.fruits.clear();
 	}
 	/**
-	 * Finds a specified fruitList with a given id
-	 * and returns that fruitList.
+	 * Finds a specified fruits with a given id
+	 * and returns that fruits.
 	 * @param id
 	 * @return
 	 */
 	public AbstractObject findObject(GameObjectID id) {
-		for (AbstractObject go : fruitList) {
+		for (AbstractObject go : fruits) {
 			if (go.getId() == id) {
 				return go;
 			}

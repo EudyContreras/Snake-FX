@@ -43,10 +43,11 @@ public class PlayerTwo extends AbstractObject {
 	private int counter = 0;
 	private double accelaration = 0.5;
 	private double maxSize = 30;
-	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
+	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
-	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/2;
+	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double bodyTrigger;
+	private double offset = 30;
 	private double offsetX = 0;
 	private double offsetY = 0;
 	private boolean isDead = false;
@@ -369,55 +370,43 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void setDirectCoordinates(PlayerMovement direction) {
-		if (!GameSettings.ALLOW_SELF_COLLISION) {
+
 			if (!LEVEL_COMPLETED && !DEAD) {
 				if (this.direction == direction) {
 					this.direction = direction;
 				} else {
 					switch (direction) {
 					case MOVE_UP:
-						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnUp)
-								turnDelay(PlayerMovement.MOVE_UP);
-						} else {
+						if (this.direction != PlayerMovement.MOVE_DOWN) {
 							if (allowTurnUp)
 								moveUp();
 						}
 						break;
 					case MOVE_DOWN:
-						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnDown)
-								turnDelay(PlayerMovement.MOVE_DOWN);
-						} else {
+						if (this.direction != PlayerMovement.MOVE_UP) {
 							if (allowTurnDown)
 								moveDown();
 						}
 						break;
 					case MOVE_LEFT:
-						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnLeft)
-								turnDelay(PlayerMovement.MOVE_LEFT);
-						} else {
+						if (this.direction != PlayerMovement.MOVE_RIGHT) {
 							if (allowTurnLeft)
 								moveLeft();
 						}
 						break;
 					case MOVE_RIGHT:
-						if (!GameSettings.ALLOW_FAST_TURNS) {
-							if (allowTurnRight)
-								turnDelay(PlayerMovement.MOVE_RIGHT);
-						} else {
+						if (this.direction != PlayerMovement.MOVE_LEFT) {
 							if (allowTurnRight)
 								moveRight();
 						}
 						break;
 					case STANDING_STILL:
+
 						break;
 					}
 				}
 			}
 		}
-	}
 
 	public void setGestureDirection(PlayerMovement direction) {
 		if (game.getStateID() == GameStateID.GAMEPLAY) {
@@ -486,7 +475,7 @@ public class PlayerTwo extends AbstractObject {
 
 	private void moveUp() {
 		offsetX = 0;
-		offsetY = -20;
+		offsetY = -offset;
 		velY = -GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 180;
@@ -508,7 +497,7 @@ public class PlayerTwo extends AbstractObject {
 
 	private void moveDown() {
 		offsetX = 0;
-		offsetY = 20;
+		offsetY = offset;
 		velY = GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 0;
@@ -529,7 +518,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveRight() {
-		offsetX = 20;
+		offsetX = offset;
 		offsetY = 0;
 		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
@@ -551,7 +540,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveLeft() {
-		offsetX = -20;
+		offsetX = -offset;
 		offsetY = 0;
 		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
@@ -603,8 +592,8 @@ public class PlayerTwo extends AbstractObject {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.ROCK) {
-					if (getBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ALLOW_ROCK_COLLISION && !GameSettings.ALLOW_AI_CONTROLL) {
+					if (getAIBounds().intersects(tempTile.getBounds())) {
+						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							if (allowCollision) {
 								this.allowThrust = false;
 								this.thrust = false;
@@ -906,10 +895,10 @@ public class PlayerTwo extends AbstractObject {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY, radius, radius);
+		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
 	}
 	public Rectangle2D getAIBounds() {
-		return new Rectangle2D(snakeHead.getX() - snakeHead.getRadius()*1.5/2 + offsetX*2, snakeHead.getY() - snakeHead.getRadius()*1.5/2 + offsetY*2, snakeHead.getRadius()*1.5, snakeHead.getRadius()*1.5 );
+		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);
 	}
 	public PlayerTwoHead getHead() {
 		return snakeHead;

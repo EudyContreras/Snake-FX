@@ -16,6 +16,7 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
+import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 import javafx.geometry.Rectangle2D;
@@ -48,6 +49,7 @@ public class AIPathFinder {
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
+	private HeuristicType heuristicType;
 	private ActionState state;
 
 	HashSet<CellNode> closedSet;
@@ -73,6 +75,7 @@ public class AIPathFinder {
 		totalPath = new LinkedList<>();
 		closedSet = new HashSet<>(cellCount);
 		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
+		heuristicType = HeuristicType.EUCLIDIAN;
 		state = ActionState.PATH_FINDING;
 	}
 
@@ -109,6 +112,7 @@ public class AIPathFinder {
 	 * method update and keeps track of things
 	 */
 	public void updateSimulation() {
+//		finderCell = controller.getRelativeCell(snakeAI.getBounds(),0,0);
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
 				if (objective != null) {
@@ -118,7 +122,7 @@ public class AIPathFinder {
 				}
 				findClosest();
 				checkObjectiveStatus();
-				computeClosestPath(0,0);
+//				computeClosestPath(0,0);
 			}
 		}
 	}
@@ -131,15 +135,37 @@ public class AIPathFinder {
 
 		CellNode current = null;
 
-		double turnPenalty = 10;
+		double turnPenalty = 0;
 
 		boolean containsNeighbor;
 
 		openedSet.add(startingPoint);
 
+
+		startingPoint.setOccupied(true);
+
+		switch(snakeAI.getCurrentDirection()){
+		case MOVE_DOWN:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		case MOVE_LEFT:
+			startingPoint.setDirection(Direction.LEFT);
+			break;
+		case MOVE_RIGHT:
+			startingPoint.setDirection(Direction.RIGHT);
+			break;
+		case MOVE_UP:
+			startingPoint.setDirection(Direction.UP);
+			break;
+		case STANDING_STILL:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+
+		}
+
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + getHeuristicCost(startingPoint, objective)); //The higher the scale the less the number of turn: scale from 1 to 2
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective,heuristicScale,heuristicType)); //The higher the scale the less the number of turn: scale from 1 to 2
 
 		searching = true;
 
@@ -151,8 +177,8 @@ public class AIPathFinder {
 				endPathSearch();
 				return createPath(objective);
 			}
-
 			closedSet.add(current);
+
 
 			for (CellNode neighbor : grid.getNeighborCells(current)) {
 
@@ -164,24 +190,27 @@ public class AIPathFinder {
 					continue;
 				}
 
-				double  tentativeScoreG = current.getMovementCost() + getHeuristicCost(current, neighbor); //The higher the scale the less the number of turn: scale from 1 to 2
+				double  tentativeScoreG = current.getMovementCost() + heuristicCostEstimate(current, neighbor,heuristicScale,heuristicType); //The higher the scale the less the number of turn: scale from 1 to 2
 
-//				if (current.getParentNode() != null) {
-//					if (neighbor.getIndex().getRow() != current.getParentNode().getIndex().getRow() || neighbor.getIndex().getCol() != current.getParentNode().getIndex().getCol()) {
-//						tentativeScoreG = current.getMovementCost() + heuristicCostEstimate(current, neighbor) + turnPenalty;
-//					}
-//				}
-				if (!(containsNeighbor = openedSet.contains(neighbor))|| Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
+				if (!(containsNeighbor = openedSet.contains(neighbor)) || Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
 
 					neighbor.setParentNode(current);
 
 					neighbor.setMovementCost(tentativeScoreG);
 
-					neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective)); // If used with scaled up heuristic it gives least number of turns!
+					if (current.getParentNode() != null) {
+						if (neighbor.getIndex().getRow() != current.getParentNode().getIndex().getRow()
+						 || neighbor.getIndex().getCol() != current.getParentNode().getIndex().getCol()) {
+							neighbor.setMovementCost(tentativeScoreG+turnPenalty);
+						}
+					}
+
+					neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective,1.0,heuristicType)); // If used with scaled up heuristic it gives least number of turns!
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
 					if (!containsNeighbor) {
+
 						openedSet.add(neighbor);
 					}
 				}
@@ -196,6 +225,20 @@ public class AIPathFinder {
 		openedSet.clear();
 		closedSet.clear();
 		totalPath.clear();
+	}
+
+	private void calculateDirection(CellNode node) {
+		if (node.getParentNode() != null) {
+			if (node.getLocation().getX() > node.getParentNode().getLocation().getX()) {
+				node.getParentNode().setDirection(Direction.RIGHT);
+			} else if (node.getLocation().getX() < node.getParentNode().getLocation().getX()) {
+				node.getParentNode().setDirection(Direction.LEFT);
+			} else if (node.getLocation().getY() > node.getParentNode().getLocation().getY()) {
+				node.getParentNode().setDirection(Direction.DOWN);
+			} else if (node.getLocation().getY() < node.getParentNode().getLocation().getY()) {
+				node.getParentNode().setDirection(Direction.UP);
+			}
+		}
 	}
     /**
      * returns the node with the lowest fCosts.
@@ -287,9 +330,10 @@ public class AIPathFinder {
 		Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
 
 		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-			distance[i] = new Distance(calculateManhathanDistance(snakeAI.getX(), game.getGameObjectController().getFruitList().get(i).getX(),
-											   					  snakeAI.getY(), game.getGameObjectController().getFruitList().get(i).getY()),
-											   					  game.getGameObjectController().getFruitList().get(i));
+			distance[i] = new Distance(calculateManhathanDistance(
+		    snakeAI.getX(), game.getGameObjectController().getFruitList().get(i).getX(),
+			snakeAI.getY(), game.getGameObjectController().getFruitList().get(i).getY()),
+			game.getGameObjectController().getFruitList().get(i));
 		}
 
 		if (distance.length > 0) {
@@ -318,12 +362,21 @@ public class AIPathFinder {
 	}
 	public void computeClosestPath(int row, int col){
 		controller.getGrid().resetCells();
-		if(objective.getCell()!=null)
-		showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI.getBounds(),row,col),controller.getGrid().getCell(55, 28)));
+		if(objective.getCell()!=null){
+			System.out.println();
+			showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
+		}
 	}
 	private void showPathToObjective(List<CellNode> cells){
 		for(CellNode cell: cells){
+			calculateDirection(cell);
+
 			cell.setPathCell(true);
+
+		}
+		for(int i = cells.size()-1; i>=0; i--){
+
+			System.out.println("Direction: "+cells.get(i).getDirection().toString());
 		}
 	}
 	/**
@@ -653,8 +706,8 @@ public class AIPathFinder {
 		FREE_MODE, EVADING, PATH_FINDING,
 	}
 
-	public enum LegalTurns {
-		LEFT, RIGHT, UP, DOWN
+	private enum HeuristicType{
+		MANHATHAN,EUCLIDIAN,CUSTOM_EUCLUDIAN,
 	}
 
 	public double calculateDistance(double fromX, double toX, double fromY, double toY) {
@@ -669,13 +722,25 @@ public class AIPathFinder {
 		return Math.sqrt((fromX - toX) * (fromX - toX) + (fromY - toY) * (fromY - toY));
 	}
 
-	private double getHeuristicCost(CellNode start, CellNode end) {
+	@SuppressWarnings("unused")
+	private double getHeuristicCost(CellNode start, CellNode end, Double scale) {
 		double dx = Math.abs(start.getLocation().getX() - end.getLocation().getX());
 		double dy = Math.abs(start.getLocation().getY() - end.getLocation().getY());
-		return heuristicScale * (dx + dy);
+		return scale * (dx + dy);
 	}
-	private double heuristicCostEstimate(CellNode start, CellNode end) {
-		double distance = calculateManhathanDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
+	private double heuristicCostEstimate(CellNode start, CellNode end, Double scale, HeuristicType cost) {
+		double distance = .0;
+		switch(cost){
+		case CUSTOM_EUCLUDIAN:
+			distance = scale*calculateDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
+			break;
+		case EUCLIDIAN:
+			distance = scale*calculateEuclidianDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
+			break;
+		case MANHATHAN:
+			distance = scale*calculateManhathanDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
+			break;
+		}
 		return distance;
 	}
 	/**

@@ -144,11 +144,9 @@ public class SnakeFood extends AbstractObject {
 		super.move();
 		if (velX != 0) {
 			velX *= 0.93;
-			game.getAIController().getGrid().getRelativeCell();
 		}
 		if (velY != 0) {
 			velY *= 0.93;
-			game.getAIController().getGrid().getRelativeCell();
 		}
 	}
 
@@ -173,7 +171,7 @@ public class SnakeFood extends AbstractObject {
 	public void adjustBounds(){
 		bounds.setCenterX(x);
 		bounds.setCenterY(y);
-		bounds.setRadius(size * .8);
+		bounds.setRadius(size * .5);
 		rectBounds.setX(x - size*2 / 2);
 		rectBounds.setY(y - size*2 / 2);
 		rectBounds.setWidth(size*2);
