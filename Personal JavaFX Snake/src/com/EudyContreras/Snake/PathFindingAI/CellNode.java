@@ -42,13 +42,15 @@ public class CellNode {
 			this.visualRep = new Rectangle(width, height);
 			this.visualRep.setX(location.getX());
 			this.visualRep.setY(location.getY());
-			this.visualRep.setFill(Color.rgb(0, 0, 0, .3));
+			this.visualRep.setFill(Color.TRANSPARENT);
+			this.visualRep.setStroke(Color.rgb(0, 0, 0,1));
 		}
 	}
 	public void resetValues(){
 		directionInPath = Direction.NONE;
-//		targetCell = false;
+		targetCell = false;
 		pathCell = false;
+//		occupied = false;
 		heuristic = 0;
 		movementCost = 10;
 	    penaltyCost = 0;
@@ -69,26 +71,29 @@ public class CellNode {
 
 	public void setContainsTarget(boolean state) {
 		setTargetCell(state);
-		if (showCells && state) {
-			visualRep.setFill(state ? Color.GREEN : Color.rgb(0, 0, 0, 0.3));
-		}
-		else if (showCells && !state){
-			if(spawnAllowed)
-				visualRep.setFill(Color.rgb(0, 0, 0, 0.3));
+
+	}
+	public void updateVisuals(){
+		if (showCells){
+			if(spawnAllowed && isTraversable && !pathCell && !occupied && !targetCell && availableCell)
+				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed())
 				visualRep.setFill(Color.ORANGE);
 			if(!isTraversable())
 				visualRep.setFill(Color.RED);
 			if(isPathCell())
 				visualRep.setFill(Color.BLUE);
+			if(isOccupied())
+				visualRep.setFill(Color.WHITE);
+			if(isTargetCell())
+				visualRep.setFill(Color.GREEN);
+			if(!isAvailable())
+				visualRep.setFill(Color.YELLOW);
 		}
 	}
 
 	public void setSpawnAllowed(boolean state) {
 		this.spawnAllowed = state;
-//		if (showCells) {
-//			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.ORANGE);
-//		}
 	}
 
 	public void setPathCell(boolean state) {
@@ -96,29 +101,13 @@ public class CellNode {
 	}
 	public final void setTraversable(boolean state) {
 		this.isTraversable = state;
-		if (showCells) {
-			visualRep.setFill(state ? Color.rgb(0, 0, 0, 0.3) : Color.RED);
-		}
+
 	}
 	public void setOccupied(boolean state) {
 		this.occupied = state;
-		if (showCells) {
-			if (!pathCell && spawnAllowed && isTraversable) {
-				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5) : Color.rgb(0, 0, 0, 0.3));
-			}
-			if (pathCell) {
-				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5) : Color.BLUE);
-			}
-			if (!spawnAllowed) {
-				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5): Color.ORANGE);
-			}
-			if (!isTraversable) {
-				visualRep.setFill(state ? Color.rgb(255, 255, 255, 0.5) : Color.RED);
-			}
-		}
 	}
 	public boolean validSpawnZone(){
-		return (location.getX() > 0+dimension.getWidth()) &&
+		return (location.getX() > 0) &&
 			   (location.getY() > GameSettings.MIN_Y) &&
 			   (location.getX() < GameSettings.WIDTH-dimension.getWidth()) &&
 			   (location.getY() < GameSettings.HEIGHT-dimension.getHeight());
@@ -177,7 +166,7 @@ public class CellNode {
 	public final void setAvailable(boolean state){
 		this.availableCell = state;
 	}
-	public final boolean isCellAvailable(){
+	public final boolean isAvailable(){
 		return availableCell;
 	}
 	public final boolean isTargetCell() {
@@ -277,8 +266,4 @@ public class CellNode {
         hash = 17 * hash + this.index.getCol();
         return hash;
     }
-
-
-
-
 }

@@ -23,7 +23,10 @@ import javafx.geometry.Rectangle2D;
 /**
  *
  * @author Eudy Contreras
+ * TODO: Trigger PATH finding AI only when a collision happens !!!
  *
+ * Make it so that if the snake is close to an obstacle it will activate
+ * path finding else it will deactivate it!
  */
 public class AIPathFinder {
 
@@ -33,7 +36,9 @@ public class AIPathFinder {
 	private PlayerTwo snakeAI;
 	private Random rand;
 
+	private boolean logDirections = false;
 	private boolean searching = false;
+	private boolean allowTrace = false;
 	private boolean makingUTurn = false;
 
 	private double range = 20;
@@ -41,7 +46,7 @@ public class AIPathFinder {
 	private double positionX = 0;
 	private double positionY = 0;
 	private double turnOffset = 100;
-	private double heuristicScale = 1.0;
+	private double heuristicScale = 1.3;
 
 	private int cellCount = 0;
 	private int randomBoost = 200;
@@ -50,9 +55,11 @@ public class AIPathFinder {
 	private HeuristicType heuristicType;
 	private ActionState state;
 
-	HashSet<CellNode> closedSet;
-	LinkedList<CellNode> totalPath;
-	PriorityQueue<CellNode> openedSet;
+	private HashSet<CellNode> closedSet;
+	private LinkedList<CellNode> totalPath;
+	private PriorityQueue<CellNode> openedSet;
+	private List<CellNode> pathCoordinates;
+
 
 	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
@@ -82,6 +89,7 @@ public class AIPathFinder {
 		case EVADING:
 			break;
 		case PATH_FINDING:
+				computeClosestPath(0,0);
 			break;
 		case FREE_MODE:
 			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
@@ -102,6 +110,7 @@ public class AIPathFinder {
 			findClosest();
 			createPath();
 			computeClosestPath(5,5);
+			performMove(PlayerMovement.MOVE_DOWN);
 		}
 	}
 
@@ -113,7 +122,7 @@ public class AIPathFinder {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
 				if (objective != null) {
-					checkCurrentLocation();
+					performLocationBasedAction();
 					checkObjectiveStatus();
 					addRandomBoost(true);
 					reRoute();
@@ -138,7 +147,7 @@ public class AIPathFinder {
 
 		openedSet.add(startingPoint);
 
-		startingPoint.setOccupied(true);
+//		startingPoint.setOccupied(true);
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -199,8 +208,17 @@ public class AIPathFinder {
 							neighbor.setMovementCost(tentativeScoreG+turnPenalty);
 						}
 					}
+					double path = 10/1000;
+					double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
+					double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
+					double dx2 = startingPoint.getLocation().getX() - objective.getLocation().getX();
+					double dy2 = startingPoint.getLocation().getY() - objective.getLocation().getY();
 
-					neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective,2.0,heuristicType)); // If used with scaled up heuristic it gives least number of turns!
+					double cross = Math.abs(dx1*dy2 - dx2*dy1);
+					double heuristic =heuristicCostEstimate(neighbor, objective,1.0,heuristicType);
+					heuristic *= (1.0 + path);
+//					heuristic  += cross*0.001;
+					neighbor.setHeuristic(heuristic); // If used with scaled up heuristic it gives least number of turns!
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
@@ -217,6 +235,7 @@ public class AIPathFinder {
 
 	private void endPathSearch(){
 		searching = false;
+		allowTrace = false;
 		openedSet.clear();
 		closedSet.clear();
 		totalPath.clear();
@@ -285,17 +304,55 @@ public class AIPathFinder {
 				return;
 			}
 			if (snakeAI != null) {
-				if (game.getEnergyBarTwo().getEnergyLevel() > 50) {
-					if (snakeAI.isAllowThrust()) {
-						snakeAI.setSpeedThrust(true);
+				applyThrust();
+			}
+		}
+		else if (state == ActionState.PATH_FINDING) {
+			if (random && rand.nextInt(randomBoost) != 0) {
+				return;
+			}
+			if (snakeAI != null) {
+				applyThrust();
+			}
+		}
+	}
+	/**
+	 * TODO: Build a list containing coordinates and directions.
+	 * make the snake move towards the first direction on the list
+	 * if the snake moves reaches the coordinate on the list make the
+	 * snake take the next turn and so forth:....
+	 */
+	public void steerPlayer() {
+		CellNode cell = null;
+		if (pathCoordinates != null && allowTrace) {
+			for (int index = 0; index < pathCoordinates.size(); index++) {
+				cell = pathCoordinates.get(index);
+				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
+					switch (cell.getDirection()) {
+					case DOWN:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
+						cell.setPathCell(false);
+						break;
+					case LEFT:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
+						cell.setPathCell(false);
+						break;
+					case RIGHT:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
+						cell.setPathCell(false);
+						break;
+					case UP:
+						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
+						cell.setPathCell(false);
+						break;
+					case NONE:
+						break;
 					}
-				} else {
-					snakeAI.setSpeedThrust(false);
+					break;
 				}
 			}
 		}
 	}
-
 	/**
 	 * Method which when called will attempt to find the apple which is closest
 	 * to the current position of the snake!
@@ -322,13 +379,13 @@ public class AIPathFinder {
 	}
 
 	private void computeObjective() {
-		Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
+		Distance[] distance = new Distance[game.getGameObjectController().getObsFruitList().size()];
 
-		for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
+		for (int i = 0; i < game.getGameObjectController().getObsFruitList().size(); i++) {
 			distance[i] = new Distance(calculateManhathanDistance(
-		    snakeAI.getX(), game.getGameObjectController().getFruitList().get(i).getX(),
-			snakeAI.getY(), game.getGameObjectController().getFruitList().get(i).getY()),
-			game.getGameObjectController().getFruitList().get(i));
+		    snakeAI.getX(), game.getGameObjectController().getObsFruitList().get(i).getX(),
+			snakeAI.getY(), game.getGameObjectController().getObsFruitList().get(i).getY()),
+			game.getGameObjectController().getObsFruitList().get(i));
 		}
 
 		if (distance.length > 0) {
@@ -367,9 +424,13 @@ public class AIPathFinder {
 			calculateDirection(cell);
 			cell.setPathCell(true);
 		}
-		controller.getGrid().setPathCoordinates(cells);
-		for(int i = cells.size()-1; i>=0; i--){
-			System.out.println("Direction: "+cells.get(i).getDirection().toString());
+		setPathCoordinates(cells);
+		allowTrace = true;
+
+		if (logDirections) {
+			for (int i = cells.size() - 1; i >= 0; i--) {
+				log("Direction: " + cells.get(i).getDirection().toString());
+			}
 		}
 	}
 	/**
@@ -386,7 +447,6 @@ public class AIPathFinder {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void log(String str) {
 		System.out.println(str);
 	}
@@ -461,20 +521,19 @@ public class AIPathFinder {
 	 * snake will perform the appropriate turn in order to collect the
 	 * objective!
 	 */
-	private void checkCurrentLocation() {
+	private void performLocationBasedAction() {
 		switch (state) {
 		case EVADING:
 			break;
 		case PATH_FINDING:
+			steerPlayer();
 			break;
 		case FREE_MODE:
 			computeTrackingManeuver();
 			break;
 		default:
 			break;
-
 		}
-
 	}
 
 	private void computeTrackingManeuver() {
@@ -547,6 +606,7 @@ public class AIPathFinder {
 		case EVADING:
 			break;
 		case PATH_FINDING:
+			computeTrackingDirection(move);
 			break;
 		case FREE_MODE:
 			computeTrackingDirection(move);
@@ -666,6 +726,9 @@ public class AIPathFinder {
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 	}
 
+	private void setPathCoordinates(List<CellNode> coordinates){
+		this.pathCoordinates = coordinates;
+	}
 	public PlayerMovement getDirection() {
 		return snakeAI.getCurrentDirection();
 	}
@@ -713,7 +776,7 @@ public class AIPathFinder {
 		return scale * (dx + dy);
 	}
 	private double heuristicCostEstimate(CellNode start, CellNode end, Double scale, HeuristicType cost) {
-		double distance = .0;
+		double distance = 0;
 		switch(cost){
 		case CUSTOM_EUCLUDIAN:
 			distance = scale*calculateDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());

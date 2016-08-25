@@ -94,6 +94,7 @@ public class SnakeFood extends AbstractObject {
 		this.size = circle.getRadius();
 		this.targetSize = size;
 		this.cell.setContainsTarget(true);
+		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), false);
 		this.addGLow();
 		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 		this.bounds.setStrokeWidth(3);
@@ -127,7 +128,6 @@ public class SnakeFood extends AbstractObject {
 	 * Updates methods which do not involve movement
 	 */
 	public void logicUpdate() {
-		game.getAIController().getGrid().getRelativeCell();
 		fadeUpdate();
 		fruitFadein();
 		lookAtMe();
@@ -288,6 +288,14 @@ public class SnakeFood extends AbstractObject {
 	 * events.
 	 */
 	public void checkCollision() {
+		for (int i = 0; i<game.getGameObjectController().getObsFruitList().size(); i++) {
+			AbstractObject fruit = game.getGameObjectController().getObsFruitList().get(i);
+				if (getBounds().intersects(fruit.getBounds())) {
+					if (fruit.getNumericCode() != this.numericCode) {
+						bounceBack(fruit);
+				}
+			}
+		}
 		for (AbstractTile tempTile : game.getGameLoader().getTileManager().getBlock()) {
 			if (tempTile.getId() == GameLevelObjectID.ROCK) {
 				if (getBounds().intersects(tempTile.getBounds())) {
@@ -422,14 +430,14 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerOne snake, double x, double y) {
-		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
+
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		else {
 			this.velY = (float) (snake.getVelY()) * 9.5;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
 
@@ -441,14 +449,14 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerTwo snake, double x, double y) {
-		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
+
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		else {
 			this.velY = (float) (snake.getVelY()) * 9.5;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
 
@@ -460,14 +468,14 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(AbstractSection snake, double x, double y) {
-		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
+
 		if (snake.getVelX() > 0) {
 			this.velX = (float) (snake.getVelX()) * 8;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		if (snake.getVelY() > 0) {
 			this.velY = (float) (snake.getVelY()) * 8;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
 	public Bounds getRadialBounds() {
@@ -481,27 +489,36 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounceBack(AbstractTile tile) {
-
-		velX = -Math.abs(velX) + tile.getVelX()*.7;
-		velY = -Math.abs(velY) + tile.getVelY()*.7;
+		if(Math.abs(velX)>Math.abs(velY)){
+			velX = -velX*.7;
+		}
+		else{
+			velY = -velY*.7;
+		}
 		if(velX==0 && velY==0){
 			this.blowUp();
 			this.remove();
 			this.game.getGameLoader().spawnSnakeFood();
 		}
 	}
+	public void bounceBack(AbstractObject object) {
+		object.setVelX(velX+object.getVelX()*.75);
+		object.setVelY(velY+object.getVelY()*.75);
+	}
 	public void bounceBack(AbstractSection section) {
-		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
+
 		if (section.getVelX() > 0 || section.getVelX() < 0) {
 			velX = -Math.abs(velX) + section.getVelX()*1.2;
-			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		else{
 			velY = -Math.abs(velY) + section.getVelY()*1.2;
-			this.velX = RandomGenUtility.getRandomInteger(-12, 12);
+			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
 	public void removeFromLayer() {
+		this.cell.setContainsTarget(false);
+		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), true);
 		this.layer.getChildren().remove(this.imageView);
 		this.layer.getChildren().remove(this.circle);
 		this.layer.getChildren().remove(bounds);

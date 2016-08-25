@@ -37,8 +37,8 @@ public class ClassicSnakeFangs extends AbstractObject {
 
 	public void checkCollision() {
 		if (ClassicSnake.DEAD == false) {
-			for (int i = 0; i < gom.getFruitList().size(); i++) {
-				AbstractObject tempObject = gom.getFruitList().get(i);
+			for (int i = 0; i < gom.getObsFruitList().size(); i++) {
+				AbstractObject tempObject = gom.getObsFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (snake.getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						snake.addSection();

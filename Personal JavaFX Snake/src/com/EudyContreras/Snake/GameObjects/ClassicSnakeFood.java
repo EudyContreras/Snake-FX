@@ -265,7 +265,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	 * events.
 	 */
 	public void checkCollision() {
-		for (AbstractObject tempObject : game.getGameObjectController().getFruitList()) {
+		for (AbstractObject tempObject : game.getGameObjectController().getObsFruitList()) {
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (tempObject.getNumericCode() != this.numericCode) {
 					if (getBounds().intersects(tempObject.getBounds())) {
@@ -311,8 +311,8 @@ public class ClassicSnakeFood extends AbstractObject {
 
 	}
 	public void relocate(){
-		x = RandomGenUtility.getRandomDouble(0, (GameSettings.WIDTH -90));
-		y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
+		x = RandomGenUtility.getRandom(0, (GameSettings.WIDTH -90));
+		y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
 	}
 	/**
 	 * Method which changes the opacity of this object

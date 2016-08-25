@@ -236,7 +236,7 @@ public class GameObjectController {
 		}
 	}
 
-	public ObservableList<AbstractObject> getFruitList() {
+	public ObservableList<AbstractObject> getObsFruitList() {
 		return fruits;
 	}
 

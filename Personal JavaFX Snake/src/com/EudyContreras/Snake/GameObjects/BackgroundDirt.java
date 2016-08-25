@@ -16,7 +16,7 @@ import javafx.scene.shape.Circle;
 public class BackgroundDirt extends AbstractParticlesEffect {
 
 	private GameDebrisID id;
-	private double radius = RandomGenUtility.getRandomDouble(1, 3.5);
+	private double radius = RandomGenUtility.getRandom(1, 3.5);
 	private double lifeTime = 1.0f;
 
 	public BackgroundDirt(GameManager game, Pane layer, Image image,double x, double y) {

@@ -132,11 +132,11 @@ public class ObjectEvasionAI {
 		case FINDING:
 			break;
 		case TRACKING:
-			Distance[] distance = new Distance[game.getGameObjectController().getFruitList().size()];
+			Distance[] distance = new Distance[game.getGameObjectController().getObsFruitList().size()];
 
-			for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
+			for (int i = 0; i < game.getGameObjectController().getObsFruitList().size(); i++) {
 			//	distance[i] = new Distance(Math.hypot(snakeAI.getX() - game.getGameObjectController().getFruitList().get(i).getX(),snakeAI.getY() - game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
-				distance[i] = new Distance(Math.abs(snakeAI.getX()-game.getGameObjectController().getFruitList().get(i).getX()) + Math.abs(snakeAI.getY()- game.getGameObjectController().getFruitList().get(i).getY()),game.getGameObjectController().getFruitList().get(i));
+				distance[i] = new Distance(Math.abs(snakeAI.getX()-game.getGameObjectController().getObsFruitList().get(i).getX()) + Math.abs(snakeAI.getY()- game.getGameObjectController().getObsFruitList().get(i).getY()),game.getGameObjectController().getObsFruitList().get(i));
 			}
 
 			if(distance.length>0){

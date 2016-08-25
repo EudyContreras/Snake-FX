@@ -737,7 +737,7 @@ public class GameManager extends AbstractGameModel {
 					System.out.println();
 					System.out
 							.println("Amount of objects in player manager: " + playerOneManager.getObjectList().size());
-					System.out.println("Amount of objects in object manager: " + objectManager.getFruitList().size());
+					System.out.println("Amount of objects in object manager: " + objectManager.getObsFruitList().size());
 					System.out.println("Amount of objects in debris manager: " + debrisManager.getDebrisList().size());
 					System.out.println(
 							"Amount of objects in particle manager: " + debrisManager.getParticleList().size());
@@ -903,6 +903,7 @@ public class GameManager extends AbstractGameModel {
 		getKeyInput().setPlayerOne(getGameLoader().getPlayerOne());
 		getKeyInput().setPlayerTwo(getGameLoader().getPlayerTwo());
 		getKeyInput().setClassicSnake(getGameLoader().getClassicSnake());
+		getAIController().updateGrid();
 	}
 
 	public void removePlayers() {

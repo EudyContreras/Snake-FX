@@ -73,7 +73,7 @@ public class PlayerOneFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snakeHead.getX() + offsetX);
 		y = (float) (snakeHead.getY() + offsetY);
-		circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.30);
+		circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.35);
 
 
 	}
@@ -111,8 +111,8 @@ public class PlayerOneFangs extends AbstractObject {
 
 	public void checkCollision() {
 		if (PlayerOne.DEAD == false) {
-			for (int i = 0; i < gom.getFruitList().size(); i++) {
-				AbstractObject tempObject = gom.getFruitList().get(i);
+			for (int i = 0; i < gom.getObsFruitList().size(); i++) {
+				AbstractObject tempObject = gom.getObsFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						if (PlayerOne.MOUTH_OPEN) {
@@ -126,6 +126,7 @@ public class PlayerOneFangs extends AbstractObject {
 						}
 					}
 					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
+						if(!GameSettings.ALLOW_AI_CONTROLL)
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}

@@ -23,15 +23,15 @@ import javafx.scene.image.ImageView;
 
 	public static void SET_RANDOM_BACKGROUND(GameManager game, GameThemeID gameTheme) {
 		if (gameTheme == GameThemeID.DESERT_THEME) {
-			if (RandomGenUtility.getRandomInteger(1, 5) == 1) {
+			if (RandomGenUtility.getRandom(1, 5) == 1) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundOne);
-			} else if (RandomGenUtility.getRandomInteger(1, 5) == 2) {
+			} else if (RandomGenUtility.getRandom(1, 5) == 2) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwo);
-			} else if (RandomGenUtility.getRandomInteger(1, 5) == 3) {
+			} else if (RandomGenUtility.getRandom(1, 5) == 3) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThree);
-			} else if (RandomGenUtility.getRandomInteger(1, 5) == 4) {
+			} else if (RandomGenUtility.getRandom(1, 5) == 4) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
-			} else if (RandomGenUtility.getRandomInteger(1, 5) == 5) {
+			} else if (RandomGenUtility.getRandom(1, 5) == 5) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFive);
 			}
 		}

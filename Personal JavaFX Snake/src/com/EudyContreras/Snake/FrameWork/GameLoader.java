@@ -385,14 +385,13 @@ public class GameLoader extends AbstractLoaderModel{
 		int cols = game.getAIController().getGrid().getColumnCount();
 
 		while(!validCell){
-			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandomInteger(2, rows-2)][RandomGenUtility.getRandomInteger(2, cols-2)];
-			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized() && !cell.isOccupied()){
+			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(2, rows-2)][RandomGenUtility.getRandom(2, cols-2)];
+			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized() && !cell.isOccupied() && cell.isAvailable()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
 				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
 				int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
 				SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, cell, appleNumber);
 				game.getGameObjectController().addFruit(food);
-				game.getAIController().updateGrid();
 				appleNumber++;
 				validCell = true;
 				break;
@@ -405,8 +404,8 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnClassicSnakeFood() {
 		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.apple_alt));
-		double x = RandomGenUtility.getRandomDouble(60, (GameSettings.WIDTH - 90));
-		double y = RandomGenUtility.getRandomDouble(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
+		double x = RandomGenUtility.getRandom(60, (GameSettings.WIDTH - 90));
+		double y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
 		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
@@ -432,7 +431,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadPlayerOne() {
 		game.setPlayerInfoVisibility(true);
 		playerOne = null;
-		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.PLAYER_SIZE*1.5);
+		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.PATH_FINDING_CELL_SIZE*1.5);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
 				new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
@@ -445,7 +444,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void loadPlayerTwo() {
 		playerTwo = null;
-		float x = (float) (GameSettings.WIDTH / 2 + GameSettings.PLAYER_SIZE*1.8);
+		float x = (float) (GameSettings.WIDTH / 2 + GameSettings.PATH_FINDING_CELL_SIZE*1.5);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
 				new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,

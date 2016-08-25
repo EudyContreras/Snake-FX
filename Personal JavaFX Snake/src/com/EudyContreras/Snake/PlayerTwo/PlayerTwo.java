@@ -42,7 +42,7 @@ public class PlayerTwo extends AbstractObject {
 	private int appleCount = 0;
 	private int counter = 0;
 	private double accelaration = 0.5;
-	private double maxSize = 30;
+	private double maxSize = GameSettings.ALLOW_AI_CONTROLL ? 26 : 30;
 	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;

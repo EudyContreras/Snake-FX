@@ -76,8 +76,7 @@ public class AIController {
     }
 
     public void initialize() {
-        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,GameSettings.PATH_FINDING_CELL_SIZE, 1);
-        pathFindingGrid.setObjectivesList(game.getGameObjectController().getFruitList());
+        pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,GameSettings.PATH_FINDING_CELL_SIZE, 0);
         pathFindingAI = new AIPathFinder(game, this, snakeAI, collideNodes);
 //        updateGrid();
     }
@@ -91,9 +90,10 @@ public class AIController {
     }
 
     public void update_AI_Simulation(long timePassed) {
-        processAIEvents();
-        if(game.getStateID() == GameStateID.GAMEPLAY)
-        	pathFindingGrid.steerPlayer();
+    	if(game.getStateID()==GameStateID.GAMEPLAY){
+    		processAIEvents();
+        	getGrid().getRelativeCell();
+    	}
     }
 
     public void nofifyAI() {

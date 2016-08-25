@@ -288,8 +288,8 @@ public class ClassicSnakeSection extends AbstractSection {
 	}
 
 	public void displace(){
-		this.velX = RandomGenUtility.getRandomDouble(-2,2);
-		this.velY = RandomGenUtility.getRandomDouble(-2,2);
+		this.velX = RandomGenUtility.getRandom(-2,2);
+		this.velY = RandomGenUtility.getRandom(-2,2);
 		if (this.numericID == ClassicSnake.NUMERIC_ID - 1) {
 			this.circle.setVisible(false);
 		}

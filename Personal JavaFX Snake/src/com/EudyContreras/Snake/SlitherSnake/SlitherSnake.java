@@ -375,8 +375,8 @@ public class SlitherSnake extends AbstractSlither {
 
 	public void checkCollision() {
 		if (!DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < game.getGameObjectController().getFruitList().size(); i++) {
-				AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
+			for (int i = 0; i < game.getGameObjectController().getObsFruitList().size(); i++) {
+				AbstractObject tempObject = game.getGameObjectController().getObsFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						addSection();

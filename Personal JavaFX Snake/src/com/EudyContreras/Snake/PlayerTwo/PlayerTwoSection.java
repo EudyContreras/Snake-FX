@@ -9,6 +9,7 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
 import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -22,7 +23,7 @@ public class PlayerTwoSection extends AbstractSection {
 	private double particleSize;
 	private double fadeValue = 1.0;
 	private boolean newBorn = true;
-	private boolean fade = false;
+	private boolean fadeOut = false;
 	private boolean blowUp = true;
 	private int dirtDelay = 10;
 	private PlayerTwo playerTwo;
@@ -172,10 +173,12 @@ public class PlayerTwoSection extends AbstractSection {
 		checkBounds();
 		sectionAdjustment();
 	}
-	 public static boolean withinRange(double value, double targetRange){
-		 int threshold = 1;
-	       return Math.abs(value)> Math.abs(targetRange)-threshold && Math.abs(value)<Math.abs(targetRange)+threshold ;
-	  }
+
+	public static boolean withinRange(double value, double targetRange) {
+		double threshold = 0.1;
+		return Math.abs(value) > Math.abs(targetRange) - threshold
+				&& Math.abs(value) < Math.abs(targetRange) + threshold;
+	}
 	public void logicUpdate(){
 		if(playerTwo.getSpeedThrust()&& GameSettings.ALLOW_DIRT){
 			updateSpeedDirt();
@@ -243,7 +246,7 @@ public class PlayerTwoSection extends AbstractSection {
 		}
 	}
 	public void fadeToBones() {
-		if (fade == true) {
+		if (fadeOut == true) {
 			if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
 				fadeValue -= 0.03;
 				this.circle.setOpacity(fadeValue);
@@ -265,13 +268,13 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
+			x = (double) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
+			x = (double) (0 - radius);
 		} else if (y < GameSettings.MIN_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius);
+			y = (double) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius);
+			y = (double) (GameSettings.MIN_Y - radius);
 		}
 	}
 
@@ -323,8 +326,8 @@ public class PlayerTwoSection extends AbstractSection {
 			SectionDisintegration[] sectParticle = new SectionDisintegration[GameSettings.MAX_DEBRIS_AMOUNT];
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
 				if (GameSettings.ADD_VARIATION) {
-					particleSize = (Math.random() * (10 - 5 + 1) + 5);
-					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5);
+					particleSize = RandomGenUtility.getRandom(5,10);
+					particleLife = RandomGenUtility.getRandom(1.5f,0.5f);
 				}
 				sectParticle[i] = new SectionDisintegration(game, GameImageBank.snakeTwoDebris,
 						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2));
@@ -335,7 +338,7 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 	public void die() {
 		loadBones();
-		fade = true;
+		fadeOut = true;
 		blowUp();
 	}
 
