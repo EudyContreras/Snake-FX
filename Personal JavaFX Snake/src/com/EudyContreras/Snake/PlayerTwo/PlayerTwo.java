@@ -43,7 +43,7 @@ public class PlayerTwo extends AbstractObject {
 	private int counter = 0;
 	private double accelaration = 0.5;
 	private double maxSize = 30;
-	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED/2;
+	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double bodyTrigger;
@@ -213,10 +213,10 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
-			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2);
-			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2);
-			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-2);
-			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-2);
+			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
+			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
+			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-8);
+			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-8);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -378,30 +378,25 @@ public class PlayerTwo extends AbstractObject {
 					switch (direction) {
 					case MOVE_UP:
 						if (this.direction != PlayerMovement.MOVE_DOWN) {
-							if (allowTurnUp)
 								moveUp();
 						}
 						break;
 					case MOVE_DOWN:
 						if (this.direction != PlayerMovement.MOVE_UP) {
-							if (allowTurnDown)
 								moveDown();
 						}
 						break;
 					case MOVE_LEFT:
 						if (this.direction != PlayerMovement.MOVE_RIGHT) {
-							if (allowTurnLeft)
 								moveLeft();
 						}
 						break;
 					case MOVE_RIGHT:
 						if (this.direction != PlayerMovement.MOVE_LEFT) {
-							if (allowTurnRight)
 								moveRight();
 						}
 						break;
 					case STANDING_STILL:
-
 						break;
 					}
 				}
@@ -474,6 +469,8 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveUp() {
+		setCurrentDirection(PlayerMovement.MOVE_UP);
+		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, 0);
 		offsetX = 0;
 		offsetY = -offset;
 		velY = -GameSettings.SNAKE_TWO_SPEED;
@@ -489,13 +486,11 @@ public class PlayerTwo extends AbstractObject {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
 		}
-		setCurrentDirection(PlayerMovement.MOVE_UP);
-		if (sectManager.getSectionList().size() > 0) {
-			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, 0);
-		}
 	}
 
 	private void moveDown() {
+		setCurrentDirection(PlayerMovement.MOVE_DOWN);
+		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, 0);
 		offsetX = 0;
 		offsetY = offset;
 		velY = GameSettings.SNAKE_TWO_SPEED;
@@ -511,13 +506,11 @@ public class PlayerTwo extends AbstractObject {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
 		}
-		setCurrentDirection(PlayerMovement.MOVE_DOWN);
-		if (sectManager.getSectionList().size() > 0) {
-			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, 0);
-		}
 	}
 
 	private void moveRight() {
+		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
+		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, 0);
 		offsetX = offset;
 		offsetY = 0;
 		velX = GameSettings.SNAKE_TWO_SPEED;
@@ -533,13 +526,11 @@ public class PlayerTwo extends AbstractObject {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
 		}
-		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
-		if (sectManager.getSectionList().size() > 0) {
-			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, 0);
-		}
 	}
 
 	private void moveLeft() {
+		setCurrentDirection(PlayerMovement.MOVE_LEFT);
+		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, 0);
 		offsetX = -offset;
 		offsetY = 0;
 		velX = -GameSettings.SNAKE_TWO_SPEED;
@@ -554,10 +545,6 @@ public class PlayerTwo extends AbstractObject {
 		if (KEEP_MOVING == false) {
 			moveDelay = GameSettings.COLLISION_DELAY;
 			KEEP_MOVING = true;
-		}
-		setCurrentDirection(PlayerMovement.MOVE_LEFT);
-		if (sectManager.getSectionList().size() > 0) {
-			sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, 0);
 		}
 	}
 
@@ -593,7 +580,7 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getAIBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ALLOW_ROCK_COLLISION) {
+						if (GameSettings.ALLOW_ROCK_COLLISION && !GameSettings.ALLOW_AI_CONTROLL) {
 							if (allowCollision) {
 								this.allowThrust = false;
 								this.thrust = false;
@@ -895,7 +882,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-2)/2, GameSettings.PATH_FINDING_CELL_SIZE-2, GameSettings.PATH_FINDING_CELL_SIZE-2);
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, GameSettings.PATH_FINDING_CELL_SIZE-8, GameSettings.PATH_FINDING_CELL_SIZE-8);
 	}
 	public Rectangle2D getAIBounds() {
 		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);

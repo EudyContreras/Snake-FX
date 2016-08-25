@@ -461,11 +461,9 @@ public class GameManager extends AbstractGameModel {
 							for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
 								playerTwoManager.updateAllMovement();
 								sectManagerTwo.updateAllMovement(timePassed);
-
-							}
-							if (GameSettings.ALLOW_AI_CONTROLL){
-								aiController.update_AI_Simulation(timePassed);
-//								snakeAI.updateSimulation();
+								if (GameSettings.ALLOW_AI_CONTROLL){
+									aiController.update_AI_Simulation(timePassed);
+								}
 							}
 						}
 

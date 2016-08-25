@@ -90,7 +90,7 @@ public class PlayerTwoHead extends AbstractObject {
 	private void loadMouth(){
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.10, Color.TRANSPARENT), this.x,
+		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.15, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
 	public void move() {
@@ -346,7 +346,7 @@ public class PlayerTwoHead extends AbstractObject {
 
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
-			bounds.setStroke(Color.GREEN);
+			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
 			game.getSeventhLayer().getChildren().add(bounds);

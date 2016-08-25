@@ -93,7 +93,7 @@ public class AIController {
     public void update_AI_Simulation(long timePassed) {
         processAIEvents();
         if(game.getStateID() == GameStateID.GAMEPLAY)
-        pathFindingGrid.steerPlayer();
+        	pathFindingGrid.steerPlayer();
     }
 
     public void nofifyAI() {

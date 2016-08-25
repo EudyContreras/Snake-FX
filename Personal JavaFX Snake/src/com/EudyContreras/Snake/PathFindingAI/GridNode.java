@@ -1,7 +1,9 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
+import javafx.geometry.Dimension2D;
+import javafx.collections.ObservableList;
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
@@ -9,8 +11,7 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import javafx.collections.ObservableList;
-import javafx.geometry.Dimension2D;
+
 
 public class GridNode {
 
@@ -25,16 +26,19 @@ public class GridNode {
 	private CellNode cellNode;
 	private GameManager game;
 	private Dimension2D dimension;
+	private AIController controller;
 	private PlayerTwo snakeAI;
 	private CellNode[][] cellNodes;
 
 	private LinkedList<CollideNode> colliders;
 	private LinkedList<CollideNode> penalties;
 	private ObservableList<AbstractObject> objectives;
+	private List<CellNode> pathCoordinates;
 
 	public GridNode(GameManager game, AIController aiController, double width, double height, int cellSize,int cellPadding) {
 		this.game = game;
 		this.cellSize = cellSize;
+		this.controller = aiController;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 		this.showCells = GameSettings.SHOW_PATHFINDING_GRAPH;
 		this.cellPadding = cellPadding;
@@ -128,7 +132,6 @@ public class GridNode {
 				CellNode tempCell = getCells()[row][col];
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
 					cell = tempCell;
-//					tempCell.setOccupied(true);
 				}
 				if (tempCell.getBoundsCheck().intersects(snake.getBounds())) {
 
@@ -178,11 +181,12 @@ public class GridNode {
 	 */
 	public void steerPlayer() {
 		CellNode cell = null;
-		for (int row = 0; row < cellNodes.length; row++) {
-			for (int col = 0; col < cellNodes[row].length; col++) {
-				cell = getCells()[row][col];
-				if (cell.getBoundsCheck().contains(snakeAI.getBounds())){
-					switch(cell.getDirection()){
+
+		if (pathCoordinates != null) {
+			for (int index = 0; index < pathCoordinates.size(); index++) {
+				cell = pathCoordinates.get(index);
+				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
+					switch (cell.getDirection()) {
 					case DOWN:
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
 						break;
@@ -195,9 +199,11 @@ public class GridNode {
 					case UP:
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
 						break;
-					case NONE:break;
+					case NONE:
+						break;
 
 					}
+					break;
 				}
 			}
 		}
@@ -287,6 +293,10 @@ public class GridNode {
 		this.penalties = penaltyNodes;
 	}
 
+	public void setPathCoordinates(List<CellNode> cells) {
+		this.pathCoordinates = cells;
+
+	}
 	public final int getCellSize() {
 		return cellSize;
 	}

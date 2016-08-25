@@ -95,14 +95,14 @@ public class SnakeFood extends AbstractObject {
 		this.targetSize = size;
 		this.cell.setContainsTarget(true);
 		this.addGLow();
+		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
+		this.bounds.setStrokeWidth(3);
+		this.layer.getChildren().add(bounds);
 		if (GameSettings.DEBUG_MODE) {
-			this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
+			this.bounds.setStroke(Color.WHITE);
 			this.rectBounds = new Rectangle(x,y,size*2,size*2);
 			this.rectBounds.setFill(Color.TRANSPARENT);
 			this.rectBounds.setStroke(Color.WHITE);
-			this.bounds.setStroke(Color.WHITE);
-			this.bounds.setStrokeWidth(3);
-			this.layer.getChildren().add(bounds);
 			this.layer.getChildren().add(rectBounds);
 		}
 	}
@@ -169,10 +169,10 @@ public class SnakeFood extends AbstractObject {
 		}
 	}
 	public void adjustBounds(){
+		bounds.setCenterX(x);
+		bounds.setCenterY(y);
+		bounds.setRadius(size * .5);
 		if (GameSettings.DEBUG_MODE) {
-			bounds.setCenterX(x);
-			bounds.setCenterY(y);
-			bounds.setRadius(size * .5);
 			rectBounds.setX(x - size * 1.5 / 2);
 			rectBounds.setY(y - size * 1.5 / 2);
 			rectBounds.setWidth(size * 1.5);
@@ -422,7 +422,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerOne snake, double x, double y) {
-
+		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -441,7 +441,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(PlayerTwo snake, double x, double y) {
-
+		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
 			this.velX = (float) (snake.getVelX()) * 9.5;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -460,7 +460,7 @@ public class SnakeFood extends AbstractObject {
 	 * @param y
 	 */
 	public void bounce(AbstractSection snake, double x, double y) {
-
+		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
 		if (snake.getVelX() > 0) {
 			this.velX = (float) (snake.getVelX()) * 8;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -491,6 +491,7 @@ public class SnakeFood extends AbstractObject {
 		}
 	}
 	public void bounceBack(AbstractSection section) {
+		game.getAIController().getPathFindingAI().computeClosestPath(0, 0);
 		if (section.getVelX() > 0 || section.getVelX() < 0) {
 			velX = -Math.abs(velX) + section.getVelX()*1.2;
 			this.velY = RandomGenUtility.getRandomInteger(-12, 12);
@@ -503,9 +504,9 @@ public class SnakeFood extends AbstractObject {
 	public void removeFromLayer() {
 		this.layer.getChildren().remove(this.imageView);
 		this.layer.getChildren().remove(this.circle);
+		this.layer.getChildren().remove(bounds);
 		if(GameSettings.DEBUG_MODE){
 			this.layer.getChildren().remove(rectBounds);
-			this.layer.getChildren().remove(bounds);
 		}
 	}
 	/**

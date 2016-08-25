@@ -367,6 +367,7 @@ public class AIPathFinder {
 			calculateDirection(cell);
 			cell.setPathCell(true);
 		}
+		controller.getGrid().setPathCoordinates(cells);
 		for(int i = cells.size()-1; i>=0; i--){
 			System.out.println("Direction: "+cells.get(i).getDirection().toString());
 		}

@@ -445,7 +445,7 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void loadPlayerTwo() {
 		playerTwo = null;
-		float x = (float) (GameSettings.WIDTH / 2 + GameSettings.PLAYER_SIZE*1.5);
+		float x = (float) (GameSettings.WIDTH / 2 + GameSettings.PLAYER_SIZE*1.8);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
 		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
 				new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,

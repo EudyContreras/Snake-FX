@@ -133,46 +133,49 @@ public class PlayerTwoSection extends AbstractSection {
 	public void move() {
 		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
 		this.radius = circle.getRadius();
-		checkBounds();
-		sectionAdjustment();
 		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
-			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
+			if (withinRange(x,lastPosition.get(0).getX()) && withinRange(y,lastPosition.get(0).getY())) {
 				removeLatestLocation();
 				if (lastDirection.get(0) == PlayerMovement.MOVE_UP) {
-					setLastDirection(PlayerMovement.MOVE_UP);
-					removeLatestDirection();
 					velX = 0;
 					velY = -GameSettings.SNAKE_TWO_SPEED;
 					r = 180;
+					setLastDirection(PlayerMovement.MOVE_UP);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_DOWN) {
-					setLastDirection(PlayerMovement.MOVE_DOWN);
-					removeLatestDirection();
 					velX = 0;
 					velY = GameSettings.SNAKE_TWO_SPEED;
 					r = 0;
+					setLastDirection(PlayerMovement.MOVE_DOWN);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_LEFT) {
-					setLastDirection(PlayerMovement.MOVE_LEFT);
-					removeLatestDirection();
 					velY = 0;
 					velX = -GameSettings.SNAKE_TWO_SPEED;
 					r = 90;
+					setLastDirection(PlayerMovement.MOVE_LEFT);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
-					setLastDirection(PlayerMovement.MOVE_RIGHT);
-					removeLatestDirection();
 					velY = 0;
 					velX = GameSettings.SNAKE_TWO_SPEED;
 					r = -90;
+					setLastDirection(PlayerMovement.MOVE_RIGHT);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
 			}
 		}
+		checkBounds();
+		sectionAdjustment();
 	}
-
+	 public static boolean withinRange(double value, double targetRange){
+		 int threshold = 1;
+	       return Math.abs(value)> Math.abs(targetRange)-threshold && Math.abs(value)<Math.abs(targetRange)+threshold ;
+	  }
 	public void logicUpdate(){
 		if(playerTwo.getSpeedThrust()&& GameSettings.ALLOW_DIRT){
 			updateSpeedDirt();

@@ -28,6 +28,7 @@ public class CellNode {
 	private boolean occupied = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
+	private boolean availableCell = true;
 
 	private CellType cellType = CellType.FREE;
 	private Direction directionInPath = Direction.NONE;
@@ -173,6 +174,12 @@ public class CellNode {
 		return spawnAllowed && validSpawnZone();
 	}
 
+	public final void setAvailable(boolean state){
+		this.availableCell = state;
+	}
+	public final boolean isCellAvailable(){
+		return availableCell;
+	}
 	public final boolean isTargetCell() {
 		return targetCell;
 	}
@@ -240,7 +247,6 @@ public class CellNode {
 	}
 	public enum Direction{
 		UP,DOWN,LEFT,RIGHT,NONE;
-
 		@Override
 		public String toString(){
 			return this.name();

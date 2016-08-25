@@ -54,7 +54,7 @@ public class PlayerOneEatTrigger extends AbstractObject {
 			AbstractObject tempObject = game.getGameObjectController().getFruitList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (PlayerOne.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
+					if (PlayerOne.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING && snake.getCurrentDirection()!=PlayerMovement.STANDING_STILL) {
 						snake.openMouth();
 						break;
 					}

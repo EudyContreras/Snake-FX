@@ -1,6 +1,6 @@
 package com.EudyContreras.Snake.PlayerTwo;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -22,7 +22,7 @@ import javafx.geometry.Point2D;
  */
 public class PlayerTwoSectionManager {
 
-	private ArrayList<AbstractSection> sectionList;
+	private LinkedList<AbstractSection> sectionList;
 	private AbstractSection tempSection;
 
 	public PlayerTwoSectionManager(GameManager gameJavaFX) {
@@ -30,7 +30,7 @@ public class PlayerTwoSectionManager {
 	}
 
 	public void initialize() {
-		this.sectionList = new ArrayList<>();
+		this.sectionList = new LinkedList<>();
 	}
 
 	public void addNewDirection(PlayerMovement direction) {
@@ -189,7 +189,7 @@ public class PlayerTwoSectionManager {
 	/**
 	 * Procedurally places the sections in the level
 	 */
-	public ArrayList<AbstractSection> getSectionList() {
+	public LinkedList<AbstractSection> getSectionList() {
 		return sectionList;
 	}
 

@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.AbstractModels;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
@@ -35,8 +34,8 @@ public abstract class AbstractSection {
 	protected Image image;
 	protected ImageView imageView;
 	protected Rectangle boundBox;
-	protected ArrayList<Point2D> lastPosition = new ArrayList<>();
-	protected ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
+	protected LinkedList<Point2D> lastPosition = new LinkedList<>();
+	protected LinkedList<Enum<PlayerMovement>> lastDirection = new LinkedList<>();
 	protected Point2D position;
 	protected Pane layer;
 	protected Node node;
@@ -388,21 +387,12 @@ public abstract class AbstractSection {
 		lastDirection.remove(0);
 	}
 
-	public void setNewLocation(Point2D... location) {
-		if (location.length > 1) {
-			lastPosition.addAll(Arrays.asList(location));
-		} else {
-			lastPosition.add(location[0]);
-		}
-
+	public void setNewLocation(Point2D location) {
+		lastPosition.add(location);
 	}
 
-	public void setNewDirection(PlayerMovement... direction) {
-		if (direction.length > 1) {
-			lastDirection.addAll(Arrays.asList(direction));
-		} else {
-			lastDirection.add(direction[0]);
-		}
+	public void setNewDirection(PlayerMovement direction) {
+		lastDirection.add(direction);
 	}
 
 	protected void setLastDirection(PlayerMovement direction) {
