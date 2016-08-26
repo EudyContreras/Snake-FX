@@ -35,7 +35,7 @@ public abstract class AbstractSection {
 	protected ImageView imageView;
 	protected Rectangle boundBox;
 	protected LinkedList<Point2D> lastPosition = new LinkedList<>();
-	protected LinkedList<Enum<PlayerMovement>> lastDirection = new LinkedList<>();
+	protected LinkedList<PlayerMovement> lastDirection = new LinkedList<>();
 	protected Point2D position;
 	protected Pane layer;
 	protected Node node;

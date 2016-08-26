@@ -312,9 +312,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 			if (GameSettings.ALLOW_SELF_COLLISION) {
 				if (!LEVEL_COMPLETED && !DEAD) {
-					if (this.direction == direction) {
-						this.direction = direction;
-					} else {
+
 						switch (direction) {
 						case MOVE_UP:
 							if (this.direction != PlayerMovement.MOVE_DOWN) {
@@ -366,15 +364,13 @@ public class PlayerTwo extends AbstractObject {
 					}
 				}
 			}
-		}
+
 	}
 
 	public void setDirectCoordinates(PlayerMovement direction) {
 
 			if (!LEVEL_COMPLETED && !DEAD) {
-				if (this.direction == direction) {
-					this.direction = direction;
-				} else {
+
 					switch (direction) {
 					case MOVE_UP:
 						if (this.direction != PlayerMovement.MOVE_DOWN) {
@@ -400,7 +396,7 @@ public class PlayerTwo extends AbstractObject {
 						break;
 					}
 				}
-			}
+
 		}
 
 	public void setGestureDirection(PlayerMovement direction) {
@@ -469,6 +465,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveUp() {
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_UP);
 		setCurrentDirection(PlayerMovement.MOVE_UP);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, 0);
 		offsetX = 0;
@@ -476,7 +473,7 @@ public class PlayerTwo extends AbstractObject {
 		velY = -GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 180;
-		snakeHead.setR(180);
+//		snakeHead.setR(180);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -489,6 +486,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveDown() {
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_DOWN);
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, 0);
 		offsetX = 0;
@@ -496,7 +494,7 @@ public class PlayerTwo extends AbstractObject {
 		velY = GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
 		r = 0;
-		snakeHead.setR(0);
+//		snakeHead.setR(0);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -509,6 +507,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveRight() {
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_RIGHT);
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, 0);
 		offsetX = offset;
@@ -516,7 +515,7 @@ public class PlayerTwo extends AbstractObject {
 		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = -90;
-		snakeHead.setR(-90);
+//		snakeHead.setR(-90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -529,6 +528,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveLeft() {
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_LEFT);
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, 0);
 		offsetX = -offset;
@@ -536,7 +536,7 @@ public class PlayerTwo extends AbstractObject {
 		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
 		r = 90;
-		snakeHead.setR(90);
+//		snakeHead.setR(90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -649,7 +649,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
-			if(!PlayerTwo.AI_CONTROLLED){
+			if(PlayerTwo.AI_CONTROLLED){
 
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,

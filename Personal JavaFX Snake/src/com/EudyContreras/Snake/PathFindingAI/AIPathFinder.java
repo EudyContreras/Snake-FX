@@ -46,13 +46,15 @@ public class AIPathFinder {
 	private double positionX = 0;
 	private double positionY = 0;
 	private double turnOffset = 100;
-	private double heuristicScale = 1.3;
+	private double checkTimer = 100;
+	private double heuristicScale = 1;
 
 	private int cellCount = 0;
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
 	private HeuristicType heuristicType;
+	private TieBreaker tieBreaker;
 	private ActionState state;
 
 	private HashSet<CellNode> closedSet;
@@ -81,6 +83,7 @@ public class AIPathFinder {
 		closedSet = new HashSet<>(cellCount);
 		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
 		heuristicType = HeuristicType.MANHATHAN;
+		tieBreaker = TieBreaker.NONE;
 		state = ActionState.PATH_FINDING;
 	}
 
@@ -99,7 +102,6 @@ public class AIPathFinder {
 			break;
 
 		}
-
 	}
 
 	/*
@@ -128,7 +130,11 @@ public class AIPathFinder {
 					reRoute();
 				}
 				findClosest();
-//				computeClosestPath(0,0);
+				checkTimer --;
+				if(checkTimer<=0){
+					computeClosestPath(0,0);
+					checkTimer = 200;
+				}
 			}
 		}
 	}
@@ -208,16 +214,28 @@ public class AIPathFinder {
 							neighbor.setMovementCost(tentativeScoreG+turnPenalty);
 						}
 					}
-					double path = 10/1000;
+					double heuristic = 0;
+
+					double path = 10 / 1000;
 					double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
 					double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
 					double dx2 = startingPoint.getLocation().getX() - objective.getLocation().getX();
 					double dy2 = startingPoint.getLocation().getY() - objective.getLocation().getY();
 
-					double cross = Math.abs(dx1*dy2 - dx2*dy1);
-					double heuristic =heuristicCostEstimate(neighbor, objective,1.0,heuristicType);
-					heuristic *= (1.0 + path);
-//					heuristic  += cross*0.001;
+					double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+
+					switch (tieBreaker) {
+					case CROSS:
+						heuristic += cross * 0.001;
+						break;
+					case PATH:
+						heuristic *= (1.0 + path);
+						break;
+					case NONE:
+						break;
+					}
+					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
+
 					neighbor.setHeuristic(heuristic); // If used with scaled up heuristic it gives least number of turns!
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
@@ -743,6 +761,9 @@ public class AIPathFinder {
 
 	public void setLocation(ObjectivePosition location) {
 		this.location = location;
+	}
+	private enum TieBreaker{
+		PATH,CROSS, NONE
 	}
 
 	private enum ObjectivePosition {

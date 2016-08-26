@@ -29,6 +29,12 @@ public class PlayerTwoHead extends AbstractObject {
 	private double fadeValue = 1.0;
 	private double offsetX = 0;
 	private double offsetY = 0;
+	private double rotationAngle = 90;
+	private double rotationAmount = 10;
+	private double rotationDirection = 0;
+	private double rotationLimit = 0;
+	private boolean added = false;
+	private boolean rotate = false;
 	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
@@ -43,8 +49,9 @@ public class PlayerTwoHead extends AbstractObject {
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
+	private PlayerTwoFangs snakeMouth;
 	private PlayerTwoManager playerManager;
-	private PlayerMovement newDirection;
+
 
 	public PlayerTwoHead(PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
@@ -90,8 +97,9 @@ public class PlayerTwoHead extends AbstractObject {
 	private void loadMouth(){
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.15, Color.TRANSPARENT), this.x,
-				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
+		 snakeMouth = new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.15, Color.TRANSPARENT), this.x,
+					this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
+		this.playerManager.addObject(snakeMouth);
 	}
 	public void move() {
 		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
@@ -102,16 +110,19 @@ public class PlayerTwoHead extends AbstractObject {
 			this.radius = circle.getRadius();
 			this.y = snake.getY();
 			this.x = snake.getX();
+			this.r = r+velR;
 			this.text.setX(x - 50);
 			this.text.setY(y - 40);
 		}
-
+		rotate();
 	}
 	public void updateUI(){
 		if(!PlayerTwo.DEAD)
 		super.updateUI();
 	}
 	public void logicUpdate(){
+//		float angle = (float) Math.atan2(snakeMouth.getY(),snakeMouth.getX());
+//		r =Math.toDegrees(angle);
 		showTheSkull();
 		updateBounds();
 	}
@@ -133,41 +144,91 @@ public class PlayerTwoHead extends AbstractObject {
 		}
 	}
 	public void rotate() {
-		if (r == 0 && newDirection == PlayerMovement.MOVE_LEFT) {
-			velR = 8;
-			targetRotation = 89;
-			equivalence = 1;
-		} else if (r == 0 && newDirection == PlayerMovement.MOVE_RIGHT) {
-			velR = -8;
-			targetRotation = -89;
-			equivalence = 0;
-		} else if (r == 89 && newDirection == PlayerMovement.MOVE_UP) {
-			velR = 8;
-			targetRotation = 89;
-			equivalence = 1;
-		} else if (r == 89 && newDirection == PlayerMovement.MOVE_DOWN) {
-			velR = -8;
-			targetRotation = 0;
-			equivalence = 0;
-		} else if (r == -89 && newDirection == PlayerMovement.MOVE_UP) {
-			velR = 8;
-			targetRotation = 180;
-			equivalence = 1;
-		} else if (r == -89 && newDirection == PlayerMovement.MOVE_DOWN) {
-			velR = 8;
-			targetRotation = 0;
-			equivalence = 1;
-		} else if (r == 180 && newDirection == PlayerMovement.MOVE_LEFT) {
-			velR = -8;
-			targetRotation = 89;
-			equivalence = 0;
-		} else if (r == 180 && newDirection == PlayerMovement.MOVE_RIGHT) {
-			velR = 8;
-			targetRotation = 270;
-			equivalence = 0;
+		if(rotate){
+			velR = rotationDirection;
+			if(added){
+				if(r>=rotationLimit){
+					r = rotationLimit;
+					velR = 0;
+					rotate = false;
+				}
+			}
+			else{
+				if(r<=rotationLimit){
+					r = rotationLimit;
+					velR = 0;
+					rotate = false;
+				}
+			}
+
+		}
+
+	}
+	public void performRotation(PlayerMovement from, PlayerMovement to){
+			if(from!=null){
+			switch(from){
+			case MOVE_DOWN:
+				if(to == PlayerMovement.MOVE_LEFT){
+					rotationLimit = r+rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+			    if(to == PlayerMovement.MOVE_RIGHT){
+					rotationLimit = r-rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_LEFT:
+				if( to == PlayerMovement.MOVE_DOWN){
+					rotationLimit = r-rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if(to == PlayerMovement.MOVE_UP){
+					rotationLimit = r+rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case MOVE_RIGHT:
+				if( to == PlayerMovement.MOVE_DOWN){
+					rotationLimit = r+rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+			    if(to == PlayerMovement.MOVE_UP){
+			    	rotationLimit = r-rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_UP:
+				if(to == PlayerMovement.MOVE_LEFT){
+					rotationLimit = r-rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if(to == PlayerMovement.MOVE_RIGHT){
+					rotationLimit = r+rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case STANDING_STILL:
+				break;
+
+			}
 		}
 	}
-
 	public boolean isApproximate(float tail_X, double sect_X, float tail_Y, double sect_Y) {
 		double distance = Math.sqrt((tail_X - sect_X) * (tail_X - sect_X) + (tail_Y - sect_Y) * (tail_Y - sect_Y));
 		if (distance > 10) {
@@ -314,11 +375,6 @@ public class PlayerTwoHead extends AbstractObject {
 	public void showVisualQue(Color color) {
 		game.getDebrisManager().addParticle(
 				new FruitSplashTwo(game, color, 1, 10, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
-	}
-
-	public void setRotate(boolean rotate, PlayerMovement newDirection, int targetRotation) {
-		this.newDirection = newDirection;
-		this.targetRotation = targetRotation;
 	}
 
 	public void setAnim(ImagePattern scene) {
