@@ -385,7 +385,7 @@ public class GameLoader extends AbstractLoaderModel{
 
 		while(!validCell){
 			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(2, rows-2)][RandomGenUtility.getRandom(2, cols-2)];
-			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized() && !cell.isOccupied() && cell.isAvailable()){
+			if(cell.isTraversable() && cell.isSpawnAllowed() && !cell.isPenalized() && !cell.isOccupied() && cell.isAvailable() && cell.isSafe()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
 				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
 				int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);

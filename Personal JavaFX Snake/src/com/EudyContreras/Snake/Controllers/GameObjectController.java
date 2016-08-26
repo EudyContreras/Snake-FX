@@ -48,7 +48,6 @@ public class GameObjectController {
 				if(game.getStateID() == GameStateID.GAMEPLAY){
 				game.getAIController().nofifyAI();
 				game.getAIController().getPathFindingAI().computeClosestPath(5,5);
-				System.out.println("WORKING");
 				}
 			}
 		});

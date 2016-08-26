@@ -8,7 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class CellNode {
+public class CellNode implements Comparable<CellNode>{
 
 	private Index2D index;
 	private Point2D location;
@@ -23,7 +23,7 @@ public class CellNode {
 	private double totalCost = 0;
 
 	private boolean closed = false;
-
+	private boolean safeCell = true;
 	private boolean showCells = true;
 	private boolean pathCell = false;
 	private boolean targetCell = false;
@@ -86,11 +86,13 @@ public class CellNode {
 			if(isPathCell())
 				visualRep.setFill(Color.BLUE);
 			if(isOccupied())
-				visualRep.setFill(Color.WHITE);
+				visualRep.setFill(Color.BLACK);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable())
 				visualRep.setFill(Color.YELLOW);
+			if(!isSafe())
+				visualRep.setFill(Color.GRAY);
 		}
 	}
 
@@ -179,6 +181,12 @@ public class CellNode {
 	}
 	public boolean isClosed(){
 		return closed;
+	}
+	public boolean isSafe(){
+		return safeCell;
+	}
+	public final void setSafe(boolean state){
+		this.safeCell = state;
 	}
 	public final boolean isPenalized(){
 		return penaltyCost>0;
@@ -273,5 +281,9 @@ public class CellNode {
         hash = 17 * hash + this.index.getCol();
         return hash;
     }
+	@Override
+	public int compareTo(CellNode node) {
+		return Integer.compare(this.id,node.id);
+	}
 
 }

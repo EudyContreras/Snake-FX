@@ -14,6 +14,7 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.FruitSplashOne;
 import com.EudyContreras.Snake.ParticleEffects.GlowParticle;
 import com.EudyContreras.Snake.PathFindingAI.CellNode;
+import com.EudyContreras.Snake.PathFindingAI.GridNode.Flag;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.RandomGenUtility;
@@ -94,7 +95,7 @@ public class SnakeFood extends AbstractObject {
 		this.size = circle.getRadius();
 		this.targetSize = size;
 		this.cell.setContainsTarget(true);
-		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), false);
+		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), Flag.UNAVAILABLE);
 		this.addGLow();
 		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 		this.bounds.setStrokeWidth(3);
@@ -518,7 +519,7 @@ public class SnakeFood extends AbstractObject {
 	}
 	public void removeFromLayer() {
 		this.cell.setContainsTarget(false);
-		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), true);
+		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), Flag.AVAILABLE);
 		this.layer.getChildren().remove(this.imageView);
 		this.layer.getChildren().remove(this.circle);
 		this.layer.getChildren().remove(bounds);
