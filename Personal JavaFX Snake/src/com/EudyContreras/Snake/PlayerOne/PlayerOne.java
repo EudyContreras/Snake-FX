@@ -42,9 +42,9 @@ public class PlayerOne extends AbstractObject {
 	private int counter = 0;
 	private double accelaration = 0.5;
 	private double maxSize = 30;
-	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
-	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5;
-	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
+	private float normalSpeed = GameSettings.PLAYER_ONE_SPEED;
+	private float maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5f;
+	private float minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -79,7 +79,7 @@ public class PlayerOne extends AbstractObject {
 	private LinkedList<PlayerMovement> turnBuffer = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
-	public static Double SPEED = 6.0;
+	public static float SPEED = 6.0f;
 	public static Boolean DEAD = false;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;

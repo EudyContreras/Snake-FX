@@ -44,9 +44,9 @@ public class GameSettings {
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
 
-	public static int SNAKE_ONE_SPEED = 1;
-	public static int SNAKE_TWO_SPEED = 1;
-	public static int SNAKE_THREE_SPEED = 1;
+	public static float SNAKE_ONE_SPEED = 1;
+	public static float SNAKE_TWO_SPEED = 1;
+	public static float SNAKE_THREE_SPEED = 1;
 
 	public static double SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
@@ -67,9 +67,9 @@ public class GameSettings {
 	public static double ENERGY_REGENRATION_DELAY = 40;
 	public static double DAMAGE_AMOUNT = 0;
 
-	public static final double PLAYER_ONE_SPEED = 6.0;
-	public static final double PLAYER_TWO_SPEED = 6.0;
-	public static final double CLASSIC_SNAKE_SPEED = 9.0;
+	public static final float PLAYER_ONE_SPEED = 6.0f;
+	public static final float PLAYER_TWO_SPEED = 6.0f;
+	public static final float CLASSIC_SNAKE_SPEED = 9.0f;
 	public static final double PLAYER_SIZE = 24;
 
 	public static double PLAYER_HEALTH = 100.0;

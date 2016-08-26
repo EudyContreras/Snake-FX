@@ -86,13 +86,11 @@ public class CellNode implements Comparable<CellNode>{
 			if(isPathCell())
 				visualRep.setFill(Color.BLUE);
 			if(isOccupied())
-				visualRep.setFill(Color.BLACK);
+				visualRep.setFill(Color.WHITE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable())
 				visualRep.setFill(Color.YELLOW);
-			if(!isSafe())
-				visualRep.setFill(Color.GRAY);
 		}
 	}
 

@@ -42,10 +42,10 @@ public class PlayerTwo extends AbstractObject {
 	private int appleCount = 0;
 	private int counter = 0;
 	private float accelaration = 0.5f;
-	private double maxSize = GameSettings.ALLOW_AI_CONTROLL ? 26 : 30;
-	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
-	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2;
-	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
+	private float maxSize = GameSettings.ALLOW_AI_CONTROLL ? 26 : 30;
+	private float normalSpeed = GameSettings.PLAYER_TWO_SPEED;
+	private float maxSpeed = GameSettings.PLAYER_TWO_SPEED*2;
+	private float minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double bodyTrigger;
 	private double offset = 30;
 	private double offsetX = 0;
@@ -82,7 +82,7 @@ public class PlayerTwo extends AbstractObject {
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
-	public static Double SPEED = 6.0;
+	public static float SPEED = 6.0f;
 	public static Boolean DEAD = false;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;
