@@ -27,6 +27,14 @@ import javafx.geometry.Rectangle2D;
  *
  * Make it so that if the snake is close to an obstacle it will activate
  * path finding else it will deactivate it!
+ *
+ * TODO: Make the snake go for the closest only if the path is available
+ * if the path is not available use a hierarchy system. If the path is close
+ * check if the closest border is opened and if open check if the farthest border
+ * is open! if both borders are open teleport!
+ *
+ * TODO: Do not allow tracking apples which are next to the snakes body. if the closest
+ * apple is one cell away from snakes body. Check next closest!
  */
 public class AIPathFinder {
 
@@ -151,7 +159,7 @@ public class AIPathFinder {
 
 		boolean containsNeighbor;
 
-		openedSet.add(startingPoint);
+		open(startingPoint);
 
 //		startingPoint.setOccupied(true);
 
@@ -187,7 +195,7 @@ public class AIPathFinder {
 				endPathSearch();
 				return createPath(objective);
 			}
-			closedSet.add(current);
+			close(current);
 
 
 			for (CellNode neighbor : grid.getNeighborCells(current)) {
@@ -232,6 +240,7 @@ public class AIPathFinder {
 						heuristic *= (1.0 + path);
 						break;
 					case NONE:
+						heuristic = heuristic * heuristicScale;
 						break;
 					}
 					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
@@ -242,13 +251,21 @@ public class AIPathFinder {
 
 					if (!containsNeighbor) {
 
-						openedSet.add(neighbor);
+						open(neighbor);
 					}
 				}
 			}
 		}
 		endPathSearch();
 		return new ArrayList<>();
+	}
+	private void close(CellNode node){
+		node.setClosed(true);
+		closedSet.add(node);
+	}
+	private void open(CellNode node){
+		node.setClosed(false);
+		openedSet.add(node);
 	}
 
 	private void endPathSearch(){

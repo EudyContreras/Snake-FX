@@ -22,12 +22,6 @@ public class PlayerTwoSection extends AbstractSection {
 	private double particleLife;
 	private double particleSize;
 	private double fadeValue = 1.0;
-	private double rotationAngle = 90;
-	private double rotationAmount = 10;
-	private double rotationDirection = 0;
-	private double rotationLimit = 0;
-	private boolean added = false;
-	private boolean rotate = false;
 	private boolean newBorn = true;
 	private boolean fadeOut = false;
 	private boolean blowUp = true;
@@ -38,7 +32,7 @@ public class PlayerTwoSection extends AbstractSection {
 	private AbstractSection previousSect;
 	private PlayerTwoSectionManager sectManager;
 
-	public PlayerTwoSection(PlayerTwo snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+	public PlayerTwoSection(PlayerTwo snake, GameManager game, Pane layer, Node node, float x, float y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
@@ -49,7 +43,7 @@ public class PlayerTwoSection extends AbstractSection {
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
 				this.setLastDirection(Direction);
-				this.y = y + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.y = (float) (y + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -57,7 +51,7 @@ public class PlayerTwoSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
-				this.y = y - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.y = (float) (y - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -65,7 +59,7 @@ public class PlayerTwoSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
-				this.x = x + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.x = (float) (x + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -73,7 +67,7 @@ public class PlayerTwoSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
-				this.x = x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.x = (float) (x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -81,7 +75,7 @@ public class PlayerTwoSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
-				this.x = x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.x = (float) (x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -94,7 +88,7 @@ public class PlayerTwoSection extends AbstractSection {
 				switch (previousSect.getLastDirection()) {
 				case MOVE_UP:
 					setLastDirection(PlayerMovement.MOVE_UP);
-					this.y = previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = (float) (previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.x = previousSect.getX();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -102,7 +96,7 @@ public class PlayerTwoSection extends AbstractSection {
 					break;
 				case MOVE_DOWN:
 					setLastDirection(PlayerMovement.MOVE_DOWN);
-					this.y = previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = (float) (previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.x = previousSect.getX();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -110,7 +104,7 @@ public class PlayerTwoSection extends AbstractSection {
 					break;
 				case MOVE_LEFT:
 					setLastDirection(PlayerMovement.MOVE_LEFT);
-					this.x = previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = (float) (previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.y = previousSect.getY();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -118,7 +112,7 @@ public class PlayerTwoSection extends AbstractSection {
 					break;
 				case MOVE_RIGHT:
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
-					this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = (float) (previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.y = previousSect.getY();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -126,7 +120,7 @@ public class PlayerTwoSection extends AbstractSection {
 					break;
 				case STANDING_STILL:
 					setLastDirection(PlayerMovement.STANDING_STILL);
-					this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = (float) (previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.y = previousSect.getY();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -144,15 +138,10 @@ public class PlayerTwoSection extends AbstractSection {
 			super.move();
 		if (lastPosition.size() > 0) {
 			if (withinRange(x,lastPosition.get(0).getX()) && withinRange(y,lastPosition.get(0).getY())) {
-
-				if(this.numericID == PlayerTwo.NUMERIC_ID-1){
-					performRotation(direction, lastDirection.get(0));
-				}
 				removeLatestLocation();
 				if (lastDirection.get(0) == PlayerMovement.MOVE_UP) {
 					velX = 0;
 					velY = -GameSettings.SNAKE_TWO_SPEED;
-					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = 180;
 					setLastDirection(PlayerMovement.MOVE_UP);
 					removeLatestDirection();
@@ -160,7 +149,6 @@ public class PlayerTwoSection extends AbstractSection {
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_DOWN) {
 					velX = 0;
 					velY = GameSettings.SNAKE_TWO_SPEED;
-					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = 0;
 					setLastDirection(PlayerMovement.MOVE_DOWN);
 					removeLatestDirection();
@@ -168,7 +156,6 @@ public class PlayerTwoSection extends AbstractSection {
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_LEFT) {
 					velY = 0;
 					velX = -GameSettings.SNAKE_TWO_SPEED;
-					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = 90;
 					setLastDirection(PlayerMovement.MOVE_LEFT);
 					removeLatestDirection();
@@ -176,7 +163,6 @@ public class PlayerTwoSection extends AbstractSection {
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
 					velY = 0;
 					velX = GameSettings.SNAKE_TWO_SPEED;
-					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = -90;
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
 					removeLatestDirection();
@@ -184,95 +170,10 @@ public class PlayerTwoSection extends AbstractSection {
 				}
 			}
 		}
-		rotate();
 		checkBounds();
 		sectionAdjustment();
 	}
-	public void rotate() {
-		if(rotate){
-			velR = rotationDirection;
-			if(added){
-				if(r>=rotationLimit){
-					r = rotationLimit;
-					velR = 0;
-					rotate = false;
-				}
-			}
-			else{
-				if(r<=rotationLimit){
-					r = rotationLimit;
-					velR = 0;
-					rotate = false;
-				}
-			}
 
-		}
-
-	}
-	public void performRotation(PlayerMovement from, PlayerMovement to){
-			if(from!=null){
-			switch(from){
-			case MOVE_DOWN:
-				if(to == PlayerMovement.MOVE_LEFT){
-					rotationLimit = r+rotationAngle;
-					rotationDirection = rotationAmount;
-					added = true;
-					rotate = true;
-				}
-			    if(to == PlayerMovement.MOVE_RIGHT){
-					rotationLimit = r-rotationAngle;
-					rotationDirection = -rotationAmount;
-					added = false;
-					rotate = true;
-				}
-				break;
-			case MOVE_LEFT:
-				if( to == PlayerMovement.MOVE_DOWN){
-					rotationLimit = r-rotationAngle;
-					rotationDirection = -rotationAmount;
-					added = false;
-					rotate = true;
-				}
-				if(to == PlayerMovement.MOVE_UP){
-					rotationLimit = r+rotationAngle;
-					rotationDirection = rotationAmount;
-					added = true;
-					rotate = true;
-				}
-				break;
-			case MOVE_RIGHT:
-				if( to == PlayerMovement.MOVE_DOWN){
-					rotationLimit = r+rotationAngle;
-					rotationDirection = rotationAmount;
-					added = true;
-					rotate = true;
-				}
-			    if(to == PlayerMovement.MOVE_UP){
-			    	rotationLimit = r-rotationAngle;
-					rotationDirection = -rotationAmount;
-					added = false;
-					rotate = true;
-				}
-				break;
-			case MOVE_UP:
-				if(to == PlayerMovement.MOVE_LEFT){
-					rotationLimit = r-rotationAngle;
-					rotationDirection = -rotationAmount;
-					added = false;
-					rotate = true;
-				}
-				if(to == PlayerMovement.MOVE_RIGHT){
-					rotationLimit = r+rotationAngle;
-					rotationDirection = rotationAmount;
-					added = true;
-					rotate = true;
-				}
-				break;
-			case STANDING_STILL:
-				break;
-			}
-		}
-	}
 	public static boolean withinRange(double value, double targetRange) {
 		double threshold = 0.1;
 		return Math.abs(value) > Math.abs(targetRange) - threshold
@@ -367,13 +268,13 @@ public class PlayerTwoSection extends AbstractSection {
 	}
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (double) (GameSettings.WIDTH + radius);
+			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (double) (0 - radius);
+			x = (float) (0 - radius);
 		} else if (y < GameSettings.MIN_Y - radius) {
-			y = (double) (GameSettings.HEIGHT + radius);
+			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (double) (GameSettings.MIN_Y - radius);
+			y = (float) (GameSettings.MIN_Y - radius);
 		}
 	}
 
@@ -383,22 +284,22 @@ public class PlayerTwoSection extends AbstractSection {
 				if (this.direction == previousSect.getLastDirection()) {
 					if (previousSect.getY()>y && x==previousSect.getX()) {
 						if(previousSect.getY() - y < radius*.75){
-							y = previousSect.getY() - circle.getRadius();
+							y = (float) (previousSect.getY() - circle.getRadius());
 						}
 					}
 					if (previousSect.getY()<y && x==previousSect.getX()) {
 						if(y - previousSect.getY() < radius*.75){
-							y = previousSect.getY() + circle.getRadius();
+							y = (float) (previousSect.getY() + circle.getRadius());
 						}
 					}
 					if (previousSect.getX()>x && y==previousSect.getY()) {
 						if(previousSect.getX() - x < radius*.75){
-							x = previousSect.getX() - circle.getRadius();
+							x = (float) (previousSect.getX() - circle.getRadius());
 						}
 					}
 					if (previousSect.getX()<x && y==previousSect.getY()) {
 						if(x - previousSect.getX() < radius*.75){
-							x = previousSect.getX() + circle.getRadius();
+							x = (float) (previousSect.getX() + circle.getRadius());
 						}
 					}
 				}

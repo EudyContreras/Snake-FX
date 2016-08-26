@@ -46,7 +46,7 @@ public class PlayerOneHead extends AbstractObject {
 	private PlayerOneManager playerManager;
 	private PlayerMovement newDirection;
 
-	public PlayerOneHead(PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
+	public PlayerOneHead(PlayerOne snake, GameManager game, Pane layer, Circle node, float x, float y, GameObjectID id,
 			PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.r = snake.getR();

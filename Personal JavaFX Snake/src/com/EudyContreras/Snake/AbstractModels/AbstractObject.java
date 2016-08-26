@@ -39,12 +39,12 @@ public abstract class AbstractObject {
 	protected CellNode cell;
 	protected Circle circle;
 	protected int numericCode;
-	protected double x;
-	protected double y;
-	protected double r;
-	protected double velX;
-	protected double velY;
-	protected double velR;
+	protected float x;
+	protected float y;
+	protected float r;
+	protected float velX;
+	protected float velY;
+	protected float velR;
 	protected double width;
 	protected double height;
 	protected double radius;
@@ -85,8 +85,8 @@ public abstract class AbstractObject {
 	 * @param damage
 	 * @param id
 	 */
-	public AbstractObject(GameManager game, Pane layer, Image image, double x, double y, double r, double velX,
-			double velY, double velR, double health, double damage, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Image image, float x, float y, float r, float velX,
+			float velY, float velR, float health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.image = image;
@@ -109,8 +109,8 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
+			float velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.x = x;
@@ -141,8 +141,8 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Image image, Pane layer, double x, double y, double r, double velX,
-			double velY, GameObjectID id) {
+	public AbstractObject(GameManager game, Image image, Pane layer, float x, float y, float r, float velX,
+			float velY, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
@@ -161,7 +161,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Pane layer, double x, double y, double r, double velX, double velY,
+	public AbstractObject(GameManager game, Pane layer, float x, float y, float r, float velX, float velY,
 			GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
@@ -174,7 +174,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Pane layer, Image image, double x, double y, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Image image, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.image = image;
 		this.x = x;
@@ -189,7 +189,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -214,7 +214,7 @@ public abstract class AbstractObject {
 		}
 
 	}
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+	public AbstractObject(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id, boolean layer1) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -263,7 +263,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(Image image, double x, double y) {
+	public AbstractObject(Image image, float x, float y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -320,19 +320,19 @@ public abstract class AbstractObject {
 		this.layer = layer;
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
@@ -341,35 +341,35 @@ public abstract class AbstractObject {
 		imageView.setTranslateY(point.getY());
 	}
 
-	public double getR() {
+	public float getR() {
 		return r;
 	}
 
-	public void setR(double r) {
+	public void setR(float r) {
 		this.r = r;
 	}
 
-	public double getVelX() {
+	public float getVelX() {
 		return velX;
 	}
 
-	public void setVelX(double velX) {
+	public void setVelX(float velX) {
 		this.velX = velX;
 	}
 
-	public double getVelY() {
+	public float getVelY() {
 		return velY;
 	}
 
-	public void setVelY(double velY) {
+	public void setVelY(float velY) {
 		this.velY = velY;
 	}
 
-	public double getVelR() {
+	public float getVelR() {
 		return velR;
 	}
 
-	public void setVelR(double velR) {
+	public void setVelR(float velR) {
 		this.velR = velR;
 	}
 	public double getXDistance(double x){
@@ -570,23 +570,23 @@ public abstract class AbstractObject {
 		setRemovable(true);
 	}
 
-	public void bounce(PlayerOne snake, double x, double y) {
+	public void bounce(PlayerOne snake, float x, float y) {
 
 	}
 
-	public void bounce(PlayerTwo snake, double x, double y) {
+	public void bounce(PlayerTwo snake, float x, float y) {
 
 	}
 
-	public void bounce(ClassicSnake snake, double x, double y) {
+	public void bounce(ClassicSnake snake, float x, float y) {
 
 	}
 
-	public void bounce(PlayerOneSection section, double x, double y) {
+	public void bounce(PlayerOneSection section, float x, float y) {
 
 	}
 
-	public void bounce(PlayerTwoSection section, double x, double y) {
+	public void bounce(PlayerTwoSection section, float x, float y) {
 
 	}
 	public void blowUp() {

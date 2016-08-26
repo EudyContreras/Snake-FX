@@ -32,7 +32,7 @@ public class PlayerOneSection extends AbstractSection {
 	private AbstractSection previousSect;
 	private PlayerOneSectionManager sectManager;
 
-	public PlayerOneSection(PlayerOne snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+	public PlayerOneSection(PlayerOne snake, GameManager game, Pane layer, Node node, float x, float y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
@@ -43,7 +43,7 @@ public class PlayerOneSection extends AbstractSection {
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
 				this.setLastDirection(Direction);
-				this.y = y + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.y = (float) (y + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -51,7 +51,7 @@ public class PlayerOneSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
-				this.y = y - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.y = (float) (y - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -59,7 +59,7 @@ public class PlayerOneSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
-				this.x = x + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.x = (float) (x + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -67,7 +67,7 @@ public class PlayerOneSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
-				this.x = x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.x = (float) (x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -75,7 +75,7 @@ public class PlayerOneSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
-				this.x = x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+				this.x = (float) (x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -88,7 +88,7 @@ public class PlayerOneSection extends AbstractSection {
 				switch (previousSect.getLastDirection()) {
 				case MOVE_UP:
 					setLastDirection(PlayerMovement.MOVE_UP);
-					this.y = previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = (float) (previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.x = previousSect.getX();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -96,7 +96,7 @@ public class PlayerOneSection extends AbstractSection {
 					break;
 				case MOVE_DOWN:
 					setLastDirection(PlayerMovement.MOVE_DOWN);
-					this.y = previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = (float) (previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.x = previousSect.getX();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -104,7 +104,7 @@ public class PlayerOneSection extends AbstractSection {
 					break;
 				case MOVE_LEFT:
 					setLastDirection(PlayerMovement.MOVE_LEFT);
-					this.x = previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = (float) (previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.y = previousSect.getY();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -112,7 +112,7 @@ public class PlayerOneSection extends AbstractSection {
 					break;
 				case MOVE_RIGHT:
 					setLastDirection(PlayerMovement.MOVE_RIGHT);
-					this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = (float) (previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.y = previousSect.getY();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -120,7 +120,7 @@ public class PlayerOneSection extends AbstractSection {
 					break;
 				case STANDING_STILL:
 					setLastDirection(PlayerMovement.STANDING_STILL);
-					this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = (float) (previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
 					this.y = previousSect.getY();
 					this.r = previousSect.getR();
 					this.velX = previousSect.getVelX();
@@ -279,25 +279,25 @@ public class PlayerOneSection extends AbstractSection {
 				if (this.direction == previousSect.getLastDirection()) {
 					if (previousSect.getY()>y && x==previousSect.getX()) {
 						if(previousSect.getY() - y < radius*.75){
-							y = previousSect.getY() - circle.getRadius();
+							y = (float) (previousSect.getY() - circle.getRadius());
 							System.out.println("TRUE");
 						}
 					}
 					if (previousSect.getY()<y && x==previousSect.getX()) {
 						if(y - previousSect.getY() < radius*.75){
-							y = previousSect.getY() + circle.getRadius();
+							y = (float) (previousSect.getY() + circle.getRadius());
 							System.out.println("TRUE");
 						}
 					}
 					if (previousSect.getX()>x && y==previousSect.getY()) {
 						if(previousSect.getX() - x < radius*.75){
-							x = previousSect.getX() - circle.getRadius();
+							x = (float) (previousSect.getX() - circle.getRadius());
 							System.out.println("TRUE");
 						}
 					}
 					if (previousSect.getX()<x && y==previousSect.getY()) {
 						if(x - previousSect.getX() < radius*.75){
-							x = previousSect.getX() + circle.getRadius();
+							x = (float) (previousSect.getX() + circle.getRadius());
 							System.out.println("TRUE");
 						}
 					}

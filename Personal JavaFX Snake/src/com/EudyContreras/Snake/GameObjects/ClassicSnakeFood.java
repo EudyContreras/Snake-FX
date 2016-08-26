@@ -62,7 +62,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	 * @param y
 	 * @param id
 	 */
-	public ClassicSnakeFood(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, int numericCode) {
+	public ClassicSnakeFood(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id, int numericCode) {
 		super(game, layer, node, x, y, id);
 		this.numericCode = numericCode;
 		this.game = game;
@@ -80,7 +80,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	 * @param id
 	 */
 
-	public ClassicSnakeFood(GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id, int numericCode) {
+	public ClassicSnakeFood(GameManager game, Pane layer, Circle node, float x, float y, GameObjectID id, int numericCode) {
 		super(game, layer, node, x, y, id);
 		this.game = game;
 		this.numericCode = numericCode;
@@ -250,13 +250,13 @@ public class ClassicSnakeFood extends AbstractObject {
 	}
 	public void checkBoundaries() {
 		if (x < 0 + radius) {
-			x = (double) (GameSettings.WIDTH - radius);
+			x = (float) (GameSettings.WIDTH - radius);
 		} else if (x > GameSettings.WIDTH - radius) {
-			x = (double) (0 + radius);
+			x = (float) (0 + radius);
 		} else if (y < GameSettings.MIN_Y + radius) {
-			y = (double) (GameSettings.HEIGHT - radius);
+			y = (float) (GameSettings.HEIGHT - radius);
 		} else if (y > GameSettings.HEIGHT - radius) {
-			y = (double) (GameSettings.MIN_Y + radius);
+			y = (float) (GameSettings.MIN_Y + radius);
 		}
 	}
 	/**

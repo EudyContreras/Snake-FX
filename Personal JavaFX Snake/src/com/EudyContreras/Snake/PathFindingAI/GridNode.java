@@ -35,7 +35,7 @@ public class GridNode {
 		this.game = game;
 		this.cellSize = cellSize;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
-		this.showCells = GameSettings.SHOW_PATHFINDING_GRAPH;
+		this.showCells = GameSettings.PATHFINDING_GRAPH;
 		this.cellPadding = cellPadding;
 		this.dimension = new Dimension2D(width, height);
 		this.calculateCells();

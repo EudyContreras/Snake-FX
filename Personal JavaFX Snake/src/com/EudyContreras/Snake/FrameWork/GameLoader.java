@@ -191,13 +191,7 @@ public class GameLoader extends AbstractLoaderModel{
 			break;
 		default:
 			break;
-
 		}
-		game.getAIController().updateGrid();
-		for(int i = 0; i<4; i++){
-			this.spawnSnakeFood();
-		}
-
 	}
 
 	/**
@@ -362,6 +356,11 @@ public class GameLoader extends AbstractLoaderModel{
 		}else if(levelTheme == GameThemeID.MECH_THEME){
 
 		}
+		game.getAIController().updateGrid();
+		for(int i = 0; i<4; i++){
+			this.spawnSnakeFood();
+		}
+
 	}
 	/**
 	 * Method which could be used to create and place an object at a specific
@@ -404,8 +403,8 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnClassicSnakeFood() {
 		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.apple_alt));
-		double x = RandomGenUtility.getRandom(60, (GameSettings.WIDTH - 90));
-		double y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
+		float x = RandomGenUtility.getRandom(60, (GameSettings.WIDTH - 90));
+		float y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
 		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;

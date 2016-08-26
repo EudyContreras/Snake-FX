@@ -21,7 +21,7 @@ public class GameSettings {
 
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
-	public static double FRAME_SCALE = 1.0f;
+	public static float FRAME_SCALE = 1.0f;
 	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static int PATH_FINDING_CELL_SIZE = 40;
@@ -110,7 +110,7 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean SHOW_PATHFINDING_GRAPH = false;
+	public static boolean PATHFINDING_GRAPH = false;
 	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;

@@ -429,14 +429,14 @@ public class SnakeFood extends AbstractObject {
 	 * @param x
 	 * @param y
 	 */
-	public void bounce(PlayerOne snake, double x, double y) {
+	public void bounce(PlayerOne snake, float x, float y) {
 
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
-			this.velX = (float) (snake.getVelX()) * 9.5;
+			this.velX = snake.getVelX()* 9.5f;
 			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		else {
-			this.velY = (float) (snake.getVelY()) * 9.5;
+			this.velY = snake.getVelY() * 9.5f;
 			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
@@ -451,11 +451,11 @@ public class SnakeFood extends AbstractObject {
 	public void bounce(PlayerTwo snake, double x, double y) {
 
 		if (snake.getVelX() > 0 || snake.getVelX() < 0) {
-			this.velX = (float) (snake.getVelX()) * 9.5;
+			this.velX = snake.getVelX()* 9.5f;
 			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		else {
-			this.velY = (float) (snake.getVelY()) * 9.5;
+			this.velY = snake.getVelY() * 9.5f;
 			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
@@ -490,10 +490,10 @@ public class SnakeFood extends AbstractObject {
 	 */
 	public void bounceBack(AbstractTile tile) {
 		if(Math.abs(velX)>Math.abs(velY)){
-			velX = -velX*.7;
+			velX = -velX*.7f;
 		}
 		else{
-			velY = -velY*.7;
+			velY = -velY*.7f;
 		}
 		if(velX==0 && velY==0){
 			this.blowUp();
@@ -502,17 +502,17 @@ public class SnakeFood extends AbstractObject {
 		}
 	}
 	public void bounceBack(AbstractObject object) {
-		object.setVelX(velX+object.getVelX()*.75);
-		object.setVelY(velY+object.getVelY()*.75);
+		object.setVelX(velX+object.getVelX()*.75f);
+		object.setVelY(velY+object.getVelY()*.75f);
 	}
 	public void bounceBack(AbstractSection section) {
 
 		if (section.getVelX() > 0 || section.getVelX() < 0) {
-			velX = -Math.abs(velX) + section.getVelX()*1.2;
+			velX = -Math.abs(velX) + section.getVelX()*1.2f;
 			this.velY = RandomGenUtility.getRandom(-12, 12);
 		}
 		else{
-			velY = -Math.abs(velY) + section.getVelY()*1.2;
+			velY = -Math.abs(velY) + section.getVelY()*1.2f;
 			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}

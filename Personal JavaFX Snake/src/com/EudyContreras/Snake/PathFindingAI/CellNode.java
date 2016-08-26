@@ -22,6 +22,8 @@ public class CellNode {
     private double penaltyCost = 0;
 	private double totalCost = 0;
 
+	private boolean closed = false;
+
 	private boolean showCells = true;
 	private boolean pathCell = false;
 	private boolean targetCell = false;
@@ -172,7 +174,12 @@ public class CellNode {
 	public final boolean isTargetCell() {
 		return targetCell;
 	}
-
+	public void setClosed(boolean state) {
+		this.closed = state;
+	}
+	public boolean isClosed(){
+		return closed;
+	}
 	public final boolean isPenalized(){
 		return penaltyCost>0;
 	}
@@ -266,4 +273,5 @@ public class CellNode {
         hash = 17 * hash + this.index.getCol();
         return hash;
     }
+
 }
