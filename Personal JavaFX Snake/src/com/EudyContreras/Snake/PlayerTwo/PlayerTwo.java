@@ -50,6 +50,7 @@ public class PlayerTwo extends AbstractObject {
 	private double offset = 30;
 	private double offsetX = 0;
 	private double offsetY = 0;
+	private double boundOffset =2;
 	private boolean isDead = false;
 	private boolean collision = false;
 	private boolean notEating = true;
@@ -213,10 +214,10 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
-			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
-			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
-			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-8);
-			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-8);
+			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-boundOffset)/2);
+			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-10)/2);
+			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-boundOffset-boundOffset);
+			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-10);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -878,7 +879,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, GameSettings.PATH_FINDING_CELL_SIZE-8, GameSettings.PATH_FINDING_CELL_SIZE-8);
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-boundOffset)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-10)/2, GameSettings.PATH_FINDING_CELL_SIZE-boundOffset, GameSettings.PATH_FINDING_CELL_SIZE-10);
 	}
 	public Rectangle2D getAIBounds() {
 		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);

@@ -36,7 +36,7 @@ import javafx.geometry.Rectangle2D;
  * TODO: Do not allow tracking apples which are next to the snakes body. if the closest
  * apple is one cell away from snakes body. Check next closest!
  */
-public class AIPathFinder {
+public class AIPathFinder3 {
 
 //	private AbstractObject objectives[0].getObject();
 	private AIController controller;
@@ -68,13 +68,13 @@ public class AIPathFinder {
 	private PriorityQueue<CellNode> openedSet;
 	private List<CellNode> pathCoordinates;
 
-	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
+	public AIPathFinder3(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
 		this.initialize();
 	}
 
-	public AIPathFinder(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
+	public AIPathFinder3(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
 		this.game = game;
 		this.controller = controller;
 		this.snakeAI = snakeAI;
@@ -84,6 +84,7 @@ public class AIPathFinder {
 	public void initialize() {
 		rand = new Random();
 		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
+		linkedPath = new LinkedPath<>();
 		closedSet = new HashSet<>(cellCount);
 		objectives = new Objective[4];
 		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
@@ -128,14 +129,15 @@ public class AIPathFinder {
 	public void updateSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
-				performLocationBasedAction();
-				checkObjectiveStatus();
-				addRandomBoost(true);
-				reRoute();
-				checkTimer--;
-				if (checkTimer <= 0) {
-					findClosest();
-					computeClosestPath(0,0);
+					performLocationBasedAction();
+					checkObjectiveStatus();
+					addRandomBoost(true);
+					reRoute();
+
+				findClosest();
+				checkTimer --;
+				if(checkTimer<=0){
+//					computeClosestPath(0,0);
 					checkTimer = 60;
 				}
 			}
@@ -268,6 +270,7 @@ public class AIPathFinder {
 		allowTrace = false;
 		openedSet.clear();
 		closedSet.clear();
+		linkedPath.clear();
 	}
 
 	private void calculateDirection(CellNode node) {
@@ -306,8 +309,7 @@ public class AIPathFinder {
         return cheapest;
     }
 	private LinkedPath<CellNode> createNewPath(CellNode current) {
-		linkedPath = new LinkedPath<>();
-		
+
 		linkedPath.add(current);
 		while ((current = current.getParentNode()) != null) {
 			linkedPath.add(current);
@@ -405,7 +407,7 @@ public class AIPathFinder {
 			snakeAI.getY(), game.getGameObjectController().getObsFruitList().get(i).getY()),
 			game.getGameObjectController().getObsFruitList().get(i));
 		}
-//		Arrays.sort(objectives);
+		Arrays.sort(objectives);
 
 	}
 
@@ -429,30 +431,90 @@ public class AIPathFinder {
 		LinkedPath<CellNode> path4 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
 				objectives[3].getCell());
 
-		LinkedPath<CellNode> newPath = shortestPath(path1,path2,path3,path4);
-		
-		if(!newPath.isEmpty() && newPath.size()>0){
-			showPathToObjective(newPath);
-		}
 
+
+			log("Path length " + objectives[0].getDistance());
+			log("Path length " + objectives[1].getDistance());
+			log("Path length " + objectives[2].getDistance());
+			log("Path length " + objectives[3].getDistance());
+			log("Path length " + path1.size());
+			log("Path length " + path2.size());
+			log("Path length " + path3.size());
+			log("Path length " + path4.size());
+			log("");
+
+
+//		LinkedPath[] paths = {path1,path2,path3,path4};
+//		if(!path1.isEmpty() && path1!=null)
+//			paths.addAll(path1,path2,path3,path4);
+//		if(!path2.isEmpty() && path2!=null)
+//			paths.add(path2);
+//		if(!path3.isEmpty() && path3!=null)
+//			paths.put(path3.size(), path3);
+//		if(!path4.isEmpty() && path3!=null)
+//			paths.put(path4.size(), path4);
+
+
+//		shortestPath = paths[0];
+////		farthestPath = Integer.MIN_VALUE;
+//
+//		    if(paths[1].size()<shortestPath.size())
+//		    	shortestPath = paths[1];
+//		    if(paths[2].size()<shortestPath.size())
+//		    	shortestPath = paths[2];
+//		    if(paths[3].size()<shortestPath.size())
+//		    	shortestPath = paths[3];
+//
+
+		showPathToObjective(shortestPath(path1,path2,path3,path4));
+//		if(paths.get(shortestPath)!=null){
+//			showPathToObjective(paths.get(shortestPath));
+//		}
+//		else{
+//			if(paths.get(farthestPath)!=null){
+//			showPathToObjective(paths.get(farthestPath));
+//			}
+//		}
+
+//		List<CellNode> path = paths.get(shortestPath);
+//
+//		if (!path1.isEmpty()) {
+//			showPathToObjective(path1);
+//			log("1 not empty");
+//		} else {
+//			if (!path2.isEmpty()) {
+//				showPathToObjective(path2);
+//				log("2 not empty");
+//			} else {
+//				if (!path3.isEmpty()) {
+//					showPathToObjective(path3);
+//					log("3 not empty");
+//				} else {
+//					if (!path4.isEmpty()) {
+//						showPathToObjective(path4);
+//						log("4 not empty");
+//					}
+//				}
+//			}
+//		}
 	}
 	@SuppressWarnings("unchecked")
-	public LinkedPath<CellNode> shortestPath(LinkedPath<CellNode>... arrays) {
-		Arrays.sort(arrays);
-		LinkedPath<CellNode> smallest = arrays[0];
-		int min = Integer.MAX_VALUE;
-		for (int i = arrays.length - 1; i >= 0; i--) {
-			int length = arrays[i].size();
-			if (length < min && !arrays[i].isEmpty()) {
-				min = length;
-				smallest = arrays[i];
-			}
-		}
-		for (int i = 0; i < arrays.length; i++) {
-			log("Path length " + arrays[i].size());
-		}
-		log("");
-		return smallest;
+	public LinkedPath<CellNode> shortestPath(LinkedPath<CellNode> ... arrays){
+//		Arrays.sort(arrays);
+//		  LinkedPath<CellNode> smallest = arrays[0];
+//		  int min = Integer.MAX_VALUE;
+//		  for(int i = arrays.length-1; i >= 0; i--) {
+//		    int length = arrays[i].size();
+//		    if (length < min) {
+//		      min = length;
+//		      smallest = arrays[i];
+//		    }
+//		  }
+//		for(int i = 0; i<arrays.length; i++){
+//			log("Path length " + arrays[i].size());
+//		}
+//		log("");
+		  return  arrays[3];
 	}
 	private void showPathToObjective(List<CellNode> cells){
 		for(CellNode cell: cells){
