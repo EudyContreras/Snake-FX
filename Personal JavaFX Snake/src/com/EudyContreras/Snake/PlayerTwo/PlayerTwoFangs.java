@@ -139,7 +139,7 @@ public class PlayerTwoFangs extends AbstractObject {
 						if (tempObject.getNumericID() > 4) {
 							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 //								snake.die();
-								System.out.println("DIE");
+//								System.out.println("DIE");
 							}
 						}
 					}

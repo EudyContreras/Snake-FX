@@ -1,6 +1,5 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -69,7 +68,6 @@ public class AIPathFinder {
 	private PriorityQueue<CellNode> openedSet;
 	private List<CellNode> pathCoordinates;
 
-
 	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
@@ -131,16 +129,15 @@ public class AIPathFinder {
 	public void updateSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
-				if (objectives[0].getObject() != null) {
 					performLocationBasedAction();
 					checkObjectiveStatus();
 					addRandomBoost(true);
 					reRoute();
-				}
+
 				findClosest();
 				checkTimer --;
 				if(checkTimer<=0){
-					computeClosestPath(0,0);
+//					computeClosestPath(0,0);
 					checkTimer = 60;
 				}
 			}
@@ -151,7 +148,7 @@ public class AIPathFinder {
 	 * Find a path from start to goal using the A* algorithm
 	 */
 
-	public List<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective) {
+	public synchronized LinkedPath<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective) {
 
 		CellNode current = null;
 
@@ -160,7 +157,6 @@ public class AIPathFinder {
 		boolean containsNeighbor;
 
 		open(startingPoint);
-
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -192,7 +188,7 @@ public class AIPathFinder {
 
 			if (current.equals(objective)) {
 				endPathSearch();
-				return linkedPath.createPath(objective);
+				return createNewPath(objective);
 			}
 			close(current);
 
@@ -258,7 +254,7 @@ public class AIPathFinder {
 			}
 		}
 		endPathSearch();
-		return new ArrayList<>();
+		return new LinkedPath<CellNode>();
 	}
 	private void close(CellNode node){
 		node.setClosed(true);
@@ -274,7 +270,6 @@ public class AIPathFinder {
 		allowTrace = false;
 		openedSet.clear();
 		closedSet.clear();
-	//	totalPath.clear();
 		linkedPath.clear();
 	}
 
@@ -313,7 +308,15 @@ public class AIPathFinder {
 		}
         return cheapest;
     }
+	private LinkedPath<CellNode> createNewPath(CellNode current) {
 
+		linkedPath.add(current);
+		while ((current = current.getParentNode()) != null) {
+			linkedPath.add(current);
+		}
+
+		return linkedPath;
+	}
 	/**
 	 * Method which under certain conditions will activate the speed boost of
 	 * the snake
@@ -404,45 +407,115 @@ public class AIPathFinder {
 			snakeAI.getY(), game.getGameObjectController().getObsFruitList().get(i).getY()),
 			game.getGameObjectController().getObsFruitList().get(i));
 		}
+		Arrays.sort(objectives);
 
-		if (objectives[0].getObject() != null && GameSettings.DEBUG_MODE) {
-			objectives[0].getObject().blowUpAlt();
-		}
 	}
 
+
+	@SuppressWarnings("unchecked")
 	public void computeClosestPath(int row, int col) {
-		Arrays.sort(objectives);
+
+//
+//		if (objectives[0].getObject() != null && GameSettings.DEBUG_MODE) {
+//			objectives[0].getObject().blowUpAlt();
+//		}
+
 		controller.getGrid().resetCells();
 
-		List<CellNode> path1 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
-				objectives[3].getObject().getCell());
-		List<CellNode> path2 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
-				objectives[2].getObject().getCell());
-		List<CellNode> path3 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
-				objectives[1].getObject().getCell());
-		List<CellNode> path4 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
-				objectives[0].getObject().getCell());
-		if (!path1.isEmpty()) {
-			showPathToObjective(path1);
-			log("1 not empty");
-		} else {
-			if (!path2.isEmpty()) {
-				showPathToObjective(path2);
-				log("2 not empty");
-			} else {
-				if (!path3.isEmpty()) {
-					showPathToObjective(path3);
-					log("3 not empty");
-				} else {
-					if (!path4.isEmpty()) {
-						showPathToObjective(path4);
-						log("4 not empty");
-					}
-				}
-			}
-		}
-	}
+		LinkedPath<CellNode> path1 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+				objectives[0].getCell());
+		LinkedPath<CellNode> path2 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+				objectives[1].getCell());
+		LinkedPath<CellNode> path3 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+				objectives[2].getCell());
+		LinkedPath<CellNode> path4 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+				objectives[3].getCell());
 
+
+
+			log("Path length " + objectives[0].getDistance());
+			log("Path length " + objectives[1].getDistance());
+			log("Path length " + objectives[2].getDistance());
+			log("Path length " + objectives[3].getDistance());
+			log("Path length " + path1.size());
+			log("Path length " + path2.size());
+			log("Path length " + path3.size());
+			log("Path length " + path4.size());
+			log("");
+
+
+//		LinkedPath[] paths = {path1,path2,path3,path4};
+//		if(!path1.isEmpty() && path1!=null)
+//			paths.addAll(path1,path2,path3,path4);
+//		if(!path2.isEmpty() && path2!=null)
+//			paths.add(path2);
+//		if(!path3.isEmpty() && path3!=null)
+//			paths.put(path3.size(), path3);
+//		if(!path4.isEmpty() && path3!=null)
+//			paths.put(path4.size(), path4);
+
+
+//		shortestPath = paths[0];
+////		farthestPath = Integer.MIN_VALUE;
+//
+//		    if(paths[1].size()<shortestPath.size())
+//		    	shortestPath = paths[1];
+//		    if(paths[2].size()<shortestPath.size())
+//		    	shortestPath = paths[2];
+//		    if(paths[3].size()<shortestPath.size())
+//		    	shortestPath = paths[3];
+//
+
+		showPathToObjective(shortestPath(path1,path2,path3,path4));
+//		if(paths.get(shortestPath)!=null){
+//			showPathToObjective(paths.get(shortestPath));
+//		}
+//		else{
+//			if(paths.get(farthestPath)!=null){
+//			showPathToObjective(paths.get(farthestPath));
+//			}
+//		}
+
+//		List<CellNode> path = paths.get(shortestPath);
+//
+//		if (!path1.isEmpty()) {
+//			showPathToObjective(path1);
+//			log("1 not empty");
+//		} else {
+//			if (!path2.isEmpty()) {
+//				showPathToObjective(path2);
+//				log("2 not empty");
+//			} else {
+//				if (!path3.isEmpty()) {
+//					showPathToObjective(path3);
+//					log("3 not empty");
+//				} else {
+//					if (!path4.isEmpty()) {
+//						showPathToObjective(path4);
+//						log("4 not empty");
+//					}
+//				}
+//			}
+//		}
+	}
+	@SuppressWarnings("unchecked")
+	public LinkedPath<CellNode> shortestPath(LinkedPath<CellNode> ... arrays){
+//		Arrays.sort(arrays);
+//		  LinkedPath<CellNode> smallest = arrays[0];
+//		  int min = Integer.MAX_VALUE;
+//		  for(int i = arrays.length-1; i >= 0; i--) {
+//		    int length = arrays[i].size();
+//		    if (length < min) {
+//		      min = length;
+//		      smallest = arrays[i];
+//		    }
+//		  }
+//		for(int i = 0; i<arrays.length; i++){
+//			log("Path length " + arrays[i].size());
+//		}
+//		log("");
+		  return  arrays[3];
+	}
 	private void showPathToObjective(List<CellNode> cells){
 		for(CellNode cell: cells){
 			calculateDirection(cell);
@@ -714,20 +787,25 @@ public class AIPathFinder {
 
 		private Double distance;
 		private AbstractObject object;
+		private CellNode cell;
 
 		public Objective(double distance, AbstractObject object) {
 			this.distance = distance;
 			this.object = object;
+			this.cell = object.getCell();
 		}
 
 		public double getDistance() {
 			return distance;
 		}
 
-		public AbstractObject getObject() {
-			return object;
+		public CellNode getCell() {
+			return cell;
 		}
 
+		public AbstractObject getObject(){
+			return object;
+		}
 		@Override
 		public String toString(){
 			return distance+"";
@@ -751,37 +829,32 @@ public class AIPathFinder {
 	    }
 		@Override
 		public int compareTo(Objective distance) {
-			return Double.compare(this.getDistance(), distance.getDistance());
+			return Double.compare(distance.getDistance(),this.getDistance());
 		}
 	}
-	public class LinkedPath<T> extends LinkedList<CellNode>{
+	public class LinkedPath<T> extends LinkedList<CellNode> implements Comparable<LinkedPath<CellNode>>{
 
 		private static final long serialVersionUID = 1L;
-		private int stepCount = 0;
-		private int turnCount = 0;
-
-		public int getStepCount() {
-			return stepCount;
-		}
-		public List<CellNode> createPath(CellNode current) {
-			stepCount = 0;
-			this.add(current);
-			stepCount++;
-			while ((current = current.getParentNode()) != null) {
-				this.add(current);
-				stepCount++;
+		@Override
+		public boolean equals(Object obj) {
+			if (obj == null) {
+				return false;
 			}
-			log(""+stepCount);
-			return this;
+			if (getClass() != obj.getClass()) {
+				return false;
+			}
+			@SuppressWarnings("unchecked")
+			final LinkedPath<CellNode> other = (LinkedPath<CellNode>) obj;
+
+			if (this.size() != other.size()) {
+				return false;
+			}
+			return true;
 		}
-		public void setStepCount(int stepCount) {
-			this.stepCount = stepCount;
-		}
-		public int getTurnCount() {
-			return turnCount;
-		}
-		public void setTurnCount(int turnCount) {
-			this.turnCount = turnCount;
+
+		@Override
+		public int compareTo(LinkedPath<CellNode> other) {
+			return Integer.compare(other.size(),this.size());
 		}
 	}
 	public double getX() {
@@ -884,6 +957,13 @@ public class AIPathFinder {
 		@Override
 		public int compare(Objective a, Objective b) {
 			return Double.compare(a.getDistance(), b.getDistance());
+		}
+	}
+
+	public class LinkedPathComparator implements Comparator<LinkedPath<CellNode>> {
+		@Override
+		public int compare(LinkedPath<CellNode> a, LinkedPath<CellNode> b) {
+			return Integer.compare(a.size(), b.size());
 		}
 	}
 }

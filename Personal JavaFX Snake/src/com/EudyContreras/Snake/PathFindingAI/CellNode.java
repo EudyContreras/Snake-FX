@@ -50,9 +50,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public void resetValues(){
 		directionInPath = Direction.NONE;
-		targetCell = false;
 		pathCell = false;
-//		occupied = false;
 		heuristic = 0;
 		movementCost = 10;
 	    penaltyCost = 0;
@@ -89,8 +87,10 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.WHITE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
-			if(!isAvailable())
+			if(!isAvailable() && !isTargetCell() && !isPathCell())
 				visualRep.setFill(Color.YELLOW);
+			if(!isSafe() && !isPathCell() && !isOccupied() && isAvailable())
+				visualRep.setFill(Color.GRAY);
 		}
 	}
 
