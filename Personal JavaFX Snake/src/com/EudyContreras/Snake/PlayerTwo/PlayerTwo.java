@@ -41,16 +41,15 @@ public class PlayerTwo extends AbstractObject {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
-	private float accelaration = 0.5f;
-	private float maxSize = GameSettings.ALLOW_AI_CONTROLL ? 26 : 30;
-	private float normalSpeed = GameSettings.PLAYER_TWO_SPEED;
-	private float maxSpeed = GameSettings.PLAYER_TWO_SPEED*2;
-	private float minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
+	private double accelaration = 0.5;
+	private double maxSize = GameSettings.ALLOW_AI_CONTROLL ? 26 : 30;
+	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
+	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
+	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double bodyTrigger;
 	private double offset = 30;
 	private double offsetX = 0;
 	private double offsetY = 0;
-	private double boundOffset =2;
 	private boolean isDead = false;
 	private boolean collision = false;
 	private boolean notEating = true;
@@ -83,7 +82,7 @@ public class PlayerTwo extends AbstractObject {
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
-	public static float SPEED = 6.0f;
+	public static Double SPEED = 6.0;
 	public static Boolean DEAD = false;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;
@@ -92,8 +91,8 @@ public class PlayerTwo extends AbstractObject {
 	public static Boolean KEEP_MOVING = true;
 	public static Boolean ALLOW_FADE = false;
 
-	public PlayerTwo(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
+	public PlayerTwo(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+			double velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
 		this.anim = new AnimationUtility();
@@ -214,10 +213,10 @@ public class PlayerTwo extends AbstractObject {
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
 			bounds.setHeight(radius);
-			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-boundOffset)/2);
-			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-10)/2);
-			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-boundOffset-boundOffset);
-			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-10);
+			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
+			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
+			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-8);
+			boundBox.setHeight(GameSettings.PATH_FINDING_CELL_SIZE-8);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -466,14 +465,16 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveUp() {
-		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_UP,180);
+		r = 180;
+//		snakeHead.setR(r);
+//		if(!GameSettings.ALLOW_AI_CONTROLL)
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_UP);
 		setCurrentDirection(PlayerMovement.MOVE_UP);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, 0);
 		offsetX = 0;
 		offsetY = -offset;
 		velY = -GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
-		r = 180;
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -486,14 +487,16 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveDown() {
-		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_DOWN,0);
+		r = 0;
+//		snakeHead.setR(r);
+//		if(!GameSettings.ALLOW_AI_CONTROLL)
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_DOWN);
 		setCurrentDirection(PlayerMovement.MOVE_DOWN);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, 0);
 		offsetX = 0;
 		offsetY = offset;
 		velY = GameSettings.SNAKE_TWO_SPEED;
 		velX = 0;
-		r = 0;
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -506,14 +509,16 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveRight() {
-		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_RIGHT,-90);
+		r = -90;
+//		snakeHead.setR(r);
+//		if(!GameSettings.ALLOW_AI_CONTROLL)
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_RIGHT);
 		setCurrentDirection(PlayerMovement.MOVE_RIGHT);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, 0);
 		offsetX = offset;
 		offsetY = 0;
 		velX = GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
-		r = -90;
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -526,14 +531,16 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	private void moveLeft() {
-		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_LEFT,90);
+		r = 90;
+//		snakeHead.setR(r);
+//		if(!GameSettings.ALLOW_AI_CONTROLL)
+		snakeHead.performRotation(getCurrentDirection(), PlayerMovement.MOVE_LEFT);
 		setCurrentDirection(PlayerMovement.MOVE_LEFT);
 		sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, 0);
 		offsetX = -offset;
 		offsetY = 0;
 		velX = -GameSettings.SNAKE_TWO_SPEED;
 		velY = 0;
-		r = 90;
 		if (!GameSettings.ALLOW_FAST_TURNS){
 			if(turns.size()>0)
 				turns.remove(0);
@@ -879,7 +886,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-boundOffset)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-10)/2, GameSettings.PATH_FINDING_CELL_SIZE-boundOffset, GameSettings.PATH_FINDING_CELL_SIZE-10);
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, GameSettings.PATH_FINDING_CELL_SIZE-8, GameSettings.PATH_FINDING_CELL_SIZE-8);
 	}
 	public Rectangle2D getAIBounds() {
 		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);

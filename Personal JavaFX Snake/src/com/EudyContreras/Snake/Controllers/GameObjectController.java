@@ -47,7 +47,6 @@ public class GameObjectController {
 			public void onChanged(@SuppressWarnings("rawtypes") ListChangeListener.Change change) {
 				if(game.getStateID() == GameStateID.GAMEPLAY){
 				game.getAIController().nofifyAI();
-				game.getAIController().getPathFindingAI().computeClosestPath(5,5);
 				}
 			}
 		});

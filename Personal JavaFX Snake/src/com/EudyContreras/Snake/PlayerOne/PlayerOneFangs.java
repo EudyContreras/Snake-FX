@@ -26,8 +26,8 @@ public class PlayerOneFangs extends AbstractObject {
 	private PlayerOneHead snakeHead;
 	private GameObjectController gom;
 
-	public PlayerOneFangs(PlayerOneHead snakeHead, PlayerOne snake, GameManager game, Pane layer, Circle node, float x,
-			float y, GameObjectID id, PlayerMovement Direction) {
+	public PlayerOneFangs(PlayerOneHead snakeHead, PlayerOne snake, GameManager game, Pane layer, Circle node, double x,
+			double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.snakeHead = snakeHead;
 		this.snake = snake;

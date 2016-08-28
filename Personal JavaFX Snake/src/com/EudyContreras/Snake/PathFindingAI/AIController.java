@@ -78,7 +78,7 @@ public class AIController {
     public void initialize() {
         pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,GameSettings.PATH_FINDING_CELL_SIZE, 0);
         pathFindingAI = new AIPathFinder(game, this, snakeAI, collideNodes);
-//        updateGrid();
+        updateGrid();
     }
 
     public void updateGrid() {
@@ -98,6 +98,7 @@ public class AIController {
 
     public void nofifyAI() {
         pathFindingAI.findClosest();
+		pathFindingAI.computeClosestPath(5,5);
     }
 
     private void processAIEvents() {

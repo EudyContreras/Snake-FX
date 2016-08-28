@@ -14,7 +14,7 @@ public class PlayerOneEatTrigger extends AbstractObject {
 	private GameManager game;
 	private PlayerOne snake;
 
-	public PlayerOneEatTrigger(PlayerOneHead head, PlayerOne snake, GameManager game, Pane layer, Circle node, float x, float y,
+	public PlayerOneEatTrigger(PlayerOneHead head, PlayerOne snake, GameManager game, Pane layer, Circle node, double x, double y,
 			GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, x, y, id);
 		this.snake = snake;

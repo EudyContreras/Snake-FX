@@ -33,7 +33,7 @@ public class ClassicSnakeSection extends AbstractSection {
 	private AbstractSection previousSection;
 	private ClassicSnakeSectionManager sectManager;
 
-	public ClassicSnakeSection(ClassicSnake snake, GameManager game, Pane layer, Node node, float x, float y, GameObjectID id,
+	public ClassicSnakeSection(ClassicSnake snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
 			PlayerMovement Direction, int numericID) {
 		super(game, layer, node, id);
 		this.game = game;
@@ -43,7 +43,7 @@ public class ClassicSnakeSection extends AbstractSection {
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
 				this.setLastDirection(Direction);
-				this.y = (float) (y + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+				this.y = y + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -51,7 +51,7 @@ public class ClassicSnakeSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_DOWN) {
 				this.setLastDirection(Direction);
-				this.y = (float) (y - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+				this.y = y - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 				this.x = x;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -59,7 +59,7 @@ public class ClassicSnakeSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_LEFT) {
 				this.setLastDirection(Direction);
-				this.x = (float) (x + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+				this.x = x + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -67,7 +67,7 @@ public class ClassicSnakeSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.MOVE_RIGHT) {
 				this.setLastDirection(Direction);
-				this.x = (float) (x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+				this.x = x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -75,7 +75,7 @@ public class ClassicSnakeSection extends AbstractSection {
 				snake.setNeighbor(this);
 			} else if (Direction == PlayerMovement.STANDING_STILL) {
 				this.setLastDirection(Direction);
-				this.x = (float) (x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+				this.x = x - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 				this.y = y;
 				this.r = snake.getR();
 				this.velX = snake.getVelX();
@@ -90,7 +90,7 @@ public class ClassicSnakeSection extends AbstractSection {
 					switch (previousSect.getLastDirection()) {
 					case MOVE_UP:
 						setLastDirection(PlayerMovement.MOVE_UP);
-						this.y = (float) (previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+						this.y = previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 						this.x = previousSect.getX();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -98,7 +98,7 @@ public class ClassicSnakeSection extends AbstractSection {
 						break;
 					case MOVE_DOWN:
 						setLastDirection(PlayerMovement.MOVE_DOWN);
-						this.y = (float) (previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+						this.y = previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 						this.x = previousSect.getX();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -106,7 +106,7 @@ public class ClassicSnakeSection extends AbstractSection {
 						break;
 					case MOVE_LEFT:
 						setLastDirection(PlayerMovement.MOVE_LEFT);
-						this.x = (float) (previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+						this.x = previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 						this.y = previousSect.getY();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -114,7 +114,7 @@ public class ClassicSnakeSection extends AbstractSection {
 						break;
 					case MOVE_RIGHT:
 						setLastDirection(PlayerMovement.MOVE_RIGHT);
-						this.x = (float) (previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+						this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 						this.y = previousSect.getY();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -122,7 +122,7 @@ public class ClassicSnakeSection extends AbstractSection {
 						break;
 					case STANDING_STILL:
 						setLastDirection(PlayerMovement.STANDING_STILL);
-						this.x = (float) (previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE);
+						this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
 						this.y = previousSect.getY();
 						this.r = previousSect.getR();
 						this.velX = previousSect.getVelX();
@@ -188,8 +188,8 @@ public class ClassicSnakeSection extends AbstractSection {
 		loseAccelaration();
 	}
 	public void loseAccelaration(){
-		this.velX = velX*0.985f;
-		this.velY = velY*0.985f;
+		this.velX = velX*0.985;
+		this.velY = velY*0.985;
 	}
 	public void setMotionBlur(){
 		if(classicSnake.getSpeedThrust()){
@@ -248,22 +248,22 @@ public class ClassicSnakeSection extends AbstractSection {
 					&& y < LevelBounds.MAX_Y - radius) {
 				if (this.direction == PlayerMovement.MOVE_DOWN) {
 					if (previousSection.getY() - y >= this.radius) {
-						y = (float) (previousSection.getY() - this.radius);
+						y = previousSection.getY() - this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_UP) {
 					if (y - previousSection.getY() >= this.radius) {
-						y = (float) (previousSection.getY() + this.radius);
+						y = previousSection.getY() + this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_LEFT) {
 					if (x - previousSection.getX() >= this.radius) {
-						x = (float) (previousSection.getX() + this.radius);
+						x = previousSection.getX() + this.radius;
 					}
 				}
 				if (this.direction == PlayerMovement.MOVE_RIGHT) {
 					if (previousSection.getX() - x >= this.radius) {
-						x = (float) (previousSection.getX() - this.radius);
+						x = previousSection.getX() - this.radius;
 					}
 				}
 			}

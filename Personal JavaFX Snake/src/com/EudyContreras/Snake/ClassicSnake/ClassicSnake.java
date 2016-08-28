@@ -74,8 +74,8 @@ public class ClassicSnake extends AbstractObject {
 	public static Boolean KEEP_MOVING = true;
 	public static Boolean ALLOW_FADE = false;
 
-	public ClassicSnake(GameManager game, Pane layer, Node node, float x, float y, float r, float velX, float velY,
-			float velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
+	public ClassicSnake(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
+			double velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
 		this.anim = new AnimationUtility();

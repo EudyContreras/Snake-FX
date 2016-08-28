@@ -163,7 +163,6 @@ public class GameBorder extends AbstractTile {
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(pane);
-
 	}
 	public void showBorders(boolean state){
 		this.leftBound.setVisible(state);
@@ -182,5 +181,8 @@ public class GameBorder extends AbstractTile {
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(pane);
+	}
+	public StackPane getUtilityBar(){
+		return pane;
 	}
 }

@@ -42,12 +42,12 @@ public abstract class AbstractSection {
 	protected Rectangle rect;
 	protected Circle circle;
 	protected int numericID;
-	protected float x;
-	protected float y;
-	protected float r;
-	protected float velX;
-	protected float velY;
-	protected float velR;
+	protected double x;
+	protected double y;
+	protected double r;
+	protected double velX;
+	protected double velY;
+	protected double velR;
 	protected double width;
 	protected double height;
 	protected double radius;
@@ -68,7 +68,7 @@ public abstract class AbstractSection {
 	 * different ways and with different attributes
 	 */
 
-	public AbstractSection(GameManager game, Pane layer, Node node, float x, float y, GameObjectID id) {
+	public AbstractSection(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -118,7 +118,7 @@ public abstract class AbstractSection {
 
 	}
 
-	public AbstractSection(Image image, float x, float y) {
+	public AbstractSection(Image image, double x, double y) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -177,19 +177,19 @@ public abstract class AbstractSection {
 		this.layer = layer;
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
@@ -204,35 +204,35 @@ public abstract class AbstractSection {
 		imageView.setTranslateY(point.getY());
 	}
 
-	public float getR() {
+	public double getR() {
 		return r;
 	}
 
-	public void setR(float r) {
+	public void setR(double r) {
 		this.r = r;
 	}
 
-	public float getVelX() {
+	public double getVelX() {
 		return velX;
 	}
 
-	public void setVelX(float velX) {
+	public void setVelX(double velX) {
 		this.velX = velX;
 	}
 
-	public float getVelY() {
+	public double getVelY() {
 		return velY;
 	}
 
-	public void setVelY(float velY) {
+	public void setVelY(double velY) {
 		this.velY = velY;
 	}
 
-	public float getVelR() {
+	public double getVelR() {
 		return velR;
 	}
 
-	public void setVelR(float velR) {
+	public void setVelR(double velR) {
 		this.velR = velR;
 	}
 

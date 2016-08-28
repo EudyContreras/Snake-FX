@@ -26,8 +26,8 @@ public class PlayerTwoFangs extends AbstractObject {
 	private PlayerTwoHead snakeHead;
 	private GameObjectController gom;
 
-	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, GameManager game, Pane layer, Circle node, float x,
-			float y, GameObjectID id, PlayerMovement Direction) {
+	public PlayerTwoFangs(PlayerTwoHead snakeHead, PlayerTwo snake, GameManager game, Pane layer, Circle node, double x,
+			double y, GameObjectID id, PlayerMovement Direction) {
 		super(game, layer, node, y, y, id);
 		this.snakeHead = snakeHead;
 		this.snake = snake;
@@ -139,7 +139,7 @@ public class PlayerTwoFangs extends AbstractObject {
 						if (tempObject.getNumericID() > 4) {
 							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 //								snake.die();
-//								System.out.println("DIE");
+								System.out.println("DIE");
 							}
 						}
 					}

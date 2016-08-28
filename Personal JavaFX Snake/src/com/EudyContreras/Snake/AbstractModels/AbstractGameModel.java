@@ -125,7 +125,7 @@ public abstract class AbstractGameModel extends Application {
     protected Pane thirTeenthLayer;
     protected Pane fourTeenthLayer;
     protected Pane fadeScreenLayer;
-    protected Text TextFPS;
+    protected Text FPS_TEXT;
     protected PauseMenu pauseMenu;
     protected GameImageBank imageBank;
     protected GameLevelImage levelImageBank;

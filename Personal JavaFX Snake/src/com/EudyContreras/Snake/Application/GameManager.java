@@ -51,6 +51,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.CacheHint;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -59,6 +60,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -153,12 +155,12 @@ public class GameManager extends AbstractGameModel {
 		splashScene = null;
 		mainWindow = new Stage();
 		addToGameRoot(gridLayer);
+		addToGameRoot(fruitLayer);
+		addToGameRoot(dirtLayer);
 		addToGameRoot(debrisLayer);
 		addToGameRoot(innerParticleLayer);
 		addToGameRoot(snakeOneLayer);
 		addToGameRoot(snakeTwoLayer);
-		addToGameRoot(fruitLayer);
-		addToGameRoot(dirtLayer);
 		addToGameRoot(firstLayer);
 		addToGameRoot(secondLayer);
 		addToGameRoot(thirdLayer);
@@ -511,7 +513,7 @@ public class GameManager extends AbstractGameModel {
 					lastUpdate = now;
 				}
 				if (delta > nanoSecond) {
-					TextFPS.setText("FPS :" + FPS);
+					FPS_TEXT.setText(""+FPS);
 					delta -= nanoSecond;
 					FPS = 0;
 				}
@@ -609,7 +611,7 @@ public class GameManager extends AbstractGameModel {
 						}
 						maxFrameUpdate();
 						if (delta > nanoSecond) {
-							TextFPS.setText("FPS :" + FPS);
+							FPS_TEXT.setText("FPS :" + FPS);
 							delta -= nanoSecond;
 							FPS = 0;
 						}
@@ -764,19 +766,28 @@ public class GameManager extends AbstractGameModel {
 	 * player
 	 */
 	public void translateObjects(ObservableList<Node> rootPane) {
-		TextFPS = new Text("FPS : ");
-		TextFPS.setX(10);
-		TextFPS.setY(30);
-		TextFPS.setOpacity(0.5);
-		TextFPS.setFill(Color.WHITE);
-		TextFPS.setFont(Font.font("AERIAL", FontWeight.EXTRA_BOLD, 25));
+		HBox words = new HBox(0);
+	    words.setAlignment(Pos.CENTER);
+	    Text FPS = new Text("FPS : ");
+		FPS_TEXT = new Text("60.0");
+		FPS_TEXT.setFill(Color.LIME);
+		FPS.setFill(Color.WHITE);
+		FPS.setFont(Font.font("AERIAL", FontWeight.EXTRA_BOLD, 25));
+		FPS_TEXT.setFont(Font.font("AERIAL", FontWeight.EXTRA_BOLD, 25));
+	    words.getChildren().addAll(FPS,FPS_TEXT);
+		words.setTranslateX(-GameSettings.SCREEN_WIDTH/2 + 75);
+//		words.setTranslateY(5);
+		words.setOpacity(1);
+
+
+
 		rootPane.add(fadeScreenLayer);
 		rootPane.add(tenthLayer);
 		rootPane.add(eleventhLayer);
 		rootPane.add(twelfthLayer);
 		rootPane.add(thirTeenthLayer);
 		rootPane.add(fourTeenthLayer);
-		mainRoot.getChildren().add(TextFPS);
+		this.getGameBorder().getUtilityBar().getChildren().add(words);
 	}
 
 	public void prepareGame() {

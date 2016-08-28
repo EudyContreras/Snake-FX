@@ -45,7 +45,7 @@ public class CellNode implements Comparable<CellNode>{
 			this.visualRep.setX(location.getX());
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.TRANSPARENT);
-			this.visualRep.setStroke(Color.rgb(0, 0, 0,1));
+			this.visualRep.setStroke(Color.rgb(255,255,255,0.8));
 		}
 	}
 	public void resetValues(){
@@ -89,8 +89,8 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable() && !isTargetCell() && !isPathCell())
 				visualRep.setFill(Color.YELLOW);
-			if(!isSafe() && !isPathCell() && !isOccupied() && isAvailable())
-				visualRep.setFill(Color.GRAY);
+//			if(!isSafe() && !isPathCell() && !isOccupied() && isAvailable())
+//				visualRep.setFill(Color.GRAY);
 		}
 	}
 

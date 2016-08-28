@@ -21,7 +21,7 @@ public class GameSettings {
 
 	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
-	public static float FRAME_SCALE = 1.0f;
+	public static double FRAME_SCALE = 1.0f;
 	public static double MANUAL_SIZE_SCALE = 1.0;
 
 	public static int PATH_FINDING_CELL_SIZE = 40;
@@ -44,9 +44,9 @@ public class GameSettings {
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
 	public static int SECTION_SIZE = 30;
 
-	public static float SNAKE_ONE_SPEED = 1;
-	public static float SNAKE_TWO_SPEED = 1;
-	public static float SNAKE_THREE_SPEED = 1;
+	public static int SNAKE_ONE_SPEED = 1;
+	public static int SNAKE_TWO_SPEED = 1;
+	public static int SNAKE_THREE_SPEED = 1;
 
 	public static double SLITHER_SPEED = 8;
 	public static int SLITHER_SIZE = 30;
@@ -67,9 +67,9 @@ public class GameSettings {
 	public static double ENERGY_REGENRATION_DELAY = 40;
 	public static double DAMAGE_AMOUNT = 0;
 
-	public static final float PLAYER_ONE_SPEED = 6.0f;
-	public static final float PLAYER_TWO_SPEED = 6.0f;
-	public static final float CLASSIC_SNAKE_SPEED = 9.0f;
+	public static final double PLAYER_ONE_SPEED = 6.0;
+	public static final double PLAYER_TWO_SPEED = 6.0;
+	public static final double CLASSIC_SNAKE_SPEED = 9.0;
 	public static final double PLAYER_SIZE = 24;
 
 	public static double PLAYER_HEALTH = 100.0;
@@ -110,8 +110,8 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean PATHFINDING_GRAPH = true;
-	public static boolean DEBUG_MODE = true;
+	public static boolean SHOW_PATHFINDING_GRAPH = true;
+	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;
 
