@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.InputHandlers;
 
 import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
@@ -83,6 +84,16 @@ public class KeyInputHandler {
 				}
 				if (e.getCode() == KeyCode.H) {
 					game.getGameHud().showHide();
+				}
+				if (e.getCode() == KeyCode.G) {
+					if(GameSettings.SHOW_ASTAR_GRAPH){
+						game.getBaseLayer().setVisible(false);
+						GameSettings.SHOW_ASTAR_GRAPH = false;
+					}
+					else if(!GameSettings.SHOW_ASTAR_GRAPH){
+						game.getBaseLayer().setVisible(true);
+						GameSettings.SHOW_ASTAR_GRAPH = true;
+					}
 				}
 				if (e.getCode() == KeyCode.SPACE) {
 					if (playerOne != null)

@@ -110,7 +110,8 @@ public class GameSettings {
 	public static boolean RAIN_STORM = false;
 
 	public static boolean PARENT_CACHE = false;
-	public static boolean SHOW_PATHFINDING_GRAPH = true;
+	public static boolean ALLOW_ASTAR_GRAPH = true;
+	public static boolean SHOW_ASTAR_GRAPH = true;
 	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;

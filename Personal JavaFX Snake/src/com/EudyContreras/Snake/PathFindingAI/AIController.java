@@ -133,7 +133,7 @@ public class AIController {
             	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.MEDIUM));
             }
             else if(dangers.getId() == GameLevelObjectID.NO_SPAWN_ZONE){
-            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.MEDIUM));
+            	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.NO_SPAWN_ZONE));
             }
             else{
             	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.LOW));

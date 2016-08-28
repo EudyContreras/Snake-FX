@@ -37,7 +37,7 @@ public class GridNode {
 		this.game = game;
 		this.cellSize = cellSize;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
-		this.showCells = GameSettings.SHOW_PATHFINDING_GRAPH;
+		this.showCells = GameSettings.ALLOW_ASTAR_GRAPH;
 		this.minCol = ((GameSettings.MIN_Y-cellSize) / cellSize);
 		this.minRow = ((GameSettings.MIN_X) / cellSize);
 		this.cellPadding = cellPadding;
@@ -128,6 +128,12 @@ public class GridNode {
 						else if(penalties.get(i).getRiskFactor()==RiskFactor.HIGH){
 							findNeighbors(row, col,Flag.NO_SPAWN);
 						}
+						else if(penalties.get(i).getRiskFactor()==RiskFactor.NO_SPAWN_ZONE){
+							if(cellNodes[row][col].isSpawnAllowed()){
+								cellNodes[row][col].setPlayerSpawnZone(true);
+								penalties.get(i).getObject().setCell(cellNodes[row][col]);
+							}
+						}
 					}
 				}
 			}
@@ -164,48 +170,72 @@ public class GridNode {
 				cell.updateVisuals();
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					cell.setOccupied(true);
-					findNeighbors(row, col,Flag.UNSAFE);
+//					findNeighbors(row, col,Flag.UNSAFE);
 				}
 				if (section != null) {
 					if (cell.getBoundsCheck().contains(section.getBounds())) {
 						cell.setOccupied(false);
-						findNeighbors(row, col,Flag.SAFE);
+//						findNeighbors(row, col,Flag.SAFE);
 					}
 				}
 			}
 		}
 		return cell;
 	}
-	public void findNeighbors(int row, int col, Flag flag) {
-		int startPosX = (row - 1 < minRow) ? row : row - 1;
-		int startPosY = (col - 1 < minCol) ? col : col - 1;
-		int endPosX = (row + 1 > rowCount - 1) ? row : row + 1;
-		int endPosY = (col + 1 > columnCount - 1) ? col : col + 1;
-		for (int rowIndex = startPosX; rowIndex <= endPosX; rowIndex++) {
-			for (int colIndex = startPosY; colIndex <= endPosY; colIndex++) {
+	public boolean safeSpawn(CellNode cell) {
+		boolean safe = true;
+
+		int r = cell.getIndex().getRow();
+		int c = cell.getIndex().getCol();
+
+		int startPosX = (r - 1 < minRow) ? r : r - 1;
+		int startPosY = (c - 1 < minCol) ? c : c - 1;
+
+		int endPosX = (r + 1 > rowCount - 1) ? r : r + 1;
+		int endPosY = (c + 1 > columnCount - 1) ? c : c + 1;
+
+		for (int row = startPosX; row <= endPosX; row++) {
+			for (int col = startPosY; col <= endPosY; col++) {
+				if(cellNodes[row][col].isOccupied()){
+					safe = false;
+				}
+			}
+		}
+		System.out.println("Spawn: "+safe);
+		return safe;
+	}
+	public void findNeighbors(int r, int c, Flag flag) {
+		int startPosX = (r - 1 < minRow) ? r : r - 1;
+		int startPosY = (c - 1 < minCol) ? c : c - 1;
+
+		int endPosX = (r + 1 > rowCount - 1) ? r : r + 1;
+		int endPosY = (c + 1 > columnCount - 1) ? c : c + 1;
+
+		for (int row = startPosX; row <= endPosX; row++) {
+			for (int col = startPosY; col <= endPosY; col++) {
 				if(flag == Flag.AVAILABLE){
-					if (cellNodes[rowIndex][colIndex].isTraversable()&& cellNodes[rowIndex][colIndex].isSpawnAllowed()) {
-						cellNodes[rowIndex][colIndex].setAvailable(true);
+					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
+						cellNodes[row][col].setAvailable(true);
 					}
 				}
 				if(flag == Flag.UNAVAILABLE){
-					if (cellNodes[rowIndex][colIndex].isTraversable()&& cellNodes[rowIndex][colIndex].isSpawnAllowed()) {
-						cellNodes[rowIndex][colIndex].setAvailable(false);
+					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
+						cellNodes[row][col].setAvailable(false);
 					}
 				}
 				else if(flag == Flag.UNSAFE){
-					if (cellNodes[rowIndex][colIndex].isTraversable()&& cellNodes[rowIndex][colIndex].isSpawnAllowed()) {
-						cellNodes[rowIndex][colIndex].setSafe(false);
+					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
+
 					}
 				}
 				else if(flag == Flag.SAFE){
-					if (cellNodes[rowIndex][colIndex].isTraversable()&& cellNodes[rowIndex][colIndex].isSpawnAllowed()) {
-						cellNodes[rowIndex][colIndex].setSafe(true);
+					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
+
 					}
 				}
 				else if(flag == Flag.NO_SPAWN){
-					if(cellNodes[rowIndex][colIndex].isTraversable()){
-						cellNodes[rowIndex][colIndex].setSpawnAllowed(false);
+					if(cellNodes[row][col].isTraversable()){
+						cellNodes[row][col].setSpawnAllowed(false);
 					}
 				}
 			}
@@ -333,4 +363,5 @@ public class GridNode {
 	public enum Flag{
 		UNSAFE,UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
 	}
+
 }

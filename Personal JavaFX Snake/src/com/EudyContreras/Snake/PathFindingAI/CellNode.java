@@ -25,7 +25,6 @@ public class CellNode implements Comparable<CellNode>{
 	private double totalCost = 0;
 
 	private boolean closed = false;
-	private boolean safeCell = true;
 	private boolean showCells = true;
 	private boolean pathCell = false;
 	private boolean targetCell = false;
@@ -35,6 +34,7 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
 	private boolean availableCell = true;
+	private boolean playerSpawnZone = false;
 
 	private CellType cellType = CellType.FREE;
 	private Direction directionInPath = Direction.NONE;
@@ -82,7 +82,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public void updateVisuals(){
 		if (showCells){
-			if(spawnAllowed && isTraversable && !pathCell && !occupied && !targetCell && availableCell)
+			if(spawnAllowed && isTraversable && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone())
 				visualRep.setFill(Color.ORANGE);
@@ -98,8 +98,8 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.YELLOW);
 			if(isTeleportZone())
 				visualRep.setFill(Color.BLACK);
-//			if(!isSafe() && !isPathCell() && !isOccupied() && isAvailable())
-//				visualRep.setFill(Color.GRAY);
+			if(isPlayerSpawnZone() && isSpawnAllowed())
+				visualRep.setFill(Color.WHITE);
 		}
 	}
 
@@ -130,6 +130,14 @@ public class CellNode implements Comparable<CellNode>{
 			   this.getIndex().getRow()==grid.getRowCount()-1 ||
 			   this.getIndex().getCol()==grid.getColumnCount()-1;
 	}
+	public boolean fruitSpawnAllowed(){
+		return isTraversable() &&
+			   isSpawnAllowed() &&
+			   isAvailable() &&
+			   !isOccupied() &&
+			   !isPlayerSpawnZone()
+			   && grid.safeSpawn(this);
+	}
 	public boolean isInvalidSpawnZone(){
 		return invalidSpawnZone;
 	}
@@ -142,7 +150,12 @@ public class CellNode implements Comparable<CellNode>{
 	public final CellNode getParentNode() {
 		return parentNode;
 	}
-
+	public final void setPlayerSpawnZone(boolean state){
+		this.playerSpawnZone = state;
+	}
+	public final boolean isPlayerSpawnZone(){
+		return playerSpawnZone;
+	}
 	public final void setParentNode(CellNode parent) {
 		this.parentNode = parent;
 	}
@@ -201,12 +214,6 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public boolean isClosed(){
 		return closed;
-	}
-	public boolean isSafe(){
-		return safeCell;
-	}
-	public final void setSafe(boolean state){
-		this.safeCell = state;
 	}
 	public final boolean isPenalized(){
 		return penaltyCost>0;

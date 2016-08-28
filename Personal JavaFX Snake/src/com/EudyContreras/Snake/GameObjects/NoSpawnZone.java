@@ -1,11 +1,15 @@
 
 package com.EudyContreras.Snake.GameObjects;
 
+import java.util.Collections;
+import java.util.LinkedList;
+
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.paint.Color;
@@ -23,12 +27,14 @@ public class NoSpawnZone extends AbstractTile {
 	private Rectangle2D collisionBounds;
 	private Rectangle bounds;
 	private GameManager game;
+	private LinkedList<CellNode> cells;
 
 	public NoSpawnZone(GameManager game, float x, float y, double width, double height, GameLevelObjectID id) {
 		super(x, y, id);
 		this.game = game;
 		this.width = width;
 		this.height = height;
+		this.cells = new LinkedList<CellNode>();
 		adjustBounds();
 		drawBounds();
 
@@ -59,10 +65,21 @@ public class NoSpawnZone extends AbstractTile {
 	}
 	public void updateUI(){
 		if(ScoreKeeper.APPLE_COUNT<GameSettings.APPLE_COUNT	){
-			this.setAlive(false);
+			setAlive(false);
+			clearCells();
 			if(GameSettings.DEBUG_MODE)
 			game.getSeventhLayer().getChildren().remove(bounds);
 		}
+	}
+	public void setCell(CellNode... cell){
+		Collections.addAll(cells, cell);
+	}
+	public void clearCells(){
+		for(CellNode cell: cells){
+			cell.setPlayerSpawnZone(false);
+		}
+		cells.clear();
+		cells = null;
 	}
 	/**
 	 * This methods will return specified bounds of this object

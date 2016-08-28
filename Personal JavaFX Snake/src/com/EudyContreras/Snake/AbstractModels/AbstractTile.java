@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -137,7 +138,9 @@ public abstract class AbstractTile {
 	public Image getImage() {
 		return image;
 	}
+	public void setCell(CellNode... cell){
 
+	}
 	public void setImage(Image image) {
 		this.image = image;
 	}

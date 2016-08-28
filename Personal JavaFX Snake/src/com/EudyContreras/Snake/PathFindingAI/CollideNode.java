@@ -20,6 +20,7 @@ public class CollideNode {
 	private double height;
 	private double threshold;
 	private double clearRadius;
+	private AbstractTile object;
 	private Dimension2D dimension;
 	private RiskFactor riskFactor;
 
@@ -29,6 +30,7 @@ public class CollideNode {
 		this.y = warning.getY();
 		this.width = warning.getWidth();
 		this.height = warning.getHeight();
+		this.object = warning;
 		if(warning.getBounds()!=null){
 			this.x = warning.getBounds().getMinX();
 			this.y = warning.getBounds().getMinY();
@@ -54,6 +56,9 @@ public class CollideNode {
 		else{
 			return RiskFactor.LOW;
 		}
+	}
+	public AbstractTile getObject(){
+		return object;
 	}
 	public RiskFactor getRiskFactor(){
 		return riskFactor;
@@ -83,7 +88,7 @@ public class CollideNode {
 		return Math.abs(x - this.x)+Math.abs(y - this.y);
 	}
 	public enum RiskFactor{
-		VERY_HIGH,HIGH,MEDIUM,LOW
+		VERY_HIGH,HIGH,MEDIUM,LOW, NO_SPAWN_ZONE
 	}
 	public Rectangle2D getCollideRadius(){
 		return new Rectangle2D(x-clearRadius, y-clearRadius, width+clearRadius*2, height+clearRadius*2);
