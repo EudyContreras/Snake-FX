@@ -57,12 +57,12 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public void resetValues(){
 		directionInPath = Direction.NONE;
+	    parentNode = null;
 		pathCell = false;
 		heuristic = 0;
 		movementCost = 10;
 	    penaltyCost = 0;
 	    totalCost = 0;
-	    parentNode = null;
 	}
 	public void setLocation(double x, double y) {
 		this.location = new Point2D(x, y);
@@ -98,7 +98,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.YELLOW);
 			if(isTeleportZone())
 				visualRep.setFill(Color.BLACK);
-			if(isPlayerSpawnZone() && isSpawnAllowed())
+			if(isPlayerSpawnZone() && isSpawnAllowed() && !isPathCell())
 				visualRep.setFill(Color.WHITE);
 		}
 	}

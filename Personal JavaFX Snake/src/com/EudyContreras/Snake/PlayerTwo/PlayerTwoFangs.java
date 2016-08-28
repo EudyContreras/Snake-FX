@@ -73,7 +73,7 @@ public class PlayerTwoFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snake.getX() + offsetX);
 		y = (float) (snake.getY() + offsetY);
-		circle.setRadius(GameSettings.PLAYER_TWO_SIZE * 0.20);
+		circle.setRadius(GameSettings.PLAYER_TWO_SIZE * 0.25);
 
 
 	}
@@ -122,8 +122,8 @@ public class PlayerTwoFangs extends AbstractObject {
 							tempObject.blowUp();
 							tempObject.getPoint();
 							tempObject.remove();
-							break;
 						}
+						break;
 					}
 					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
 						if(!GameSettings.ALLOW_AI_CONTROLL)

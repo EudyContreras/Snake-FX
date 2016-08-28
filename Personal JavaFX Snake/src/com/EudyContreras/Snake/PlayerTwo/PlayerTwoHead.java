@@ -290,6 +290,7 @@ public class PlayerTwoHead extends AbstractObject {
 							showVisualQue(Color.YELLOW);
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -314,6 +315,7 @@ public class PlayerTwoHead extends AbstractObject {
 							displaceDirt(getBoundsBottom().getMinX(),getBoundsBottom().getMinY(),0,0);
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -391,7 +393,7 @@ public class PlayerTwoHead extends AbstractObject {
 		skull.setTranslateX(x);
 		skull.setTranslateY(y);
 		skull.setRotate(circle.getRotate());
-		game.getFruitLayer().getChildren().add(skull);
+		game.getDebrisLayer().getChildren().add(skull);
 	}
 	public double getRadius(){
 		return this.circle.getRadius();

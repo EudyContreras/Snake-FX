@@ -155,12 +155,12 @@ public class GameManager extends AbstractGameModel {
 		splashScene = null;
 		mainWindow = new Stage();
 		addToGameRoot(gridLayer);
-		addToGameRoot(fruitLayer);
-		addToGameRoot(dirtLayer);
 		addToGameRoot(debrisLayer);
 		addToGameRoot(innerParticleLayer);
 		addToGameRoot(snakeOneLayer);
 		addToGameRoot(snakeTwoLayer);
+		addToGameRoot(fruitLayer);
+		addToGameRoot(dirtLayer);
 		addToGameRoot(firstLayer);
 		addToGameRoot(secondLayer);
 		addToGameRoot(thirdLayer);

@@ -329,7 +329,7 @@ public class PlayerOneHead extends AbstractObject {
 		skull.setTranslateX(x);
 		skull.setTranslateY(y);
 		skull.setRotate(circle.getRotate());
-		game.getFruitLayer().getChildren().add(skull);
+		game.getDebrisLayer().getChildren().add(skull);
 	}
 	public double getRadius(){
 		return this.circle.getRadius();

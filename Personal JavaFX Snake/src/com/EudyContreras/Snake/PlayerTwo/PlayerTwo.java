@@ -575,6 +575,7 @@ public class PlayerTwo extends AbstractObject {
 								}
 								immunity = GameSettings.IMMUNITY_TIME;
 								allowDamage = false;
+								break;
 							}
 						}
 					}
@@ -597,6 +598,7 @@ public class PlayerTwo extends AbstractObject {
 									allowScreenShake = false;
 								}
 								allowCollision = false;
+								break;
 							}
 						}
 					}
@@ -613,6 +615,7 @@ public class PlayerTwo extends AbstractObject {
 									allowScreenShake = false;
 								}
 								die();
+								break;
 							}
 						}
 					}
@@ -626,6 +629,7 @@ public class PlayerTwo extends AbstractObject {
 									allowScreenShake = false;
 								}
 								die();
+								break;
 							}
 						}
 					}
@@ -682,7 +686,7 @@ public class PlayerTwo extends AbstractObject {
 			x = (float) (0 - radius);
 			game.getAIController().getPathFindingAI().findClosest();
 			game.getAIController().getPathFindingAI().findObjective();
-		} else if (y < GameSettings.MIN_Y - radius) {
+		} else if (y < GameSettings.MIN_Y - radius*1.5) {
 			y = (float) (GameSettings.HEIGHT + radius);
 			game.getAIController().getPathFindingAI().findClosest();
 			game.getAIController().getPathFindingAI().findObjective();
