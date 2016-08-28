@@ -24,6 +24,7 @@ public class GridNode {
 
 	private boolean showCells;
 
+	private CellNode tailCell;
 	private CellNode cellNode;
 	private GameManager game;
 	private Dimension2D dimension;
@@ -32,6 +33,7 @@ public class GridNode {
 
 	private LinkedList<CollideNode> colliders;
 	private LinkedList<CollideNode> penalties;
+
 
 	public GridNode(GameManager game, AIController aiController, double width, double height, int cellSize,int cellPadding) {
 		this.game = game;
@@ -88,6 +90,7 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].setContainsTarget(false);
 				cellNodes[row][col].setAvailable(true);
+				cellNodes[row][col].setTraversable(true);
 				cellNodes[row][col].setTargetCell(false);
 				cellNodes[row][col].setOccupied(false);
 				cellNodes[row][col].setSpawnAllowed(true);
@@ -153,34 +156,46 @@ public class GridNode {
 		}
 		return cell;
 	}
-	/**
-	 * TODO: FIX this bottleneck method!!
-	 * Try maybe letting the head set the occupied flag and
-	 * then let the tail erase!
-	 * @return
-	 */
+
 	public CellNode getRelativeCell() {
 		CellNode cell = null;
 		AbstractSection section = null;
 		if(!game.getSectManagerTwo().getSectionList().isEmpty())
-			section = game.getSectManagerTwo().getSectionList().get(game.getSectManagerTwo().getSectionList().size()-1);
+			section = game.getSectManagerTwo().getSectionList().getLast();
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = getCells()[row][col];
 				cell.updateVisuals();
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					cell.setOccupied(true);
-//					findNeighbors(row, col,Flag.UNSAFE);
 				}
 				if (section != null) {
 					if (cell.getBoundsCheck().contains(section.getBounds())) {
 						cell.setOccupied(false);
-//						findNeighbors(row, col,Flag.SAFE);
+						setTailCell(cell);
 					}
 				}
 			}
 		}
 		return cell;
+	}
+	private void setTailCell(CellNode cell) {
+		this.tailCell = cell;
+
+	}
+	public CellNode getTailCell(){
+
+		AbstractSection section = game.getSectManagerTwo().getSectionList().getLast();
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				if (getCells()[row][col].getBoundsCheck().contains(section.getBounds())) {
+					if(getCells()[row][col]!=null)
+					tailCell = getCells()[row][col];
+				}
+
+			}
+		}
+		return tailCell;
 	}
 	public boolean safeSpawn(CellNode cell) {
 		boolean safe = true;
@@ -201,7 +216,6 @@ public class GridNode {
 				}
 			}
 		}
-		System.out.println("Spawn: "+safe);
 		return safe;
 	}
 	public void findNeighbors(int r, int c, Flag flag) {

@@ -1,10 +1,8 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -60,8 +58,9 @@ public class AIPathFinder5 {
 	private ActionState state;
 
 	private Objective[] objectives;
-//	private HashSet<CellNode> closedSet;
-//	private PriorityQueue<CellNode> openedSet;
+	private HashSet<CellNode> closedPaths;
+	private LinkedList<CellNode> totalPath;
+	private PriorityQueue<CellNode> openPaths;
 	private List<CellNode> pathCoordinates;
 
 
@@ -82,14 +81,14 @@ public class AIPathFinder5 {
 		rand = new Random();
 		heuristicType = HeuristicType.MANHATHAN;
 		tieBreaker = TieBreaker.NONE;
-		state = ActionState.PATH_FINDING;
+		state = ActionState.FIND_PATH;
 	}
 
 	public void findObjective() {
 		switch (state) {
-		case EVADING:
+		case DODGE_OBSTACLES:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 				computeClosestPath(0,0);
 			break;
 		case FREE_MODE:
@@ -234,7 +233,7 @@ public class AIPathFinder5 {
 						heuristic *= (1.0 + path);
 						break;
 					case NONE:
-						heuristic = heuristic * heuristicScale;
+						heuristic *= heuristicScale;
 						break;
 					}
 
@@ -306,7 +305,7 @@ public class AIPathFinder5 {
 				applyThrust();
 			}
 		}
-		else if (state == ActionState.PATH_FINDING) {
+		else if (state == ActionState.FIND_PATH) {
 			if (random && rand.nextInt(randomBoost) != 0) {
 				return;
 			}
@@ -360,10 +359,10 @@ public class AIPathFinder5 {
 	 */
 	public void findClosest() {
 		switch (state) {
-		case EVADING:
+		case DODGE_OBSTACLES:
 			computeObjective();
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			computeObjective();
 			break;
 		case FREE_MODE:
@@ -385,6 +384,7 @@ public class AIPathFinder5 {
 			game.getGameObjectController().getObsFruitList().get(i));
 		}
 
+//		Arrays.sort(objectives);
 //		if (objectives[0] != null && GameSettings.DEBUG_MODE) {
 //			objectives[0].getObject().blowUpAlt();
 //		}
@@ -398,7 +398,30 @@ public class AIPathFinder5 {
 //			System.out.println();
 //			showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
 //		}
-
+//		controller.getGrid().resetCells();
+//		if(objective.getCell()!=null){
+//			if (controller.getGrid().getTailCell() != null) {
+//				List<CellNode> altPath = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),controller.getGrid().getTailCell());
+//				showPathToObjective(altPath); // controller.getGrid().getCell(45,
+//													// 20)
+//
+//			}
+//			List<CellNode> path  = getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell());
+//			if(path.isEmpty()){
+//				log("Empty path!!");
+//				if(controller.getGrid().getTailCell()!=null){
+//					List<CellNode> altPath = getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),controller.getGrid().getTailCell());
+//					if(!altPath.isEmpty()){
+//						showPathToObjective(altPath); //controller.getGrid().getCell(45, 20)
+//					}
+//					else{
+//						state = ActionState.DODGE_OBSTACLES;
+//					}
+//				}
+//			}
+//			else{
+//				showPathToObjective(path); //controller.getGrid().getCell(45, 20)
+//			}
 		List<CellNode> path1 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
 				objectives[0].getCell());
 		List<CellNode> path2 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
@@ -426,10 +449,6 @@ public class AIPathFinder5 {
 				smallest = arrays[i];
 			}
 		}
-//		for (int i = 0; i < arrays.length; i++) {
-//			log("Path length " + arrays[i].size());
-//		}
-//		log("");
 		return smallest;
 	}
 	private void showPathToObjective(List<CellNode> cells){
@@ -461,9 +480,9 @@ public class AIPathFinder5 {
 	 */
 	private void createPath() {
 		switch (state) {
-		case EVADING:
+		case DODGE_OBSTACLES:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			break;
 		case FREE_MODE:
 			break;
@@ -482,9 +501,9 @@ public class AIPathFinder5 {
 	 */
 	private void performLocationBasedAction() {
 		switch (state) {
-		case EVADING:
+		case DODGE_OBSTACLES:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			steerPlayer();
 			break;
 		case FREE_MODE:
@@ -608,7 +627,7 @@ public class AIPathFinder5 {
 	}
 
 	public enum ActionState {
-		FREE_MODE, EVADING, PATH_FINDING,
+		FREE_MODE, STALL, FIND_PATH, DODGE_OBSTACLES
 	}
 
 	private enum HeuristicType{
