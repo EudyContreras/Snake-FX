@@ -31,7 +31,7 @@ import javafx.scene.text.Text;
 public class ScoreKeeper extends AbstractHudElement{
 
 
-	private DropShadow dropShadowTwo;
+	private DropShadow borderGlow;
 	private ImagePattern singlePlayer;
 	private ImagePattern multipLayer;
 	private GameTimer timer;
@@ -91,12 +91,12 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.countText.setX(xTwo + (widthOne*0.52));
 		this.countText.setY(yOne+45);
 		this.countText.setFont( Font.font(null,FontWeight.EXTRA_BOLD, 40));
-        this.dropShadowTwo = new DropShadow();
-        this.dropShadowTwo.setColor(Color.ORANGE);
-        this.dropShadowTwo.setRadius(25);
-        this.dropShadowTwo.setSpread(0.2);
-        this.dropShadowTwo.setBlurType(BlurType.TWO_PASS_BOX);
-        this.countText.setEffect(dropShadowTwo);
+        this.borderGlow = new DropShadow();
+        this.borderGlow.setColor(Color.LIME);
+        this.borderGlow.setRadius(5);
+        this.borderGlow.setSpread(0.2);
+        this.borderGlow.setBlurType(BlurType.TWO_PASS_BOX);
+        this.countText.setEffect(borderGlow);
         this.countText.setId("MainScore");
 		this.board.setY(yTwo);
 		this.apple.setY(yOne + 5);

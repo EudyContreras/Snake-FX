@@ -1,10 +1,9 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-import com.EudyContreras.Snake.Application.GameSettings;
-
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -14,9 +13,12 @@ public class CellNode implements Comparable<CellNode>{
 	private Point2D location;
 	private Rectangle visualRep;
 	private Dimension2D dimension;
+	private GridNode grid;
 	private CellNode parentNode;
 
 	private int id = 0;
+
+	private double cellSize = 0;
 	private double heuristic = 0;
 	private double movementCost = 10;
     private double penaltyCost = 0;
@@ -28,24 +30,29 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean pathCell = false;
 	private boolean targetCell = false;
 	private boolean occupied = false;
+	private boolean teleportZone = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
+	private boolean invalidSpawnZone = false;
 	private boolean availableCell = true;
 
 	private CellType cellType = CellType.FREE;
 	private Direction directionInPath = Direction.NONE;
 
-	public CellNode(double x, double y, double width, double height, int id, Index2D index) {
+	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, Index2D index) {
 		this.id = id;
+		this.grid = grid;
 		this.index = index;
+		this.cellSize = size;
 		this.location = new Point2D(x, y);
-		this.dimension = new Dimension2D(width, height);
+		this.dimension = new Dimension2D(size, size);
 		if (showCells) {
-			this.visualRep = new Rectangle(width, height);
+			this.visualRep = new Rectangle(size, size);
 			this.visualRep.setX(location.getX());
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.TRANSPARENT);
 			this.visualRep.setStroke(Color.rgb(255,255,255,0.8));
+		    layer.getChildren().add(this.getVisualRep());
 		}
 	}
 	public void resetValues(){
@@ -77,7 +84,7 @@ public class CellNode implements Comparable<CellNode>{
 		if (showCells){
 			if(spawnAllowed && isTraversable && !pathCell && !occupied && !targetCell && availableCell)
 				visualRep.setFill(Color.TRANSPARENT);
-			if(!isSpawnAllowed())
+			if(!isSpawnAllowed() && !isTeleportZone())
 				visualRep.setFill(Color.ORANGE);
 			if(!isTraversable())
 				visualRep.setFill(Color.RED);
@@ -89,6 +96,8 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable() && !isTargetCell() && !isPathCell())
 				visualRep.setFill(Color.YELLOW);
+			if(isTeleportZone())
+				visualRep.setFill(Color.BLACK);
 //			if(!isSafe() && !isPathCell() && !isOccupied() && isAvailable())
 //				visualRep.setFill(Color.GRAY);
 		}
@@ -103,16 +112,29 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public final void setTraversable(boolean state) {
 		this.isTraversable = state;
-
 	}
 	public void setOccupied(boolean state) {
 		this.occupied = state;
 	}
-	public boolean validSpawnZone(){
-		return (location.getX() > 0) &&
-			   (location.getY() > GameSettings.MIN_Y) &&
-			   (location.getX() < GameSettings.WIDTH-dimension.getWidth()) &&
-			   (location.getY() < GameSettings.HEIGHT-dimension.getHeight());
+	public boolean invalidSpawnZone(){
+		return this.getIndex().getRow()==0 || this.getIndex().getRow()==1 ||
+			   this.getIndex().getCol()==1 || this.getIndex().getCol()==2 ||
+			   this.getIndex().getRow()==grid.getRowCount()-1 ||
+			   this.getIndex().getRow()==grid.getRowCount()-2 ||
+			   this.getIndex().getCol()==grid.getColumnCount()-1||
+			   this.getIndex().getCol()==grid.getColumnCount()-2;
+	}
+	public boolean teleportZone(){
+		return this.getIndex().getRow()==0 ||
+			   this.getIndex().getCol()==1 ||
+			   this.getIndex().getRow()==grid.getRowCount()-1 ||
+			   this.getIndex().getCol()==grid.getColumnCount()-1;
+	}
+	public boolean isInvalidSpawnZone(){
+		return invalidSpawnZone;
+	}
+	public boolean isTeleportZone(){
+		return teleportZone;
 	}
 	public boolean isPathCell(){
 		return pathCell;
@@ -162,7 +184,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public final boolean isSpawnAllowed() {
-		return spawnAllowed && validSpawnZone();
+		return spawnAllowed;
 	}
 
 	public final void setAvailable(boolean state){
@@ -192,7 +214,9 @@ public class CellNode implements Comparable<CellNode>{
 	public void setTargetCell(boolean state) {
 		this.targetCell = state;
 	}
-
+	public double getSize(){
+		return cellSize;
+	}
 	public final double getHeuristic() {
 		return heuristic;
 	}
@@ -282,6 +306,9 @@ public class CellNode implements Comparable<CellNode>{
 	@Override
 	public int compareTo(CellNode node) {
 		return Integer.compare(this.id,node.id);
+	}
+	public void setTeleportZone(boolean teleportZone) {
+		this.teleportZone = teleportZone;
 	}
 
 }

@@ -57,9 +57,9 @@ public class AIPathFinder {
 	private TieBreaker tieBreaker;
 	private ActionState state;
 
-	private HashSet<CellNode> closedSet;
+	private HashSet<CellNode> closedPaths;
 	private LinkedList<CellNode> totalPath;
-	private PriorityQueue<CellNode> openedSet;
+	private PriorityQueue<CellNode> openPaths;
 	private List<CellNode> pathCoordinates;
 
 
@@ -80,18 +80,18 @@ public class AIPathFinder {
 		rand = new Random();
 		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
 		totalPath = new LinkedList<>();
-		closedSet = new HashSet<>(cellCount);
-		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
+		closedPaths = new HashSet<>(cellCount);
+		openPaths = new PriorityQueue<CellNode>(cellCount, new CellComparator());
 		heuristicType = HeuristicType.MANHATHAN;
 		tieBreaker = TieBreaker.NONE;
-		state = ActionState.PATH_FINDING;
+		state = ActionState.FIND_PATH;
 	}
 
 	public void findObjective() {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 				computeClosestPath(0,0);
 			break;
 		case FREE_MODE:
@@ -151,7 +151,7 @@ public class AIPathFinder {
 
 		boolean containsNeighbor;
 
-		openedSet.add(startingPoint);
+		openPaths.add(startingPoint);
 
 //		startingPoint.setOccupied(true);
 
@@ -179,15 +179,15 @@ public class AIPathFinder {
 
 		searching = true;
 
-		while (!openedSet.isEmpty() && searching) {
+		while (!openPaths.isEmpty() && searching) {
 
-			current = openedSet.poll();
+			current = openPaths.poll();
 
 			if (current.equals(objective)) {
 				endPathSearch();
 				return createPath(objective);
 			}
-			closedSet.add(current);
+			closedPaths.add(current);
 
 
 			for (CellNode neighbor : grid.getNeighborCells(current)) {
@@ -196,13 +196,13 @@ public class AIPathFinder {
 					continue;
 				}
 
-				if (closedSet.contains(neighbor)) {
+				if (closedPaths.contains(neighbor)) {
 					continue;
 				}
 
 				double  tentativeScoreG = current.getMovementCost() + heuristicCostEstimate(current, neighbor,heuristicScale,heuristicType); //The higher the scale the less the number of turn: scale from 1 to 2
 
-				if (!(containsNeighbor = openedSet.contains(neighbor)) || Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
+				if (!(containsNeighbor = openPaths.contains(neighbor)) || Double.compare(tentativeScoreG, neighbor.getMovementCost()) < 0) {
 
 					neighbor.setParentNode(current);
 
@@ -217,12 +217,15 @@ public class AIPathFinder {
 					double heuristic = 0;
 
 					double path = 10 / 1000;
+
 					double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
 					double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
 					double dx2 = startingPoint.getLocation().getX() - objective.getLocation().getX();
 					double dy2 = startingPoint.getLocation().getY() - objective.getLocation().getY();
 
 					double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
+
+					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
 
 					switch (tieBreaker) {
 					case CROSS:
@@ -232,9 +235,9 @@ public class AIPathFinder {
 						heuristic *= (1.0 + path);
 						break;
 					case NONE:
+						heuristic *= heuristicScale;
 						break;
 					}
-					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
 
 					neighbor.setHeuristic(heuristic); // If used with scaled up heuristic it gives least number of turns!
 
@@ -242,7 +245,7 @@ public class AIPathFinder {
 
 					if (!containsNeighbor) {
 
-						openedSet.add(neighbor);
+						openPaths.add(neighbor);
 					}
 				}
 			}
@@ -254,8 +257,8 @@ public class AIPathFinder {
 	private void endPathSearch(){
 		searching = false;
 		allowTrace = false;
-		openedSet.clear();
-		closedSet.clear();
+		openPaths.clear();
+		closedPaths.clear();
 		totalPath.clear();
 	}
 
@@ -280,9 +283,9 @@ public class AIPathFinder {
     @SuppressWarnings("unused")
 	private CellNode getCheapestCellNode() {
 
-        CellNode cheapest = openedSet.poll();
+        CellNode cheapest = openPaths.poll();
 
-        for(Iterator<CellNode> cells = openedSet.iterator(); cells.hasNext();){
+        for(Iterator<CellNode> cells = openPaths.iterator(); cells.hasNext();){
 			CellNode cell = cells.next();
 			if(cell.getMovementCost()<cheapest.getMovementCost()){
 				cheapest = cell;
@@ -325,7 +328,7 @@ public class AIPathFinder {
 				applyThrust();
 			}
 		}
-		else if (state == ActionState.PATH_FINDING) {
+		else if (state == ActionState.FIND_PATH) {
 			if (random && rand.nextInt(randomBoost) != 0) {
 				return;
 			}
@@ -379,10 +382,10 @@ public class AIPathFinder {
 	 */
 	public AbstractObject findClosest() {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			computeObjective();
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			computeObjective();
 			break;
 		case FREE_MODE:
@@ -433,7 +436,11 @@ public class AIPathFinder {
 	public void computeClosestPath(int row, int col){
 		controller.getGrid().resetCells();
 		if(objective.getCell()!=null){
-			showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
+			List<CellNode> path  = getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell());
+			if(path.isEmpty()){
+				log("Empty path!!");
+			}
+			showPathToObjective(path); //controller.getGrid().getCell(45, 20)
 		}
 	}
 	private void showPathToObjective(List<CellNode> cells){
@@ -478,9 +485,9 @@ public class AIPathFinder {
 	 */
 	private void createPath() {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			break;
 		case FREE_MODE:
 			computeTrackingPath();
@@ -540,9 +547,9 @@ public class AIPathFinder {
 	 */
 	private void performLocationBasedAction() {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			steerPlayer();
 			break;
 		case FREE_MODE:
@@ -590,9 +597,9 @@ public class AIPathFinder {
 	 */
 	private void checkObjectiveStatus() {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			break;
 		case FREE_MODE:
 			if (objective.isRemovable()) {
@@ -620,9 +627,9 @@ public class AIPathFinder {
 	 */
 	public void performMove(PlayerMovement move) {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			computeTrackingDirection(move);
 			break;
 		case FREE_MODE:
@@ -659,9 +666,9 @@ public class AIPathFinder {
 
 	private void makeUTurn(PlayerMovement currentDirection) {
 		switch (state) {
-		case EVADING:
+		case STALL:
 			break;
-		case PATH_FINDING:
+		case FIND_PATH:
 			break;
 		case FREE_MODE:
 			computeTrackingUTurn(currentDirection);
@@ -770,7 +777,7 @@ public class AIPathFinder {
 	}
 
 	public enum ActionState {
-		FREE_MODE, EVADING, PATH_FINDING,
+		FREE_MODE, STALL, FIND_PATH, DODGE_OBSTACLES
 	}
 
 	private enum HeuristicType{

@@ -514,6 +514,15 @@ public class GameManager extends AbstractGameModel {
 				}
 				if (delta > nanoSecond) {
 					FPS_TEXT.setText(""+FPS);
+					if(FPS>=59){
+						FPS_TEXT.setFill(Color.LIME);
+					}
+					if(FPS<59 && FPS>=30){
+						FPS_TEXT.setFill(Color.ORANGE);
+					}
+					else if(FPS<30){
+						FPS_TEXT.setFill(Color.RED);
+					}
 					delta -= nanoSecond;
 					FPS = 0;
 				}
