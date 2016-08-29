@@ -9,7 +9,6 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-
 import javafx.geometry.Dimension2D;
 
 
@@ -35,6 +34,11 @@ public class GridNode {
 	private LinkedList<CollideNode> colliders;
 	private LinkedList<CollideNode> penalties;
 
+	private LinkedList<CellNode> teleportZoneWest;
+	private LinkedList<CellNode> teleportZoneEast;
+	private LinkedList<CellNode> teleportZoneNorth;
+	private LinkedList<CellNode> teleportZoneSouth;
+
 
 	public GridNode(GameManager game, AIController aiController, double width, double height, int cellSize,int cellPadding) {
 		this.game = game;
@@ -48,6 +52,7 @@ public class GridNode {
 //		this.game.getBaseLayer().setScaleX(.8);
 //		this.game.getBaseLayer().setScaleY(.8);
 		this.calculateCells();
+		this.createTeleportZones();
 	}
 
 	private void calculateCells() {
@@ -73,6 +78,39 @@ public class GridNode {
 				cellID++;
 				if (showCells)
 					game.getBaseLayer().getChildren().add(cellNode.getVisualRep());
+			}
+		}
+	}
+
+	public void createTeleportZones() {
+		CellNode cell = null;
+		teleportZoneEast = new LinkedList<>();
+		teleportZoneWest = new LinkedList<>();
+		teleportZoneNorth = new LinkedList<>();
+		teleportZoneSouth = new LinkedList<>();
+		
+		for (int row = cellNodes.length - 1; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cell = cellNodes[row][col];
+				teleportZoneEast.add(cell);
+			}
+		}
+		for (int row = minRow; row < minRow + 1; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cell = cellNodes[row][col];
+				teleportZoneWest.add(cell);
+			}
+		}
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = cellNodes[row].length - 1; col < cellNodes[row].length; col++) {
+				cell = cellNodes[row][col];
+				teleportZoneSouth.add(cell);
+			}
+		}
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < minCol + 1; col++) {
+				cell = cellNodes[row][col];
+				teleportZoneNorth.add(cell);
 			}
 		}
 	}
@@ -111,6 +149,7 @@ public class GridNode {
 				}
 			}
 		}
+
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				for (int i = 0; i < colliders.size(); i++) {
@@ -184,6 +223,7 @@ public class GridNode {
 		this.tailCell = cell;
 
 	}
+
 	public CellNode getTailCell(){
 
 		AbstractSection section = game.getSectManagerTwo().getSectionList().getLast();
@@ -399,6 +439,22 @@ public class GridNode {
 		return cellNodes[row][col];
 	}
 
+	public final LinkedList<CellNode> getTeleportZoneWest() {
+		return teleportZoneWest;
+	}
+
+	public final LinkedList<CellNode> getTeleportZoneEast() {
+		return teleportZoneEast;
+	}
+
+	public final LinkedList<CellNode> getTeleportZoneNorth() {
+		return teleportZoneNorth;
+	}
+
+	public final LinkedList<CellNode> getTeleportZoneSouth() {
+		return teleportZoneSouth;
+	}
+
 	public void setColliderList(LinkedList<CollideNode> list) {
 		this.colliders = list;
 	}
@@ -456,6 +512,9 @@ public class GridNode {
 	}
 	public enum Flag{
 		UNSAFE,UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
+	}
+	public enum TeleportZone{
+		WEST,EAST,SOUTH,NORTH
 	}
 
 }

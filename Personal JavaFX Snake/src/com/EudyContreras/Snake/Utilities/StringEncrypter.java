@@ -1010,7 +1010,7 @@ public class StringEncrypter {
 
 
         long encrypt_start_time = System.currentTimeMillis();
-        byte[] encryption = StringEncrypter.encrypt("Your message is now secure!", new Password("password"),plain_char_set);
+        byte[] encryption = StringEncrypter.encrypt("Your message is now secure!", new Password("password"),plain_char_set, SecurityLevel.VERY_HIGH);
         long encrypt_end_time = System.currentTimeMillis();
         System.out.println("Encryption speed: "+(encrypt_end_time - encrypt_start_time)+ " Milliseconds");
 
@@ -1024,7 +1024,7 @@ public class StringEncrypter {
 
 
         long decrypt_start_time = System.currentTimeMillis();
-        System.out.println(StringEncrypter.decrypt(encryption,new Password("password"),plain_char_set));
+        System.out.println(StringEncrypter.decrypt(encryption,new Password("password"),plain_char_set,SecurityLevel.VERY_HIGH));
         System.out.println(StringEncrypter.decrypt(Base64.decode("HJYTHTgcPiMcHBgNGhw+HBgcOBgYJBzDGhMOHTYzPh80HIUcwx8+GBgcDYUdOBwYGB9fPh8cNjMzNyQYPhwLGD4QNcM+GDU+wxgdPhwfYgs0Djgkwz5fDSY+OBIRMxA2Iic5HBhfND43GITDEhgYOT4LPpZhPhgdEyM1DZYcPhwaCz4+GBg5NjcyORwzwxwzNzI3MzQeJsMzGAs+HGEzEF83Mzc+GBw3hDMcHA4cNCVRPjY4GBEyEYVTOT4YNxwHPiccHA4YGDQYHBzDNhwaOT8+BwccGBgcHBw0ND4+NR0cHJY1HAc+NTI2Bx1h"),new Password("password")));
         long decrypt_end_time = System.currentTimeMillis();
         System.out.println("Decryption speed: "+(decrypt_end_time - decrypt_start_time)+ " Milliseconds");

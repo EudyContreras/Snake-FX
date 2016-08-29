@@ -154,7 +154,7 @@ public class GameManager extends AbstractGameModel {
 		splash = null;
 		splashScene = null;
 		mainWindow = new Stage();
-		gridLayer.setVisible(false);
+		gridLayer.setVisible(GameSettings.SHOW_ASTAR_GRAPH ? true : false);
 		addToGameRoot(gridLayer);
 		addToGameRoot(debrisLayer);
 		addToGameRoot(innerParticleLayer);
