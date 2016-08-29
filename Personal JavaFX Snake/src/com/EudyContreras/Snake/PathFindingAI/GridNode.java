@@ -6,6 +6,7 @@ import java.util.List;
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -104,7 +105,7 @@ public class GridNode {
 				for (int i = 0; i < penalties.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(penalties.get(i).getCollideRadius())) {
 						if(penalties.get(i).getRiskFactor() == RiskFactor.HIGH){
-							cellNodes[row][col].setTraversable(false);
+							cellNodes[row][col].setDangerZone(true);
 						}
 					}
 				}
@@ -247,15 +248,13 @@ public class GridNode {
 
 					}
 				}
-				else if(flag == Flag.NO_SPAWN){
-					if(cellNodes[row][col].isTraversable()){
-						cellNodes[row][col].setSpawnAllowed(false);
-					}
+				else if (flag == Flag.NO_SPAWN) {
+					cellNodes[row][col].setSpawnAllowed(false);
 				}
 			}
 		}
 	}
-	public List<CellNode> getNeighborCells(CellNode cell) {
+	public List<CellNode> getNeighborCells(CellNode cell, DistressLevel scenario ) {
 
 		List<CellNode> neighbors = new LinkedList<>();
 
@@ -267,41 +266,122 @@ public class GridNode {
 		int aCol;
 		int aRow;
 
-		// top
-		aCol = col;
-		aRow = row - 1;
-		if (aRow >= minRow) {
-			tempCell = getCell(aRow, aCol);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-				neighbors.add(tempCell);
+		switch(scenario){
+		case DISTRESSED:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
 			}
-		}
-		// bottom
-		aCol = col;
-		aRow = row + 1;
-		if (aRow < rowCount) {
-			tempCell = getCell(aRow, aCol);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-				neighbors.add(tempCell);
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
 			}
-		}
-		// left
-		aCol = col - 1;
-		aRow = row;
-		if (aCol >= minCol) {
-			tempCell = getCell(aRow, aCol);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-				neighbors.add(tempCell);
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
 			}
-		}
-		// right
-		aCol = col + 1;
-		aRow = row;
-		if (aCol < columnCount) {
-			tempCell = getCell(aRow, aCol);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-				neighbors.add(tempCell);
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
 			}
+			break;
+		case EMERGENCY:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			break;
+		case NORMAL:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+					neighbors.add(tempCell);
+				}
+			}
+			break;
+
 		}
 		return neighbors;
 	}

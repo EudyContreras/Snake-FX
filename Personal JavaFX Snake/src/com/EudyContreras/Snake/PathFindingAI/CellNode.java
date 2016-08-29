@@ -11,10 +11,10 @@ public class CellNode implements Comparable<CellNode>{
 
 	private Index2D index;
 	private Point2D location;
-	private Rectangle visualRep;
-	private Dimension2D dimension;
 	private GridNode grid;
 	private CellNode parentNode;
+	private Rectangle visualRep;
+	private Dimension2D dimension;
 
 	private int id = 0;
 
@@ -30,6 +30,7 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean targetCell = false;
 	private boolean occupied = false;
 	private boolean teleportZone = false;
+	private boolean dangerZone = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
@@ -82,12 +83,14 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public void updateVisuals(){
 		if (showCells){
-			if(spawnAllowed && isTraversable && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
+			if(spawnAllowed && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
-			if(!isSpawnAllowed() && !isTeleportZone())
-				visualRep.setFill(Color.ORANGE);
+			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
+				visualRep.setFill(Color.rgb(255, 170, 0));
+			if(isDangerZone())
+				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
-				visualRep.setFill(Color.RED);
+				visualRep.setFill(Color.RED.darker());
 			if(isPathCell())
 				visualRep.setFill(Color.BLUE);
 			if(isOccupied())
@@ -131,8 +134,7 @@ public class CellNode implements Comparable<CellNode>{
 			   this.getIndex().getCol()==grid.getColumnCount()-1;
 	}
 	public boolean fruitSpawnAllowed(){
-		return isTraversable() &&
-			   isSpawnAllowed() &&
+		return isSpawnAllowed() &&
 			   isAvailable() &&
 			   !isOccupied() &&
 			   !isPlayerSpawnZone()
@@ -218,6 +220,13 @@ public class CellNode implements Comparable<CellNode>{
 	public final boolean isPenalized(){
 		return penaltyCost>0;
 	}
+	public final void setDangerZone(boolean state){
+		this.dangerZone = state;
+	}
+	public final boolean isDangerZone(){
+		return dangerZone;
+	}
+
 	public void setTargetCell(boolean state) {
 		this.targetCell = state;
 	}

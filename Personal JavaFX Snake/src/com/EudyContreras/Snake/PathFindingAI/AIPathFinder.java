@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
+
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
@@ -56,7 +57,7 @@ public class AIPathFinder {
 	private HeuristicType heuristicType;
 	private SearchType searchType;
 	private TieBreaker tieBreaker;
-	private ActionState state;
+	private ActionType state;
 
 	private Objective[] objectives;
 	private List<CellNode> pathCoordinates;
@@ -80,7 +81,7 @@ public class AIPathFinder {
 		heuristicType = HeuristicType.MANHATHAN;
 		searchType = SearchType.CLOSEST_OBJECTIVE;
 		tieBreaker = TieBreaker.NONE;
-		state = ActionState.FIND_PATH;
+		state = ActionType.FIND_PATH;
 	}
 
 	public void findObjective() {
@@ -131,7 +132,7 @@ public class AIPathFinder {
 	 * Find a path from start to goal using the A* algorithm
 	 */
 
-	public List<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective) {
+	public List<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
 		cellCount = grid.getRowCount() * grid.getColumnCount();
 
@@ -184,8 +185,7 @@ public class AIPathFinder {
 			}
 			closedSet.add(current);
 
-
-			for (CellNode neighbor : grid.getNeighborCells(current)) {
+			for (CellNode neighbor : grid.getNeighborCells(current,distressLevel)) {
 
 				if (neighbor == null) {
 					continue;
@@ -318,10 +318,10 @@ public class AIPathFinder {
 		if(searchType == SearchType.SHORTEST_PATH){
 			start = controller.getRelativeCell(snakeAI, 0, 0);
 
-			List<CellNode> path1 = getPath(controller.getGrid(),start,objectives[0].getCell());
-			List<CellNode> path2 = getPath(controller.getGrid(),start,objectives[1].getCell());
-			List<CellNode> path3 = getPath(controller.getGrid(),start,objectives[2].getCell());
-			List<CellNode> path4 = getPath(controller.getGrid(),start,objectives[3].getCell());
+			List<CellNode> path1 = getPath(controller.getGrid(),start,objectives[0].getCell(),DistressLevel.NORMAL);
+			List<CellNode> path2 = getPath(controller.getGrid(),start,objectives[1].getCell(),DistressLevel.NORMAL);
+			List<CellNode> path3 = getPath(controller.getGrid(),start,objectives[2].getCell(),DistressLevel.NORMAL);
+			List<CellNode> path4 = getPath(controller.getGrid(),start,objectives[3].getCell(),DistressLevel.NORMAL);
 
 			if(start!=null){
 				path = getShortestPath(path1,path2,path3,path4);
@@ -336,40 +336,72 @@ public class AIPathFinder {
 
 			start = controller.getRelativeCell(snakeAI, 0, 0);
 			goal = objectives[0].getCell();
-			tail = controller.getGrid().getTailCell();
 
 			if(start!=null && goal!=null){
 				if(isPathSafe(start,goal,tail))
-				path = getPath(controller.getGrid(),start ,goal);
+					path = getPath(controller.getGrid(),start ,goal,DistressLevel.NORMAL);
 			}
 		}
 
 		if(!path.isEmpty()) {
 			showPathToObjective(path);
 		}
-		else {
-			log("Normal path one empty!");
+		else{
+			
+			log("Normal path to goal is empty");
+			
+			path = getPath(controller.getGrid(),start,goal,DistressLevel.EMERGENCY);
+			
+			if(!path.isEmpty()){
+				showPathToObjective(path);
+			}
+			else {
+				log("Emegency path to goal is empty!");
 
-			if (controller.getGrid().getTailCell() != null) {
+					start = controller.getRelativeCell(snakeAI, 0, 0);
+					tail = controller.getGrid().getTailCell();
 
-				start = controller.getRelativeCell(snakeAI, 0, 0);
-				goal = controller.getGrid().getTailCell();
-
-				if(start!=null && goal!=null){
-					path = getPath(controller.getGrid(),start ,goal);
-				}
-				if (!path.isEmpty()) {
-					showPathToObjective(path);
-				}
-				else{
-					log("Alternate path one empty!");
+					if(start!=null && tail!=null){
+						path = getPath(controller.getGrid(),start ,tail,DistressLevel.NORMAL);
+					}
+					if (!path.isEmpty()) {
+						showPathToObjective(path);
+					}
+					else{
+						
+						log("Normal path to tail is empty");
+						
+						path = getPath(controller.getGrid(),start ,tail,DistressLevel.EMERGENCY);
+				
+						if (!path.isEmpty()) {
+							showPathToObjective(path);
+						}
+						else{
+							log("Emergency path to tail empty!");
+							//TODO: Stall until path is found or die!!!!
+						}
+					}
 				}
 			}
-		}
+		
 	}
-
-	public boolean isPathSafe(){
-		return false;
+	/**
+	 * TODO: Perform a check to determine if the computed path to the objective is a safe path
+	 * by computing a path from the start to the objective and from the objective to the tail of the snake.
+	 * The path must be computing as a special path which considers the path to the objective to be an obstacle.
+	 * Create a special path made out of obstacles from the start to goal. The path must be an abstract path. Once 
+	 * that path is created then compute a path from the goal to the tail of the snake, the path must ignore nodes that
+	 * belong to the path from start to goal. If a path can be created from goal to tail then the given a path can 
+	 * be consider somewhat "Safe"!!. If the path is safe allow the snake to go for the apple. but if the path isnt safe
+	 *
+	 * fro
+	 * @param start
+	 * @param goal
+	 * @param tail
+	 * @return
+	 */
+	public boolean isPathSafe(CellNode start, CellNode goal, CellNode tail){
+		return true;
 	}
 	@SuppressWarnings("unchecked")
 	public List<CellNode> getShortestPath(List<CellNode>... arrays) {
@@ -462,7 +494,7 @@ public class AIPathFinder {
 	 * @param random
 	 */
 	public void addRandomBoost(boolean random) {
-		if (state == ActionState.FREE_MODE) {
+		if (state == ActionType.FREE_MODE) {
 			if (random && rand.nextInt(randomBoost) != 0) {
 				return;
 			}
@@ -470,7 +502,7 @@ public class AIPathFinder {
 				applyThrust();
 			}
 		}
-		else if (state == ActionState.FIND_PATH) {
+		else if (state == ActionType.FIND_PATH) {
 			if (random && rand.nextInt(randomBoost) != 0) {
 				return;
 			}
@@ -642,7 +674,7 @@ public class AIPathFinder {
 		NORTH, SOUTH, WEST, EAST
 	}
 
-	public enum ActionState {
+	public enum ActionType {
 		FREE_MODE, STALL, FIND_PATH, DODGE_OBSTACLES
 	}
 
@@ -650,6 +682,9 @@ public class AIPathFinder {
 		MANHATHAN,EUCLIDIAN,CUSTOM_EUCLUDIAN,
 	}
 
+	public enum DistressLevel{
+		EMERGENCY,DISTRESSED,NORMAL
+	}
 	public double calculateDistance(double fromX, double toX, double fromY, double toY) {
 		return Math.hypot(fromX - toX, fromY - toY);
 	}
