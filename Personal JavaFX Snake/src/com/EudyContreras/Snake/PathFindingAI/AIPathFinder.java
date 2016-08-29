@@ -54,6 +54,7 @@ public class AIPathFinder {
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
+	private PathType pathType;
 	private HeuristicType heuristicType;
 	private SearchType searchType;
 	private TieBreaker tieBreaker;
@@ -81,6 +82,7 @@ public class AIPathFinder {
 		heuristicType = HeuristicType.MANHATHAN;
 		searchType = SearchType.CLOSEST_OBJECTIVE;
 		tieBreaker = TieBreaker.NONE;
+		pathType = PathType.SHORTEST_PATH;
 		state = ActionType.FIND_PATH;
 	}
 
@@ -105,7 +107,7 @@ public class AIPathFinder {
 	 */
 	public void startSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL){
-//			computeClosestPath(5,5);
+			computeClosestPath(5,5);
 			snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
 		}
 	}
@@ -180,7 +182,7 @@ public class AIPathFinder {
 			current = openedSet.poll();
 
 			if (current.equals(objective)) {
-				endPathSearch();
+				this.endPathSearch();
 				return createCoordinates(objective);
 			}
 			closedSet.add(current);
@@ -270,26 +272,6 @@ public class AIPathFinder {
 
 		return totalPath;
 	}
-	/**
-	 * Method which when called will attempt to find the apple which is closest
-	 * to the current position of the snake!
-	 *
-	 * @return
-	 */
-	public void findClosest() {
-		switch (state) {
-		case DODGE_OBSTACLES:
-			break;
-		case FIND_PATH:
-			break;
-		case FREE_MODE:
-			break;
-		default:
-			break;
-
-		}
-	}
-
 
 
 	/*
@@ -324,7 +306,8 @@ public class AIPathFinder {
 			List<CellNode> path4 = getPath(controller.getGrid(),start,objectives[3].getCell(),DistressLevel.NORMAL);
 
 			if(start!=null){
-				path = getShortestPath(path1,path2,path3,path4);
+				if(isPathSafe(start,goal,tail))
+					path = getShortestPath(path1,path2,path3,path4);
 			}
 		}
 		else if(searchType == SearchType.CLOSEST_OBJECTIVE){
@@ -347,11 +330,11 @@ public class AIPathFinder {
 			showPathToObjective(path);
 		}
 		else{
-			
+
 			log("Normal path to goal is empty");
-			
+
 			path = getPath(controller.getGrid(),start,goal,DistressLevel.EMERGENCY);
-			
+
 			if(!path.isEmpty()){
 				showPathToObjective(path);
 			}
@@ -368,11 +351,11 @@ public class AIPathFinder {
 						showPathToObjective(path);
 					}
 					else{
-						
+
 						log("Normal path to tail is empty");
-						
+
 						path = getPath(controller.getGrid(),start ,tail,DistressLevel.EMERGENCY);
-				
+
 						if (!path.isEmpty()) {
 							showPathToObjective(path);
 						}
@@ -383,18 +366,17 @@ public class AIPathFinder {
 					}
 				}
 			}
-		
+
 	}
 	/**
 	 * TODO: Perform a check to determine if the computed path to the objective is a safe path
 	 * by computing a path from the start to the objective and from the objective to the tail of the snake.
-	 * The path must be computing as a special path which considers the path to the objective to be an obstacle.
-	 * Create a special path made out of obstacles from the start to goal. The path must be an abstract path. Once 
+	 * The path must be computed as a special path which considers the path to the objective to be an obstacle.
+	 * Create a special path made out of special obstacles from the start to goal. The path must be an abstract path. Once
 	 * that path is created then compute a path from the goal to the tail of the snake, the path must ignore nodes that
-	 * belong to the path from start to goal. If a path can be created from goal to tail then the given a path can 
+	 * belong to the path from start to goal. If a path can be created from goal to tail then the given a path can
 	 * be consider somewhat "Safe"!!. If the path is safe allow the snake to go for the apple. but if the path isnt safe
 	 *
-	 * fro
 	 * @param start
 	 * @param goal
 	 * @param tail
@@ -420,6 +402,7 @@ public class AIPathFinder {
 		}
 		return smallest;
 	}
+
 	private void showPathToObjective(List<CellNode> cells){
 		for(CellNode cell: cells){
 			calculateDirection(cell);
@@ -623,7 +606,16 @@ public class AIPathFinder {
 			return Double.compare(this.getDistance(),distance.getDistance());
 		}
 	}
+	/**
+	 * A program which takes a starting cell and the cell to flee from!
+	 * The program computes the which cell is farthest away from the cell it wishes to flee from
+	 * and computes a path to that cell!
+	 * @author Eudy
+	 *
+	 */
+	public class AFleePathFinding{
 
+	}
 	public double getX() {
 		return snakeAI.getX();
 	}
@@ -665,6 +657,9 @@ public class AIPathFinder {
 	}
 	private enum SearchType{
 		CLOSEST_OBJECTIVE, SHORTEST_PATH;
+	}
+	private enum PathType{
+		LONGEST_PATH,SHORTEST_PATH
 	}
 	private enum TieBreaker{
 		PATH,CROSS, NONE
@@ -722,14 +717,24 @@ public class AIPathFinder {
 	public class CellComparator implements Comparator<CellNode> {
 		@Override
 		public int compare(CellNode a, CellNode b) {
-			return Double.compare(a.getTotalCost(), b.getTotalCost());
+			if(pathType == PathType.SHORTEST_PATH){
+				return Double.compare(a.getTotalCost(), b.getTotalCost());
+			}
+			else{
+				return Double.compare(b.getTotalCost(), a.getTotalCost());
+			}
 		}
 	}
 
 	public class DistanceComparator implements Comparator<Objective> {
 		@Override
 		public int compare(Objective a, Objective b) {
-			return Double.compare(a.getDistance(), b.getDistance());
+			if(pathType == PathType.SHORTEST_PATH){
+				return Double.compare(a.getDistance(), b.getDistance());
+			}
+			else{
+				return Double.compare(b.getDistance(), a.getDistance());
+			}
 		}
 	}
 

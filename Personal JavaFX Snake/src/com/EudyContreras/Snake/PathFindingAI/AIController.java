@@ -97,7 +97,6 @@ public class AIController {
     }
 
     public void nofifyAI() {
-        pathFindingAI.findClosest();
 		pathFindingAI.computeClosestPath(5,5);
     }
 

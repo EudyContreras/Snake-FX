@@ -146,6 +146,9 @@ public class CellNode implements Comparable<CellNode>{
 	public boolean isTeleportZone(){
 		return teleportZone;
 	}
+	public void setTeleportZone(boolean teleportZone) {
+		this.teleportZone = teleportZone;
+	}
 	public boolean isPathCell(){
 		return pathCell;
 	}
@@ -321,10 +324,8 @@ public class CellNode implements Comparable<CellNode>{
     }
 	@Override
 	public int compareTo(CellNode node) {
-		return Integer.compare(this.id,node.id);
+		return Double.compare(this.getTotalCost(),node.getTotalCost());
 	}
-	public void setTeleportZone(boolean teleportZone) {
-		this.teleportZone = teleportZone;
-	}
+
 
 }

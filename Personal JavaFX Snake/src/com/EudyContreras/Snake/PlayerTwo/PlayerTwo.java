@@ -680,19 +680,15 @@ public class PlayerTwo extends AbstractObject {
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
-			game.getAIController().getPathFindingAI().findClosest();
 			game.getAIController().getPathFindingAI().findObjective();
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-			game.getAIController().getPathFindingAI().findClosest();
 			game.getAIController().getPathFindingAI().findObjective();
 		} else if (y < GameSettings.MIN_Y - radius*1.5) {
 			y = (float) (GameSettings.HEIGHT + radius);
-			game.getAIController().getPathFindingAI().findClosest();
 			game.getAIController().getPathFindingAI().findObjective();
 		} else if (y > GameSettings.HEIGHT + radius) {
 			y = (float) (GameSettings.MIN_Y - radius);
-			game.getAIController().getPathFindingAI().findClosest();
 			game.getAIController().getPathFindingAI().findObjective();
 		}
 	}

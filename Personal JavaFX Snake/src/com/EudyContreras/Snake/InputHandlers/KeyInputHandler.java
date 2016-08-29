@@ -86,13 +86,15 @@ public class KeyInputHandler {
 					game.getGameHud().showHide();
 				}
 				if (e.getCode() == KeyCode.G) {
-					if(GameSettings.SHOW_ASTAR_GRAPH){
-						game.getBaseLayer().setVisible(false);
-						GameSettings.SHOW_ASTAR_GRAPH = false;
-					}
-					else if(!GameSettings.SHOW_ASTAR_GRAPH){
-						game.getBaseLayer().setVisible(true);
-						GameSettings.SHOW_ASTAR_GRAPH = true;
+					if (e.isAltDown()) {
+						if (GameSettings.SHOW_ASTAR_GRAPH) {
+							game.getBaseLayer().setVisible(false);
+							GameSettings.SHOW_ASTAR_GRAPH = false;
+						}
+						else if (!GameSettings.SHOW_ASTAR_GRAPH) {
+							game.getBaseLayer().setVisible(true);
+							GameSettings.SHOW_ASTAR_GRAPH = true;
+						}
 					}
 				}
 				if (e.getCode() == KeyCode.SPACE) {
