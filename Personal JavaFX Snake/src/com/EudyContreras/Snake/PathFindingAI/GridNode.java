@@ -88,7 +88,7 @@ public class GridNode {
 		teleportZoneWest = new LinkedList<>();
 		teleportZoneNorth = new LinkedList<>();
 		teleportZoneSouth = new LinkedList<>();
-		
+
 		for (int row = cellNodes.length - 1; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];

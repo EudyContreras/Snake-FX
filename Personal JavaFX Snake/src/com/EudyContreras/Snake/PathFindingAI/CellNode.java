@@ -292,6 +292,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public enum Direction{
 		UP,DOWN,LEFT,RIGHT,NONE;
+
 		@Override
 		public String toString(){
 			return this.name();

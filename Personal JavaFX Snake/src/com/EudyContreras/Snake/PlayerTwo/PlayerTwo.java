@@ -369,8 +369,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public void setDirectCoordinates(PlayerMovement direction) {
 
-			if (!LEVEL_COMPLETED && !DEAD) {
-
+			if (!LEVEL_COMPLETED && !DEAD ) {
 					switch (direction) {
 					case MOVE_UP:
 						if (this.direction != PlayerMovement.MOVE_DOWN) {
@@ -679,17 +678,17 @@ public class PlayerTwo extends AbstractObject {
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
-			game.getAIController().getPathFindingAI().findObjective();
+			x = (float) (GameSettings.WIDTH + radius-1);
+			game.getAIController().nofifyAI();
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
-			game.getAIController().getPathFindingAI().findObjective();
+			x = (float) (0 - radius+1);
+			game.getAIController().nofifyAI();
 		} else if (y < GameSettings.MIN_Y - radius*1.5) {
-			y = (float) (GameSettings.HEIGHT + radius);
-			game.getAIController().getPathFindingAI().findObjective();
+			y = (float) (GameSettings.HEIGHT + radius-1);
+			game.getAIController().nofifyAI();
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius);
-			game.getAIController().getPathFindingAI().findObjective();
+			y = (float) (GameSettings.MIN_Y - radius+1);
+			game.getAIController().nofifyAI();
 		}
 	}
 
