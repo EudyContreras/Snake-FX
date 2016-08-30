@@ -109,6 +109,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public void setSpawnAllowed(boolean state) {
 		this.spawnAllowed = state;
+		this.penaltyCost = 200;
 	}
 
 	public void setPathCell(boolean state) {

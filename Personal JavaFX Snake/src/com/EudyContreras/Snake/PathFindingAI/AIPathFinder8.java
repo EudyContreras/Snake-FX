@@ -36,7 +36,7 @@ import javafx.geometry.Rectangle2D;
  * TODO: Do not allow tracking apples which are next to the snakes body. if the closest
  * apple is one cell away from snakes body. Check next closest!
  */
-public class AIPathFinder {
+public class AIPathFinder8 {
 
 	private AIController controller;
 	private GameManager game;
@@ -67,13 +67,13 @@ public class AIPathFinder {
 	private List<CellNode> pathCoordinates;
 
 
-	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
+	public AIPathFinder8(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
 		this.initialize();
 	}
 
-	public AIPathFinder(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
+	public AIPathFinder8(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
 		this.game = game;
 		this.controller = controller;
 		this.snakeAI = snakeAI;
