@@ -421,7 +421,82 @@ public class GridNode {
 				}
 			}
 			break;
-
+		case CAUTIOUS_CHECK_EMERGENCY:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			break;
+		case CAUTIOUS_CHECK:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			break;
 		}
 		return neighbors;
 	}

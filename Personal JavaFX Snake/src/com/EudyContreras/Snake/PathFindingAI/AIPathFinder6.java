@@ -38,7 +38,7 @@ import javafx.geometry.Rectangle2D;
  * TODO: Do not allow tracking apples which are next to the snakes body. if the closest
  * apple is one cell away from snakes body. Check next closest!
  */
-public class AIPathFinder {
+public class AIPathFinder6 {
 
 	private AIController controller;
 	private GameManager game;
@@ -68,13 +68,13 @@ public class AIPathFinder {
 	private List<CellNode> pathCoordinates;
 
 
-	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
+	public AIPathFinder6(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
 		this.initialize();
 	}
 
-	public AIPathFinder(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
+	public AIPathFinder6(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
 		this.game = game;
 		this.controller = controller;
 		this.snakeAI = snakeAI;
@@ -368,14 +368,14 @@ public class AIPathFinder {
 			List<CellNode> path4 = getPath(controller.getGrid(),start,objectives[3].getCell(),DistressLevel.NORMAL);
 
 			if(start!=null){
-				path = getShortestPath(path1,path2,path3,path4);
+					path = getShortestPath(path1,path2,path3,path4);
 			}
 		}
-		else if (searchType == SearchType.CLOSEST_OBJECTIVE) {
+		else if(searchType == SearchType.CLOSEST_OBJECTIVE){
 
 			Arrays.sort(objectives);
 
-			if (objectives[0] != null && !GameSettings.DEBUG_MODE) {
+			if (objectives[0] != null && GameSettings.DEBUG_MODE) {
 				objectives[0].getObject().blowUpAlt();
 			}
 
@@ -383,105 +383,67 @@ public class AIPathFinder {
 
 			trackingTail = false;
 
-			path = checkObjectiveReach(start, goal, path, 0);
+			if((objectives[0].getDistance()+100)<objectives[3].getInterpolarDistance(snakeAI.getX(), snakeAI.getY())){
+				goal = objectives[0].getCell();
+			}
+			else{
+				log("Farthest is closest!!");
+				goal = getCrossPolarCell(controller.getGrid(),start,objectives[3].getCell());
+			}
+			if(start!=null && goal!=null){
+				path = getPath(controller.getGrid(),start ,goal,DistressLevel.NORMAL);
+			}
 		}
 
-		if (!path.isEmpty()) {
+		if(!path.isEmpty()) {
 			showPathToObjective(path);
-			
-		} else {
-			path = checkObjectiveReach(start, goal, path, 1);
+		}
+		else{
 
-			if (!path.isEmpty()) {
+			log("Normal path to goal is empty");
+
+			path = getPath(controller.getGrid(),start,goal,DistressLevel.EMERGENCY);
+
+			if(!path.isEmpty()){
 				showPathToObjective(path);
-				
-			} else {
-				path = checkObjectiveReach(start, goal, path, 2);
+			}
+			else {
+				log("Emegency path to goal is empty!");
+				trackingTail = true;
 
+				start = controller.getRelativeCell(snakeAI, 0, 0);
+				tail = controller.getGrid().getTailCell();
+
+				if(start!=null && tail!=null){
+					path = getPath(controller.getGrid(),start ,tail,DistressLevel.NORMAL);
+				}
 				if (!path.isEmpty()) {
 					showPathToObjective(path);
+				}
+				else{
 
-				} else {
-					path = checkObjectiveReach(start, goal, path, 3);
+					log("Normal path to tail is empty");
+
+					path = getPath(controller.getGrid(),start ,tail,DistressLevel.EMERGENCY);
 
 					if (!path.isEmpty()) {
 						showPathToObjective(path);
-
 					}
-					else {
+					else{
 
-						trackingTail = true;
+						log("Emergency path to tail empty!");
 
-						start = controller.getRelativeCell(snakeAI, 0, 0);
-						tail = controller.getGrid().getTailCell();
+						goal = getCrossPolarCell(controller.getGrid(),start,tail);
 
-						if (start != null && tail != null) {
-							path = getPath(controller.getGrid(), start, tail, DistressLevel.NORMAL);
-						}
 						if (!path.isEmpty()) {
 							showPathToObjective(path);
-						} else {
-
-							log("Normal path to tail is empty");
-
-							path = getPath(controller.getGrid(), start, tail, DistressLevel.EMERGENCY);
-
-							if (!path.isEmpty()) {
-								showPathToObjective(path);
-							} 
-							else {
-
-								log("Emergency path to tail empty!");
-
-								path = emergencyTeleport(controller.getGrid(), start);
-
-								if (!path.isEmpty()) {
-									log("EMERGENCY TELEPORT");
-									showPathToObjective(path);
-								} 
-								else {
-									// TODO: Stall until path is found or
-									// die!!!!
-								}
-							}
 						}
+						//TODO: Stall until path is found or die!!!!
 					}
 				}
 			}
 		}
-	}
-	public List<CellNode> checkObjectiveReach(CellNode start, CellNode goal,List<CellNode> path, int index){
-		start = controller.getRelativeCell(snakeAI, 0, 0);
 
-		if((objectives[index].getDistance()+100)<objectives[index==3 ? 0 : 3].getInterpolarDistance(snakeAI.getX(), snakeAI.getY())){
-			goal = objectives[index].getCell();
-		}
-		else{
-			log("Farthest is closest!!");
-			goal = getCrossPolarCell(controller.getGrid(),start,objectives[index].getCell());
-		}
-
-		if(start!=null && goal!=null){
-			path = getPath(controller.getGrid(),start ,goal,DistressLevel.NORMAL);
-
-			if(!path.isEmpty()){
-				return path;
-			}
-
-			else{
-				log("Normal path to "+index+" goal is empty");
-
-				path = getPath(controller.getGrid(),start,goal,DistressLevel.EMERGENCY);
-
-				if(!path.isEmpty()){
-					return path;
-				}
-				else{
-					log("Emegency path "+index+" to goal is empty!");
-				}
-			}
-		}
-		return new ArrayList<>();
 	}
 
 	/**
@@ -498,9 +460,50 @@ public class AIPathFinder {
 	 * @param tail
 	 * @return
 	 */
-	public boolean isPathSafe(CellNode start, CellNode goal, CellNode tail){
+	private List<CellNode> fetchSafePath(GridNode grid, CellNode start, CellNode goal, CellNode tail,DistressLevel normal) {
 
-		return true;
+		List<CellNode> pathToGoal = getPath(controller.getGrid(),start,goal,DistressLevel.NORMAL);
+
+		for(CellNode cell: pathToGoal){
+			cell.setCheckBlock(true);
+		}
+
+		List<CellNode> pathToTail = getPath(controller.getGrid(),goal,tail,DistressLevel.CAUTIOUS_CHECK);
+
+		for(CellNode cell: pathToGoal){
+			cell.setCheckBlock(false);
+		}
+
+		if(!pathToGoal.isEmpty() && !pathToTail.isEmpty()){
+
+			return pathToGoal;
+		}
+		else{
+
+			log("Normal path to goal is empty");
+
+			pathToGoal = getPath(controller.getGrid(),start,goal,DistressLevel.EMERGENCY);
+
+			for(CellNode cell: pathToGoal){
+				cell.setCheckBlock(true);
+			}
+
+			pathToTail = getPath(controller.getGrid(),goal,tail,DistressLevel.CAUTIOUS_CHECK_EMERGENCY);
+
+			for(CellNode cell: pathToGoal){
+				cell.setCheckBlock(false);
+			}
+			if(!pathToGoal.isEmpty() && !pathToTail.isEmpty()){
+
+				return pathToGoal;
+			}
+			else{
+				for(CellNode cell: pathToTail){
+					cell.setCheckBlock(false);
+				}
+				return new ArrayList<>();
+			}
+		}
 	}
 	/**
 	 * Condition which checks the relative location of the player and the calculates which edge
@@ -509,14 +512,18 @@ public class AIPathFinder {
 	 * is also accessible if yes a path is created and the player teleports to the opposite side of the screen, at
 	 * the specified cell. If not the search will continue until a cell has been found. If no cell the is found
 	 * the player will stall until a path is open or until it dies!
-	 *
+	 * TODO: Calculate cross-polar distance of objectives which are farthest from the snake. If the
+	 * cross-polar distance of a farthest object is lesser than the distance of the closest object: Teleport
+	 * if the player is located within a 25% margin from an edge. compute path to cell adjacent to the cell at the opposite
+	 * side which is closest to the objective. This is the cell is not blocked and has a minimum of three cell safety range
+	 * @param objective
 	 * @param start
 	 * @return
 	 */
 	private CellNode getCrossPolarCell(GridNode grid, CellNode start, CellNode objective) {
 		if (start.getLocation().getX() < GameSettings.WIDTH * .35) {
 			log("WEST");
-			LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+			LinkedList<CellNode> westBorder = controller.getGrid().getTeleportZoneWest();
 			for (CellNode cell : westBorder) {
 				if (cell.getLocation().getY()>=start.getLocation().getY() && !cell.isOccupied() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount() - 1).isOccupied()) {
 					List<CellNode> path = getPath(controller.getGrid(), start, cell,DistressLevel.DISTRESSED);
@@ -531,7 +538,7 @@ public class AIPathFinder {
 		}
 		else if (start.getLocation().getX() > GameSettings.WIDTH * .65) {
 			log("EAST");
-			LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
+			LinkedList<CellNode> eastBorder = controller.getGrid().getTeleportZoneEast();
 			for (CellNode cell : eastBorder) {
 				if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
 					List<CellNode> path = getPath(controller.getGrid(), start, cell,DistressLevel.DISTRESSED);
@@ -546,7 +553,7 @@ public class AIPathFinder {
 		}
 		else if (start.getLocation().getY()<GameSettings.HEIGHT*.35){
 			log("NORTH");
-			LinkedList<CellNode> northBorder =  grid.getTeleportZoneNorth();
+			LinkedList<CellNode> northBorder = controller.getGrid().getTeleportZoneNorth();
 			for (CellNode cell : northBorder) {
 				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(grid.getRowCount() - 1, cell.getIndex().getCol()).isOccupied()) {
 					List<CellNode> path = getPath(controller.getGrid(), start, cell, DistressLevel.DISTRESSED);
@@ -561,7 +568,7 @@ public class AIPathFinder {
 		}
 		else if (start.getLocation().getY() > GameSettings.HEIGHT * .65) {
 			log("SOUTH");
-			LinkedList<CellNode> southBorder =  grid.getTeleportZoneSouth();
+			LinkedList<CellNode> southBorder = controller.getGrid().getTeleportZoneSouth();
 			for (CellNode cell : southBorder) {
 				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX()&& !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
 					List<CellNode> path = getPath(controller.getGrid(), start, cell, DistressLevel.DISTRESSED);
@@ -576,81 +583,6 @@ public class AIPathFinder {
 		}
 		return objective;
 	}
-	
-	public List<CellNode> emergencyTeleport(GridNode grid, CellNode start) {
-		List<CellNode> path = new ArrayList<>();
-
-		if (start.getLocation().getX() < GameSettings.WIDTH * .5) {
-			log("WEST");
-			LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
-			for (CellNode cell : westBorder) {
-				if (!cell.isOccupied() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount() - 1).isOccupied()) {
-					path = getPath(controller.getGrid(), start, cell,DistressLevel.DISTRESSED);
-					if (!path.isEmpty()) {
-						lastStep = Direction.LEFT;
-						return path;
-
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		else if (start.getLocation().getX() > GameSettings.WIDTH * .50) {
-			log("EAST");
-			LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
-			for (CellNode cell : eastBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
-					path = getPath(controller.getGrid(), start, cell,DistressLevel.DISTRESSED);
-					if (!path.isEmpty()) {
-						lastStep = Direction.RIGHT;
-						return path;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		else if (start.getLocation().getY()<GameSettings.HEIGHT*.50){
-			log("NORTH");
-			LinkedList<CellNode> northBorder =  grid.getTeleportZoneNorth();
-			for (CellNode cell : northBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(grid.getRowCount() - 1, cell.getIndex().getCol()).isOccupied()) {
-					path = getPath(controller.getGrid(), start, cell, DistressLevel.DISTRESSED);
-					if (!path.isEmpty()) {
-						lastStep = Direction.UP;
-						return path;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		else if (start.getLocation().getY() > GameSettings.HEIGHT * .50) {
-			log("SOUTH");
-			LinkedList<CellNode> southBorder =  grid.getTeleportZoneSouth();
-			for (CellNode cell : southBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX()&& !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
-					path = getPath(controller.getGrid(), start, cell, DistressLevel.DISTRESSED);
-					if (!path.isEmpty()) {
-						lastStep = Direction.DOWN;
-						return path;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		return path;
-	}
-
-	/**
-	 * TODO: Calculate cross-polar distance of objectives which are farthest from the snake. If the
-	 * cross-polar distance of a farthest object is lesser than the distance of the closest object: Teleport
-	 * if the player is located within a 25% margin from an edge. compute path to cell adjacent to the cell at the opposite
-	 * side which is closest to the objective. This is the cell is not blocked and has a minimum of three cell safety range
-	 * @param objective
-	 */
 
 	@SuppressWarnings("unchecked")
 	public List<CellNode> getShortestPath(List<CellNode>... arrays) {
@@ -995,7 +927,7 @@ public class AIPathFinder {
 	}
 
 	public enum DistressLevel{
-		EMERGENCY,DISTRESSED,NORMAL,CAUTIOUS, CAUTIOUS_CHECK_EMERGENCY, CAUTIOUS_CHECK
+		EMERGENCY,DISTRESSED,NORMAL,CAUTIOUS_CHECK,CAUTIOUS_CHECK_EMERGENCY
 	}
 	public double calculateDistance(double fromX, double toX, double fromY, double toY) {
 		return Math.hypot(fromX - toX, fromY - toY);

@@ -31,6 +31,7 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean occupied = false;
 	private boolean teleportZone = false;
 	private boolean dangerZone = false;
+	private boolean checkBlocked = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
@@ -223,6 +224,13 @@ public class CellNode implements Comparable<CellNode>{
 	public final boolean isPenalized(){
 		return penaltyCost>0;
 	}
+	public void setCheckBlock(boolean state) {
+		this.checkBlocked = state;
+
+	}
+	public boolean isCheckBlocked(){
+		return checkBlocked;
+	}
 	public final void setDangerZone(boolean state){
 		this.dangerZone = state;
 	}
@@ -327,6 +335,7 @@ public class CellNode implements Comparable<CellNode>{
 	public int compareTo(CellNode node) {
 		return Double.compare(this.getTotalCost(),node.getTotalCost());
 	}
+
 
 
 }
