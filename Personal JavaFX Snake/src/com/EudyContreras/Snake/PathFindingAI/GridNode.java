@@ -25,6 +25,7 @@ public class GridNode {
 	private boolean showCells;
 
 	private CellNode tailCell;
+	private CellNode headCell;
 	private CellNode cellNode;
 	private GameManager game;
 	private Dimension2D dimension;
@@ -184,17 +185,18 @@ public class GridNode {
 	}
 
 	public CellNode getRelativeCell(PlayerTwo snake, int r, int c) {
-		CellNode cell = getCells()[r][c];
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode tempCell = getCells()[row][col];
+				if(tempCell.getBoundsCheck().contains(snake.getAIBounds()))
+					headCell = tempCell;
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
-					cell = tempCell;
-					//cell.setPathCell(false);
+					if(tempCell!=null){
+						return tempCell;
+					}
 				}
 			}
-		}
-		return cell;
+		}	 return headCell;
 	}
 
 	public CellNode getRelativeCell() {
