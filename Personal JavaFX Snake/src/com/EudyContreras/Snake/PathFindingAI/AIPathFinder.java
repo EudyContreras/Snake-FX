@@ -470,7 +470,12 @@ public class AIPathFinder {
 	}
 	public List<CellNode> checkObjectiveReach(CellNode start, CellNode goal, List<CellNode> path, int index, Objective[] objectives){
 		start = controller.getRelativeCell(snakeAI, 0, 0);
-
+		if((objectives[index].getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5)){
+			
+		}
+		else if(objectives[index].getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
+			
+		}
 		if((objectives[index].getDistance()+100)<objectives[index==3 ? 0 : 3].getInterpolarDistance(start.getLocation().getX(), start.getLocation().getY())){
 			goal = objectives[index].getCell();
 
@@ -510,7 +515,7 @@ public class AIPathFinder {
 					return path;
 				}
 				else{
-					log("Normal path to "+index+" goal is empty");
+					log("Normal path to "+index+" farthest goal is empty");
 
 					distressLevel = DistressLevel.EMERGENCY;
 
@@ -519,9 +524,10 @@ public class AIPathFinder {
 					if(!path.isEmpty()){
 						return path;
 					}
-					else{
-						log("Emegency path "+index+" to goal is empty!");
-					}
+//					else{
+//						log("Emegency path "+index+" to farthest goal is empty!");
+//						path = getBestPath(controller.getGrid(),start ,goal);
+//					}
 				}
 			}
 		}
@@ -535,33 +541,33 @@ public class AIPathFinder {
 	 * position relative to the objective! If my x is less than half of the width of the screen and
 	 */
 	public List<CellNode> computeInterpolarDirection(GridNode grid, CellNode start, Objective[] objectives){
-
+		log("call check");
 		CellNode portalIn;
 		CellNode portalOut;
 
 		switch(objectives[3].getRelativeLocation(start)){
 
-		case WEST:
-			if(!grid.getCell(start.getIndex().getRow(), grid.getMinCol()).isOccupied()){
-				portalIn = grid.getCell(start.getIndex().getRow(), grid.getMinCol());
+		case EAST:
+			log("call check east");
+			if(!grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getMinCol()).isOccupied()){
+				portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getMinCol());
 				portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
 				lastStep = Direction.LEFT;
 				return findPortalCell(grid, portalIn, portalOut, start, objectives);
 
 			}else{
-				if(!grid.getCell(start.getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
-					portalIn = grid.getCell(start.getIndex().getRow()-1, grid.getMinCol());
+				if(!grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
+					portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol());
 					portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
 					lastStep = Direction.LEFT;
 					return findPortalCell(grid, portalIn, portalOut, start, objectives);
 				}else{
-					if(!grid.getCell(start.getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
-						portalIn = grid.getCell(start.getIndex().getRow()+1, grid.getMinCol());
+					if(!grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
+						portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol());
 						portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
 						lastStep = Direction.LEFT;
 						return findPortalCell(grid, portalIn, portalOut, start, objectives);
-					}
-					else{
+					}else{
 						LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
 						for (CellNode cell : westBorder) {
 							if (cell.isOccupied()) {
@@ -583,22 +589,23 @@ public class AIPathFinder {
 			}
 
 			break;
-		case EAST:
-			if(!grid.getCell(start.getIndex().getRow(), grid.getColumnCount()-1).isOccupied()){
-				portalIn = grid.getCell(start.getIndex().getRow(), grid.getColumnCount()-1);
+		case WEST:
+			log("call check west");
+			if(!grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getColumnCount()-1).isOccupied()){
+				portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getColumnCount()-1);
 				portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
 				lastStep = Direction.RIGHT;
 				return findPortalCell(grid, portalIn, portalOut, start, objectives);
 
 			}else{
-				if(!grid.getCell(start.getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
-					portalIn = grid.getCell(start.getIndex().getRow()-1, grid.getColumnCount()-1);
+				if(!grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
+					portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getColumnCount()-1);
 					portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
 					lastStep = Direction.RIGHT;
 					return findPortalCell(grid, portalIn, portalOut, start, objectives);
 				}else{
-					if(!grid.getCell(start.getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
-						portalIn = grid.getCell(start.getIndex().getRow()+1, grid.getColumnCount()-1);
+					if(!grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
+						portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getColumnCount()-1);
 						portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
 						lastStep = Direction.RIGHT;
 						return findPortalCell(grid, portalIn, portalOut, start, objectives);
@@ -624,22 +631,23 @@ public class AIPathFinder {
 				}
 			}
 			break;
-		case NORTH:
-			if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()).isOccupied()){
-				portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol());
+		case SOUTH:
+			log("call check south");
+			if(!grid.getCell(grid.getMinRow(),objectives[3].getCell().getIndex().getCol()).isOccupied()){
+				portalIn = grid.getCell(grid.getMinRow(),objectives[3].getCell().getIndex().getCol());
 				portalOut = grid.getCell(grid.getRowCount()-1,portalIn.getIndex().getCol());
 				lastStep = Direction.UP;
 				return findPortalCell(grid, portalIn, portalOut, start, objectives);
 
 			}else{
-				if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()-1).isOccupied()){
-					portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol()-1);
+				if(!grid.getCell(grid.getMinRow(),objectives[3].getCell().getIndex().getCol()-1).isOccupied()){
+					portalIn = grid.getCell(grid.getMinRow(),objectives[3].getCell().getIndex().getCol()-1);
 					portalOut = grid.getCell(grid.getRowCount()-1,portalIn.getIndex().getCol());
 					lastStep = Direction.UP;
 					return findPortalCell(grid, portalIn, portalOut, start, objectives);
 				}else{
-					if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()+1).isOccupied()){
-						portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol()+1);
+					if(!grid.getCell(grid.getMinRow(),objectives[3].getCell().getIndex().getCol()+1).isOccupied()){
+						portalIn = grid.getCell(grid.getMinRow(),objectives[3].getCell().getIndex().getCol()+1);
 						portalOut = grid.getCell(grid.getRowCount()-1,portalIn.getIndex().getCol());
 						lastStep = Direction.UP;
 						return findPortalCell(grid, portalIn, portalOut, start, objectives);
@@ -665,22 +673,24 @@ public class AIPathFinder {
 				}
 			}
 			break;
-		case SOUTH:
-			if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol()).isOccupied()){
-				portalIn = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol());
+		case NORTH:
+			log("call check north");
+			if(!grid.getCell(grid.getRowCount()-1,objectives[3].getCell().getIndex().getCol()).isOccupied()){
+				portalIn = grid.getCell(grid.getRowCount()-1,objectives[3].getCell().getIndex().getCol());
 				portalOut = grid.getCell(grid.getMinRow(),portalIn.getIndex().getCol());
 				lastStep = Direction.DOWN;
+
 				return findPortalCell(grid, portalIn, portalOut, start, objectives);
 
 			}else{
-				if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol()-1).isOccupied()){
-					portalIn = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol()-1);
+				if(!grid.getCell(grid.getRowCount()-1,objectives[3].getCell().getIndex().getCol()-1).isOccupied()){
+					portalIn = grid.getCell(grid.getRowCount()-1,objectives[3].getCell().getIndex().getCol()-1);
 					portalOut = grid.getCell(grid.getMinRow(),portalIn.getIndex().getCol());
 					lastStep = Direction.DOWN;
 					return findPortalCell(grid, portalIn, portalOut, start, objectives);
 				}else{
-					if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol()+1).isOccupied()){
-						portalIn = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol()+1);
+					if(!grid.getCell(grid.getRowCount()-1,objectives[3].getCell().getIndex().getCol()+1).isOccupied()){
+						portalIn = grid.getCell(grid.getRowCount()-1,objectives[3].getCell().getIndex().getCol()+1);
 						portalOut = grid.getCell(grid.getMinRow(),portalIn.getIndex().getCol());
 						lastStep = Direction.DOWN;
 						return findPortalCell(grid, portalIn, portalOut, start, objectives);
@@ -707,12 +717,171 @@ public class AIPathFinder {
 			}
 			break;
 		case NORTH_EAST:
+
+			if(!grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getMinCol()).isOccupied()){
+				portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getMinCol());
+				portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
+				lastStep = Direction.LEFT;
+				log("call check north-east");
+				return findPortalCell(grid, portalIn, portalOut, start, objectives);
+
+			}else{
+				if(!grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
+					portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol());
+					portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
+					lastStep = Direction.LEFT;
+					return findPortalCell(grid, portalIn, portalOut, start, objectives);
+				}else{
+					if(!grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
+						portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol());
+						portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
+						lastStep = Direction.LEFT;
+						return findPortalCell(grid, portalIn, portalOut, start, objectives);
+					}else{
+						LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+						for (CellNode cell : westBorder) {
+							if (cell.isOccupied()) {
+								portalOut = grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1);
+								List<CellNode> path = findPortalCell(grid, cell, portalOut, start, objectives);
+
+								if (!path.isEmpty()) {
+
+									lastStep = Direction.LEFT;
+									return path;
+								}
+								else {
+									continue;
+								}
+							}
+						}
+					}
+				}
+			}
 			break;
 		case NORTH_WEST:
+			if(!grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getColumnCount()-1).isOccupied()){
+				portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getColumnCount()-1);
+				portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
+				lastStep = Direction.RIGHT;
+				log("call check north-west");
+				return findPortalCell(grid, portalIn, portalOut, start, objectives);
+
+			}else{
+				if(!grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
+					portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getColumnCount()-1);
+					portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
+					lastStep = Direction.RIGHT;
+					return findPortalCell(grid, portalIn, portalOut, start, objectives);
+				}else{
+					if(!grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
+						portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getColumnCount()-1);
+						portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
+						lastStep = Direction.RIGHT;
+						return findPortalCell(grid, portalIn, portalOut, start, objectives);
+					}
+					else{
+						LinkedList<CellNode> eastEdge =  grid.getTeleportZoneEast();
+						for (CellNode cell : eastEdge) {
+							if (cell.isOccupied()) {
+								portalOut = grid.getCell(cell.getIndex().getRow(), grid.getMinCol());
+								List<CellNode> path = findPortalCell(grid, cell, portalOut, start, objectives);
+
+								if (!path.isEmpty()) {
+
+									lastStep = Direction.RIGHT;
+									return path;
+								}
+								else {
+									continue;
+								}
+							}
+						}
+					}
+				}
+			}
 			break;
 		case SOUTH_EAST:
+			if(!grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getMinCol()).isOccupied()){
+				portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getMinCol());
+				portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
+				lastStep = Direction.LEFT;
+				log("call check south-east");
+				return findPortalCell(grid, portalIn, portalOut, start, objectives);
+
+			}else{
+				if(!grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
+					portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol());
+					portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
+					lastStep = Direction.LEFT;
+					return findPortalCell(grid, portalIn, portalOut, start, objectives);
+				}else{
+					if(!grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
+						portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol());
+						portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getColumnCount()-1);
+						lastStep = Direction.LEFT;
+						return findPortalCell(grid, portalIn, portalOut, start, objectives);
+					}else{
+						LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+						for (CellNode cell : westBorder) {
+							if (cell.isOccupied()) {
+								portalOut = grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1);
+								List<CellNode> path = findPortalCell(grid, cell, portalOut, start, objectives);
+
+								if (!path.isEmpty()) {
+
+									lastStep = Direction.LEFT;
+									return path;
+								}
+								else {
+									continue;
+								}
+							}
+						}
+					}
+				}
+			}
 			break;
 		case SOUTH_WEST:
+			if(!grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getColumnCount()-1).isOccupied()){
+				portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow(), grid.getColumnCount()-1);
+				portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
+				lastStep = Direction.RIGHT;
+				log("call check south-west");
+				return findPortalCell(grid, portalIn, portalOut, start, objectives);
+
+			}else{
+				if(!grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getMinCol()).isOccupied()){
+					portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()-1, grid.getColumnCount()-1);
+					portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
+					lastStep = Direction.RIGHT;
+					return findPortalCell(grid, portalIn, portalOut, start, objectives);
+				}else{
+					if(!grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getMinCol()).isOccupied()){
+						portalIn = grid.getCell(objectives[3].getCell().getIndex().getRow()+1, grid.getColumnCount()-1);
+						portalOut = grid.getCell(portalIn.getIndex().getRow(), grid.getMinCol());
+						lastStep = Direction.RIGHT;
+						return findPortalCell(grid, portalIn, portalOut, start, objectives);
+					}
+					else{
+						LinkedList<CellNode> eastEdge =  grid.getTeleportZoneEast();
+						for (CellNode cell : eastEdge) {
+							if (cell.isOccupied()) {
+								portalOut = grid.getCell(cell.getIndex().getRow(), grid.getMinCol());
+								List<CellNode> path = findPortalCell(grid, cell, portalOut, start, objectives);
+
+								if (!path.isEmpty()) {
+
+									lastStep = Direction.RIGHT;
+									return path;
+								}
+								else {
+									continue;
+								}
+							}
+						}
+					}
+				}
+			}
 			break;
 		}
 		return new ArrayList<>();
@@ -726,13 +895,15 @@ public class AIPathFinder {
 
 		if(!portalOut.isOccupied()){
 
+			log("Portal out not occupied");
 			pathToPortal = getBestPath(controller.getGrid(), start, portalIn);
 
 			if (!pathToPortal.isEmpty()) {
-
+				log("path to portal not empty");
 				pathFromPortal = getBestPath(controller.getGrid(), portalOut, objectives[3].getCell());
 
 				if(!pathFromPortal.isEmpty()){
+					log("path from portal not empty");
 					return pathToPortal;
 				}
 				else{
@@ -793,69 +964,69 @@ public class AIPathFinder {
 	 * @param start
 	 * @return
 	 */
-	private CellNode getCrossPolarCell(GridNode grid, CellNode start, CellNode objective) {
-		if (start.getLocation().getX() < GameSettings.WIDTH * .35) {
-			log("WEST");
-			LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
-			for (CellNode cell : westBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount() - 1).isOccupied()) {
-					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
-					if (!path.isEmpty()) {
-						lastStep = Direction.LEFT;
-						return cell;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		if (start.getLocation().getX() > GameSettings.WIDTH * .65) {
-			log("EAST");
-			LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
-			for (CellNode cell : eastBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
-					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
-					if (!path.isEmpty()) {
-						lastStep = Direction.RIGHT;
-						return cell;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		if (start.getLocation().getY()<GameSettings.HEIGHT*.35){
-			log("NORTH");
-			LinkedList<CellNode> northBorder =  grid.getTeleportZoneNorth();
-			for (CellNode cell : northBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(grid.getRowCount() - 1, cell.getIndex().getCol()).isOccupied()) {
-					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
-					if (!path.isEmpty()) {
-						lastStep = Direction.UP;
-						return cell;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		if (start.getLocation().getY() > GameSettings.HEIGHT * .65) {
-			log("SOUTH");
-			LinkedList<CellNode> southBorder =  grid.getTeleportZoneSouth();
-			for (CellNode cell : southBorder) {
-				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX()&& !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
-					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
-					if (!path.isEmpty()) {
-						lastStep = Direction.DOWN;
-						return cell;
-					} else {
-						continue;
-					}
-				}
-			}
-		}
-		return objective;
-	}
+//	private CellNode getCrossPolarCell(GridNode grid, CellNode start, CellNode objective) {
+//		if (start.getLocation().getX() < GameSettings.WIDTH * .35) {
+//			log("WEST");
+//			LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+//			for (CellNode cell : westBorder) {
+//				if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount() - 1).isOccupied()) {
+//					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
+//					if (!path.isEmpty()) {
+//						lastStep = Direction.LEFT;
+//						return cell;
+//					} else {
+//						continue;
+//					}
+//				}
+//			}
+//		}
+//		if (start.getLocation().getX() > GameSettings.WIDTH * .65) {
+//			log("EAST");
+//			LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
+//			for (CellNode cell : eastBorder) {
+//				if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
+//					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
+//					if (!path.isEmpty()) {
+//						lastStep = Direction.RIGHT;
+//						return cell;
+//					} else {
+//						continue;
+//					}
+//				}
+//			}
+//		}
+//		if (start.getLocation().getY()<GameSettings.HEIGHT*.35){
+//			log("NORTH");
+//			LinkedList<CellNode> northBorder =  grid.getTeleportZoneNorth();
+//			for (CellNode cell : northBorder) {
+//				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(grid.getRowCount() - 1, cell.getIndex().getCol()).isOccupied()) {
+//					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
+//					if (!path.isEmpty()) {
+//						lastStep = Direction.UP;
+//						return cell;
+//					} else {
+//						continue;
+//					}
+//				}
+//			}
+//		}
+//		if (start.getLocation().getY() > GameSettings.HEIGHT * .65) {
+//			log("SOUTH");
+//			LinkedList<CellNode> southBorder =  grid.getTeleportZoneSouth();
+//			for (CellNode cell : southBorder) {
+//				if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX()&& !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
+//					List<CellNode> path = getBestPath(controller.getGrid(), start, cell);
+//					if (!path.isEmpty()) {
+//						lastStep = Direction.DOWN;
+//						return cell;
+//					} else {
+//						continue;
+//					}
+//				}
+//			}
+//		}
+//		return objective;
+//	}
 	/*
 	 * ut�ver det som redan utf�rs av AIn. G�r f�ljande:
 	 *
@@ -1115,7 +1286,7 @@ public class AIPathFinder {
 		}
 	}
 	private void log(String str) {
-		System.out.println(str);
+		System.out.println(str+"\n");
 	}
 
 	/*
@@ -1221,7 +1392,7 @@ public class AIPathFinder {
 				xDistance = x + (GameSettings.WIDTH-this.x);
 			}
 			else{
-				xDistance =this.x + (GameSettings.WIDTH-this.x);
+				xDistance =this.x + (GameSettings.WIDTH-x);
 			}
 			return xDistance;
 		}
