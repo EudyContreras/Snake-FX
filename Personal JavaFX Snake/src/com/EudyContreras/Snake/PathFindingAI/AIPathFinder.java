@@ -470,13 +470,16 @@ public class AIPathFinder {
 	}
 	public List<CellNode> checkObjectiveReach(CellNode start, CellNode goal, List<CellNode> path, int index, Objective[] objectives){
 		start = controller.getRelativeCell(snakeAI, 0, 0);
-		if((objectives[index].getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5)){
-			
+		if((objectives[index].getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.4) && objectives[index].getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.4){
+			return path = computeInterpolarDirectionAlt(controller.getGrid(),start,objectives[index]);
 		}
-		else if(objectives[index].getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
-			
+		else if(objectives[index].getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5  && objectives[index].getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.5){
+			return path = computeInterpolarDirectionAlt(controller.getGrid(),start,objectives[index]);
 		}
-		if((objectives[index].getDistance()+100)<objectives[index==3 ? 0 : 3].getInterpolarDistance(start.getLocation().getX(), start.getLocation().getY())){
+		else if(objectives[index].getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5 && objectives[index].getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
+			return path = computeInterpolarDirectionAlt(controller.getGrid(),start,objectives[index]);
+		}
+		else{
 			goal = objectives[index].getCell();
 
 			if(start!=null && goal!=null){
@@ -503,37 +506,148 @@ public class AIPathFinder {
 				}
 			}
 		}
-		else{
-			log("Farthest is closest!!");
-			if(start!=null){
-				if(!start.isDangerZone()){
-					distressLevel = DistressLevel.NORMAL;
-				}
-				path = computeInterpolarDirection(controller.getGrid(),start,objectives);
-
-				if(!path.isEmpty()){
-					return path;
-				}
-				else{
-					log("Normal path to "+index+" farthest goal is empty");
-
-					distressLevel = DistressLevel.EMERGENCY;
-
-					path = computeInterpolarDirection(controller.getGrid(),start,objectives);
-
-					if(!path.isEmpty()){
-						return path;
-					}
+//		else{
+//			log("Farthest is closest!!");
+//			if(start!=null){
+//				if(!start.isDangerZone()){
+//					distressLevel = DistressLevel.NORMAL;
+//				}
+//				path = computeInterpolarDirection(controller.getGrid(),start,objectives);
+//
+//				if(!path.isEmpty()){
+//					return path;
+//				}
+//				else{
+//					log("Normal path to "+index+" farthest goal is empty");
+//
+//					distressLevel = DistressLevel.EMERGENCY;
+//
+//					path = computeInterpolarDirection(controller.getGrid(),start,objectives);
+//
+//					if(!path.isEmpty()){
+//						return path;
+//					}
 //					else{
 //						log("Emegency path "+index+" to farthest goal is empty!");
 //						path = getBestPath(controller.getGrid(),start ,goal);
 //					}
-				}
-			}
-		}
+//				}
+//			}
+//		}
 
 		return new ArrayList<>();
 	}
+	/*
+	 * Unsafe amd unchecked teleport method which triggers a teleportation when a the distance
+	 * between the snake and the objective is above a certain threshold. The calculations are made
+	 * based on relational distance planes. 
+	 */
+	private List<CellNode> computeInterpolarDirectionAlt(GridNode grid, CellNode start, Objective objective) {
+		List<CellNode> path;
+		
+		if((objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45) && objective.getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.45){
+	
+			if(start.getLocation().getX() > GameSettings.WIDTH*.65){
+				LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
+				for (CellNode cell : eastBorder) {
+					if (!cell.isOccupied()  && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = getBestPath(controller.getGrid(), start, cell);
+						if (!path.isEmpty()) {
+							lastStep = Direction.RIGHT;
+							return path;
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+			if(start.getLocation().getX() < GameSettings.WIDTH*.35){
+				LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+				for (CellNode cell : westBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = getBestPath(controller.getGrid(), start, cell);
+						if (!path.isEmpty()) {
+							lastStep = Direction.LEFT;
+							return path;
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+		
+		else if(objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45  && objective.getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.45){
+			if(start.getLocation().getY() > GameSettings.HEIGHT*.65){
+				LinkedList<CellNode> southBorder =  grid.getTeleportZoneSouth();
+				for (CellNode cell : southBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = getBestPath(controller.getGrid(), start, cell);
+						if (!path.isEmpty()) {
+							lastStep = Direction.DOWN;
+							return path;
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+			if(start.getLocation().getY() < GameSettings.HEIGHT*.35){
+				LinkedList<CellNode> northBorder =  grid.getTeleportZoneNorth();
+				for (CellNode cell : northBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(grid.getMinRow(),cell.getIndex().getCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = getBestPath(controller.getGrid(), start, cell);
+						if (!path.isEmpty()) {
+							lastStep = Direction.UP;
+							return path;
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+		else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
+			if(start.getLocation().getX() > GameSettings.WIDTH*.65){
+				LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
+				for (CellNode cell : eastBorder) {
+					if (!cell.isOccupied()  && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = getBestPath(controller.getGrid(), start, cell);
+						if (!path.isEmpty()) {
+							lastStep = Direction.RIGHT;
+							return path;
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+			if(start.getLocation().getX() < GameSettings.WIDTH*.35){
+				LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+				for (CellNode cell : westBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = getBestPath(controller.getGrid(), start, cell);
+						if (!path.isEmpty()) {
+							lastStep = Direction.LEFT;
+							return path;
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+		return  getBestPath(controller.getGrid(), start, objective.getCell());
+	}
+
 	/*
 	 * So lets say that the farthest object's cross polar distance is the closest distance. Lets also say
 	 * that I know the precise position of the object relative to my position. I need to also know
@@ -892,7 +1006,8 @@ public class AIPathFinder {
 	private List<CellNode> findPortalCell(GridNode grid, CellNode portalIn, CellNode portalOut, CellNode start, Objective[] objectives){
 		List<CellNode> pathToPortal;
 		List<CellNode> pathFromPortal;
-
+		distressLevel = DistressLevel.EMERGENCY;
+		
 		if(!portalOut.isOccupied()){
 
 			log("Portal out not occupied");
@@ -919,7 +1034,7 @@ public class AIPathFinder {
 							return pathToPortal;
 						}
 						else{
-							pathFromPortal = getBestPath(controller.getGrid(), portalOut, objectives[1].getCell());
+							pathFromPortal = getBestPath(controller.getGrid(), portalOut, objectives[0].getCell());
 
 							if(!pathFromPortal.isEmpty()){
 								return pathToPortal;
