@@ -360,7 +360,7 @@ public class AIPathFinder2 {
 		controller.getGrid().resetCells();
 		if(objective.getCell()!=null){
 			//System.out.println();
-			showPathToObjective(getPath(controller.getGrid(),controller.getRelativeCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
+			showPathToObjective(getPath(controller.getGrid(),controller.getHeadCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
 		}
 	}
 	private void showPathToObjective(List<CellNode> cells){

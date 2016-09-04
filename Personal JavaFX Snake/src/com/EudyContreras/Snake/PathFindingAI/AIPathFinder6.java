@@ -283,7 +283,7 @@ public class AIPathFinder6 {
 //
 //			closedSet.add( current);
 //
-//			for( CellNode neighbor: grid.getNeighborCells( current,DistressLevel.EMERGENCY)) {
+//			for( CellNode neighbor: grid.getNeighborCells( current,DistressLevel.LEVEL_THREE)) {
 //
 //				if( neighbor == null) {
 //					continue;
@@ -359,7 +359,7 @@ public class AIPathFinder6 {
 		List<CellNode> path = null;
 
 		if(searchType == SearchType.SHORTEST_PATH){
-			start = controller.getRelativeCell(snakeAI, 0, 0);
+			start = controller.getHeadCell(snakeAI, 0, 0);
 
 
 			List<CellNode> path1 = getPath(controller.getGrid(),start,objectives[0].getCell(),DistressLevel.NORMAL);
@@ -379,7 +379,7 @@ public class AIPathFinder6 {
 				objectives[0].getObject().blowUpAlt();
 			}
 
-			start = controller.getRelativeCell(snakeAI, 0, 0);
+			start = controller.getHeadCell(snakeAI, 0, 0);
 
 			trackingTail = false;
 
@@ -411,7 +411,7 @@ public class AIPathFinder6 {
 				log("Emegency path to goal is empty!");
 				trackingTail = true;
 
-				start = controller.getRelativeCell(snakeAI, 0, 0);
+				start = controller.getHeadCell(snakeAI, 0, 0);
 				tail = controller.getGrid().getTailCell();
 
 				if(start!=null && tail!=null){

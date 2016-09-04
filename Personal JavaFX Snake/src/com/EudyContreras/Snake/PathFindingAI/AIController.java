@@ -91,16 +91,19 @@ public class AIController {
 
     public void update_AI_Simulation(long timePassed) {
     	if(game.getStateID()==GameStateID.GAMEPLAY){
-    		processAIEvents();
-        	getGrid().getRelativeCell();
+    		updateAIEvents();
+        	updateGridEvents();
     	}
+    }
+    private void updateGridEvents(){
+    	getGrid().getRelativeCell();
     }
 
     public void nofifyAI() {
 		pathFindingAI.computeClosestPath(5,5);
     }
 
-    private void processAIEvents() {
+    private void updateAIEvents() {
         pathFindingAI.updateSimulation();
     }
 
@@ -170,7 +173,7 @@ public class AIController {
         return pathFindingAI;
     }
 
-    public CellNode getRelativeCell(PlayerTwo snake, int r, int c) {
+    public CellNode getHeadCell(PlayerTwo snake, int r, int c) {
         return pathFindingGrid.getRelativeCell(snake,r,c);
     }
 }

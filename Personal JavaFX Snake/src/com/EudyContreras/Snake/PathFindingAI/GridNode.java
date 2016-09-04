@@ -54,8 +54,8 @@ public class GridNode {
 		this.minRow = ((GameSettings.MIN_X) / cellSize);
 		this.cellPadding = cellPadding;
 		this.dimension = new Dimension2D(width, height);
-//		this.game.getBaseLayer().setScaleX(.8);
-//		this.game.getBaseLayer().setScaleY(.8);
+//		this.game.getBaseLayer().setScaleX(.4);
+//		this.game.getBaseLayer().setScaleY(.4);
 		this.calculateCells();
 		this.createTeleportZones();
 	}
@@ -98,7 +98,8 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
 				cell.setTeleportZone(true);
-				cell.setDangerZone(true);
+				cell.setDangerZone(false);
+				cell.setTraversable(true);
 				teleportZoneEast.add(cell);
 			}
 		}
@@ -106,7 +107,8 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
 				cell.setTeleportZone(true);
-				cell.setDangerZone(true);
+				cell.setDangerZone(false);
+				cell.setTraversable(true);
 				teleportZoneWest.add(cell);
 			}
 		}
@@ -114,7 +116,8 @@ public class GridNode {
 			for (int col = cellNodes[row].length - 1; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
 				cell.setTeleportZone(true);
-				cell.setDangerZone(true);
+				cell.setDangerZone(false);
+				cell.setTraversable(true);
 				teleportZoneSouth.add(cell);
 			}
 		}
@@ -122,7 +125,8 @@ public class GridNode {
 			for (int col = minCol; col < minCol + 1; col++) {
 				cell = cellNodes[row][col];
 				cell.setTeleportZone(true);
-				cell.setDangerZone(true);
+				cell.setDangerZone(false);
+				cell.setTraversable(true);
 				teleportZoneNorth.add(cell);
 			}
 		}
@@ -147,7 +151,7 @@ public class GridNode {
 				cellNodes[row][col].setOccupied(false);
 				cellNodes[row][col].setSpawnAllowed(true);
 				cellNodes[row][col].setPathCell(false);
-//				cellNodes[row][col].setDangerZone(false);
+				cellNodes[row][col].setDangerZone(false);
 				cellNodes[row][col].updateVisuals();
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {
@@ -202,7 +206,7 @@ public class GridNode {
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
 					cell = tempCell;
 					cell.setPathCell(false);
-					headCell = cell;
+					setHeadCell(cell);
 				}
 			}
 		}
@@ -212,22 +216,18 @@ public class GridNode {
 	public CellNode getRelativeCell() {
 		CellNode cell = null;
 		AbstractSection section = null;
-		if(!game.getSectManagerTwo().getSectionList().isEmpty())
+		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
 			section = game.getSectManagerTwo().getSectionList().getLast();
+		}
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = getCells()[row][col];
 				cell.updateVisuals();
-//				if (cell.isTeleportZone()){
-//					if(cell.getBoundsCheck().intersects(snakeAI.getAIBounds())){
-//						if(cell.getDirection()==Direction.NONE){
-//							System.out.println("checking teleport update");
-//							controller.nofifyAI();
-//						}
-//					}
-//				}
+				
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
-					cell.setOccupied(true);
+					if(!cell.isOccupied()){
+						cell.setOccupied(true);
+					}
 				}
 				if (section != null) {
 					if (cell.getBoundsCheck().contains(section.getBounds())) {
@@ -243,23 +243,17 @@ public class GridNode {
 		this.tailCell = cell;
 
 	}
-	public CellNode getHeadCell() {
+	private synchronized void setHeadCell(CellNode cell){
+		this.headCell = cell;
+	}
+	public synchronized CellNode getHeadCell() {
 		return headCell;
 	}
 
 	public CellNode getTailCell(){
-		AbstractSection section = game.getSectManagerTwo().getSectionList().getLast();
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
-				if (getCells()[row][col].getBoundsCheck().contains(section.getBounds())) {
-					if(getCells()[row][col]!=null)
-					tailCell = getCells()[row][col];
-				}
-
-			}
-		}
 		return tailCell;
 	}
+
 	public boolean safeSpawn(CellNode cell) {
 		boolean safe = true;
 
@@ -329,83 +323,7 @@ public class GridNode {
 		int aRow;
 
 		switch(scenario){
-		case DISTRESSED:
-			// top
-			aCol = col;
-			aRow = row - 1;
-			if (aRow >= minRow) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// bottom
-			aCol = col;
-			aRow = row + 1;
-			if (aRow < rowCount) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// left
-			aCol = col - 1;
-			aRow = row;
-			if (aCol >= minCol) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// right
-			aCol = col + 1;
-			aRow = row;
-			if (aCol < columnCount) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			break;
-		case EMERGENCY:
-			// top
-			aCol = col;
-			aRow = row - 1;
-			if (aRow >= minRow) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// bottom
-			aCol = col;
-			aRow = row + 1;
-			if (aRow < rowCount) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// left
-			aCol = col - 1;
-			aRow = row;
-			if (aCol >= minCol) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// right
-			aCol = col + 1;
-			aRow = row;
-			if (aCol < columnCount) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-					neighbors.add(tempCell);
-				}
-			}
-			break;
-		case NORMAL:
+		case LEVEL_ONE:
 			// top
 			aCol = col;
 			aRow = row - 1;
@@ -443,6 +361,83 @@ public class GridNode {
 				}
 			}
 			break;
+		case LEVEL_TWO:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			break;
+		case LEVEL_THREE:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+					neighbors.add(tempCell);
+				}
+			}
+			break;
+
 		case SAFETY_CHECK:
 			break;
 		case CAUTIOUS_CHECK_EMERGENCY:

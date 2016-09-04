@@ -422,13 +422,13 @@ public class AIPathFinder3 {
 
 		controller.getGrid().resetCells();
 
-		LinkedPath<CellNode> path1 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		LinkedPath<CellNode> path1 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[0].getCell());
-		LinkedPath<CellNode> path2 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		LinkedPath<CellNode> path2 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[1].getCell());
-		LinkedPath<CellNode> path3 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		LinkedPath<CellNode> path3 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[2].getCell());
-		LinkedPath<CellNode> path4 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		LinkedPath<CellNode> path4 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[3].getCell());
 
 

@@ -422,13 +422,13 @@ public class AIPathFinder5 {
 //			else{
 //				showPathToObjective(path); //controller.getGrid().getCell(45, 20)
 //			}
-		List<CellNode> path1 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		List<CellNode> path1 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[0].getCell());
-		List<CellNode> path2 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		List<CellNode> path2 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[1].getCell());
-		List<CellNode> path3 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		List<CellNode> path3 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[2].getCell());
-		List<CellNode> path4 = getPath(controller.getGrid(), controller.getRelativeCell(snakeAI, 0, 0),
+		List<CellNode> path4 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
 				objectives[3].getCell());
 
 		List<CellNode> newPath = getShortestPath(path1,path2,path3,path4);

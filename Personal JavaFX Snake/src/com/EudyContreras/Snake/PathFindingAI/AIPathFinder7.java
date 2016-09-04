@@ -283,7 +283,7 @@ public class AIPathFinder7 {
 //
 //			closedSet.add( current);
 //
-//			for( CellNode neighbor: grid.getNeighborCells( current,DistressLevel.EMERGENCY)) {
+//			for( CellNode neighbor: grid.getNeighborCells( current,DistressLevel.LEVEL_THREE)) {
 //
 //				if( neighbor == null) {
 //					continue;
@@ -359,7 +359,7 @@ public class AIPathFinder7 {
 		List<CellNode> path = null;
 
 		if(searchType == SearchType.SHORTEST_PATH){
-			start = controller.getRelativeCell(snakeAI, 0, 0);
+			start = controller.getHeadCell(snakeAI, 0, 0);
 
 
 			List<CellNode> path1 = getPath(controller.getGrid(),start,objectives[0].getCell(),DistressLevel.NORMAL);
@@ -379,7 +379,7 @@ public class AIPathFinder7 {
 				objectives[0].getObject().blowUpAlt();
 			}
 
-			start = controller.getRelativeCell(snakeAI, 0, 0);
+			start = controller.getHeadCell(snakeAI, 0, 0);
 
 			trackingTail = false;
 
@@ -412,7 +412,7 @@ public class AIPathFinder7 {
 
 						trackingTail = true;
 
-						start = controller.getRelativeCell(snakeAI, 0, 0);
+						start = controller.getHeadCell(snakeAI, 0, 0);
 						tail = controller.getGrid().getTailCell();
 
 						if (start != null && tail != null) {
@@ -436,7 +436,7 @@ public class AIPathFinder7 {
 								path = emergencyTeleport(controller.getGrid(), start);
 
 								if (!path.isEmpty()) {
-									log("EMERGENCY TELEPORT");
+									log("LEVEL_THREE TELEPORT");
 									showPathToObjective(path);
 								} 
 								else {
@@ -451,7 +451,7 @@ public class AIPathFinder7 {
 		}
 	}
 	public List<CellNode> checkObjectiveReach(CellNode start, CellNode goal,List<CellNode> path, int index){
-		start = controller.getRelativeCell(snakeAI, 0, 0);
+		start = controller.getHeadCell(snakeAI, 0, 0);
 
 		if((objectives[index].getDistance()+100)<objectives[index==3 ? 0 : 3].getInterpolarDistance(snakeAI.getX(), snakeAI.getY())){
 			goal = objectives[index].getCell();
