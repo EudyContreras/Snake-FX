@@ -53,7 +53,7 @@ public class CellNode implements Comparable<CellNode>{
 			this.visualRep.setX(location.getX());
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.TRANSPARENT);
-			this.visualRep.setStroke(Color.rgb(255,255,255,0.8));
+			this.visualRep.setStroke(Color.rgb(0,0,0,0.8));
 		    layer.getChildren().add(this.getVisualRep());
 		}
 	}
@@ -88,7 +88,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
 				visualRep.setFill(Color.rgb(255, 170, 0));
-			if(isDangerZone())
+			if(isDangerZone() && !isTeleportZone())
 				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
 				visualRep.setFill(Color.RED.darker());

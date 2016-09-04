@@ -400,22 +400,22 @@ public class PlayerTwoSection extends AbstractSection {
 			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.MIN_Y + radius && y < GameSettings.HEIGHT - radius) {
 				if (this.direction == previousSect.getLastDirection()) {
 					if (previousSect.getY()>y && x==previousSect.getX()) {
-						if(previousSect.getY() - y < radius*.75){
+						if(previousSect.getY() - y < radius*.75  || previousSect.getY() - y > radius*1.25){
 							y = previousSect.getY() - circle.getRadius();
 						}
 					}
 					if (previousSect.getY()<y && x==previousSect.getX()) {
-						if(y - previousSect.getY() < radius*.75){
+						if(y - previousSect.getY() < radius*.75  || y - previousSect.getY() > radius*1.25 ){
 							y = previousSect.getY() + circle.getRadius();
 						}
 					}
 					if (previousSect.getX()>x && y==previousSect.getY()) {
-						if(previousSect.getX() - x < radius*.75){
+						if(previousSect.getX() - x < radius*.75 || previousSect.getX() - x > radius*1.25){
 							x = previousSect.getX() - circle.getRadius();
 						}
 					}
 					if (previousSect.getX()<x && y==previousSect.getY()) {
-						if(x - previousSect.getX() < radius*.75){
+						if(x - previousSect.getX() < radius*.75 || x - previousSect.getX() > radius*1.25){
 							x = previousSect.getX() + circle.getRadius();
 						}
 					}

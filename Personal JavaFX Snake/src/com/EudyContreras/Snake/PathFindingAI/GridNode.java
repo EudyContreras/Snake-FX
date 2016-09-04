@@ -7,8 +7,10 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
+import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
+
 import javafx.geometry.Dimension2D;
 
 
@@ -29,6 +31,7 @@ public class GridNode {
 	private CellNode cellNode;
 	private GameManager game;
 	private Dimension2D dimension;
+	private AIController controller;
 	private PlayerTwo snakeAI;
 	private CellNode[][] cellNodes;
 
@@ -44,6 +47,7 @@ public class GridNode {
 	public GridNode(GameManager game, AIController aiController, double width, double height, int cellSize,int cellPadding) {
 		this.game = game;
 		this.cellSize = cellSize;
+		this.controller = aiController;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 		this.showCells = GameSettings.ALLOW_ASTAR_GRAPH;
 		this.minCol = ((GameSettings.MIN_Y-cellSize) / cellSize);
@@ -93,24 +97,32 @@ public class GridNode {
 		for (int row = cellNodes.length - 1; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
+				cell.setTeleportZone(true);
+				cell.setDangerZone(true);
 				teleportZoneEast.add(cell);
 			}
 		}
 		for (int row = minRow; row < minRow + 1; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
+				cell.setTeleportZone(true);
+				cell.setDangerZone(true);
 				teleportZoneWest.add(cell);
 			}
 		}
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = cellNodes[row].length - 1; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
+				cell.setTeleportZone(true);
+				cell.setDangerZone(true);
 				teleportZoneSouth.add(cell);
 			}
 		}
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < minCol + 1; col++) {
 				cell = cellNodes[row][col];
+				cell.setTeleportZone(true);
+				cell.setDangerZone(true);
 				teleportZoneNorth.add(cell);
 			}
 		}
@@ -135,6 +147,7 @@ public class GridNode {
 				cellNodes[row][col].setOccupied(false);
 				cellNodes[row][col].setSpawnAllowed(true);
 				cellNodes[row][col].setPathCell(false);
+//				cellNodes[row][col].setDangerZone(false);
 				cellNodes[row][col].updateVisuals();
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {
@@ -160,9 +173,6 @@ public class GridNode {
 				if(cellNodes[row][col].invalidSpawnZone()){
 					cellNodes[row][col].setSpawnAllowed(false);
 				}
-				if(cellNodes[row][col].teleportZone()){
-					cellNodes[row][col].setTeleportZone(true);
-				}
 				for (int i = 0; i < penalties.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(penalties.get(i).getCollideRadius())) {
 						cellNodes[row][col].setPenaltyCost(0);
@@ -185,18 +195,18 @@ public class GridNode {
 	}
 
 	public CellNode getRelativeCell(PlayerTwo snake, int r, int c) {
+		CellNode cell = getCells()[r][c];
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode tempCell = getCells()[row][col];
-				if(tempCell.getBoundsCheck().contains(snake.getAIBounds()))
-					headCell = tempCell;
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
-					if(tempCell!=null){
-						return tempCell;
-					}
+					cell = tempCell;
+					cell.setPathCell(false);
+					headCell = cell;
 				}
 			}
-		}	 return headCell;
+		}
+		return cell;
 	}
 
 	public CellNode getRelativeCell() {
@@ -208,6 +218,14 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = getCells()[row][col];
 				cell.updateVisuals();
+				if (cell.isTeleportZone()){
+					if(cell.getBoundsCheck().intersects(snakeAI.getAIBounds())){
+						if(cell.getDirection()==Direction.NONE){
+							System.out.println("checking teleport update");
+							controller.nofifyAI();
+						}
+					}
+				}
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					cell.setOccupied(true);
 				}
@@ -225,9 +243,11 @@ public class GridNode {
 		this.tailCell = cell;
 
 	}
+	public CellNode getHeadCell() {
+		return headCell;
+	}
 
 	public CellNode getTailCell(){
-
 		AbstractSection section = game.getSectManagerTwo().getSectionList().getLast();
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
