@@ -70,7 +70,7 @@ public class GridNode {
 	public void placeCells() {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
-				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(col, row));
+				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
 				cellID++;
 			}
 		}
@@ -218,14 +218,14 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = getCells()[row][col];
 				cell.updateVisuals();
-				if (cell.isTeleportZone()){
-					if(cell.getBoundsCheck().intersects(snakeAI.getAIBounds())){
-						if(cell.getDirection()==Direction.NONE){
-							System.out.println("checking teleport update");
-							controller.nofifyAI();
-						}
-					}
-				}
+//				if (cell.isTeleportZone()){
+//					if(cell.getBoundsCheck().intersects(snakeAI.getAIBounds())){
+//						if(cell.getDirection()==Direction.NONE){
+//							System.out.println("checking teleport update");
+//							controller.nofifyAI();
+//						}
+//					}
+//				}
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					cell.setOccupied(true);
 				}

@@ -684,7 +684,7 @@ public class PlayerTwo extends AbstractObject {
 		} else if (y < GameSettings.MIN_Y - radius*1.5) {
 			y = (float) (GameSettings.HEIGHT + radius-1);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius+1);
+			y = (float) (GameSettings.MIN_Y - radius*1.5+1);
 		}
 	}
 

@@ -64,7 +64,7 @@ public class AIPathFinder {
 	private Direction lastStep;
 
 	private Objective[] objectives;
-	private List<CellNode> pathCoordinates;
+	private LinkedPath pathCoordinates;
 
 
 	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
@@ -127,16 +127,16 @@ public class AIPathFinder {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
 				performLocationBasedAction();
 				addRandomBoost(true);
-				checkTimer --;
-				if(checkTimer<=0){
-					computeClosestPath(0,0);
-					if(!trackingTail){
-						checkTimer = 200;
-					}
-					else{
-						checkTimer = 60;
-					}
-				}
+//				checkTimer --;
+//				if(checkTimer<=0){
+//					computeClosestPath(0,0);
+//					if(!trackingTail){
+//						checkTimer = 200;
+//					}
+//					else{
+//						checkTimer = 60;
+//					}
+//				}
 			}
 		}
 	}
@@ -357,7 +357,7 @@ public class AIPathFinder {
 		CellNode goal = null;
 		CellNode tail = null;
 
-		List<CellNode> path = null;
+		LinkedPath path = null;
 
 		if(searchType == SearchType.SHORTEST_PATH){
 
@@ -369,7 +369,7 @@ public class AIPathFinder {
 			List<CellNode> path4 = getBestPath(controller.getGrid(),start,objectives[3].getCell());
 
 			if(start!=null){
-				path = getShortestPath(path1,path2,path3,path4);
+				path = new LinkedPath(getShortestPath(path1,path2,path3,path4), new ArrayList<>());
 			}
 		}
 		else if (searchType == SearchType.CLOSEST_OBJECTIVE) {
@@ -388,10 +388,9 @@ public class AIPathFinder {
 				}
 			}
 			path = checkObjectiveReach(start, goal, path, 0,objectives);
-
 		}
 
-		if (!path.isEmpty()) {
+		if (!path.getPathOne().isEmpty()) {
 			trackingTail = false;
 			pathType = PathType.SHORTEST_PATH;
 			showPathToObjective(path);
@@ -399,7 +398,7 @@ public class AIPathFinder {
 		} else {
 			path = checkObjectiveReach(start, goal, path, 1,objectives);
 
-			if (!path.isEmpty()) {
+			if (!path.getPathOne().isEmpty()) {
 				trackingTail = false;
 				pathType = PathType.SHORTEST_PATH;
 				showPathToObjective(path);
@@ -407,15 +406,14 @@ public class AIPathFinder {
 			} else {
 				path = checkObjectiveReach(start, goal, path, 2,objectives);
 
-				if (!path.isEmpty()) {
+				if (!path.getPathOne().isEmpty()) {
 					trackingTail = false;
 					pathType = PathType.SHORTEST_PATH;
 					showPathToObjective(path);
-
 				} else {
 					path = checkObjectiveReach(start, goal, path, 3,objectives);
 
-					if (!path.isEmpty()) {
+					if (!path.getPathOne().isEmpty()) {
 						trackingTail = false;
 						pathType = PathType.SHORTEST_PATH;
 						showPathToObjective(path);
@@ -429,9 +427,9 @@ public class AIPathFinder {
 							if(!start.isDangerZone()){
 								distressLevel = DistressLevel.NORMAL;
 							}
-							path = getBestPath(controller.getGrid(), start, tail);
+							path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
 						}
-						if (!path.isEmpty()) {
+						if (!path.getPathOne().isEmpty()) {
 							trackingTail = true;
 							pathType = PathType.LONGEST_PATH;
 							showPathToObjective(path);
@@ -440,29 +438,27 @@ public class AIPathFinder {
 							log("Normal path to tail is empty");
 
 							distressLevel = DistressLevel.EMERGENCY;
-							path = getBestPath(controller.getGrid(), start, tail);
-
-							if (!path.isEmpty()) {
-								trackingTail = true;
-								pathType = PathType.LONGEST_PATH;
-								showPathToObjective(path);
-							}
+							path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
+						if (!path.getPathOne().isEmpty()) {
+							trackingTail = true;
+							pathType = PathType.LONGEST_PATH;
+							showPathToObjective(path);
+						}
 							else {
 
 								log("Emergency path to tail empty!");
 
 								distressLevel = DistressLevel.EMERGENCY;
-								path = emergencyTeleport(controller.getGrid(), start);
+								path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
 
-								if (!path.isEmpty()) {
-									trackingTail = true;
-									pathType = PathType.LONGEST_PATH;
-									log("EMERGENCY TELEPORT");
-									showPathToObjective(path);
-								}
-								else {
-									// TODO: Stall until path is found or
-									// die!!!!
+							if (!path.getPathOne().isEmpty()) {
+								trackingTail = true;
+								pathType = PathType.LONGEST_PATH;
+								showPathToObjective(path);
+
+//								else {
+//									// TODO: Stall until path is found or
+//									// die!!!!
 								}
 							}
 						}
@@ -471,7 +467,7 @@ public class AIPathFinder {
 			}
 		}
 	}
-	public List<CellNode> checkObjectiveReach(CellNode start, CellNode goal, List<CellNode> path, int index, Objective[] objectives){
+	public LinkedPath checkObjectiveReach(CellNode start, CellNode goal, LinkedPath path, int index, Objective[] objectives){
 		start = controller.getRelativeCell(snakeAI, 0, 0);
 		if(start==null){
 			start = controller.getGrid().getHeadCell();
@@ -492,18 +488,18 @@ public class AIPathFinder {
 				if(!start.isDangerZone()){
 					distressLevel = DistressLevel.NORMAL;
 				}
-				path = getBestPath(controller.getGrid(),start ,goal);
+				path = new LinkedPath(getBestPath(controller.getGrid(),start ,goal),new ArrayList<>());
 
-				if(!path.isEmpty()){
+				if(!path.getPathOne().isEmpty()){
 					return path;
 				}
 				else{
 					log("Normal path to "+index+" goal is empty");
 
 					distressLevel = DistressLevel.EMERGENCY;
-					path = getBestPath(controller.getGrid(),start,goal);
+					path = new LinkedPath(getBestPath(controller.getGrid(),start ,goal),new ArrayList<>());
 
-					if(!path.isEmpty()){
+					if(!path.getPathOne().isEmpty()){
 						return path;
 					}
 					else{
@@ -541,15 +537,15 @@ public class AIPathFinder {
 //			}
 //		}
 
-		return new ArrayList<>();
+		return new LinkedPath();
 	}
 	/*
 	 * Unsafe amd unchecked teleport method which triggers a teleportation when a the distance
 	 * between the snake and the objective is above a certain threshold. The calculations are made
 	 * based on relational distance planes.
 	 */
-	private LinkedPath computeInterpolarDirectionAlt(GridNode grid, CellNode start, Objective objective) {
-		LinkedPath path;
+	private List<CellNode> computeInterpolarDirectio(GridNode grid, CellNode start, Objective objective) {
+		List<CellNode> path;
 
 		if((objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45) && objective.getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.45){
 
@@ -558,7 +554,6 @@ public class AIPathFinder {
 				for (CellNode cell : eastBorder) {
 					if (!cell.isOccupied()  && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
 						distressLevel = DistressLevel.EMERGENCY;
-						findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(), grid.getMinCol()), start, objectives);
 						path = getBestPath(controller.getGrid(), start, cell);
 						if (!path.isEmpty()) {
 							lastStep = Direction.RIGHT;
@@ -653,6 +648,124 @@ public class AIPathFinder {
 			}
 		}
 		return  getBestPath(controller.getGrid(), start, objective.getCell());
+	}
+
+	private LinkedPath computeInterpolarDirectionAlt(GridNode grid, CellNode start, Objective objective) {
+		LinkedPath path;
+
+		if((objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45) && objective.getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.45){
+
+			if(start.getLocation().getX() > GameSettings.WIDTH*.65){
+				LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
+				for (CellNode cell : eastBorder) {
+					if (!cell.isOccupied()  && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+//						path = new LinkedPath(getBestPath(controller.getGrid(), start, cell), getBestPath(grid,grid.getCell(grid.getMinRow(), cell.getIndex().getCol()),objectives[3].getCell()));
+						path = findPortalCell(grid, cell, grid.getCell(grid.getMinRow(), cell.getIndex().getCol()), start, objectives);
+
+						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
+							lastStep = Direction.RIGHT;
+							return path;
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+			if(start.getLocation().getX() < GameSettings.WIDTH*.35){
+				LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+				for (CellNode cell : westBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+//						path = new LinkedPath(getBestPath(controller.getGrid(), start, cell), getBestPath(grid, grid.getCell(grid.getColumnCount()-1,cell.getIndex().getCol()),objectives[3].getCell()));
+						path = findPortalCell(grid, cell, grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()), start, objectives);
+
+						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
+							lastStep = Direction.LEFT;
+							return path;
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+
+		else if(objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45  && objective.getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.45){
+			if(start.getLocation().getY() > GameSettings.HEIGHT*.65){
+				LinkedList<CellNode> southBorder =  grid.getTeleportZoneSouth();
+				for (CellNode cell : southBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(cell.getIndex().getRow(),grid.getMinCol()).isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getMinCol()), start, objectives);
+						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
+							lastStep = Direction.DOWN;
+							return path;
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+			if(start.getLocation().getY() < GameSettings.HEIGHT*.35){
+				LinkedList<CellNode> northBorder =  grid.getTeleportZoneNorth();
+				for (CellNode cell : northBorder) {
+					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1)  .isOccupied()) {
+						distressLevel = DistressLevel.EMERGENCY;
+						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1), start, objectives);
+						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
+							lastStep = Direction.UP;
+							return path;
+
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+//		else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
+//			if(start.getLocation().getX() > GameSettings.WIDTH*.65){
+//				LinkedList<CellNode> eastBorder =  grid.getTeleportZoneEast();
+//				for (CellNode cell : eastBorder) {
+//					if (!cell.isOccupied()  && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
+//						distressLevel = DistressLevel.EMERGENCY;
+//						path = new LinkedPath(getBestPath(controller.getGrid(), start, cell), getBestPath(grid,  grid.getCell(cell.getIndex().getRow(), grid.getMinCol()),objectives[3].getCell()));
+//
+////						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(), grid.getMinCol()), start, objectives);
+//						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
+//							lastStep = Direction.RIGHT;
+//							return path;
+//
+//						} else {
+//							continue;
+//						}
+//					}
+//				}
+//			}
+//			if(start.getLocation().getX() < GameSettings.WIDTH*.35){
+//				LinkedList<CellNode> westBorder =  grid.getTeleportZoneWest();
+//				for (CellNode cell : westBorder) {
+//					if (!cell.isOccupied() && cell.getLocation().getY()>=start.getLocation().getY() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1).isOccupied()) {
+//						distressLevel = DistressLevel.EMERGENCY;
+//						path = new LinkedPath(getBestPath(controller.getGrid(), start, cell), getBestPath(grid,grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1),objectives[3].getCell()));
+//
+////						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1), start, objectives);
+//						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
+//							lastStep = Direction.LEFT;
+//							return path;
+//
+//						} else {
+//							continue;
+//						}
+//					}
+//				}
+//			}
+//		}
+		return new LinkedPath(getBestPath(controller.getGrid(), start, objective.getCell()),new ArrayList<>());
 	}
 
 	/*
@@ -1026,25 +1139,25 @@ public class AIPathFinder {
 
 				if(!pathFromPortal.isEmpty()){
 					log("path from portal not empty");
-					return new LinkedPath(pathToPortal,pathToPortal);
+					return new LinkedPath(pathToPortal,pathFromPortal);
 				}
 				else{
 					pathFromPortal = getBestPath(controller.getGrid(), portalOut, objectives[2].getCell());
 
 					if(!pathFromPortal.isEmpty()){
-						return new LinkedPath(pathToPortal,pathToPortal);
+						return new LinkedPath(pathToPortal,pathFromPortal);
 					}
 					else{
 						pathFromPortal = getBestPath(controller.getGrid(), portalOut, objectives[1].getCell());
 
 						if(!pathFromPortal.isEmpty()){
-							return new LinkedPath(pathToPortal,pathToPortal);
+							return new LinkedPath(pathToPortal,pathFromPortal);
 						}
 						else{
 							pathFromPortal = getBestPath(controller.getGrid(), portalOut, objectives[0].getCell());
 
 							if(!pathFromPortal.isEmpty()){
-								return new LinkedPath(pathToPortal,pathToPortal);
+								return new LinkedPath(pathToPortal,pathFromPortal);
 							}
 						}
 					}
@@ -1310,23 +1423,23 @@ public class AIPathFinder {
 		return smallest;
 	}
 
-	private void showPathToObjective(List<CellNode> cells){
+	private void showPathToObjective(LinkedPath cells){
 		setPathCoordinates(calculateDirection(cells));
 		setAllowTrace(true);
-		if (logDirections) {
-			for (int i = cells.size() - 1; i >= 0; i--) {
-				log("Direction: " + cells.get(i).getDirection().toString());
-			}
-			log("");
-		}
+//		if (logDirections) {
+//			for (int i = cells.size() - 1; i >= 0; i--) {
+//				log("Direction: " + cells.get(i).getDirection().toString());
+//			}
+//			log("");
+//		}
 	}
 
 	private void setAllowTrace(boolean state) {
 		this.allowTrace = state;
 	}
 
-	private List<CellNode> calculateDirection(List<CellNode> cells) {
-		for (CellNode node : cells) {
+	private LinkedPath calculateDirection(LinkedPath paths) {
+		for (CellNode node : paths.getPathOne()) {
 			node.setPathCell(true);
 			if (node.getParentNode() != null) {
 				if (node.getLocation().getX() > node.getParentNode().getLocation().getX()) {
@@ -1340,9 +1453,25 @@ public class AIPathFinder {
 				}
 			}
 		}
-		cells.get(0 ).setDirection(lastStep);
+		if (!paths.getPathTwo().isEmpty()){
+			for (CellNode node : paths.getPathTwo()) {
+				node.setPathCell(true);
+				if (node.getParentNode() != null) {
+					if (node.getLocation().getX() > node.getParentNode().getLocation().getX()) {
+						node.getParentNode().setDirection(Direction.RIGHT);
+					} else if (node.getLocation().getX() < node.getParentNode().getLocation().getX()) {
+						node.getParentNode().setDirection(Direction.LEFT);
+					} else if (node.getLocation().getY() > node.getParentNode().getLocation().getY()) {
+						node.getParentNode().setDirection(Direction.DOWN);
+					} else if (node.getLocation().getY() < node.getParentNode().getLocation().getY()) {
+						node.getParentNode().setDirection(Direction.UP);
+					}
+				}
+			}
+		}
+		paths.getPathOne().get(0).setDirection(lastStep);
 		lastStep = Direction.NONE;
-		return cells;
+		return paths;
 	}
 	/**
 	 * TODO: Build a list containing coordinates and directions.
@@ -1353,8 +1482,8 @@ public class AIPathFinder {
 	public void steerPlayer() {
 		CellNode cell = null;
 		if (pathCoordinates != null && allowTrace) {
-			for (int index = 0; index < pathCoordinates.size(); index++) {
-				cell = pathCoordinates.get(index);
+			for (int index = 0; index < pathCoordinates.getPathOne().size(); index++) {
+				cell = pathCoordinates.getPathOne().get(index);
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					switch (cell.getDirection()) {
 					case DOWN:
@@ -1377,6 +1506,34 @@ public class AIPathFinder {
 						break;
 					}
 					break;
+				}
+			}
+			if(!pathCoordinates.getPathTwo().isEmpty()){
+				for (int index = 0; index < pathCoordinates.getPathTwo().size(); index++) {
+					cell = pathCoordinates.getPathTwo().get(index);
+					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
+						switch (cell.getDirection()) {
+						case DOWN:
+							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
+							cell.setPathCell(false);
+							break;
+						case LEFT:
+							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
+							cell.setPathCell(false);
+							break;
+						case RIGHT:
+							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
+							cell.setPathCell(false);
+							break;
+						case UP:
+							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
+							cell.setPathCell(false);
+							break;
+						case NONE:
+							break;
+						}
+						break;
+					}
 				}
 			}
 		}
@@ -1620,8 +1777,8 @@ public class AIPathFinder {
 		}
 		public LinkedPath(List<CellNode> pathOne, List<CellNode> pathTwo) {
 			super();
-			this.pathOne = pathOne;
-			this.pathTwo = pathTwo;
+			this.pathOne = !pathOne.isEmpty() ? pathOne : new ArrayList<>();
+			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new ArrayList<>();
 		}
 		public final List<CellNode> getPathOne() {
 			return pathOne;
@@ -1662,7 +1819,7 @@ public class AIPathFinder {
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 	}
 
-	private void setPathCoordinates(List<CellNode> coordinates){
+	private void setPathCoordinates(LinkedPath coordinates){
 		this.pathCoordinates = coordinates;
 	}
 	public PlayerMovement getDirection() {

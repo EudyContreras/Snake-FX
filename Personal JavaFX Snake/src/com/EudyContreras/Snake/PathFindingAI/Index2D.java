@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.PathFindingAI;
 public class Index2D{
 	int row;
 	int col;
-	public Index2D(int col, int row){
+	public Index2D(int row, int col){
 		this.row = row;
 		this.col = col;
 	}
