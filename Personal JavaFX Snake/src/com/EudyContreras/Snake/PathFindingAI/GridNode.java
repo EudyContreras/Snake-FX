@@ -223,7 +223,7 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = getCells()[row][col];
 				cell.updateVisuals();
-				
+
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					if(!cell.isOccupied()){
 						cell.setOccupied(true);
@@ -323,43 +323,44 @@ public class GridNode {
 		int aRow;
 
 		switch(scenario){
+
 		case LEVEL_ONE:
 			// top
-			aCol = col;
-			aRow = row - 1;
-			if (aRow >= minRow) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// bottom
-			aCol = col;
-			aRow = row + 1;
-			if (aRow < rowCount) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// left
-			aCol = col - 1;
-			aRow = row;
-			if (aCol >= minCol) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
-					neighbors.add(tempCell);
-				}
-			}
-			// right
-			aCol = col + 1;
-			aRow = row;
-			if (aCol < columnCount) {
-				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
-					neighbors.add(tempCell);
-				}
-			}
+						aCol = col;
+						aRow = row - 1;
+						if (aRow >= minRow) {
+							tempCell = getCell(aRow, aCol);
+							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+								neighbors.add(tempCell);
+							}
+						}
+						// bottom
+						aCol = col;
+						aRow = row + 1;
+						if (aRow < rowCount) {
+							tempCell = getCell(aRow, aCol);
+							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+								neighbors.add(tempCell);
+							}
+						}
+						// left
+						aCol = col - 1;
+						aRow = row;
+						if (aCol >= minCol) {
+							tempCell = getCell(aRow, aCol);
+							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+								neighbors.add(tempCell);
+							}
+						}
+						// right
+						aCol = col + 1;
+						aRow = row;
+						if (aCol < columnCount) {
+							tempCell = getCell(aRow, aCol);
+							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+								neighbors.add(tempCell);
+							}
+						}
 			break;
 		case LEVEL_TWO:
 			// top
@@ -367,7 +368,7 @@ public class GridNode {
 			aRow = row - 1;
 			if (aRow >= minRow) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 					neighbors.add(tempCell);
 				}
 			}
@@ -376,7 +377,7 @@ public class GridNode {
 			aRow = row + 1;
 			if (aRow < rowCount) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 					neighbors.add(tempCell);
 				}
 			}
@@ -385,7 +386,7 @@ public class GridNode {
 			aRow = row;
 			if (aCol >= minCol) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 					neighbors.add(tempCell);
 				}
 			}
@@ -394,7 +395,7 @@ public class GridNode {
 			aRow = row;
 			if (aCol < columnCount) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 					neighbors.add(tempCell);
 				}
 			}
