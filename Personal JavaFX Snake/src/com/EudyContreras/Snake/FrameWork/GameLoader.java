@@ -380,11 +380,14 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnSnakeFood() {
 		boolean validCell = false;
-		int rows = game.getAIController().getGrid().getRowCount();
-		int cols = game.getAIController().getGrid().getColumnCount();
+
+		int minRow = game.getAIController().getGrid().getMinRow();
+		int minCol = game.getAIController().getGrid().getMinCol();
+		int maxRowCount = game.getAIController().getGrid().getRowCount();
+		int maxColCount = game.getAIController().getGrid().getColumnCount();
 
 		while(!validCell){
-			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(2, rows-2)][RandomGenUtility.getRandom(2, cols-2)];
+			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
 			if(cell.fruitSpawnAllowed()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
 				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);

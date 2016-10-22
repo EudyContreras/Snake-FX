@@ -53,7 +53,7 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 			AbstractObject tempObject = game.getGameObjectController().getObsFruitList().get(i);
 			if (tempObject.getId() == GameObjectID.Fruit) {
 				if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
-					if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING || GameSettings.ALLOW_AI_CONTROLL) {
+					if (PlayerTwo.MOUTH_CLOSE && GameSettings.ALLOW_AUTOMATIC_EATING) {
 						snake.openMouth();
 						break;
 					}

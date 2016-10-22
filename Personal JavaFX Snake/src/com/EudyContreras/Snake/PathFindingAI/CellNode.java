@@ -21,7 +21,7 @@ public class CellNode implements Comparable<CellNode>{
 	private double cellSize = 0;
 	private double heuristic = 0;
 	private double movementCost = 10;
-    private double penaltyCost = 0;
+	private double penaltyCost = 0;
 	private double totalCost = 0;
 
 	private boolean closed = false;
@@ -54,17 +54,17 @@ public class CellNode implements Comparable<CellNode>{
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.TRANSPARENT);
 			this.visualRep.setStroke(Color.rgb(0,0,0,0.8));
-		    layer.getChildren().add(this.getVisualRep());
+			layer.getChildren().add(this.getVisualRep());
 		}
 	}
 	public void resetValues(){
 		directionInPath = Direction.NONE;
-	    parentNode = null;
+		parentNode = null;
 		pathCell = false;
 		heuristic = 0;
 		movementCost = 10;
-	    penaltyCost = 0;
-	    totalCost = 0;
+		penaltyCost = 0;
+		totalCost = 0;
 	}
 	public void setLocation(double x, double y) {
 		this.location = new Point2D(x, y);
@@ -80,8 +80,8 @@ public class CellNode implements Comparable<CellNode>{
 
 	public void setContainsTarget(boolean state) {
 		setTargetCell(state);
-
 	}
+
 	public void updateVisuals(){
 		if (showCells){
 			if(spawnAllowed && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
@@ -111,7 +111,6 @@ public class CellNode implements Comparable<CellNode>{
 		this.spawnAllowed = state;
 		this.penaltyCost = 200;
 	}
-
 	public void setPathCell(boolean state) {
 		this.pathCell = state;
 	}
@@ -123,24 +122,25 @@ public class CellNode implements Comparable<CellNode>{
 	}
 	public boolean invalidSpawnZone(){
 		return this.getIndex().getRow()==0 || this.getIndex().getRow()==1 ||
-			   this.getIndex().getCol()==1 || this.getIndex().getCol()==2 ||
-			   this.getIndex().getRow()==grid.getRowCount()-1 ||
-			   this.getIndex().getRow()==grid.getRowCount()-2 ||
-			   this.getIndex().getCol()==grid.getColumnCount()-1||
-			   this.getIndex().getCol()==grid.getColumnCount()-2;
+				this.getIndex().getCol()==1 || this.getIndex().getCol()==2 ||
+				this.getIndex().getRow()==grid.getRowCount()-1 ||
+				this.getIndex().getRow()==grid.getRowCount()-2 ||
+				this.getIndex().getCol()==grid.getColumnCount()-1||
+				this.getIndex().getCol()==grid.getColumnCount()-2;
 	}
 	public boolean teleportZone(){
 		return this.getIndex().getRow()==0 ||
-			   this.getIndex().getCol()==1 ||
-			   this.getIndex().getRow()==grid.getRowCount()-1 ||
-			   this.getIndex().getCol()==grid.getColumnCount()-1;
+				this.getIndex().getCol()==1 ||
+				this.getIndex().getRow()==grid.getRowCount()-1 ||
+				this.getIndex().getCol()==grid.getColumnCount()-1;
 	}
 	public boolean fruitSpawnAllowed(){
 		return isSpawnAllowed() &&
-			   isAvailable() &&
-			   !isOccupied() &&
-			   !isPlayerSpawnZone()
-			   && grid.safeSpawn(this);
+				isAvailable() &&
+				!isOccupied() &&
+				!isPlayerSpawnZone() &&
+				!isTeleportZone() &&
+				grid.safeSpawn(this);
 	}
 	public boolean isInvalidSpawnZone(){
 		return invalidSpawnZone;
@@ -166,15 +166,12 @@ public class CellNode implements Comparable<CellNode>{
 	public final void setParentNode(CellNode parent) {
 		this.parentNode = parent;
 	}
-
 	public int getID() {
 		return id;
 	}
-
 	public Index2D getIndex() {
 		return index;
 	}
-
 	public Rectangle getVisualRep() {
 		return visualRep;
 	}
@@ -307,31 +304,31 @@ public class CellNode implements Comparable<CellNode>{
 			return this.name();
 		}
 	}
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final CellNode other = (CellNode) obj;
-        if (this.index.getRow() != other.index.getRow()) {
-            return false;
-        }
-        if (this.index.getCol() != other.index.getCol()) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final CellNode other = (CellNode) obj;
+		if (this.index.getRow() != other.index.getRow()) {
+			return false;
+		}
+		if (this.index.getCol() != other.index.getCol()) {
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + this.index.getRow();
-        hash = 17 * hash + this.index.getCol();
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 17 * hash + this.index.getRow();
+		hash = 17 * hash + this.index.getCol();
+		return hash;
+	}
 	@Override
 	public int compareTo(CellNode node) {
 		return Double.compare(this.getTotalCost(),node.getTotalCost());

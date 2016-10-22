@@ -73,7 +73,7 @@ public class PlayerTwoFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snake.getX() + offsetX);
 		y = (float) (snake.getY() + offsetY);
-		circle.setRadius(GameSettings.PLAYER_TWO_SIZE * 0.25);
+		circle.setRadius(GameSettings.ALLOW_AI_CONTROLL ? GameSettings.PLAYER_TWO_SIZE * 0.25 : GameSettings.PLAYER_TWO_SIZE * 0.40);
 
 
 	}
@@ -83,16 +83,16 @@ public class PlayerTwoFangs extends AbstractObject {
 	}
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
-			this.offsetY = -this.snakeHead.getRadius()*.15;
+			this.offsetY = GameSettings.ALLOW_AI_CONTROLL ? -this.snakeHead.getRadius()*.15 : -this.snakeHead.getRadius()*.65;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.offsetY = this.snakeHead.getRadius()*.15;
+			this.offsetY = GameSettings.ALLOW_AI_CONTROLL ? this.snakeHead.getRadius()*.15 : this.snakeHead.getRadius()*.65;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.offsetX = -this.snakeHead.getRadius()*.15;
+			this.offsetX = GameSettings.ALLOW_AI_CONTROLL ? -this.snakeHead.getRadius()*.15 : -this.snakeHead.getRadius()*.65;
 			this.offsetY = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.offsetX = this.snakeHead.getRadius()*.15;
+			this.offsetX = GameSettings.ALLOW_AI_CONTROLL ? this.snakeHead.getRadius()*.15 : this.snakeHead.getRadius()*.65;
 			this.offsetY = 0;
 		}
 	}

@@ -265,6 +265,7 @@ public class StringEncrypter {
         boolean duplicates = false;
         String[] byte_Plain =
             {"1","2","3","4","5","6","7","8","9","0"};
+        
         char[] plain_char_set =
             {'A','B','C','D','E','F','G','H',
              'I','J','K','L','M','N','O','P',
@@ -272,6 +273,7 @@ public class StringEncrypter {
              'Y','Z','Ö','Ä','Å','0','1','2',
              '3','4','5','6','7','8','9',' ',
              ',','?','.','!'};
+        
         if (password.isPasswordOk() && new_CharSet != null) {
             duplicates = EncryptionUtils.containsDuplicates(new_CharSet) ;
             if(!duplicates && new_CharSet.length>=40) {
@@ -1010,7 +1012,7 @@ public class StringEncrypter {
 
 
         long encrypt_start_time = System.currentTimeMillis();
-        byte[] encryption = StringEncrypter.encrypt("Your message is now secure!", new Password("password"),plain_char_set, SecurityLevel.VERY_HIGH);
+        byte[] encryption = StringEncrypter.encrypt("hey!", new Password("password"),plain_char_set, SecurityLevel.VERY_HIGH);
         long encrypt_end_time = System.currentTimeMillis();
         System.out.println("Encryption speed: "+(encrypt_end_time - encrypt_start_time)+ " Milliseconds");
 

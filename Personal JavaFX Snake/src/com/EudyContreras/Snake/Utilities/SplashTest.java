@@ -13,7 +13,7 @@ import javafx.stage.StageStyle;
 
 public class SplashTest extends Application{
 
-	private int itemsToLoad = 10000;
+	private int itemsToLoad = 310000;
 	private TilePane root;
 	private Stage mainWindow;
 	private Scene scene;

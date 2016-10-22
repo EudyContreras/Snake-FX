@@ -656,13 +656,11 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 		for (int i = 0; i < GameSettings.SECTIONS_TO_ADD; i++) {
-			if(PlayerTwo.AI_CONTROLLED){
-
 			sectManager.addSection(new PlayerTwoSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
-			}
+			
 			appleCount++;
 		}
 		game.getScoreBoardTwo().increaseScore();

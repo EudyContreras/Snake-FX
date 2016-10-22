@@ -84,7 +84,7 @@ public class AIPathFinder {
 	public void initialize() {
 		rand = new Random();
 		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
-		heuristicType = HeuristicType.MANHATHAN;
+		heuristicType = HeuristicType.EUCLIDIAN;
 		distressLevel = DistressLevel.LEVEL_TWO;
 		searchType = SearchType.CLOSEST_OBJECTIVE;
 		tieBreaker = TieBreaker.NONE;
@@ -161,7 +161,7 @@ public class AIPathFinder {
 
 		openCollection.add(startingPoint);
 
-		//		startingPoint.setOccupied(false);
+		//startingPoint.setOccupied(false);
 
 		switch(snakeAI.getCurrentDirection()){
 
@@ -232,7 +232,7 @@ public class AIPathFinder {
 
 					double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
 
-					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
+					heuristic =heuristicCostEstimate(neighbor, objective,1.0,heuristicType);
 
 					switch (tieBreaker) {
 
@@ -374,7 +374,7 @@ public class AIPathFinder {
 		CellNode goal = null;
 		CellNode tail = null;
 
-		LinkedPath path = null;
+		LinkedPath path = new LinkedPath();
 
 		if(searchType == SearchType.SHORTEST_PATH){
 
@@ -393,6 +393,7 @@ public class AIPathFinder {
 
 			Arrays.sort(objectives);
 
+			if(objectives.length>0){
 			if (objectives[0] != null && GameSettings.DEBUG_MODE) {
 				objectives[0].getObject().blowUpAlt();
 			}
@@ -403,8 +404,9 @@ public class AIPathFinder {
 				if(!start.isDangerZone()){
 					distressLevel = DistressLevel.LEVEL_TWO;
 				}
-			}
+
 			path = checkObjectiveReach(start, goal, path, 0,objectives);
+			}
 		}
 
 		if (!path.getPathOne().isEmpty()) {
@@ -413,7 +415,9 @@ public class AIPathFinder {
 			showPathToObjective(path);
 
 		} else {
-			path = checkObjectiveReach(start, goal, path, 1,objectives);
+
+			start = controller.getHeadCell(snakeAI,0,0);
+			path = checkObjectiveReach(start, goal, path, objectives.length>=1 ? 1 : 0,objectives);
 
 			if (!path.getPathOne().isEmpty()) {
 				trackingTail = false;
@@ -421,14 +425,16 @@ public class AIPathFinder {
 				showPathToObjective(path);
 
 			} else {
-				path = checkObjectiveReach(start, goal, path, 2,objectives);
+				start = controller.getHeadCell(snakeAI,0,0);
+				path = checkObjectiveReach(start, goal, path, objectives.length>=2 ? 2 : 0,objectives);
 
 				if (!path.getPathOne().isEmpty()) {
 					trackingTail = false;
 					pathType = PathType.SHORTEST_PATH;
 					showPathToObjective(path);
 				} else {
-					path = checkObjectiveReach(start, goal, path, 3,objectives);
+					start = controller.getHeadCell(snakeAI,0,0);
+					path = checkObjectiveReach(start, goal, path, objectives.length>2 ? 3 : 0,objectives);
 
 					if (!path.getPathOne().isEmpty()) {
 						trackingTail = false;
@@ -443,8 +449,9 @@ public class AIPathFinder {
 						if (start != null && tail != null) {
 							if(!start.isDangerZone()){
 								distressLevel = DistressLevel.LEVEL_TWO;
-							}
+
 							path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
+							}
 						}
 						if (!path.getPathOne().isEmpty()) {
 							trackingTail = true;
@@ -452,9 +459,14 @@ public class AIPathFinder {
 							showPathToObjective(path);
 						} else {
 
+							start = controller.getHeadCell(snakeAI, 0, 0);
+							tail = controller.getGrid().getTailCell();
+
+
 							log("Normal path to tail is empty");
 
 							distressLevel = DistressLevel.LEVEL_THREE;
+
 							path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
 
 							if (!path.getPathOne().isEmpty()) {
@@ -484,9 +496,10 @@ public class AIPathFinder {
 				}
 			}
 		}
+		}
 	}
 	public LinkedPath checkObjectiveReach(CellNode start, CellNode goal, LinkedPath path, int index, Objective[] objectives){
-		start = controller.getHeadCell(snakeAI, 0, 0);
+//		start = controller.getHeadCell(snakeAI, 0, 0);
 		if(start!=null){
 
 			if((objectives[index].getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.4) && objectives[index].getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.4){
@@ -498,9 +511,9 @@ public class AIPathFinder {
 			else if(objectives[index].getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5 && objectives[index].getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
 				return path = computeInterpolarDirection(controller.getGrid(),start,objectives,index);
 			}
-			else if((objectives[index].getDistance()+100) > objectives[index==3 ? 0 : 3].getInterpolarDistance(snakeAI.getX(), snakeAI.getY())){
-				return path = computeInterpolarDirection(controller.getGrid(),start,objectives,index);
-			}
+//			else if((objectives[index].getDistance()+100) > objectives[index==2 ? 0 : 2].getInterpolarDistance(snakeAI.getX(), snakeAI.getY())){
+//				return path = computeInterpolarDirection(controller.getGrid(),start,objectives,index);
+//			}
 			else{
 				goal = objectives[index].getCell();
 				if(start!=null && goal!=null){

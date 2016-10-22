@@ -73,7 +73,7 @@ public class PlayerOneFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snakeHead.getX() + offsetX);
 		y = (float) (snakeHead.getY() + offsetY);
-		circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.35);
+		circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.45);
 
 
 	}
