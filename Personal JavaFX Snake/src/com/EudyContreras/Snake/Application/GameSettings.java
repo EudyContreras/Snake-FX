@@ -38,7 +38,7 @@ public class GameSettings {
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 80;
+	public static int APPLE_COUNT = 300;
 	public static int BUFF_COUNT = 0;
 	public static int SECTIONS_TO_ADD = 1;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
@@ -111,7 +111,7 @@ public class GameSettings {
 
 	public static boolean PARENT_CACHE = false;
 	public static boolean ALLOW_ASTAR_GRAPH = true;
-	public static boolean SHOW_ASTAR_GRAPH = true;
+	public static boolean SHOW_ASTAR_GRAPH = false;
 	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = true;
 	public static boolean RENDER_INTERFACE = true;

@@ -119,6 +119,7 @@ public class GameManager extends AbstractGameModel {
 
 		loader.setScale(GameLoader.scaleFactor);
 	}
+
 	public void setNewRatio(boolean state){
 		if(sizeListener!=null){
 			if(state){

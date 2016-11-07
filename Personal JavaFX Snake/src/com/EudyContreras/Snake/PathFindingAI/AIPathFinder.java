@@ -50,15 +50,15 @@ public class AIPathFinder {
 	private boolean trackingTail = false;
 
 	private double checkTimer = 100;
-	private double heuristicScale = 1;
+	private double heuristicScale = 2;
 
 	private int cellCount = 0;
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
 	private DistressLevel distressLevel;
-	private PathType pathType;
 	private HeuristicType heuristicType;
+	private PathType pathType;
 	private SearchType searchType;
 	private TieBreaker tieBreaker;
 	private ActionType state;
@@ -84,7 +84,7 @@ public class AIPathFinder {
 	public void initialize() {
 		rand = new Random();
 		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
-		heuristicType = HeuristicType.EUCLIDIAN;
+		heuristicType = HeuristicType.MANHATHAN;
 		distressLevel = DistressLevel.LEVEL_TWO;
 		searchType = SearchType.CLOSEST_OBJECTIVE;
 		tieBreaker = TieBreaker.NONE;
@@ -130,7 +130,7 @@ public class AIPathFinder {
 				addRandomBoost(true);
 				checkTimer --;
 				if(checkTimer<=0){
-					//					findClosestObjective();
+					//findClosestObjective();
 					computeClosestPath(0,0);
 					if(!trackingTail){
 						checkTimer = 200;
@@ -232,7 +232,7 @@ public class AIPathFinder {
 
 					double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
 
-					heuristic =heuristicCostEstimate(neighbor, objective,1.0,heuristicType);
+					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
 
 					switch (tieBreaker) {
 
@@ -370,15 +370,13 @@ public class AIPathFinder {
 
 		controller.getGrid().resetCells();
 
-		CellNode start = null;
+		CellNode start = controller.getHeadCell(snakeAI, 0, 0);
 		CellNode goal = null;
-		CellNode tail = null;
+		CellNode tail = controller.getGrid().getTailCell();
 
 		LinkedPath path = new LinkedPath();
 
 		if(searchType == SearchType.SHORTEST_PATH){
-
-			start = controller.getHeadCell(snakeAI, 0, 0);
 
 			List<CellNode> path1 = getBestPath(controller.getGrid(),start,objectives[0].getCell());
 			List<CellNode> path2 = getBestPath(controller.getGrid(),start,objectives[1].getCell());
@@ -398,7 +396,7 @@ public class AIPathFinder {
 				objectives[0].getObject().blowUpAlt();
 			}
 
-			start = controller.getHeadCell(snakeAI, 0, 0);
+
 
 			if(start!=null){
 				if(!start.isDangerZone()){
@@ -416,7 +414,7 @@ public class AIPathFinder {
 
 		} else {
 
-			start = controller.getHeadCell(snakeAI,0,0);
+			if(objectives.length>0){
 			path = checkObjectiveReach(start, goal, path, objectives.length>=1 ? 1 : 0,objectives);
 
 			if (!path.getPathOne().isEmpty()) {
@@ -425,7 +423,6 @@ public class AIPathFinder {
 				showPathToObjective(path);
 
 			} else {
-				start = controller.getHeadCell(snakeAI,0,0);
 				path = checkObjectiveReach(start, goal, path, objectives.length>=2 ? 2 : 0,objectives);
 
 				if (!path.getPathOne().isEmpty()) {
@@ -433,7 +430,7 @@ public class AIPathFinder {
 					pathType = PathType.SHORTEST_PATH;
 					showPathToObjective(path);
 				} else {
-					start = controller.getHeadCell(snakeAI,0,0);
+
 					path = checkObjectiveReach(start, goal, path, objectives.length>2 ? 3 : 0,objectives);
 
 					if (!path.getPathOne().isEmpty()) {
@@ -443,7 +440,6 @@ public class AIPathFinder {
 					}
 					else {
 
-						start = controller.getHeadCell(snakeAI, 0, 0);
 						tail = controller.getGrid().getTailCell();
 
 						if (start != null && tail != null) {
@@ -459,15 +455,13 @@ public class AIPathFinder {
 							showPathToObjective(path);
 						} else {
 
-							start = controller.getHeadCell(snakeAI, 0, 0);
-							tail = controller.getGrid().getTailCell();
-
-
 							log("Normal path to tail is empty");
 
 							distressLevel = DistressLevel.LEVEL_THREE;
 
-							path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
+							if(start!=null && tail!=null){
+								path = new LinkedPath(getBestPath(controller.getGrid(), start, tail), new ArrayList<>());
+							}
 
 							if (!path.getPathOne().isEmpty()) {
 								trackingTail = true;
@@ -495,6 +489,7 @@ public class AIPathFinder {
 					}
 				}
 			}
+		}
 		}
 		}
 	}
@@ -876,6 +871,7 @@ public class AIPathFinder {
 		}
 		return new LinkedPath();
 	}
+
 	private LinkedPath findPortalCell(GridNode grid, CellNode portalIn, CellNode portalOut, CellNode start, CellNode objective){
 
 		List<CellNode> pathToPortal;
