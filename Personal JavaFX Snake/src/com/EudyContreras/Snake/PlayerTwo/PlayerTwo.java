@@ -153,11 +153,11 @@ public class PlayerTwo extends AbstractObject {
 
 	}
 	private void relax(){
-//		if(PlayerOne.DEAD){
-//			thrust = false;
-//			goSlow = true;
-//			slowDown();
-//		}
+		if(PlayerOne.DEAD){
+			thrust = false;
+			goSlow = true;
+			slowDown();
+		}
 	}
 
 	public void controlEating() {
@@ -322,54 +322,57 @@ public class PlayerTwo extends AbstractObject {
 			}
 			if (GameSettings.ALLOW_SELF_COLLISION) {
 				if (!LEVEL_COMPLETED && !DEAD) {
-
-					switch (direction) {
-					case MOVE_UP:
-						if (this.direction != PlayerMovement.MOVE_DOWN) {
-							if (!GameSettings.ALLOW_FAST_TURNS) {
-								if (allowTurnUp)
-									turnDelay(PlayerMovement.MOVE_UP);
-							} else {
-								if (allowTurnUp)
-									moveUp();
+					if (this.direction == direction) {
+						this.direction = direction;
+					} else {
+						switch (direction) {
+						case MOVE_UP:
+							if (this.direction != PlayerMovement.MOVE_DOWN) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
+									if (allowTurnUp)
+										turnDelay(PlayerMovement.MOVE_UP);
+								} else {
+									if (allowTurnUp)
+										moveUp();
+								}
 							}
-						}
-						break;
-					case MOVE_DOWN:
-						if (this.direction != PlayerMovement.MOVE_UP) {
-							if (!GameSettings.ALLOW_FAST_TURNS) {
-								if (allowTurnDown)
-									turnDelay(PlayerMovement.MOVE_DOWN);
-							} else {
-								if (allowTurnDown)
-									moveDown();
+							break;
+						case MOVE_DOWN:
+							if (this.direction != PlayerMovement.MOVE_UP) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
+									if (allowTurnDown)
+										turnDelay(PlayerMovement.MOVE_DOWN);
+								} else {
+									if (allowTurnDown)
+										moveDown();
+								}
 							}
-						}
-						break;
-					case MOVE_LEFT:
-						if (this.direction != PlayerMovement.MOVE_RIGHT) {
-							if (!GameSettings.ALLOW_FAST_TURNS) {
-								if (allowTurnLeft)
-									turnDelay(PlayerMovement.MOVE_LEFT);
-							} else {
-								if (allowTurnLeft)
-									moveLeft();
+							break;
+						case MOVE_LEFT:
+							if (this.direction != PlayerMovement.MOVE_RIGHT) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
+									if (allowTurnLeft)
+										turnDelay(PlayerMovement.MOVE_LEFT);
+								} else {
+									if (allowTurnLeft)
+										moveLeft();
+								}
 							}
-						}
-						break;
-					case MOVE_RIGHT:
-						if (this.direction != PlayerMovement.MOVE_LEFT) {
-							if (!GameSettings.ALLOW_FAST_TURNS) {
-								if (allowTurnRight)
-									turnDelay(PlayerMovement.MOVE_RIGHT);
-							} else {
-								if (allowTurnRight)
-									moveRight();
+							break;
+						case MOVE_RIGHT:
+							if (this.direction != PlayerMovement.MOVE_LEFT) {
+								if (!GameSettings.ALLOW_FAST_TURNS) {
+									if (allowTurnRight)
+										turnDelay(PlayerMovement.MOVE_RIGHT);
+								} else {
+									if (allowTurnRight)
+										moveRight();
+								}
 							}
+							break;
+						case STANDING_STILL:
+							break;
 						}
-						break;
-					case STANDING_STILL:
-						break;
 					}
 				}
 			}
@@ -684,13 +687,13 @@ public class PlayerTwo extends AbstractObject {
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius-1);
+			x = (float) (GameSettings.WIDTH + radius)+4;
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius+1);
-		} else if (y < GameSettings.MIN_Y - radius*1.5) {
-			y = (float) (GameSettings.HEIGHT + radius-1);
+			x = (float) (0 - radius)-4;
+		} else if (y < GameSettings.MIN_Y - radius) {
+			y = (float) (GameSettings.HEIGHT + radius)+4;
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius*1.5+1);
+			y = (float) (GameSettings.MIN_Y - radius)-4;
 		}
 	}
 

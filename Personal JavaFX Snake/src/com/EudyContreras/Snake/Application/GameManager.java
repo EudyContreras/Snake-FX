@@ -145,7 +145,6 @@ public class GameManager extends AbstractGameModel {
 				}
 			}
 		}
-
 	}
 
 	public void setWindowSize(double width, double height){
@@ -885,7 +884,7 @@ public class GameManager extends AbstractGameModel {
 
 	public void resetGame() {
 		clearAll();
-		GameSettings.FRAME_SCALE = 1.0f;
+		GameSettings.FRAME_SCALE = 1.6f;
 		GameSettings.ALLOW_DAMAGE_IMMUNITY = false;
 		PlayerOne.NUMERIC_ID = 0;
 		PlayerOne.DEAD = false;

@@ -332,7 +332,7 @@ public class PlayerOneSection extends AbstractSection {
 		if (blowUp == true) {
 			SectionDisintegration[] sectParticle = new SectionDisintegration[GameSettings.MAX_DEBRIS_AMOUNT];
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
-				if (GameSettings.ADD_VARIATION) {
+				if (GameSettings.ALLOW_VARIATIONS) {
 					particleSize = (Math.random() * (10 - 5 + 1) + 5);
 					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5);
 				}

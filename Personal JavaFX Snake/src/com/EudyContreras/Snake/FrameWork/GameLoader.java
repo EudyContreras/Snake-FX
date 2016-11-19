@@ -421,7 +421,6 @@ public class GameLoader extends AbstractLoaderModel{
 				break;
 			}
 		}
-
 	}
 	/**
 	 * Method responsible for spawning the food on the level

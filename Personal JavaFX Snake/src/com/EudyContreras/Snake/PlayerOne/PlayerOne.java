@@ -14,6 +14,7 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -147,11 +148,11 @@ public class PlayerOne extends AbstractObject {
 
 	}
 	private void relax(){
-//		if(PlayerTwo.DEAD){
-//			thrust = false;
-//			goSlow = true;
-//			slowDown();
-//		}
+		if(PlayerTwo.DEAD){
+			thrust = false;
+			goSlow = true;
+			slowDown();
+		}
 	}
 	public void controlEating() {
 		if (!DEAD) {
@@ -316,7 +317,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()== GameStateID.GAMEPLAY) {
+		if (game.getStateID() == GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}

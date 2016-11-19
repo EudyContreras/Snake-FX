@@ -333,7 +333,7 @@ public class ClassicSnakeFood extends AbstractObject {
 	public void blowUp() {
 		GlowParticle[] particle = new GlowParticle[GameSettings.MAX_DEBRIS_AMOUNT];
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
-			if (GameSettings.ADD_VARIATION) {
+			if (GameSettings.ALLOW_VARIATIONS) {
 				particleSize = Math.random()*(160- 50 +1)+50;
 				particleLife = Math.random()*(0.2 - 0.1+1)+0.1;
 				particle[i] = new GlowParticle(game,GameImageBank.glowingCircleTwo, particleLife,particleSize,(double) (x+width/2), (double) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12));

@@ -382,7 +382,7 @@ public class SnakeFood extends AbstractObject {
 		FruitSplashOne[] fruitPiecesUnder = new FruitSplashOne[GameSettings.MAX_DEBRIS_AMOUNT/2];
 		FruitSplashOne[] fruitPiecesAbove = new FruitSplashOne[GameSettings.MAX_DEBRIS_AMOUNT/2];
 		for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT/2; i++) {
-			if (GameSettings.ADD_VARIATION) {
+			if (GameSettings.ALLOW_VARIATIONS) {
 				particleSize = (Math.random() * (15 - 5 + 1) + 5);
 				particleLife = (Math.random() * (3.5 - 1.5 + 1) + 1.5);
 			}
@@ -414,9 +414,9 @@ public class SnakeFood extends AbstractObject {
 		GlowParticle[] particles = new GlowParticle[15];
 		if(indicator==false){
 		for (int i = 0; i < 15; i++) {
-			if (GameSettings.ADD_VARIATION) {
+			if (GameSettings.ALLOW_VARIATIONS) {
 				particleSize = Math.random()*(200 - 40 +1)+40;
-				particleLife = Math.random()*(0.5 - 0.1+1)+0.1;
+				particleLife = Math.random()*(0.4 - 0.1+1)+0.1;
 
 				particles[i] = new GlowParticle(game,GameImageBank.glowingCircleOne, particleLife,particleSize,(float) (x+width/2), (float) (y+height/2),  new Point2D((Math.random()*(12 - -12 + 1) + -12), Math.random()*(12 - -12 + 1) + -12));
 			}

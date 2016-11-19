@@ -123,7 +123,7 @@ public class GameSettings {
 
 	public static boolean ALLOW_TELEPORT = true;
 	public static boolean ALLOW_PHYSICS = true;
-	public static boolean ADD_VARIATION = true;
+	public static boolean ALLOW_VARIATIONS = true;
 	public static boolean ADD_LIGHTING = true;
 	public static boolean ADD_BLUR = true;
 	public static boolean ADD_GLOW = true;

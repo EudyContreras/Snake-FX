@@ -393,13 +393,13 @@ public class PlayerTwoSection extends AbstractSection {
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (double) (GameSettings.WIDTH + radius);
+			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (double) (0 - radius);
-		} else if (y < GameSettings.MIN_Y - radius*1.5) {
-			y = (double) (GameSettings.HEIGHT + radius);
+			x = (float) (0 - radius);
+		} else if (y < GameSettings.MIN_Y - radius) {
+			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (double) (GameSettings.MIN_Y - radius*1.5);
+			y = (float) (GameSettings.MIN_Y - radius);
 		}
 	}
 
@@ -451,7 +451,7 @@ public class PlayerTwoSection extends AbstractSection {
 		if (blowUp == true) {
 			SectionDisintegration[] sectParticle = new SectionDisintegration[GameSettings.MAX_DEBRIS_AMOUNT];
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
-				if (GameSettings.ADD_VARIATION) {
+				if (GameSettings.ALLOW_VARIATIONS) {
 					particleSize = RandomGenUtility.getRandom(5,10);
 					particleLife = RandomGenUtility.getRandom(1.5f,0.5f);
 				}

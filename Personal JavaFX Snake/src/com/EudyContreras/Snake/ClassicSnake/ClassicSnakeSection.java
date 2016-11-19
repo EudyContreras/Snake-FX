@@ -276,7 +276,7 @@ public class ClassicSnakeSection extends AbstractSection {
 		fade = true;
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
-				if (GameSettings.ADD_VARIATION) {
+				if (GameSettings.ALLOW_VARIATIONS) {
 					particleSize = (Math.random() * (15 - 7 + 1) + 7);
 					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5);
 				}
