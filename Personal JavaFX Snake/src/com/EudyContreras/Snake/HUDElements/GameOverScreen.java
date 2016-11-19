@@ -134,8 +134,8 @@ public class GameOverScreen {
 		restart_btt.setVisible(false);
 		removeBoard();
 		processMouseHandling();
-
 	}
+
 	@SuppressWarnings("unused")
 	private void initTransitions(){
 		transitionOne = new TranslateTransition(Duration.millis(1000), baseGameBoard);
@@ -176,6 +176,7 @@ public class GameOverScreen {
 		}
 		 */
 	}
+
 	/**
 	 * Method which processes events within the buttons used by the options board
 	 * of this game board. This method processes all mouse input within these buttons
@@ -588,6 +589,7 @@ public class GameOverScreen {
 			}
 		}
 	}
+
 	public void setSlowMotion(){
 		if (allowSlowMo) {
 			GameSettings.FRAME_SCALE -= 0.0015;
@@ -597,6 +599,7 @@ public class GameOverScreen {
 			}
 		}
 	}
+
 	public void showSceneSnap(){
 		game.getNinthLayer().getChildren().remove(sceneSnapshot);
 		sceneSnapshot = null;
@@ -723,6 +726,7 @@ public class GameOverScreen {
 		quitGame_btt.setVisible(true);
 		restart_btt.setVisible(true);
 	}
+
 	public void show(boolean state){
 		mainGameBoard.setVisible(state);
 		baseGameBoard.setVisible(state);

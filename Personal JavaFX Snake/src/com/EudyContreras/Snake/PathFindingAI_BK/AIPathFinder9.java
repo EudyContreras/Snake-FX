@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFindingAI;
+package com.EudyContreras.Snake.PathFindingAI_BK;
 
 import java.util.ArrayList;
 import java.util.Arrays;

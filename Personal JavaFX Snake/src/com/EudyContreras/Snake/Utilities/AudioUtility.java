@@ -40,6 +40,7 @@ public enum AudioUtility {
 	public static final int SFX_ID_FAST = 7;
 	public static final int SFX_ID_SLOW = 8;
 
+
 	private String[] SFX_PATHS = { GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
 			GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm(),
 			GameManager.class.getResource("/com/Snake/sfx/sfx_die1.wav").toExternalForm(),
@@ -52,8 +53,7 @@ public enum AudioUtility {
 
 	private final String PROPERTIES_COMMENT = "AUDIO SETTINGS";
 
-	private final String GAME_MUSIC_URL = GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav")
-			.toExternalForm();
+	private final String GAME_MUSIC_URL = GameManager.class.getResource("/com/Snake/sfx/sfx_default.wav").toExternalForm();
 
 	private final String MUSIC_VOL = "MUSIC_VOL";
 	private final String AUDIO_VOL = "AUDIO_VOL";
@@ -61,14 +61,14 @@ public enum AudioUtility {
 	private DoubleProperty musicVolume = new SimpleDoubleProperty(1);
 	private DoubleProperty audioVolume = new SimpleDoubleProperty(1);
 
-	Media gameMedia = new Media(GAME_MUSIC_URL);
+	private Media gameMedia = new Media(GAME_MUSIC_URL);
 
 	private MediaPlayer audioPlayer = new MediaPlayer(gameMedia);
 
 	private AudioClip[] sfxAudio = new AudioClip[SFX_PATHS.length];
 
-	File propFile = new File(PATH_PROPERTIES_FILE);
-	File root = new File(PATH_ROOT);
+	private File propFile = new File(PATH_PROPERTIES_FILE);
+	private File root = new File(PATH_ROOT);
 
 	AudioUtility() {
 
@@ -82,7 +82,6 @@ public enum AudioUtility {
 			sfxAudio[i].volumeProperty().set(audioVolume.get());
 			Bindings.bindBidirectional(sfxAudio[i].volumeProperty(), audioVolume);
 		}
-
 	}
 
 	public void initialize() {
@@ -149,9 +148,8 @@ public enum AudioUtility {
 
 	/**
 	 * Plays a sound effect
-	 * 
-	 * @param sfxID
-	 *            ID of sound effect to play, use SFX_ID.. constants
+	 *
+	 * @param sfxID ID of sound effect to play, use SFX_ID.. constants
 	 */
 	public void playSFX(int sfxID) {
 		sfxAudio[sfxID].play();
@@ -189,15 +187,11 @@ public enum AudioUtility {
 	/**
 	 * Method "fading" a DoubleProperty value, i.e. incrementing or decrementing
 	 * the "fadeVal" during a Duration (in millis)
-	 * 
-	 * @param duration
-	 *            Duration fade duration
-	 * @param fadeVal
-	 *            DoubleProperty value to be faded/changed
-	 * @param fadeFromVal
-	 *            double fade from
-	 * @param fadeToVal
-	 *            double fade to
+	 *
+	 * @param duration Duration fade duration
+	 * @param fadeVal DoubleProperty value to be faded/changed
+	 * @param fadeFromVal double fade from
+	 * @param fadeToVal double fade to
 	 * @return Timeline which will fade the "fadeVal"
 	 */
 	private Timeline fader(Duration duration, DoubleProperty fadeVal, double fadeFromVal, double fadeToVal) {

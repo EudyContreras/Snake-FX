@@ -120,15 +120,8 @@ public class AnimationUtility {
 		Image[] objectToAnimate = new Image[4];
 
 		for (int i = 0; i < objectToAnimate.length; i++) {
-			objectToAnimate[i] = new Image(
-					"respectivePath" + i/* =should me the name of the image */
-							+ ".png" /* and then the image's extension */);
-			addScene(objectToAnimate[i], 250); // we add all the images and we
-												// decide how long in
-												// milliseconds each frame will
-												// have screen time.
+			objectToAnimate[i] = new Image("respectivePath" + i + ".png");
+			addScene(objectToAnimate[i], 250);
 		}
-		// now we have all the needed scenes for a fluent animation to take
-		// place
 	}
 }

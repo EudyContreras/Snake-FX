@@ -12,6 +12,7 @@ public class MatchStatus implements Serializable {
 	private boolean terminated;
 	private boolean countDown;
 	private boolean deathEvent;
+
 	/**
 	 * @param paused
 	 * @param ended
@@ -30,26 +31,29 @@ public class MatchStatus implements Serializable {
 		this.countDown = countDown;
 		this.deathEvent = deathEvent;
 	}
+
 	public final boolean isPaused() {
 		return paused;
 	}
+
 	public final boolean isEnded() {
 		return ended;
 	}
+
 	public final boolean isReady() {
 		return ready;
 	}
+
 	public final boolean isTerminated() {
 		return terminated;
 	}
+
 	public final boolean isCountDown() {
 		return countDown;
 	}
+
 	public final boolean isDeathEvent() {
 		return deathEvent;
 	}
-
-
-
 
 }

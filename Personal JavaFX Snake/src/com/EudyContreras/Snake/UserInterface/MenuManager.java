@@ -33,17 +33,19 @@ public class MenuManager extends AbstractMenuElement{
 		setupLogo();
 		setUpMenus();
 	}
+
 	public void setUpMenus(){
 		main_menu = new MainMenu(game,this);
 		modes_menu = new ModesMenu(game, this);
-
 	}
+
 	public void setUpBackground(){
 		backgroundImage = new Rectangle(20, 20, GameSettings.WIDTH-40, GameSettings.HEIGHT-40);
 		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		clearUp.setPickOnBounds(false);
 		clearUp.setFill(Color.BLACK);
 	}
+
 	public void setupMainMenu() {
 		showMenu = true;
 		fadeScreen.getChildren().add(clearUp);
@@ -52,6 +54,7 @@ public class MenuManager extends AbstractMenuElement{
 		menuRoot.getChildren().addAll(backgroundImage, menuLogo, menuContainer, fadeScreen);
 		game.setRoot(menuRoot);
 	}
+
 	public void setupLogo(){
 		menuLogo = new Rectangle();
 		glowLED = new DropShadow();
@@ -66,6 +69,7 @@ public class MenuManager extends AbstractMenuElement{
 		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2));
 		menuLogo.setY(25);
 	}
+
 	public void addMusic() {
 		music = GameAudio.getAudio("AudioResources/Jungle Loop.wav");
 		music.play();
@@ -85,10 +89,12 @@ public class MenuManager extends AbstractMenuElement{
 		music.stop();
 		}
 	}
+
 	public void setMenu(Pane menu){
 		menuContainer.getChildren().clear();
 		menuContainer.getChildren().add(menu);
 	}
+
 	public void removeMenu(Pane menu){
 		if(menuContainer.getChildren().contains(menu))
 		menuContainer.getChildren().remove(menu);
@@ -197,6 +203,7 @@ public class MenuManager extends AbstractMenuElement{
 	public void multiplayerMenu() {
 
 	}
+
 	public void gameModesMenu(){
 		setMenu(modes_menu.modes_menu_screen());
 	}
@@ -208,9 +215,11 @@ public class MenuManager extends AbstractMenuElement{
 	public void closeGame() {
 		game.closeGame();
 	}
+
 	public void goBack(){
 		setMenu(main_menu.main_menu_screen());
 	}
+
 	public Pane getMenuRoot() {
 		return menuRoot;
 	}

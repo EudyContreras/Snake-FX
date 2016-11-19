@@ -182,6 +182,7 @@ public class PlayerOneSection extends AbstractSection {
 		fadeToBones();
 		setVisible();
 	}
+
 	public void setMotionBlur(){
 		if(playerOne.getSpeedThrust()){
 			this.circle.setFill(GameImageBank.speedPatternOne);
@@ -190,6 +191,7 @@ public class PlayerOneSection extends AbstractSection {
 			this.circle.setFill(GameImageBank.normalPatternOne);
 		}
 	}
+
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -201,6 +203,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void updateSpeedDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -212,6 +215,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerOne.DEAD && !PlayerOne.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
@@ -240,6 +244,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void fadeToBones() {
 		if (fade == true) {
 			if (this.numericID != PlayerOne.NUMERIC_ID - 1) {
@@ -251,6 +256,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+
 	private void setVisible(){
 		if(newBorn){
 			opacity +=0.05;
@@ -261,6 +267,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (float) (GameSettings.WIDTH + radius);
@@ -305,6 +312,7 @@ public class PlayerOneSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void loadBones() {
 		if (this.numericID == PlayerOne.NUMERIC_ID - 1) {
 			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
@@ -335,13 +343,14 @@ public class PlayerOneSection extends AbstractSection {
 			blowUp = false;
 		}
 	}
+
 	public void die() {
 		loadBones();
 		fade = true;
 		blowUp();
 	}
-	public Rectangle2D getBounds() {
 
+	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
 	}
 }

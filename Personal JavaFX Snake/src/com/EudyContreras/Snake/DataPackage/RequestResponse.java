@@ -10,24 +10,25 @@ public class RequestResponse implements Serializable {
 	private String userName;
 	private SessionDetails details;
 
-	public RequestResponse(Response response, String userName, SessionDetails details){
+	public RequestResponse(Response response, String userName, SessionDetails details) {
 		this.response = response;
 		this.userName = userName;
 		this.details = details;
 	}
-	public final SessionDetails getDetails(){
+
+	public final SessionDetails getDetails() {
 		return details;
 	}
 
-	public final Response getResponse(){
+	public final Response getResponse() {
 		return response;
 	}
 
-	public final String getUserName(){
+	public final String getUserName() {
 		return userName;
 	}
 
-	public enum Response implements Serializable{
-		ACCEPT,DECLINE
+	public enum Response implements Serializable {
+		ACCEPT, DECLINE
 	}
 }

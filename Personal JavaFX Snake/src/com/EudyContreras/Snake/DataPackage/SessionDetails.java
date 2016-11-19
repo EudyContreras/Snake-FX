@@ -8,6 +8,7 @@ public class SessionDetails implements Serializable {
 	private int ThemeID;
 	private int LevelID;
 	private int modeID;
+
 	/**
 	 * @param themeID
 	 * @param levelID
@@ -19,15 +20,17 @@ public class SessionDetails implements Serializable {
 		this.LevelID = levelID;
 		this.modeID = modeID;
 	}
+
 	public final int getThemeID() {
 		return ThemeID;
 	}
+
 	public final int getLevelID() {
 		return LevelID;
 	}
+
 	public final int getModeID() {
 		return modeID;
 	}
-
 
 }

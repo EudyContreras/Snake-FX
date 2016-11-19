@@ -63,6 +63,7 @@ public class NoSpawnZone extends AbstractTile {
 			game.getSeventhLayer().getChildren().add(bounds);
 		}
 	}
+
 	public void updateUI(){
 		if(ScoreKeeper.APPLE_COUNT<GameSettings.APPLE_COUNT	){
 			setAlive(false);
@@ -71,9 +72,11 @@ public class NoSpawnZone extends AbstractTile {
 			game.getSeventhLayer().getChildren().remove(bounds);
 		}
 	}
+
 	public void setCell(CellNode... cell){
 		Collections.addAll(cells, cell);
 	}
+
 	public void clearCells(){
 		for(CellNode cell: cells){
 			cell.setPlayerSpawnZone(false);

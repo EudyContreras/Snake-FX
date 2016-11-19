@@ -148,6 +148,47 @@ public class GameManager extends AbstractGameModel {
 
 	}
 
+	public void setWindowSize(double width, double height){
+		mainWindow.setWidth(width);
+		mainWindow.setHeight(height);
+	}
+
+	public void setWindowLocation(double x, double y){
+		mainWindow.setX(x);
+		mainWindow.setY(y);
+	}
+
+	public void allowMouseInput(boolean choice) {
+		if (choice)
+			mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);
+	}
+
+	public static void maximize() {
+		if (!mainWindow.isMaximized()) {
+			mainWindow.setWidth(GameSettings.SCREEN_WIDTH);
+			mainWindow.setHeight(GameSettings.SCREEN_HEIGHT);
+			mainWindow.setX(0);
+			mainWindow.setY(0);
+			mainWindow.setMaximized(true);
+		} else {
+			if (mainWindow.getX() != 0 && mainWindow.getY() != 0) {
+				mainWindow.setWidth(GameSettings.SCREEN_WIDTH);
+				mainWindow.setHeight(GameSettings.SCREEN_HEIGHT);
+				mainWindow.setX(0);
+				mainWindow.setY(0);
+			} else if (mainWindow.getX() == 0 && mainWindow.getY() == 0) {
+				mainWindow.setMaximized(false);
+				mainWindow.setWidth(GameSettings.SCREEN_WIDTH * .8);
+				mainWindow.setHeight(GameSettings.SCREEN_HEIGHT * .8);
+				mainWindow.setX(200);
+				mainWindow.setY(85);
+			}
+		}
+	}
+
+	public static void minimize() {
+		mainWindow.setIconified(true);
+	}
 
 	public void showGame() {
 		fadeSplash = null;
@@ -156,6 +197,7 @@ public class GameManager extends AbstractGameModel {
 		splashScene = null;
 		mainWindow = new Stage();
 		gridLayer.setVisible(GameSettings.SHOW_ASTAR_GRAPH ? true : false);
+
 		addToGameRoot(gridLayer);
 		addToGameRoot(debrisLayer);
 		addToGameRoot(innerParticleLayer);
@@ -173,6 +215,7 @@ public class GameManager extends AbstractGameModel {
 		addToGameRoot(eighthLayer);
 		addToGameRoot(ninthLayer);
 		addToGameRoot(outerParticleLayer);
+
 		mainRoot.getChildren().add(getGameRoot());
 		mainRoot.setMaxWidth(GameSettings.WIDTH);
 		mainRoot.setMaxHeight(GameSettings.HEIGHT);
@@ -196,7 +239,6 @@ public class GameManager extends AbstractGameModel {
 		});
 
 		mainWindow.initStyle(StageStyle.UNDECORATED);
-		mainWindow.setTitle(title);
 		mainWindow.show();
 
 		resizeListener(mainWindow, scene, sceneRoot);
@@ -228,6 +270,7 @@ public class GameManager extends AbstractGameModel {
 		pane.setFocusTraversable(true);
 		getGameRoot().getChildren().add(pane);
 	}
+
 	public Image copyBackground(Group content) {
 		Image image = content.snapshot(new SnapshotParameters(), null);
 		return image;
@@ -282,13 +325,13 @@ public class GameManager extends AbstractGameModel {
 		sectManagerOne = new PlayerOneSectionManager(this);
 		sectManagerTwo = new PlayerTwoSectionManager(this);
 		sectManagerThree = new ClassicSnakeSectionManager(this);
-//		snakeAI = new PathFindingAI(this, loader.getPlayerTwo());
 		aiController = new AIController(this);
 		keyInput = new KeyInputHandler();
 		gestures = new TouchInputHandler();
 		mouseInput = new MouseInputHandler();
 		debrisManager = new GameDebrisController(this);
 		loadHUDElements();
+
 		if (GameSettings.PARENT_CACHE) {
 			cacheAllLayers();
 		}
@@ -305,14 +348,11 @@ public class GameManager extends AbstractGameModel {
 		pauseMenu = new PauseMenu(this, 0, 0, GameSettings.WIDTH, 300);
 		gameHud = new GameHud(this, -5, -25, GameSettings.WIDTH + 10, 115);
 		scoreKeeper = new ScoreKeeper(this, GameSettings.APPLE_COUNT);
-		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 120, 55, Color.rgb(255, 150, 0),
-				GameObjectID.PlayerOneHUD);
-		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 190, 55,
-				Color.rgb(255, 150, 0), GameObjectID.PlayerTwoHUD);
+		scoreBoardOne = new ScoreBoard("", this, healthBarOne.getX() + 120, 55, Color.rgb(255, 150, 0),GameObjectID.PlayerOneHUD);
+		scoreBoardTwo = new ScoreBoard("", this, healthBarTwo.getX() + healthBarTwo.getWidth() - 190, 55,Color.rgb(255, 150, 0), GameObjectID.PlayerTwoHUD);
 		victoryScreen = new VictoryScreen(this, GameImageBank.level_complete_board, 950, 650);
 		gameOverScreen = new GameOverScreen(this, GameImageBank.game_over_board, 950, 650);
-		readyNotification = new ReadyNotification(this, GameImageBank.ready_notification.getWidth(),
-				GameImageBank.ready_notification.getHeight(), fourTeenthLayer);
+		readyNotification = new ReadyNotification(this, GameImageBank.ready_notification.getWidth(),GameImageBank.ready_notification.getHeight(), fourTeenthLayer);
 		countDownScreen = new CountDownScreen(this, 400, 600, getEleventhLayer());
 		GameSettings.MIN_Y = (int) gameHud.getHudBottomY();
 	}
@@ -372,12 +412,12 @@ public class GameManager extends AbstractGameModel {
 
 	private void logToConsole(String message) {
 		System.out.println("GAME_MANAGER: " + message);
-
 	}
 
 	public void setBackgroundImage(Image image) {
 		backgroundImage.setImage(image);
 	}
+
 	private void windowScaleAnimation(){
 		animationWidth = animationWidth*1.008;
 		animationHeight = animationHeight*1.008;
@@ -403,6 +443,7 @@ public class GameManager extends AbstractGameModel {
 	public synchronized void gameLoop() {
 
 		gameLoop = new AnimationTimer() {
+
 			long startTime = System.currentTimeMillis();
 			long cummulativeTime = startTime;
 			long lastTime = System.nanoTime();
@@ -636,23 +677,31 @@ public class GameManager extends AbstractGameModel {
 			private void updateAt5() {
 
 			}
+
 			private void updateAt15() {
+
 			}
+
 			private void updateAt30() {
 
 			}
+
 			private void updateAt60(long timePassed) {
 
 			}
+
 			private void updateAt120() {
 
 			}
+
 			private void updateAt240() {
 
 			}
+
 			private void maxFrameUpdate() {
 
 			}
+
 			private void updateAnimation(long timePassed) {
 
 			}
@@ -790,15 +839,14 @@ public class GameManager extends AbstractGameModel {
 //		words.setTranslateY(5);
 		words.setOpacity(1);
 
-
-
 		rootPane.add(fadeScreenLayer);
 		rootPane.add(tenthLayer);
 		rootPane.add(eleventhLayer);
 		rootPane.add(twelfthLayer);
 		rootPane.add(thirTeenthLayer);
 		rootPane.add(fourTeenthLayer);
-		this.getGameBorder().getUtilityBar().getChildren().add(words);
+
+		getGameBorder().getUtilityBar().getChildren().add(words);
 	}
 
 	public void prepareGame() {
@@ -929,7 +977,6 @@ public class GameManager extends AbstractGameModel {
 	}
 
 	public void removePlayers() {
-
 		fithLayer.getChildren().clear();
 		fourthLayer.getChildren().clear();
 		playerOneManager.clearAll();
@@ -939,7 +986,6 @@ public class GameManager extends AbstractGameModel {
 		sectManagerOne.clearAll();
 		sectManagerTwo.clearAll();
 		sectManagerThree.clearAll();
-
 	}
 
 	public void setPlayerInfoVisibility(boolean state) {
@@ -949,44 +995,6 @@ public class GameManager extends AbstractGameModel {
 		getEnergyBarTwo().setVisible(state);
 		getScoreBoardOne().show(state);
 		getScoreBoardTwo().show(state);
-	}
-	public void setWindowSize(double width, double height){
-		mainWindow.setWidth(width);
-		mainWindow.setHeight(height);
-	}
-	public void setWindowLocation(double x, double y){
-		mainWindow.setX(x);
-		mainWindow.setY(y);
-	}
-	public void allowMouseInput(boolean choice) {
-		if (choice)
-			mouseInput.processInput(this, getGameLoader().getPlayerOne(), getGameLoader().getPlayerTwo(), scene);
-	}
-	public static void maximize() {
-		if (!mainWindow.isMaximized()) {
-			mainWindow.setWidth(GameSettings.SCREEN_WIDTH);
-			mainWindow.setHeight(GameSettings.SCREEN_HEIGHT);
-			mainWindow.setX(0);
-			mainWindow.setY(0);
-			mainWindow.setMaximized(true);
-		} else {
-			if (mainWindow.getX() != 0 && mainWindow.getY() != 0) {
-				mainWindow.setWidth(GameSettings.SCREEN_WIDTH);
-				mainWindow.setHeight(GameSettings.SCREEN_HEIGHT);
-				mainWindow.setX(0);
-				mainWindow.setY(0);
-			} else if (mainWindow.getX() == 0 && mainWindow.getY() == 0) {
-				mainWindow.setMaximized(false);
-				mainWindow.setWidth(GameSettings.SCREEN_WIDTH * .8);
-				mainWindow.setHeight(GameSettings.SCREEN_HEIGHT * .8);
-				mainWindow.setX(200);
-				mainWindow.setY(85);
-			}
-		}
-	}
-
-	public static void minimize() {
-		mainWindow.setIconified(true);
 	}
 
 	public static void exit() {

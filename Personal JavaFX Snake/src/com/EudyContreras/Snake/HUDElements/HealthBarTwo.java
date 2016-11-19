@@ -97,6 +97,7 @@ public class HealthBarTwo {
 		hidePlayer();
 		popIn();
 	}
+
 	private void popIn(){
 		this.moveX+=velX;
 		this.healthBarGreen.setTranslateX(x+10+moveX+damageX);
@@ -112,28 +113,35 @@ public class HealthBarTwo {
 		game.getEnergyBarTwo().setMoveX(moveX);
 		game.getScoreBoardTwo().setMoveX(moveX);
 	}
-	public void moveLeft(){
+
+	public void moveLeft() {
 		velX = -15;
 	}
-	public void moveRight(){
+
+	public void moveRight() {
 		velX = 15;
 	}
-	public void stopMoving(){
+
+	public void stopMoving() {
 		this.velX = 0;
 	}
+
 	/**
-	 * Method which when called will reduce the health
-	 * by the amount of damage specified in the parameter
-	 * @param amountOfDamage: damage which this method inflicts to the player
+	 * Method which when called will reduce the health by the amount of damage
+	 * specified in the parameter
+	 *
+	 * @param amountOfDamage:
+	 *            damage which this method inflicts to the player
 	 */
-	public void reduceHealth(double amountOfDamage){
+	public void reduceHealth(double amountOfDamage) {
 		width -= amountOfDamage;
 		setDelay = true;
 	}
+
 	/**
-	 * This method depletes the health by a specific percentage when
-	 * under specific conditions. This method also triggers the specified
-	 * event that will happen if the the health reaches zero
+	 * This method depletes the health by a specific percentage when under
+	 * specific conditions. This method also triggers the specified event that
+	 * will happen if the the health reaches zero
 	 */
 	public void depleteHealth() {
 
@@ -253,6 +261,7 @@ public class HealthBarTwo {
 		healthBarGreen.setVisible(state);
 		healthBarRed.setVisible(state);
 	}
+
 	public void hidePlayer(){
 		playerHead.setOpacity(playerOpacity);
 		if(hidePlayer){
@@ -269,22 +278,28 @@ public class HealthBarTwo {
 			}
 		}
 	}
+
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerTwo();
 	}
-	public void hidePlayerHead(boolean state){
+
+	public void hidePlayerHead(boolean state) {
 		hidePlayer = state;
 	}
+
 	public double getX() {
 		return x;
 	}
+
 	public double getY() {
 		return y;
 	}
+
 	public double getWidth() {
 		return width;
 	}
+
 	public double getHeight() {
 		return height;
 	}

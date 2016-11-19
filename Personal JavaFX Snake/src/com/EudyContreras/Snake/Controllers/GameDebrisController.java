@@ -15,10 +15,8 @@ public class GameDebrisController {
 	private List<AbstractParticlesEffect> particles;
 	private AbstractParticlesEffect tempDebris;
 	private AbstractParticlesEffect tempParticle;
-	public GameManager game;
 
 	public GameDebrisController(GameManager game) {
-		this.game = game;
 		this.debris = new ArrayList<AbstractParticlesEffect>();
 		this.particles = new ArrayList<AbstractParticlesEffect>();
 	}
@@ -26,9 +24,11 @@ public class GameDebrisController {
 	public void addParticle(AbstractParticlesEffect particle) {
 		Collections.addAll(particles, particle);
 	}
+
 	public void addParticle(AbstractParticlesEffect... particle) {
 		Collections.addAll(particles, particle);
 	}
+
 	public void addDebris(AbstractParticlesEffect... debrisEffect) {
 		Collections.addAll(debris, debrisEffect);
 	}
@@ -40,6 +40,7 @@ public class GameDebrisController {
 			debris.add(db[0]);
 		}
 	}
+
 	public void addParticleA(AbstractParticlesEffect... db) {
 		if (db.length > 1) {
 			particles.addAll(Arrays.asList(db));
@@ -47,6 +48,7 @@ public class GameDebrisController {
 			particles.add(db[0]);
 		}
 	}
+
 	public void updateAllStream(){
 		debris.stream().parallel().forEach(AbstractParticlesEffect::move);
 		particles.stream().parallel().forEach(AbstractParticlesEffect::move);
@@ -57,9 +59,11 @@ public class GameDebrisController {
 		removeDeadDebris();
 		removeDeadParticles();
 	}
+
 	public synchronized void updateAll() {
 		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
 		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
+
 		while(debrisList.hasNext()) {
 			AbstractParticlesEffect tempDebris = debrisList.next();
 			tempDebris.move();
@@ -72,6 +76,7 @@ public class GameDebrisController {
 				continue;
 			}
 		}
+
 		while(particleList.hasNext()) {
 			AbstractParticlesEffect tempParticle = particleList.next();
 			tempParticle.move();
@@ -85,9 +90,10 @@ public class GameDebrisController {
 			}
 		}
 	}
-	private void removeDeadParticles() {
 
+	private void removeDeadParticles() {
 		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
+
 		while(particleList.hasNext()) {
 
 			AbstractParticlesEffect particle = particleList.next();
@@ -98,13 +104,12 @@ public class GameDebrisController {
 				particleList.remove();
 
 			}
-
 		}
-
 	}
-	private void removeDeadDebris() {
 
+	private void removeDeadDebris() {
 		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
+
 		while(debrisList.hasNext()) {
 
 			AbstractParticlesEffect debris = debrisList.next();
@@ -117,6 +122,7 @@ public class GameDebrisController {
 			}
 		}
 	}
+
 	public synchronized void updateAllFor() {
 		for(int i = 0; i<debris.size(); i++){
 			AbstractParticlesEffect tempDebris = debris.get(i);
@@ -139,6 +145,7 @@ public class GameDebrisController {
 			}
 		}
 	}
+
 	public synchronized void moveAllFor() {
 		for(int i = 0; i<debris.size(); i++){
 			AbstractParticlesEffect tempDebris = debris.get(i);
@@ -149,6 +156,7 @@ public class GameDebrisController {
 			tempParticle.move();
 		}
 	}
+
 	public void updateDebris() {
 		for (int i = 0; i < debris.size(); i++) {
 			tempDebris = debris.get(i);
@@ -184,12 +192,15 @@ public class GameDebrisController {
 	public List<AbstractParticlesEffect> getParticleList() {
 		return particles;
 	}
-	public void clearDebris(){
+
+	public void clearDebris() {
 		this.debris.clear();
 	}
-	public void clearParticles(){
+
+	public void clearParticles() {
 		this.particles.clear();
 	}
+
 	public void clearAll() {
 		this.debris.clear();
 		this.particles.clear();

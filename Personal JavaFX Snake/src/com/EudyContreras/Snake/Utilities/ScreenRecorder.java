@@ -89,12 +89,13 @@ public class ScreenRecorder {
 		this.loadRecording();
 		this.scaleResolution(0, 0, false);
 	}
+
 	private void initStorages() {
 		video_frames = new ArrayList<ImageView>();
 		recorded_frames = new ArrayList<Image>();
 		temp_frames = new ArrayList<byte[]>();
-
 	}
+
 	private void loadRecording(){
 		if (loadFrames) {
 			loadFromFile();
@@ -244,6 +245,7 @@ public class ScreenRecorder {
 		}
 		return video_screen;
 	}
+
 	public void setVideoScale(double scale) {
 		this.video_size_scale = scale;
 	}
@@ -444,9 +446,11 @@ public class ScreenRecorder {
 		video_screen.setTranslateX(x);
 		video_screen.setTranslateY(y);
 	}
+
 	public void setDimensions(double width, double height) {
 		video_screen.setPrefSize(width, height);;
 	}
+
 	public void resetPlayback() {
 		this.frame = 0;
 	}
@@ -469,9 +473,11 @@ public class ScreenRecorder {
 	public double getVideoWidth(){
 		return video_frames.get(0).getImage().getWidth() * video_size_scale;
 	}
+
 	public double getVideoHeight(){
 		return video_frames.get(0).getImage().getWidth() * video_size_scale;
 	}
+
 	@SuppressWarnings("unused")
 	private String loadResource(String image) {
 		String url = PATH_ROOT + image;

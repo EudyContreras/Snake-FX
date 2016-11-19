@@ -70,6 +70,7 @@ public class SlitherSection extends AbstractSlitherSection {
 			}
 		}
 	}
+
 	public void updateUI() {
 		super.updateUI();
 		 if(x>0+radius && x<GameSettings.WIDTH-radius && y>GameSettings.MIN_Y && y<GameSettings.MIN_Y-radius){

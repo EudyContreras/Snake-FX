@@ -59,7 +59,6 @@ public class PlayerTwoSectionManager {
 	 * source without provoking a break.
 	 */
 	public void updateAllLogic(long timePassed) {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.checkCollision();
@@ -74,8 +73,8 @@ public class PlayerTwoSectionManager {
 			}
 		}
 	}
-	public void updateAllMovement(long timePassed) {
 
+	public void updateAllMovement(long timePassed) {
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.move();
@@ -89,6 +88,7 @@ public class PlayerTwoSectionManager {
 	 */
 	public void updateAllLogicIter(long timePassed) {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
+
 		while (sectionIter.hasNext()) {
 			tempSection = sectionIter.next();
 			tempSection.checkCollision();
@@ -103,8 +103,10 @@ public class PlayerTwoSectionManager {
 			}
 		}
 	}
+
 	public void updateAllMovementIter(long timePassed) {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
+
 		while (sectionIter.hasNext()) {
 			tempSection = sectionIter.next();
 			tempSection.move();
@@ -115,7 +117,6 @@ public class PlayerTwoSectionManager {
 	 * Method used to explicitly update the graphics
 	 */
 	public void updateUI() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.updateUI();
@@ -126,7 +127,6 @@ public class PlayerTwoSectionManager {
 	 * Method used to explicitly update animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.updateAnimation(timePassed);
@@ -137,7 +137,6 @@ public class PlayerTwoSectionManager {
 	 * Method used to explicitly move the sections
 	 */
 	public void move() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.move();
@@ -159,7 +158,6 @@ public class PlayerTwoSectionManager {
 	 * Method used to explicitly add physics to the sections
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.addPhysics();

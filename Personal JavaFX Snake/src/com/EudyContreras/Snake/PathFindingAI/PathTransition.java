@@ -10,7 +10,7 @@ public class PathTransition {
 
 	private ArrayList<WayPoint> wayPoints = new ArrayList<>();
 
-	public PathTransition(ArrayList<CellNode> cellNodes) {  
+	public PathTransition(ArrayList<CellNode> cellNodes) {
 		processList(cellNodes);
 	}
 
@@ -22,10 +22,11 @@ public class PathTransition {
 
 	public class WayPoint extends Point2D {
 		Direction direction;
-		
+
 		public WayPoint(double x, double y) {
 			super(x, y);
 		}
+
 		public WayPoint(Point2D point2d, Direction direction) {
 			super(point2d.getX(), point2d.getY());
 			this.direction = direction;

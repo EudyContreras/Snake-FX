@@ -31,12 +31,14 @@ public class CollideNode {
 		this.width = warning.getWidth();
 		this.height = warning.getHeight();
 		this.object = warning;
+
 		if(warning.getBounds()!=null){
 			this.x = warning.getBounds().getMinX();
 			this.y = warning.getBounds().getMinY();
 			this.width = warning.getBounds().getWidth();
 			this.height = warning.getBounds().getHeight();
 		}
+
 		this.riskFactor = risk;
 		this.clearRadius = 0;
 		this.threshold = 100;
@@ -57,53 +59,66 @@ public class CollideNode {
 			return RiskFactor.LOW;
 		}
 	}
-	public AbstractTile getObject(){
+
+	public AbstractTile getObject() {
 		return object;
 	}
-	public RiskFactor getRiskFactor(){
+
+	public RiskFactor getRiskFactor() {
 		return riskFactor;
 	}
+
 	public double getX() {
 		return x;
 	}
+
 	public void setX(double x) {
 		this.x = x;
 	}
+
 	public double getY() {
 		return y;
 	}
+
 	public void setY(double y) {
 		this.y = y;
 	}
-	public Dimension2D Dimension(){
+
+	public Dimension2D Dimension() {
 		return dimension;
 	}
+
 	public double getRangeX(double x) {
 		return Math.abs(x - this.x);
 	}
+
 	public double getRangeY(double y) {
 		return Math.abs(y - this.y);
 	}
+
 	public double getDistance(double x, double y) {
-		return Math.abs(x - this.x)+Math.abs(y - this.y);
+		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	}
-	public enum RiskFactor{
-		VERY_HIGH,HIGH,MEDIUM,LOW, NO_SPAWN_ZONE
+
+	public enum RiskFactor {
+		VERY_HIGH, HIGH, MEDIUM, LOW, NO_SPAWN_ZONE
 	}
-	public Rectangle2D getCollideRadius(){
-		return new Rectangle2D(x-clearRadius, y-clearRadius, width+clearRadius*2, height+clearRadius*2);
+
+	public Rectangle2D getCollideRadius() {
+		return new Rectangle2D(x - clearRadius, y - clearRadius, width + clearRadius * 2, height + clearRadius * 2);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if ((obj == null) || (obj.getClass() != this.getClass()))
 			return false;
-
 		CollideNode test = (CollideNode) obj;
 		return (dimension.getWidth() == test.dimension.getWidth() &&  dimension.getHeight() == test.dimension.getHeight() &&
 			    x == test.x && y == test.y);
 	}
+
 	@Override
 	public int hashCode() {
 		int hash = 7;

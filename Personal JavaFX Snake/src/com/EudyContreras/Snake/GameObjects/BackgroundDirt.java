@@ -19,7 +19,7 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 	private double radius = RandomGenUtility.getRandom(1, 3.5);
 	private double lifeTime = 1.0f;
 
-	public BackgroundDirt(GameManager game, Pane layer, Image image,double x, double y) {
+	public BackgroundDirt(GameManager game, Pane layer, Image image, double x, double y) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.shape = new Circle(x, y, radius);
@@ -31,6 +31,7 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 		this.y = y;
 		this.init();
 	}
+
 	public void init() {
 		addToLayer(shape);
 	}
@@ -44,8 +45,8 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 	}
 
 	public void collide() {
-		for(AbstractTile block: game.getGameLoader().getTileManager().getBlock()){
-			if(getBounds().intersects(block.getBounds())){
+		for (AbstractTile block : game.getGameLoader().getTileManager().getBlock()) {
+			if (getBounds().intersects(block.getBounds())) {
 				this.layer.getChildren().remove(this.shape);
 			}
 		}
@@ -61,7 +62,7 @@ public class BackgroundDirt extends AbstractParticlesEffect {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x,y,radius,radius);
+		return new Rectangle2D(x, y, radius, radius);
 	}
 
 	public Rectangle2D getBoundsTop() {

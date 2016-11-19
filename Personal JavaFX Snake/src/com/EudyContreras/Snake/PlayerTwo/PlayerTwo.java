@@ -106,12 +106,14 @@ public class PlayerTwo extends AbstractObject {
 		this.drawBoundingBox();
 		this.moveDown();
 	}
+
 	private void loadHead(){
 		this.snakeHead = new PlayerTwoHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_TWO_SIZE * 1.5, new ImagePattern(GameImageBank.snakeTwoHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getPlayerTwoManager().addObject(snakeHead);
 	}
+
 	public void loadImages() {
 		anim.addScene(GameImageBank.snakeTwoHead, 4000);
 		anim.addScene(GameImageBank.snakeTwoBlinking, 250);
@@ -151,12 +153,13 @@ public class PlayerTwo extends AbstractObject {
 
 	}
 	private void relax(){
-		if(PlayerOne.DEAD){
-			thrust = false;
-			goSlow = true;
-			slowDown();
-		}
+//		if(PlayerOne.DEAD){
+//			thrust = false;
+//			goSlow = true;
+//			slowDown();
+//		}
 	}
+
 	public void controlEating() {
 		if (!DEAD) {
 			maxOpenTime--;
@@ -232,6 +235,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void updateSpeedDirt() {
 		if (thrust && GameSettings.ALLOW_DIRT) {
 			dirtDelay--;
@@ -243,6 +247,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void updateTurns() {
 		if (turns.size() > 0) {
 			turnDelay--;
@@ -283,6 +288,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void speedDown(){
 		if(!thrust && !goSlow){
 			SPEED-=(accelaration*.4);
@@ -291,6 +297,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void slowDown(){
 		if(!thrust && goSlow){
 			SPEED-=(accelaration*.1);
@@ -299,104 +306,104 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void addMotionBlur(){
 		this.layer.setEffect(motionBlur);
 	}
+
 	public void removeMotionBlur(){
 		this.layer.setEffect(null);
 	}
+
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()== GameStateID.GAMEPLAY) {
+		if (game.getStateID() == GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
 			if (GameSettings.ALLOW_SELF_COLLISION) {
 				if (!LEVEL_COMPLETED && !DEAD) {
 
-						switch (direction) {
-						case MOVE_UP:
-							if (this.direction != PlayerMovement.MOVE_DOWN) {
-								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnUp)
-										turnDelay(PlayerMovement.MOVE_UP);
-								} else {
-									if (allowTurnUp)
-										moveUp();
-								}
-							}
-							break;
-						case MOVE_DOWN:
-							if (this.direction != PlayerMovement.MOVE_UP) {
-								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnDown)
-										turnDelay(PlayerMovement.MOVE_DOWN);
-								} else {
-									if (allowTurnDown)
-										moveDown();
-								}
-							}
-							break;
-						case MOVE_LEFT:
-							if (this.direction != PlayerMovement.MOVE_RIGHT) {
-								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnLeft)
-										turnDelay(PlayerMovement.MOVE_LEFT);
-								} else {
-									if (allowTurnLeft)
-										moveLeft();
-								}
-							}
-							break;
-						case MOVE_RIGHT:
-							if (this.direction != PlayerMovement.MOVE_LEFT) {
-								if (!GameSettings.ALLOW_FAST_TURNS) {
-									if (allowTurnRight)
-										turnDelay(PlayerMovement.MOVE_RIGHT);
-								} else {
-									if (allowTurnRight)
-										moveRight();
-								}
-							}
-							break;
-						case STANDING_STILL:
-							break;
-						}
-					}
-				}
-			}
-
-	}
-
-	public void setDirectCoordinates(PlayerMovement direction) {
-
-			if (!LEVEL_COMPLETED && !DEAD ) {
 					switch (direction) {
 					case MOVE_UP:
 						if (this.direction != PlayerMovement.MOVE_DOWN) {
-								moveUp();
+							if (!GameSettings.ALLOW_FAST_TURNS) {
+								if (allowTurnUp)
+									turnDelay(PlayerMovement.MOVE_UP);
+							} else {
+								if (allowTurnUp)
+									moveUp();
+							}
 						}
 						break;
 					case MOVE_DOWN:
 						if (this.direction != PlayerMovement.MOVE_UP) {
-								moveDown();
+							if (!GameSettings.ALLOW_FAST_TURNS) {
+								if (allowTurnDown)
+									turnDelay(PlayerMovement.MOVE_DOWN);
+							} else {
+								if (allowTurnDown)
+									moveDown();
+							}
 						}
 						break;
 					case MOVE_LEFT:
 						if (this.direction != PlayerMovement.MOVE_RIGHT) {
-								moveLeft();
+							if (!GameSettings.ALLOW_FAST_TURNS) {
+								if (allowTurnLeft)
+									turnDelay(PlayerMovement.MOVE_LEFT);
+							} else {
+								if (allowTurnLeft)
+									moveLeft();
+							}
 						}
 						break;
 					case MOVE_RIGHT:
 						if (this.direction != PlayerMovement.MOVE_LEFT) {
-								moveRight();
+							if (!GameSettings.ALLOW_FAST_TURNS) {
+								if (allowTurnRight)
+									turnDelay(PlayerMovement.MOVE_RIGHT);
+							} else {
+								if (allowTurnRight)
+									moveRight();
+							}
 						}
 						break;
 					case STANDING_STILL:
 						break;
 					}
 				}
-
+			}
 		}
+	}
+
+	public void setDirectCoordinates(PlayerMovement direction) {
+		if (!LEVEL_COMPLETED && !DEAD) {
+			switch (direction) {
+			case MOVE_UP:
+				if (this.direction != PlayerMovement.MOVE_DOWN) {
+					moveUp();
+				}
+				break;
+			case MOVE_DOWN:
+				if (this.direction != PlayerMovement.MOVE_UP) {
+					moveDown();
+				}
+				break;
+			case MOVE_LEFT:
+				if (this.direction != PlayerMovement.MOVE_RIGHT) {
+					moveLeft();
+				}
+				break;
+			case MOVE_RIGHT:
+				if (this.direction != PlayerMovement.MOVE_LEFT) {
+					moveRight();
+				}
+				break;
+			case STANDING_STILL:
+				break;
+			}
+		}
+	}
 
 	public void setGestureDirection(PlayerMovement direction) {
 		if (game.getStateID() == GameStateID.GAMEPLAY) {
@@ -441,6 +448,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void turnDelay(PlayerMovement newDirection) {
 		turns.add(newDirection);
 	}
@@ -660,7 +668,7 @@ public class PlayerTwo extends AbstractObject {
 					new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
-			
+
 			appleCount++;
 		}
 		game.getScoreBoardTwo().increaseScore();
@@ -741,7 +749,6 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void drawBoundingBox() {
-
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
 			bounds.setStroke(Color.YELLOW);
@@ -773,6 +780,7 @@ public class PlayerTwo extends AbstractObject {
 			}
 		}
 	}
+
 	public void die() {
 		DEAD = true;
 		game.getHealthBarTwo().drainAll();
@@ -818,14 +826,16 @@ public class PlayerTwo extends AbstractObject {
 			this.game.getEnergyBarTwo().setDelay();
 			this.game.getEnergyBarTwo().setSpeedThrust(false);
 		}
-
 	}
+
 	public void setThrustState(boolean state){
 		this.thrust = state;
 	}
+
 	public boolean getSpeedThrust(){
 		return thrust;
 	}
+
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}
@@ -863,27 +873,25 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public Rectangle2D getBoundsTop() {
-
 		return new Rectangle2D(x + 40, y + 55, width - 60, height * 0.24);
 	}
 
 	public Rectangle2D getBoundsLeft() {
-
 		return new Rectangle2D(x + 20, y + 65, 20, height * 0.34);
 	}
 
 	public Rectangle2D getBoundsRight() {
-
 		return new Rectangle2D(x + width - 20, y + 65, 20, height * 0.34);
 	}
 
 	public Rectangle2D getBounds() {
-
 		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, GameSettings.PATH_FINDING_CELL_SIZE-8, GameSettings.PATH_FINDING_CELL_SIZE-8);
 	}
+
 	public Rectangle2D getAIBounds() {
 		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);
 	}
+
 	public PlayerTwoHead getHead() {
 		return snakeHead;
 	}
@@ -907,10 +915,12 @@ public class PlayerTwo extends AbstractObject {
 	public double getAppleCount() {
 		return appleCount;
 	}
+
 	public void setManualGameOver(boolean state){
 		if(game.getStateID()==GameStateID.DEATH_ANIMATION)
 		this.gameOverOverride = state;
 	}
+
 	public boolean getManualGameOver() {
 		return gameOverOverride;
 	}

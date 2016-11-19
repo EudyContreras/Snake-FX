@@ -42,6 +42,7 @@ public class PlayerOneManager {
 	 */
 	public void updateAllLogicI(long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = playerOneList.iterator();
+
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -67,6 +68,7 @@ public class PlayerOneManager {
 	 */
 	public void updateAllMovementI(long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = playerOneList.iterator();
+
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -122,7 +124,6 @@ public class PlayerOneManager {
 	 * Method used to explicitly update animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < playerOneList.size(); i++) {
 			tempPlayerOneObject = playerOneList.get(i);
 			tempPlayerOneObject.updateAnimation(timePassed);
@@ -133,7 +134,6 @@ public class PlayerOneManager {
 	 * Method used to explicitly move the objects
 	 */
 	public void move() {
-
 		for (int i = 0; i < playerOneList.size(); i++) {
 			tempPlayerOneObject = playerOneList.get(i);
 			tempPlayerOneObject.move();
@@ -144,7 +144,6 @@ public class PlayerOneManager {
 	 * Method used to explicitly draw the graphics
 	 */
 	public void draw() {
-
 		for (int i = 0; i < playerOneList.size(); i++) {
 			tempPlayerOneObject = playerOneList.get(i);
 			tempPlayerOneObject.draw();
@@ -155,7 +154,6 @@ public class PlayerOneManager {
 	 * Method used to explicitly add physics to the objects
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < playerOneList.size(); i++) {
 			tempPlayerOneObject = playerOneList.get(i);
 			tempPlayerOneObject.addPhysics();

@@ -24,7 +24,7 @@ public class GameStateController{
 
 	public GameStateController(GameManager game) {
 		this.game = game;
-		map = new HashMap<GameStateID, AbstractGameStates>();
+		this.map = new HashMap<GameStateID, AbstractGameStates>();
 	}
 
 	public void addState(AbstractGameStates state) {

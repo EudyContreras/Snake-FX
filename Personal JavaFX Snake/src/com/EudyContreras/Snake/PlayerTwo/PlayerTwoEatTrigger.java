@@ -27,7 +27,6 @@ public class PlayerTwoEatTrigger extends AbstractObject {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);
 		}
-
 	}
 
 	public void move() {

@@ -2,8 +2,8 @@ package com.EudyContreras.Snake.PathFindingAI;
 
 public class Vector2D {
 
-	public double x;
-	public double y;
+	private double x;
+	private double y;
 
 	public Vector2D(double x, double y) {
 		this.x = x;
@@ -61,7 +61,7 @@ public class Vector2D {
 		return -1 * angle;
 	}
 
-	static public Vector2D subtract(Vector2D v1, Vector2D v2) {
+	public static Vector2D subtract(Vector2D v1, Vector2D v2) {
 		return new Vector2D(v1.x - v2.x, v1.y - v2.y);
 	}
 

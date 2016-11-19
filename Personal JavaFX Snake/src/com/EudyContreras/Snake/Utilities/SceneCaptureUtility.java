@@ -150,6 +150,7 @@ public class SceneCaptureUtility {
 		this.loadRecording();
 		this.scaleResolution(0, 0, false);
 	}
+
 	/*
 	 * Initializes the list used to store the captured frames.
 	 */
@@ -160,6 +161,7 @@ public class SceneCaptureUtility {
 		video_frames = new ArrayList<ImageView>();
 		temp_frames = new ArrayList<byte[]>();
 	}
+
 	public void addFrame(Image... frame) {
 		if (frame.length > 1) {
 			recorded_frames.addAll(Arrays.asList(frame));
@@ -167,6 +169,7 @@ public class SceneCaptureUtility {
 			recorded_frames.add(frame[0]);
 		}
 	}
+
 	/**
 	 * loads recordings and or frames from a specified location
 	 */
@@ -282,6 +285,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/*
 	 * Method which creates a timeLine which plays the video
 	 * at a specified frameRate onto a given screen or layer.
@@ -308,8 +312,8 @@ public class SceneCaptureUtility {
 
 		videoPlayer.getKeyFrames().add(keyFrame);
 		videoPlayer.play();
-
 	}
+
 	/**
 	 * Calls to this method will decreased the time left on the
 	 * recording every second until the recording time reaches
@@ -325,6 +329,7 @@ public class SceneCaptureUtility {
 			}
 		}
 	}
+
 	/**
 	 * A call to this method will add the recorded frames to the video list
 	 * making them reading for playBack.
@@ -345,6 +350,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/**
 	 * Call to this method will play the video on the given screen
 	 * adding a removing frames.
@@ -396,6 +402,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/**
 	 * A called to this method will attempt to prepare the video and or frames
 	 * for saving
@@ -418,6 +425,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/**
 	 * A called to this method will add the frames store is array list
 	 * to the video list.
@@ -440,6 +448,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/**
 	 * Method which when called will add and display a indicator.
 	 * @param rootPane: list to which the indicator will be added
@@ -470,6 +479,7 @@ public class SceneCaptureUtility {
 			}
 		}
 	}
+
 	/**
 	 * Method which when called loads images from a predefined
 	 * directory in order to play them as a video.
@@ -489,6 +499,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/**
 	 * Method which when called will attempt to save the video
 	 * to a specified directory.
@@ -524,6 +535,7 @@ public class SceneCaptureUtility {
 		thread.setDaemon(true);
 		thread.start();
 	}
+
 	/**
 	 * Method which when called attempts to retrieve the video
 	 * from a specified directory
@@ -558,7 +570,6 @@ public class SceneCaptureUtility {
 		Thread thread = new Thread(task);
 		thread.setDaemon(true);
 		thread.start();
-
 	}
 
 	/**
@@ -583,8 +594,8 @@ public class SceneCaptureUtility {
 		WritableImage wi = new WritableImage((int)node.getBoundsInLocal().getWidth(), (int) node.getBoundsInLocal().getHeight());
 		node.snapshot(parameters, wi);
 		return wi;
-
 	}
+
 	/**
 	 * Method which when called will create a scale relative to a base
 	 * and current resolution.
@@ -619,9 +630,11 @@ public class SceneCaptureUtility {
 		video_screen.setTranslateX(x);
 		video_screen.setTranslateY(y);
 	}
+
 	public void setDimensions(double width, double height) {
 		video_screen.setPrefSize(width, height);;
 	}
+
 	public void resetPlayback() {
 		this.frame = 0;
 	}
@@ -648,6 +661,7 @@ public class SceneCaptureUtility {
 			return 0;
 		}
 	}
+
 	public double getVideoHeight(){
 		if(!video_frames.isEmpty())
 		return video_frames.get(0).getImage().getWidth() * video_size_scale;
@@ -655,6 +669,7 @@ public class SceneCaptureUtility {
 			return 0;
 		}
 	}
+
 	@SuppressWarnings("unused")
 	private String loadResource(String image) {
 		String url = PATH_ROOT + image;
@@ -666,7 +681,6 @@ public class SceneCaptureUtility {
 	 * @return: byte array of the image
 	 */
 	public final byte[] ImageToByte(BufferedImage image) {
-
 		byte[] imageInByte = null;
 		try {
 			if (image != null) {
@@ -683,6 +697,7 @@ public class SceneCaptureUtility {
 			byteOutput.reset();
 		}
 	}
+
 	/**
 	 * Method which converts a byte array to a ImageView
 	 * @param data: byte array to be converted.

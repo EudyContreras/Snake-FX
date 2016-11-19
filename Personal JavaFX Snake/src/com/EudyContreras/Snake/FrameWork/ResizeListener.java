@@ -22,11 +22,13 @@ public class ResizeListener implements ChangeListener<Number> {
 		this.initHeight = initHeight;
 		this.initWidth = initWidth;
 	}
+
 	public void setNewRatio(double ratio, double initHeight, double initWidth){
 		this.ratio = ratio;
 		this.initHeight = initHeight;
 		this.initWidth = initWidth;
 	}
+
 	@Override
 	public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
 
@@ -44,8 +46,5 @@ public class ResizeListener implements ChangeListener<Number> {
 
 		pane.setPrefWidth(newWidth / scaleFactor);
 		pane.setPrefHeight(newHeight / scaleFactor);
-
 	}
-
-
 }

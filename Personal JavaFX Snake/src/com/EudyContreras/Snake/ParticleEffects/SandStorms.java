@@ -31,7 +31,7 @@ public class SandStorms extends AbstractParticlesEffect {
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2 ;
+		this.velX = Math.random() * (8 - 2 + 1) + 2;
 		this.velY = Math.random() * (8 - -5 + 1) + -5;
 		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001;
 		init();
@@ -45,9 +45,9 @@ public class SandStorms extends AbstractParticlesEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2 ;
+		this.velX = Math.random() * (8 - 2 + 1) + 2;
 		this.velY = Math.random() * (8 - -5 + 1) + -5;
-		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001 ;
+		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001;
 		init();
 	}
 
@@ -74,16 +74,18 @@ public class SandStorms extends AbstractParticlesEffect {
 		}
 
 	}
+
 	public void move() {
 		super.move();
 		lifeTime -= decay;
 		velY -= dropVel;
 	}
+
 	public void collide() {
+
 	}
 
 	public boolean isAlive() {
-
 		return x < GameSettings.WIDTH && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 

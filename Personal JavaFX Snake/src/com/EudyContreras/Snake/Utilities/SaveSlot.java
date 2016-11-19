@@ -23,9 +23,11 @@ public class SaveSlot implements Serializable{
 		this.resolutionX = resolutionX;
 		this.resolutionY = resolutionY;
 	}
+
 	public SaveSlot(String profileName, int score, int level, double gameVolume, double resolutionX, double resolutionY) {
 		new SaveSlot(profileName,null,score,level,gameVolume, resolutionX, resolutionY);
 	}
+
 	public int getScore() {return score;}
 	public int getLevel() {return level;}
 	public String getProfileName() {return profileName;}

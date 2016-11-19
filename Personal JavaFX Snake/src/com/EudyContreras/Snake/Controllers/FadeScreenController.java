@@ -27,6 +27,7 @@ public class FadeScreenController{
 		this.innerFadeScreen = new Rectangle(0,0, GameSettings.WIDTH, GameSettings.HEIGHT);
 		this.mainFadeScreen = new Rectangle(0,0, GameSettings.WIDTH, GameSettings.HEIGHT);
 	}
+
 	public void renderFadeScreen() {
 		if (!slowFade) {
 			innerFadePercentage = 0;
@@ -35,6 +36,7 @@ public class FadeScreenController{
 			slowFade = true;
 		}
 	}
+
 	public void menu_fade_screen() {
 		if (!mainFade) {
 			game.getMainRoot().getChildren().add(mainFadeScreen);
@@ -43,6 +45,7 @@ public class FadeScreenController{
 			fadeIn = false;
 		}
 	}
+
 	public void restart_fade_screen() {
 		if (!fadeIn) {
 			game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
@@ -51,6 +54,7 @@ public class FadeScreenController{
 			slowFade = false;
 		}
 	}
+
 	public void quick_restart_fade_screen() {
 		if (!fadeIn) {
 			game.getFadeScreenLayer().getChildren().remove(innerFadeScreen);
@@ -60,18 +64,20 @@ public class FadeScreenController{
 			slowFade = false;
 		}
 	}
+
 	public void prepareIntorScreen(){
 		outerFadePercentage = 2.0;
 		mainFadeScreen.setOpacity(outerFadePercentage);
 		game.getMainRoot().getChildren().remove(mainFadeScreen);
 		game.getMainRoot().getChildren().add(mainFadeScreen);
 	}
+
 	public void intro_fade_screen(Runnable script){
 		this.script = script;
 		game.getOverlayEffect().setIntroEffect();
 		introFadeOut = true;
-
 	}
+
 	public void intro_fade_in(){
 		if(introFadeIn){
 			outerFadePercentage+=0.03;
@@ -83,11 +89,11 @@ public class FadeScreenController{
 						script.run();
 						script = null;
 					}
-
 					introFadeOut = true;
 			}
 		}
 	}
+
 	public void intro_fade_out(){
 		if(introFadeOut){
 			outerFadePercentage-=0.03;
@@ -108,6 +114,7 @@ public class FadeScreenController{
 			}
 		}
 	}
+
 	public void continue_fade_screen() {
 		if (!fadeIn) {
 			innerFadePercentage = 0;
@@ -116,6 +123,7 @@ public class FadeScreenController{
 			slowFade = false;
 		}
 	}
+
 	public void outer_fade_update(){
 		if(mainFade){
 			outerFadePercentage+=0.03;
@@ -133,6 +141,7 @@ public class FadeScreenController{
 			}
 		}
 	}
+
 	public void innerFade_update() {
 		innerFadeScreen.setOpacity(innerFadePercentage);
 		if (fadeIn) {
@@ -200,6 +209,7 @@ public class FadeScreenController{
 			}
 		}
 	}
+
 	public void updateFade(){
 		innerFade_update();
         outer_fade_update();

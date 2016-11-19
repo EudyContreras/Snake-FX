@@ -37,6 +37,7 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean invalidSpawnZone = false;
 	private boolean availableCell = true;
 	private boolean playerSpawnZone = false;
+	private boolean visited = false;
 
 	private CellType cellType = CellType.FREE;
 	private Direction directionInPath = Direction.NONE;
@@ -57,6 +58,7 @@ public class CellNode implements Comparable<CellNode>{
 			layer.getChildren().add(this.getVisualRep());
 		}
 	}
+
 	public void resetValues(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
@@ -66,6 +68,7 @@ public class CellNode implements Comparable<CellNode>{
 		penaltyCost = 0;
 		totalCost = 0;
 	}
+
 	public void setLocation(double x, double y) {
 		this.location = new Point2D(x, y);
 		if (showCells) {
@@ -111,15 +114,19 @@ public class CellNode implements Comparable<CellNode>{
 		this.spawnAllowed = state;
 		this.penaltyCost = 200;
 	}
+
 	public void setPathCell(boolean state) {
 		this.pathCell = state;
 	}
+
 	public final void setTraversable(boolean state) {
 		this.isTraversable = state;
 	}
+
 	public void setOccupied(boolean state) {
 		this.occupied = state;
 	}
+
 	public boolean invalidSpawnZone(){
 		return this.getIndex().getRow()==0 || this.getIndex().getRow()==1 ||
 				this.getIndex().getCol()==1 || this.getIndex().getCol()==2 ||
@@ -128,12 +135,14 @@ public class CellNode implements Comparable<CellNode>{
 				this.getIndex().getCol()==grid.getColumnCount()-1||
 				this.getIndex().getCol()==grid.getColumnCount()-2;
 	}
+
 	public boolean teleportZone(){
 		return this.getIndex().getRow()==0 ||
 				this.getIndex().getCol()==1 ||
 				this.getIndex().getRow()==grid.getRowCount()-1 ||
 				this.getIndex().getCol()==grid.getColumnCount()-1;
 	}
+
 	public boolean fruitSpawnAllowed(){
 		return isSpawnAllowed() &&
 				isAvailable() &&
@@ -142,36 +151,47 @@ public class CellNode implements Comparable<CellNode>{
 				!isTeleportZone() &&
 				grid.safeSpawn(this);
 	}
-	public boolean isInvalidSpawnZone(){
+
+	public boolean isInvalidSpawnZone() {
 		return invalidSpawnZone;
 	}
-	public boolean isTeleportZone(){
+
+	public boolean isTeleportZone() {
 		return teleportZone;
 	}
+
 	public void setTeleportZone(boolean teleportZone) {
 		this.teleportZone = teleportZone;
 	}
-	public boolean isPathCell(){
+
+	public boolean isPathCell() {
 		return pathCell;
 	}
+
 	public final CellNode getParentNode() {
 		return parentNode;
 	}
-	public final void setPlayerSpawnZone(boolean state){
+
+	public final void setPlayerSpawnZone(boolean state) {
 		this.playerSpawnZone = state;
 	}
-	public final boolean isPlayerSpawnZone(){
+
+	public final boolean isPlayerSpawnZone() {
 		return playerSpawnZone;
 	}
+
 	public final void setParentNode(CellNode parent) {
 		this.parentNode = parent;
 	}
+
 	public int getID() {
 		return id;
 	}
+
 	public Index2D getIndex() {
 		return index;
 	}
+
 	public Rectangle getVisualRep() {
 		return visualRep;
 	}
@@ -196,7 +216,7 @@ public class CellNode implements Comparable<CellNode>{
 		return isTraversable;
 	}
 
-	public boolean isOccupied(){
+	public boolean isOccupied() {
 		return occupied;
 	}
 
@@ -204,44 +224,55 @@ public class CellNode implements Comparable<CellNode>{
 		return spawnAllowed;
 	}
 
-	public final void setAvailable(boolean state){
+	public final void setAvailable(boolean state) {
 		this.availableCell = state;
 	}
-	public final boolean isAvailable(){
+
+	public final boolean isAvailable() {
 		return availableCell;
 	}
+
 	public final boolean isTargetCell() {
 		return targetCell;
 	}
+
 	public void setClosed(boolean state) {
 		this.closed = state;
 	}
-	public boolean isClosed(){
+
+	public boolean isClosed() {
 		return closed;
 	}
-	public final boolean isPenalized(){
-		return penaltyCost>0;
+
+	public final boolean isPenalized() {
+		return penaltyCost > 0;
 	}
+
 	public void setCheckBlock(boolean state) {
 		this.checkBlocked = state;
 
 	}
-	public boolean isCheckBlocked(){
+
+	public boolean isCheckBlocked() {
 		return checkBlocked;
 	}
-	public final void setDangerZone(boolean state){
+
+	public final void setDangerZone(boolean state) {
 		this.dangerZone = state;
 	}
-	public final boolean isDangerZone(){
+
+	public final boolean isDangerZone() {
 		return dangerZone;
 	}
 
 	public void setTargetCell(boolean state) {
 		this.targetCell = state;
 	}
-	public double getSize(){
+
+	public double getSize() {
 		return cellSize;
 	}
+
 	public final double getHeuristic() {
 		return heuristic;
 	}
@@ -258,17 +289,27 @@ public class CellNode implements Comparable<CellNode>{
 		this.movementCost = movementCost;
 	}
 
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
 	public double getPenaltyCost() {
 		return penaltyCost;
 	}
+
 	public void setPenaltyCost(double movementPanelty) {
 		this.penaltyCost = movementPanelty;
 	}
+
 	public final double getTotalCost() {
 		return totalCost;
 	}
 
-	public final void setTotalCost(double cost){
+	public final void setTotalCost(double cost) {
 		this.totalCost = cost;
 	}
 
@@ -279,12 +320,15 @@ public class CellNode implements Comparable<CellNode>{
 	public Rectangle2D getBoundsCheck() {
 		return new Rectangle2D(location.getX(), location.getY(), dimension.getWidth(), dimension.getHeight());
 	}
-	public Direction getDirection(){
+
+	public Direction getDirection() {
 		return directionInPath;
 	}
-	public void setDirection(Direction direction){
+
+	public void setDirection(Direction direction) {
 		this.directionInPath = direction;
 	}
+
 	public final CellType getCellType() {
 		return cellType;
 	}
@@ -296,14 +340,16 @@ public class CellNode implements Comparable<CellNode>{
 	public enum CellType {
 		BLOCKED, TRAVERSABLE, UNAVAILABLE, FREE
 	}
-	public enum Direction{
-		UP,DOWN,LEFT,RIGHT,NONE;
+
+	public enum Direction {
+		UP, DOWN, LEFT, RIGHT, NONE;
 
 		@Override
-		public String toString(){
+		public String toString() {
 			return this.name();
 		}
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
@@ -329,6 +375,7 @@ public class CellNode implements Comparable<CellNode>{
 		hash = 17 * hash + this.index.getCol();
 		return hash;
 	}
+
 	@Override
 	public int compareTo(CellNode node) {
 		return Double.compare(this.getTotalCost(),node.getTotalCost());

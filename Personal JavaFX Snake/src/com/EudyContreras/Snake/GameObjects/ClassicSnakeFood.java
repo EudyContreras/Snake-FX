@@ -124,7 +124,7 @@ public class ClassicSnakeFood extends AbstractObject {
 		fadeUpdate();
 		fruitFadein();
 		lookAtMe();
-		//updateGlow();
+//		updateGlow();
 		updateLife();
 		checkBoundaries();
 		adjustBounds();
@@ -153,12 +153,14 @@ public class ClassicSnakeFood extends AbstractObject {
 			}
 		}
 	}
+
 	public void fadeUpdate(){
 		fadeValue += 0.01;
 		if (fadeValue >= 1.0) {
 			fadeValue = 1.0;
 		}
 	}
+
 	public void adjustBounds(){
 		bounds.setCenterX(x);
 		bounds.setCenterY(y);
@@ -248,6 +250,7 @@ public class ClassicSnakeFood extends AbstractObject {
 			this.fadeValue = 0;
 		}
 	}
+
 	public void checkBoundaries() {
 		if (x < 0 + radius) {
 			x = (double) (GameSettings.WIDTH - radius);
@@ -307,9 +310,11 @@ public class ClassicSnakeFood extends AbstractObject {
 			}
 		}
 	}
+
 	public void checkRemovability(){
 
 	}
+
 	public void relocate(){
 		x = RandomGenUtility.getRandom(0, (GameSettings.WIDTH -90));
 		y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));

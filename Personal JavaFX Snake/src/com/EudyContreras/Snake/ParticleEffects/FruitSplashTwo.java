@@ -39,12 +39,14 @@ public class FruitSplashTwo extends AbstractParticlesEffect {
 		layer = game.getInnerParticleLayer();
 		addToLayer(shape);
 	}
+
 	public void updateUI() {
 		shape.setCenterX(x);
 		shape.setCenterY(y);
 		shape.setOpacity(lifeTime);
 
 	}
+
 	public void move() {
 		x = x + velX;
 		y = y + velY;
@@ -60,7 +62,6 @@ public class FruitSplashTwo extends AbstractParticlesEffect {
 	}
 
 	public void draw() {
-
 
 	}
 

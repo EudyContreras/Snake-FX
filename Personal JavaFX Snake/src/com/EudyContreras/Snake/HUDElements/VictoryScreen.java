@@ -73,14 +73,10 @@ public class VictoryScreen extends AbstractHudElement {
 	 * Main constructur which takes an instance of the main game class along
 	 * with with the base image of this board and the elements dimensions.
 	 *
-	 * @param game:
-	 *            main game class which connects this class to all other classes
-	 * @param boardImage:
-	 *            Image which will be used as base for this board
-	 * @param width:
-	 *            Horizontal dimension of this board
-	 * @param height:
-	 *            Vertival dimension of this board
+	 * @param game:main game class which connects this class to all other classes
+	 * @param boardImage:Image which will be used as base for this board
+	 * @param width: Horizontal dimension of this board
+	 * @param height:Vertival dimension of this board
 	 */
 	public VictoryScreen(GameManager game, Image boardImage, double width, double height) {
 		this.game = game;
@@ -99,11 +95,11 @@ public class VictoryScreen extends AbstractHudElement {
 		this.borderGlow.setBlurType(BlurType.THREE_PASS_BOX);
 		confirmScreenSetup();
 	}
+
 	/*
 	 * Method which initializes most of the UI elements used by this board Most
 	 * elements are also asigned fills and dimensions within this method
 	 */
-
 	private void confirmScreenSetup() {
 		mainGameBoard = new ImageView();
 		baseGameBoard = new ImageView();
@@ -320,7 +316,6 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 			updateSelections();
 		});
-
 	}
 
 	/**
@@ -381,7 +376,6 @@ public class VictoryScreen extends AbstractHudElement {
 	@SuppressWarnings("unused")
 	private void showTheBoard() {
 		baseGameBoard.setTranslateX(0);
-
 		rotateTransition.setFromAngle(0);
 		rotateTransition.setToAngle(360f * 3);
 		rotateTransition.setCycleCount(1);
@@ -477,8 +471,8 @@ public class VictoryScreen extends AbstractHudElement {
 		continue_btt.setVisible(true);
 		quitGame_btt.setVisible(true);
 		restart_btt.setVisible(true);
-
 	}
+
 	public void swipeRight() {
 		if (swipeRight == true) {
 			optionsBoard.setX(confirmX);
@@ -493,7 +487,6 @@ public class VictoryScreen extends AbstractHudElement {
 					if (confirmXPosition <= 0.30) {
 						confirmXPosition = 0.30;
 					}
-
 				}
 				if (confirmX >= GameSettings.WIDTH / 2 - 800 / 2) {
 					confirmX = GameSettings.WIDTH / 2 - 800 / 2;
@@ -508,8 +501,7 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 			continue_btt.setX(optionsBoard.getX() + 20 );
 			continue_btt.setY(optionsBoard.getY() + 20);
-			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()
-					- 20 );
+			quitGame_btt.setX(optionsBoard.getX() + optionsBoard.getFitWidth() - quitGame_btt.getFitWidth()- 20 );
 			quitGame_btt.setY(optionsBoard.getY() + 20);
 			restart_btt.setX(continue_btt.getX() + continue_btt.getFitWidth() + 23 );
 			restart_btt.setY(continue_btt.getY());
@@ -617,6 +609,7 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 		}
 	}
+
 	@SuppressWarnings("unused")
 	private void zoomAnimation(){
 		this.baseGameBoard.setFitWidth(widthOne);
@@ -624,6 +617,7 @@ public class VictoryScreen extends AbstractHudElement {
 		this.mainGameBoard.setFitWidth(widthOne);
 		this.mainGameBoard.setFitHeight(heightOne);
 	}
+
 	/**
 	 * method used to both update the opacity of the main score board shown
 	 * after the game ends. This method also produces a transition which will
@@ -683,6 +677,7 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 		}
 	}
+
 	public void setSlowMotion(){
 		if (allowSlowMo) {
 			GameSettings.FRAME_SCALE -= 0.0015;
@@ -692,6 +687,7 @@ public class VictoryScreen extends AbstractHudElement {
 			}
 		}
 	}
+
 	public void showSceneSnap(){
 		game.getNinthLayer().getChildren().remove(sceneSnapshot);
 		sceneSnapshot = null;
@@ -715,6 +711,7 @@ public class VictoryScreen extends AbstractHudElement {
 		game.getNinthLayer().getChildren().add(sceneSnapshot);
 		overlay.removeBlur();
 	}
+
 	/**
 	 * Method which collects the scores to be shown by the local score screen
 	 * and positions the scores at a desired position relative to the game board
@@ -722,10 +719,8 @@ public class VictoryScreen extends AbstractHudElement {
 	 */
 	private void processPlayerScores() {
 		scoreScreen.setScores();
-		scoreScreen.relocateScoreOne(mainGameBoard.getX() + 135,
-				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + 25,
-				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
+		scoreScreen.relocateScoreOne(mainGameBoard.getX() + 135,mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + 25, mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
 	}
 
 	/**
@@ -733,10 +728,8 @@ public class VictoryScreen extends AbstractHudElement {
 	 * at a desired location relative to the board element of this class
 	 */
 	private void positionScoreScreen() {
-		scoreScreen.relocateScoreOne(mainGameBoard.getX() + 135,
-				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
-		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + 25,
-				mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
+		scoreScreen.relocateScoreOne(mainGameBoard.getX() + 135,mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
+		scoreScreen.relocateScoreTwo(mainGameBoard.getX() + mainGameBoard.getFitWidth() / 2 + 25,mainGameBoard.getY() + mainGameBoard.getFitHeight() / 1.3);
 	}
 
 	/**
@@ -801,6 +794,7 @@ public class VictoryScreen extends AbstractHudElement {
 		acceleration = 6.0f;
 		center = false;
 	}
+
 	public void show(boolean state){
 		mainGameBoard.setVisible(state);
 		baseGameBoard.setVisible(state);
@@ -811,6 +805,7 @@ public class VictoryScreen extends AbstractHudElement {
 		scoreScreen.show(state);
 		game.getGameHud().showShadow(state);
 	}
+
 	/**
 	 * Method which resets the board along with most of the other UI elements of
 	 * this board allowing this board to be reused next time the game ends

@@ -81,6 +81,7 @@ public class GameTimer {
 		}
 		this.timerText.setEffect(dropShadowOne);
 	}
+
 	public void setTimer(int seconds, int minutes, int hours, TimerType timer) {
 		timerWatch = null;
 		timerWatch = new TimerWatch(seconds, minutes, hours);
@@ -95,10 +96,11 @@ public class GameTimer {
 		minutesS = "00";
 		hoursS = "00";
 		if(timerWatch!=null){
-		seconds = timerWatch.getSeconds();
-		minutes = timerWatch.getMinutes();
-		hours = timerWatch.getHours();
+			seconds = timerWatch.getSeconds();
+			minutes = timerWatch.getMinutes();
+			hours = timerWatch.getHours();
 		}
+
 		timerText.setText(hoursS + ":" + minutesS + ":" + secondsS);
 	}
 
@@ -223,9 +225,11 @@ public class GameTimer {
 			script.run();
 		}
 	}
-	public void showTimer(boolean state){
+
+	public void showTimer(boolean state) {
 		this.timerBox.setVisible(state);
 	}
+
 	public void setLocation(double x, double y) {
 		timerBox.setTranslateX(x);
 		timerBox.setTranslateY(y);
@@ -247,9 +251,10 @@ public class GameTimer {
 		return timerBox.getPrefHeight();
 	}
 
-	public void setSize(double size){
+	public void setSize(double size) {
 		this.size = size;
 	}
+
 	/**
 	 * Method which triggers events based on the current count of the score
 	 * keeper. This method will end the game if the count reaches zero.
@@ -282,12 +287,11 @@ public class GameTimer {
 			return hours;
 		}
 	}
-	public enum TimerStyle{
-		BLUE_STYLE,
-		RED_STYLE,
-		GREEN_STYLE,
-		ORANGE_STYLE,
+
+	public enum TimerStyle {
+		BLUE_STYLE, RED_STYLE, GREEN_STYLE, ORANGE_STYLE,
 	}
+
 	private class Styles {
 		public static final String BLUE_STYLE = "-fx-fill:  linear-gradient(cyan , dodgerblue);";
 		public static final String RED_STYLE = "-fx-fill:  linear-gradient(red , orangered );";

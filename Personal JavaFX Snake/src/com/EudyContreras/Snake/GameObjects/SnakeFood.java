@@ -163,12 +163,14 @@ public class SnakeFood extends AbstractObject {
 			}
 		}
 	}
+
 	public void fadeUpdate(){
 		fadeValue += 0.01;
 		if (fadeValue >= 1.0) {
 			fadeValue = 1.0;
 		}
 	}
+
 	public void adjustBounds(){
 		bounds.setCenterX(x);
 		bounds.setCenterY(y);
@@ -351,14 +353,15 @@ public class SnakeFood extends AbstractObject {
 					this.game.getGameLoader().spawnSnakeFood();
 					break;
 
-			}
+				}
 			}
 		}
-
 	}
+
 	public void checkRemovability(){
 
 	}
+
 	public void relocate(){
 		x = (int) (rand.nextDouble() * ((GameSettings.WIDTH - 30 * 4) - (30 * 4) + 1) + 30 * 4);
 		y = (int) (rand.nextDouble() * ((GameSettings.HEIGHT - 30 * 4) - (GameSettings.MIN_Y + radius) + 1)
@@ -479,6 +482,7 @@ public class SnakeFood extends AbstractObject {
 			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
+
 	public Bounds getRadialBounds() {
 		return bounds.getBoundsInParent();
 	}
@@ -502,10 +506,12 @@ public class SnakeFood extends AbstractObject {
 			this.game.getGameLoader().spawnSnakeFood();
 		}
 	}
+
 	public void bounceBack(AbstractObject object) {
 		object.setVelX(velX+object.getVelX()*.75f);
 		object.setVelY(velY+object.getVelY()*.75f);
 	}
+
 	public void bounceBack(AbstractSection section) {
 
 		if (section.getVelX() > 0 || section.getVelX() < 0) {
@@ -517,6 +523,7 @@ public class SnakeFood extends AbstractObject {
 			this.velX = RandomGenUtility.getRandom(-12, 12);
 		}
 	}
+
 	public void removeFromLayer() {
 		this.cell.setContainsTarget(false);
 		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), Flag.AVAILABLE);

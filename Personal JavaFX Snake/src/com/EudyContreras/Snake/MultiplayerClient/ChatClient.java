@@ -35,12 +35,12 @@ public class ChatClient extends Observable{
 	private CommandHandler handler;
 	private BufferedImage receivedPicture;
 	private BufferedImage sendPicture;
+	private ClientGUI GUI;
 	private String IP_Address;
 	private Socket clientSocket;
 	private Thread connect;
 	private Object object;
 	private String userName;
-	private ClientGUI GUI;
 	private String name, lastname;
 	private String receivedMessage;
 	private String sendMessage;

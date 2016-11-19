@@ -7,15 +7,15 @@ import javafx.geometry.Point2D;
 public class ClientEvent implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	Integer command;
-	Point2D coordinates;
-	String message;
-	String playerID;
-	String objectID;
-	double x;
-	double y;
-	double r;
-	byte[] data;
+	private Integer command;
+	private Point2D coordinates;
+	private String message;
+	private String playerID;
+	private String objectID;
+	private double x;
+	private double y;
+	private double r;
+	private byte[] data;
 
 	public ClientEvent(Integer command, String playerID, double x, double y, double r) {
 		super();

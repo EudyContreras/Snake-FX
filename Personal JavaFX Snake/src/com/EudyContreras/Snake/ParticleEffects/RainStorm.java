@@ -30,8 +30,8 @@ public class RainStorm extends AbstractParticlesEffect {
 		this.decay = 0.016 / expireTime;
 		this.x = x;
 		this.y = y;
-		this.velY = Math.random() * (8 - 2 + 1) + 2 ;
-		this.velX = Math.random() * (8 - -5 + 1) + -5 ;
+		this.velY = Math.random() * (8 - 2 + 1) + 2;
+		this.velX = Math.random() * (8 - -5 + 1) + -5;
 		init();
 	}
 
@@ -43,8 +43,8 @@ public class RainStorm extends AbstractParticlesEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velY = Math.random() * (6 - 2 + 1) + 2 ;
-		this.velX = Math.random() * (8 - -5 + 1) + -5 ;
+		this.velY = Math.random() * (6 - 2 + 1) + 2;
+		this.velX = Math.random() * (8 - -5 + 1) + -5;
 		init();
 	}
 
@@ -58,6 +58,7 @@ public class RainStorm extends AbstractParticlesEffect {
 			addToLayer(view);
 		}
 	}
+
 	public void updateUI() {
 		if (shape != null) {
 			shape.setCenterX(x);
@@ -74,16 +75,16 @@ public class RainStorm extends AbstractParticlesEffect {
 	public void move() {
 		super.move();
 		lifeTime -= decay;
-		velY += GameSettings.WIND_SPEED ;
+		velY += GameSettings.WIND_SPEED;
 		velX -= 0.002;
 	}
 
 	public void collide() {
+
 	}
 
-	public boolean isAlive() {
-
-		return x < GameSettings.WIDTH && y < GameSettings.HEIGHT  && lifeTime > 0;
+	public boolean isAlive(){
+		return x < GameSettings.WIDTH && y < GameSettings.HEIGHT && lifeTime > 0;
 	}
 
 	public void draw() {

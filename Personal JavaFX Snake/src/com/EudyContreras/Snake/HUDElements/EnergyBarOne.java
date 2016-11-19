@@ -69,15 +69,17 @@ public class EnergyBarOne {
 	 */
 	public void update(){
 		if(game.getStateID() == GameStateID.GAMEPLAY){
-		depleteEnergy();
-		regenerateEnergy();
+			depleteEnergy();
+			regenerateEnergy();
 		}
 		popIn();
 	}
+
 	private void popIn(){
 		this.energyBar.setTranslateX(x+moveX);
 		this.energyBarRed.setTranslateX(x+moveX);
 	}
+
 	public void setMoveX(double moveX){
 		this.moveX = moveX;
 	}
@@ -158,6 +160,7 @@ public class EnergyBarOne {
 		energyBar.setVisible(state);
 		energyBarRed.setVisible(state);
 	}
+
 	public boolean isSpeedThrust() {
 		return speedThrust;
 	}
@@ -189,9 +192,11 @@ public class EnergyBarOne {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerOne();
 	}
+
 	public boolean isDepleated() {
 		return depleated;
 	}
+
 	public void setDepleated(boolean depleated) {
 		this.depleated = depleated;
 	}

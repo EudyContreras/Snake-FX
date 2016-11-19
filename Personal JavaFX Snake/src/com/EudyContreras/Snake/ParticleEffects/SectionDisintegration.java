@@ -49,10 +49,10 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 	}
 
 	public void collide() {
+
 	}
 
 	public boolean isAlive() {
-
 		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
 
@@ -61,22 +61,18 @@ public class SectionDisintegration extends AbstractParticlesEffect {
 	}
 
 	public Rectangle2D getBounds() {
-
 		return null;
 	}
 
 	public Rectangle2D getBoundsTop() {
-
 		return null;
 	}
 
 	public Rectangle2D getBoundsRight() {
-
 		return null;
 	}
 
 	public Rectangle2D getBoundsLeft() {
-
 		return null;
 	}
 

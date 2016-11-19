@@ -42,6 +42,7 @@ public class SlitherManager {
 	 */
 	public void update(GraphicsContext gc, long timePassed) {
 		Iterator<? extends AbstractSlither> spriteIter = object.iterator();
+
 		while (spriteIter.hasNext()) {
 			AbstractSlither sprite = spriteIter.next();
 			sprite.updateUI();
@@ -64,7 +65,6 @@ public class SlitherManager {
 	 * source without provoking a break.
 	 */
 	public void updateAll(GraphicsContext gc, long timePassed) {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.updateUI();
@@ -95,7 +95,6 @@ public class SlitherManager {
 	 * Method used to explicitly update animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.updateAnimation(timePassed);
@@ -106,7 +105,6 @@ public class SlitherManager {
 	 * Method used to explicitly move the objects
 	 */
 	public void move() {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.move();
@@ -117,7 +115,6 @@ public class SlitherManager {
 	 * Method used to explicitly draw the graphics
 	 */
 	public void draw(GraphicsContext gc) {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.draw(gc);
@@ -128,7 +125,6 @@ public class SlitherManager {
 	 * Method used to explicitly add physics to the objects
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.addPhysics();
@@ -181,7 +177,6 @@ public class SlitherManager {
 
 	public void addObject(AbstractSlither object) {
 		this.object.add(object);
-
 	}
 
 	public void removeObject(AbstractSlither object) {

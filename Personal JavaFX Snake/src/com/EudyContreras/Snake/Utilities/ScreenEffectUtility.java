@@ -82,8 +82,7 @@ public class ScreenEffectUtility {
 	}
 
 	/**
-	 * Adds a distortion effect to the layer. max lifetime = 63. min lifetime =
-	 * 0.
+	 * Adds a distortion effect to the layer. max lifetime = 63. min lifetime =0.
 	 *
 	 * @param lifetime
 	 */
@@ -96,6 +95,7 @@ public class ScreenEffectUtility {
 			speedDistortion = speed;
 		}
 	}
+
 	public synchronized void addDistortion() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			layer.setEffect(motionEffect);
@@ -104,8 +104,7 @@ public class ScreenEffectUtility {
 		}
 	}
 	/**
-	 * Adds a soft blur effect to the layer. max lifetime = 63. min lifetime =
-	 * 0.
+	 * Adds a soft blur effect to the layer. max lifetime = 63. min lifetime =0.
 	 *
 	 * @param lifetime
 	 */
@@ -120,8 +119,7 @@ public class ScreenEffectUtility {
 	}
 
 	/**
-	 * Adds a intense blur effect to the layer. max lifetime = 255. min lifetime
-	 * = 0.
+	 * Adds a intense blur effect to the layer. max lifetime = 255. min lifetime = 0.
 	 *
 	 * @param lifetime
 	 */
@@ -211,6 +209,7 @@ public class ScreenEffectUtility {
 			storm = true;
 		}
 	}
+
 	public void addScreenShake(Pane screen, double duration, boolean horizontal, boolean vertical) {
 		if(horizontal){
 			shakeDuration = (double) (duration*30);
@@ -241,14 +240,15 @@ public class ScreenEffectUtility {
 
 	public void addNodeShake(Node node, double duration) {
 		if(node instanceof Pane){
-		this.node = (Pane)node;
-		this.originalPosition = new Point2D(this.node.getTranslateX(), this.node.getTranslateY());
-		nodeShakeDuration = (double) (duration * 30);
-		nodeShakeAmountX = 10.0;
-		nodeShakeAmountY = 10.0;
-		nodeShake = true;
+			this.node = (Pane) node;
+			this.originalPosition = new Point2D(this.node.getTranslateX(), this.node.getTranslateY());
+			nodeShakeDuration = (double) (duration * 30);
+			nodeShakeAmountX = 10.0;
+			nodeShakeAmountY = 10.0;
+			nodeShake = true;
 		}
 	}
+
 	/**
 	 * Adds a fading screen to the game which leads to the main menu. The fade
 	 * speed determines the speed of the fade.
@@ -265,12 +265,14 @@ public class ScreenEffectUtility {
 		game.getEleventhLayer().getChildren().add(fadeScreen);
 		setFadeOverlay = true;
 	}
+
 	public void setIntroEffect(){
 		introBlurOff = 25.0;
 		introBlurEffect.setRadius(introBlurOff);
 		layer.setEffect(null);
 		layer.setEffect(introBlurEffect);
 	}
+
 	public void addIntroEffect(){
 		introBlurOff = 25.0;
 		introBlurEffect.setRadius(introBlurOff);
@@ -278,6 +280,7 @@ public class ScreenEffectUtility {
 		layer.setEffect(introBlurEffect);
 		introBlur = true;
 	}
+
 	public void updateEffect() {
 		if (setDistortion) {
 			setDistortionModifier();
@@ -373,6 +376,7 @@ public class ScreenEffectUtility {
 			setFadeOverlay = false;
 		}
 	}
+
 	private void setHShakeModifier(){
 		if(screenShakeH){
 			shakeX +=shakeAmount;
@@ -392,6 +396,7 @@ public class ScreenEffectUtility {
 			}
 		}
 	}
+
 	private void setVShakeModifier(){
 		if(screenShakeV){
 			shakeX +=shakeAmount;
@@ -411,6 +416,7 @@ public class ScreenEffectUtility {
 			}
 		}
 	}
+
 	private void setNodeShakeModifier(){
 		if(nodeShake){
 			nodeShakeX +=nodeShakeAmountX;
@@ -442,6 +448,7 @@ public class ScreenEffectUtility {
 			}
 		}
 	}
+
 	private void setStormBlur() {
 		if (!PlayerOne.LEVEL_COMPLETED && !PlayerTwo.LEVEL_COMPLETED) {
 			if (blurUp) {
@@ -500,6 +507,7 @@ public class ScreenEffectUtility {
 		clearLevelBlur.setWidth(clearLevelBluring);
 		clearLevelBlur.setHeight(clearLevelBluring);
 	}
+
 	public void setIntroBlur(){
 		if (introBlur) {
 			introBlurOff -= 0.6;
@@ -511,6 +519,7 @@ public class ScreenEffectUtility {
 		layer.setEffect(introBlurEffect);
 		introBlurEffect.setRadius(introBlurOff);
 	}
+
 	public void removeBlur() {
 		clearLevelBluring = 0.0;
 		setDistortion = false;
@@ -525,7 +534,4 @@ public class ScreenEffectUtility {
 		clearLevel = false;
 		layer.setEffect(null);
 	}
-
-
-
 }

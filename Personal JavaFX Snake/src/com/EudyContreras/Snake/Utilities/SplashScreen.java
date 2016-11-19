@@ -48,6 +48,7 @@ public class SplashScreen{
 		this.splashLayout.setEffect(new DropShadow());
 		this.initSplash(stage,initializeMethod,showGameMethod);
 	}
+
 	public void initSplash(Stage primaryStage, Runnable initializeMethod, InitCompletionHandler showGameMethod) {
 		final Scene splashScene = new Scene(splashLayout, Color.TRANSPARENT);
 		final Rectangle2D bounds = Screen.getPrimary().getBounds();
@@ -74,7 +75,6 @@ public class SplashScreen{
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		primaryStage.setAlwaysOnTop(true);
 		primaryStage.show();
-
 	}
 
 	private void showSplashScreen(final Stage initStage, Task<?> task, InitCompletionHandler initCompletionHandler) {

@@ -66,8 +66,8 @@ public abstract class AbstractObject {
 
 	public AbstractObject() {
 
-
 	}
+
 	/**
 	 * The constructors used in this class allows objects to be created in
 	 * different ways and with different attributes
@@ -109,8 +109,8 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, double r, double velX,
+			double velY, double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.x = x;
@@ -214,7 +214,9 @@ public abstract class AbstractObject {
 		}
 
 	}
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+			boolean layer1) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -239,6 +241,7 @@ public abstract class AbstractObject {
 		}
 
 	}
+
 	public AbstractObject(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
@@ -311,7 +314,6 @@ public abstract class AbstractObject {
 		this.numericCode = numericCode;
 	}
 
-
 	public Pane getLayer() {
 		return layer;
 	}
@@ -372,69 +374,73 @@ public abstract class AbstractObject {
 	public void setVelR(double velR) {
 		this.velR = velR;
 	}
-	public double getXDistance(double x){
-		return Math.abs(x-this.x);
+
+	public double getXDistance(double x) {
+		return Math.abs(x - this.x);
 	}
-	public double getYDistance(double y){
-		return Math.abs(y-this.y);
+
+	public double getYDistance(double y) {
+		return Math.abs(y - this.y);
 	}
-	public double getDistance(double x, double y){
-		return Math.abs(x - this.x)+Math.abs(y - this.y);
+
+	public double getDistance(double x, double y) {
+		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	}
-	public double getInterpolarXDistance(double x){
+
+	public double getInterpolarXDistance(double x) {
 		double dX;
 		double xDistance;
-		if(this.x > x){
+		if (this.x > x) {
 			dX = GameSettings.WIDTH - x;
 			xDistance = Math.abs(dX - this.x);
-		}
-		else{
+		} else {
 			dX = x - GameSettings.WIDTH;
 			xDistance = Math.abs(dX - this.x);
 		}
 		return xDistance;
 	}
-	public double getInterpolarYDistance(double y){
+
+	public double getInterpolarYDistance(double y) {
 		double dX;
 		double xDistance;
-		if(this.y > y){
+		if (this.y > y) {
 			dX = GameSettings.WIDTH - y;
 			xDistance = Math.abs(dX - this.y);
-		}
-		else{
+		} else {
 			dX = y - GameSettings.WIDTH;
 			xDistance = Math.abs(dX - this.y);
 		}
 		return xDistance;
 	}
-	public double getInterpolarDistance(double x, double y){
+
+	public double getInterpolarDistance(double x, double y) {
 		double dX;
 		double dY;
 		double distance;
 
-		if(this.x > x){
+		if (this.x > x) {
 			dX = GameSettings.WIDTH - x;
 
-			if(this.y > y){
+			if (this.y > y) {
 				dY = GameSettings.HEIGHT - y;
-			}else{
+			} else {
 				dY = y - GameSettings.HEIGHT;
 			}
-			distance = Math.abs(dX-this.x)-Math.abs(dY-this.y);
-		}
-		else{
+			distance = Math.abs(dX - this.x) - Math.abs(dY - this.y);
+		} else {
 			dX = x - GameSettings.WIDTH;
 
-			if(this.y > y){
+			if (this.y > y) {
 				dY = GameSettings.HEIGHT - y;
-			}else{
+			} else {
 				dY = y - GameSettings.HEIGHT;
 			}
-			distance = Math.abs(dX-this.x)-Math.abs(dY-this.y);
+			distance = Math.abs(dX - this.x) - Math.abs(dY - this.y);
 		}
 		return distance;
 
 	}
+
 	public double getHealth() {
 		return health;
 	}
@@ -459,7 +465,8 @@ public abstract class AbstractObject {
 		this.isAlive = false;
 		this.removable = removable;
 	}
-	public void logicUpdate(){
+
+	public void logicUpdate() {
 
 	}
 
@@ -521,23 +528,28 @@ public abstract class AbstractObject {
 	public double getCenterY() {
 		return y + height * 0.5;
 	}
-	public double getRadius(){
+
+	public double getRadius() {
 		return circle.getRadius();
 	}
+
 	public Bounds getRadialBounds() {
 		return circle.getBoundsInParent();
 	}
-	public boolean isStatic(){
+
+	public boolean isStatic() {
 		return remainStatic;
 	}
 
-	public CellNode getCell(){
+	public CellNode getCell() {
 		return cell;
 	}
+
 	public void setCell(CellNode cell) {
 		this.cell = cell;
 
 	}
+
 	public Rectangle2D getBounds() {
 
 		return new Rectangle2D(x, y, width, height);
@@ -589,15 +601,19 @@ public abstract class AbstractObject {
 	public void bounce(PlayerTwoSection section, double x, double y) {
 
 	}
+
 	public void blowUp() {
 
 	}
-	public void getPoint(){
+
+	public void getPoint() {
 
 	}
+
 	public void blowUpAlt() {
 
 	}
+
 	public void stopMovement() {
 		this.canMove = false;
 	}

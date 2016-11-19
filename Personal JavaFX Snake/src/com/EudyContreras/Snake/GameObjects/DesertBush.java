@@ -61,6 +61,7 @@ public class DesertBush extends AbstractTile {
 				velR += 0.5f;
 		}
 	}
+
 	public void displace(){
 		if(playerCollision){
 		this.velX += threshold;
@@ -84,6 +85,7 @@ public class DesertBush extends AbstractTile {
 			}
 		}
 	}
+
 	public void checkDisplacement(){
 		if(playerCollision == true && contact == false){
 			count--;
@@ -141,8 +143,8 @@ public class DesertBush extends AbstractTile {
 			contact = false;
 			}
 		}
-
 	}
+
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {

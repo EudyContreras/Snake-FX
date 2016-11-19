@@ -36,12 +36,14 @@ public abstract class AbstractTile {
 	public AbstractTile() {
 
 	}
+
 	public AbstractTile(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
+
 	public AbstractTile(double x, double y, Image image) {
 		this.x = x;
 		this.y = y;
@@ -50,11 +52,13 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-	public AbstractTile(double x, double y,GameLevelObjectID id) {
+
+	public AbstractTile(double x, double y, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
 	}
+
 	public AbstractTile(double x, double y, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
@@ -64,6 +68,7 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
+
 	public AbstractTile(double x, double y, double width, double height, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
@@ -75,6 +80,7 @@ public abstract class AbstractTile {
 		this.view.setFitWidth(width);
 		this.view.setFitHeight(height);
 	}
+
 	public ImageView getView() {
 		return view;
 	}
@@ -138,9 +144,11 @@ public abstract class AbstractTile {
 	public Image getImage() {
 		return image;
 	}
-	public void setCell(CellNode... cell){
+
+	public void setCell(CellNode... cell) {
 
 	}
+
 	public void setImage(Image image) {
 		this.image = image;
 	}
@@ -168,7 +176,6 @@ public abstract class AbstractTile {
 	public void setY(double y) {
 		this.y = y;
 	}
-
 
 	public void setId(GameLevelObjectID id) {
 		this.id = id;

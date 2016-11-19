@@ -35,11 +35,13 @@ public class DebrisEffectOne extends AbstractParticlesEffect{
 		this.y = y;
 		init();
 	}
+
 	public void init(){
         shape.setFill(imagePattern);
 		shape.setBlendMode(BlendMode.ADD);
 		addToLayer(shape);
 	}
+
 	public void updateUI(){
 		x += velocity.getX();
 		y += velocity.getY();
@@ -50,19 +52,20 @@ public class DebrisEffectOne extends AbstractParticlesEffect{
 			lifeTime =0;
 		}
 	}
-	public void move(){
 
+	public void move(){
 		shape.setCenterX(x);
 		shape.setCenterY(y);
+	}
+
+	public void collide() {
 
 	}
-	public void collide(){
 
-
-	}
 	public boolean isAlive() {
-		return x<GameSettings.WIDTH && x>0 && y<GameSettings.HEIGHT  && y>0 && lifeTime>0;
+		return x < GameSettings.WIDTH && x > 0 && y < GameSettings.HEIGHT && y > 0 && lifeTime > 0;
 	}
+
 	public void draw() {
 		shape.setOpacity(lifeTime);
 	}
@@ -90,8 +93,8 @@ public class DebrisEffectOne extends AbstractParticlesEffect{
 	public GameDebrisID getID() {
 		return id;
 	}
+
 	public void setID(GameDebrisID id) {
 		this.id = id;
 	}
 }
-

@@ -102,8 +102,8 @@ public abstract class AbstractSlither {
 
 	}
 
-	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, GameObjectID id) {
+	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, double r, double velX,
+			double velY, double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.x = x;
@@ -207,7 +207,9 @@ public abstract class AbstractSlither {
 		}
 
 	}
-	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+
+	public AbstractSlither(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+			boolean layer1) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -232,6 +234,7 @@ public abstract class AbstractSlither {
 		}
 
 	}
+
 	public AbstractSlither(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
@@ -386,9 +389,11 @@ public abstract class AbstractSlither {
 	public void setRemovable(boolean removable) {
 		this.removable = removable;
 	}
-	public void logicUpdate(){
+
+	public void logicUpdate() {
 
 	}
+
 	/**
 	 * This method is responsible for moving and rotating the object
 	 */
@@ -501,6 +506,7 @@ public abstract class AbstractSlither {
 	public void bounce(PlayerTwoSection section, double x, double y) {
 
 	}
+
 	public void blowUp() {
 
 	}
@@ -516,9 +522,11 @@ public abstract class AbstractSlither {
 	public void checkCollision() {
 
 	}
-	public void setRotation(double rotation){
+
+	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
+
 	public double getRotation() {
 
 		return rotation;

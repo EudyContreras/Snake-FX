@@ -12,7 +12,6 @@ import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
-import javafx.scene.effect.MotionBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -41,25 +40,24 @@ public class ImageEffectUtility {
 	private static DropShadow borderGlow = new DropShadow();
 	private static BoxBlur blur = new BoxBlur();
 	private static GaussianBlur gaussianBlur = new GaussianBlur();
-	private static MotionBlur motionBlur = new MotionBlur();
 	private static Bloom bloom = new Bloom(0.1);
 	private static Glow glow = new Glow(1.0);
 	private static Circle circle = new Circle();
 
 	public static synchronized Image createImage(Node node) {
-
 		parameters.setFill(Color.TRANSPARENT);
 		WritableImage wi = new WritableImage((int)node.getBoundsInLocal().getWidth(), (int) node.getBoundsInLocal().getHeight());
 		node.snapshot(parameters, wi);
 		return wi;
-
 	}
+
 	private static void resetInputeffects(){
 		view.setEffect(null);
 		lighting.setContentInput(null);
 		shadow.setInput(null);
 		shadow.setBlurType(BlurType.THREE_PASS_BOX);
 	}
+
 	public static synchronized Image precreatedLightedImage(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
@@ -131,6 +129,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static synchronized Image precreatedLightedAndShadedImageTwo(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
@@ -155,6 +154,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static synchronized Image precreatedLightedAndShadedSnake(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
@@ -179,6 +179,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static synchronized Image precreatedLightedAndShadedTail(String path, double diffused, double specularMap, double width,
 			double height) {
 		resetInputeffects();
@@ -203,6 +204,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static synchronized Image preCreateShadedCircle(Color color, double diffused, double specularMap, double radius) {
 		resetInputeffects();
 		Image img;
@@ -220,6 +222,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+
 	public static synchronized Image preCreateShadedBlurredCircle(Color color, double diffused, double specularMap, double radius) {
 		resetInputeffects();
 		Image img;
@@ -241,6 +244,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+
 	public static synchronized Image preCreateCircle(Color color, double radius) {
 		Image img;
 		resetInputeffects();
@@ -257,6 +261,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+
 	public static synchronized Image preCreateShadedGlowingCircle(Color color, double diffused, double specularMap, double width,
 			double height) {
 		Lighting lighting = new Lighting();
@@ -305,6 +310,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static final Image precreateBackground(Color orange, double width, double height) {
 		resetInputeffects();
 		rect.setFill(orange);
@@ -313,6 +319,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(rect);
 		return img;
 	}
+
 	public static synchronized Image preCreateShadedDebris(String path, double diffused, double specularMap, double width,
 			double height) {
 		img = new Image(loadResource(path), width, height, true, true);
@@ -367,6 +374,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+
 	public static synchronized Image preCreateAlternateGlowingCircle(Color color, double opacity, double depth, double spread,
 			double radius) {
 		Image img;
@@ -387,6 +395,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+
 	public static synchronized Image preCreateAlternateGlowingCircleTwo(Color color, double opacity, double depth, double spread,
 			double width, double height) {
 		Image img;
@@ -405,6 +414,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(circle);
 		return img;
 	}
+
 	public static final synchronized Image GLOWING_RECTANGLE(Color color, double depth, double spread,double width, double height) {
 		Image img;
 		Rectangle rect = new Rectangle(width, height, color);
@@ -419,6 +429,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(rect);
 		return img;
 	}
+
 	public static synchronized Image preCreateImageWithBloom(String path, double threshold, double width, double height) {
 		img = new Image(loadResource(path), width, height, true, true);
 		view.setImage(img);
@@ -429,6 +440,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static synchronized Image preCreateImageWithMotionBlur(String path, double width, double height) {
 		resetInputeffects();
 		img = new Image(loadResource(path), width, height, true, true);
@@ -477,6 +489,7 @@ public class ImageEffectUtility {
 		img = ImageEffectUtility.createImage(view);
 		return img;
 	}
+
 	public static synchronized Image precreateSnapshot(String path, double width, double height) {
 		Image img = new Image(loadResource(path), width, height, true, true);
 		ImageView view = new ImageView(img);

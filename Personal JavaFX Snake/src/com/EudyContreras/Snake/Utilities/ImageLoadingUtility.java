@@ -34,10 +34,6 @@ public class ImageLoadingUtility {
 	private static int width, height;
 	private final static Map<String, Image> TEXTURE_MAP = new HashMap<String, Image>();
 
-	public ImageLoadingUtility() {
-
-	}
-
 	/**
 	 * constructor which creates a bufferedImage from a given name and will then
 	 * store the image inside a hashMap.
@@ -105,6 +101,7 @@ public class ImageLoadingUtility {
 	public static Image getImage(){
 		return image;
 	}
+
 	public static WritableImage getWImage() {
 		return wImage;
 	}

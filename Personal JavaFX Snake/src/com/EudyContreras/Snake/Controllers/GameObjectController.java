@@ -32,8 +32,8 @@ public class GameObjectController {
 	private AbstractObject tempBuff;
 	private GameManager game;
 
-	public GameObjectController(GameManager gameJavaFX) {
-		this.game = gameJavaFX;
+	public GameObjectController(GameManager game) {
+		this.game = game;
 		initialize();
 	}
 	/**
@@ -50,7 +50,6 @@ public class GameObjectController {
 				}
 			}
 		});
-
 	}
 
 	/**
@@ -61,6 +60,7 @@ public class GameObjectController {
 	 */
 	public void updateFruits(long timePassed) {
 		Iterator<AbstractObject> fruitIter = fruits.iterator();
+
 		while (fruitIter.hasNext()) {
 			AbstractObject tempFruit = fruitIter.next();
 			tempFruit.move();
@@ -77,10 +77,11 @@ public class GameObjectController {
 				continue;
 			}
 		}
-
 	}
+
 	public void updateBufss(long timePassed) {
 		Iterator<AbstractObject> buffIter = buffs.iterator();
+
 		while (buffIter.hasNext()) {
 			tempBuff = buffIter.next();
 			tempBuff.move();
@@ -187,7 +188,6 @@ public class GameObjectController {
 	 * Method used to explicitly add physics to the objects
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < fruits.size(); i++) {
 			tempFruit = fruits.get(i);
 			tempFruit.addPhysics();

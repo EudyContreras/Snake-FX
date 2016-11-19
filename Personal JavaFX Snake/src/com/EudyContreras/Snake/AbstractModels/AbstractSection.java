@@ -371,8 +371,11 @@ public abstract class AbstractSection {
 		this.canMove = false;
 	}
 
-	public void checkRemovability() {}
-	public void checkCollision() {}
+	public void checkRemovability() {
+	}
+
+	public void checkCollision() {
+	}
 
 	protected void removePerformedCoordinateChange() {
 		lastPosition.remove(0);

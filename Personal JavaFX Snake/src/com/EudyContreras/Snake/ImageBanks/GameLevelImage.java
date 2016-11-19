@@ -48,22 +48,21 @@ public class GameLevelImage {
 		public static final Image desertBackgroundFive = ImageEffectUtility.preCreateShadedBackground("desert_level_background_5.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundSix = ImageEffectUtility.preCreateShadedBackground("desert_level_background_7.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundSeven = ImageEffectUtility.preCreateShadedBackground("desert_level_background_4.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundEight = ImageEffectUtility.preCreateShadedBackground("desert_level_background_2.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundNine = ImageEffectUtility.preCreateShadedBackground("desert_level_background_3.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundTen = ImageEffectUtility.preCreateShadedBackground("desert_level_background_4.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundEleven = ImageEffectUtility.preCreateShadedBackground("desert_level_background_1.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundTwelve = ImageEffectUtility.preCreateShadedBackground("desert_level_background_5.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundThirteen = ImageEffectUtility.preCreateShadedBackground("desert_level_background_6.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
-
+			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image horizontalFence = ImageEffectUtility.precreatedLightedImage("horizontal_spike_fence_alt.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 180, 65 );
 		public static final Image verticalFence = ImageEffectUtility.precreatedLightedAndShadedImage("vertical_spike_fence_alt.png",

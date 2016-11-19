@@ -1,6 +1,6 @@
-package com.EudyContreras.Snake.PathFindingAI;
+package com.EudyContreras.Snake.PathFindingAI_BK;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -23,58 +23,44 @@ import javafx.geometry.Rectangle2D;
 /**
  *
  * @author Eudy Contreras
- * TODO: Trigger PATH finding AI only when a collision happens !!!
  *
- * Make it so that if the snake is close to an obstacle it will activate
- * path finding else it will deactivate it!
- *
- * TODO: Make the snake go for the closest only if the path is available
- * if the path is not available use a hierarchy system. If the path is close
- * check if the closest border is opened and if open check if the farthest border
- * is open! if both borders are open teleport!
- *
- * TODO: Do not allow tracking apples which are next to the snakes body. if the closest
- * apple is one cell away from snakes body. Check next closest!
  */
-public class AIPathFinder4 {
+public class AIPathFinder2 {
 
-//	private AbstractObject objectives[0].getObject();
+	private AbstractObject objective;
 	private AIController controller;
 	private GameManager game;
 	private PlayerTwo snakeAI;
 	private Random rand;
 
-	private boolean logDirections = false;
 	private boolean searching = false;
-	private boolean allowTrace = false;
 	private boolean makingUTurn = false;
 
 	private double range = 20;
+	private double closest;
+	private double positionX = 0;
+	private double positionY = 0;
 	private double turnOffset = 100;
-	private double checkTimer = 100;
-	private double heuristicScale = 1;
+	private double heuristicScale = 1.0;
 
 	private int cellCount = 0;
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
 	private HeuristicType heuristicType;
-	private TieBreaker tieBreaker;
 	private ActionState state;
 
-	private Objective[] objectives;
-	private HashSet<CellNode> closedSet;
-	private LinkedPath<CellNode> linkedPath;
-	private PriorityQueue<CellNode> openedSet;
-	private List<CellNode> pathCoordinates;
+	HashSet<CellNode> closedSet;
+	LinkedList<CellNode> totalPath;
+	PriorityQueue<CellNode> openedSet;
 
-	public AIPathFinder4(GameManager game, PlayerTwo snakeAI) {
+	public AIPathFinder2(GameManager game, PlayerTwo snakeAI) {
 		this.game = game;
 		this.snakeAI = snakeAI;
 		this.initialize();
 	}
 
-	public AIPathFinder4(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
+	public AIPathFinder2(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
 		this.game = game;
 		this.controller = controller;
 		this.snakeAI = snakeAI;
@@ -84,12 +70,11 @@ public class AIPathFinder4 {
 	public void initialize() {
 		rand = new Random();
 		cellCount = controller.getGrid().getRowCount() * controller.getGrid().getColumnCount();
+		totalPath = new LinkedList<>();
 		closedSet = new HashSet<>(cellCount);
-		objectives = new Objective[4];
 		openedSet = new PriorityQueue<CellNode>(cellCount, new CellComparator());
 		heuristicType = HeuristicType.MANHATHAN;
-		tieBreaker = TieBreaker.CROSS;
-		state = ActionState.PATH_FINDING;
+		state = ActionState.FREE_MODE;
 	}
 
 	public void findObjective() {
@@ -97,7 +82,6 @@ public class AIPathFinder4 {
 		case EVADING:
 			break;
 		case PATH_FINDING:
-				computeClosestPath(0,0);
 			break;
 		case FREE_MODE:
 			if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
@@ -107,6 +91,7 @@ public class AIPathFinder4 {
 			break;
 
 		}
+
 	}
 
 	/*
@@ -117,7 +102,6 @@ public class AIPathFinder4 {
 			findClosest();
 			createPath();
 			computeClosestPath(5,5);
-			performMove(PlayerMovement.MOVE_DOWN);
 		}
 	}
 
@@ -126,18 +110,17 @@ public class AIPathFinder4 {
 	 * method update and keeps track of things
 	 */
 	public void updateSimulation() {
+//		finderCell = controller.getRelativeCell(snakeAI.getBounds(),0,0);
 		if (game.getModeID() == GameModeID.LocalMultiplayer) {
 			if (game.getStateID() == GameStateID.GAMEPLAY) {
-				performLocationBasedAction();
-				checkObjectiveStatus();
-				addRandomBoost(true);
-				reRoute();
-				checkTimer--;
-				if (checkTimer <= 0) {
-					findClosest();
-					computeClosestPath(0,0);
-					checkTimer = 60;
+				if (objective != null) {
+					checkCurrentLocation();
+					addRandomBoost(true);
+					reRoute();
 				}
+//				findClosest();
+				checkObjectiveStatus();
+//				computeClosestPath(0,0);
 			}
 		}
 	}
@@ -146,7 +129,7 @@ public class AIPathFinder4 {
 	 * Find a path from start to goal using the A* algorithm
 	 */
 
-	public synchronized LinkedPath<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective) {
+	public List<CellNode> getPath(GridNode grid, CellNode startingPoint, CellNode objective) {
 
 		CellNode current = null;
 
@@ -154,7 +137,9 @@ public class AIPathFinder4 {
 
 		boolean containsNeighbor;
 
-		open(startingPoint);
+		openedSet.add(startingPoint);
+
+		startingPoint.setOccupied(true);
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -186,9 +171,9 @@ public class AIPathFinder4 {
 
 			if (current.equals(objective)) {
 				endPathSearch();
-				return createNewPath(objective);
+				return createPath(objective);
 			}
-			close(current);
+			closedSet.add(current);
 
 
 			for (CellNode neighbor : grid.getNeighborCells(current)) {
@@ -215,59 +200,27 @@ public class AIPathFinder4 {
 							neighbor.setMovementCost(tentativeScoreG+turnPenalty);
 						}
 					}
-					double heuristic = 0;
 
-					double path = 10 / 1000;
-
-					double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
-					double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
-					double dx2 = startingPoint.getLocation().getX() - objective.getLocation().getX();
-					double dy2 = startingPoint.getLocation().getY() - objective.getLocation().getY();
-
-					double cross = Math.abs(dx1 * dy2 - dx2 * dy1);
-
-					switch (tieBreaker) {
-
-					case CROSS:
-						heuristic += cross * 0.001;
-						break;
-					case PATH:
-						heuristic *= (1.0 + path);
-						break;
-					case NONE:
-						heuristic = heuristic * heuristicScale;
-						break;
-					}
-					heuristic =heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
-
-					neighbor.setHeuristic(heuristic); // If used with scaled up heuristic it gives least number of turns!
+					neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective,2.0,heuristicType)); // If used with scaled up heuristic it gives least number of turns!
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
 					if (!containsNeighbor) {
 
-						open(neighbor);
+						openedSet.add(neighbor);
 					}
 				}
 			}
 		}
 		endPathSearch();
-		return new LinkedPath<CellNode>();
-	}
-	private void close(CellNode node){
-		node.setClosed(true);
-		closedSet.add(node);
-	}
-	private void open(CellNode node){
-		node.setClosed(false);
-		openedSet.add(node);
+		return new ArrayList<>();
 	}
 
 	private void endPathSearch(){
 		searching = false;
-		allowTrace = false;
 		openedSet.clear();
 		closedSet.clear();
+		totalPath.clear();
 	}
 
 	private void calculateDirection(CellNode node) {
@@ -305,16 +258,22 @@ public class AIPathFinder4 {
 		}
         return cheapest;
     }
-	private LinkedPath<CellNode> createNewPath(CellNode current) {
-		linkedPath = new LinkedPath<>();
-		
-		linkedPath.add(current);
+	/**
+	 * Create final path of the A* algorithm. The path is from goal to start.
+	 */
+	private List<CellNode> createPath(CellNode current) {
+
+		totalPath.add(current);
+
 		while ((current = current.getParentNode()) != null) {
-			linkedPath.add(current);
+
+			totalPath.add(current);
+
 		}
 
-		return linkedPath;
+		return totalPath;
 	}
+
 	/**
 	 * Method which under certain conditions will activate the speed boost of
 	 * the snake
@@ -327,62 +286,24 @@ public class AIPathFinder4 {
 				return;
 			}
 			if (snakeAI != null) {
-				applyThrust();
-			}
-		}
-		else if (state == ActionState.PATH_FINDING) {
-			if (random && rand.nextInt(randomBoost) != 0) {
-				return;
-			}
-			if (snakeAI != null) {
-				applyThrust();
-			}
-		}
-	}
-	/**
-	 * TODO: Build a list containing coordinates and directions.
-	 * make the snake move towards the first direction on the list
-	 * if the snake moves reaches the coordinate on the list make the
-	 * snake take the next turn and so forth:....
-	 */
-	public void steerPlayer() {
-		CellNode cell = null;
-		if (pathCoordinates != null && allowTrace) {
-			for (int index = 0; index < pathCoordinates.size(); index++) {
-				cell = pathCoordinates.get(index);
-				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
-					switch (cell.getDirection()) {
-					case DOWN:
-						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
-						cell.setPathCell(false);
-						break;
-					case LEFT:
-						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
-						cell.setPathCell(false);
-						break;
-					case RIGHT:
-						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
-						cell.setPathCell(false);
-						break;
-					case UP:
-						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
-						cell.setPathCell(false);
-						break;
-					case NONE:
-						break;
+				if (game.getEnergyBarTwo().getEnergyLevel() > 50) {
+					if (snakeAI.isAllowThrust()) {
+						snakeAI.setSpeedThrust(true);
 					}
-					break;
+				} else {
+					snakeAI.setSpeedThrust(false);
 				}
 			}
 		}
 	}
+
 	/**
 	 * Method which when called will attempt to find the apple which is closest
 	 * to the current position of the snake!
 	 *
 	 * @return
 	 */
-	public void findClosest() {
+	public AbstractObject findClosest() {
 		switch (state) {
 		case EVADING:
 			computeObjective();
@@ -395,77 +316,60 @@ public class AIPathFinder4 {
 			break;
 		default:
 			break;
+
 		}
+
+		return objective;
 	}
 
 	private void computeObjective() {
-		for (int i = 0; i < objectives.length  ; i++) {
-			objectives[i] = new Objective(calculateManhathanDistance(
+		Distance[] distance = new Distance[game.getGameObjectController().getObsFruitList().size()];
+
+		for (int i = 0; i < game.getGameObjectController().getObsFruitList().size(); i++) {
+			distance[i] = new Distance(calculateManhathanDistance(
 		    snakeAI.getX(), game.getGameObjectController().getObsFruitList().get(i).getX(),
 			snakeAI.getY(), game.getGameObjectController().getObsFruitList().get(i).getY()),
 			game.getGameObjectController().getObsFruitList().get(i));
 		}
-//		Arrays.sort(objectives);
 
-	}
-
-
-	@SuppressWarnings("unchecked")
-	public void computeClosestPath(int row, int col) {
-
-//
-//		if (objectives[0].getObject() != null && GameSettings.DEBUG_MODE) {
-//			objectives[0].getObject().blowUpAlt();
-//		}
-
-		controller.getGrid().resetCells();
-
-		LinkedPath<CellNode> path1 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
-				objectives[0].getCell());
-		LinkedPath<CellNode> path2 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
-				objectives[1].getCell());
-		LinkedPath<CellNode> path3 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
-				objectives[2].getCell());
-		LinkedPath<CellNode> path4 = getPath(controller.getGrid(), controller.getHeadCell(snakeAI, 0, 0),
-				objectives[3].getCell());
-
-		LinkedPath<CellNode> newPath = shortestPath(path1,path2,path3,path4);
-		
-		if(!newPath.isEmpty() && newPath.size()>0){
-			showPathToObjective(newPath);
+		if (distance.length > 0) {
+			closest = distance[0].getDistance();
 		}
 
-	}
-	@SuppressWarnings("unchecked")
-	public LinkedPath<CellNode> shortestPath(LinkedPath<CellNode>... arrays) {
-		Arrays.sort(arrays);
-		LinkedPath<CellNode> smallest = arrays[0];
-		int min = Integer.MAX_VALUE;
-		for (int i = arrays.length - 1; i >= 0; i--) {
-			int length = arrays[i].size();
-			if (length < min && !arrays[i].isEmpty()) {
-				min = length;
-				smallest = arrays[i];
+		for (int i = 0; i < distance.length; i++) {
+			if (distance[i].getDistance() < closest) {
+				closest = distance[i].getDistance();
 			}
 		}
-		for (int i = 0; i < arrays.length; i++) {
-			log("Path length " + arrays[i].size());
+		for (int i = 0; i < distance.length; i++) {
+			if (distance[i].getDistance() == closest) {
+				if (distance[i].getObject().isAlive()) {
+					objective = distance[i].getObject();
+					positionX = distance[i].getObject().getX();
+					positionY = distance[i].getObject().getY();
+				}
+			}
 		}
-		log("");
-		return smallest;
+
+		if (objective != null && GameSettings.DEBUG_MODE) {
+			objective.blowUpAlt();
+		}
+
+	}
+	public void computeClosestPath(int row, int col){
+		controller.getGrid().resetCells();
+		if(objective.getCell()!=null){
+			//System.out.println();
+			showPathToObjective(getPath(controller.getGrid(),controller.getHeadCell(snakeAI,0,0),objective.getCell())); //controller.getGrid().getCell(45, 20)
+		}
 	}
 	private void showPathToObjective(List<CellNode> cells){
 		for(CellNode cell: cells){
 			calculateDirection(cell);
 			cell.setPathCell(true);
 		}
-		setPathCoordinates(cells);
-		allowTrace = true;
-
-		if (logDirections) {
-			for (int i = cells.size() - 1; i >= 0; i--) {
-				log("Direction: " + cells.get(i).getDirection().toString());
-			}
+		for(int i = cells.size()-1; i>=0; i--){
+			System.out.println("Direction: "+cells.get(i).getDirection().toString());
 		}
 	}
 	/**
@@ -482,16 +386,17 @@ public class AIPathFinder4 {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void log(String str) {
 		System.out.println(str);
 	}
 
 	/*
 	 * Method which attempts to determine the best course of action in order to
-	 * move towards the objectives[0].getObject()! The method will first check if the x distance
+	 * move towards the objective! The method will first check if the x distance
 	 * is less or greater than the y distance and based on that it will decide
 	 * to perform a horizontal or vertical move. if the method to be perform is
-	 * a vertical move the method will check if the objectives[0].getObject() is above or below
+	 * a vertical move the method will check if the objective is above or below
 	 * and then perform a move based on the objectives coordinates!
 	 */
 	private void createPath() {
@@ -511,9 +416,9 @@ public class AIPathFinder4 {
 	}
 
 	private void computeTrackingPath() {
-		if (Math.abs(snakeAI.getX() - objectives[0].getObject().getX()) < Math.abs(snakeAI.getY() - objectives[0].getObject().getY())) {
-			if (objectives[0].getObject().getY() > snakeAI.getY()) {
-				if (objectives[0].getObject().getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
+		if (Math.abs(snakeAI.getX() - objective.getX()) < Math.abs(snakeAI.getY() - objective.getY())) {
+			if (objective.getY() > snakeAI.getY()) {
+				if (objective.getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
 					location = ObjectivePosition.SOUTH;
 					performMove(PlayerMovement.MOVE_UP);
 				} else {
@@ -521,7 +426,7 @@ public class AIPathFinder4 {
 					performMove(PlayerMovement.MOVE_DOWN);
 				}
 			} else {
-				if (objectives[0].getObject().getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
+				if (objective.getYDistance(snakeAI.getY()) > GameSettings.HEIGHT * .45) {
 					location = ObjectivePosition.NORTH;
 					performMove(PlayerMovement.MOVE_DOWN);
 				} else {
@@ -530,8 +435,8 @@ public class AIPathFinder4 {
 				}
 			}
 		} else {
-			if (objectives[0].getObject().getX() > snakeAI.getX()) {
-				if (objectives[0].getObject().getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
+			if (objective.getX() > snakeAI.getX()) {
+				if (objective.getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
 					location = ObjectivePosition.EAST;
 					performMove(PlayerMovement.MOVE_LEFT);
 				} else {
@@ -539,7 +444,7 @@ public class AIPathFinder4 {
 					performMove(PlayerMovement.MOVE_RIGHT);
 				}
 			} else {
-				if (objectives[0].getObject().getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
+				if (objective.getXDistance(snakeAI.getX()) > GameSettings.WIDTH * .45) {
 					location = ObjectivePosition.WEST;
 					performMove(PlayerMovement.MOVE_RIGHT);
 				} else {
@@ -552,36 +457,37 @@ public class AIPathFinder4 {
 
 	/**
 	 * Method which performs actions based on the current location of the snake
-	 * and the objectives[0].getObject()! if the snake is within a predetermined threshold the
+	 * and the objective! if the snake is within a predetermined threshold the
 	 * snake will perform the appropriate turn in order to collect the
-	 * objectives[0].getObject()!
+	 * objective!
 	 */
-	private void performLocationBasedAction() {
+	private void checkCurrentLocation() {
 		switch (state) {
 		case EVADING:
 			break;
 		case PATH_FINDING:
-			steerPlayer();
 			break;
 		case FREE_MODE:
 			computeTrackingManeuver();
 			break;
 		default:
 			break;
+
 		}
+
 	}
 
 	private void computeTrackingManeuver() {
-		if (snakeAI.getX() > objectives[0].getObject().getX() - range && snakeAI.getX() < objectives[0].getObject().getX() + range) {
-			if (objectives[0].getObject().getY() < snakeAI.getY()) {
+		if (snakeAI.getX() > objective.getX() - range && snakeAI.getX() < objective.getX() + range) {
+			if (objective.getY() < snakeAI.getY()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_UP);
 				applyThrust();
 			} else {
 				snakeAI.setDirection(PlayerMovement.MOVE_DOWN);
 				applyThrust();
 			}
-		} else if (snakeAI.getY() > objectives[0].getObject().getY() - range && snakeAI.getY() < objectives[0].getObject().getY() + range) {
-			if (objectives[0].getObject().getX() < snakeAI.getX()) {
+		} else if (snakeAI.getY() > objective.getY() - range && snakeAI.getY() < objective.getY() + range) {
+			if (objective.getX() < snakeAI.getX()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 				applyThrust();
 			} else {
@@ -602,9 +508,9 @@ public class AIPathFinder4 {
 	}
 
 	/**
-	 * Method which checks the status of the current objectives[0].getObject() and base on the
-	 * objectives[0].getObject()'s status it will try to re-determine a new objectives[0].getObject() once the
-	 * current objectives[0].getObject() has been collected or it has moved!
+	 * Method which checks the status of the current objective and base on the
+	 * objective's status it will try to re-determine a new objective once the
+	 * current objective has been collected or it has moved!
 	 */
 	private void checkObjectiveStatus() {
 		switch (state) {
@@ -613,13 +519,13 @@ public class AIPathFinder4 {
 		case PATH_FINDING:
 			break;
 		case FREE_MODE:
-			if (objectives[0].getObject().isRemovable()) {
+			if (objective.isRemovable()) {
 				findClosest();
 				createPath();
 			}
-//			if (objectives[0].getObject().getX() != positionX || objectives[0].getObject().getY() != positionY) {
-//				findClosest();
-//			}
+			if (objective.getX() != positionX || objective.getY() != positionY) {
+				findClosest();
+			}
 			break;
 		default:
 			break;
@@ -641,7 +547,6 @@ public class AIPathFinder4 {
 		case EVADING:
 			break;
 		case PATH_FINDING:
-			computeTrackingDirection(move);
 			break;
 		case FREE_MODE:
 			computeTrackingDirection(move);
@@ -668,7 +573,7 @@ public class AIPathFinder4 {
 
 	/**
 	 * Method which when called will perform a turn based on the location of the
-	 * objectives[0].getObject()! once the turn is made the path will be recalculated by the
+	 * objective! once the turn is made the path will be recalculated by the
 	 * reRoute method! The method only gets called when the snake attempts to
 	 * perform an illegal turn!
 	 *
@@ -693,7 +598,7 @@ public class AIPathFinder4 {
 
 	private void computeTrackingUTurn(PlayerMovement currentDirection) {
 		if (currentDirection == PlayerMovement.MOVE_DOWN || currentDirection == PlayerMovement.MOVE_UP) {
-			if (objectives[0].getObject().getX() < snakeAI.getX()) {
+			if (objective.getX() < snakeAI.getX()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_LEFT);
 				makingUTurn = true;
 				turnOffset = snakeAI.getRadius() * 2;
@@ -703,7 +608,7 @@ public class AIPathFinder4 {
 				turnOffset = snakeAI.getRadius() * 2;
 			}
 		} else if (currentDirection == PlayerMovement.MOVE_RIGHT || currentDirection == PlayerMovement.MOVE_LEFT) {
-			if (objectives[0].getObject().getY() < snakeAI.getY()) {
+			if (objective.getY() < snakeAI.getY()) {
 				snakeAI.setDirection(PlayerMovement.MOVE_UP);
 				makingUTurn = true;
 				turnOffset = snakeAI.getRadius() * 2;
@@ -721,80 +626,25 @@ public class AIPathFinder4 {
 	 * @author Eudy Contreras
 	 *
 	 */
-	private class Objective implements Comparable<Objective>{
+	private class Distance {
 
 		private Double distance;
 		private AbstractObject object;
-		private CellNode cell;
 
-		public Objective(double distance, AbstractObject object) {
+		public Distance(double distance, AbstractObject object) {
 			this.distance = distance;
 			this.object = object;
-			this.cell = object.getCell();
 		}
 
 		public double getDistance() {
 			return distance;
 		}
 
-		public CellNode getCell() {
-			return cell;
-		}
-
-		public AbstractObject getObject(){
+		public AbstractObject getObject() {
 			return object;
 		}
-		@Override
-		public String toString(){
-			return distance+"";
-		}
-	    @Override
-	    public boolean equals(Object obj) {
-	        if (obj == null) {
-	            return false;
-	        }
-	        if (getClass() != obj.getClass()) {
-	            return false;
-	        }
-	        final Objective other = (Objective) obj;
-	        if (this.object.getX() != other.object.getX() && this.object.getY() != other.object.getY()) {
-	            return false;
-	        }
-	        if (this.distance != other.distance) {
-	            return false;
-	        }
-	        return true;
-	    }
-		@Override
-		public int compareTo(Objective distance) {
-			return Double.compare(distance.getDistance(),this.getDistance());
-		}
 	}
-	public class LinkedPath<T> extends LinkedList<CellNode> implements Comparable<LinkedPath<CellNode>>{
 
-		private static final long serialVersionUID = 1L;
-		@Override
-		public boolean equals(Object obj) {
-			if (obj == null) {
-				return false;
-			}
-			if (getClass() != obj.getClass()) {
-				return false;
-			}
-			@SuppressWarnings("unchecked")
-			final LinkedPath<CellNode> other = (LinkedPath<CellNode>) obj;
-
-			if (this.size() != other.size()) {
-				return false;
-			}
-			return true;
-		}
-
-		@Override
-		public int compareTo(LinkedPath<CellNode> other) {
-			return Integer.compare(other.size(),this.size());
-		}
-	}
 	public double getX() {
 		return snakeAI.getX();
 	}
@@ -816,9 +666,6 @@ public class AIPathFinder4 {
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 	}
 
-	private void setPathCoordinates(List<CellNode> coordinates){
-		this.pathCoordinates = coordinates;
-	}
 	public PlayerMovement getDirection() {
 		return snakeAI.getCurrentDirection();
 	}
@@ -833,9 +680,6 @@ public class AIPathFinder4 {
 
 	public void setLocation(ObjectivePosition location) {
 		this.location = location;
-	}
-	private enum TieBreaker{
-		PATH,CROSS, NONE
 	}
 
 	private enum ObjectivePosition {
@@ -869,7 +713,7 @@ public class AIPathFinder4 {
 		return scale * (dx + dy);
 	}
 	private double heuristicCostEstimate(CellNode start, CellNode end, Double scale, HeuristicType cost) {
-		double distance = 0;
+		double distance = .0;
 		switch(cost){
 		case CUSTOM_EUCLUDIAN:
 			distance = scale*calculateDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
@@ -883,25 +727,13 @@ public class AIPathFinder4 {
 		}
 		return distance;
 	}
-
+	/**
+	 * Get the cell with the minimum f value.
+	 */
 	public class CellComparator implements Comparator<CellNode> {
 		@Override
 		public int compare(CellNode a, CellNode b) {
 			return Double.compare(a.getTotalCost(), b.getTotalCost());
-		}
-	}
-
-	public class DistanceComparator implements Comparator<Objective> {
-		@Override
-		public int compare(Objective a, Objective b) {
-			return Double.compare(a.getDistance(), b.getDistance());
-		}
-	}
-
-	public class LinkedPathComparator implements Comparator<LinkedPath<CellNode>> {
-		@Override
-		public int compare(LinkedPath<CellNode> a, LinkedPath<CellNode> b) {
-			return Integer.compare(a.size(), b.size());
 		}
 	}
 }

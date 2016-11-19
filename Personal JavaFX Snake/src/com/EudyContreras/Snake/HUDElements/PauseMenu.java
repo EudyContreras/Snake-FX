@@ -56,6 +56,7 @@ public class PauseMenu {
 		this.height = height;
 		this.initilialize();
 	}
+
 	public void initilialize(){
 		this.overlay = game.getOverlayEffect();
 		this.borderGlow = new DropShadow();
@@ -102,34 +103,40 @@ public class PauseMenu {
 		processButtonGesture();
 		processKeyHandling();
 	}
-	public void pauseGame(){
+
+	public void pauseGame() {
 		selectionReset();
 		showTouchPanel();
 
 	}
-	public void resumeGame(){
+
+	public void resumeGame() {
 		selectionReset();
 		hideTouchPanel();
 
 	}
-	public void goToMainMenu(){
+
+	public void goToMainMenu() {
 		selectionReset();
 		hideAndGoToMain();
 	}
-	public void dimObjects(){
+
+	public void dimObjects() {
 		this.mainBoard.setOpacity(0);
 		this.continueBtt.setOpacity(0);
 		this.restartBtt.setOpacity(0);
 		this.mainMenuBtt.setOpacity(0);
 		this.quitGameBtt.setOpacity(0);
 	}
-	public void showObjects(double opacity){
+
+	public void showObjects(double opacity) {
 		this.mainBoard.setOpacity(opacity);
 		this.continueBtt.setOpacity(opacity);
 		this.restartBtt.setOpacity(opacity);
 		this.mainMenuBtt.setOpacity(opacity);
 		this.quitGameBtt.setOpacity(opacity);
 	}
+
 	public void showTouchPanel(){
 		if(!show){
 			if(game.getModeID() == GameModeID.LocalMultiplayer){
@@ -152,32 +159,36 @@ public class PauseMenu {
 			currentChoice = 1;
 		}
 	}
-	public void hideTouchPanel(){
-		if(!hide)
+
+	public void hideTouchPanel() {
+		if (!hide)
 			blurOff();
-			game.getScoreKeeper().swipeUp();
-			game.getGameHud().hideHUDCover();
-			game.showCursor(false, game.getScene());
-			hide = true;
-			show = false;
+		game.getScoreKeeper().swipeUp();
+		game.getGameHud().hideHUDCover();
+		game.showCursor(false, game.getScene());
+		hide = true;
+		show = false;
 	}
-	public void hideAndReset(){
-		if(!hide)
+
+	public void hideAndReset() {
+		if (!hide)
 			blurOff();
-			game.showCursor(false, game.getScene());
-			hide = true;
-			show = false;
+		game.showCursor(false, game.getScene());
+		hide = true;
+		show = false;
 	}
-	public void hideAndGoToMain(){
-		if(!hide)
+
+	public void hideAndGoToMain() {
+		if (!hide)
 			blurOff();
-//			game.getScoreKeeper().swipeUp();
-//			game.getGameHud().hideHUDCover();
-			game.showCursor(false, game.getScene());
-			hide = false;
-			goToMain = true;
-			show = false;
+		// game.getScoreKeeper().swipeUp();
+		// game.getGameHud().hideHUDCover();
+		game.showCursor(false, game.getScene());
+		hide = false;
+		goToMain = true;
+		show = false;
 	}
+
 	public void updateTouchPanel(){
 		if(allowTouch){
 			if(show){
@@ -241,6 +252,7 @@ public class PauseMenu {
 			this.mainBoard.setX(x);
 
 		}
+
 		this.continueBtt.setX(GameSettings.WIDTH/2-this.continueBtt.getFitWidth()/2);
 		this.continueBtt.setY(mainBoard.getY()+40);
 		this.restartBtt.setX(continueBtt.getX());
@@ -250,6 +262,7 @@ public class PauseMenu {
 		this.quitGameBtt.setX(continueBtt.getX());
 		this.quitGameBtt.setY(continueBtt.getY()+mainMenuBtt.getFitHeight()*3);
 	}
+
 	public void processTouch(){
 		game.getFourTeenthLayer().setOnSwipeUp(new EventHandler<SwipeEvent>() {
 
@@ -273,6 +286,7 @@ public class PauseMenu {
 		});
 		processButtonGesture();
 	}
+
 	public void processButtonGesture(){
 		continueBtt.setOnMouseEntered(e -> {
 			borderGlow.setColor(Color.rgb(0,240,0));
@@ -328,7 +342,6 @@ public class PauseMenu {
 			game.closeGame();
 			}
 		});
-
 	}
 	/**
 	 * Sets the key input handling for the labels
@@ -436,8 +449,8 @@ public class PauseMenu {
 			}
 			updateSelections();
 		});
+	}
 
-		}
 	public void updateSelections(){
 		if(currentChoice==1){
 			borderGlow.setColor(Color.rgb(0,240,0));
@@ -468,11 +481,13 @@ public class PauseMenu {
 			mainMenuBtt.setEffect(null);
 		}
 	}
+
 	public void selectionReset(){
 		quitGameBtt.setEffect(null);
 		restartBtt.setEffect(null);
 		mainMenuBtt.setEffect(null);
 	}
+
 	public void restartLevel() {
 		game.removePlayers();
 		game.restart();
@@ -484,14 +499,17 @@ public class PauseMenu {
 		game.getScoreKeeper().resetTimer();
 		game.getCountDownScreen().startCountdown(30);
 	}
+
 	public synchronized void blurOut(){
 		game.getOuterParticleLayer().getChildren().clear();
 		game.getDebrisManager().clearParticles();
 		overlay.levelCompleteBlur();
 	}
+
 	public synchronized void blurOff(){
 		overlay.levelCompleteBlurOff();
 	}
+
 	public boolean isAllowTouch() {
 		return allowTouch;
 	}
@@ -571,53 +589,68 @@ public class PauseMenu {
 	public void setY(double y) {
 		this.y = y;
 	}
+
 	public ImageView getMainBoard() {
 		return mainBoard;
 	}
+
 	public void setMainBoard(ImageView mainBoard) {
 		this.mainBoard = mainBoard;
 	}
+
 	public ImageView getLeftTouchPanel() {
 		return leftTouchPanel;
 	}
+
 	public void setLeftTouchPanel(ImageView leftTouchPanel) {
 		this.leftTouchPanel = leftTouchPanel;
 	}
+
 	public ImageView getRightTouchPanel() {
 		return rightTouchPanel;
 	}
+
 	public void setRightTouchPanel(ImageView rightTouchPanel) {
 		this.rightTouchPanel = rightTouchPanel;
 	}
+
 	public ImageView getCenterTouchPanel() {
 		return centerTouchPanel;
 	}
+
 	public void setCenterTouchPanel(ImageView centerTouchPanel) {
 		this.centerTouchPanel = centerTouchPanel;
 	}
+
 	public ImageView getGoUp() {
 		return continueBtt;
 	}
+
 	public void setGoUp(ImageView goUp) {
 		this.continueBtt = goUp;
 	}
+
 	public ImageView getGoDown() {
 		return restartBtt;
 	}
+
 	public void setGoDown(ImageView goDown) {
 		this.restartBtt = goDown;
 	}
+
 	public ImageView getGoLeft() {
 		return mainMenuBtt;
 	}
+
 	public void setGoLeft(ImageView goLeft) {
 		this.mainMenuBtt = goLeft;
 	}
+
 	public ImageView getGoRight() {
 		return quitGameBtt;
 	}
+
 	public void setGoRight(ImageView goRight) {
 		this.quitGameBtt = goRight;
 	}
-
 }

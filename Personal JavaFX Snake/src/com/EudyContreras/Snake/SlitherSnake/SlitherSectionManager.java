@@ -37,7 +37,6 @@ public class SlitherSectionManager {
 	 * source without provoking a break.
 	 */
 	public void updateAll(GraphicsContext gc, long timePassed) {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.updateUI();
@@ -89,7 +88,6 @@ public class SlitherSectionManager {
 	 * Method used to explicitly update animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.updateAnimation(timePassed);
@@ -100,7 +98,6 @@ public class SlitherSectionManager {
 	 * Method used to explicitly move the sections
 	 */
 	public void move() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.move();
@@ -111,7 +108,6 @@ public class SlitherSectionManager {
 	 * Method used to explicitly draw the graphics
 	 */
 	public void draw(GraphicsContext gc) {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.draw(gc);
@@ -122,7 +118,6 @@ public class SlitherSectionManager {
 	 * Method used to explicitly add physics to the sections
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.addPhysics();

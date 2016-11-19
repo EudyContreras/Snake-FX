@@ -78,20 +78,24 @@ public class LevelBounds extends AbstractTile {
 		this.displayBounds();
 		this.setBoundaries();
 	}
+
 	public void setBoundaries(){
 		MAX_Y = (int) bottomBound.getY();
 		MIN_Y = (int) (topBound.getY()+topBound.getImage().getHeight());
 		MAX_X = (int) rightBound.getX();
 		MIN_X = (int) (leftBound.getX()+leftBound.getFitWidth());
 	}
+
 	public void setDimensions_h(ImageView view){
 		view.setFitWidth(GameSettings.WIDTH);
 		view.setFitHeight(25);
 	}
+
 	public void setDimensions_v(ImageView view){
 		view.setFitWidth(25);
 		view.setFitHeight(GameSettings.HEIGHT);
 	}
+
 	public void displayBounds(){
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
@@ -99,6 +103,7 @@ public class LevelBounds extends AbstractTile {
 		this.layer.getChildren().add(bottomBound);
 		this.game.getEleventhLayer().getChildren().add(topBoundV);
 	}
+
 	public void showBounds(boolean state){
 		this.leftBound.setVisible(state);
 		this.rightBound.setVisible(state);
@@ -106,8 +111,8 @@ public class LevelBounds extends AbstractTile {
 		this.bottomBound.setVisible(state);
 		this.topBoundV.setVisible(state);
 	}
-	public void move() {
 
+	public void move() {
 
 	}
 
@@ -124,8 +129,8 @@ public class LevelBounds extends AbstractTile {
 			game.getSeventhLayer().getChildren().add(bounds);
 
 		}
-
 	}
+
 	public Rectangle2D getBounds() {
 		return collisionBounds;
 	}

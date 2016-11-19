@@ -17,6 +17,8 @@ import javafx.scene.shape.Circle;
 public class PlayerTwoFangs extends AbstractObject {
 	private int index;
 	private int counter = 0;
+	private int showCounter = 0;
+	private boolean allowGameOver = true;
 	private boolean stop = false;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -74,13 +76,13 @@ public class PlayerTwoFangs extends AbstractObject {
 		x = (float) (snake.getX() + offsetX);
 		y = (float) (snake.getY() + offsetY);
 		circle.setRadius(GameSettings.ALLOW_AI_CONTROLL ? GameSettings.PLAYER_TWO_SIZE * 0.25 : GameSettings.PLAYER_TWO_SIZE * 0.40);
-
-
 	}
+
 	public void logicUpdate() {
 		killTheSnake();
 		showGameOver();
 	}
+
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
 			this.offsetY = GameSettings.ALLOW_AI_CONTROLL ? -this.snakeHead.getRadius()*.15 : -this.snakeHead.getRadius()*.65;
@@ -170,9 +172,6 @@ public class PlayerTwoFangs extends AbstractObject {
 		}
 	}
 
-	private int showCounter = 0;
-	private boolean allowGameOver = true;
-
 	public void showGameOver() {
 		if (stop && !snake.getManualGameOver()) {
 			showCounter++;
@@ -185,18 +184,17 @@ public class PlayerTwoFangs extends AbstractObject {
 			}
 		}
 	}
+
 	public Bounds getCollisionBounds() {
 		return this.circle.getBoundsInParent();
 	}
 
 	public void setOffsetX(float offsetX) {
 		this.offsetX = offsetX;
-
 	}
 
 	public void setOffsetY(float offsetY) {
 		this.offsetY = offsetY;
-
 	}
 
 

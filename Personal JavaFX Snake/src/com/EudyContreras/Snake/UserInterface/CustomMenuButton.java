@@ -57,6 +57,7 @@ public class CustomMenuButton {
     	this.buttonAlignment = alignment;
     	this.initializeButtonTwo();
     }
+
     public CustomMenuButton(String name, Pos alignment, ButtonStyle style, Paint textColor,double fontSize, double buttonWidth, double buttonHeight, boolean pressedGlow ){
     	this.buttonContainer = new HBox(15);
     	this.buttonName = name;
@@ -70,6 +71,7 @@ public class CustomMenuButton {
     	this.frameOpacity = 1;
     	this.initializeButtonOne();
     }
+
 	private void initializeButtonOne() {
 		this.buttonFont = Font.font("Bauhaus 93", FontWeight.EXTRA_BOLD, fontSize);
 		this.buttonText = new Text(buttonName);
@@ -87,6 +89,7 @@ public class CustomMenuButton {
 		this.processEvents();
 		this.setActive(false);
 	}
+
 	private void initializeButtonTwo() {
 		this.buttonGlow = new DropShadow(15, Color.WHITE);
 		this.buttonFrame = new Rectangle(buttonWidth, buttonHeight);
@@ -100,9 +103,9 @@ public class CustomMenuButton {
 		this.processEvents();
 		this.setActive(false);
 	}
+
 	@SuppressWarnings("unused")
 	private void processStyle(){
-
 		switch (style){
 		case BLACK:
 			break;
@@ -118,9 +121,9 @@ public class CustomMenuButton {
 			break;
 		default:
 			break;
-
 		}
 	}
+
 	private void processEvents(){
 		this.buttonContainer.setOnMousePressed(Event->{
 			activate();
@@ -136,13 +139,16 @@ public class CustomMenuButton {
 			setActive(false);
 		});
 	}
+
 	public enum ButtonStyle {
 		GREEN, BLUE, BLACK, RED,
 		ORANGE, GRAY
 	}
+
 	public HBox BUTTON(){
 		return buttonContainer;
 	}
+
     public void setActive(boolean state) {
 		if (buttonText != null) {
 			this.setSelected(state);
@@ -152,129 +158,168 @@ public class CustomMenuButton {
 			this.buttonFrame.setFill(state ? buttonImageOne : buttonImageTwo);
 		}
     }
+
     public void setAction(Runnable script) {
         this.actionScript = script;
     }
+
     public void activate() {
     	this.buttonFrame.setStyle(MenuButtonStyles.PRESSED_BUTTON_STYLE);
     }
+
     public void deactivate(){
         if (actionScript != null)
             actionScript.run();
         this.buttonFrame.setStyle(MenuButtonStyles.HOVERED_BUTTON_STYLE);
     }
+
     public void setOnHover(Runnable script){
     	this.hoverScript = script;
     }
+
     public void setHoverAction(){
     	if(hoverScript != null){
     		hoverScript.run();
     	}
     }
+
     public DropShadow getDrop() {
 		return buttonGlow;
 	}
+
 	public void setDrop(DropShadow drop) {
 		this.buttonGlow = drop;
 	}
+
 	public ImageView getButtonView() {
 		return buttonView;
 	}
+
 	public void setButtonView(ImageView buttonView) {
 		this.buttonView = buttonView;
 	}
+
 	public Rectangle getButtonFrame() {
 		return buttonFrame;
 	}
+
 	public void setButtonFrame(Rectangle buttonFrame) {
 		this.buttonFrame = buttonFrame;
 	}
+
 	public String getButtonName() {
 		return buttonName;
 	}
+
 	public void setButtonName(String buttonName) {
 		this.buttonName = buttonName;
 	}
+
 	public Paint getButtonColor() {
 		return buttonFill;
 	}
+
 	public void setButtonColor(Color buttonColor) {
 		this.buttonFill = buttonColor;
 		this.buttonFrame.setFill(buttonColor);
 	}
+
 	public Paint getTextColor() {
 		return textColor;
 	}
+
 	public void setTextColor(Color textColor) {
 		this.textColor = textColor;
 		this.buttonText.setFill(textColor);
 	}
+
 	public ImagePattern getButtonImageOne() {
 		return buttonImageOne;
 	}
+
 	public void setButtonImageOne(ImagePattern buttonImageOne) {
 		this.buttonImageOne = buttonImageOne;
 	}
+
 	public ImagePattern getButtonImageTwo() {
 		return buttonImageTwo;
 	}
+
 	public void setButtonImageTwo(ImagePattern buttonImageTwo) {
 		this.buttonImageTwo = buttonImageTwo;
 	}
+
 	public Text getButtonText() {
 		return buttonText;
 	}
+
 	public void setButtonText(Text buttonText) {
 		this.buttonText = buttonText;
 	}
+
 	public Font getButtonFont() {
 		return buttonFont;
 	}
+
 	public void setButtonFont(Font buttonFont) {
 		this.buttonFont = buttonFont;
 	}
+
 	public double getButtonWidth() {
 		return buttonWidth;
 	}
+
 	public void setButtonWidth(double buttonWidth) {
 		this.buttonWidth = buttonWidth;
 		this.buttonFrame.setWidth(buttonWidth);
 	}
+
 	public double getButtonHeight() {
 		return buttonHeight;
 	}
+
 	public void setButtonHeight(double buttonHeight) {
 		this.buttonHeight = buttonHeight;
 		this.buttonFrame.setHeight(buttonHeight);
 	}
+
 	public double getButtonSize() {
 		return buttonSize;
 	}
+
 	public void setButtonSize(double buttonSize) {
 		this.buttonSize = buttonSize;
 	}
+
 	public double getFontSize() {
 		return fontSize;
 	}
+
 	public void setFontSize(double fontSize) {
 		this.fontSize = fontSize;
 	}
+
 	public boolean isPressedGlow() {
 		return pressedGlow;
 	}
+
 	public void setPressedGlow(boolean pressedGlow) {
 		this.pressedGlow = pressedGlow;
 	}
+
 	public Pos getButtonAlignment() {
 		return buttonAlignment;
 	}
+
 	public void setButtonAlignment(Pos buttonAlignment) {
 		this.buttonAlignment = buttonAlignment;
 		this.buttonContainer.setAlignment(buttonAlignment);
 	}
-	public void setFrameOpacity(double opacity){
+
+	public void setFrameOpacity(double opacity) {
 		this.frameOpacity = opacity;
 	}
+
 	public static class Indicators extends Parent {
         public Indicators() {
             Shape shape1 = Shape.subtract(new Circle(5), new Circle(2));
@@ -299,9 +344,11 @@ public class CustomMenuButton {
             setEffect(new GaussianBlur(2));
         }
     }
+
 	public void setSelected(boolean state){
 		this.selected = state;
 	}
+
 	public boolean isSelected() {
 		return selected;
 	}

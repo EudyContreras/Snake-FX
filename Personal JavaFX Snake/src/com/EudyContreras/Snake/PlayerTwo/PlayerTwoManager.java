@@ -42,6 +42,7 @@ public class PlayerTwoManager {
 	 */
 	public void updateAllLogicI(long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -67,6 +68,7 @@ public class PlayerTwoManager {
 	 */
 	public void updateAllMovementI(long timePassed) {
 		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -111,7 +113,6 @@ public class PlayerTwoManager {
 	 * Method used to explicitly update the graphics
 	 */
 	public void updateUI() {
-
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
 			tempPlayerTwoObject.updateUI();
@@ -122,7 +123,6 @@ public class PlayerTwoManager {
 	 * Method used to explicitly update animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
 			tempPlayerTwoObject.updateAnimation(timePassed);
@@ -133,7 +133,6 @@ public class PlayerTwoManager {
 	 * Method used to explicitly move the objects
 	 */
 	public void move() {
-
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
 			tempPlayerTwoObject.move();
@@ -144,7 +143,6 @@ public class PlayerTwoManager {
 	 * Method used to explicitly draw the graphics
 	 */
 	public void draw() {
-
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
 			tempPlayerTwoObject.draw();
@@ -155,7 +153,6 @@ public class PlayerTwoManager {
 	 * Method used to explicitly add physics to the objects
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < playerTwoList.size(); i++) {
 			tempPlayerTwoObject = playerTwoList.get(i);
 			tempPlayerTwoObject.addPhysics();

@@ -94,6 +94,7 @@ public class PlayerTwoHead extends AbstractObject {
 		this.layer.getChildren().add(text);
 		this.loadMouth();
 	}
+
 	private void loadMouth(){
 		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
@@ -101,6 +102,7 @@ public class PlayerTwoHead extends AbstractObject {
 					this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
 		this.playerManager.addObject(snakeMouth);
 	}
+
 	public void move() {
 		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
 			if (GameSettings.DEBUG_MODE) {
@@ -116,14 +118,17 @@ public class PlayerTwoHead extends AbstractObject {
 		}
 		rotate();
 	}
+
 	public void updateUI(){
 		if(!PlayerTwo.DEAD)
 		super.updateUI();
 	}
+
 	public void logicUpdate(){
 		showTheSkull();
 		updateBounds();
 	}
+
 	public void updateBounds() {
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius*1.1 / 2 + offsetX);
@@ -132,6 +137,7 @@ public class PlayerTwoHead extends AbstractObject {
 			bounds.setHeight(radius*1.1);
 		}
 	}
+
 	public void showTheSkull() {
 		if (showTheSkull == true) {
 			fadeValue -= 0.01;
@@ -141,6 +147,7 @@ public class PlayerTwoHead extends AbstractObject {
 			}
 		}
 	}
+
 	public void rotate() {
 		if(rotate){
 			velR = rotationDirection;
@@ -158,83 +165,82 @@ public class PlayerTwoHead extends AbstractObject {
 					rotate = false;
 				}
 			}
-
-		}
-
-	}
-	public void performRotation(PlayerMovement from, PlayerMovement to){
-		if(from!=null){
-		switch(from){
-		case MOVE_DOWN:
-			if(to == PlayerMovement.MOVE_LEFT){
-				r = snake.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-		    if(to == PlayerMovement.MOVE_RIGHT){
-		    	r = snake.getR()+rotationAngle;
-				rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			break;
-		case MOVE_LEFT:
-			if( to == PlayerMovement.MOVE_DOWN){
-				r = snake.getR()+rotationAngle;
-				rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			if(to == PlayerMovement.MOVE_UP){
-				r = snake.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-			break;
-		case MOVE_RIGHT:
-			if( to == PlayerMovement.MOVE_DOWN){
-				r = snake.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-		    if(to == PlayerMovement.MOVE_UP){
-		    	r = snake.getR()+rotationAngle;
-		    	rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			break;
-		case MOVE_UP:
-			if(to == PlayerMovement.MOVE_LEFT){
-				r = snake.getR()+rotationAngle;
-				rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			if(to == PlayerMovement.MOVE_RIGHT){
-				r = snake.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-			break;
-		case STANDING_STILL:
-			break;
-
 		}
 	}
-}
+
+	public void performRotation(PlayerMovement from, PlayerMovement to) {
+		if (from != null) {
+			switch (from) {
+			case MOVE_DOWN:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_LEFT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case MOVE_RIGHT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_UP:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case STANDING_STILL:
+				break;
+			}
+		}
+	}
+
 	public boolean isApproximate(float tail_X, double sect_X, float tail_Y, double sect_Y) {
 		double distance = Math.sqrt((tail_X - sect_X) * (tail_X - sect_X) + (tail_Y - sect_Y) * (tail_Y - sect_Y));
 		if (distance > 10) {
@@ -259,6 +265,7 @@ public class PlayerTwoHead extends AbstractObject {
 	public void checkRemovability() {
 
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (!PlayerTwo.DEAD && PlayerTwo.KEEP_MOVING) {
 			for (int i = 0; i < 2; i++) {
@@ -326,7 +333,6 @@ public class PlayerTwoHead extends AbstractObject {
 			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsLeft().intersects(tempTile.getBounds())) {
 				return false;
-
 			}
 		}
 		return true;
@@ -388,6 +394,7 @@ public class PlayerTwoHead extends AbstractObject {
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
 	}
+
 	public void addBones() {
 		skull = new Circle(this.radius * .8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setTranslateX(x);
@@ -395,6 +402,7 @@ public class PlayerTwoHead extends AbstractObject {
 		skull.setRotate(circle.getRotate());
 		game.getDebrisLayer().getChildren().add(skull);
 	}
+
 	public double getRadius(){
 		return this.circle.getRadius();
 	}
@@ -406,8 +414,8 @@ public class PlayerTwoHead extends AbstractObject {
 	public void setShowTheSkull(boolean showTheSkull) {
 		this.showTheSkull = showTheSkull;
 	}
-	public void drawBoundingBox() {
 
+	public void drawBoundingBox() {
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 			bounds.setStroke(Color.WHITE);
@@ -428,7 +436,6 @@ public class PlayerTwoHead extends AbstractObject {
 		this.headBoundsBottom.setY(y + radius - headBoundsBottom.getHeight() / 2);
 		this.clearFromCollision.setX(x - radius);
 		this.clearFromCollision.setY(y - radius);
-
 		this.headBoundsLeft.setWidth(circle.getRadius() * .5);
 		this.headBoundsLeft.setHeight(circle.getRadius() * .5);
 		this.headBoundsRight.setWidth(circle.getRadius() * .5);
@@ -440,9 +447,11 @@ public class PlayerTwoHead extends AbstractObject {
 		this.clearFromCollision.setWidth(circle.getRadius() * 2);
 		this.clearFromCollision.setHeight(circle.getRadius() * 2);
 	}
+
 	public Bounds getRadialBounds(){
 		return radialBounds.getBoundsInParent();
 	}
+
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 	}

@@ -96,6 +96,7 @@ public class HealthBarOne {
 		hidePlayer();
 		popIn();
 	}
+
 	private void popIn(){
 		this.moveX+=velX;
 		this.healthBarGreen.setTranslateX(x+180+moveX);
@@ -111,12 +112,15 @@ public class HealthBarOne {
 		game.getEnergyBarOne().setMoveX(moveX);
 		game.getScoreBoardOne().setMoveX(moveX);
 	}
+
 	public void moveLeft(){
 		velX = -15;
 	}
+
 	public void moveRight(){
 		velX = 15;
 	}
+
 	public void stopMoving(){
 		this.velX = 0;
 	}
@@ -232,6 +236,7 @@ public class HealthBarOne {
 		this.width = 0;
 		this.healthBarGreen.setWidth(width);
 	}
+
 	public void hidePlayer(){
 		if(hidePlayer){
 			playerOpacity-=0.05;
@@ -249,10 +254,12 @@ public class HealthBarOne {
 			}
 		}
 	}
+
 	public void setPlayer() {
 		this.player = null;
 		this.player = game.getGameLoader().getPlayerOne();
 	}
+
 	public void hidePlayerHead(boolean state){
 		hidePlayer = state;
 	}
@@ -268,16 +275,20 @@ public class HealthBarOne {
 		healthBarBorder.setVisible(state);
 		healthBarGreen.setVisible(state);
 	}
+
 	public double getX() {
 		return x;
 	}
+
 	public double getY() {
 		return y;
 	}
-	public double getWidth(){
+
+	public double getWidth() {
 		return width;
 	}
-	public double getHeight(){
+
+	public double getHeight() {
 		return height;
 	}
 }

@@ -15,21 +15,25 @@ public class IsKeyPressed {
             return wPressed;
         }
     }
+
     public static boolean ia_S_Pressed() {
         synchronized (IsKeyPressed.class) {
             return sPressed;
         }
     }
+
     public static boolean is_A_Pressed() {
         synchronized (IsKeyPressed.class) {
             return aPressed;
         }
     }
+
     public static boolean is_D_Pressed() {
         synchronized (IsKeyPressed.class) {
             return dPressed;
         }
     }
+
     public static void main(String[]args) {
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
 

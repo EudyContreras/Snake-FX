@@ -16,14 +16,17 @@ public class ServerEvent implements Serializable {
 		this.command = command;
 		this.message = message;
 	}
+
 	public ServerEvent(ServerCommand command) {
 		super();
 		this.command = command;
 	}
+
 	public ServerCommand getCommand() {
 		return command;
 	}
-	public String getMessage(){
+
+	public String getMessage() {
 		return message;
 	}
 

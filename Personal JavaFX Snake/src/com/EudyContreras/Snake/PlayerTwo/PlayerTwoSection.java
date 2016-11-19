@@ -196,6 +196,7 @@ public class PlayerTwoSection extends AbstractSection {
 		checkBounds();
 		sectionAdjustment();
 	}
+
 	public void rotate() {
 		if(rotate){
 			velR = rotationDirection;
@@ -213,83 +214,83 @@ public class PlayerTwoSection extends AbstractSection {
 					rotate = false;
 				}
 			}
-
-		}
-
-	}
-	public void performRotation(PlayerMovement from, PlayerMovement to){
-		if(from!=null){
-		switch(from){
-		case MOVE_DOWN:
-			if(to == PlayerMovement.MOVE_LEFT){
-				r = previousSect.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-		    if(to == PlayerMovement.MOVE_RIGHT){
-		    	r = previousSect.getR()+rotationAngle;
-				rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			break;
-		case MOVE_LEFT:
-			if( to == PlayerMovement.MOVE_DOWN){
-				r = previousSect.getR()+rotationAngle;
-				rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			if(to == PlayerMovement.MOVE_UP){
-				r = previousSect.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-			break;
-		case MOVE_RIGHT:
-			if( to == PlayerMovement.MOVE_DOWN){
-				r = previousSect.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-		    if(to == PlayerMovement.MOVE_UP){
-		    	r = previousSect.getR()+rotationAngle;
-		    	rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			break;
-		case MOVE_UP:
-			if(to == PlayerMovement.MOVE_LEFT){
-				r = previousSect.getR()+rotationAngle;
-				rotationLimit = r-rotationAngle;
-				rotationDirection = -rotationAmount;
-				added = false;
-				rotate = true;
-			}
-			if(to == PlayerMovement.MOVE_RIGHT){
-				r = previousSect.getR()-rotationAngle;
-				rotationLimit = r+rotationAngle;
-				rotationDirection = rotationAmount;
-				added = true;
-				rotate = true;
-			}
-			break;
-		case STANDING_STILL:
-			break;
-
 		}
 	}
-}
+
+	public void performRotation(PlayerMovement from, PlayerMovement to) {
+		if (from != null) {
+			switch (from) {
+			case MOVE_DOWN:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_LEFT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case MOVE_RIGHT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_UP:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case STANDING_STILL:
+				break;
+
+			}
+		}
+	}
+
 	public static boolean withinRange(double value, double targetRange) {
 		double threshold = 0.1;
 		return Math.abs(value) > Math.abs(targetRange) - threshold
@@ -304,6 +305,7 @@ public class PlayerTwoSection extends AbstractSection {
 		fadeToBones();
 		setVisible();
 	}
+
 	public void setMotionBlur(){
 		if(playerTwo.getSpeedThrust()){
 			this.circle.setFill(GameImageBank.speedPatternTwo);
@@ -312,6 +314,7 @@ public class PlayerTwoSection extends AbstractSection {
 			this.circle.setFill(GameImageBank.normalPatternTwo);
 		}
 	}
+
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -323,6 +326,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void updateSpeedDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -334,6 +338,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
@@ -362,6 +367,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void fadeToBones() {
 		if (fadeOut == true) {
 			if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
@@ -373,6 +379,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	private void setVisible(){
 		if(newBorn){
 			opacity +=0.05;
@@ -383,6 +390,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void checkBounds() {
 		if (x < 0 - radius) {
 			x = (double) (GameSettings.WIDTH + radius);
@@ -423,6 +431,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void loadBones() {
 		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
 			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
@@ -453,6 +462,7 @@ public class PlayerTwoSection extends AbstractSection {
 			blowUp = false;
 		}
 	}
+
 	public void die() {
 		loadBones();
 		fadeOut = true;

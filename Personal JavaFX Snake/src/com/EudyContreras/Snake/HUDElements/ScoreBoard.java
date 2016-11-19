@@ -63,47 +63,52 @@ public class ScoreBoard {
         this.text.setEffect(textGlow);
         this.text.setId("MainTimer");
 		this.game.getEleventhLayer().getChildren().add(this.text);
-
 	}
-	public void updateUI(){
+
+	public void updateUI() {
 		hide();
 		popIn();
 	}
-	public void popIn(){
-		this.moveX+=velX;
-		this.text.setTranslateX(x+moveX);
+
+	public void popIn() {
+		this.moveX += velX;
+		this.text.setTranslateX(x + moveX);
 	}
-	public void moveLeft(){
+
+	public void moveLeft() {
 		this.velX = -10;
 	}
-	public void moveRight(){
+
+	public void moveRight() {
 		this.velX = 10;
 	}
-	public void stopMoving(){
+
+	public void stopMoving() {
 		this.velX = 0;
 	}
-	public void setMoveX(double moveX){
+
+	public void setMoveX(double moveX) {
 		this.moveX = moveX;
 	}
+
 	/**
-	 * Method which hides the score by setting its
-	 * visibility to false
+	 * Method which hides the score by setting its visibility to false
 	 */
 	public void hide() {
 		if (PlayerOne.LEVEL_COMPLETED || PlayerTwo.LEVEL_COMPLETED) {
 			text.setVisible(false);
 		}
 	}
+
 	/**
-	 * Method which shows the score by setting its
-	 * visibility to true
+	 * Method which shows the score by setting its visibility to true
 	 */
 	public void show(boolean state) {
 		text.setVisible(state);
 	}
+
 	/**
-	 * Method which increases the current
-	 * score by one with each call.
+	 * Method which increases the current score by one with each call.
 	 */
 	public void increaseScore() {
 		score += 1;
@@ -117,6 +122,7 @@ public class ScoreBoard {
 			text.setText(message + " " + score);
 		}
 	}
+
 	/**
 	 * Method which decreases the current
 	 * score by one with each call
@@ -133,6 +139,7 @@ public class ScoreBoard {
 			text.setText(message + " " + score);
 		}
 	}
+
 	/**
 	 * Method whic resets the score back to zero
 	 */
@@ -140,6 +147,7 @@ public class ScoreBoard {
 		score = 0;
 		text.setText(message + " 00" + score);
 	}
+
 	/**
 	 * Returns the current socre
 	 * @return: current score.
@@ -166,6 +174,7 @@ public class ScoreBoard {
 	public void saveScoreToDB(){
 
 	}
+
 	public void reportScore(){
 
 	}

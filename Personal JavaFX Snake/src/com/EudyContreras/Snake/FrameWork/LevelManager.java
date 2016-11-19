@@ -134,7 +134,6 @@ public class LevelManager extends AbstractLoaderModel{
 				}
 			}
 		}
-
 	}
 	/**
 	 * This method will load the border of the desert level if there is any.

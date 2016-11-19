@@ -14,7 +14,6 @@ import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
-import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -103,12 +102,14 @@ public class PlayerOne extends AbstractObject {
 		this.drawBoundingBox();
 		this.moveDown();
 	}
+
 	private void loadHead(){
 		this.snakeHead = new PlayerOneHead(this, game, layer,
 				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.5, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
 				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
 		this.game.getPlayerOneManager().addObject(snakeHead);
 	}
+
 	public void loadImages() {
 		anim.addScene(GameImageBank.snakeOneHead, 4000);
 		anim.addScene(GameImageBank.snakeOneBlinking, 250);
@@ -146,11 +147,11 @@ public class PlayerOne extends AbstractObject {
 
 	}
 	private void relax(){
-		if(PlayerTwo.DEAD){
-			thrust = false;
-			goSlow = true;
-			slowDown();
-		}
+//		if(PlayerTwo.DEAD){
+//			thrust = false;
+//			goSlow = true;
+//			slowDown();
+//		}
 	}
 	public void controlEating() {
 		if (!DEAD) {
@@ -235,6 +236,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void updateSpeedDirt() {
 		if (thrust) {
 			dirtDelay--;
@@ -246,6 +248,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void updateTurns() {
 		if (turnBuffer.size() > 0) {
 			turnDelay--;
@@ -294,6 +297,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void slowDown(){
 		if(!thrust && goSlow){
 			SPEED-=accelaration;
@@ -302,12 +306,15 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void addMotionBlur(){
 		this.layer.setEffect(motionBlur);
 	}
+
 	public void removeMotionBlur(){
 		this.layer.setEffect(null);
 	}
+
 	public void setDirection(PlayerMovement direction) {
 		if (game.getStateID()== GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
@@ -422,6 +429,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void setGestureDirection(PlayerMovement direction) {
 		if (game.getStateID() == GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
@@ -465,6 +473,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void turnDelay(PlayerMovement newDirection) {
 		turnBuffer.add(newDirection);
 	}
@@ -836,9 +845,11 @@ public class PlayerOne extends AbstractObject {
 	public void setThrustState(boolean state){
 		this.thrust = state;
 	}
+
 	public boolean getSpeedThrust(){
 		return thrust;
 	}
+
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}
@@ -918,10 +929,12 @@ public class PlayerOne extends AbstractObject {
 	public double getAppleCount() {
 		return appleCount;
 	}
+
 	public void setManualGameOver(boolean state){
 		if(game.getStateID()==GameStateID.DEATH_ANIMATION)
 		this.gameOverOverride = state;
 	}
+
 	public boolean getManualGameOver() {
 		return gameOverOverride;
 	}

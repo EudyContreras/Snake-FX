@@ -106,6 +106,7 @@ public class GameHud {
 		bottomHudBar.setTranslateY(yTwo);
 		updateMovement();
 	}
+
 	public void updateMovement(){
 		hideY+=hideVelY;
 		if(hideY<-80){
@@ -116,12 +117,15 @@ public class GameHud {
 		}
 		this.mainBar.setTranslateY(-1+hideY);
 	}
+
 	public void moveUp(){
 		hideVelY = -4;
 	}
+
 	public void moveDown(){
 		hideVelY = 4;
 	}
+
 	public void stopMoving(){
 		hideVelY = 0;
 	}
@@ -186,15 +190,19 @@ public class GameHud {
 		bottomHudBar.setVisible(true);
 		mainBar.setVisible(true);
 	}
+
 	public void showShadow(boolean state){
 		mainBar.setEffect( state? shadow: null);
 	}
+
 	public double getTopCoverY(){
 		return topHudBar.getY();
 	}
+
 	public double getBottomCoverY(){
 		return bottomHudBar.getY();
 	}
+
 	public final double getHudBottomY(){
 		return mainBar.getTranslateX()+mainBar.getHeight();
 	}

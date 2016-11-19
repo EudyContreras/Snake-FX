@@ -36,6 +36,7 @@ public class SlitherSnake extends AbstractSlither {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
+	private int snakeLength;
 	private double accelaration = 0.5;
 	private double normalSpeed = GameSettings.SLITHER_SPEED;
 	private double maxSpeed = GameSettings.SLITHER_SPEED*2;
@@ -63,7 +64,6 @@ public class SlitherSnake extends AbstractSlither {
 	private boolean allowMovement = true;
 	private boolean rotateLeft = false;
 	private boolean rotateRight = false;
-	private int snakeLength;
 	private double speed;
 	private double rotation = 0;
 	private double angle;

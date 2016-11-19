@@ -17,7 +17,9 @@ import javafx.scene.shape.Circle;
 public class PlayerOneFangs extends AbstractObject {
 	private int index;
 	private int counter = 0;
+	private int showCounter = 0;
 	private boolean stop = false;
+	private boolean allowGameOver = true;
 	private double offsetX = 0;
 	private double offsetY = 0;
 	private GameManager game;
@@ -74,13 +76,13 @@ public class PlayerOneFangs extends AbstractObject {
 		x = (float) (snakeHead.getX() + offsetX);
 		y = (float) (snakeHead.getY() + offsetY);
 		circle.setRadius(GameSettings.PLAYER_ONE_SIZE * 0.45);
-
-
 	}
+
 	public void logicUpdate() {
 		killTheSnake();
 		showGameOver();
 	}
+
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
 			this.offsetY = -this.snakeHead.getRadius()*.65;
@@ -169,9 +171,6 @@ public class PlayerOneFangs extends AbstractObject {
 		}
 	}
 
-	private int showCounter = 0;
-	private boolean allowGameOver = true;
-
 	public void showGameOver() {
 		if (stop && !snake.getManualGameOver()) {
 			showCounter++;
@@ -190,12 +189,10 @@ public class PlayerOneFangs extends AbstractObject {
 
 	public void setOffsetX(float offsetX) {
 		this.offsetX = offsetX;
-
 	}
 
 	public void setOffsetY(float offsetY) {
 		this.offsetY = offsetY;
-
 	}
 
 

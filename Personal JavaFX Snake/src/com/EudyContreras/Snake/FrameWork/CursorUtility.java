@@ -10,7 +10,7 @@ public class CursorUtility {
 	public static void setCursor(CursorID cursorId, Scene scene) {
 		switch (cursorId) {
 		case DRAG:
-			if(scene.getCursor()!=(GameImageBank.dragCursor))
+			if (scene.getCursor() != (GameImageBank.dragCursor))
 				scene.setCursor(GameImageBank.dragCursor);
 			break;
 		case GAME:
@@ -18,29 +18,30 @@ public class CursorUtility {
 		case MENU:
 			break;
 		case NONE:
-			if(scene.getCursor()!=(Cursor.NONE))
+			if (scene.getCursor() != (Cursor.NONE))
 				scene.setCursor(Cursor.NONE);
 			break;
 		case NORMAL:
-			if(scene.getCursor()!=GameImageBank.normalCursor)
+			if (scene.getCursor() != GameImageBank.normalCursor)
 				scene.setCursor(GameImageBank.normalCursor);
 			break;
 		case STRETCH:
-			if(scene.getCursor()!=(GameImageBank.stretchCursor))
+			if (scene.getCursor() != (GameImageBank.stretchCursor))
 				scene.setCursor(GameImageBank.stretchCursor);
 			break;
 		default:
 			break;
 		}
-
 	}
+
 	public static void setCursor(Cursor cursor, Scene scene) {
-		if(cursor == Cursor.DEFAULT){
-			setCursor(CursorID.NORMAL,scene);
-		}else{
+		if (cursor == Cursor.DEFAULT) {
+			setCursor(CursorID.NORMAL, scene);
+		} else {
 			scene.setCursor(cursor);
 		}
 	}
+
 	public enum CursorID {
 		MENU, GAME, STRETCH, DRAG, NONE, NORMAL,
 

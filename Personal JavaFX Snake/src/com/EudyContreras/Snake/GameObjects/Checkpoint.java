@@ -25,9 +25,11 @@ public class Checkpoint extends AbstractTile {
 	boolean loadThird = false;
 	boolean loadFourth = false;
 	boolean loadFith = false;
+
 	/**
 	 * Constructor which determines the position or velocity of this checkpoint.
 	 * the checkpoint may also be a visible object
+	 *
 	 * @param game
 	 * @param x
 	 * @param y
@@ -42,7 +44,8 @@ public class Checkpoint extends AbstractTile {
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 	}
-	public void Action(){
+
+	public void Action() {
 
 	}
 

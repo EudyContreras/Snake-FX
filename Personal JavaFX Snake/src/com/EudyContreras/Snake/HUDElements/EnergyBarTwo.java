@@ -70,15 +70,17 @@ public class EnergyBarTwo {
 	 */
 	public void update(){
 		if(game.getStateID() == GameStateID.GAMEPLAY){
-		depleteEnergy();
-		regenerateEnergy();
+			depleteEnergy();
+			regenerateEnergy();
 		}
 		popIn();
 	}
+
 	private void popIn(){
 		this.energyBar.setTranslateX(x+moveX+depleteX);
 		this.energyBarRed.setTranslateX(x+moveX);
 	}
+
 	public void setMoveX(double moveX){
 		this.moveX = moveX;
 	}
@@ -133,6 +135,7 @@ public class EnergyBarTwo {
 			player.setAllowThrust(true);
 		}
 	}
+
 	public double getEnergyLevel(){
 		return width;
 	}
@@ -166,6 +169,7 @@ public class EnergyBarTwo {
 		energyBar.setVisible(state);
 		energyBarRed.setVisible(state);
 	}
+
 	public boolean isDepleated() {
 		return depleated;
 	}

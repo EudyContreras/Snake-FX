@@ -19,9 +19,9 @@ import com.EudyContreras.Snake.Application.GameManager;
  */
 public class GameTileController {
 
-	private List<AbstractTile> tile;
-	private List<AbstractTile> block;
-	private List<AbstractTile> trap;
+	private List<AbstractTile> tiles;
+	private List<AbstractTile> blocks;
+	private List<AbstractTile> traps;
 	private List<AbstractTile> edible;
 	private AbstractTile tempTile;
 	private AbstractTile tempTrap;
@@ -31,21 +31,22 @@ public class GameTileController {
 
 	public GameTileController(GameManager game) {
 		this.game = game;
-		this.tile = new LinkedList<AbstractTile>();
-		this.block = new LinkedList<AbstractTile>();
-		this.trap = new LinkedList<AbstractTile>();
+		this.tiles = new LinkedList<AbstractTile>();
+		this.blocks = new LinkedList<AbstractTile>();
+		this.traps = new LinkedList<AbstractTile>();
 		this.edible = new LinkedList<AbstractTile>();
 	}
+
 	public List<AbstractTile> getTile() {
-		return tile;
+		return tiles;
 	}
 
 	public List<AbstractTile> getBlock() {
-		return block;
+		return blocks;
 	}
 
 	public List<AbstractTile> getTrap() {
-		return trap;
+		return traps;
 	}
 
 	public List<AbstractTile> getEdible() {
@@ -53,15 +54,15 @@ public class GameTileController {
 	}
 
 	public void addTile(AbstractTile tile) {
-		this.tile.add(tile);
+		this.tiles.add(tile);
 	}
 
 	public void addBlock(AbstractTile tile) {
-		this.block.add(tile);
+		this.blocks.add(tile);
 	}
 
 	public void addTrap(AbstractTile tile) {
-		this.trap.add(tile);
+		this.traps.add(tile);
 	}
 
 	public void addEdible(AbstractTile tile) {
@@ -70,9 +71,9 @@ public class GameTileController {
 
 	public void addObjectAsArray(AbstractTile... tl) {
 		if (tl.length > 1) {
-			tile.addAll(Arrays.asList(tl));
+			tiles.addAll(Arrays.asList(tl));
 		} else {
-			tile.add(tl[0]);
+			tiles.add(tl[0]);
 		}
 	}
 
@@ -83,9 +84,9 @@ public class GameTileController {
 	 * be thrown
 	 */
 	public void updateAll() {
-		Iterator<AbstractTile> tileList = tile.iterator();
-		Iterator<AbstractTile> blockList = block.iterator();
-		Iterator<AbstractTile> trapList = trap.iterator();
+		Iterator<AbstractTile> tileList = tiles.iterator();
+		Iterator<AbstractTile> blockList = blocks.iterator();
+		Iterator<AbstractTile> trapList = traps.iterator();
 		Iterator<AbstractTile> edibleList = edible.iterator();
 
 		while (tileList.hasNext()) {
@@ -149,8 +150,8 @@ public class GameTileController {
 	 * Individually updates the tiles
 	 */
 	public void updateTiles() {
-		for (int i = 0; i < tile.size(); i++) {
-			tempTile = tile.get(i);
+		for (int i = 0; i < tiles.size(); i++) {
+			tempTile = tiles.get(i);
 			tempTile.updateUI();
 			tempTile.move();
 			tempTile.checkCollision();
@@ -161,8 +162,8 @@ public class GameTileController {
 	 * Individually updates the blocks
 	 */
 	public void updateBlocks() {
-		for (int i = 0; i < block.size(); i++) {
-			tempBlock = block.get(i);
+		for (int i = 0; i < blocks.size(); i++) {
+			tempBlock = blocks.get(i);
 			tempBlock.updateUI();
 			tempBlock.move();
 			tempBlock.checkCollision();
@@ -173,8 +174,8 @@ public class GameTileController {
 	 * Individually updates the traps
 	 */
 	public void updateTraps() {
-		for (int i = 0; i < trap.size(); i++) {
-			tempTrap = trap.get(i);
+		for (int i = 0; i < traps.size(); i++) {
+			tempTrap = traps.get(i);
 			tempTrap.updateUI();
 			tempTrap.move();
 			tempTrap.checkCollision();
@@ -197,29 +198,29 @@ public class GameTileController {
 	 * be removed and removes it.
 	 */
 	public void checkIfRemovable() {
-		for (int i = 0; i < tile.size(); i++) {
-			tempTile = tile.get(i);
+		for (int i = 0; i < tiles.size(); i++) {
+			tempTile = tiles.get(i);
 			if (!tempTile.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTile.getView());
 				game.getSecondLayer().getChildren().remove(tempTile.getView());
 				game.getDirtLayer().getChildren().remove(tempTile.getView());
-				tile.remove(i);
+				tiles.remove(i);
 			}
 		}
-		for (int i = 0; i < trap.size(); i++) {
-			tempTrap = trap.get(i);
+		for (int i = 0; i < traps.size(); i++) {
+			tempTrap = traps.get(i);
 			if (!tempTrap.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempTrap.getView());
 				game.getSecondLayer().getChildren().remove(tempTrap.getView());
-				trap.remove(i);
+				traps.remove(i);
 			}
 		}
-		for (int i = 0; i < block.size(); i++) {
-			tempBlock = block.get(i);
+		for (int i = 0; i < blocks.size(); i++) {
+			tempBlock = blocks.get(i);
 			if (!tempBlock.isAlive()) {
 				game.getGameRoot().getChildren().remove(tempBlock.getView());
 				game.getSecondLayer().getChildren().remove(tempBlock.getView());
-				block.remove(i);
+				blocks.remove(i);
 			}
 		}
 		for (int i = 0; i < edible.size(); i++) {
@@ -231,22 +232,27 @@ public class GameTileController {
 			}
 		}
 	}
+
 	public void clearTiles() {
-		tile.clear();
+		tiles.clear();
 	}
+
 	public void clearBlocks() {
-		block.clear();
+		blocks.clear();
 	}
+
 	public void clearTraps() {
-		trap.clear();
+		traps.clear();
 	}
+
 	public void clearEdibles() {
-		trap.clear();
+		edible.clear();
 	}
+
 	public void clearAll() {
-		tile.clear();
-		block.clear();
-		trap.clear();
+		tiles.clear();
+		blocks.clear();
+		traps.clear();
 		edible.clear();
 	}
 

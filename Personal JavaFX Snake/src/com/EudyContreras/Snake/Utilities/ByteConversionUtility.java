@@ -99,6 +99,7 @@ public class ByteConversionUtility {
 			byteOutput.reset();
 		}
 	}
+
 	public static ImageView byteToImage(byte[] data){
 		BufferedImage newImage = null;
 		Image image = null;

@@ -16,18 +16,23 @@ public class Rotation2D {
 		this.rotationLimit = rotationLimit;
 		this.added = added;
 	}
+
 	public final float getRotationAngle() {
 		return rotationAngle;
 	}
+
 	public final float getRotationSpeed() {
 		return rotationSpeed;
 	}
+
 	public final float getRotationDirection() {
 		return rotationDirection;
 	}
+
 	public final float getRotationLimit() {
 		return rotationLimit;
 	}
+
 	public final boolean isAdded() {
 		return added;
 	}

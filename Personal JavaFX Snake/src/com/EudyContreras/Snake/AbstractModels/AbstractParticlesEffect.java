@@ -1,4 +1,4 @@
- package com.EudyContreras.Snake.AbstractModels;
+package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
@@ -31,13 +31,15 @@ public abstract class AbstractParticlesEffect {
 	protected double r;
 	protected double velR;
 
-	protected void addToLayer(Node node){
+	protected void addToLayer(Node node) {
 		layer.getChildren().add(node);
 	}
-	public void remove(){
+
+	public void remove() {
 		layer.getChildren().remove(shape);
 		layer.getChildren().remove(view);
 	}
+
 	public abstract void updateUI();
 
 	public abstract void draw();

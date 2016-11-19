@@ -17,10 +17,6 @@ import javafx.scene.shape.Rectangle;
 public abstract class AbstractMenuElement {
 
 	protected int currentChoice = 0;
-	protected GameModeID modeID;
-	protected DropShadow glowLED;
-	protected Rectangle clearUp;
-	protected Rectangle menuLogo;
 	protected double radius = 63.0;
 	protected double opacity = 1.0;
 	protected double buttonSizeW = 400;
@@ -30,6 +26,10 @@ public abstract class AbstractMenuElement {
 	protected boolean showMenu = false;
 	protected boolean hideMenu = false;
 	protected boolean startingGame = false;
+	protected GameModeID modeID;
+	protected DropShadow glowLED;
+	protected Rectangle clearUp;
+	protected Rectangle menuLogo;
 	protected GameManager game;
 	protected MenuManager menu;
 

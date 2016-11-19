@@ -265,7 +265,7 @@ public class StringEncrypter {
         boolean duplicates = false;
         String[] byte_Plain =
             {"1","2","3","4","5","6","7","8","9","0"};
-        
+
         char[] plain_char_set =
             {'A','B','C','D','E','F','G','H',
              'I','J','K','L','M','N','O','P',
@@ -273,7 +273,7 @@ public class StringEncrypter {
              'Y','Z','Ö','Ä','Å','0','1','2',
              '3','4','5','6','7','8','9',' ',
              ',','?','.','!'};
-        
+
         if (password.isPasswordOk() && new_CharSet != null) {
             duplicates = EncryptionUtils.containsDuplicates(new_CharSet) ;
             if(!duplicates && new_CharSet.length>=40) {
@@ -395,6 +395,7 @@ public class StringEncrypter {
             chars[i1] = chars[i1 + SWAP_INDEX_1];
             chars[i1 + SWAP_INDEX_1] = temp;
         }
+
         return chars;
     }
     /*
@@ -820,6 +821,7 @@ public class StringEncrypter {
             }
             return false;
         }
+
         private static SecureRandom getSha1Prng() {
 			try {
 				return SecureRandom.getInstance("SHA1PRNG");
@@ -827,6 +829,7 @@ public class StringEncrypter {
 				throw new IllegalStateException(e);
 			}
 		}
+
         public static String[] convertToAlphaNumeric(char[] charSet, String password){
         	SecureRandom rand = getSha1Prng();
         	rand.setSeed(password.getBytes(StandardCharsets.UTF_8));
@@ -871,7 +874,6 @@ public class StringEncrypter {
 		 */
 		private void generateKey(String password,SecureRandom charRandom, char[] baseChars) {
 			charRandom.setSeed(password.getBytes(StandardCharsets.UTF_8));
-
 			char_base_set = new char[baseChars.length];
 			char_base_set = Arrays.copyOf(baseChars, baseChars.length);
 			char_key_set = new char[char_base_set.length];
@@ -974,9 +976,11 @@ public class StringEncrypter {
             return password.length()>=6 && password!=null;
         }
     }
+
     public enum SecurityLevel{
     	LOW,MEDIUM,HIGH,VERY_HIGH
     }
+
     private static class InvalidPasswordException extends Exception {
         private static final long serialVersionUID = 1L;
 
@@ -986,8 +990,8 @@ public class StringEncrypter {
             System.err.println("Please look at the documentation for more information");
 
         }
-
     }
+
     private static class InvalidCharacterSetException extends Exception {
         private static final long serialVersionUID = 1L;
 
@@ -997,8 +1001,8 @@ public class StringEncrypter {
             System.err.println("Please look at the documentation for more information");
             StandardCharsets.UTF_8.displayName();
         }
-
     }
+
     public static void main(String[] args) {
 
     	char[] plain_char_set =

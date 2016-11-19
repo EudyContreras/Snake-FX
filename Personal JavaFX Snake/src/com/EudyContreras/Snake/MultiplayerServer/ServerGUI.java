@@ -12,7 +12,7 @@ public class ServerGUI {
 	 * creates a new client manager and a new chatserver object
 	 */
 	public ServerGUI() {
-		this.manager = new ClientManager(this);
+		this.manager = new ClientManager();
 		this.server = new MultiplayerServer(this,manager);
 		this.infoHandler = new InfoHandler(this,manager,server);
 	}

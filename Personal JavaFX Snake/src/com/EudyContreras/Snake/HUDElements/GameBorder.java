@@ -53,6 +53,7 @@ public class GameBorder extends AbstractTile {
 		showBorders(false);
 		handleTopBarEvents();
 	}
+
 	public void setupBorders(){
 		this.glow = new DropShadow(BlurType.THREE_PASS_BOX, Color.RED, 25, 0.5, 0, 0);
 		this.pane = new StackPane();
@@ -81,62 +82,71 @@ public class GameBorder extends AbstractTile {
 		this.pane.getChildren().setAll(topBound, new ImageView(GameImageBank.snakeIcon), exit);
 		this.displayBorders();
 	}
-	public void setDimensions_h(ImageView view){
-		view.setFitWidth(GameSettings.SCREEN_WIDTH+5);
-		view.setFitHeight(borderSize+5);
+
+	public void setDimensions_h(ImageView view) {
+		view.setFitWidth(GameSettings.SCREEN_WIDTH + 5);
+		view.setFitHeight(borderSize + 5);
 	}
-	public void setDimensions_h(ImageView view, double height){
-		view.setFitWidth(GameSettings.SCREEN_WIDTH-6);
+
+	public void setDimensions_h(ImageView view, double height) {
+		view.setFitWidth(GameSettings.SCREEN_WIDTH - 6);
 		view.setFitHeight(height);
 	}
-	public void setDimensions_v(ImageView view){
+
+	public void setDimensions_v(ImageView view) {
 		view.setFitWidth(borderSize);
-		view.setFitHeight(GameSettings.SCREEN_HEIGHT-3);
+		view.setFitHeight(GameSettings.SCREEN_HEIGHT - 3);
 	}
-	public void setDimensions_v(ImageView view, double width){
+
+	public void setDimensions_v(ImageView view, double width) {
 		view.setFitWidth(width);
 		view.setFitHeight(GameSettings.SCREEN_HEIGHT);
 	}
-	private void handleTopBarEvents(){
-		exit.setOnMouseEntered(e ->{
+
+	private void handleTopBarEvents() {
+		exit.setOnMouseEntered(e -> {
 			exit.setEffect(glow);
 		});
-		exit.setOnMouseExited(e ->{
+		exit.setOnMouseExited(e -> {
 			exit.setEffect(null);
 		});
-		exit.setOnMouseClicked(e ->{
+		exit.setOnMouseClicked(e -> {
 			game.closeGame();
 		});
 
-	 	topBound.setOnMousePressed(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-            	CursorUtility.setCursor(CursorID.DRAG, game.getScene());
-                xOffset = game.getMainWindow().getX() - event.getScreenX();
-                yOffset = game.getMainWindow().getY() - event.getScreenY();
-            }
-        });
-	 	topBound.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-            	CursorUtility.setCursor(CursorID.DRAG, game.getScene());
-            	game.getMainWindow().setX(event.getScreenX() + xOffset);
-            	game.getMainWindow().setY(event.getScreenY() + yOffset);
-            }
-        });
-	 	topBound.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-            	CursorUtility.setCursor(CursorID.NORMAL, game.getScene());
-            }
-        });
-	 	topBound.setOnMouseReleased(new EventHandler<MouseEvent>(){
+		topBound.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				CursorUtility.setCursor(CursorID.DRAG, game.getScene());
+				xOffset = game.getMainWindow().getX() - event.getScreenX();
+				yOffset = game.getMainWindow().getY() - event.getScreenY();
+			}
+		});
+
+		topBound.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				CursorUtility.setCursor(CursorID.DRAG, game.getScene());
+				game.getMainWindow().setX(event.getScreenX() + xOffset);
+				game.getMainWindow().setY(event.getScreenY() + yOffset);
+			}
+		});
+
+		topBound.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				CursorUtility.setCursor(CursorID.NORMAL, game.getScene());
+			}
+		});
+
+		topBound.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
 				CursorUtility.setCursor(CursorID.NORMAL, game.getScene());
 			}
 
-	 	});
+		});
+
 	 	topBound.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -158,30 +168,35 @@ public class GameBorder extends AbstractTile {
             }
         });
 	}
+
 	public void displayBorders(){
 		this.layer.getChildren().add(bottomBound);
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(pane);
 	}
+
 	public void showBorders(boolean state){
 		this.leftBound.setVisible(state);
 		this.rightBound.setVisible(state);
 		this.pane.setVisible(state);
 		this.bottomBound.setVisible(state);
 	}
+
 	public void removeBorders(){
 		this.layer.getChildren().remove(leftBound);
 		this.layer.getChildren().remove(rightBound);
 		this.layer.getChildren().remove(pane);
 		this.layer.getChildren().remove(bottomBound);
 	}
+
 	public void reAddBorders(){
 		this.layer.getChildren().add(bottomBound);
 		this.layer.getChildren().add(leftBound);
 		this.layer.getChildren().add(rightBound);
 		this.layer.getChildren().add(pane);
 	}
+
 	public StackPane getUtilityBar(){
 		return pane;
 	}

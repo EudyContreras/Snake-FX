@@ -120,6 +120,7 @@ public class LocalScoreScreen extends AbstractHudElement{
 		this.playerOneScore.setVisible(false);
 		this.playerTwoScore.setVisible(false);
 	}
+
 	public void show(boolean state){
 		this.playerOneScore.setVisible(state);
 		this.playerTwoScore.setVisible(state);

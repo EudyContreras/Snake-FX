@@ -54,6 +54,7 @@ public class ReadyNotification {
 		this.position();
 		this.display();
 	}
+
 	private void initialize(){
 		this.glow = new DropShadow();
 		this.glow.setColor(Color.LIMEGREEN);
@@ -65,16 +66,19 @@ public class ReadyNotification {
 		this.readyView.setFitHeight(height*.5);
 		this.readyView.setOpacity(fadeValue);
 	}
+
 	private void position(){
 		this.x = GameSettings.WIDTH/2 - readyView.getFitWidth()/2;
 		this.y = 20;
 		this.readyView.setTranslateX(x);
 		this.readyView.setTranslateY(y);
 	}
+
 	private void display(){
 		this.layer.getChildren().remove(readyView);
 		this.layer.getChildren().add(readyView);
 	}
+
 	public void showNotification(int wait) {
 		this.wait = wait;
 		showCounter = 0;
@@ -83,12 +87,14 @@ public class ReadyNotification {
 		hideNotice = false;
 		processEvent();
 	}
+
 	public void hideNotification(){
 		readyView.setEffect(glow);
 		fadeValue = 1;
 		waiting = false;
 		hideNotice = true;
 	}
+
 	public void fadeOutNotice(){
 		if(hideNotice){
 			fadeValue -= 0.05;
@@ -101,11 +107,13 @@ public class ReadyNotification {
 		}
 		this.readyView.setOpacity(fadeValue);
 	}
+
 	private void startCounter() {
 		layer.getChildren().remove(readyView);
 		game. processGameInput();
 		game.getCountDownScreen().startCountdown(0);
 	}
+
 	private void fadeAnimation(){
 		showCounter++;
 		if (showCounter >= wait) {
@@ -135,10 +143,12 @@ public class ReadyNotification {
 		if(!waiting)
 			fadeOutNotice();
 	}
+
 	public void setVisibility(boolean state){
 		this.readyView.setVisible(state);
 		this.waiting = state;
 	}
+
 	private void processEvent(){
 		game.getScene().setOnKeyPressed(e -> {
 			switch(e.getCode()){
@@ -169,9 +179,5 @@ public class ReadyNotification {
 
 			}
 		});
-
 	}
-
-
-
 }

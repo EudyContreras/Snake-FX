@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * This class represents a cactus which creates a moving
  * or wind caused waving illusion.
+ *
  * @author Eudy Contreras
  *
  */

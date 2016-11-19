@@ -30,6 +30,7 @@ public class ResizeHelper {
 			this.stage = stage;
 			this.handleGestures();
 		}
+
 		private void handleGestures() {
 			scene.setOnScroll(e -> {
 
@@ -51,6 +52,7 @@ public class ResizeHelper {
 				}
 			});
 		}
+
 		public void zoom(Stage stage, double scaleFactor) {
 
 		    double oldScale = game.getRootLayer().getScaleX();
@@ -70,8 +72,8 @@ public class ResizeHelper {
 		public void zoom(Stage stage, ScrollEvent event) {
 		    zoom(stage, Math.pow(1.001, event.getDeltaY()));
 		}
-
 	}
+
 	public static void zoom(Stage stage, Node root, Double scrollFactor) {
 	    zoom(stage, root, Math.pow(1.001, scrollFactor));
 	}
@@ -92,8 +94,8 @@ public class ResizeHelper {
 
 	    stage.setWidth(baseWidth);
 	    stage.setHeight(baseHeight);
-
 	}
+
 	public static boolean isSupportedRatio(){
 
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();

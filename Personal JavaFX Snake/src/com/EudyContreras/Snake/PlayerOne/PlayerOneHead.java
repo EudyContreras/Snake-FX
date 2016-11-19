@@ -87,12 +87,14 @@ public class PlayerOneHead extends AbstractObject {
 		this.layer.getChildren().add(text);
 		this.loadMouth();
 	}
+
 	private void loadMouth(){
 		this.playerManager.addObject(new PlayerOneEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.8, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.playerManager.addObject(new PlayerOneFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_ONE_SIZE * 0.40, Color.TRANSPARENT), this.x,
 				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 	}
+
 	public void move() {
 		if (PlayerOne.DEAD == false && PlayerOne.LEVEL_COMPLETED == false && PlayerOne.KEEP_MOVING && game.getStateID()!= GameStateID.GAME_MENU) {
 			if (GameSettings.DEBUG_MODE) {
@@ -105,16 +107,18 @@ public class PlayerOneHead extends AbstractObject {
 			this.text.setX(x - 50);
 			this.text.setY(y - 40);
 		}
-
 	}
+
 	public void updateUI(){
 		if(!PlayerOne.DEAD)
 		super.updateUI();
 	}
+
 	public void logicUpdate(){
 		showTheSkull();
 		updateBounds();
 	}
+
 	public void updateBounds() {
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius*1.1 / 2 + offsetX);
@@ -123,6 +127,7 @@ public class PlayerOneHead extends AbstractObject {
 			bounds.setHeight(radius*1.1);
 		}
 	}
+
 	public void showTheSkull() {
 		if (showTheSkull == true) {
 			fadeValue -= 0.01;
@@ -132,6 +137,7 @@ public class PlayerOneHead extends AbstractObject {
 			}
 		}
 	}
+
 	public void rotate() {
 		if (r == 0 && newDirection == PlayerMovement.MOVE_LEFT) {
 			velR = 8;
@@ -192,6 +198,7 @@ public class PlayerOneHead extends AbstractObject {
 	public void checkRemovability() {
 
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (!PlayerOne.DEAD && PlayerOne.KEEP_MOVING) {
 			for (int i = 0; i < 2; i++) {
@@ -324,6 +331,7 @@ public class PlayerOneHead extends AbstractObject {
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
 	}
+
 	public void addBones() {
 		skull = new Circle(this.radius * .8, new ImagePattern(GameImageBank.snakeSkull));
 		skull.setTranslateX(x);
@@ -331,6 +339,7 @@ public class PlayerOneHead extends AbstractObject {
 		skull.setRotate(circle.getRotate());
 		game.getDebrisLayer().getChildren().add(skull);
 	}
+
 	public double getRadius(){
 		return this.circle.getRadius();
 	}
@@ -342,8 +351,8 @@ public class PlayerOneHead extends AbstractObject {
 	public void setShowTheSkull(boolean showTheSkull) {
 		this.showTheSkull = showTheSkull;
 	}
-	public void drawBoundingBox() {
 
+	public void drawBoundingBox() {
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 			bounds.setStroke(Color.WHITE);
@@ -364,7 +373,6 @@ public class PlayerOneHead extends AbstractObject {
 		this.headBoundsBottom.setY(y + radius - headBoundsBottom.getHeight() / 2);
 		this.clearFromCollision.setX(x - radius);
 		this.clearFromCollision.setY(y - radius);
-
 		this.headBoundsLeft.setWidth(circle.getRadius() * .5);
 		this.headBoundsLeft.setHeight(circle.getRadius() * .5);
 		this.headBoundsRight.setWidth(circle.getRadius() * .5);
@@ -376,9 +384,11 @@ public class PlayerOneHead extends AbstractObject {
 		this.clearFromCollision.setWidth(circle.getRadius() * 2);
 		this.clearFromCollision.setHeight(circle.getRadius() * 2);
 	}
+
 	public Bounds getRadialBounds(){
 		return radialBounds.getBoundsInParent();
 	}
+
 	public Rectangle2D getBounds() {
 		return new Rectangle2D(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 	}

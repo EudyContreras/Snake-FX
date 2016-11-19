@@ -31,6 +31,7 @@ public class LogicThread extends Thread {
 			return;
 		isRunning = false;
 	}
+
 	public synchronized void startHelperThread() {
 		if (isRunning)
 			return;
@@ -44,6 +45,7 @@ public class LogicThread extends Thread {
 			return;
 		isRunning = false;
 	}
+
 	public void run() {
 		long lastTime = System.nanoTime();
 		long startTime = System.currentTimeMillis();
@@ -167,6 +169,7 @@ public class LogicThread extends Thread {
 			}
 		}
 	}
+
 	protected void updateAt1() {
 	}
 
@@ -179,7 +182,6 @@ public class LogicThread extends Thread {
 	protected void updateAt60() {
 
 	}
-
 	protected void updateAt120() {
 	}
 

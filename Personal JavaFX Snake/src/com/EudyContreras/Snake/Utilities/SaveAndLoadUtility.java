@@ -165,6 +165,7 @@ public enum SaveAndLoadUtility {
 //		GameSettings.resolutionX = savedData.getResolutionX();
 //		GameSettings.resolutionY = savedData.getResolutionY();
 	}
+
 	private String logState(String log){
 		System.out.println("Game Saver: " + log);
 		return log;
@@ -212,7 +213,6 @@ public enum SaveAndLoadUtility {
 			e.printStackTrace();
 		}
 		return image;
-
 	}
 
 }

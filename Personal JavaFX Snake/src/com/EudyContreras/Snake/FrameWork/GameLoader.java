@@ -56,6 +56,7 @@ public class GameLoader extends AbstractLoaderModel{
 		loadDesertLevels();
 		initializeMain();
 	}
+
 	public void initializeMain(){
 		this.border = ImageLoadingUtility.loadImage("desert-level-border.png");
 		this.fence = ImageLoadingUtility.loadImage("desert-level-fence.png");
@@ -82,12 +83,12 @@ public class GameLoader extends AbstractLoaderModel{
 
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
-
 	}
 
 	public void setScale(Scale scaleFactor){
 		game.getScene().getRoot().getTransforms().setAll(scaleFactor);
 	}
+
 	public void setScale(Double scale){
 		game.getScene().getRoot().setScaleX(scale);
 		game.getScene().getRoot().setScaleY(scale);
@@ -100,7 +101,9 @@ public class GameLoader extends AbstractLoaderModel{
 	public static void scaleSpeedAndSize() {
 		int newSize = (int) (GameSettings.SECTION_SIZE / GameLoader.ResolutionScaleX);
 		int newSpeed = (int) (GameSettings.SNAKE_SPEED / GameLoader.ResolutionScaleX);
+
 		boolean divisible = newSize % newSpeed == 0;
+
 		if (divisible) {
 			GameSettings.SECTION_SIZE = newSize;
 			GameSettings.SNAKE_SPEED = newSpeed;
@@ -231,6 +234,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void switcLevel() {
 		Front_Distance_LOD = 512;
 		Rear_Distance_LOD = 511;
+
 		switch (LEVEL) {
 		case 0:
 			setLevel(levelMain);
@@ -269,6 +273,7 @@ public class GameLoader extends AbstractLoaderModel{
 
 		this.setLevelWidth((int) getLevel().getWidth());
 		this.setLevelHeight((int) getLevel().getHeight());
+
 		LEVEL++;
 	}
 
@@ -296,7 +301,7 @@ public class GameLoader extends AbstractLoaderModel{
 		getTileManager().updateTraps();
 		getTileManager().updateEdibles();
 		getTileManager().checkIfRemovable();
-	//	getTileManager().updateAll();
+//		getTileManager().updateAll();
 	}
 	/**
 	 * Method responsible for clearing all tiles from the level
@@ -304,6 +309,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void clearTiles() {
 		getTileManager().clearAll();
 	}
+
 	public void loadClassicMode(){
 		GameSettings.SAND_STORM = false;
 		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
@@ -312,6 +318,7 @@ public class GameLoader extends AbstractLoaderModel{
 		loadClassicSnake();
 		GameBackground.SET_BACKGROUND(game, GameLevelImage.classic_background);
 		game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
+
 		if(levelBounds==null){
 			levelBounds = new LevelBounds(game, game.getTenthLayer());
 			getTileManager().addTile(levelBounds);
@@ -325,26 +332,35 @@ public class GameLoader extends AbstractLoaderModel{
 		if(levelBounds!=null){
 			levelBounds.showBounds(false);
 		}
+
 		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
 		game.getScoreKeeper().getTimer().showTimer(false);
 		game.getScoreKeeper().setboardMode(GameModeID.LocalMultiplayer);
+
 		if(levelTheme == GameThemeID.DESERT_THEME){
+
 			GameSettings.SAND_STORM = true;
+
 			loadPlayerOne();
 			loadPlayerTwo();
+
 			game.assignPlayer();
+
 			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
 				spawnBackgroundStuff(true);
 			}
-			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5)
-//				levelManager.loadDesertBorder();
+
+			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROLL)
+				levelManager.loadDesertBorder();
 			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5) {
 				levelManager.loadSpikeFence();
 			}
+
 			levelManager.loadDesertLevels();
 			GameBackground.SET_SEQUENTIAL_BACKGROUND(game, GameThemeID.DESERT_THEME);
 			game.setLevelLenght(128 * 64);
 			loadNoSpawnZone();
+
 		}else if(levelTheme == GameThemeID.JUNGLE_THEME){
 
 		}else if(levelTheme == GameThemeID.WATER_THEME){
@@ -357,6 +373,7 @@ public class GameLoader extends AbstractLoaderModel{
 
 		}
 		game.getAIController().updateGrid();
+
 		for(int i = 0; i<4; i++){
 			this.spawnSnakeFood();
 		}
@@ -388,12 +405,17 @@ public class GameLoader extends AbstractLoaderModel{
 
 		while(!validCell){
 			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
+
 			if(cell.fruitSpawnAllowed()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
+
 				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
 				int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
+
 				SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, cell, appleNumber);
+
 				game.getGameObjectController().addFruit(food);
+
 				appleNumber++;
 				validCell = true;
 				break;
@@ -406,9 +428,12 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnClassicSnakeFood() {
 		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.apple_alt));
+
 		float x = RandomGenUtility.getRandom(60, (GameSettings.WIDTH - 90));
 		float y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
+
 		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
+
 		game.getGameObjectController().addFruit(food);
 		appleNumber++;
 	}
@@ -419,11 +444,19 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadClassicSnake() {
 		game.setPlayerInfoVisibility(false);
 		classicSnake = null;
+
 		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.CLASSIC_SNAKE_SIZE/2);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		classicSnake = new ClassicSnake(game, game.getSnakeOneLayer(),
-				new Circle(GameSettings.CLASSIC_SNAKE_SIZE, new ImagePattern(GameImageBank.classicSnakeHead)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.CLASSIC_SNAKE_SPEED, GameObjectID.classicSnake, game.getGameObjectController());
+
+		classicSnake = new ClassicSnake(game,
+				game.getSnakeOneLayer(),
+				new Circle(GameSettings.CLASSIC_SNAKE_SIZE,
+				new ImagePattern(GameImageBank.classicSnakeHead)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0,
+				GameSettings.CLASSIC_SNAKE_SPEED,
+				GameObjectID.classicSnake,
+				game.getGameObjectController());
+
 		game.getClassicSnakeManager().addObject(classicSnake);
 	}
 	/**
@@ -433,11 +466,19 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadPlayerOne() {
 		game.setPlayerInfoVisibility(true);
 		playerOne = null;
+
 		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.PATH_FINDING_CELL_SIZE*1.5);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
-				new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne, game.getGameObjectController());
+
+		playerOne = new PlayerOne(game,
+				game.getSnakeOneLayer(),
+				new Circle(GameSettings.PLAYER_ONE_SIZE,
+				new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0,
+				GameSettings.PLAYER_ONE_SPEED,
+				GameObjectID.PlayerOne,
+				game.getGameObjectController());
+
 		game.getPlayerOneManager().addObject(playerOne);
 	}
 	/**
@@ -446,11 +487,19 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void loadPlayerTwo() {
 		playerTwo = null;
+
 		float x = (float) (GameSettings.WIDTH / 2 + GameSettings.PATH_FINDING_CELL_SIZE*1.5);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
-				new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_TWO_SPEED, GameObjectID.PlayerTwo, game.getGameObjectController());
+
+		playerTwo = new PlayerTwo(game,
+				game.getSnakeTwoLayer(),
+				new Circle(GameSettings.PLAYER_TWO_SIZE,
+				new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0,
+				GameSettings.PLAYER_TWO_SPEED,
+				GameObjectID.PlayerTwo,
+				game.getGameObjectController());
+
 		game.getPlayerTwoManager().addObject(playerTwo);
 	}
 
@@ -460,9 +509,12 @@ public class GameLoader extends AbstractLoaderModel{
 	public void loadNoSpawnZone(){
 		double width = 160;
 		double height = 200;
+
 		float x = (float)(GameSettings.WIDTH/2-width/2);
 		float y = (float)((GameSettings.HEIGHT/2-height/2)-15);
+
 		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.NO_SPAWN_ZONE);
+
 		getTileManager().addTile(noSpawnZone);
 
 	}
@@ -476,6 +528,7 @@ public class GameLoader extends AbstractLoaderModel{
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
 		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.MIN_Y+10 + 1) + GameSettings.MIN_Y+10);
+
 		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain, x, y);
 	}
 

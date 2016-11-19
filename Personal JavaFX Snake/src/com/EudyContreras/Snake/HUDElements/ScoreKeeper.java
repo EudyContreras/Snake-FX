@@ -102,8 +102,8 @@ public class ScoreKeeper extends AbstractHudElement{
 		this.appleOne.setY(yOne + 5);
 		this.countText.setY(yOne+48);
         this.singlePlayerInfo();
-
 	}
+
 	public void multiplayerInfo(){
 		APPLE_COUNT = count;
 		this.xTwo = GameSettings.WIDTH / 2 -  690 / 2;
@@ -171,6 +171,7 @@ public class ScoreKeeper extends AbstractHudElement{
 	private void updatePositions() {
 		yTwo = yTwo + swipeSpeed;
 		yOne = yOne + swipeSpeed;
+
 		if (swipeDown) {
 			swipeSpeed = 2.8f;
 			if (yTwo > 110) {

@@ -13,7 +13,7 @@ import javax.sound.sampled.FloatControl;
  * This class is responsible for reading and decoding audio files that will be
  * used in game the methods specified within this class can be called along with
  * every event ocurring within the games framework
- * 
+ *
  * @author Eudy Contreras
  *
  */
@@ -30,7 +30,7 @@ public class GameAudioController {
 	 * Constructor which takes a path to an audio file which will then be
 	 * process and converted into a java clip file. The audio file will later be
 	 * able to be manipulated using the below non static methods
-	 * 
+	 *
 	 * @param path
 	 */
 	public GameAudioController(String path) {
@@ -54,9 +54,8 @@ public class GameAudioController {
 	 * Method used to process and return and audio file which is ready to be
 	 * played by the system. This method can be used to precreate decoded audio
 	 * files.
-	 * 
-	 * @param path:
-	 *            the path to the audio file to be played
+	 *
+	 * @param path:the path to the audio file to be played
 	 * @return
 	 */
 	public static Clip processAudioFile(String path) {
@@ -80,7 +79,6 @@ public class GameAudioController {
 	/**
 	 * This methods plays the audio once if the method is recalled it will first
 	 * stop the audio from playing and play it from the beginning
-	 * 
 	 * @param soundClip
 	 */
 	public static void playAudio(Clip soundClip) {
@@ -109,7 +107,6 @@ public class GameAudioController {
 
 	/**
 	 * Method used to stop an audio file from playing as
-	 * 
 	 * @param soundClip
 	 */
 	public static void stopAudio(Clip soundClip) {
@@ -130,7 +127,6 @@ public class GameAudioController {
 	/**
 	 * Method used to dispose of an audio file. Should only be used when the
 	 * audio will no longer be used
-	 * 
 	 * @param soundClip
 	 */
 	public static void disposeAudio(Clip soundClip) {
@@ -152,7 +148,6 @@ public class GameAudioController {
 	/**
 	 * Method used to make an audio file enter constant loop which will only end
 	 * when the stop method is called
-	 * 
 	 * @param soundClip
 	 */
 	public static void loopAudio(Clip soundClip) {
@@ -175,7 +170,6 @@ public class GameAudioController {
 
 	/**
 	 * method used to see if the given audio file is currently running
-	 * 
 	 * @param soundClip
 	 * @return
 	 */
@@ -185,7 +179,6 @@ public class GameAudioController {
 
 	/**
 	 * method used to see if the given audio file is currently running
-	 * 
 	 * @return
 	 */
 	public boolean audioIsRunning() {
@@ -194,9 +187,7 @@ public class GameAudioController {
 
 	/**
 	 * Sets the volume of the audio file
-	 * 
-	 * @param volume:
-	 *            max: 1.0f min: 0
+	 * @param volume: max: 1.0f min: 0
 	 * @param soundClip
 	 */
 	public static void setAudioVolume(float volume, Clip soundClip) {
@@ -207,9 +198,7 @@ public class GameAudioController {
 
 	/**
 	 * Sets the volume of the audio file
-	 * 
-	 * @param volume:
-	 *            max: 1.0f min: 0
+	 * @param volume: max: 1.0f min: 0
 	 */
 	public void setAudioVolume(float volume) {
 		gainControl.setValue(volume);

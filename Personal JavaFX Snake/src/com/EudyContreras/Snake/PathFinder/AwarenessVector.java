@@ -14,15 +14,18 @@ public class AwarenessVector extends AbstractCollisionMonitor{
 		this.height = evader.getCollisionBounds().getHeight();
 		this.tileContainer = game.getGameLoader().getTileManager().getBlock();
 	}
+
 	public void updateLogic(){
 		checkCoordinates();
 	}
+
 	public void checkCoordinates(){
 		lifeTime--;
 		if(lifeTime<0){
 			setAlive(false);
 		}
 	}
+
 	public void move(){
 		this.move();
 		this.setStatus(Status.TRAVELING);
@@ -63,6 +66,7 @@ public class AwarenessVector extends AbstractCollisionMonitor{
 			break;
 		}
 	}
+
 	public void checkCollision(){
 		for(AbstractTile object: tileContainer){
 			if(getBounds().intersects(object.getBounds())){
@@ -70,6 +74,7 @@ public class AwarenessVector extends AbstractCollisionMonitor{
 			}
 		}
 	}
+
 	public void processCollision(AbstractTile object){
 		this.setStatus(Status.COLLIDED);
 		this.setEminentCollider(object);

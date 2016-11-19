@@ -20,34 +20,37 @@ public class DirtDisplacement extends AbstractParticlesEffect {
 	private double lifeTime = 1.0f;
 	private double energyLoss = 0.9;
 
-	public DirtDisplacement(GameManager game, Image image,double expireTime, double x, double y, Point2D velocity) {
+	public DirtDisplacement(GameManager game, Image image, double expireTime, double x, double y, Point2D velocity) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.view = new ImageView(image);
-		this.view.setFitWidth(radius*2);
-		this.view.setFitHeight(radius*2);
-		this.decay = 0.026/expireTime;
-		this.velX = (double) velocity.getX()*0.8;
-		this.velY = (double) velocity.getY()*0.8;
+		this.view.setFitWidth(radius * 2);
+		this.view.setFitHeight(radius * 2);
+		this.decay = 0.026 / expireTime;
+		this.velX = (double) velocity.getX() * 0.8;
+		this.velY = (double) velocity.getY() * 0.8;
 		this.layer = game.getDebrisLayer();
 		this.x = x;
 		this.y = y;
 		init();
 	}
-	public DirtDisplacement(GameManager game,Pane layer, Image image,double expireTime, double x, double y, Point2D velocity) {
+
+	public DirtDisplacement(GameManager game, Pane layer, Image image, double expireTime, double x, double y,
+			Point2D velocity) {
 		this.game = game;
 		this.imagePattern = new ImagePattern(image);
 		this.view = new ImageView(image);
-		this.view.setFitWidth(radius*2);
-		this.view.setFitHeight(radius*2);
-		this.decay = 0.026/expireTime;
-		this.velX = (double) velocity.getX()*0.8;
-		this.velY = (double) velocity.getY()*0.8;
+		this.view.setFitWidth(radius * 2);
+		this.view.setFitHeight(radius * 2);
+		this.decay = 0.026 / expireTime;
+		this.velX = (double) velocity.getX() * 0.8;
+		this.velY = (double) velocity.getY() * 0.8;
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
 		init();
 	}
+
 	public void init() {
 		addToLayer(view);
 	}

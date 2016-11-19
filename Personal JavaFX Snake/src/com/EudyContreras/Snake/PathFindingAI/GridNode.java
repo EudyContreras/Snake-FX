@@ -275,6 +275,7 @@ public class GridNode {
 		}
 		return safe;
 	}
+
 	public void findNeighbors(int r, int c, Flag flag) {
 		int startPosX = (r - 1 < minRow) ? r : r - 1;
 		int startPosY = (c - 1 < minCol) ? c : c - 1;
@@ -310,6 +311,7 @@ public class GridNode {
 			}
 		}
 	}
+
 	public List<CellNode> getNeighborCells(CellNode cell, DistressLevel scenario ) {
 
 		List<CellNode> neighbors = new LinkedList<>();
@@ -326,41 +328,45 @@ public class GridNode {
 
 		case LEVEL_ONE:
 			// top
-						aCol = col;
-						aRow = row - 1;
-						if (aRow >= minRow) {
-							tempCell = getCell(aRow, aCol);
-							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
-								neighbors.add(tempCell);
-							}
-						}
-						// bottom
-						aCol = col;
-						aRow = row + 1;
-						if (aRow < rowCount) {
-							tempCell = getCell(aRow, aCol);
-							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
-								neighbors.add(tempCell);
-							}
-						}
-						// left
-						aCol = col - 1;
-						aRow = row;
-						if (aCol >= minCol) {
-							tempCell = getCell(aRow, aCol);
-							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
-								neighbors.add(tempCell);
-							}
-						}
-						// right
-						aCol = col + 1;
-						aRow = row;
-						if (aCol < columnCount) {
-							tempCell = getCell(aRow, aCol);
-							if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
-								neighbors.add(tempCell);
-							}
-						}
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()
+						&& tempCell.isSpawnAllowed()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()
+						&& tempCell.isSpawnAllowed()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()
+						&& tempCell.isSpawnAllowed()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()
+						&& tempCell.isSpawnAllowed()) {
+					neighbors.add(tempCell);
+				}
+			}
 			break;
 		case LEVEL_TWO:
 			// top
@@ -449,12 +455,15 @@ public class GridNode {
 		}
 		return neighbors;
 	}
-	public int getMinRow(){
+
+	public int getMinRow() {
 		return minRow;
 	}
-	public int getMinCol(){
+
+	public int getMinCol() {
 		return minCol;
 	}
+
 	public CellNode[][] getCells() {
 		return cellNodes;
 	}
@@ -534,11 +543,13 @@ public class GridNode {
 	public final void setDimension(Dimension2D dimension) {
 		this.dimension = dimension;
 	}
-	public enum Flag{
-		UNSAFE,UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
+
+	public enum Flag {
+		UNSAFE, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
 	}
-	public enum TeleportZone{
-		WEST,EAST,SOUTH,NORTH
+
+	public enum TeleportZone {
+		WEST, EAST, SOUTH, NORTH
 	}
 
 }
