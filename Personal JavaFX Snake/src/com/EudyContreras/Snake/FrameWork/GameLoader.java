@@ -346,9 +346,9 @@ public class GameLoader extends AbstractLoaderModel{
 
 			game.assignPlayer();
 
-			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
-				spawnBackgroundStuff(true);
-			}
+//			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
+//				spawnBackgroundStuff(true);
+//			}
 
 			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROLL)
 				levelManager.loadDesertBorder();

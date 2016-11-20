@@ -135,7 +135,6 @@ public class PlayerTwo extends AbstractObject {
 		if (DEAD == false && LEVEL_COMPLETED == false && KEEP_MOVING)
 			super.move();
 		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
-
 	}
 
 	public void logicUpdate() {
@@ -149,9 +148,8 @@ public class PlayerTwo extends AbstractObject {
 		speedUp();
 		speedDown();
 		relax();
-
-
 	}
+
 	private void relax(){
 		if(PlayerOne.DEAD){
 			thrust = false;
@@ -687,13 +685,13 @@ public class PlayerTwo extends AbstractObject {
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius)+4;
+			x = (float) (GameSettings.WIDTH + radius-1);
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius)-4;
-		} else if (y < GameSettings.MIN_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius)+4;
+			x = (float) (0 - radius+1);
+		} else if (y < GameSettings.MIN_Y - radius*1.5) {
+			y = (float) (GameSettings.HEIGHT + radius-1);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius)-4;
+			y = (float) (GameSettings.MIN_Y - radius*1.5+1);
 		}
 	}
 
@@ -892,7 +890,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public Rectangle2D getAIBounds() {
-		return new Rectangle2D(x - radius / 2 + offsetX,y - radius / 2 + offsetY,radius,radius);
+		return new Rectangle2D(x - radius / 2 + offsetX, y - radius / 2 + offsetY,radius,radius);
 	}
 
 	public PlayerTwoHead getHead() {

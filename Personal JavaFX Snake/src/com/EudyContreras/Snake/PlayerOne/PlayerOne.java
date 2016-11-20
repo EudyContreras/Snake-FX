@@ -44,7 +44,7 @@ public class PlayerOne extends AbstractObject {
 	private double maxSize = 30;
 	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5;
-	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
+	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/8;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -145,8 +145,8 @@ public class PlayerOne extends AbstractObject {
 		speedUp();
 		speedDown();
 		relax();
-
 	}
+
 	private void relax(){
 		if(PlayerTwo.DEAD){
 			thrust = false;
@@ -154,6 +154,7 @@ public class PlayerOne extends AbstractObject {
 			slowDown();
 		}
 	}
+
 	public void controlEating() {
 		if (!DEAD) {
 			maxOpenTime--;
@@ -608,6 +609,7 @@ public class PlayerOne extends AbstractObject {
 								}
 								immunity = GameSettings.IMMUNITY_TIME;
 								allowDamage = false;
+								break;
 							}
 						}
 					}
@@ -646,6 +648,7 @@ public class PlayerOne extends AbstractObject {
 									allowScreenShake = false;
 								}
 								die();
+								break;
 							}
 						}
 					}
@@ -659,6 +662,7 @@ public class PlayerOne extends AbstractObject {
 									allowScreenShake = false;
 								}
 								die();
+								break;
 							}
 						}
 					}
@@ -690,11 +694,13 @@ public class PlayerOne extends AbstractObject {
 					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
+
 			appleCount++;
 		}
 		game.getScoreBoardOne().increaseScore();
-		if (ScoreKeeper.APPLE_COUNT > 4)
+		if (ScoreKeeper.APPLE_COUNT > 4){
 			game.getGameLoader().spawnSnakeFood();
+		}
 	}
 
 	public boolean withinBounds() {
@@ -769,7 +775,6 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void drawBoundingBox() {
-
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
 			bounds.setStroke(Color.WHITE);
@@ -796,6 +801,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void die() {
 		DEAD = true;
 		game.getHealthBarOne().drainAll();

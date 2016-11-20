@@ -754,7 +754,7 @@ public class AIPathFinder {
 					/*
 					 *TODO: Find out why I get a null pointer at the line below!!!!!!!!!!!!!!!!!!!!
 					 */
-					if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()+(start.getIndex().getCol()+2)<grid.getColumnCount()-1 ? 2 : 0).isOccupied()){
+					if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()+(start.getIndex().getCol()+2)<(grid.getColumnCount()-1) ? 2 : 0).isOccupied()){
 						portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol() + 2);
 						if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol() + 2).isOccupied()){
 							portalOut = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol() + 2);
@@ -821,7 +821,7 @@ public class AIPathFinder {
 			if(start.getLocation().getY() < GameSettings.HEIGHT*.35){
 				List<CellNode> northBorder =  grid.getTeleportZoneNorth();
 				for (CellNode cell : northBorder) {
-					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1)  .isOccupied()) {
+					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1).isOccupied()) {
 						distressLevel = DistressLevel.LEVEL_THREE;
 						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1), start, objectives);
 						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {

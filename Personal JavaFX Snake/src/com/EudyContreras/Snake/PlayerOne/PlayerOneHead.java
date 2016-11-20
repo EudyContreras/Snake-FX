@@ -230,6 +230,7 @@ public class PlayerOneHead extends AbstractObject {
 							showVisualQue(Color.YELLOW);
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -254,6 +255,7 @@ public class PlayerOneHead extends AbstractObject {
 							displaceDirt(getBoundsBottom().getMinX(),getBoundsBottom().getMinY(),0,0);
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -264,7 +266,6 @@ public class PlayerOneHead extends AbstractObject {
 			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsLeft().intersects(tempTile.getBounds())) {
 				return false;
-
 			}
 		}
 		return true;
@@ -275,7 +276,6 @@ public class PlayerOneHead extends AbstractObject {
 			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsRight().intersects(tempTile.getBounds())) {
 				return false;
-
 			}
 		}
 		return true;

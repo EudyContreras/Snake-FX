@@ -592,7 +592,7 @@ public class GameOverScreen {
 
 	public void setSlowMotion(){
 		if (allowSlowMo) {
-			GameSettings.FRAME_SCALE -= 0.0015;
+			GameSettings.FRAME_SCALE -= 0.0025;
 			if (GameSettings.FRAME_SCALE <= 0) {
 				GameSettings.FRAME_SCALE = 0;
 				allowSlowMo = false;
@@ -714,6 +714,8 @@ public class GameOverScreen {
 		showScores = false;
 		showWinner = false;
 		allowSlowMo = true;
+		PlayerOne.KEEP_MOVING = false;
+		PlayerTwo.KEEP_MOVING = false;
 		counter = 0;
 		opacityValue = 0.016;
 		transitionOpacity = 0;

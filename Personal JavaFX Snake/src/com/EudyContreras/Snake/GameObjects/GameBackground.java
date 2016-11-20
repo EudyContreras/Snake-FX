@@ -56,27 +56,13 @@ import javafx.scene.image.ImageView;
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFive);
 			}else if (INDEX == 6) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSix);
-			}else if (INDEX == 7) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSeven);
-			}else if (INDEX == 8) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundEight);
-			}else if (INDEX == 9) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundNine);
-			}else if (INDEX == 10) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTen);
-			}else if (INDEX == 11) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundEleven);
-			}else if (INDEX == 12) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwelve);
-			}else if (INDEX == 13) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThirteen);
 			}
 		}
 		else if (gameTheme == null) {
 			BACKGROUND_VIEW.setImage(GameLevelImage.classicBackground);
 		}
 		INDEX += 1;
-		if (INDEX > 13) {
+		if (INDEX > 6) {
 			INDEX = 1;
 		}
 		BACKGROUND_VIEW.setTranslateX(-5);

@@ -393,13 +393,13 @@ public class PlayerTwoSection extends AbstractSection {
 
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
+			x = (double) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
-		} else if (y < GameSettings.MIN_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius);
+			x = (double) (0 - radius);
+		} else if (y < GameSettings.MIN_Y - radius*1.5) {
+			y = (double) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius);
+			y = (double) (GameSettings.MIN_Y - radius*1.5);
 		}
 	}
 

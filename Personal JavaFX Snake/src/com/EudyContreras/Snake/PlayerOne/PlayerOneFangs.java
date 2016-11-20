@@ -183,6 +183,7 @@ public class PlayerOneFangs extends AbstractObject {
 			}
 		}
 	}
+
 	public Bounds getCollisionBounds() {
 		return this.circle.getBoundsInParent();
 	}

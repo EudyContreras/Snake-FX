@@ -23,7 +23,6 @@ public class PlayerOneEatTrigger extends AbstractObject {
 		this.x = x;
 		this.velX = snake.getVelX();
 		this.velY = snake.getVelY();
-
 		if (GameSettings.DEBUG_MODE) {
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(3);

@@ -124,8 +124,8 @@ public class PlayerTwoFangs extends AbstractObject {
 							tempObject.blowUp();
 							tempObject.getPoint();
 							tempObject.remove();
+							break;
 						}
-						break;
 					}
 					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
 						if(!GameSettings.ALLOW_AI_CONTROLL)
@@ -141,7 +141,6 @@ public class PlayerTwoFangs extends AbstractObject {
 						if (tempObject.getNumericID() > 4) {
 							if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 //								snake.die();
-//								System.out.println("DIE");
 							}
 						}
 					}
