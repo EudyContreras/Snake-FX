@@ -23,7 +23,7 @@ public class EnergyBarOne {
 	private boolean depleated = false;
 	private boolean speedThrust = false;
 	private double maxEnergyLevel = 100;
-	private double x;
+	private double x = 0;
 	private double width = 0;
 	private double delay = 0;
 	private double moveX = -400;
@@ -45,7 +45,7 @@ public class EnergyBarOne {
 		this.x = x;
 		this.game = game;
 		this.width = width;
-		this.maxEnergyLevel = this.width;
+		this.maxEnergyLevel = width;
 		this.player = game.getGameLoader().getPlayerOne();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);

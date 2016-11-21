@@ -103,14 +103,14 @@ public class HealthBarOne {
 		this.healthBarRed.setTranslateX(x+180+moveX);
 		this.playerHead.setCenterX(x+60+moveX);
 		this.healthBarBorder.setTranslateX(x+moveX);
+		this.game.getEnergyBarOne().setMoveX(moveX);
+		this.game.getScoreBoardOne().setMoveX(moveX);
 		if(healthBarBorder.getTranslateX()<0-healthBarBorder.getWidth()){
 			this.stopMoving();
 		}
 		if(moveX>0){
 			moveX = 0;
 		}
-		game.getEnergyBarOne().setMoveX(moveX);
-		game.getScoreBoardOne().setMoveX(moveX);
 	}
 
 	public void moveLeft(){

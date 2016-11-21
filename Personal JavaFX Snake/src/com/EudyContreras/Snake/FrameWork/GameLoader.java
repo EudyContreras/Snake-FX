@@ -10,7 +10,6 @@ import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
 import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.GameObjects.BackgroundDirt;
 import com.EudyContreras.Snake.GameObjects.ClassicSnakeFood;
-import com.EudyContreras.Snake.GameObjects.GameBackground;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
@@ -333,6 +332,8 @@ public class GameLoader extends AbstractLoaderModel{
 			levelBounds.showBounds(false);
 		}
 
+		GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundFour);
+		
 		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
 		game.getScoreKeeper().getTimer().showTimer(false);
 		game.getScoreKeeper().setboardMode(GameModeID.LocalMultiplayer);
@@ -357,7 +358,6 @@ public class GameLoader extends AbstractLoaderModel{
 			}
 
 			levelManager.loadDesertLevels();
-			GameBackground.SET_SEQUENTIAL_BACKGROUND(game, GameThemeID.DESERT_THEME);
 			game.setLevelLenght(128 * 64);
 			loadNoSpawnZone();
 

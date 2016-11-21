@@ -1,5 +1,5 @@
 
-package com.EudyContreras.Snake.GameObjects;
+package com.EudyContreras.Snake.FrameWork;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;

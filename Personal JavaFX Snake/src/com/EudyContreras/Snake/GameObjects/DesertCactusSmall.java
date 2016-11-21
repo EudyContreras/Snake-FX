@@ -54,7 +54,7 @@ public class DesertCactusSmall extends AbstractTile {
 	 */
 	public void wave() {
 		if (x > oldX + GameSettings.WIND_FORCE) {
-			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
+			velX -= Math.random() * (0.35 - 0.05 + 1) + 0.05;
 		}
 		if (x <= oldX) {
 			if (velX < GameSettings.WIND_FORCE)

@@ -340,8 +340,8 @@ public class GameManager extends AbstractGameModel {
 	private void loadHUDElements() {
 		rainEmitter = new RainEmitter(this, 0, -200, 75, 1, 1);
 		sandEmitter = new SandEmitter(this, -200, 0, 1, 1);
-		energyBarOne = new EnergyBarOne(this, 185, 45, 275, 35);
-		energyBarTwo = new EnergyBarTwo(this, GameSettings.WIDTH - 465, 45, 275, 35);
+		energyBarOne = new EnergyBarOne(this, 180, 45, 275, 35);
+		energyBarTwo = new EnergyBarTwo(this, GameSettings.WIDTH - 458, 45, 275, 35);
 		healthBarOne = new HealthBarOne(this);
 		healthBarTwo = new HealthBarTwo(this);
 		pauseMenu = new PauseMenu(this, 0, 0, GameSettings.WIDTH, 300);

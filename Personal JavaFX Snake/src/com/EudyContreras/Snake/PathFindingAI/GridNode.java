@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
-import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -28,10 +27,8 @@ public class GridNode {
 
 	private CellNode tailCell;
 	private CellNode headCell;
-	private CellNode cellNode;
 	private GameManager game;
 	private Dimension2D dimension;
-	private AIController controller;
 	private PlayerTwo snakeAI;
 	private CellNode[][] cellNodes;
 
@@ -47,7 +44,6 @@ public class GridNode {
 	public GridNode(GameManager game, AIController aiController, double width, double height, int cellSize,int cellPadding) {
 		this.game = game;
 		this.cellSize = cellSize;
-		this.controller = aiController;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 		this.showCells = GameSettings.ALLOW_ASTAR_GRAPH;
 		this.minCol = ((GameSettings.MIN_Y-cellSize) / cellSize);
@@ -72,17 +68,6 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
 				cellID++;
-			}
-		}
-	}
-
-	public void placeCellsAlt() {
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
-				cellNode = new CellNode(this,game.getBaseLayer(),cellPadding * (col + 1) + cellSize * col,cellPadding * (row + 1) + cellSize * row, cellSize, cellID, new Index2D(row, col));
-				cellID++;
-				if (showCells)
-					game.getBaseLayer().getChildren().add(cellNode.getVisualRep());
 			}
 		}
 	}
@@ -238,20 +223,6 @@ public class GridNode {
 			}
 		}
 		return cell;
-	}
-	private void setTailCell(CellNode cell) {
-		this.tailCell = cell;
-
-	}
-	private synchronized void setHeadCell(CellNode cell){
-		this.headCell = cell;
-	}
-	public synchronized CellNode getHeadCell() {
-		return headCell;
-	}
-
-	public CellNode getTailCell(){
-		return tailCell;
 	}
 
 	public boolean safeSpawn(CellNode cell) {
@@ -454,6 +425,22 @@ public class GridNode {
 
 		}
 		return neighbors;
+	}
+
+	private void setTailCell(CellNode cell) {
+		this.tailCell = cell;
+	}
+
+	private void setHeadCell(CellNode cell){
+		this.headCell = cell;
+	}
+
+	public CellNode getHeadCell() {
+		return headCell;
+	}
+
+	public CellNode getTailCell(){
+		return tailCell;
 	}
 
 	public int getMinRow() {

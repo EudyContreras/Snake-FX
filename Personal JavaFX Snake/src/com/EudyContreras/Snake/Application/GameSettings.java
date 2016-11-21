@@ -67,15 +67,15 @@ public class GameSettings {
 	public static double ENERGY_REGENRATION_DELAY = 40;
 	public static double DAMAGE_AMOUNT = 0;
 
-	public static final double PLAYER_ONE_SPEED = 6.0;
-	public static final double PLAYER_TWO_SPEED = 6.0;
+	public static final double PLAYER_ONE_SPEED = 10.0;
+	public static final double PLAYER_TWO_SPEED = 10.0;
 	public static final double CLASSIC_SNAKE_SPEED = 9.0;
 	public static final double PLAYER_SIZE = 24;
 
 	public static double PLAYER_HEALTH = 100.0;
 
 	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double GLOBAL_SPECULARITY = 1.5;
+	public static double GLOBAL_SPECULARITY = 2.0;
 
 	public static int BLUR_RANDOMNESS = 500;
 	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 1000;
@@ -88,8 +88,8 @@ public class GameSettings {
 	public static int DIRT_AMOUNT = 4;
 
 	public static double SAND_SIZE = 5;
-	public static double WIND_FORCE = 0.7;
-	public static double WIND_SPEED = 0.0;
+	public static double WIND_FORCE = 1.7;
+	public static double WIND_SPEED = 2.0;
 
 	public static boolean WINDOW_ALWAYS_VISIBLE = true;
 	public static boolean SHOW_SPLASHSCREEN = false;
@@ -97,7 +97,7 @@ public class GameSettings {
 	public static boolean OBJECT_TRACKER = false;
 
 	public static boolean ALLOW_AI_CONTROLL = true;
-	public static boolean ALLOW_SNAKE_GROWTH = false;
+	public static boolean ALLOW_SNAKE_GROWTH = true;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
 	public static boolean ALLOW_AUTOMATIC_EATING = true;

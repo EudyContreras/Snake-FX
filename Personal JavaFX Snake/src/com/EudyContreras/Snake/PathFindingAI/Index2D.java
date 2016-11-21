@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
 public class Index2D{
+
 	private int row;
 	private int col;
 

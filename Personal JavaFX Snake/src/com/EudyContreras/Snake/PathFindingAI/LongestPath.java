@@ -1,126 +1,78 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class LongestPath {
-    public static void main(String[] args) {
-        // construct an n-by-n grid
-        int n = 12;
-        Node[][] node = new Node[n][n];
-        List<Node> nodes = new ArrayList<Node>();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                nodes.add((node[i][j] = new Node()));
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i >= 1) {
-                    if (j >= 1) {
-                        node[i - 1][j - 1].addEdge(node[i][j]);
-                    }
-                    node[i - 1][j].addEdge(node[i][j]);
-                    if (j < n - 1) {
-                        node[i - 1][j + 1].addEdge(node[i][j]);
-                    }
-                }
-                if (j >= 1) {
-                    node[i][j - 1].addEdge(node[i][j]);
-                }
-            }
-        }
-        findPath(nodes);
-        labelPath(nodes);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.printf("%4d", node[i][j].label);
-            }
-            System.out.println();
-        }
-    }
+	  private final int maxX = 3;
+	  private final int maxY = 3;
+	  private final int[][] board = new int[][]{
+	      {1, 2, 3, 4},
+	      {2, 3, -1, 5},
+	      {3, 2, -1, 6},
+	      {6, 1, 2, 3}
+	  };
+	  int[][] pathLength;
+	  ArrayList<ArrayList<ArrayList<Integer>>> paths;
 
-    private static void findPath(List<Node> nodes) {
-        for (Node node : nodes) {
-            node.isOnPath = false;
-        }
-        Random random = new Random();
-        Node sink = nodes.get(random.nextInt(nodes.size()));
-        sink.isOnPath = true;
-        int isNotOnPathCount = nodes.size() - 1;
-        while (isNotOnPathCount > 0) {
-            sink.pathOut = sink.out.get(random.nextInt(sink.out.size()));
-            sink = sink.pathOut.head;
-            if (sink.isOnPath) {
-                // rotate
-                sink = sink.pathOut.head;
-                Arc reverse = null;
-                Node node = sink;
-                do {
-                    Arc temp = node.pathOut;
-                    node.pathOut = reverse;
-                    reverse = temp.reverse;
-                    node = temp.head;
-                } while (node != sink);
-            } else {
-                // extend
-                sink.isOnPath = true;
-                isNotOnPathCount--;
-            }
-        }
-    }
+	  private ArrayList<Integer> findSequence(int xPos,
+	      int yPos) {
+	      if(pathLength[yPos][xPos] >= 0)
+	      {
+	          ArrayList<Integer> ans = new ArrayList<Integer>();
+	          int length =  pathLength[yPos][xPos];
+	          ArrayList<Integer> path = paths.get(yPos).get(xPos);
+	          for(int i = 0; i < length; i++)
+	              ans.add(path.get(i));
+	          return ans;
+	      }
 
-    private static void labelPath(Collection<Node> nodes) {
-        for (Node node : nodes) {
-            node.isSource = true;
-        }
-        for (Node node : nodes) {
-            if (node.pathOut != null) {
-                node.pathOut.head.isSource = false;
-            }
-        }
-        Node source = null;
-        for (Node node : nodes) {
-            if (node.isSource) {
-                source = node;
-                break;
-            }
-        }
-        int count = 0;
-        while (true) {
-            source.label = ++count;
-            if (source.pathOut == null) {
-                break;
-            }
-            source = source.pathOut.head;
-        }
-    }
-}
+	      ArrayList<Integer> pathRight = new ArrayList<Integer>();
+	      ArrayList<Integer> pathDown = new ArrayList<Integer>();
 
-class Node {
-    public final List<Arc> out = new ArrayList<Arc>();
-    public boolean isOnPath;
-    public Arc pathOut;
-    public boolean isSource;
-    public int label;
+	      if (yPos < maxY && (board[yPos + 1][xPos] + 1 == board[yPos][xPos] ||
+	                          board[yPos + 1][xPos] - 1 == board[yPos][xPos])) {
+	        pathDown = findSequence(xPos, yPos + 1);
+	      }
+	      if (xPos < maxX && (board[yPos][xPos + 1] + 1 == board[yPos][xPos] ||
+	                          board[yPos][xPos + 1] - 1 == board[yPos][xPos])) {
+	        pathRight = findSequence(xPos + 1, yPos);
+	      }
+	      ArrayList<Integer> ans;
+	      if (pathDown.size() > pathRight.size()) {
+	          ans = pathDown;
+	      } else {
+	          ans = pathRight;
+	      }
+	      ans.add(board[yPos][xPos]);
+	      paths.get(yPos).set(xPos,ans);
+	      pathLength[yPos][xPos] = ans.size();
+	      return ans;
+	  }
 
-    public void addEdge(Node that) {
-        Arc arc = new Arc(this, that);
-        this.out.add(arc.reverse);
-        that.out.add(arc);
-    }
-}
+	  private void getSequence() {
+	     ArrayList<Integer> result;
+	     pathLength = new int[maxX + 1][maxY + 1];
+	     paths = new ArrayList<ArrayList<ArrayList<Integer>>>();
+	     for(int y = 0; y <= maxY; y++)
+	     {
+	         ArrayList<ArrayList<Integer>> line = new ArrayList<ArrayList<Integer>>();
+	         for(int x = 0; x <= maxX; x++)
+	         {
+	             line.add(null);
+	             pathLength[y][x] = -1;
+	         }
+	         paths.add(line);
+	     }
+	     result = findSequence(0, 0);
+	     Collections.reverse(result);
+	     for (int i = 0; i < result.size(); i++) {
+	       System.out.println(result.get(i));
+	    }
+	  }
 
-class Arc {
-    public final Node head;
-    public final Arc reverse;
-
-    private Arc(Node head, Arc reverse) {
-        this.head = head;
-        this.reverse = reverse;
-    }
-
-    public Arc(Node head, Node tail) {
-        this.head = head;
-        this.reverse = new Arc(tail, this);
-    }
-}
+	  public static void main(String[] args) {
+	    LongestPath sequence = new LongestPath();
+	    sequence.getSequence();
+	  }
+	}

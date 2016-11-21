@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.PlayerTwo;
 
-import java.util.LinkedList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;

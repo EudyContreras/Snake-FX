@@ -45,8 +45,8 @@ public class SandStorms extends AbstractParticlesEffect {
 		this.decay = 0.016 / this.expireTime;
 		this.x = x;
 		this.y = y;
-		this.velX = Math.random() * (8 - 2 + 1) + 2;
-		this.velY = Math.random() * (8 - -5 + 1) + -5;
+		this.velX = Math.random() * (8 - GameSettings.WIND_SPEED + 1) + GameSettings.WIND_SPEED;
+		this.velY = Math.random() * (8 - -GameSettings.WIND_SPEED + 1) + -GameSettings.WIND_SPEED;
 		this.dropVel = Math.random() * (0.003 - 0.001) + 0.001;
 		init();
 	}

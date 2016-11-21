@@ -1,0 +1,18 @@
+Notes and Ideas about the Game
+
+Multiplayer System Common{
+
+-There could be buffs in the form of spawnable bugs or flowers. The bugs will have negative effects while the
+ flowers may have benefits. The bugs will spawn in order in front of each player at a distance determined by the current
+ speed of the player. The benefits will spawn randomly at a fair distance from both players.
+
+	.Local System:
+
+	.Remote System:
+
+
+}
+
+AI Functions{
+
+}

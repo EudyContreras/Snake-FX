@@ -16,8 +16,6 @@ import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
-import com.EudyContreras.Snake.PathFindingAI.GridNode.TeleportZone;
-import com.EudyContreras.Snake.PathFindingAI.PathFindingAlgorithm.CellComparator;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 import javafx.geometry.Rectangle2D;

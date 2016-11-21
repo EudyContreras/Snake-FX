@@ -84,8 +84,10 @@ public class AIController {
     public void updateGrid() {
         obtainAllCollideNodes();
         obtainAllPenaltyNodes();
+
         pathFindingGrid.setColliderList(collideNodes);
         pathFindingGrid.setPenaltiesList(penaltyNodes);
+
         pathFindingGrid.computeValidCells();
     }
 
@@ -122,6 +124,7 @@ public class AIController {
             addPossibleCollideBlock(new CollideNode(pathFindingAI, traps,RiskFactor.VERY_HIGH));
         }
     }
+
     public void obtainAllPenaltyNodes(){
         clearPenalties();
         for(AbstractTile dangers: game.getGameLoader().getTileManager().getTile()){
@@ -142,25 +145,31 @@ public class AIController {
             }
         }
     }
+
     public void addPossibleCollideBlock(CollideNode collideObject) {
         if (!collideNodes.contains(collideObject)) {
             collideNodes.add(collideObject);
         }
     }
+
     public void addPossiblePenaltyNode(CollideNode penaltyObject) {
         if (!penaltyNodes.contains(penaltyObject)){
             penaltyNodes.add(penaltyObject);
         }
     }
+
     public void clearColliders() {
         this.collideNodes.clear();
     }
+
     public void clearPenalties(){
         this.penaltyNodes.clear();
     }
+
     public LinkedList<CollideNode> getPenaltyNodes() {
         return penaltyNodes;
     }
+
     public LinkedList<CollideNode> getCollideNodes() {
     	return collideNodes;
     }

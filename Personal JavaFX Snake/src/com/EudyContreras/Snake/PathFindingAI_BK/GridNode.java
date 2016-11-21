@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
-import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
