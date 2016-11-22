@@ -922,26 +922,26 @@ public class AIPathFinder {
 
 			if (!pathToPortal.isEmpty()) {
 				log("path to portal not empty");
-				pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+				pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 				if(!pathFromPortal.isEmpty()){
 					log("path from portal not empty");
 					return new LinkedPath(pathToPortal,pathFromPortal);
 				}
 				else{
-					pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+					pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 					if(!pathFromPortal.isEmpty()){
 						return new LinkedPath(pathToPortal,pathFromPortal);
 					}
 					else{
-						pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+						pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 						if(!pathFromPortal.isEmpty()){
 							return new LinkedPath(pathToPortal,pathFromPortal);
 						}
 						else{
-							pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+							pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 							if(!pathFromPortal.isEmpty()){
 								return new LinkedPath(pathToPortal,pathFromPortal);
@@ -982,19 +982,19 @@ public class AIPathFinder {
 						distances.add(new Distance(portalOut,game.getGameObjectController().getObsFruitList().get(i)));
 					}
 
-					pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+					pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 					if(!pathFromPortal.isEmpty()){
 						return new LinkedPath(pathToPortal,pathFromPortal);
 					}
 					else{
-						pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+						pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 						if(!pathFromPortal.isEmpty()){
 							return new LinkedPath(pathToPortal,pathFromPortal);
 						}
 						else{
-							pathFromPortal = getShortestPath(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+							pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
 
 							if(!pathFromPortal.isEmpty()){
 								return new LinkedPath(pathToPortal,pathFromPortal);

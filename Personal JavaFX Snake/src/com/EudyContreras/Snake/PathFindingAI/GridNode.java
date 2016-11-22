@@ -64,8 +64,8 @@ public class GridNode {
 	}
 
 	public void placeCells() {
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
+		for (int row = 0; row < cellNodes.length; row++) {
+			for (int col = 0; col < cellNodes[row].length; col++) {
 				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
 				cellID++;
 			}
@@ -183,11 +183,11 @@ public class GridNode {
 		}
 	}
 
-	public CellNode getRelativeCell(PlayerTwo snake, int r, int c) {
+	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
 		CellNode cell = getCells()[r][c];
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
-				CellNode tempCell = getCells()[row][col];
+				CellNode tempCell = cellNodes[row][col];
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
 					cell = tempCell;
 					cell.setPathCell(false);
@@ -198,9 +198,31 @@ public class GridNode {
 		return cell;
 	}
 
-	public CellNode getRelativeCell() {
+	public CellNode getRelativeTailCell(PlayerTwo snake) {
 		CellNode cell = null;
 		AbstractSection section = null;
+
+		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
+			section = game.getSectManagerTwo().getSectionList().getLast();
+		}
+
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cell = cellNodes[row][col];
+				if (section != null) {
+					if (cell.getBoundsCheck().contains(section.getBounds())) {
+						return cell;
+					}
+				}
+			}
+		}
+		return cell;
+	}
+
+	public CellNode markKeyCells() {
+		CellNode cell = null;
+		AbstractSection section = null;
+
 		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
 			section = game.getSectManagerTwo().getSectionList().getLast();
 		}
@@ -296,7 +318,6 @@ public class GridNode {
 		int aRow;
 
 		switch(scenario){
-
 		case LEVEL_ONE:
 			// top
 			aCol = col;
@@ -415,7 +436,6 @@ public class GridNode {
 				}
 			}
 			break;
-
 		case SAFETY_CHECK:
 			break;
 		case CAUTIOUS_CHECK_EMERGENCY:
@@ -439,8 +459,12 @@ public class GridNode {
 		return headCell;
 	}
 
-	public CellNode getTailCell(){
-		return tailCell;
+	public CellNode getTailCell(PlayerTwo snake){
+		if (tailCell != null) {
+			return tailCell;
+		} else {
+			return getRelativeTailCell(snake);
+		}
 	}
 
 	public int getMinRow() {

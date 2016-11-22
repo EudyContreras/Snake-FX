@@ -104,13 +104,13 @@ public class StringEncrypter {
      * Lower = less secure but faster.
      * recommended: 6
      */
-    private static int  max_decoys = 5;
+    private static int max_decoys = 5;
 
     /*
      * The index in which the actually code character will be inserted.
      * the index must be a number between 0 and the max_decoys value-1.
      */
-    private static int  insertion_index = 2;
+    private static int insertion_index = 2;
 
     /**
      * Method used for encrypting a String. The String passed through
@@ -879,7 +879,6 @@ public class StringEncrypter {
 			char_base_set = Arrays.copyOf(baseChars, baseChars.length);
 			char_key_set = new char[char_base_set.length];
 			char_key_set = Arrays.copyOf(char_base_set, baseChars.length);
-
 		}
 
 		private void generateKey(String password, SecureRandom byteRandom, String[] baseBytes) {
@@ -1017,7 +1016,7 @@ public class StringEncrypter {
 
 
         long encrypt_start_time = System.currentTimeMillis();
-        byte[] encryption = StringEncrypter.encrypt("hey!", new Password("password"),plain_char_set, SecurityLevel.VERY_HIGH);
+        byte[] encryption = StringEncrypter.encrypt("hey how are you!", new Password("password"),plain_char_set, SecurityLevel.VERY_HIGH);
         long encrypt_end_time = System.currentTimeMillis();
         System.out.println("Encryption speed: "+(encrypt_end_time - encrypt_start_time)+ " Milliseconds");
 

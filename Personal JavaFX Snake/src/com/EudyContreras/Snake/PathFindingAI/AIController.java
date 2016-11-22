@@ -98,7 +98,7 @@ public class AIController {
     	}
     }
     private void updateGridEvents(){
-    	getGrid().getRelativeCell();
+    	getGrid().markKeyCells();
     }
 
     public void nofifyAI() {
@@ -183,6 +183,6 @@ public class AIController {
     }
 
     public CellNode getHeadCell(PlayerTwo snake, int r, int c) {
-        return pathFindingGrid.getRelativeCell(snake,r,c);
+        return pathFindingGrid.getRelativeHeadCell(snake,r,c);
     }
 }
