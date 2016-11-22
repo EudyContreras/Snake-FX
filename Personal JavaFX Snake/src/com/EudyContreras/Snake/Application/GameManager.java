@@ -503,8 +503,8 @@ public class GameManager extends AbstractGameModel {
 							playerTwoManager.updateAllLogic(timePassed);
 							sectManagerTwo.updateAllLogic(timePassed);
 							for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
-								playerTwoManager.updateAllMovement();
-								sectManagerTwo.updateAllMovement(timePassed);
+								playerTwoManager.updateAllMovementI();
+								sectManagerTwo.updateAllMovementI();
 								if (GameSettings.ALLOW_AI_CONTROLL){
 									aiController.update_AI_Simulation(timePassed);
 								}

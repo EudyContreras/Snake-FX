@@ -104,7 +104,7 @@ public class PlayerTwoSectionManager {
 		}
 	}
 
-	public void updateAllMovementIter(long timePassed) {
+	public void updateAllMovementI() {
 		Iterator<AbstractSection> sectionIter = sectionList.iterator();
 
 		while (sectionIter.hasNext()) {

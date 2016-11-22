@@ -13,6 +13,7 @@ public class CellNode implements Comparable<CellNode>{
 	private Point2D location;
 	private GridNode grid;
 	private CellNode parentNode;
+	private CellNode childNode;
 	private Rectangle visualRep;
 	private Dimension2D dimension;
 
@@ -62,6 +63,7 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetValues(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
+		childNode = null;
 		pathCell = false;
 		heuristic = 0;
 		movementCost = 10;
@@ -172,6 +174,10 @@ public class CellNode implements Comparable<CellNode>{
 		return parentNode;
 	}
 
+	public final CellNode getChildNode() {
+		return childNode;
+	}
+
 	public final void setPlayerSpawnZone(boolean state) {
 		this.playerSpawnZone = state;
 	}
@@ -182,6 +188,10 @@ public class CellNode implements Comparable<CellNode>{
 
 	public final void setParentNode(CellNode parent) {
 		this.parentNode = parent;
+	}
+
+	public final void setChildNode(CellNode child) {
+		this.childNode = child;
 	}
 
 	public int getID() {

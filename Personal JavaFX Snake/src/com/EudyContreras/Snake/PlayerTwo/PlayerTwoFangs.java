@@ -75,7 +75,7 @@ public class PlayerTwoFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snake.getX() + offsetX);
 		y = (float) (snake.getY() + offsetY);
-		circle.setRadius(GameSettings.ALLOW_AI_CONTROLL ? GameSettings.PLAYER_TWO_SIZE * 0.25 : GameSettings.PLAYER_TWO_SIZE * 0.40);
+		circle.setRadius(GameSettings.ALLOW_AI_CONTROLL ? GameSettings.PLAYER_TWO_SIZE * 0.30 : GameSettings.PLAYER_TWO_SIZE * 0.40);
 	}
 
 	public void logicUpdate() {
@@ -118,12 +118,12 @@ public class PlayerTwoFangs extends AbstractObject {
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						if (PlayerTwo.MOUTH_OPEN) {
-							snake.addSection();
-							snake.closeMouth();
-							game.getScoreKeeper().decreaseCount();
 							tempObject.blowUp();
 							tempObject.getPoint();
 							tempObject.remove();
+							snake.addSection();
+							snake.closeMouth();
+							game.getScoreKeeper().decreaseCount();
 							break;
 						}
 					}

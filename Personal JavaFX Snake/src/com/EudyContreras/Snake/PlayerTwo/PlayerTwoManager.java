@@ -45,8 +45,6 @@ public class PlayerTwoManager {
 
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
-			tempObject.move();
-			tempObject.updateUI();
 			tempObject.checkCollision();
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
@@ -66,7 +64,7 @@ public class PlayerTwoManager {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void updateAllMovementI(long timePassed) {
+	public void updateAllMovementI() {
 		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
 
 		while (objectIterator.hasNext()) {
