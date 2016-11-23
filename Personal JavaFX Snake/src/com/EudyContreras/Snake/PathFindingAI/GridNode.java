@@ -25,7 +25,6 @@ public class GridNode {
 
 	private boolean showCells;
 
-	private CellNode tailCell;
 	private CellNode headCell;
 	private GameManager game;
 	private Dimension2D dimension;
@@ -137,6 +136,7 @@ public class GridNode {
 				cellNodes[row][col].setSpawnAllowed(true);
 				cellNodes[row][col].setPathCell(false);
 				cellNodes[row][col].setDangerZone(false);
+				cellNodes[row][col].setCheckBlock(false);
 				cellNodes[row][col].updateVisuals();
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {
@@ -200,17 +200,17 @@ public class GridNode {
 
 	public CellNode getRelativeTailCell(PlayerTwo snake) {
 		CellNode cell = null;
-		AbstractSection section = null;
+		AbstractSection tail = null;
 
 		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
-			section = game.getSectManagerTwo().getSectionList().getLast();
+			tail = game.getSectManagerTwo().getSectionList().getLast();
 		}
 
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
-				if (section != null) {
-					if (cell.getBoundsCheck().contains(section.getBounds())) {
+				if (tail != null) {
+					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						return cell;
 					}
 				}
@@ -221,10 +221,10 @@ public class GridNode {
 
 	public CellNode markKeyCells() {
 		CellNode cell = null;
-		AbstractSection section = null;
+		AbstractSection tail = null;
 
 		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
-			section = game.getSectManagerTwo().getSectionList().getLast();
+			tail = game.getSectManagerTwo().getSectionList().getLast();
 		}
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
@@ -236,10 +236,9 @@ public class GridNode {
 						cell.setOccupied(true);
 					}
 				}
-				if (section != null) {
-					if (cell.getBoundsCheck().contains(section.getBounds())) {
+				if (tail != null) {
+					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						cell.setOccupied(false);
-						setTailCell(cell);
 					}
 				}
 			}
@@ -437,6 +436,42 @@ public class GridNode {
 			}
 			break;
 		case SAFETY_CHECK:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+					neighbors.add(tempCell);
+				}
+			}
 			break;
 		case CAUTIOUS_CHECK_EMERGENCY:
 			break;
@@ -445,10 +480,6 @@ public class GridNode {
 
 		}
 		return neighbors;
-	}
-
-	private void setTailCell(CellNode cell) {
-		this.tailCell = cell;
 	}
 
 	private void setHeadCell(CellNode cell){
@@ -460,11 +491,7 @@ public class GridNode {
 	}
 
 	public CellNode getTailCell(PlayerTwo snake){
-		if (tailCell != null) {
-			return tailCell;
-		} else {
-			return getRelativeTailCell(snake);
-		}
+		return getRelativeTailCell(snake);
 	}
 
 	public int getMinRow() {

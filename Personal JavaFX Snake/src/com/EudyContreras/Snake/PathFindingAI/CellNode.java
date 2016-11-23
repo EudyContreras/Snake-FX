@@ -101,6 +101,8 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.BLUE);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
+			if(isCheckBlocked() && isPathCell())
+				visualRep.setFill(Color.GRAY);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable() && !isTargetCell() && !isPathCell())
@@ -260,7 +262,6 @@ public class CellNode implements Comparable<CellNode>{
 
 	public void setCheckBlock(boolean state) {
 		this.checkBlocked = state;
-
 	}
 
 	public boolean isCheckBlocked() {
