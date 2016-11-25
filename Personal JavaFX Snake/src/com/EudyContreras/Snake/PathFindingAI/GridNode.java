@@ -211,6 +211,18 @@ public class GridNode {
 		return cell;
 	}
 
+	public CellNode getRelativeHeadCell(PlayerTwo snake) {
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				CellNode tempCell = cellNodes[row][col];
+				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
+					return tempCell;
+				}
+			}
+		}
+		return null;
+	}
+
 	public CellNode getRelativeTailCell(PlayerTwo snake) {
 		CellNode cell = null;
 		AbstractSection tail = null;

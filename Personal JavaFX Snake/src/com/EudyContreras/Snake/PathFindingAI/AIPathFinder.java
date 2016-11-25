@@ -46,11 +46,14 @@ public class AIPathFinder {
 	private boolean teleporting = false;
 	private boolean searching = false;
 	private boolean allowTrace = false;
+	private boolean safetyCheck = false;
+	private boolean onPath = false;
 
 	private double checkTimer = 100;
 	private double heuristicScale = 2;
 
 	private int cellCount = 0;
+	private int safetyCheckTimer = 0;
 	private int randomBoost = 200;
 
 	private ObjectivePosition location;
@@ -131,14 +134,31 @@ public class AIPathFinder {
 
 				checkTimer --;
 
-				if(checkTimer<=0){
+				if(!onPath){
+					if(checkTimer<=0){
+						computeClosestPath(0,0);
+						if(currentGoal != CurrentGoal.TAIL){
+							checkTimer = 50;
+							if(safetyCheck == true){
+								safetyCheck = false;
+							}
+						}else{
+							checkTimer = 50;
+							if(safetyCheck == false){
+								safetyCheck = true;
+								safetyCheckTimer = 0;
+							}
+						}
+					}
+				}
 
-					computeClosestPath(0,0);
 
-					if(currentGoal != CurrentGoal.TAIL){
-						checkTimer = 200;
-					}else{
-						checkTimer = 800;
+				if(safetyCheck && currentGoal == CurrentGoal.TAIL){
+					safetyCheckTimer++;
+
+					if(safetyCheckTimer>=1000){
+						safetyCheckTimer = 0;
+						currentGoal = CurrentGoal.OBJECTIVE;
 					}
 				}
 			}
@@ -495,9 +515,9 @@ public class AIPathFinder {
 
 		grid.resetCellValues();
 
-		tail.setMovementCost(0d);
+		objective.setMovementCost(0d);
 
-		tail.setTotalCost(tail.getMovementCost() + heuristicCostEstimate(tail, objective, heuristicScale, heuristicType));
+		objective.setTotalCost(objective.getMovementCost() + heuristicCostEstimate(objective, tail, heuristicScale, heuristicType));
 
 		while(!tailList.isEmpty()) {
 
@@ -505,8 +525,8 @@ public class AIPathFinder {
 
 			searchCount++;
 
-			if( current == objective) {
-				safePath.setPathTwo(buildPath(CurrentGoal.TAIL, objective, searchCount));
+			if( current == tail) {
+				safePath.setPathTwo(buildPath(CurrentGoal.TAIL, tail, searchCount));
 				break;
 			}
 
@@ -542,14 +562,14 @@ public class AIPathFinder {
 					double heuristic = 0;
 
 					double path = 10 / 1000;
-					double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
-					double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
-					double dx2 = tail.getLocation().getX() - objective.getLocation().getX();
-					double dy2 = tail.getLocation().getY() - objective.getLocation().getY();
+					double dx1 = neighbor.getLocation().getX() - tail.getLocation().getX();
+					double dy1 = neighbor.getLocation().getY() - tail.getLocation().getY();
+					double dx2 = objective.getLocation().getX() - tail.getLocation().getX();
+					double dy2 = objective.getLocation().getY() - tail.getLocation().getY();
 
 					double cross = Math.abs((dx1 * dy2) - (dx2 * dy1));
 
-					heuristic = heuristicCostEstimate(neighbor, objective,2.0,heuristicType);
+					heuristic = heuristicCostEstimate(neighbor, tail,2.0,heuristicType);
 
 					switch (tieBreaker) {
 					case CROSS:
@@ -611,6 +631,7 @@ public class AIPathFinder {
 	}
 
 
+
 	private void endPathSearch(){
 		searching = false;
 		allowTrace = false;
@@ -630,6 +651,7 @@ public class AIPathFinder {
 		int pathLength = 0;
 
 		totalPath.add(current);
+		current.pathToGoal(true);
 
 		while (createPath) {
 
@@ -639,6 +661,7 @@ public class AIPathFinder {
 				current = current.getParentNode();
 
 				totalPath.add(current);
+				current.pathToGoal(true);
 
 				if(pathLength>=searchCount){
 					createPath = false;
@@ -718,27 +741,31 @@ public class AIPathFinder {
 
 			}
 
-			for (int i = 0; i < getObjectiveCount(); i++) {
-				AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
-				Objective objective = new Objective(snakeAI, object);
-				paths.add(new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>(), objective));
-			}
 
-			while (paths.peek() != null) {
-				newObjectives.add(paths.poll().getObjective());
-			}
 
 		} else if (searchType == SearchType.CLOSEST_OBJECTIVE) {
 
 			switch(currentGoal){
 			case OBJECTIVE:
-				for (int i = 0; i<getObjectiveCount(); i++){
+//				for (int i = 0; i<getObjectiveCount(); i++){
+//					AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
+//					Objective objective = new Objective(snakeAI, object);
+//					newObjectives.add(objective);
+//				}
+//
+//				Collections.sort(newObjectives);
+
+				pathType = PathType.SHORTEST_PATH;
+
+				for (int i = 0; i < getObjectiveCount(); i++) {
 					AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
 					Objective objective = new Objective(snakeAI, object);
-					newObjectives.add(objective);
+					paths.add(new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>(), objective));
 				}
 
-				Collections.sort(newObjectives);
+				while (paths.peek() != null) {
+					newObjectives.add(paths.poll().getObjective());
+				}
 
 				if (newObjectives.size() > 0) {
 					if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
@@ -772,16 +799,17 @@ public class AIPathFinder {
 
 						if(path.isPathSafe()){
 							log("path is safe!!");
-							pathType = PathType.SHORTEST_PATH;
 							showPathToObjective(path);
 						}else{
 							currentGoal = CurrentGoal.TAIL;
+							log("path is not safe!!");
 						}
 					}
 				}
 
 				break;
 			case TAIL:
+				pathType = PathType.LONGEST_PATH;
 				tail = controller.getGrid().getTailCell(snakeAI);
 
 				if (tail != null) {
@@ -790,7 +818,6 @@ public class AIPathFinder {
 						path = new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, tail), new ArrayList<>());
 					}
 					if (!path.getPathOne().isEmpty()) {
-						pathType = PathType.LONGEST_PATH;
 						showPathToObjective(path);
 					} else {
 
@@ -798,7 +825,7 @@ public class AIPathFinder {
 						path = new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, tail), new ArrayList<>());
 
 						if (!path.getPathOne().isEmpty()) {
-							pathType = PathType.LONGEST_PATH;
+
 							showPathToObjective(path);
 						} else {
 							log("Emergency path to tail empty!");
@@ -807,7 +834,7 @@ public class AIPathFinder {
 							path = emergencyTeleport(controller.getGrid(), start, tail);
 
 							if (!path.getPathOne().isEmpty()) {
-								pathType = PathType.LONGEST_PATH;
+
 								showPathToObjective(path);
 
 							} else {
@@ -1387,6 +1414,8 @@ public class AIPathFinder {
 	 */
 	public void steerAI() {
 		CellNode cell = null;
+		CellNode head = controller.getGrid().getRelativeHeadCell(snakeAI);
+
 		if (pathCoordinates != null) {
 			for (int index = 0; index < pathCoordinates.getPathOne().size(); index++) {
 				cell = pathCoordinates.getPathOne().get(index);
@@ -1395,21 +1424,25 @@ public class AIPathFinder {
 					case DOWN:
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
 						cell.setPathCell(false);
+						onPath = true;
 						break;
 					case LEFT:
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
 						cell.setPathCell(false);
+						onPath = true;
 						break;
 					case RIGHT:
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
 						cell.setPathCell(false);
+						onPath = true;
 						break;
 					case UP:
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
 						cell.setPathCell(false);
+						onPath = true;
 						break;
 					case NONE:
-
+						onPath = false;
 						break;
 					}
 				}
@@ -1422,25 +1455,36 @@ public class AIPathFinder {
 						case DOWN:
 							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
 							cell.setPathCell(false);
+							onPath = true;
 							break;
 						case LEFT:
 							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
 							cell.setPathCell(false);
+							onPath = true;
 							break;
 						case RIGHT:
 							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
 							cell.setPathCell(false);
+							onPath = true;
 							break;
 						case UP:
 							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
 							cell.setPathCell(false);
+							onPath = true;
 							break;
 						case NONE:
+							onPath = false;
 							break;
 						}
-						break;
 					}
 				}
+			}
+		}
+		if(head != null){
+			if(head.isPathToGoal()){
+				onPath = true;
+			}else{
+				onPath = false;
 			}
 		}
 	}
