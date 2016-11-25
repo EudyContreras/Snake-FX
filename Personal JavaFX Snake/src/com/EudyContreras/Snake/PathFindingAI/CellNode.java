@@ -25,14 +25,14 @@ public class CellNode implements Comparable<CellNode>{
 	private double penaltyCost = 0;
 	private double totalCost = 0;
 
-	private boolean closed = false;
 	private boolean showCells = true;
 	private boolean pathCell = false;
 	private boolean targetCell = false;
 	private boolean occupied = false;
 	private boolean teleportZone = false;
 	private boolean dangerZone = false;
-	private boolean checkBlocked = false;
+	private boolean pathToGoal = false;
+	private boolean pathToTail = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
@@ -60,11 +60,15 @@ public class CellNode implements Comparable<CellNode>{
 		}
 	}
 
-	public void resetValues(){
+	public void resetConnections(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
 		childNode = null;
+	}
+
+	public void resetValues(){
 		pathCell = false;
+		visited = false;
 		heuristic = 0;
 		movementCost = 10;
 		penaltyCost = 0;
@@ -97,12 +101,12 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
 				visualRep.setFill(Color.RED.darker());
-			if(isPathCell())
-				visualRep.setFill(Color.BLUE);
+			if(isPathToTail())
+				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
-			if(isCheckBlocked() && isPathCell())
-				visualRep.setFill(Color.GRAY);
+			if(isPathCell())
+				visualRep.setFill(Color.BLUE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable() && !isTargetCell() && !isPathCell())
@@ -248,24 +252,24 @@ public class CellNode implements Comparable<CellNode>{
 		return targetCell;
 	}
 
-	public void setClosed(boolean state) {
-		this.closed = state;
-	}
-
-	public boolean isClosed() {
-		return closed;
-	}
-
 	public final boolean isPenalized() {
 		return penaltyCost > 0;
 	}
 
-	public void setCheckBlock(boolean state) {
-		this.checkBlocked = state;
+	public void pathToGoal(boolean state) {
+		this.pathToGoal = state;
 	}
 
-	public boolean isCheckBlocked() {
-		return checkBlocked;
+	public boolean isPathToGoal() {
+		return pathToGoal;
+	}
+
+	public void pathToTail(boolean state) {
+		this.pathToTail = state;
+	}
+
+	public boolean isPathToTail() {
+		return pathToTail;
 	}
 
 	public final void setDangerZone(boolean state) {

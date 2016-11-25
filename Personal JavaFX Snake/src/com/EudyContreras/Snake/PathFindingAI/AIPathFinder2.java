@@ -1069,13 +1069,13 @@ public class AIPathFinder2 {
 		List<CellNode> pathToGoal = GET_ASTAR_PATH(controller.getGrid(),start,goal);
 
 		for(CellNode cell: pathToGoal){
-			cell.setCheckBlock(true);
+			cell.pathToGoal(true);
 		}
 
 		List<CellNode> pathToTail = GET_ASTAR_PATH(controller.getGrid(),goal,tail);
 
 		for(CellNode cell: pathToGoal){
-			cell.setCheckBlock(false);
+			cell.pathToGoal(false);
 		}
 
 		if(!pathToGoal.isEmpty() && !pathToTail.isEmpty()){
@@ -1089,13 +1089,13 @@ public class AIPathFinder2 {
 			pathToGoal = GET_ASTAR_PATH(controller.getGrid(),start,goal);
 
 			for(CellNode cell: pathToGoal){
-				cell.setCheckBlock(true);
+				cell.pathToGoal(true);
 			}
 
 			pathToTail = GET_ASTAR_PATH(controller.getGrid(),goal,tail);
 
 			for(CellNode cell: pathToGoal){
-				cell.setCheckBlock(false);
+				cell.pathToGoal(false);
 			}
 			if(!pathToGoal.isEmpty() && !pathToTail.isEmpty()){
 
@@ -1103,7 +1103,7 @@ public class AIPathFinder2 {
 			}
 			else{
 				for(CellNode cell: pathToTail){
-					cell.setCheckBlock(false);
+					cell.pathToGoal(false);
 				}
 				return new ArrayList<>();
 			}

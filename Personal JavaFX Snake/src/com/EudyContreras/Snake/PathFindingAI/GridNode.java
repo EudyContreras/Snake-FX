@@ -116,7 +116,20 @@ public class GridNode {
 		}
 	}
 
-	public void resetCells() {
+	public void resetCells(boolean resetSafetyCheck) {
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cellNodes[row][col].resetConnections();
+				cellNodes[row][col].resetValues();
+				if(resetSafetyCheck){
+					cellNodes[row][col].pathToGoal(false);
+					cellNodes[row][col].pathToTail(false);
+				}
+			}
+		}
+	}
+
+	public void resetCellValues() {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].resetValues();
@@ -136,7 +149,7 @@ public class GridNode {
 				cellNodes[row][col].setSpawnAllowed(true);
 				cellNodes[row][col].setPathCell(false);
 				cellNodes[row][col].setDangerZone(false);
-				cellNodes[row][col].setCheckBlock(false);
+				cellNodes[row][col].pathToGoal(false);
 				cellNodes[row][col].updateVisuals();
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {
@@ -210,7 +223,7 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cell = cellNodes[row][col];
 				if (tail != null) {
-					if (cell.getBoundsCheck().contains(tail.getBounds())) {
+					if (cell.getBoundsCheck().intersects(tail.getBounds())) {
 						return cell;
 					}
 				}
@@ -224,7 +237,7 @@ public class GridNode {
 		AbstractSection tail = null;
 
 		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
-			tail = game.getSectManagerTwo().getSectionList().getLast();
+			tail = game.getSectManagerTwo().getSectionList().get(game.getSectManagerTwo().getSectionList().size()-2);
 		}
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
@@ -441,7 +454,7 @@ public class GridNode {
 			aRow = row - 1;
 			if (aRow >= minRow) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 					neighbors.add(tempCell);
 				}
 			}
@@ -450,7 +463,7 @@ public class GridNode {
 			aRow = row + 1;
 			if (aRow < rowCount) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 					neighbors.add(tempCell);
 				}
 			}
@@ -459,7 +472,7 @@ public class GridNode {
 			aRow = row;
 			if (aCol >= minCol) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 					neighbors.add(tempCell);
 				}
 			}
@@ -468,7 +481,7 @@ public class GridNode {
 			aRow = row;
 			if (aCol < columnCount) {
 				tempCell = getCell(aRow, aCol);
-				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isCheckBlocked()) {
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 					neighbors.add(tempCell);
 				}
 			}
