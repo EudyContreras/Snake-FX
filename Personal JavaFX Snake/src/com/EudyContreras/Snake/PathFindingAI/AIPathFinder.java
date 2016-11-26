@@ -118,7 +118,7 @@ public class AIPathFinder {
 	public void startSimulation() {
 		if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL){
 			snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
-			computeClosestPath(5,5);
+			computePath();
 		}
 	}
 
@@ -137,7 +137,7 @@ public class AIPathFinder {
 
 				if(!onPath){
 					if(checkTimer<=0){
-						computeClosestPath(0,0);
+						computePath();
 						if(currentGoal != CurrentGoal.TAIL){
 							checkTimer = 50;
 							if(safetyCheck == true){
@@ -309,7 +309,7 @@ public class AIPathFinder {
 		int searchCount = 0;
 
 		boolean containsNeighbor;
-		
+
 		grid.resetCells(true);
 
 		openCollection.push(startingPoint);
@@ -704,11 +704,11 @@ public class AIPathFinder {
 		}
 
 		if(distances.poll().getObject().getNumericCode()!=objectives[0].getObject().getNumericCode()){
-			computeClosestPath(0,0);
+			computePath();
 		}
 	}
 
-	public synchronized void computeClosestPath(int row, int col){
+	public synchronized void computePath(){
 		teleporting = false;
 
 		LinkedList<Objective> newObjectives = new LinkedList<>();
@@ -806,6 +806,7 @@ public class AIPathFinder {
 						}else{
 							currentGoal = CurrentGoal.TAIL;
 							log("path is not safe!!");
+							computePath();
 						}
 					}
 				}
@@ -876,8 +877,8 @@ public class AIPathFinder {
 						return path;
 					}
 				}
-//			}
-		}
+			}
+//		}
 		return new LinkedPath<CellNode>();
 	}
 	/*
