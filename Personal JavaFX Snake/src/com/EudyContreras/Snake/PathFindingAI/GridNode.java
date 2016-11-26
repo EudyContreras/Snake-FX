@@ -26,6 +26,7 @@ public class GridNode {
 	private boolean showCells;
 
 	private CellNode headCell;
+	private CellNode tailCell;
 	private GameManager game;
 	private Dimension2D dimension;
 	private PlayerTwo snakeAI;
@@ -227,11 +228,13 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode cell = cellNodes[row][col];
 				if (cell.getBoundsCheck().intersects(snake.getAIBounds())) {
+//					cell.setPathCell(false);
+					headCell = cell;
 					return cell;
 				}
 			}
 		}
-		return null;
+		return headCell;
 	}
 
 	public CellNode getRelativeTailCell(AbstractSection tail) {
@@ -239,11 +242,12 @@ public class GridNode {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode cell = cellNodes[row][col];
 				if (cell.getBoundsCheck().intersects(tail.getBounds())) {
+					tailCell = cell;
 					return cell;
 				}
 			}
 		}
-		return null;
+		return tailCell;
 	}
 
 	public CellNode markKeyCells() {
@@ -260,6 +264,7 @@ public class GridNode {
 
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					if(!cell.isOccupied()){
+						cell.setPathCell(false);
 						cell.setOccupied(true);
 					}
 				}
@@ -361,74 +366,74 @@ public class GridNode {
 
 		switch(scenario){
 		case LEVEL_ONE:
-			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
-				neighbors.add(tempCell);
-			}
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.WEST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.EAST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
 				neighbors.add(tempCell);
 			}
 			break;
 		case LEVEL_TWO:
-			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
-				neighbors.add(tempCell);
-			}
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.WEST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.EAST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 				neighbors.add(tempCell);
 			}
 			break;
 		case LEVEL_THREE:
-			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
-				neighbors.add(tempCell);
-			}
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.WEST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.EAST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
 				neighbors.add(tempCell);
 			}
 			break;
 		case SAFETY_CHECK:
-			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
-				neighbors.add(tempCell);
-			}
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.WEST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.EAST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 				neighbors.add(tempCell);
 			}
 			break;
@@ -443,8 +448,8 @@ public class GridNode {
 		return headCell;
 	}
 
-	public CellNode getTailCell(AbstractSection tail){
-		return getRelativeTailCell(tail);
+	public CellNode getTailCell(){
+		return tailCell;
 	}
 
 	public int getMinRow() {

@@ -90,7 +90,7 @@ public class AIController {
         pathFindingGrid.setPenaltiesList(penaltyNodes);
 
         pathFindingGrid.computeValidCells();
-        pathFindingGrid.computeLightWeightMap();
+       // pathFindingGrid.computeLightWeightMap();
     }
 
     public void update_AI_Simulation(long timePassed) {

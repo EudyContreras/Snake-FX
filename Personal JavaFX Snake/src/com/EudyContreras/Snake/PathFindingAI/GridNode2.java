@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFindingAI_BK;
+package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,7 +13,7 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import javafx.geometry.Dimension2D;
 
 
-public class GridNode {
+public class GridNode2 {
 
 	private int minRow;
 	private int minCol;
@@ -25,12 +25,9 @@ public class GridNode {
 
 	private boolean showCells;
 
-	private CellNode tailCell;
 	private CellNode headCell;
-	private CellNode cellNode;
 	private GameManager game;
 	private Dimension2D dimension;
-	private AIController controller;
 	private PlayerTwo snakeAI;
 	private CellNode[][] cellNodes;
 
@@ -46,7 +43,6 @@ public class GridNode {
 	public GridNode(GameManager game, AIController aiController, double width, double height, int cellSize,int cellPadding) {
 		this.game = game;
 		this.cellSize = cellSize;
-		this.controller = aiController;
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
 		this.showCells = GameSettings.ALLOW_ASTAR_GRAPH;
 		this.minCol = ((GameSettings.MIN_Y-cellSize) / cellSize);
@@ -67,21 +63,10 @@ public class GridNode {
 	}
 
 	public void placeCells() {
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
+		for (int row = 0; row < cellNodes.length; row++) {
+			for (int col = 0; col < cellNodes[row].length; col++) {
 				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
 				cellID++;
-			}
-		}
-	}
-
-	public void placeCellsAlt() {
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
-				cellNode = new CellNode(this,game.getBaseLayer(),cellPadding * (col + 1) + cellSize * col,cellPadding * (row + 1) + cellSize * row, cellSize, cellID, new Index2D(row, col));
-				cellID++;
-				if (showCells)
-					game.getBaseLayer().getChildren().add(cellNode.getVisualRep());
 			}
 		}
 	}
@@ -131,7 +116,20 @@ public class GridNode {
 		}
 	}
 
-	public void resetCells() {
+	public void resetCells(boolean resetSafetyCheck) {
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cellNodes[row][col].resetConnections();
+				cellNodes[row][col].resetValues();
+				if(resetSafetyCheck){
+					cellNodes[row][col].pathToGoal(false);
+					cellNodes[row][col].pathToTail(false);
+				}
+			}
+		}
+	}
+
+	public void resetCellValues() {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].resetValues();
@@ -151,6 +149,8 @@ public class GridNode {
 				cellNodes[row][col].setSpawnAllowed(true);
 				cellNodes[row][col].setPathCell(false);
 				cellNodes[row][col].setDangerZone(false);
+				cellNodes[row][col].pathToGoal(false);
+				cellNodes[row][col].pathToTail(false);
 				cellNodes[row][col].updateVisuals();
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {
@@ -197,11 +197,11 @@ public class GridNode {
 		}
 	}
 
-	public CellNode getRelativeCell(PlayerTwo snake, int r, int c) {
+	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
 		CellNode cell = getCells()[r][c];
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
-				CellNode tempCell = getCells()[row][col];
+				CellNode tempCell = cellNodes[row][col];
 				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
 					cell = tempCell;
 					cell.setPathCell(false);
@@ -212,11 +212,45 @@ public class GridNode {
 		return cell;
 	}
 
-	public CellNode getRelativeCell() {
+	public CellNode getRelativeHeadCell(PlayerTwo snake) {
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				CellNode tempCell = cellNodes[row][col];
+				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
+					return tempCell;
+				}
+			}
+		}
+		return null;
+	}
+
+	public CellNode getRelativeTailCell(PlayerTwo snake) {
 		CellNode cell = null;
-		AbstractSection section = null;
+		AbstractSection tail = null;
+
 		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
-			section = game.getSectManagerTwo().getSectionList().getLast();
+			tail = game.getSectManagerTwo().getSectionList().getLast();
+		}
+
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cell = cellNodes[row][col];
+				if (tail != null) {
+					if (cell.getBoundsCheck().intersects(tail.getBounds())) {
+						return cell;
+					}
+				}
+			}
+		}
+		return cell;
+	}
+
+	public CellNode markKeyCells() {
+		CellNode cell = null;
+		AbstractSection tail = null;
+
+		if(!game.getSectManagerTwo().getSectionList().isEmpty()) {
+			tail = game.getSectManagerTwo().getSectionList().get(game.getSectManagerTwo().getSectionList().size()-2);
 		}
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
@@ -228,29 +262,14 @@ public class GridNode {
 						cell.setOccupied(true);
 					}
 				}
-				if (section != null) {
-					if (cell.getBoundsCheck().contains(section.getBounds())) {
+				if (tail != null) {
+					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						cell.setOccupied(false);
-						setTailCell(cell);
 					}
 				}
 			}
 		}
 		return cell;
-	}
-	private void setTailCell(CellNode cell) {
-		this.tailCell = cell;
-
-	}
-	private synchronized void setHeadCell(CellNode cell){
-		this.headCell = cell;
-	}
-	public synchronized CellNode getHeadCell() {
-		return headCell;
-	}
-
-	public CellNode getTailCell(){
-		return tailCell;
 	}
 
 	public boolean safeSpawn(CellNode cell) {
@@ -274,6 +293,7 @@ public class GridNode {
 		}
 		return safe;
 	}
+
 	public void findNeighbors(int r, int c, Flag flag) {
 		int startPosX = (r - 1 < minRow) ? r : r - 1;
 		int startPosY = (c - 1 < minCol) ? c : c - 1;
@@ -309,7 +329,7 @@ public class GridNode {
 			}
 		}
 	}
-	
+
 	public List<CellNode> getNeighborCells(CellNode cell, DistressLevel scenario ) {
 
 		List<CellNode> neighbors = new LinkedList<>();
@@ -323,7 +343,6 @@ public class GridNode {
 		int aRow;
 
 		switch(scenario){
-
 		case LEVEL_ONE:
 			// top
 			aCol = col;
@@ -442,8 +461,43 @@ public class GridNode {
 				}
 			}
 			break;
-
 		case SAFETY_CHECK:
+			// top
+			aCol = col;
+			aRow = row - 1;
+			if (aRow >= minRow) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// bottom
+			aCol = col;
+			aRow = row + 1;
+			if (aRow < rowCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// left
+			aCol = col - 1;
+			aRow = row;
+			if (aCol >= minCol) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+					neighbors.add(tempCell);
+				}
+			}
+			// right
+			aCol = col + 1;
+			aRow = row;
+			if (aCol < columnCount) {
+				tempCell = getCell(aRow, aCol);
+				if (tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
+					neighbors.add(tempCell);
+				}
+			}
 			break;
 		case CAUTIOUS_CHECK_EMERGENCY:
 			break;
@@ -453,12 +507,27 @@ public class GridNode {
 		}
 		return neighbors;
 	}
-	public int getMinRow(){
+
+	private void setHeadCell(CellNode cell){
+		this.headCell = cell;
+	}
+
+	public CellNode getHeadCell() {
+		return headCell;
+	}
+
+	public CellNode getTailCell(PlayerTwo snake){
+		return getRelativeTailCell(snake);
+	}
+
+	public int getMinRow() {
 		return minRow;
 	}
-	public int getMinCol(){
+
+	public int getMinCol() {
 		return minCol;
 	}
+
 	public CellNode[][] getCells() {
 		return cellNodes;
 	}
@@ -538,11 +607,13 @@ public class GridNode {
 	public final void setDimension(Dimension2D dimension) {
 		this.dimension = dimension;
 	}
-	public enum Flag{
-		UNSAFE,UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
+
+	public enum Flag {
+		UNSAFE, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
 	}
-	public enum TeleportZone{
-		WEST,EAST,SOUTH,NORTH
+
+	public enum TeleportZone {
+		WEST, EAST, SOUTH, NORTH
 	}
 
 }
