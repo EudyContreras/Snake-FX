@@ -17,14 +17,16 @@ public class CellNode implements Comparable<CellNode>{
 	private Rectangle visualRep;
 	private Dimension2D dimension;
 
-	private int id = 0;
+	private int cellID = 0;
 
+	private double distance = 10;
 	private double cellSize = 0;
 	private double heuristic = 0;
 	private double movementCost = 10;
 	private double penaltyCost = 0;
 	private double totalCost = 0;
 
+	private boolean visited = false;
 	private boolean showCells = true;
 	private boolean pathCell = false;
 	private boolean targetCell = false;
@@ -38,13 +40,12 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean invalidSpawnZone = false;
 	private boolean availableCell = true;
 	private boolean playerSpawnZone = false;
-	private boolean visited = false;
 
 	private CellType cellType = CellType.FREE;
 	private Direction directionInPath = Direction.NONE;
 
 	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, Index2D index) {
-		this.id = id;
+		this.cellID = id;
 		this.grid = grid;
 		this.index = index;
 		this.cellSize = size;
@@ -73,6 +74,7 @@ public class CellNode implements Comparable<CellNode>{
 		movementCost = 10;
 		penaltyCost = 0;
 		totalCost = 0;
+		distance = 0;
 	}
 
 	public void setLocation(double x, double y) {
@@ -93,7 +95,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public void updateVisuals(){
 		if (showCells){
-			if(spawnAllowed && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
+			if(spawnAllowed && !pathCell && !pathToTail && !occupied && !targetCell && availableCell && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
 				visualRep.setFill(Color.rgb(255, 170, 0));
@@ -109,7 +111,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.BLUE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
-			if(!isAvailable() && !isTargetCell() && !isPathCell())
+			if(!isAvailable() && !isTargetCell() && !isPathCell() && !isPathToTail())
 				visualRep.setFill(Color.YELLOW);
 			if(isTeleportZone())
 				visualRep.setFill(Color.BLACK);
@@ -200,8 +202,8 @@ public class CellNode implements Comparable<CellNode>{
 		this.childNode = child;
 	}
 
-	public int getID() {
-		return id;
+	public int getCellID() {
+		return cellID;
 	}
 
 	public Index2D getIndex() {
@@ -302,6 +304,14 @@ public class CellNode implements Comparable<CellNode>{
 
 	public final void setMovementCost(double movementCost) {
 		this.movementCost = movementCost;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 
 	public void setVisited(boolean visited) {

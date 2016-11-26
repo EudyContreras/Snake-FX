@@ -2,6 +2,7 @@ package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
 
+import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
@@ -89,6 +90,7 @@ public class AIController {
         pathFindingGrid.setPenaltiesList(penaltyNodes);
 
         pathFindingGrid.computeValidCells();
+        pathFindingGrid.computeLightWeightMap();
     }
 
     public void update_AI_Simulation(long timePassed) {
@@ -102,7 +104,7 @@ public class AIController {
     }
 
     public void nofifyAI() {
-		pathFindingAI.computeClosestPath(5,5);
+		pathFindingAI.computePath();
     }
 
     private void updateAIEvents() {
@@ -182,7 +184,11 @@ public class AIController {
         return pathFindingAI;
     }
 
-    public CellNode getHeadCell(PlayerTwo snake, int r, int c) {
-        return pathFindingGrid.getRelativeHeadCell(snake,r,c);
+    public CellNode getHeadCell(PlayerTwo snake) {
+        return pathFindingGrid.getRelativeHeadCell(snake);
+    }
+
+    public CellNode getTailCell(AbstractSection tail) {
+        return pathFindingGrid.getRelativeTailCell(tail);
     }
 }
