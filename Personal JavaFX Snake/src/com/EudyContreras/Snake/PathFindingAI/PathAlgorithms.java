@@ -577,7 +577,7 @@ public class PathAlgorithms {
 	}
 
 	public enum HeuristicType{
-		MANHATHAN,EUCLIDIAN,CUSTOM_EUCLUDIAN,
+		MANHATHAN, EUCLIDIAN, CUSTOM_EUCLUDIAN,
 	}
 
 	public class CellComparator implements Comparator<CellNode> {

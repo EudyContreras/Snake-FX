@@ -1,0 +1,33 @@
+Notes and Ideas about the Game
+
+Bugs and Issues and Fixes{
+  *There is an issue that may happen when a path creating attempt happens when the head of the snake is one cell or less less from the its body
+  and the head of the snake is directly facing its body. This events makes it so no path is created since there is a neigbor check that makes the path
+  unsafe thus makes the path creation in this particular scenario impossible. I have to re-implement some logic that produces a fix for this specific case.
+
+  *There is a chance for there to to be array exceptions once a index is access
+}
+Multiplayer System Common{
+
+-There could be buffs in the form of spawnable bugs or flowers. The bugs will have negative effects while the
+ flowers may have benefits. The bugs will spawn in order in front of each player at a distance determined by the current
+ speed of the player. The benefits will spawn randomly at a fair distance from both players.
+
+	.Local System:
+
+	.Remote System:
+
+
+}
+
+AI Functions{
+
+	Implement a mechanic that allows the ai to assest paths while chasing tail. If a favorable path is found then pursuit th path
+	otherwise keep chasing tail.
+	
+	If path to goal is safe : go for apple! Else check next apple until a safe path is found or all 
+	apples are checked. If no path to any apple is safe including the paths produced if teleportation is 
+	possible, Then find the farthest path to the tail and remain chasing the tail until a safe path to an 
+	objective becomes available. If no path to tail is found : stall until death!
+
+}
