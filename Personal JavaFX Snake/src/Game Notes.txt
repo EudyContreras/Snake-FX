@@ -22,4 +22,12 @@ Multiplayer System Common{
 
 AI Functions{
 
+	Implement a mechanic that allows the ai to assest paths while chasing tail. If a favorable path is found then pursuit th path
+	otherwise keep chasing tail.
+	
+	If path to goal is safe : go for apple! Else check next apple until a safe path is found or all 
+	apples are checked. If no path to any apple is safe including the paths produced if teleportation is 
+	possible, Then find the farthest path to the tail and remain chasing the tail until a safe path to an 
+	objective becomes available. If no path to tail is found : stall until death!
+
 }

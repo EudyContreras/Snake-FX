@@ -150,6 +150,7 @@ public class GridNode {
 				cellNodes[row][col].setPathCell(false);
 				cellNodes[row][col].setDangerZone(false);
 				cellNodes[row][col].pathToGoal(false);
+				cellNodes[row][col].pathToTail(false);
 				cellNodes[row][col].updateVisuals();
 				for (int i = 0; i < colliders.size(); i++) {
 					if (cellNodes[row][col].getBoundsCheck().intersects(colliders.get(i).getCollideRadius())) {

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
+import java.util.Stack;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.Application.GameManager;
@@ -293,86 +294,88 @@ public class AIPathFinder {
 		return new LinkedList<>();
 	}
 
-//	/**
-//	 * Find a path from start to goal using the depth first search algorithm
-//	 */
-//
-//	public List<CellNode> GET_DFS_PATH(GridNode grid, CellNode startingPoint, CellNode objective) {
-//
-//		Stack<CellNode> openCollection = new Stack<CellNode>();
-//
-//		ArrayList<CellNode> closedCollection = new ArrayList<>(cellCount);
-//
-//		CellNode current = null;
-//
-//		int searchCount = 0;
-//
-//		boolean containsNeighbor;
-//
-//		openCollection.push(startingPoint);
-//
-//		switch(snakeAI.getCurrentDirection()){
-//
-//		case MOVE_DOWN:
-//			startingPoint.setDirection(Direction.DOWN);
-//			break;
-//		case MOVE_LEFT:
-//			startingPoint.setDirection(Direction.LEFT);
-//			break;
-//		case MOVE_RIGHT:
-//			startingPoint.setDirection(Direction.RIGHT);
-//			break;
-//		case MOVE_UP:
-//			startingPoint.setDirection(Direction.UP);
-//			break;
-//		case STANDING_STILL:
-//			startingPoint.setDirection(Direction.DOWN);
-//			break;
-//		}
-//
-//		searching = true;
-//
-//		while (!openCollection.isEmpty() && searching) {
-//
-//			current = openCollection.pop();
-//
-//			searchCount++;
-//
-//			if (current.equals(objective)) {
-//
-//				return createCoordinates(objective,searchCount);
-//			}
-//
-//			closedCollection.add(current);
-//
-//			for (CellNode neighbor : grid.getNeighborCells(current,distressLevel)) {
-//
-//				if (neighbor == null) {
-//					continue;
-//				}
-//
-//				if (closedCollection.contains(neighbor)) {
-//					continue;
-//				}
-//
-//				if (!(containsNeighbor = openCollection.contains(neighbor))) {
-//
-//					neighbor.setParentNode(current);
-//
-//
-//					if (!containsNeighbor) {
-//
-//						openCollection.add(neighbor);
-//					}
-//				}
-//			}
-//		}
-//
-//		endPathSearch();
-//
-//		return new ArrayList<>();
-//	}
-//
+	/**
+	 * Find a path from start to goal using the depth first search algorithm
+	 */
+
+	public List<CellNode> GET_DFS_PATH(GridNode grid, CellNode startingPoint, CellNode objective) {
+
+		Stack<CellNode> openCollection = new Stack<CellNode>();
+
+		ArrayList<CellNode> closedCollection = new ArrayList<>(cellCount);
+
+		CellNode current = null;
+
+		int searchCount = 0;
+
+		boolean containsNeighbor;
+		
+		grid.resetCells(true);
+
+		openCollection.push(startingPoint);
+
+		switch(snakeAI.getCurrentDirection()){
+
+		case MOVE_DOWN:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		case MOVE_LEFT:
+			startingPoint.setDirection(Direction.LEFT);
+			break;
+		case MOVE_RIGHT:
+			startingPoint.setDirection(Direction.RIGHT);
+			break;
+		case MOVE_UP:
+			startingPoint.setDirection(Direction.UP);
+			break;
+		case STANDING_STILL:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		}
+
+		searching = true;
+
+		while (!openCollection.isEmpty() && searching) {
+
+			current = openCollection.pop();
+
+			searchCount++;
+
+			if (current.equals(objective)) {
+
+				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+			}
+
+			closedCollection.add(current);
+
+			for (CellNode neighbor : grid.getNeighborCells(current,distressLevel)) {
+
+				if (neighbor == null) {
+					continue;
+				}
+
+				if (closedCollection.contains(neighbor)) {
+					continue;
+				}
+
+				if (!(containsNeighbor = openCollection.contains(neighbor))) {
+
+					neighbor.setParentNode(current);
+
+
+					if (!containsNeighbor) {
+
+						openCollection.add(neighbor);
+					}
+				}
+			}
+		}
+
+		endPathSearch();
+
+		return new ArrayList<>();
+	}
+
 	public LinkedPath<CellNode> GET_SAFE_ASTAR_PATH(GridNode grid, CellNode startingPoint, CellNode objective, CellNode tail) {
 
 		LinkedPath<CellNode> safePath = new LinkedPath<CellNode>(ConnectionType.SAFE_PATH_CHECK);
@@ -815,14 +818,14 @@ public class AIPathFinder {
 				if (tail != null) {
 					if (!start.isDangerZone()) {
 						distressLevel = DistressLevel.LEVEL_TWO;
-						path = new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, tail), new ArrayList<>());
+						path = new LinkedPath<CellNode>(GET_DFS_PATH(controller.getGrid(), start, tail), new ArrayList<>());
 					}
 					if (!path.getPathOne().isEmpty()) {
 						showPathToObjective(path);
 					} else {
 
 						distressLevel = DistressLevel.LEVEL_THREE;
-						path = new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, tail), new ArrayList<>());
+						path = new LinkedPath<CellNode>(GET_DFS_PATH(controller.getGrid(), start, tail), new ArrayList<>());
 
 						if (!path.getPathOne().isEmpty()) {
 
@@ -1512,6 +1515,9 @@ public class AIPathFinder {
 					applyThrust();
 				}
 			}
+		}
+		else{
+			snakeAI.setSpeedThrust(false);
 		}
 	}
 
