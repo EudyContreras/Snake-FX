@@ -47,8 +47,6 @@ public class AIPathFinder {
 
 	private boolean logDirections = false;
 	private boolean teleporting = false;
-	private boolean searching = false;
-	private boolean allowTrace = false;
 	private boolean safetyCheck = false;
 	private boolean onPath = false;
 
@@ -63,7 +61,6 @@ public class AIPathFinder {
 	private HeuristicType heuristicType;
 	private CurrentGoal currentGoal;
 	private PathType pathType;
-	private SearchType searchType;
 	private TieBreaker tieBreaker;
 	private ActionType state;
 	private Direction lastStep;
@@ -90,7 +87,6 @@ public class AIPathFinder {
 		currentGoal = CurrentGoal.OBJECTIVE;
 		heuristicType = HeuristicType.MANHATHAN;
 		distressLevel = DistressLevel.LEVEL_TWO;
-		searchType = SearchType.CLOSEST_OBJECTIVE;
 		tieBreaker = TieBreaker.NONE;
 		pathType = PathType.SHORTEST_PATH;
 		state = ActionType.FIND_PATH;
@@ -241,6 +237,8 @@ public class AIPathFinder {
 
 				if (!(containsNeighbor = openCollection.contains(neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
+					if (!containsNeighbor) {
+
 					neighbor.setParentNode(current);
 
 					current.setChildNode(neighbor);
@@ -286,15 +284,12 @@ public class AIPathFinder {
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
-					if (!containsNeighbor) {
+					openCollection.add(neighbor);
 
-						openCollection.add(neighbor);
 					}
 				}
 			}
 		}
-
-		endPathSearch();
 
 		return new LinkedList<>();
 	}
@@ -527,6 +522,8 @@ public class AIPathFinder {
 
 				if( !(containsNeighbor=goalList.contains( neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
+					if( !containsNeighbor) {
+
 					neighbor.setParentNode(current);
 
 					current.setChildNode(neighbor);
@@ -572,8 +569,8 @@ public class AIPathFinder {
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
-					if( !containsNeighbor) {
-						goalList.add( neighbor);
+
+					goalList.add( neighbor);
 					}
 				}
 			}
@@ -622,6 +619,8 @@ public class AIPathFinder {
 
 				if( !(containsNeighbor=tailList.contains(neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
+					if( !containsNeighbor) {
+
 					neighbor.setParentNode(current);
 
 					current.setChildNode(neighbor);
@@ -665,8 +664,7 @@ public class AIPathFinder {
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
-					if( !containsNeighbor) {
-						tailList.add( neighbor);
+					tailList.add( neighbor);
 					}
 				}
 			}
@@ -676,7 +674,7 @@ public class AIPathFinder {
 
 	private List<CellNode> buildPath(CurrentGoal goal, CellNode current, int searchCount) {
 
-		List<CellNode> totalPath = new LinkedList<>(); // arbitrary value, we'll most likely have more than 10 which is default for java
+		List<CellNode> totalPath = new LinkedList<>();
 
 		switch(goal){
 		case OBJECTIVE:
@@ -691,7 +689,7 @@ public class AIPathFinder {
 
 			break;
 		case TAIL:
-			totalPath.add( current);
+			totalPath.add(current);
 			current.pathToTail(true);
 
 			while((current = current.getParentNode()) != null) {
@@ -706,19 +704,11 @@ public class AIPathFinder {
 		return totalPath;
 	}
 
-
-
-	private void endPathSearch(){
-		searching = false;
-		allowTrace = false;
-	}
-
 	/**
 	 * Create final path of the A* algorithm. The path is from goal to start.
 	 * TODO: Find out the reason why the loop will never break sometimes.
 	 */
 	private List<CellNode> createCoordinates(CellNode current, int searchCount) {
-		endPathSearch();
 
 		List<CellNode> totalPath = new LinkedList<CellNode>();
 
@@ -1003,10 +993,10 @@ public class AIPathFinder {
 				return getPortal(grid, start, tail, objective, objectives, CardinalPoint.SOUTH);
 			}
 		}
-		else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
-
-		}
-		return new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>());
+//		else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
+//
+//		}
+		return null;
 	}
 
 
@@ -1133,7 +1123,7 @@ public class AIPathFinder {
 		switch(orientation){
 		case EAST:
 			while(searchCount < indexes.length){
-				cellIndex = start.getIndex().getRow() + indexes[index];
+				cellIndex = start.getIndex().getRow() + (indexes[index]);
 				if(cellIndex > grid.getRowCount()-1 || cellIndex < grid.getMinRow()){
 					index++; searchCount++;
 					continue;
@@ -1152,7 +1142,7 @@ public class AIPathFinder {
 			break;
 		case WEST:
 			while(searchCount < indexes.length){
-				cellIndex = start.getIndex().getRow() + indexes[index];
+				cellIndex = start.getIndex().getRow() + (indexes[index]);
 				if(cellIndex > grid.getRowCount()-1 || cellIndex < grid.getMinRow()){
 					index++; searchCount++;
 					continue;
@@ -1171,7 +1161,7 @@ public class AIPathFinder {
 			break;
 		case NORTH:
 			while(searchCount < indexes.length){
-				cellIndex = start.getIndex().getCol() + indexes[index];
+				cellIndex = start.getIndex().getCol() + (indexes[index]);
 				if(cellIndex > grid.getColumnCount()-1 || cellIndex < grid.getMinCol()){
 					index++; searchCount++;
 					continue;
@@ -1190,7 +1180,7 @@ public class AIPathFinder {
 			break;
 		case SOUTH:
 			while(searchCount < indexes.length){
-				cellIndex = start.getIndex().getCol() + indexes[index];
+				cellIndex = start.getIndex().getCol() + (indexes[index]);
 				if(cellIndex > grid.getColumnCount()-1 || cellIndex < grid.getMinCol()){
 					index++; searchCount++;
 					continue;
@@ -1339,7 +1329,7 @@ public class AIPathFinder {
 
 		}
 
-		return new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, end),new ArrayList<>());
+		return null;
 	}
 
 	private LinkedPath<CellNode> createCrosspolarPath(GridNode grid, List<CellNode> enterPath, CellNode portalOut, CellNode start, LinkedList<Objective> objectives){
@@ -1352,7 +1342,7 @@ public class AIPathFinder {
 			distances.add(new Distance(portalOut,game.getGameObjectController().getObsFruitList().get(i)));
 		}
 
-		while (distances.peek() != null) {
+		while (!distances.isEmpty()) {
 
 			LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(grid,portalOut,distances.poll().getObject().getCell(),controller.getGrid().getTailCell(snakeAI));
 
@@ -1381,7 +1371,7 @@ public class AIPathFinder {
 
 		if (!pathToPortal.isEmpty()) {
 
-			while (distances.peek() != null) {
+			while (!distances.isEmpty()) {
 
 				LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(grid,portalOut,distances.poll().getObject().getCell(),controller.getGrid().getTailCell(snakeAI));
 
@@ -1461,7 +1451,6 @@ public class AIPathFinder {
 		LinkedPath<CellNode> safeCheck = GET_SAFE_ASTAR_PATH(grid, start, goal, tail);
 
 		return safeCheck.isPathSafe();
-
 	}
 
 	public List<CellNode> getShortestPath(List<List<CellNode>> paths) {
@@ -1482,7 +1471,6 @@ public class AIPathFinder {
 	}
 
 	private void showPathToObjective(LinkedPath<CellNode> cells){
-		setAllowTrace(true);
 		setPathCoordinates(calculateDirection(cells));
 		if (logDirections) {
 			for (int i = cells.getPathOne().size() - 1; i >= 0; i--) {
@@ -1494,10 +1482,6 @@ public class AIPathFinder {
 			}
 			log("");
 		}
-	}
-
-	private void setAllowTrace(boolean state) {
-		this.allowTrace = state;
 	}
 
 	private LinkedPath<CellNode> calculateDirection(LinkedPath<CellNode> paths) {
