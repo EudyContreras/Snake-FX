@@ -22,12 +22,24 @@ Multiplayer System Common{
 
 AI Functions{
 
+	Here is another one: Do not allow the AI to get out of the tail chasing state until a path to an objective is found!
+
 	Implement a mechanic that allows the ai to assest paths while chasing tail. If a favorable path is found then pursuit th path
 	otherwise keep chasing tail.
-	
-	If path to goal is safe : go for apple! Else check next apple until a safe path is found or all 
-	apples are checked. If no path to any apple is safe including the paths produced if teleportation is 
-	possible, Then find the farthest path to the tail and remain chasing the tail until a safe path to an 
-	objective becomes available. If no path to tail is found : stall until death!
+
+	If path to goal is safe : go for apple! Else check next apple until a safe path is found or all
+	apples are checked. If no path to any apple is safe including the paths produced if teleportation is
+	possible, Then find the farthest path to the tail and remain chasing the tail until a safe path to an
+	objective becomes available. If no path to tail is found : Find a path which is farthest from the closest objective and
+	if not possiblecstall until death using the following pattern!
+
+	if moving left:
+		move down until blocked then move left until blocked. move up until block: then move right once cell until blocked. Then down
+		until block move on cell right
+	if moving right:
+	if moving up:
+	if moving down:
+
+	Do not let the snake commit to a path before the a check is made to see if the path is better than the current path.
 
 }

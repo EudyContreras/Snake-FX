@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
 
-import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
@@ -68,6 +67,8 @@ public class AIController {
     private PlayerTwo snakeAI;
     private GameManager game;
 
+    private boolean hasBeenNotified;
+
     public AIController(GameManager game) {
         this.game = game;
         this.snakeAI = game.getGameLoader().getPlayerTwo();
@@ -77,6 +78,7 @@ public class AIController {
     }
 
     public void initialize() {
+    	hasBeenNotified = false;
         pathFindingGrid = new GridNode(game, this, GameSettings.WIDTH, GameSettings.HEIGHT,GameSettings.PATH_FINDING_CELL_SIZE, 0);
         pathFindingAI = new AIPathFinder(game, this, snakeAI, collideNodes);
         updateGrid();
@@ -90,7 +92,6 @@ public class AIController {
         pathFindingGrid.setPenaltiesList(penaltyNodes);
 
         pathFindingGrid.computeValidCells();
-       // pathFindingGrid.computeLightWeightMap();
     }
 
     public void update_AI_Simulation(long timePassed) {
@@ -104,7 +105,10 @@ public class AIController {
     }
 
     public void nofifyAI() {
-		pathFindingAI.computePath();
+    	if(!hasBeenNotified){
+    		pathFindingAI.computePath();
+    		hasBeenNotified = false;
+    	}
     }
 
     private void updateAIEvents() {
@@ -160,7 +164,15 @@ public class AIController {
         }
     }
 
-    public void clearColliders() {
+    public boolean isHasBeenNotified() {
+		return hasBeenNotified;
+	}
+
+	public void setHasBeenNotified(boolean hasBeenNotified) {
+		this.hasBeenNotified = hasBeenNotified;
+	}
+
+	public void clearColliders() {
         this.collideNodes.clear();
     }
 
@@ -184,11 +196,7 @@ public class AIController {
         return pathFindingAI;
     }
 
-    public CellNode getHeadCell(PlayerTwo snake) {
-        return pathFindingGrid.getRelativeHeadCell(snake);
-    }
-
-    public CellNode getTailCell(AbstractSection tail) {
-        return pathFindingGrid.getRelativeTailCell(tail);
+    public CellNode getHeadCell(PlayerTwo snake, int r, int c) {
+        return pathFindingGrid.getRelativeHeadCell(snake,r,c);
     }
 }

@@ -17,10 +17,10 @@ public class CellNode implements Comparable<CellNode>{
 	private Rectangle visualRep;
 	private Dimension2D dimension;
 
-	private int cellID = 0;
+	private int id = 0;
 
-	private double distance = 10;
 	private double cellSize = 0;
+	private double distance = 0;
 	private double heuristic = 0;
 	private double movementCost = 10;
 	private double penaltyCost = 0;
@@ -35,6 +35,7 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean dangerZone = false;
 	private boolean pathToGoal = false;
 	private boolean pathToTail = false;
+	private boolean objective = false;
 	private boolean isTraversable = true;
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
@@ -45,7 +46,7 @@ public class CellNode implements Comparable<CellNode>{
 	private Direction directionInPath = Direction.NONE;
 
 	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, Index2D index) {
-		this.cellID = id;
+		this.id = id;
 		this.grid = grid;
 		this.index = index;
 		this.cellSize = size;
@@ -70,11 +71,11 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetValues(){
 		pathCell = false;
 		visited = false;
+		distance = 0;
 		heuristic = 0;
 		movementCost = 10;
 		penaltyCost = 0;
 		totalCost = 0;
-		distance = 0;
 	}
 
 	public void setLocation(double x, double y) {
@@ -95,7 +96,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public void updateVisuals(){
 		if (showCells){
-			if(spawnAllowed && !pathCell && !pathToTail && !occupied && !targetCell && availableCell && !playerSpawnZone)
+			if(spawnAllowed && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
 				visualRep.setFill(Color.rgb(255, 170, 0));
@@ -202,8 +203,24 @@ public class CellNode implements Comparable<CellNode>{
 		this.childNode = child;
 	}
 
-	public int getCellID() {
-		return cellID;
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	public boolean isObjective() {
+		return objective;
+	}
+
+	public void setObjective(boolean objective) {
+		this.objective = objective;
+	}
+
+	public int getID() {
+		return id;
 	}
 
 	public Index2D getIndex() {
@@ -304,14 +321,6 @@ public class CellNode implements Comparable<CellNode>{
 
 	public final void setMovementCost(double movementCost) {
 		this.movementCost = movementCost;
-	}
-
-	public double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(double distance) {
-		this.distance = distance;
 	}
 
 	public void setVisited(boolean visited) {
