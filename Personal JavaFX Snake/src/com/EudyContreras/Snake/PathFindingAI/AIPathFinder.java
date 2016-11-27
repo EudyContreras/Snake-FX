@@ -59,7 +59,6 @@ public class AIPathFinder {
 	private int safetyCheckTimer = 0;
 	private int randomBoost = 200;
 
-	private ObjectivePosition location;
 	private DistressLevel distressLevel;
 	private HeuristicType heuristicType;
 	private CurrentGoal currentGoal;
@@ -793,9 +792,19 @@ public class AIPathFinder {
 		CellNode tail = null;
 		CellNode goal = null;
 
-		LinkedPath<CellNode> path = new LinkedPath<CellNode>();
+		LinkedPath<CellNode> path = null;
 
-		if (searchType == SearchType.SHORTEST_PATH) {
+		switch(currentGoal){
+		case OBJECTIVE:
+//			for (int i = 0; i<getObjectiveCount(); i++){
+//				AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
+//				Objective objective = new Objective(snakeAI, object);
+//				newObjectives.add(objective);
+//			}
+//
+//			Collections.sort(newObjectives);
+
+			pathType = PathType.SHORTEST_PATH;
 
 			for (int i = 0; i < getObjectiveCount(); i++) {
 				AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
@@ -803,126 +812,87 @@ public class AIPathFinder {
 				paths.add(new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>(), objective));
 			}
 
-			if (!start.isDangerZone()) {
-				distressLevel = DistressLevel.LEVEL_TWO;
-			}
-			boolean checkingPaths = true;
-
-			while(checkingPaths && paths.peek()!=null){
-				path = paths.poll();
-
-				if(!path.isPathOneEmpty()){
-					pathType = PathType.SHORTEST_PATH;
-					showPathToObjective(path);
-					checkingPaths = false;
-				}
-
+			while (paths.peek() != null) {
+				newObjectives.add(paths.poll().getObjective());
 			}
 
-
-
-		} else if (searchType == SearchType.CLOSEST_OBJECTIVE) {
-
-			switch(currentGoal){
-			case OBJECTIVE:
-//				for (int i = 0; i<getObjectiveCount(); i++){
-//					AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
-//					Objective objective = new Objective(snakeAI, object);
-//					newObjectives.add(objective);
-//				}
-//
-//				Collections.sort(newObjectives);
-
-				pathType = PathType.SHORTEST_PATH;
-
-				for (int i = 0; i < getObjectiveCount(); i++) {
-					AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
-					Objective objective = new Objective(snakeAI, object);
-					paths.add(new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>(), objective));
+			if (newObjectives.size() > 0) {
+				if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
+					newObjectives.get(0).getObject().blowUpAlt();
 				}
 
-				while (paths.peek() != null) {
-					newObjectives.add(paths.poll().getObjective());
-				}
-
-				if (newObjectives.size() > 0) {
-					if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
-						newObjectives.get(0).getObject().blowUpAlt();
+				if (start != null) {
+					if (!start.isDangerZone()) {
+						distressLevel = DistressLevel.LEVEL_TWO;
 					}
 
-					if (start != null) {
-						if (!start.isDangerZone()) {
-							distressLevel = DistressLevel.LEVEL_TWO;
+					for(int i = 0; i < newObjectives.size(); i++){
+						path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
+
+						if(path!=null){
+							break;
 						}
+					}
+
+					if(path == null){
+						distressLevel = DistressLevel.LEVEL_THREE;
 
 						for(int i = 0; i < newObjectives.size(); i++){
 							path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
 
-							if(path.isPathSafe()){
+							if(path!=null){
 								break;
 							}
 						}
+					}
 
-						if(!path.isPathSafe()){
-							distressLevel = DistressLevel.LEVEL_THREE;
-
-							for(int i = 0; i < newObjectives.size(); i++){
-								path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
-
-								if(path.isPathSafe()){
-									break;
-								}
-							}
-						}
-
-						if(path.isPathSafe()){
-							log("path is safe!!");
-							showPathToObjective(path);
-						}else{
-							currentGoal = CurrentGoal.TAIL;
-							log("path is not safe!!");
-							computePath();
-						}
+					if(path!=null){
+						log("path is safe!!");
+						showPathToObjective(path);
+					}else{
+						currentGoal = CurrentGoal.TAIL;
+						log("path is not safe!!");
+						computePath();
 					}
 				}
+			}
 
-				break;
-			case TAIL:
-				pathType = PathType.LONGEST_PATH;
-				tail = controller.getGrid().getTailCell(snakeAI);
+			break;
+		case TAIL:
+			pathType = PathType.LONGEST_PATH;
+			tail = controller.getGrid().getTailCell(snakeAI);
 
-				if (tail != null) {
-					if (!start.isDangerZone()) {
-						distressLevel = DistressLevel.LEVEL_TWO;
-						path = new LinkedPath<CellNode>(GET_DFS_PATH(controller.getGrid(), start, tail), new ArrayList<>());
-					}
+			if (tail != null) {
+				if (!start.isDangerZone()) {
+					distressLevel = DistressLevel.LEVEL_TWO;
+					path = new LinkedPath<CellNode>(GET_DFS_PATH(controller.getGrid(), start, tail), new ArrayList<>());
+				}
+				if (!path.getPathOne().isEmpty()) {
+					showPathToObjective(path);
+				} else {
+
+					distressLevel = DistressLevel.LEVEL_THREE;
+					path = new LinkedPath<CellNode>(GET_DFS_PATH(controller.getGrid(), start, tail), new ArrayList<>());
+
 					if (!path.getPathOne().isEmpty()) {
+
 						showPathToObjective(path);
 					} else {
+						log("Emergency path to tail empty!");
 
 						distressLevel = DistressLevel.LEVEL_THREE;
-						path = new LinkedPath<CellNode>(GET_DFS_PATH(controller.getGrid(), start, tail), new ArrayList<>());
+						path = emergencyTeleport(controller.getGrid(), start, tail);
 
 						if (!path.getPathOne().isEmpty()) {
 
 							showPathToObjective(path);
+
 						} else {
-							log("Emergency path to tail empty!");
-
-							distressLevel = DistressLevel.LEVEL_THREE;
-							path = emergencyTeleport(controller.getGrid(), start, tail);
-
-							if (!path.getPathOne().isEmpty()) {
-
-								showPathToObjective(path);
-
-							} else {
-								// TODO: Stall until path is found or die!
-							}
+							// TODO: Stall until path is found or die!
 						}
 					}
-				}break;
-			}
+				}
+			}break;
 		}
 	}
 
@@ -966,24 +936,38 @@ public class AIPathFinder {
 	public LinkedPath<CellNode> checkObjectiveReach(CellNode start, Objective objective, int index, LinkedList<Objective> objectives){
 		if(start!=null){
 
+			CellNode tail = controller.getGrid().getTailCell(snakeAI);
+//
 //			if((objectives.get(index).getDistance()) > objectives.get(objectives.size()-1).getInterpolarDistance(start.getLocation().getX(),start.getLocation().getY())){
-//				return computeInterpolarDirection(controller.getGrid(),start,objective,objectives);
+//				LinkedPath<CellNode> path = computeInterpolarDirection(controller.getGrid(),start,objective,tail,objectives);
+//				if(path!=null){
+//					return path;
+//				}
 //			}
 //			else if((objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.4) && objectives.get(index).getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.4){
-//				return computeInterpolarDirection(controller.getGrid(),start,objective,objectives);
+//				LinkedPath<CellNode> path = computeInterpolarDirection(controller.getGrid(),start,objective,tail,objectives);
+//				if(path!=null){
+//					return path;
+//				}
 //			}
 //			else if(objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5 && objectives.get(index).getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.5){
-//				return computeInterpolarDirection(controller.getGrid(),start,objective,objectives);
+//				LinkedPath<CellNode> path = computeInterpolarDirection(controller.getGrid(),start,objective,tail,objectives);
+//				if(path!=null){
+//					return path;
+//				}
 //			}
 //			else if(objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5 && objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
-//				return computeInterpolarDirection(controller.getGrid(),start,objective,objectives);
+//				LinkedPath<CellNode> path = computeInterpolarDirection(controller.getGrid(),start,objective,tail,objectives);
+//				if(path!=null){
+//					return path;
+//				}
 //			}
 //			//TODO: Find additional conditions that may qualify for interpolation
 //
 //			else{
 				if(start!=null && objective!=null){
 
-					LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(controller.getGrid(), start, objective.getCell(), controller.getGrid().getTailCell(snakeAI));
+					LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(controller.getGrid(), start, objective.getCell(),tail);
 
 					if(path.isPathSafe()){
 						return path;
@@ -991,7 +975,7 @@ public class AIPathFinder {
 				}
 			}
 //		}
-		return new LinkedPath<CellNode>();
+		return null;
 	}
 	/*
 	 * Unsafe amd unchecked teleport method which triggers a teleportation when a the distance
@@ -999,257 +983,387 @@ public class AIPathFinder {
 	 * based on relational distance planes.
 	 */
 
-	private LinkedPath<CellNode> computeInterpolarDirection(GridNode grid, CellNode start, Objective objective, LinkedList<Objective> objectives) {
-		LinkedPath<CellNode> path;
-		CellNode portalIn;
-		CellNode portalOut;
+	private LinkedPath<CellNode> computeInterpolarDirection(GridNode grid, CellNode start, Objective objective, CellNode tail, LinkedList<Objective> objectives) {
 
 		if((objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45) && objective.getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.45){
 
 			if(start.getLocation().getX() > GameSettings.WIDTH*.65){
-
-				if(!grid.getCell(grid.getRowCount()-1, start.getIndex().getCol()).isOccupied()){
-					portalIn = grid.getCell(grid.getRowCount()-1, start.getIndex().getCol());
-					if(!grid.getCell(grid.getMinRow(), start.getIndex().getCol()).isOccupied()){
-						portalOut = grid.getCell(grid.getMinRow(), start.getIndex().getCol());
-						path = findPortalCell(grid, portalIn, portalOut, start, objectives);
-						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-							lastStep = Direction.RIGHT;
-							teleporting = true;
-							return path;
-						}
-					}
-				}else{
-					if(!grid.getCell(grid.getRowCount()-1, start.getIndex().getCol() + (start.getIndex().getCol()+2)<grid.getColumnCount()-1 ? 2 : 0).isOccupied()){
-						portalIn = grid.getCell(grid.getRowCount()-1, start.getIndex().getCol() + 2);
-						if(!grid.getCell(grid.getMinRow(), start.getIndex().getCol() + 2).isOccupied()){
-							portalOut = grid.getCell(grid.getMinRow(), start.getIndex().getCol() + 2);
-							path = findPortalCell(grid, portalIn, portalOut, start, objectives);
-							if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-								lastStep = Direction.RIGHT;
-								teleporting = true;
-								return path;
-							}
-						}
-					}else{
-						if(!grid.getCell(grid.getRowCount()-1, start.getIndex().getCol() - (start.getIndex().getCol()+2)>grid.getMinCol() ? 2 : 0).isOccupied()){
-							portalIn = grid.getCell(grid.getRowCount()-1, start.getIndex().getCol() - 2);
-							if(!grid.getCell(grid.getMinRow(), start.getIndex().getCol() - 2).isOccupied()){
-								portalOut = grid.getCell(grid.getMinRow(), start.getIndex().getCol() - 2);
-								path = findPortalCell(grid, portalIn, portalOut, start, objectives);
-								if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-									lastStep = Direction.RIGHT;
-									teleporting = true;
-									return path;
-								}
-							}
-						}else{
-							List<CellNode> eastBorder =  grid.getTeleportZoneEast();
-							for (CellNode cell : eastBorder) {
-								if (!cell.isOccupied() && !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
-									if(cell.getLocation().getY()>=start.getLocation().getY()-100){
-										distressLevel = DistressLevel.LEVEL_THREE;
-										path = findPortalCell(grid, cell, grid.getCell(grid.getMinRow(), cell.getIndex().getCol()), start, objectives);
-										if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-											lastStep = Direction.RIGHT;
-											teleporting = true;
-											return path;
-
-										}
-										else {
-											continue; //TODO: Marked out needs reasesstment
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+				return getPortal(grid, start, tail, objective, objectives, CardinalPoint.EAST);
 			}
-			if(start.getLocation().getX() < GameSettings.WIDTH*.35){
-
-				if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()).isOccupied()){
-					portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol());
-					if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol()).isOccupied()){
-						portalOut = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol());
-						path = findPortalCell(grid, portalIn, portalOut, start, objectives);
-						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-							lastStep = Direction.LEFT;
-							teleporting = true;
-							return path;
-						}
-					}
-				}else{
-
-					/*
-					 *TODO: Find out why I get a null pointer at the line below!!!!!!!!!!!!!!!!!!!!
-					 */
-					int thereshold = (start.getIndex().getCol()+2)<(grid.getColumnCount()-1) ? 2 : 0;
-					if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol() + thereshold).isOccupied()){
-						portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol() + thereshold);
-						if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol() + thereshold).isOccupied()){
-							portalOut = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol() + thereshold);
-							path = findPortalCell(grid, portalIn, portalOut, start, objectives);
-							if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-								log("HALLELOYOU!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-								lastStep = Direction.LEFT;
-								teleporting = true;
-								return path;
-							}
-						}
-					}else{
-						if(!grid.getCell(grid.getMinRow(),start.getIndex().getCol()-(start.getIndex().getCol()+2)>grid.getMinCol() ? 2 : 0).isOccupied()){
-							portalIn = grid.getCell(grid.getMinRow(),start.getIndex().getCol() - 2);
-							if(!grid.getCell(grid.getRowCount()-1,start.getIndex().getCol() - 2).isOccupied()){
-								portalOut = grid.getCell(grid.getRowCount()-1,start.getIndex().getCol() - 2);
-								path = findPortalCell(grid, portalIn, portalOut, start, objectives);
-								if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-									lastStep = Direction.LEFT;
-									teleporting = true;
-									return path;
-								}
-							}
-						}else{
-							List<CellNode> westBorder =  grid.getTeleportZoneWest();
-							for (CellNode cell : westBorder) {
-								if (!cell.isOccupied() && !grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()).isOccupied()) {
-									if(cell.getLocation().getY()>=start.getLocation().getY()-100){
-										distressLevel = DistressLevel.LEVEL_THREE;
-										path = findPortalCell(grid, cell, grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()), start, objectives);
-										if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-											lastStep = Direction.LEFT;
-											teleporting = true;
-											return path;
-										}
-										else {
-											continue; //TODO: needs reassestment
-										}
-									}
-								}
-							}
-						}
-					}
-				}
+			else if(start.getLocation().getX() < GameSettings.WIDTH*.35){
+				return getPortal(grid, start, tail, objective, objectives, CardinalPoint.WEST);
 			}
 		}
 		else if(objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45  && objective.getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.45){
 
-			//TODO: Incomplete! Implement the rest of the conditions!!
-			if(start.getLocation().getY() > GameSettings.HEIGHT*.65){
-				List<CellNode> southBorder =  grid.getTeleportZoneSouth();
-				for (CellNode cell : southBorder) {
-					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(cell.getIndex().getRow(),grid.getMinCol()).isOccupied()) {
-						distressLevel = DistressLevel.LEVEL_THREE;
-						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getMinCol()), start, objectives);
-						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-							lastStep = Direction.DOWN;
-							teleporting = true;
-							return path;
-
-						} else {
-							continue;
-						}
-					}
-				}
-			}
 			if(start.getLocation().getY() < GameSettings.HEIGHT*.35){
-				List<CellNode> northBorder =  grid.getTeleportZoneNorth();
-				for (CellNode cell : northBorder) {
-					if (!cell.isOccupied() && cell.getLocation().getX()>=start.getLocation().getX() && !grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1).isOccupied()) {
-						distressLevel = DistressLevel.LEVEL_THREE;
-						path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1), start, objectives);
-						if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-							lastStep = Direction.UP;
-							teleporting = true;
-							return path;
-
-						} else {
-							continue;
-						}
-					}
-				}
+				return getPortal(grid, start, tail, objective, objectives, CardinalPoint.NORTH);
+			}
+			else if(start.getLocation().getY() > GameSettings.HEIGHT*.65){
+				return getPortal(grid, start, tail, objective, objectives, CardinalPoint.SOUTH);
 			}
 		}
 		else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
-			new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>());
+
 		}
 		return new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, objective.getCell()),new ArrayList<>());
+	}
+
+
+	public LinkedPath<CellNode> getPortal(GridNode grid, CellNode start, CellNode tail, Objective objective, LinkedList<Objective> objectives, CardinalPoint orientation){
+
+		LinkedPath<CellNode> interpolarPath = null;
+
+		Portal2D portal = new Portal2D();
+
+		List<CellNode> enterPath;
+
+		switch(orientation){
+		case EAST:
+			enterPath = getSafeEnterPath(grid, portal, start,orientation);
+			if(enterPath!=null){
+				CellNode portalOut = grid.getCell(portal.getPortalInIndex().getRow(),grid.getMinCol());
+				if(isPortalSafe(grid, portalOut, 2, CardinalPoint.WEST)){
+					interpolarPath = createCrosspolarPath(grid, enterPath, portalOut, start, objectives);
+					if(interpolarPath != null){
+						lastStep = Direction.RIGHT;
+						teleporting = true;
+						return interpolarPath;
+					}else{
+						interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+						if(interpolarPath!=null){
+							return interpolarPath;
+						}
+					}
+				}
+			}
+			else{
+				interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+				if(interpolarPath!=null){
+					return interpolarPath;
+				}
+			}
+			break;
+		case WEST:
+			enterPath = getSafeEnterPath(grid, portal, start,orientation);
+			if(enterPath!=null){
+				CellNode portalOut = grid.getCell(portal.getPortalInIndex().getRow(),grid.getColumnCount()-1);
+				if(isPortalSafe(grid, portalOut, 2, CardinalPoint.EAST)){
+					interpolarPath = createCrosspolarPath(grid, enterPath, portalOut, start, objectives);
+					if(interpolarPath != null){
+						lastStep = Direction.LEFT;
+						teleporting = true;
+						return interpolarPath;
+					}else{
+						interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+						if(interpolarPath!=null){
+							return interpolarPath;
+						}
+					}
+				}
+			}
+			else{
+				interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+				if(interpolarPath!=null){
+					return interpolarPath;
+				}
+			}
+			break;
+		case NORTH:
+			enterPath = getSafeEnterPath(grid, portal, start,orientation);
+			if(enterPath!=null){
+				CellNode portalOut = grid.getCell(grid.getRowCount()-1,portal.getPortalInIndex().getCol());
+				if(isPortalSafe(grid, portalOut, 2, CardinalPoint.SOUTH)){
+					interpolarPath = createCrosspolarPath(grid, enterPath, portalOut, start, objectives);
+					if(interpolarPath != null){
+						lastStep = Direction.UP;
+						teleporting = true;
+						return interpolarPath;
+					}else{
+						interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+						if(interpolarPath!=null){
+							return interpolarPath;
+						}
+					}
+				}
+			}
+			else{
+				interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+				if(interpolarPath!=null){
+					return interpolarPath;
+				}
+			}
+			break;
+		case SOUTH:
+			enterPath = getSafeEnterPath(grid, portal, start,orientation);
+			if(enterPath!=null){
+				CellNode portalOut = grid.getCell(grid.getMinRow(),portal.getPortalInIndex().getCol());
+				if(isPortalSafe(grid, portalOut, 2, CardinalPoint.NORTH)){
+					interpolarPath = createCrosspolarPath(grid, enterPath, portalOut, start, objectives);
+					if(interpolarPath != null){
+						lastStep = Direction.DOWN;
+						teleporting = true;
+						return interpolarPath;
+					}else{
+						interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+						if(interpolarPath!=null){
+							return interpolarPath;
+						}
+					}
+				}
+			}
+			else{
+				interpolarPath = getSafeBorderPath(grid, start, objectives, orientation);
+				if(interpolarPath!=null){
+					return interpolarPath;
+				}
+			}
+			break;
+
+		}
+		return null;
+	}
+
+	public List<CellNode> getSafeEnterPath(GridNode grid, Portal2D portal2D, CellNode start, CardinalPoint orientation){
+		int index = 0;
+		int searchCount = 0;
+		int cellIndex = 0;
+		int [] indexes = {0,-1,1,-2,2,-3,3};
+
+		switch(orientation){
+		case EAST:
+			while(searchCount < indexes.length){
+				cellIndex = start.getIndex().getRow() + indexes[index];
+				if(cellIndex > grid.getRowCount()-1 || cellIndex < grid.getMinRow()){
+					index++; searchCount++;
+					continue;
+				}
+				CellNode portal = grid.getCell(cellIndex, grid.getColumnCount()-1);
+				if(!portal.isOccupied()){
+					List<CellNode> path = GET_ASTAR_PATH(grid, start, portal);
+					if(!path.isEmpty()){
+						portal2D.setPortalIn(portal);
+						return path;
+					}
+				}
+				index++;
+				searchCount++;
+			}
+			break;
+		case WEST:
+			while(searchCount < indexes.length){
+				cellIndex = start.getIndex().getRow() + indexes[index];
+				if(cellIndex > grid.getRowCount()-1 || cellIndex < grid.getMinRow()){
+					index++; searchCount++;
+					continue;
+				}
+				CellNode portal = grid.getCell(cellIndex, grid.getMinCol());
+				if(!portal.isOccupied()){
+					List<CellNode> path = GET_ASTAR_PATH(grid, start, portal);
+					if(!path.isEmpty()){
+						portal2D.setPortalIn(portal);
+						return path;
+					}
+				}
+				index++;
+				searchCount++;
+			}
+			break;
+		case NORTH:
+			while(searchCount < indexes.length){
+				cellIndex = start.getIndex().getCol() + indexes[index];
+				if(cellIndex > grid.getColumnCount()-1 || cellIndex < grid.getMinCol()){
+					index++; searchCount++;
+					continue;
+				}
+				CellNode portal = grid.getCell(grid.getMinRow(), cellIndex);
+				if(!portal.isOccupied()){
+					List<CellNode> path = GET_ASTAR_PATH(grid, start, portal);
+					if(!path.isEmpty()){
+						portal2D.setPortalIn(portal);
+						return path;
+					}
+				}
+				index++;
+				searchCount++;
+			}
+			break;
+		case SOUTH:
+			while(searchCount < indexes.length){
+				cellIndex = start.getIndex().getCol() + indexes[index];
+				if(cellIndex > grid.getColumnCount()-1 || cellIndex < grid.getMinCol()){
+					index++; searchCount++;
+					continue;
+				}
+				CellNode portal = grid.getCell(grid.getRowCount()-1, cellIndex);
+				if(!portal.isOccupied()){
+					List<CellNode> path = GET_ASTAR_PATH(grid, start, portal);
+					if(!path.isEmpty()){
+						portal2D.setPortalIn(portal);
+						return path;
+					}
+				}
+				index++;
+				searchCount++;
+			}
+			break;
+		}
+		return null;
+	}
+
+	public boolean isPortalSafe(GridNode grid, CellNode portalOut, int depth, CardinalPoint orientation){
+		switch (orientation) {
+		case EAST:
+			for (int i = 0; i <= depth; i++) {
+				if (grid.getCell(portalOut.getIndex().getRow(), portalOut.getIndex().getCol() - i).isOccupied()) {
+					return false;
+				}
+			}
+			return true;
+		case WEST:
+			for (int i = 0; i <= depth; i++) {
+				if (grid.getCell(portalOut.getIndex().getRow(), portalOut.getIndex().getCol() + i).isOccupied()) {
+					return false;
+				}
+			}
+			return true;
+		case NORTH:
+			for (int i = 0; i <= depth; i++) {
+				if (grid.getCell(portalOut.getIndex().getRow() + i, portalOut.getIndex().getCol()).isOccupied()) {
+					return false;
+				}
+			}
+			return true;
+		case SOUTH:
+			for (int i = 0; i <= depth; i++) {
+				if (grid.getCell(portalOut.getIndex().getRow() - i, portalOut.getIndex().getCol()).isOccupied()) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public LinkedPath<CellNode> getSafeBorderPath(GridNode grid, CellNode start, LinkedList<Objective> objectives, CardinalPoint orientation){
+		LinkedPath<CellNode> borderPath;
+		switch(orientation){
+		case EAST:
+			List<CellNode> eastBorder =  grid.getTeleportZoneEast();
+			for (CellNode cell : eastBorder) {
+				if(cell.isOccupied()){
+					continue;
+				}
+				if (!cell.isOccupied() && !grid.getCell(cell.getIndex().getRow(), grid.getMinCol()).isOccupied()) {
+					if(cell.getLocation().getY()>=start.getLocation().getY()-100){
+						borderPath = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(), grid.getMinCol()), start, objectives);
+						if (borderPath!=null) {
+							lastStep = Direction.RIGHT;
+							teleporting = true;
+							return borderPath;
+						}
+					}
+				}
+			}
+			break;
+		case WEST:
+			List<CellNode> westBoder =  grid.getTeleportZoneWest();
+			for (CellNode cell : westBoder) {
+				if(cell.isOccupied()){
+					continue;
+				}
+				if (!cell.isOccupied() && !grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1).isOccupied()) {
+					if(cell.getLocation().getY()>=start.getLocation().getY()-100){
+						borderPath = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(), grid.getColumnCount()-1), start, objectives);
+						if (borderPath!=null) {
+							lastStep = Direction.LEFT;
+							teleporting = true;
+							return borderPath;
+						}
+					}
+				}
+			}
+			break;
+		case NORTH:
+			List<CellNode> northBorder =  grid.getTeleportZoneNorth();
+			for (CellNode cell : northBorder) {
+				if(cell.isOccupied()){
+					continue;
+				}
+				if (!cell.isOccupied() && !grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()).isOccupied()) {
+					if(cell.getLocation().getX()>=start.getLocation().getX()-100){
+						borderPath = findPortalCell(grid, cell, grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()), start, objectives);
+						if (borderPath!=null) {
+							lastStep = Direction.UP;
+							teleporting = true;
+							return borderPath;
+						}
+					}
+				}
+			}
+			break;
+		case SOUTH:
+			List<CellNode> southBorder =  grid.getTeleportZoneSouth();
+			for (CellNode cell : southBorder) {
+				if(cell.isOccupied()){
+					continue;
+				}
+				if (!cell.isOccupied() && !grid.getCell(grid.getMinRow(),cell.getIndex().getCol()).isOccupied()) {
+					if(cell.getLocation().getX()>=start.getLocation().getX()-100){
+						borderPath = findPortalCell(grid, cell, grid.getCell(grid.getMinCol(),cell.getIndex().getCol()), start, objectives);
+						if (borderPath!=null) {
+							lastStep = Direction.DOWN;
+							teleporting = true;
+							return borderPath;
+						}
+					}
+				}
+			}break;
+		}
+		return null;
 	}
 
 	public LinkedPath<CellNode> emergencyTeleport(GridNode grid, CellNode start, CellNode  end) {
 		LinkedPath<CellNode> path;
 
 		if(start.getLocation().getX() > GameSettings.WIDTH*.65 && start.getLocation().getY() > GameSettings.HEIGHT*.35 && start.getLocation().getY() < GameSettings.HEIGHT*.65){
-			List<CellNode> eastBorder =  grid.getTeleportZoneEast();
-			for (CellNode cell : eastBorder) {
-				if (!cell.isOccupied() && !grid.getCell(grid.getMinRow(), cell.getIndex().getCol()).isOccupied()) {
-					distressLevel = DistressLevel.LEVEL_THREE;
-					path = findPortalCell(grid, cell, grid.getCell(grid.getMinRow(), cell.getIndex().getCol()), start, end);
-					if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-						lastStep = Direction.RIGHT;
-						teleporting = true;
-						return path;
 
-					} else {
-						continue;
-					}
-				}
-			}
 		}
 		if(start.getLocation().getX() < GameSettings.WIDTH*.35 && start.getLocation().getY() > GameSettings.HEIGHT*.35 && start.getLocation().getY() < GameSettings.HEIGHT*.65){
-			List<CellNode> westBorder =  grid.getTeleportZoneWest();
-			for (CellNode cell : westBorder) {
-				if (!cell.isOccupied() && !grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()).isOccupied()) {
-					distressLevel = DistressLevel.LEVEL_THREE;
-					path = findPortalCell(grid, cell, grid.getCell(grid.getRowCount()-1,cell.getIndex().getCol()), start, end);
-					if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-						lastStep = Direction.LEFT;
-						teleporting = true;
-						return path;
 
-					} else {
-						continue;
-					}
-				}
-			}
 		}
-
 		if(start.getLocation().getY() > GameSettings.HEIGHT*.65 && start.getLocation().getX() > GameSettings.WIDTH && start.getLocation().getX() < GameSettings.WIDTH*.65){
-			List<CellNode> southBorder =  grid.getTeleportZoneSouth();
-			for (CellNode cell : southBorder) {
-				if (!cell.isOccupied() && !grid.getCell(cell.getIndex().getRow(),grid.getMinCol()).isOccupied()) {
-					distressLevel = DistressLevel.LEVEL_THREE;
-					path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getMinCol()), start, end);
-					if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-						lastStep = Direction.DOWN;
-						teleporting = true;
-						return path;
 
-					} else {
-						continue;
-					}
-				}
-			}
 		}
 		if(start.getLocation().getY() < GameSettings.HEIGHT*.35 && start.getLocation().getX() > GameSettings.WIDTH && start.getLocation().getX() < GameSettings.WIDTH*.65){
-			List<CellNode> northBorder =  grid.getTeleportZoneNorth();
-			for (CellNode cell : northBorder) {
-				if (!cell.isOccupied() && !grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1)  .isOccupied()) {
-					distressLevel = DistressLevel.LEVEL_THREE;
-					path = findPortalCell(grid, cell, grid.getCell(cell.getIndex().getRow(),grid.getColumnCount()-1), start, end);
-					if (!path.getPathOne().isEmpty() && !path.getPathTwo().isEmpty()) {
-						lastStep = Direction.UP;
-						teleporting = true;
-						return path;
 
-					} else {
-						continue;
-					}
-				}
-			}
 		}
 
 		return new LinkedPath<CellNode>(GET_ASTAR_PATH(controller.getGrid(), start, end),new ArrayList<>());
+	}
+
+	private LinkedPath<CellNode> createCrosspolarPath(GridNode grid, List<CellNode> enterPath, CellNode portalOut, CellNode start, LinkedList<Objective> objectives){
+
+		List<CellNode> pathFromPortal = null;
+
+		PriorityQueue<Distance>  distances = new PriorityQueue<Distance>(objectives.size(), new DistanceComparator());
+
+		for (int i = 0; i < objectives.size(); i++) {
+			distances.add(new Distance(portalOut,game.getGameObjectController().getObsFruitList().get(i)));
+		}
+
+		while (distances.peek() != null) {
+
+			LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(grid,portalOut,distances.poll().getObject().getCell(),controller.getGrid().getTailCell(snakeAI));
+
+			if(path.isPathSafe()){
+
+				pathFromPortal = path.getPathOne();
+
+				return new LinkedPath<CellNode>(enterPath, pathFromPortal);
+			}
+		}
+		return null;
 	}
 
 	private LinkedPath<CellNode> findPortalCell(GridNode grid, CellNode portalIn, CellNode portalOut, CellNode start, LinkedList<Objective> objectives){
@@ -1263,135 +1377,57 @@ public class AIPathFinder {
 			distances.add(new Distance(portalOut,game.getGameObjectController().getObsFruitList().get(i)));
 		}
 
-		distressLevel = DistressLevel.LEVEL_THREE;
+		pathToPortal = GET_ASTAR_PATH(grid, start, portalIn);
 
-		if(!portalOut.isOccupied()){
+		if (!pathToPortal.isEmpty()) {
 
-//			for (int i = 0; i < distances.size(); i++) {
-//				if (distances.peek() != null) {
-//					pathToPortal = GET_ASTAR_PATH(controller.getGrid(), start, portalIn);
-//					if (!pathToPortal.isEmpty()) {
-//						pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut,distances.poll().getObject().getCell());
-//						return new LinkedPath(pathToPortal, pathFromPortal);
-//					}
-//				}
-//			}
-			pathToPortal = GET_ASTAR_PATH(controller.getGrid(), start, portalIn);
+			while (distances.peek() != null) {
 
-			if (!pathToPortal.isEmpty()) {
-				pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+				LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(grid,portalOut,distances.poll().getObject().getCell(),controller.getGrid().getTailCell(snakeAI));
 
-				if(!pathFromPortal.isEmpty()){
-					return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
-				}
-				else{
-					pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+				if(path.isPathSafe()){
 
-					if(!pathFromPortal.isEmpty()){
-						return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
-					}
-					else{
-						pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+					pathFromPortal = path.getPathOne();
 
-						if(!pathFromPortal.isEmpty()){
-							return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
-						}
-						else{
-							pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
-
-							if(!pathFromPortal.isEmpty()){
-								return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
-							}
-						}
-					}
+					return new LinkedPath<CellNode>(pathToPortal, pathFromPortal);
 				}
 			}
 		}
-		return new LinkedPath<CellNode>(pathToPortal, pathFromPortal);
-	}
 
-	private LinkedPath<CellNode> findPortalCell(GridNode grid, CellNode portalIn, CellNode portalOut, CellNode start, CellNode objective){
-
-		List<CellNode> pathToPortal = null;
-		List<CellNode> pathFromPortal = null;
-
-		distressLevel = DistressLevel.LEVEL_THREE;
-
-		if(!portalOut.isOccupied()){
-
-			pathToPortal = GET_ASTAR_PATH(controller.getGrid(), start, portalIn);
-
-			if (!pathToPortal.isEmpty()) {
-				pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, objective);
-
-				if(!pathFromPortal.isEmpty()){
-					return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
-				}
-				else{
-
-					PriorityQueue<Distance>  distances = new PriorityQueue<Distance>(getObjectiveCount(), new DistanceComparator());
-
-					for (int i = 0; i < getObjectiveCount(); i++) {
-						distances.add(new Distance(portalOut,game.getGameObjectController().getObsFruitList().get(i)));
-					}
-
-//					for (int i = 0; i < distances.size(); i++) {
-//						if (distances.peek() != null) {
-//							if (!pathToPortal.isEmpty()) {
-//								pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
-//								return new LinkedPath(pathToPortal, pathFromPortal);
+//			pathToPortal = GET_ASTAR_PATH(controller.getGrid(), start, portalIn);
+//
+//			if (!pathToPortal.isEmpty()) {
+//				pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+//
+//				if(!pathFromPortal.isEmpty()){
+//					return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
+//				}
+//				else{
+//					pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+//
+//					if(!pathFromPortal.isEmpty()){
+//						return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
+//					}
+//					else{
+//						pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+//
+//						if(!pathFromPortal.isEmpty()){
+//							return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
+//						}
+//						else{
+//							pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+//
+//							if(!pathFromPortal.isEmpty()){
+//								return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
 //							}
 //						}
 //					}
-					pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut, distances.poll().getObject().getCell());
+//				}
+//			}
 
-					if (!pathFromPortal.isEmpty()) {
-						return new LinkedPath<CellNode>(pathToPortal, pathFromPortal);
-					} else {
-						pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut,distances.poll().getObject().getCell());
-
-						if (!pathFromPortal.isEmpty()) {
-							return new LinkedPath<CellNode>(pathToPortal, pathFromPortal);
-						} else {
-							pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut,distances.poll().getObject().getCell());
-
-							if (!pathFromPortal.isEmpty()) {
-								return new LinkedPath<CellNode>(pathToPortal, pathFromPortal);
-							} else {
-								pathFromPortal = GET_ASTAR_PATH(controller.getGrid(), portalOut,distances.poll().getObject().getCell());
-
-								if (!pathFromPortal.isEmpty()) {
-									return new LinkedPath<CellNode>(pathToPortal, pathFromPortal);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return new LinkedPath<CellNode>(pathToPortal,pathFromPortal);
+		return null;
 	}
 
-
-
-	/**
-	 * TODO: Perform a check to determine if the computed path to the objective is a safe path
-	 * by computing a path from the start to the objective and from the objective to the tail of the snake.
-	 * The path must be computed as a special path which considers the path to the objective to be an obstacle.
-	 * Create a special path made out of special obstacles from the start to goal. The path must be an abstract path. Once
-	 * that path is created then compute a path from the goal to the tail of the snake, the path must ignore nodes that
-	 * belong to the path from start to goal. If a path can be created from goal to tail then the given a path can
-	 * be consider somewhat "Safe"!!. If the path is safe allow the snake to go for the apple. but if the path isnt safe
-	 *
-	 * @param start
-	 * @param goal
-	 * @param tail
-	 * @return
-	 */
-	public boolean isPathSafe(CellNode start, CellNode goal, CellNode tail){
-
-		return true;
-	}
 	/**
 	 * Condition which checks the relative location of the player and the calculates which edge
 	 * the player is closest too. Once the closest edge is determined we check which cells on that edge
@@ -1422,31 +1458,9 @@ public class AIPathFinder {
 	 */
 	private boolean isPathSafe(GridNode grid, CellNode start, CellNode goal, CellNode tail) {
 
-		List<CellNode> pathToTail = GET_ASTAR_PATH(controller.getGrid(), goal, tail);
+		LinkedPath<CellNode> safeCheck = GET_SAFE_ASTAR_PATH(grid, start, goal, tail);
 
-		for (int i = 1; i < pathToTail.size() - 1; i++) {
-			pathToTail.get(i).pathToGoal(true);
-		}
-
-		List<CellNode> pathToGoal = GET_ASTAR_PATH(controller.getGrid(), start, goal, DistressLevel.SAFETY_CHECK);
-
-		if (!pathToGoal.isEmpty() && !pathToTail.isEmpty()) {
-
-			for (int i = 1; i < pathToTail.size() - 1; i++) {
-				pathToTail.get(i).pathToGoal(false);
-			}
-			log("Safe path");
-			return true;
-		}
-		else{
-			distressLevel = DistressLevel.LEVEL_THREE;
-			log("UnSafe Path");
-			for (int i = 1; i < pathToTail.size() - 1; i++) {
-				pathToTail.get(i).pathToGoal(false);
-			}
-
-			return false;
-		}
+		return safeCheck.isPathSafe();
 
 	}
 
@@ -1487,19 +1501,23 @@ public class AIPathFinder {
 	}
 
 	private LinkedPath<CellNode> calculateDirection(LinkedPath<CellNode> paths) {
-		for (CellNode node : paths.getPathOne()) {
-			if (node.getParentNode() != null) {
-				node.setPathCell(true);
-				if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
-					node.getParentNode().setDirection(Direction.RIGHT);
-				} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
-					node.getParentNode().setDirection(Direction.LEFT);
-				} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
-					node.getParentNode().setDirection(Direction.DOWN);
-				} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
-					node.getParentNode().setDirection(Direction.UP);
+		if(!paths.getPathOne().isEmpty()){
+			for (CellNode node : paths.getPathOne()) {
+				if (node.getParentNode() != null) {
+					node.setPathCell(true);
+					if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
+						node.getParentNode().setDirection(Direction.RIGHT);
+					} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
+						node.getParentNode().setDirection(Direction.LEFT);
+					} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
+						node.getParentNode().setDirection(Direction.DOWN);
+					} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
+						node.getParentNode().setDirection(Direction.UP);
+					}
 				}
 			}
+			paths.getPathOne().get(0).setDirection(lastStep);
+			lastStep = Direction.NONE;
 		}
 		if (!paths.getPathTwo().isEmpty() && paths.getType() == ConnectionType.INTERPOLAR_PATH){
 			for (CellNode node : paths.getPathTwo()) {
@@ -1517,9 +1535,6 @@ public class AIPathFinder {
 				}
 			}
 		}
-
-		paths.getPathOne().get(0).setDirection(lastStep);
-		lastStep = Direction.NONE;
 		return paths;
 	}
 	/**
@@ -1754,16 +1769,12 @@ public class AIPathFinder {
 		return snakeAI.getCurrentDirection();
 	}
 
-	public ObjectivePosition getLocation() {
-		return location;
-	}
-
 	public Rectangle2D getCollisionBounds() {
 		return snakeAI.getAIBounds();
 	}
 
-	public void setLocation(ObjectivePosition location) {
-		this.location = location;
+	private enum CardinalPoint{
+		WEST, EAST, NORTH, SOUTH
 	}
 
 	private enum CurrentGoal{
@@ -1776,10 +1787,6 @@ public class AIPathFinder {
 
 	private enum TieBreaker{
 		PATH,CROSS, NONE
-	}
-
-	private enum ObjectivePosition {
-		NORTH, SOUTH, WEST, EAST, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST
 	}
 
 	public enum ActionType {
