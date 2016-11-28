@@ -108,8 +108,8 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
 				visualRep.setFill(Color.RED.darker());
-//			if(isPathToTail())
-//				visualRep.setFill(Color.GRAY);
+			if(isPathToTail())
+				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
 			if(isPathCell())
@@ -122,6 +122,23 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.BLACK);
 			if(isPlayerSpawnZone() && isSpawnAllowed() && !isPathCell())
 				visualRep.setFill(Color.WHITE);
+		}
+	}
+
+	public void killFamily() {
+		if(getParentNode()!=null){
+			if(getParentNode().getParentNode()!=null){
+				getParentNode().setParentNode(null);
+			}else{
+				setParentNode(null);
+			}
+		}
+		if(getChildNode()!=null){
+			if(getChildNode().getChildNode()!=null){
+				getChildNode().setChildNode(null);
+			}else{
+				setChildNode(null);
+			}
 		}
 	}
 

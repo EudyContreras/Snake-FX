@@ -91,6 +91,7 @@ public class AIController {
         pathFindingGrid.setColliderList(collideNodes);
         pathFindingGrid.setPenaltiesList(penaltyNodes);
 
+        pathFindingGrid.resetCells(true);
         pathFindingGrid.computeValidCells();
     }
 
@@ -106,9 +107,10 @@ public class AIController {
 
     public void nofifyAI() {
     	if(!hasBeenNotified){
+    		hasBeenNotified = true;
     		pathFindingAI.computePath();
-    		hasBeenNotified = false;
     	}
+
     }
 
     private void updateAIEvents() {
