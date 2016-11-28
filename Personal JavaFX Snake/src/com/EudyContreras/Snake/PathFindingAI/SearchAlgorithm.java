@@ -12,7 +12,7 @@ import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
-public class PathAlgorithms {
+public class SearchAlgorithm {
 
 	private double heuristicScale = 2;
 
@@ -20,7 +20,7 @@ public class PathAlgorithms {
 	private PathType pathType;
 	private TieBreaker tieBreaker;
 
-	public PathAlgorithms(){
+	public SearchAlgorithm(){
 		this.initialize();
 	}
 

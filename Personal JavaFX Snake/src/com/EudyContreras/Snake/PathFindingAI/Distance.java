@@ -19,7 +19,7 @@ public class Distance implements Comparable<Distance>{
 	}
 
 	public Distance(CellNode start, AbstractObject objective){
-		this.distance = PathAlgorithms.calculateManhathanDistance(start.getLocation().getX(), objective.getX(),start.getLocation().getY(),objective.getY());
+		this.distance = SearchAlgorithm.calculateManhathanDistance(start.getLocation().getX(), objective.getX(),start.getLocation().getY(),objective.getY());
 		this.object = objective;
 	}
 

@@ -32,7 +32,7 @@ public class Objective implements Comparable<Objective>{
 	}
 
 	private void computeDistances(){
-		this.normalDistance = PathAlgorithms.calculateManhathanDistance(snakeAI.getX(), object.getX(), snakeAI.getY(), object.getY());
+		this.normalDistance = SearchAlgorithm.calculateManhathanDistance(snakeAI.getX(), object.getX(), snakeAI.getY(), object.getY());
 	}
 
 	public double getXDistance(double x){

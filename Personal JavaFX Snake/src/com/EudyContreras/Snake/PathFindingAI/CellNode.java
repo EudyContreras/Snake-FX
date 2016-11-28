@@ -20,9 +20,6 @@ public class CellNode implements Comparable<CellNode>{
 
 	private int id = 0;
 
-	private double x;
-	private double y;
-	private double size;
 	private double cellSize = 0;
 	private double distance = 0;
 	private double heuristic = 0;
@@ -52,10 +49,7 @@ public class CellNode implements Comparable<CellNode>{
 	public CellNode(){}
 
 	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, Index2D index) {
-		this.x = x;
-		this.y = y;
 		this.id = id;
-		this.size = size;
 		this.grid = grid;
 		this.index = index;
 		this.layer = layer;
@@ -114,8 +108,8 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
 				visualRep.setFill(Color.RED.darker());
-			if(isPathToTail())
-				visualRep.setFill(Color.GRAY);
+//			if(isPathToTail())
+//				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
 			if(isPathCell())
@@ -435,6 +429,11 @@ public class CellNode implements Comparable<CellNode>{
 		return clonedCell;
 
 	}
+
+	public double getDistanceFrom(CellNode from) {
+		return SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
