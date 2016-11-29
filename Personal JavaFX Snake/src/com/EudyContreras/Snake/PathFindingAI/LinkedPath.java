@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.PathFindingAI;
 import java.util.LinkedList;
 import java.util.List;
 
-public class LinkedPath<T>{
+public class LinkedPath<T> implements Comparable<LinkedPath<T>>{
 
 	private ConnectionType type;
 	private Objective objective;
@@ -109,4 +109,10 @@ public class LinkedPath<T>{
 	public enum ConnectionType{
 		SAFE_PATH_CHECK, INTERPOLAR_PATH
 	}
+
+	@Override
+	public int compareTo(LinkedPath<T> path) {
+		return Double.compare(getPathOneLength(),path.getPathOneLength());
+	}
+
 }

@@ -31,6 +31,230 @@ public class SearchAlgorithm {
 		tieBreaker = TieBreaker.NONE;
 	}
 
+	public CellNode GET_FARTHEST_CELL(PlayerTwo snakeAI, GridNode grid, CellNode from){
+		CellNode farthestCell = null;
+
+		List<CellNode> edges = grid.getEdges();
+
+		double maxDistance = -1;
+
+		for(CellNode edge: edges){
+
+			if (edge == null) {
+				continue;
+			}
+
+			if (edge.isOccupied()){
+				continue;
+			}
+
+			double distance = edge.getDistanceFrom(from);
+
+			if(distance > maxDistance){
+
+				maxDistance = distance;
+
+				farthestCell = edge;
+			}
+		}
+
+		return farthestCell;
+	}
+
+
+	public void LABEL_DISTANCES(GridNode grid, CellNode from){
+
+		List<CellNode> neighbors = grid.getNeighborCells(from, DistressLevel.LEVEL_THREE);
+
+		for(CellNode neighbor : neighbors){
+			if (neighbor == null) {
+				continue;
+			}
+
+			if (neighbor.isVisited()){
+				continue;
+			}
+
+			neighbor.setDistance(from.getDistance()+1);
+
+			LABEL_DISTANCES(grid,neighbor);
+		}
+	}
+
+	public List<CellNode> GET_LONGEST_PATH_ALT(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel){
+
+		Stack<CellNode> openCollection = new Stack<>();
+
+		List<CellNode> path = null;
+
+		CellNode current = null;
+
+		int searchCount = 0;
+
+		boolean containsNeighbor;
+
+		grid.resetCells(true);
+
+		switch(snakeAI.getCurrentDirection()){
+
+		case MOVE_DOWN:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		case MOVE_LEFT:
+			startingPoint.setDirection(Direction.LEFT);
+			break;
+		case MOVE_RIGHT:
+			startingPoint.setDirection(Direction.RIGHT);
+			break;
+		case MOVE_UP:
+			startingPoint.setDirection(Direction.UP);
+			break;
+		case STANDING_STILL:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		}
+
+		LABEL_DISTANCES(grid,objective);
+
+		startingPoint.setVisited(true);
+
+		objective.setObjective(true);
+
+		openCollection.push(startingPoint);
+
+		while (!openCollection.isEmpty()) {
+
+			current = openCollection.pop();
+
+			searchCount++;
+
+			if (current.equals(objective)) {
+
+				return buildPath(CurrentGoal.OBJECTIVE, current, searchCount);
+			}
+
+			current.setVisited(true);
+
+			for (CellNode neighbor : grid.getNeighborCells(current,distressLevel)) {
+
+				if (neighbor == null) {
+					continue;
+				}
+
+				if (neighbor.isVisited()) {
+					continue;
+				}
+
+				if (!(containsNeighbor = openCollection.contains(neighbor))) {
+
+					if (!containsNeighbor && neighbor.getDistance() > current.getDistance()) {
+
+//						if(neighbor.getDirection())
+
+						neighbor.setParentNode(current);
+
+						neighbor.setDistance(current.getDistance()+1);
+
+						if(neighbor.getIndex().getRow() > current.getIndex().getRow()){
+							current.setDirection(Direction.RIGHT);
+						}
+						else if (neighbor.getIndex().getRow() < current.getIndex().getRow()) {
+							current.setDirection(Direction.LEFT);
+						}
+						else if (neighbor.getIndex().getCol() > current.getIndex().getCol()) {
+							current.setDirection(Direction.DOWN);
+						}
+						else if (neighbor.getIndex().getCol() < current.getIndex().getCol()) {
+							current.setDirection(Direction.UP);
+						}
+
+						neighbor.setVisited(true);
+
+						openCollection.add(neighbor);
+					}
+				}
+			}
+		}
+		return path;
+	}
+
+	public List<CellNode> GET_LONGEST_PATH(int iteration, PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
+
+		List<CellNode> result = null;
+
+		grid.resetCells(true);
+
+		if (iteration == 0) {
+			switch (snakeAI.getCurrentDirection()) {
+
+			case MOVE_DOWN:
+				startingPoint.setDirection(Direction.DOWN);
+				break;
+			case MOVE_LEFT:
+				startingPoint.setDirection(Direction.LEFT);
+				break;
+			case MOVE_RIGHT:
+				startingPoint.setDirection(Direction.RIGHT);
+				break;
+			case MOVE_UP:
+				startingPoint.setDirection(Direction.UP);
+				break;
+			case STANDING_STILL:
+				startingPoint.setDirection(Direction.DOWN);
+				break;
+			}
+		}
+
+		if (startingPoint.equals(objective)) {
+
+			List<CellNode> path = new LinkedList<CellNode>();
+
+			path.add(startingPoint);
+
+			return path;
+		}
+
+		objective.setObjective(true);
+
+		startingPoint.setDistance(0);
+
+		startingPoint.setVisited(true);
+
+		int maxLength = -1;
+
+		for (CellNode neighbor : grid.getNeighborCells(startingPoint,distressLevel)) {
+
+			if (neighbor == null) {
+				continue;
+			}
+
+			if (neighbor.isVisited()){
+				continue;
+			}
+
+			neighbor.setDistance(startingPoint.getDistance()+1);
+
+			List<CellNode> path = GET_LONGEST_PATH(iteration+1, snakeAI, grid, neighbor, objective, distressLevel);
+
+			if (path != null && path.size() > maxLength) {
+
+				maxLength = path.size();
+
+				path.add(0, startingPoint);
+
+				result = path;
+			}
+		}
+
+		startingPoint.setVisited(false);
+
+		if (result == null || result.size() == 0){
+			return null;
+		}
+
+		return result;
+	}
+
 	public List<CellNode> GET_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
 		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new CellComparator());
@@ -44,8 +268,6 @@ public class SearchAlgorithm {
 		boolean containsNeighbor;
 
 		grid.resetCells(true);
-
-		openCollection.add(startingPoint);
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -67,9 +289,13 @@ public class SearchAlgorithm {
 
 		objective.setObjective(true);
 
+		startingPoint.setVisited(true);
+
 		startingPoint.setMovementCost(0d);
 
 		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective,heuristicScale,heuristicType)); //The higher the scale the less the number of turn: scale from 1 to 2
+
+		openCollection.add(startingPoint);
 
 		while (!openCollection.isEmpty()) {
 
@@ -200,7 +426,7 @@ public class SearchAlgorithm {
 			searchCount++;
 
 			if (current.equals(objective)) {
-				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+				return buildPath(CurrentGoal.OBJECTIVE, current, searchCount);
 			}
 
 			current.setVisited(true);
@@ -281,7 +507,7 @@ public class SearchAlgorithm {
 
 			if (current.equals(objective)) {
 
-				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+				return buildPath(CurrentGoal.OBJECTIVE, current, searchCount);
 			}
 
 			current.setVisited(true);
@@ -314,6 +540,16 @@ public class SearchAlgorithm {
 		return new ArrayList<>();
 	}
 
+	/**
+	 * Perform a check to determine if the computed path to the objective is a safe path
+	 * by computing a path from the start to the objective and from the objective to the tail of the snake.
+	 * The path must be computed as a special path which considers the path to the objective to be an obstacle.
+	 * Create a special path made out of special obstacles from the start to goal. The path must be an abstract path. Once
+	 * that path is created then compute a path from the goal to the tail of the snake, the path must ignore nodes that
+	 * belong to the path from start to goal. If a path can be created from goal to tail then the given a path can
+	 * be consider somewhat "Safe"!!. If the path is safe allow the snake to go for the apple. but if the path isnt safe
+	 * repeat the process which each possible objective until a safe path is found.
+	 */
 	public LinkedPath<CellNode> GET_SAFE_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, CellNode tail, DistressLevel distressLevel) {
 		LinkedPath<CellNode> safePath = new LinkedPath<CellNode>(ConnectionType.SAFE_PATH_CHECK);
 
