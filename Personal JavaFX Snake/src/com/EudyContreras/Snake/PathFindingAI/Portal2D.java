@@ -6,6 +6,10 @@ public class Portal2D {
 	private CellNode portalOut;
 
 
+	public Portal2D(){
+
+	}
+
 	public CellNode getPortalIn() {
 		return portalIn;
 	}

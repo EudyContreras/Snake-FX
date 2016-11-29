@@ -114,5 +114,4 @@ public class LinkedPath<T> implements Comparable<LinkedPath<T>>{
 	public int compareTo(LinkedPath<T> path) {
 		return Double.compare(getPathOneLength(),path.getPathOneLength());
 	}
-
 }

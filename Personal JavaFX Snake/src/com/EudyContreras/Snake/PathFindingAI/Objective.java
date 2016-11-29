@@ -12,13 +12,19 @@ public class Objective implements Comparable<Objective>{
 	private CellNode cell;
 	private PlayerTwo snakeAI;
 	private AbstractObject object;
+	private SortingType sorting;
 	private ObjectivePosition location;
 
 	public Objective(PlayerTwo snake, AbstractObject object) {
+		this(snake,object,SortingType.CLOSEST);
+	}
+
+	public Objective(PlayerTwo snake, AbstractObject object, SortingType sorting) {
 		this.x = object.getX();
 		this.y = object.getY();
 		this.snakeAI = snake;
 		this.object = object;
+		this.sorting = sorting;
 		this.cell = object.getCell();
 		this.computeDistances();
 	}
@@ -158,11 +164,24 @@ public class Objective implements Comparable<Objective>{
 
 	@Override
 	public int compareTo(Objective distance) {
-		return Double.compare(this.getDistance(),distance.getDistance());
+		switch(sorting){
+		case CLOSEST:
+			return Double.compare(this.getDistance(),distance.getDistance());
+		case FARTHEST:
+			return Double.compare(distance.getDistance(),this.getDistance());
+		default:
+			return Double.compare(this.getDistance(),distance.getDistance());
+
+		}
+	}
+
+	public enum SortingType{
+		CLOSEST, FARTHEST
 	}
 
 	private enum ObjectivePosition {
 		NORTH, SOUTH, WEST, EAST, NORTH_WEST, NORTH_EAST, SOUTH_WEST, SOUTH_EAST
 	}
+
 
 }

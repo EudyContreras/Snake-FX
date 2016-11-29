@@ -199,7 +199,7 @@ public class AIController {
     }
 
     public CellNode getHeadCell(PlayerTwo snake) {
-        return pathFindingGrid.getRelativeHeadCell(snake);
+        return pathFindingGrid.getRelativeHeadCell(snake,0,0);
     }
 
     public CellNode getTailCell(PlayerTwo snake) {
