@@ -1,67 +1,66 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-import java.util.LinkedList;
-import java.util.List;
-
-public class LinkedPath<T> implements Comparable<LinkedPath<T>>{
+public class LinkedPath<NODE,DIRECTION> implements Comparable<LinkedPath<NODE, DIRECTION>>{
 
 	private ConnectionType type;
+
 	private Objective objective;
-	private List<T> pathOne;
-	private List<T> pathTwo;
+
+	private Path2D<NODE, DIRECTION> pathOne;
+	private Path2D<NODE, DIRECTION> pathTwo;
 
 	public LinkedPath() {
-		this(new LinkedList<>(),new LinkedList<>());
+		this(new Path2D<NODE, DIRECTION>(), new Path2D<NODE, DIRECTION>());
 	}
 
 	public LinkedPath(ConnectionType type) {
-		this(new LinkedList<>(),new LinkedList<>());
+		this(new Path2D<NODE, DIRECTION>(), new Path2D<NODE, DIRECTION>());
 		this.type = type;
 	}
 
-	public LinkedPath(List<T> pathOne, List<T> pathTwo) {
+	public LinkedPath(Path2D<NODE, DIRECTION> pathOne, Path2D<NODE, DIRECTION> pathTwo) {
 		this(pathOne, pathTwo, null);
 	}
 
-	public LinkedPath(List<T> pathOne, List<T> pathTwo, Objective objective) {
+	public LinkedPath(Path2D<NODE, DIRECTION> pathOne, Path2D<NODE, DIRECTION> pathTwo, Objective objective) {
 		super();
 		this.objective = objective;
 		this.type = ConnectionType.INTERPOLAR_PATH;
 		if (pathOne != null && pathTwo != null) {
-			this.pathOne = !pathOne.isEmpty() ? pathOne : new LinkedList<>();
-			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new LinkedList<>();
+			this.pathOne = !pathOne.isEmpty() ? pathOne : new  Path2D<NODE, DIRECTION>();
+			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new  Path2D<NODE, DIRECTION>();
 		}
 		else{
-			this.pathOne = new LinkedList<>();
-			this.pathTwo = new LinkedList<>();
+			this.pathOne = new  Path2D<NODE, DIRECTION>();
+			this.pathTwo = new  Path2D<NODE, DIRECTION>();
 		}
 	}
 
-	public List<T> getJoinedPath(){
-		List<T> joinPath = new LinkedList<>();
+	public Path2D<NODE, DIRECTION> getJoinedPath(){
+		 Path2D<NODE, DIRECTION> joinPath = new  Path2D<NODE, DIRECTION>();
 
 		if(!pathOne.isEmpty()){
-			joinPath.addAll(pathOne);
+			joinPath.addPath2D(pathOne);
 		}
 		if(!pathTwo.isEmpty()){
-			joinPath.addAll(pathTwo);
+			joinPath.addPath2D(pathTwo);
 		}
 		return joinPath;
 	}
 
-	public void setPathOne(List<T> pathOne){
+	public void setPathOne(Path2D<NODE, DIRECTION> pathOne){
 		this.pathOne = pathOne;
 	}
 
-	public void setPathTwo(List<T> pathTwo){
+	public void setPathTwo(Path2D<NODE, DIRECTION> pathTwo){
 		this.pathTwo = pathTwo;
 	}
 
-	public List<T> getPathOne() {
+	public Path2D<NODE, DIRECTION> getPathOne() {
 		return pathOne;
 	}
 
-	public List<T> getPathTwo() {
+	public Path2D<NODE, DIRECTION> getPathTwo() {
 		return pathTwo;
 	}
 
@@ -111,7 +110,7 @@ public class LinkedPath<T> implements Comparable<LinkedPath<T>>{
 	}
 
 	@Override
-	public int compareTo(LinkedPath<T> path) {
+	public int compareTo(LinkedPath<NODE, DIRECTION> path) {
 		return Double.compare(getPathOneLength(),path.getPathOneLength());
 	}
 }

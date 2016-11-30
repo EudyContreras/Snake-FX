@@ -475,7 +475,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public double getDistanceFrom(CellNode from) {
-		return SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
+		return 0;// SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
 	}
 
 	@Override
