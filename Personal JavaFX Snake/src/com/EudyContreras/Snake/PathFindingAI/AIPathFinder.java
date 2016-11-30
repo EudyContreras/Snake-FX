@@ -66,6 +66,7 @@ public class AIPathFinder {
 	private Direction lastStep;
 
 	private LinkedPath<CellNode> pathCoordinates;
+	private LinkedList<Direction> directions;
 
 
 	public AIPathFinder(GameManager game, PlayerTwo snakeAI) {
@@ -167,6 +168,10 @@ public class AIPathFinder {
 		return pathFinder.GET_FARTHEST_CELL(snakeAI, controller.getGrid(), from);
 	}
 
+	public List<CellNode> GET_BRUTE_PATH(CellNode from) {
+		return pathFinder.GET_BRUTE_PATH(snakeAI, controller.getGrid(), from, 5);
+	}
+
 	public List<CellNode> GET_LONGEST_LIST(List<List<CellNode>> lists) {
 		return pathFinder.GET_LONGEST_LIST(lists);
 	}
@@ -175,12 +180,16 @@ public class AIPathFinder {
 		return pathFinder.GET_SHORTEST_LIST(lists);
 	}
 
-	public List<CellNode> GET_LONGEST_PATH(CellNode start, BorderPole pole) {
-		return pathFinder.GET_LONGEST_PATH(0, snakeAI, controller.getGrid(), start, distressLevel, pole);
+	public List<CellNode> GET_LONGEST_PATH_POLY(CellNode start, CellNode objective) {
+		return pathFinder.GET_LONGEST_PATH_POLY(snakeAI, controller.getGrid(), start, objective, distressLevel);
 	}
 
-	public List<CellNode> GET_LONGEST_PATH(CellNode start, CellNode objective) {
-		return pathFinder.GET_LONGEST_PATH(0, snakeAI, controller.getGrid(), start, objective, distressLevel);
+	public List<CellNode> GET_LONGEST_PATH_EXP(CellNode start, BorderPole pole) {
+		return pathFinder.GET_LONGEST_PATH_EXP(0, snakeAI, controller.getGrid(), start, distressLevel, pole);
+	}
+
+	public List<CellNode> GET_LONGEST_PATH_EXP(CellNode start, CellNode objective) {
+		return pathFinder.GET_LONGEST_PATH_EXP(0, snakeAI, controller.getGrid(), start, objective, distressLevel);
 	}
 
 	public List<CellNode> GET_LONGEST_PATH_ALT(CellNode start, CellNode objective) {
@@ -220,7 +229,8 @@ public class AIPathFinder {
 			}
 
 			Collections.sort(objectives);
-			break;
+
+			return objectives;
 		case SHORTEST_PATH:
 			PriorityQueue<LinkedPath<CellNode>> paths = new PriorityQueue<LinkedPath<CellNode>>(getObjectiveCount(), new PathLengthComparator());
 
@@ -233,7 +243,8 @@ public class AIPathFinder {
 			while (paths.peek() != null) {
 				objectives.add(paths.poll().getObjective());
 			}
-			break;
+
+			return objectives;
 		}
 		return objectives;
 	}
@@ -243,6 +254,7 @@ public class AIPathFinder {
 		teleporting = false;
 
 		CellNode start = controller.getHeadCell(snakeAI);
+//		CellNode previous = controller.getGrid().getPrevious(snakeAI, start);
 		CellNode tail = null;
 
 		LinkedPath<CellNode> path = null;
@@ -250,20 +262,9 @@ public class AIPathFinder {
 		switch(currentGoal){
 		case OBJECTIVE:
 
-			LinkedList<Objective> newObjectives = new LinkedList<>();
-			PriorityQueue<LinkedPath<CellNode>>  paths = new PriorityQueue<LinkedPath<CellNode>>(getObjectiveCount(), new PathLengthComparator());
+			LinkedList<Objective> newObjectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE,SortingType.CLOSEST);
 
 			pathFinder.setPathType(PathType.SHORTEST_PATH);
-
-			for (int i = 0; i < getObjectiveCount(); i++) {
-				AbstractObject object = game.getGameObjectController().getObsFruitList().get(i);
-				Objective objective = new Objective(snakeAI, object);
-				paths.add(new LinkedPath<CellNode>(GET_ASTAR_PATH(start, objective.getCell()),new ArrayList<>(), objective));
-			}
-
-			while (paths.peek() != null) {
-				newObjectives.add(paths.poll().getObjective());
-			}
 
 			if (newObjectives.size() > 0) {
 				if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
@@ -276,8 +277,9 @@ public class AIPathFinder {
 					}
 
 					for(int i = 0; i < newObjectives.size(); i++){
-						path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
-
+//						path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
+//						path = new LinkedPath<CellNode>(this.GET_LONGEST_PATH_POLY(start, newObjectives.get(i).getCell()), new ArrayList<>());
+						path = new LinkedPath<CellNode>(this.GET_BRUTE_PATH(start), new ArrayList<>());
 						if(path!=null){
 							break;
 						}
@@ -287,8 +289,8 @@ public class AIPathFinder {
 						distressLevel = DistressLevel.LEVEL_THREE;
 
 						for(int i = 0; i < newObjectives.size(); i++){
-							path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
-
+//							path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
+							path = new LinkedPath<CellNode>(this.GET_LONGEST_PATH_POLY(start, newObjectives.get(i).getCell()), new ArrayList<>());
 							if(path!=null){
 								break;
 							}
@@ -369,6 +371,7 @@ public class AIPathFinder {
 	private boolean pathChecker(){
 
 		LinkedList<Objective> newObjectives = new LinkedList<>();
+		
 		PriorityQueue<LinkedPath<CellNode>>  paths = new PriorityQueue<LinkedPath<CellNode>>(getObjectiveCount(), new PathLengthComparator());
 
 		CellNode start = controller.getHeadCell(snakeAI);
@@ -1137,6 +1140,7 @@ public class AIPathFinder {
 		if(cell.isObjective()){
 			cell.setObjective(false);
 			log("Objective reached");
+//			computePath();
 			controller.nofifyAI();
 		}
 	}

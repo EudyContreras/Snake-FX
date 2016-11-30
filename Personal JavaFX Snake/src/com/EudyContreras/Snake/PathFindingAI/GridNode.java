@@ -7,7 +7,6 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
-import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -145,6 +144,14 @@ public class GridNode {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].resetValues();
+			}
+		}
+	}
+
+	public void prepareDistances(int distance) {
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				cellNodes[row][col].setDistance(distance);
 			}
 		}
 	}
@@ -440,6 +447,60 @@ public class GridNode {
 		}
 
 		return neighbors;
+	}
+
+	public CellNode getPrevious(PlayerTwo snakeAI, CellNode cell){
+		CellNode previous = null;
+
+		Neighbor neighbor = null;
+
+		switch(snakeAI.getCurrentDirection()){
+		case MOVE_DOWN:
+			neighbor = Neighbor.NORTH;
+			break;
+		case MOVE_LEFT:
+			neighbor = Neighbor.EAST;
+			break;
+		case MOVE_RIGHT:
+			neighbor = Neighbor.WEST;
+			break;
+		case MOVE_UP:
+			neighbor = Neighbor.SOUTH;
+			break;
+		case STANDING_STILL:
+			neighbor = Neighbor.NORTH;
+			break;
+
+		}
+		previous = getNeighbor(cell, neighbor);
+
+		return previous;
+	}
+
+	public CellNode[] getGhildren(CellNode cell){
+
+		List<CellNode> children = new LinkedList<>();
+
+		CellNode north = getNeighbor(cell, Neighbor.NORTH);
+		CellNode south = getNeighbor(cell, Neighbor.SOUTH);
+		CellNode east = getNeighbor(cell, Neighbor.EAST);
+		CellNode west = getNeighbor(cell, Neighbor.WEST);
+
+		if(north!=null && !north.equals(cell) && north.isTraversable()){
+			children.add(north);
+		}
+		if(south!=null && !south.equals(cell) && south.isTraversable()){
+			children.add(south);
+		}
+		if(east!=null && !east.equals(cell) && east.isTraversable()){
+			children.add(east);
+		}
+		if(west!=null && !west.equals(cell) && west.isTraversable()){
+			children.add(west);
+		}
+
+		CellNode[] childArray = new CellNode[children.size()];
+		return children.toArray(childArray);
 	}
 
 	public CellNode getHeadCell() {

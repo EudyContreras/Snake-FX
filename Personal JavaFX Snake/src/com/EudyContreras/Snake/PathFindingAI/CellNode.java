@@ -14,7 +14,7 @@ public class CellNode implements Comparable<CellNode>{
 	private Point2D location;
 	private GridNode grid;
 	private CellNode parentNode;
-	private CellNode childNode;
+	private CellNode[] children;
 	private Rectangle visualRep;
 	private Dimension2D dimension;
 
@@ -55,7 +55,8 @@ public class CellNode implements Comparable<CellNode>{
 		this.layer = layer;
 		this.cellSize = size;
 		this.location = new Point2D(x, y);
-		this.dimension = new Dimension2D(size, size);
+		this.dimension = new Dimension2D(size, size);;
+		this.distance = -1;
 		if (showCells && layer!=null) {
 			this.visualRep = new Rectangle(size, size);
 			this.visualRep.setX(location.getX());
@@ -69,17 +70,21 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetConnections(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
-		childNode = null;
+		clear(children);
 	}
 
 	public void resetValues(){
 		pathCell = false;
 		visited = false;
-		distance = 0;
+		distance = -1;
 		heuristic = 0;
 		movementCost = 10;
 		penaltyCost = 0;
 		totalCost = 0;
+	}
+
+	public void clear(CellNode[] children){
+		for(int i = 0; i<children.length; children[i] = null, i++);
 	}
 
 	public void setLocation(double x, double y) {
@@ -133,11 +138,16 @@ public class CellNode implements Comparable<CellNode>{
 				setParentNode(null);
 			}
 		}
-		if(getChildNode()!=null){
-			if(getChildNode().getChildNode()!=null){
-				getChildNode().setChildNode(null);
-			}else{
-				setChildNode(null);
+		if(getChildren().length>0){
+			for(int i = 0; i<getChildren().length; i++){
+				if(getChildren()[i]!=null){
+					if(getChildren()[i].getChildren()!=null){
+						getChildren()[i].setChildren(null);
+					}
+					else{
+						setChildren(null);
+					}
+				}
 			}
 		}
 	}
@@ -204,8 +214,8 @@ public class CellNode implements Comparable<CellNode>{
 		return parentNode;
 	}
 
-	public final CellNode getChildNode() {
-		return childNode;
+	public final CellNode[] getChildren() {
+		return children;
 	}
 
 	public final void setPlayerSpawnZone(boolean state) {
@@ -220,8 +230,8 @@ public class CellNode implements Comparable<CellNode>{
 		this.parentNode = parent;
 	}
 
-	public final void setChildNode(CellNode child) {
-		this.childNode = child;
+	public final void setChildren(CellNode[] children) {
+		this.children = children;
 	}
 
 	public double getDistance() {
@@ -439,12 +449,29 @@ public class CellNode implements Comparable<CellNode>{
 			clonedCell.setParentNode(parentNode.getCloned());
 		}
 
-		if( getChildNode() != null) {
-			clonedCell.setChildNode(childNode.getCloned());
+		if( getChildren().length > 0) {
+			clonedCell.setChildren(getChildren());
 		}
 
 		return clonedCell;
 
+	}
+
+	public Direction getDirectionTo(CellNode node){
+
+		if (node.getIndex().getRow() > getIndex().getRow()) {
+			return Direction.DOWN;
+		}
+		else if (node.getIndex().getRow() < getIndex().getRow()) {
+			return Direction.UP;
+		}
+		else if (node.getIndex().getCol() > getIndex().getCol()) {
+			return Direction.RIGHT;
+		}
+		else if (node.getIndex().getCol() < getIndex().getCol()) {
+			return Direction.LEFT;
+		}
+		return Direction.NONE;
 	}
 
 	public double getDistanceFrom(CellNode from) {

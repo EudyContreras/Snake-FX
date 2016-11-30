@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.PathFindingAI;
 public class Cell {
 	public int row;
 	public int col;
+	boolean visited;
 
 	public Cell(int row, int column) {
 		this.row = row;

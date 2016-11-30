@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public  class LongestPathInMaze {
 		return path;
 	}
 
-	private static LinkedList<Cell> findLongestPath(boolean[][] maze, Cell start, Cell end) {
-		LinkedList<Cell> result = null;
+	private static List<Cell> findLongestPath(boolean[][] maze, Cell start, Cell end) {
+		List<Cell> result = null;
 		int rows = maze.length;
 		int cols = maze[0].length;
 		if (start.row < 0 || start.col < 0)
@@ -37,7 +38,7 @@ public  class LongestPathInMaze {
 		if (maze[start.row][start.col] == true)
 			return null;
 		if (start.equals(end)) {
-			LinkedList<Cell> path = new LinkedList<Cell>();
+			List<Cell> path = new ArrayList<Cell>();
 			path.add(start);
 			return path;
 		}
@@ -49,10 +50,10 @@ public  class LongestPathInMaze {
 		nextCells[3] = new Cell(start.row, start.col - 1);
 		int maxLength = -1;
 		for (Cell nextCell : nextCells) {
-			LinkedList<Cell> path = findLongestPath(maze, nextCell, end);
+			List<Cell> path = findLongestPath(maze, nextCell, end);
 			if (path != null && path.size() > maxLength) {
 				maxLength = path.size();
-				path.addFirst(start);;
+				path.add(0,start);
 				result = path;
 			}
 		}
