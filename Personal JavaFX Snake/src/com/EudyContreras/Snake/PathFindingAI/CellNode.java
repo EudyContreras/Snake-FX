@@ -76,6 +76,7 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetValues(){
 		pathCell = false;
 		visited = false;
+		objective = false;
 		distance = -1;
 		heuristic = 0;
 		movementCost = 10;
@@ -84,6 +85,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public void clear(CellNode[] children){
+		if(children!=null)
 		for(int i = 0; i<children.length; children[i] = null, i++);
 	}
 

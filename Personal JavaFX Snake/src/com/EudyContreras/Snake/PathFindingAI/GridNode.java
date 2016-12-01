@@ -32,7 +32,9 @@ public class GridNode {
 	private PlayerTwo snakeAI;
 	private CellNode[][] cellNodes;
 
-	private LinkedList<CellNode> mapEdges;
+	private List<CellNode> mapEdges;
+	private List<CellNode> freeCells;
+
 	private LinkedList<CollideNode> colliders;
 	private LinkedList<CollideNode> penalties;
 
@@ -55,6 +57,7 @@ public class GridNode {
 //		this.game.getBaseLayer().setScaleY(.4);
 		this.calculateCells();
 		this.createTeleportZones();
+		this.createFreeCells();
 		this.createEdges();
 	}
 
@@ -66,6 +69,7 @@ public class GridNode {
 	}
 
 	public void placeCells() {
+		freeCells = new LinkedList<>();
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
 				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
@@ -127,6 +131,17 @@ public class GridNode {
 		mapEdges.addAll(teleportZoneSouth);
 	}
 
+	public void createFreeCells(){
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				CellNode cell = cellNodes[row][col];
+				if(!cell.isTraversable() && !cell.isDangerZone()){
+					freeCells.add(cell);
+				}
+			}
+		}
+	}
+
 	public void resetCells(boolean resetSafetyCheck) {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
@@ -148,12 +163,42 @@ public class GridNode {
 		}
 	}
 
-	public void prepareDistances(int distance) {
+	public void resetDistances(int distance) {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].setDistance(distance);
 			}
 		}
+	}
+
+	public void prepareDistances(CellNode from) {
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				CellNode cell = cellNodes[row][col];
+
+				if(!cell.isTraversable()){
+					continue;
+				}
+				cell.setDistance(cell.getDistanceFrom(from));
+			}
+		}
+	}
+
+	public boolean areAllVisited(){
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = minCol; col < cellNodes[row].length; col++) {
+				CellNode cell = cellNodes[row][col];
+
+				if(!cell.isTraversable()){
+					continue;
+				}
+
+				if(!cell.isVisited()){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public void computeValidCells() {
@@ -545,6 +590,10 @@ public class GridNode {
 
 	public List<CellNode> getEdges() {
 		return mapEdges;
+	}
+
+	public List<CellNode> getFreeCells(){
+		return freeCells;
 	}
 
 	public final LinkedList<CellNode> getTeleportZoneWest() {
