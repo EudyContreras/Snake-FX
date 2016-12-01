@@ -135,7 +135,7 @@ public class GridNode {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode cell = cellNodes[row][col];
-				if(!cell.isTraversable() && !cell.isDangerZone()){
+				if(cell.isTraversable() && !cell.isDangerZone() && !cell.isTeleportZone()){
 					freeCells.add(cell);
 				}
 			}

@@ -108,7 +108,7 @@ public class AIController {
     public void nofifyAI() {
     	if(!hasBeenNotified){
     		hasBeenNotified = true;
-//    		pathFindingAI.computePath();
+    		pathFindingAI.computePath();
     	}
 
     }
