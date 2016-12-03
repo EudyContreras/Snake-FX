@@ -25,7 +25,6 @@ public class GridNode {
 
 	private boolean showCells;
 
-	private CellNode head;
 	private CellNode headCell;
 	private CellNode tailCell;
 	private GameManager game;

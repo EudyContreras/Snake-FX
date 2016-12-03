@@ -477,38 +477,50 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public double getDistanceFrom(CellNode from) {
-		return SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final CellNode other = (CellNode) obj;
-		if (this.index.getRow() != other.index.getRow()) {
-			return false;
-		}
-		if (this.index.getCol() != other.index.getCol()) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 3;
-		hash = 17 * hash + this.index.getRow();
-		hash = 17 * hash + this.index.getCol();
-		return hash;
+		return 0;//SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
 	}
 
 	@Override
 	public int compareTo(CellNode node) {
 		return Double.compare(this.getTotalCost(),node.getTotalCost());
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((index == null) ? 0 : index.hashCode());
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CellNode other = (CellNode) obj;
+		if (this.index.getRow() != other.index.getRow())
+			return false;
+		if (this.index.getCol() != other.index.getCol())
+			return false;
+		if (id != other.id)
+			return false;
+		if (index == null) {
+			if (other.index != null)
+				return false;
+		} else if (!index.equals(other.index))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		return true;
 	}
 
 
