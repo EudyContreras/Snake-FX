@@ -25,6 +25,7 @@ public class GridNode {
 
 	private boolean showCells;
 
+	private CellNode head;
 	private CellNode headCell;
 	private CellNode tailCell;
 	private GameManager game;
@@ -262,7 +263,7 @@ public class GridNode {
 	}
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
-		CellNode cell = getCells()[r][c];
+		CellNode cell = null;
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode tempCell = cellNodes[row][col];
@@ -278,9 +279,14 @@ public class GridNode {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode cell = cellNodes[row][col];
-				if (cell.getBoundsCheck().intersects(snake.getAIBounds())) {
+				if (cell.getBoundsCheck().contains(snake.getAIBounds())) {
 					setHeadCell(cell);
 					return cell;
+				}else{
+					if (cell.getBoundsCheck().intersects(snake.getAIBounds())) {
+						setHeadCell(cell);
+						return cell;
+					}
 				}
 			}
 		}
@@ -417,19 +423,19 @@ public class GridNode {
 		switch(scenario){
 		case LEVEL_ONE:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
 				neighbors.add(tempCell);
 			}
 			break;
