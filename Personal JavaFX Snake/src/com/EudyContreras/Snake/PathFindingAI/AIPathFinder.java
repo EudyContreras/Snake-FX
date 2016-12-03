@@ -16,7 +16,6 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PathFindingAI.Objective.SortingType;
-import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.BorderPole;
 import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.PathType;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -51,7 +50,7 @@ public class AIPathFinder {
 	private boolean allowChecks = false;
 	private boolean teleporting = false;
 	private boolean safetyCheck = false;
-	private boolean onPath = false;
+	private boolean onPath = true;
 
 	private double checkTimer = 100;
 
@@ -112,10 +111,10 @@ public class AIPathFinder {
 			state = ActionType.FIND_PATH;
 			lastStep = Direction.NONE;
 			logDirections = false;
-			allowChecks = false;
+			allowChecks = true;
 			teleporting = false;
 			safetyCheck = false;
-			onPath = false;
+			onPath = true;
 			checkTimer = 100;
 			safetyCheckTimer = 0;
 			randomBoost = 200;
@@ -190,10 +189,6 @@ public class AIPathFinder {
 		return pathFinder.GET_LONGEST_PATH_POLY(snakeAI, controller.getGrid(), start, objective, distressLevel);
 	}
 
-	public Path2D<CellNode, Direction> GET_LONGEST_PATH_ALT(CellNode start, CellNode objective) {
-		return pathFinder.GET_LONGEST_PATH_ALT(snakeAI, controller.getGrid(), start, objective, distressLevel);
-	}
-
 	public Path2D<CellNode, Direction> GET_BFS_PATH(CellNode start, CellNode objective) {
 		return pathFinder.GET_BFS_PATH(snakeAI,controller.getGrid(),start,objective,distressLevel);
 	}
@@ -202,7 +197,7 @@ public class AIPathFinder {
 		return pathFinder.GET_DFS_PATH(snakeAI,controller.getGrid(),start,objective,distressLevel);
 	}
 
-	public boolean DOES_PATH_EXIST(CellNode start, CellNode objective) {
+	public boolean QUICK_PATH_CHECK(CellNode start, CellNode objective) {
 		return pathFinder.QUICK_PATH_SEARCH(controller.getGrid(), start, objective);
 	}
 
@@ -255,7 +250,6 @@ public class AIPathFinder {
 		teleporting = false;
 
 		CellNode start = controller.getHeadCell(snakeAI);
-//		CellNode previous = controller.getGrid().getPrevious(snakeAI, start);
 		CellNode tail = null;
 
 		LinkedPath<CellNode, Direction> path = null;
@@ -278,29 +272,21 @@ public class AIPathFinder {
 					}
 
 					for(int i = 0; i < newObjectives.size(); i++){
-//						path = new LinkedPath<CellNode, Direction>(this.GET_ASTAR_LONGEST_PATH(start, newObjectives.get(i).getCell()),new Path2D<>());
-//						path = new LinkedPath<CellNode, Direction>(this.GET_ASTAR_PATH(start, this.GET_FARTHEST_CELL(start)), new Path2D<>());
-//						path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
-						path = new LinkedPath<CellNode, Direction>(this.GET_LONGEST_PATH_POLY(start, newObjectives.get(i).getCell()), new Path2D<>());
-//						path = new LinkedPath<CellNode, Direction>(this.GET_BRUTE_PATH(start), new Path2D<CellNode, Direction>());
+						path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
 						if(path!=null){
 							break;
 						}
 					}
+					if(path == null){
+						distressLevel = DistressLevel.LEVEL_THREE;
 
-//					if(path == null){
-//						distressLevel = DistressLevel.LEVEL_THREE;
-//
-//						for(int i = 0; i < newObjectives.size(); i++){
-//							path = new LinkedPath<CellNode, Direction>(this.GET_ASTAR_LONGEST_PATH(start, newObjectives.get(i).getCell()),new Path2D<>());
-//
-////							path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
-////							path = new LinkedPath<CellNode, Direction>(this.GET_LONGEST_PATH_POLY(start, newObjectives.get(i).getCell()), new Path2D<CellNode, Direction>());
-//							if(path!=null){
-//								break;
-//							}
-//						}
-//					}
+						for(int i = 0; i < newObjectives.size(); i++){
+							path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
+							if(path!=null){
+								break;
+							}
+						}
+					}
 
 					if(path!=null){
 						log("path is safe!!");
@@ -320,58 +306,71 @@ public class AIPathFinder {
 			tail = controller.getGrid().getTailCell(snakeAI);
 
 			if (tail != null) {
-				if (!start.isDangerZone()) {
-					distressLevel = DistressLevel.LEVEL_TWO;
-				}
+//				if (!start.isDangerZone() && !start.isTeleportZone()) {
+//					distressLevel = DistressLevel.LEVEL_ONE;
+//				}
+//
+//				path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new Path2D<>());
+//
+//				if (!path.getPathOne().isEmpty()) {
+//					showPathToObjective(path);
+//				} else {
 
-				path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new Path2D<CellNode, Direction>());
-
-				if (!path.getPathOne().isEmpty()) {
-					showPathToObjective(path);
-				} else {
-
-					distressLevel = DistressLevel.LEVEL_THREE;
-					path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new Path2D<CellNode, Direction>());
+					if (!start.isDangerZone()) {
+						distressLevel = DistressLevel.LEVEL_TWO;
+					}
+					path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new Path2D<>());
 
 					if (!path.getPathOne().isEmpty()) {
 
 						showPathToObjective(path);
 					} else {
-						log("Emergency path to tail empty!");
 
 						distressLevel = DistressLevel.LEVEL_THREE;
 
-						LinkedList<Objective> objectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE, SortingType.FARTHEST);
+						path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new Path2D<>());
 
-						while(!objectives.isEmpty()){
+						if (!path.getPathOne().isEmpty()) {
 
-							path = emergencyTeleport(controller.getGrid(), start, objectives.removeFirst().getCell());
-
-							if(path!=null){
-								break;
-							}
-						}
-
-						if (path!=null) {
 							showPathToObjective(path);
 						} else {
 
-							log("Emergency teleport path to tail empty!");
-							//TODO: Stall
-							//TODO: Find farthest point in the grid
-							//Make a path to said point and once the point is reach
-							//Attempt a path search again.
-							currentGoal = CurrentGoal.FARTHEST_CELL;
-							allowChecks = false;
-							computePath();
+							log("Emergency path to tail empty!");
+
+							distressLevel = DistressLevel.LEVEL_THREE;
+
+							LinkedList<Objective> objectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE, SortingType.FARTHEST);
+
+							while(!objectives.isEmpty()){
+
+								path = emergencyTeleport(controller.getGrid(), start, objectives.removeFirst().getCell());
+
+								if(path!=null){
+									break;
+								}
+							}
+
+							if (path!=null) {
+								showPathToObjective(path);
+							} else {
+
+								log("Emergency teleport path to tail empty!");
+								//TODO: Stall
+								//TODO: Find farthest point in the grid
+								//Make a path to said point and once the point is reach
+								//Attempt a path search again.
+//								currentGoal = CurrentGoal.FARTHEST_CELL;
+//								allowChecks = false;
+//								computePath();
+							}
 						}
 					}
-				}
+//				}
 			}break;
 		case FARTHEST_CELL:
 			break;
 		}
-		controller.setHasBeenNotified(true);
+		controller.setHasBeenNotified(false);
 	}
 
 	/**
@@ -1042,28 +1041,28 @@ public class AIPathFinder {
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 					switch (cell.getDirection()) {
 					case DOWN:
-//						pathCoordinates.getPathOne().removeNode(cell);
+						pathCoordinates.getPathOne().removeNode(cell);
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
 						cell.setPathCell(false);
 						objectiveReached(cell);
 						onPath = true;
 						break;
 					case LEFT:
-//						pathCoordinates.getPathOne().removeNode(cell);
+						pathCoordinates.getPathOne().removeNode(cell);
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
 						cell.setPathCell(false);
 						objectiveReached(cell);
 						onPath = true;
 						break;
 					case RIGHT:
-//						pathCoordinates.getPathOne().removeNode(cell);
+						pathCoordinates.getPathOne().removeNode(cell);
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
 						cell.setPathCell(false);
 						objectiveReached(cell);
 						onPath = true;
 						break;
 					case UP:
-//						pathCoordinates.getPathOne().removeNode(cell);
+						pathCoordinates.getPathOne().removeNode(cell);
 						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
 						cell.setPathCell(false);
 						objectiveReached(cell);
@@ -1133,8 +1132,8 @@ public class AIPathFinder {
 		if(cell.isObjective()){
 			cell.setObjective(false);
 			log("Objective reached");
-			computePath();
-//			controller.nofifyAI();
+//			computePath();
+			controller.nofifyAI();
 		}
 	}
 	/**
