@@ -14,7 +14,6 @@ import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
-import com.EudyContreras.Snake.PathFindingAI.GridNode.Flag;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PathFindingAI.Objective.SortingType;
 import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.PathType;
@@ -112,7 +111,7 @@ public class AIPathFinder {
 			state = ActionType.FIND_PATH;
 			lastStep = Direction.NONE;
 			logDirections = false;
-			allowChecks = false;
+			allowChecks = true;
 			teleporting = false;
 			safetyCheck = false;
 			onPath = true;
@@ -250,7 +249,7 @@ public class AIPathFinder {
 	public synchronized void computePath(){
 		teleporting = false;
 
-		GridNode grid = controller.getGrid();
+//		GridNode grid = controller.getGrid();
 		CellNode start = controller.getHeadCell(snakeAI);
 		CellNode tail = null;
 
@@ -358,7 +357,7 @@ public class AIPathFinder {
 							if (path!=null) {
 								showPathToObjective(path);
 							} else {
-								game.pauseGame();
+//								game.pauseGame();
 								log("Emergency teleport path to tail empty!");
 								//TODO: Stall
 								//TODO: Find farthest point in the grid
@@ -388,7 +387,7 @@ public class AIPathFinder {
 	 * be consider somewhat "Safe"!!. If the path is safe allow the snake to go for the apple. but if the path isnt safe
 	 */
 
-	private boolean pathChecker(){
+	private boolean safePathChecker(){
 
 		LinkedList<Objective> newObjectives = new LinkedList<>();
 
@@ -980,7 +979,8 @@ public class AIPathFinder {
 	}
 
 	private void showPathToObjective(LinkedPath<CellNode, Direction> cells){
-		setPathCoordinates(calculateDirection(cells));
+//		setPathCoordinates(calculateDirection(cells));
+		setPathCoordinates(cells);
 		if (logDirections) {
 			for (int i = cells.getPathOne().size() - 1; i >= 0; i--) {
 				log("Direction: "+i+ "  = " + cells.getPathOne().getNode(i).getDirection().toString());
@@ -1076,7 +1076,7 @@ public class AIPathFinder {
 					case NONE:
 						onPath = false;
 //						cell.setPathCell(false);
-//						objectiveReached(cell);
+						objectiveReached(cell);
 						break;
 					}
 				}
@@ -1117,13 +1117,98 @@ public class AIPathFinder {
 						case NONE:
 							onPath = false;
 //							cell.setPathCell(false);
-//							objectiveReached(cell);
+							objectiveReached(cell);
 							break;
 						}
 					}
 				}
 			}
 		}
+
+//		if (pathCoordinates != null) {
+//			for (int index = 0; index < pathCoordinates.getPathOne().size(); index++) {
+//				cell = pathCoordinates.getPathOne().getNode(index);
+//				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
+//					switch (cell.getDirection()) {
+//					case DOWN:
+//						pathCoordinates.getPathOne().removeNode(cell);
+//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
+//						cell.setPathCell(false);
+//						objectiveReached(cell);
+//						onPath = true;
+//						break;
+//					case LEFT:
+//						pathCoordinates.getPathOne().removeNode(cell);
+//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
+//						cell.setPathCell(false);
+//						objectiveReached(cell);
+//						onPath = true;
+//						break;
+//					case RIGHT:
+//						pathCoordinates.getPathOne().removeNode(cell);
+//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
+//						cell.setPathCell(false);
+//						objectiveReached(cell);
+//						onPath = true;
+//						break;
+//					case UP:
+//						pathCoordinates.getPathOne().removeNode(cell);
+//						game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
+//						cell.setPathCell(false);
+//						objectiveReached(cell);
+//						onPath = true;
+//						break;
+//					case NONE:
+//						onPath = false;
+////						cell.setPathCell(false);
+//						objectiveReached(cell);
+//						break;
+//					}
+//				}
+//			}
+//			if(!pathCoordinates.getPathTwo().isEmpty() && pathCoordinates.getType() == ConnectionType.INTERPOLAR_PATH){
+//				for (int index = 0; index < pathCoordinates.getPathTwo().size(); index++) {
+//					cell = pathCoordinates.getPathTwo().getNode(index);
+//					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
+//						switch (cell.getDirection()) {
+//						case DOWN:
+//							pathCoordinates.getPathTwo().removeNode(cell);
+//							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_DOWN);
+//							cell.setPathCell(false);
+//							objectiveReached(cell);
+//							onPath = true;
+//							break;
+//						case LEFT:
+//							pathCoordinates.getPathTwo().removeNode(cell);
+//							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_LEFT);
+//							cell.setPathCell(false);
+//							objectiveReached(cell);
+//							onPath = true;
+//							break;
+//						case RIGHT:
+//							pathCoordinates.getPathTwo().removeNode(cell);
+//							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
+//							cell.setPathCell(false);
+//							objectiveReached(cell);
+//							onPath = true;
+//							break;
+//						case UP:
+//							pathCoordinates.getPathTwo().removeNode(cell);
+//							game.getGameLoader().getPlayerTwo().setDirectCoordinates(PlayerMovement.MOVE_UP);
+//							cell.setPathCell(false);
+//							objectiveReached(cell);
+//							onPath = true;
+//							break;
+//						case NONE:
+//							onPath = false;
+////							cell.setPathCell(false);
+//							objectiveReached(cell);
+//							break;
+//						}
+//					}
+//				}
+//			}
+//		}
 		if(head != null){
 			if(head.isPathToGoal()){
 				onPath = true;

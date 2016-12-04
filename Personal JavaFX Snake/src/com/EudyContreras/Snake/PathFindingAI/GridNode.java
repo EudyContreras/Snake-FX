@@ -150,6 +150,7 @@ public class GridNode {
 				cellNodes[row][col].resetValues();
 				if(resetSafetyCheck){
 					cellNodes[row][col].pathToGoal(false);
+					cellNodes[row][col].pathToTail(false);
 				}
 			}
 		}
@@ -210,13 +211,7 @@ public class GridNode {
 
 	public void computeValidCells() {
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = 0; col < 1; col++) {
-				CellNode cell = cellNodes[row][col];
-				cell.setTraversable(false);
-				cell.setColor(Color.RED);
-			}
-		}
+
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].setContainsTarget(false);
@@ -271,6 +266,13 @@ public class GridNode {
 						}
 					}
 				}
+			}
+		}
+		for (int row = minRow; row < cellNodes.length; row++) {
+			for (int col = 0; col < 1; col++) {
+				CellNode cell = cellNodes[row][col];
+				cell.setTraversable(false);
+				cell.setColor(Color.RED);
 			}
 		}
 	}

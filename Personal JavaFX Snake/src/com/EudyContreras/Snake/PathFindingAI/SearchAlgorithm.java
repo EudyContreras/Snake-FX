@@ -876,7 +876,7 @@ public class SearchAlgorithm {
 
 			current.setVisited(true);
 
-			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_TAIL)) {
+			for( CellNode neighbor: grid.getNeighborCells(current, distressLevel)) {
 
 				if( neighbor == null) {
 					continue;
@@ -952,8 +952,6 @@ public class SearchAlgorithm {
 		turnPenalty = 0;
 
 		searchCount = 0;
-
-		grid.resetPathToTail();
 
 		grid.resetCellValues();
 
@@ -1080,44 +1078,36 @@ public class SearchAlgorithm {
 			while((current = current.getParentNode()) != null) {
 
 				totalPath.getNodes().add(current);
-				current.pathToGoal(true);
+				current.pathToTail(true);
 			}
 
 			break;
 		case TAIL:
-			totalPath.getNodes().add( current);
-			current.pathToTail(true);
+			totalPath.getNodes().add(current);
+			current.pathToGoal(true);
 
-			boolean searching = true;
-			while(searching) {
-				if(current.getParentNode()!=null){
-					current = current.getParentNode();
-					totalPath.getNodes().add(current);
-					if(current.isAvailable()){
-						current.pathToTail(true);
-					}
-				}else{
-					searching = false;
-				}
+			while((current = current.getParentNode()) != null) {
 
+				totalPath.getNodes().add(current);
+				current.pathToTail(true);
 			}
 
 			break;
 		}
 
-//		for (CellNode node : totalPath.getNodes()) {
-//			if (node.getParentNode() != null) {
-//				if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
-//					totalPath.addDirection(Direction.RIGHT);
-//				} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
-//					totalPath.addDirection(Direction.LEFT);
-//				} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
-//					totalPath.addDirection(Direction.DOWN);
-//				} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
-//					totalPath.addDirection(Direction.UP);
-//				}
-//			}
-//		}
+		for (CellNode node : totalPath.getNodes()) {
+			if (node.getParentNode() != null) {
+				if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
+					totalPath.addDirection(Direction.RIGHT);
+				} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
+					totalPath.addDirection(Direction.LEFT);
+				} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
+					totalPath.addDirection(Direction.DOWN);
+				} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
+					totalPath.addDirection(Direction.UP);
+				}
+			}
+		}
 		return totalPath;
 	}
 
