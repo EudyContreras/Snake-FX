@@ -1159,7 +1159,7 @@ public class SearchAlgorithmBK {
 
 			current.setVisited(true);
 
-			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK)) {
+			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_GOAL)) {
 
 				if( neighbor == null) {
 					continue;

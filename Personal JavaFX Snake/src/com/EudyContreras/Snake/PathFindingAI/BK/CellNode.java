@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFindingAI;
+package com.EudyContreras.Snake.PathFindingAI.BK;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;

@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFindingAI;
+package com.EudyContreras.Snake.PathFindingAI.BK;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +15,7 @@ import com.EudyContreras.Snake.PathFindingAI.GridNode.Neighbor;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
-public class SearchAlgorithm {
+public class SearchAlgorithmBK {
 
 	private static final int INFINITY = Integer.MAX_VALUE;
 	private static final int heuristicScale = 2;
@@ -24,7 +24,7 @@ public class SearchAlgorithm {
 	private TieBreaker tieBreaker;
 	private PathType pathType;
 
-	public SearchAlgorithm(){
+	public SearchAlgorithmBK(){
 		this.initialize();
 	}
 
@@ -342,6 +342,64 @@ public class SearchAlgorithm {
 		return false;
 	}
 
+
+	public Path2D<CellNode, Direction> GET_ASTAR_LONGEST_PATH(GridNode grid, CellNode startingPoint, CellNode objective) {
+
+		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new CellDistanceComparator());
+
+		CellNode current = null;
+
+		int searchCount = 1;
+
+		grid.resetCells(true);
+
+		grid.resetDistances(INFINITY);
+
+		grid.prepareDistances(objective);
+
+		objective.setObjective(true);
+
+		startingPoint.setVisited(true);
+
+		openCollection.add(startingPoint);
+
+		while (!openCollection.isEmpty()) {
+
+			current = openCollection.poll();
+
+			searchCount--;
+
+			if (current.equals(objective)) {
+
+				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+			}
+
+			current.setVisited(true);
+
+			List<CellNode> neighbors = grid.getNeighborCells(current, DistressLevel.LEVEL_THREE);
+
+			SORT_NODES(neighbors, SortingMethod.DISTANCE_SORT, SortingOrder.DESCENDING);
+
+			for (CellNode neighbor : neighbors) {
+
+				if (neighbor == null) {
+					continue;
+				}
+
+				if (neighbor.isVisited()){
+					continue;
+				}
+
+				neighbor.setParentNode(current);
+
+				openCollection.add(neighbor);
+
+				searchCount++;
+			}
+		}
+		return new Path2D<>();
+	}
+
 	public Path2D<CellNode, Direction> GET_ASTAR_LONGEST_HYBRID_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective) {
 
 		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new HybridCellComparator(PathType.LONGEST_PATH));
@@ -380,7 +438,7 @@ public class SearchAlgorithm {
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, 1, HeuristicType.EUCLIDIAN)); //The higher the scale the less the number of turn: scale from 1 to 2
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, heuristicScale, heuristicType)); //The higher the scale the less the number of turn: scale from 1 to 2
 
 		openCollection.add(startingPoint);
 
@@ -400,6 +458,20 @@ public class SearchAlgorithm {
 
 			SORT_NODES(neighbors, SortingMethod.DISTANCE_SORT, SortingOrder.DESCENDING);
 
+			Double maxDistance = neighbors.get(0).getDistance();
+
+			for (int i = 0; i < neighbors.size(); i++) {
+
+				CellNode neighbor = neighbors.get(i);
+
+				if (neighbor.getDistance() == maxDistance) {
+
+					Collections.swap(neighbors, 0, i);
+
+					break;
+				}
+			}
+
 			for (CellNode neighbor : neighbors) {
 
 				if (neighbor == null) {
@@ -410,15 +482,45 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate(current, neighbor, 1, HeuristicType.EUCLIDIAN);
+				double potentialGScore = current.getMovementCost() + heuristicCostEstimate(current, neighbor, heuristicScale, heuristicType);
 
 				neighbor.setParentNode(current);
 
 				neighbor.setMovementCost(potentialGScore);
 
-				neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective, 1, HeuristicType.EUCLIDIAN));
+				double heuristic = heuristicCostEstimate(neighbor, objective, 1, heuristicType);
 
-				neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
+				switch (tieBreaker) {
+				case CROSS:
+
+					double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
+					double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
+					double dx2 = startingPoint.getLocation().getX() - objective.getLocation().getX();
+					double dy2 = startingPoint.getLocation().getY() - objective.getLocation().getY();
+
+					double cross = Math.abs((dx1 * dy2) - (dx2 * dy1));
+
+					heuristic += cross * 0.001;
+					heuristic *= heuristicScale;
+					break;
+				case PATH:
+
+					double path = 10 / 1000;
+
+					heuristic *= (1.0 + path);
+					heuristic *= heuristicScale;
+
+					break;
+				case NONE:
+
+					heuristic *= heuristicScale;
+
+					break;
+				}
+
+				neighbor.setHeuristic(heuristic);
+
+				neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic() + neighbor.getDistance());
 
 				openCollection.add(neighbor);
 			}
@@ -426,6 +528,89 @@ public class SearchAlgorithm {
 		return new Path2D<>();
 	}
 
+	public Path2D<CellNode,Direction> GET_LONGEST_PATH_ALT(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel){
+
+		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new CellDistanceComparator());
+
+		Path2D<CellNode,Direction> path = null;
+
+		CellNode current = null;
+
+		int searchCount = 0;
+
+		grid.resetCells(true);
+
+		switch(snakeAI.getCurrentDirection()){
+
+		case MOVE_DOWN:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		case MOVE_LEFT:
+			startingPoint.setDirection(Direction.LEFT);
+			break;
+		case MOVE_RIGHT:
+			startingPoint.setDirection(Direction.RIGHT);
+			break;
+		case MOVE_UP:
+			startingPoint.setDirection(Direction.UP);
+			break;
+		case STANDING_STILL:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		}
+
+		grid.prepareDistances(objective);
+
+		objective.setObjective(true);
+
+		openCollection.add(startingPoint);
+
+		while (!openCollection.isEmpty()) {
+
+			current = openCollection.poll ();
+
+			searchCount++;
+
+			if (current.equals(objective)) {
+
+				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+			}
+
+			current.setVisited(true);
+
+			List<CellNode> neighbors = grid.getNeighborCells(current,distressLevel);
+
+			for (CellNode neighbor : neighbors) {
+
+				if (neighbor == null) {
+					continue;
+				}
+
+				if (neighbor.isVisited()) {
+					continue;
+				}
+
+
+				neighbor.setParentNode(current);
+
+				if(neighbor.getIndex().getRow() > current.getIndex().getRow()){
+					current.setDirection(Direction.RIGHT);
+				}
+				else if (neighbor.getIndex().getRow() < current.getIndex().getRow()) {
+					current.setDirection(Direction.LEFT);
+				}
+				else if (neighbor.getIndex().getCol() > current.getIndex().getCol()) {
+					current.setDirection(Direction.DOWN);
+				}
+				else if (neighbor.getIndex().getCol() < current.getIndex().getCol()) {
+					current.setDirection(Direction.UP);
+				}
+
+				openCollection.add(neighbor);
+			}
+		}
+		return path;
+	}
 
 	public Path2D<CellNode, Direction> GET_LONGEST_PATH_POLY(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
@@ -504,19 +689,19 @@ public class SearchAlgorithm {
 
 			SORT_NODES(neighbors, SortingMethod.DISTANCE_SORT, SortingOrder.DESCENDING);
 
-			Double maxDistance = neighbors.get(0).getDistance();
-
-			for (int i = 0; i < neighbors.size(); i++) {
-
-				CellNode neighbor = neighbors.get(i);
-
-				if (neighbor.getDistance() == maxDistance && direction == current.getDirectionTo(neighbor)) {
-
-					Collections.swap(neighbors, 0, i);
-
-					break;
-				}
-			}
+//			Double maxDistance = neighbors.get(0).getDistance();
+//
+//			for (int i = 0; i < neighbors.size(); i++) {
+//
+//				CellNode neighbor = neighbors.get(i);
+//
+//				if (neighbor.getDistance() == maxDistance && direction == current.getDirectionTo(neighbor)) {
+//
+//					Collections.swap(neighbors, 0, i);
+//
+//					break;
+//				}
+//			}
 
 			for (CellNode neighbor : neighbors) {
 
@@ -876,7 +1061,7 @@ public class SearchAlgorithm {
 
 			current.setVisited(true);
 
-			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_TAIL)) {
+			for( CellNode neighbor: grid.getNeighborCells(current, distressLevel)) {
 
 				if( neighbor == null) {
 					continue;
@@ -938,7 +1123,7 @@ public class SearchAlgorithm {
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
-					goalList.add(neighbor);
+					goalList.add( neighbor);
 
 					}
 				}
@@ -952,8 +1137,6 @@ public class SearchAlgorithm {
 		turnPenalty = 0;
 
 		searchCount = 0;
-
-		grid.resetPathToTail();
 
 		grid.resetCellValues();
 
@@ -1088,36 +1271,27 @@ public class SearchAlgorithm {
 			totalPath.getNodes().add( current);
 			current.pathToTail(true);
 
-			boolean searching = true;
-			while(searching) {
-				if(current.getParentNode()!=null){
-					current = current.getParentNode();
-					totalPath.getNodes().add(current);
-					if(current.isAvailable()){
-						current.pathToTail(true);
-					}
-				}else{
-					searching = false;
-				}
-
+			while((current = current.getParentNode()) != null) {
+				totalPath.getNodes().add(current);
+				current.pathToTail(true);
 			}
 
 			break;
 		}
 
-//		for (CellNode node : totalPath.getNodes()) {
-//			if (node.getParentNode() != null) {
-//				if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
-//					totalPath.addDirection(Direction.RIGHT);
-//				} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
-//					totalPath.addDirection(Direction.LEFT);
-//				} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
-//					totalPath.addDirection(Direction.DOWN);
-//				} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
-//					totalPath.addDirection(Direction.UP);
-//				}
-//			}
-//		}
+		for (CellNode node : totalPath.getNodes()) {
+			if (node.getParentNode() != null) {
+				if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
+					totalPath.addDirection(Direction.RIGHT);
+				} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
+					totalPath.addDirection(Direction.LEFT);
+				} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
+					totalPath.addDirection(Direction.DOWN);
+				} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
+					totalPath.addDirection(Direction.UP);
+				}
+			}
+		}
 		return totalPath;
 	}
 
@@ -1149,17 +1323,18 @@ public class SearchAlgorithm {
 			else{
 				createPath = false;
 			}
-		}
-		for (CellNode node : totalPath.getNodes()) {
-			if (node.getParentNode() != null) {
-				if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
-					totalPath.addDirection(Direction.RIGHT);
-				} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
-					totalPath.addDirection(Direction.LEFT);
-				} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
-					totalPath.addDirection(Direction.DOWN);
-				} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
-					totalPath.addDirection(Direction.UP);
+
+			for (CellNode node : totalPath.getNodes()) {
+				if (node.getParentNode() != null) {
+					if (node.getIndex().getRow() > node.getParentNode().getIndex().getRow()) {
+						totalPath.addDirection(Direction.RIGHT);
+					} else if (node.getIndex().getRow() < node.getParentNode().getIndex().getRow()) {
+						totalPath.addDirection(Direction.LEFT);
+					} else if (node.getIndex().getCol() > node.getParentNode().getIndex().getCol()) {
+						totalPath.addDirection(Direction.DOWN);
+					} else if (node.getIndex().getCol() < node.getParentNode().getIndex().getCol()) {
+						totalPath.addDirection(Direction.UP);
+					}
 				}
 			}
 		}
@@ -1277,15 +1452,15 @@ public class SearchAlgorithm {
 	}
 
 	public class HybridCellComparator implements Comparator<CellNode> {
-		private PathType type;
+		private PathType pathType;
 
 		public HybridCellComparator(PathType pathType){
-			this.type = pathType;
+			this.pathType = pathType;
 		}
 
 		@Override
 		public int compare(CellNode a, CellNode b) {
-			if(type == PathType.SHORTEST_PATH){
+			if(pathType == PathType.SHORTEST_PATH){
 				return Double.compare(a.getTotalCost(), b.getTotalCost());
 			}
 			else{

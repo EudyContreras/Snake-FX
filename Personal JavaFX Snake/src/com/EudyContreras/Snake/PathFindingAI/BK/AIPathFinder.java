@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.PathFindingAI;
+package com.EudyContreras.Snake.PathFindingAI.BK;
 
 import java.util.Collections;
 import java.util.Comparator;
