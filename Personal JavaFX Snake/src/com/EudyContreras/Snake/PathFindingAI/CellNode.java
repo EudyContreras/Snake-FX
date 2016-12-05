@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 public class CellNode implements Comparable<CellNode>{
 
 	private Pane layer;
-	private Index2D index;
+	private IndexWrapper index;
 	private Point2D location;
 	private GridNode grid;
 	private CellNode parentNode;
@@ -48,7 +48,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public CellNode(){}
 
-	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, Index2D index) {
+	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, IndexWrapper index) {
 		this.id = id;
 		this.grid = grid;
 		this.index = index;
@@ -70,13 +70,13 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetConnections(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
+		pathCell = false;
+		objective = false;
 		clear(children);
 	}
 
 	public void resetValues(){
-		pathCell = false;
 		visited = false;
-		objective = false;
 		distance = -1;
 		heuristic = 0;
 		movementCost = 10;
@@ -260,11 +260,11 @@ public class CellNode implements Comparable<CellNode>{
 		return id;
 	}
 
-	public Index2D getIndex() {
+	public IndexWrapper getIndex() {
 		return index;
 	}
 
-	public void setIndex(Index2D index){
+	public void setIndex(IndexWrapper index){
 		this.index = index;
 	}
 

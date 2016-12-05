@@ -315,7 +315,7 @@ public class AIPathFinder {
 //					distressLevel = DistressLevel.LEVEL_ONE;
 //				}
 //
-//				path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new Path2D<>());
+//				path = new LinkedPath<CellNode, Direction>(GET_DFS_PATH(start, tail), new PathWrapper<>());
 //
 //				if (!path.getPathOne().isEmpty()) {
 //					showPathToObjective(path);

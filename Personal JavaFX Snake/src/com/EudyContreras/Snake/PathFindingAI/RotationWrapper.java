@@ -1,6 +1,6 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-public class Rotation2D {
+public class RotationWrapper {
 
 	private float rotationAngle = 90;
 	private float rotationSpeed = 10;
@@ -8,7 +8,7 @@ public class Rotation2D {
 	private float rotationLimit = 0;
 	private boolean added = false;
 
-	public Rotation2D(float rotationAngle, float rotationSpeed, float rotationDirection, float rotationLimit, boolean added) {
+	public RotationWrapper(float rotationAngle, float rotationSpeed, float rotationDirection, float rotationLimit, boolean added) {
 		super();
 		this.rotationAngle = rotationAngle;
 		this.rotationSpeed = rotationSpeed;

@@ -1,12 +1,12 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-public class Portal2D {
+public class PortalWrapper {
 
 	private CellNode portalIn;
 	private CellNode portalOut;
 
 
-	public Portal2D(){
+	public PortalWrapper(){
 
 	}
 
@@ -26,11 +26,11 @@ public class Portal2D {
 		this.portalOut = portalOut;
 	}
 
-	public Index2D getPortalInIndex(){
+	public IndexWrapper getPortalInIndex(){
 		return portalIn.getIndex();
 	}
 
-	public Index2D getPortalOutIndex(){
+	public IndexWrapper getPortalOutIndex(){
 		return portalOut.getIndex();
 	}
 

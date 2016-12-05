@@ -73,7 +73,7 @@ public class GridNode {
 		freeCells = new LinkedList<>();
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
-				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
+				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new IndexWrapper(row, col));
 				cellID++;
 			}
 		}
@@ -155,13 +155,13 @@ public class GridNode {
 			}
 		}
 	}
-	public void resetPathToTail() {
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
-				cellNodes[row][col].pathToTail(false);
-			}
-		}
-	}
+//	public void resetPathToTail() {
+//		for (int row = minRow; row < cellNodes.length; row++) {
+//			for (int col = minCol; col < cellNodes[row].length; col++) {
+//				cellNodes[row][col].pathToTail(false);
+//			}
+//		}
+//	}
 
 	public void resetCellValues() {
 		for (int row = minRow; row < cellNodes.length; row++) {

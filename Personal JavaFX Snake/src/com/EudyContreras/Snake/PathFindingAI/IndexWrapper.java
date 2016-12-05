@@ -1,11 +1,11 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-public class Index2D{
+public class IndexWrapper{
 
 	private int row;
 	private int col;
 
-	public Index2D(int row, int col){
+	public IndexWrapper(int row, int col){
 		this.row = row;
 		this.col = col;
 	}
