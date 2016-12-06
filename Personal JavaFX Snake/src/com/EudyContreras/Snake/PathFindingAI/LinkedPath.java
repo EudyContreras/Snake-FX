@@ -1,66 +1,67 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
+import java.util.LinkedList;
+import java.util.List;
+
+public class LinkedPath<T>{
 
 	private ConnectionType type;
-
 	private Objective objective;
-
-	private PathWrapper<PATH> pathOne;
-	private PathWrapper<PATH> pathTwo;
+	private List<T> pathOne;
+	private List<T> pathTwo;
 
 	public LinkedPath() {
-		this(new PathWrapper<PATH>(), new PathWrapper<PATH>());
+		this(new LinkedList<>(),new LinkedList<>());
 	}
 
 	public LinkedPath(ConnectionType type) {
-		this(new PathWrapper<PATH>(), new PathWrapper<PATH>());
+		this(new LinkedList<>(),new LinkedList<>());
 		this.type = type;
 	}
 
-	public LinkedPath(PathWrapper<PATH> pathOne, PathWrapper<PATH> pathTwo) {
+	public LinkedPath(List<T> pathOne, List<T> pathTwo) {
 		this(pathOne, pathTwo, null);
 	}
 
-	public LinkedPath(PathWrapper<PATH> pathOne, PathWrapper<PATH> pathTwo, Objective objective) {
+	public LinkedPath(List<T> pathOne, List<T> pathTwo, Objective objective) {
 		super();
 		this.objective = objective;
 		this.type = ConnectionType.INTERPOLAR_PATH;
 		if (pathOne != null && pathTwo != null) {
-			this.pathOne = !pathOne.isEmpty() ? pathOne : new  PathWrapper<PATH>();
-			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new  PathWrapper<PATH>();
+			this.pathOne = !pathOne.isEmpty() ? pathOne : new LinkedList<>();
+			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new LinkedList<>();
 		}
 		else{
-			this.pathOne = new  PathWrapper<PATH>();
-			this.pathTwo = new  PathWrapper<PATH>();
+			this.pathOne = new LinkedList<>();
+			this.pathTwo = new LinkedList<>();
 		}
 	}
 
-	public PathWrapper<PATH> getJoinedPath(){
-		 PathWrapper<PATH> joinPath = new  PathWrapper<PATH>();
+	public List<T> getJoinedPath(){
+		List<T> joinPath = new LinkedList<>();
 
 		if(!pathOne.isEmpty()){
-			joinPath.addPath2D(pathOne);
+			joinPath.addAll(pathOne);
 		}
 		if(!pathTwo.isEmpty()){
-			joinPath.addPath2D(pathTwo);
+			joinPath.addAll(pathTwo);
 		}
 		return joinPath;
 	}
 
-	public void setPathOne(PathWrapper<PATH> pathOne){
+	public void setPathOne(List<T> pathOne){
 		this.pathOne = pathOne;
 	}
 
-	public void setPathTwo(PathWrapper<PATH> pathTwo){
+	public void setPathTwo(List<T> pathTwo){
 		this.pathTwo = pathTwo;
 	}
 
-	public PathWrapper<PATH> getPathOne() {
+	public List<T> getPathOne() {
 		return pathOne;
 	}
 
-	public PathWrapper<PATH> getPathTwo() {
+	public List<T> getPathTwo() {
 		return pathTwo;
 	}
 
@@ -107,10 +108,5 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 
 	public enum ConnectionType{
 		SAFE_PATH_CHECK, INTERPOLAR_PATH
-	}
-
-	@Override
-	public int compareTo(LinkedPath<PATH> path) {
-		return Double.compare(getPathOneLength(),path.getPathOneLength());
 	}
 }

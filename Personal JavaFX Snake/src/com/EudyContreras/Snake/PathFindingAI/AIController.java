@@ -91,7 +91,6 @@ public class AIController {
         pathFindingGrid.setColliderList(collideNodes);
         pathFindingGrid.setPenaltiesList(penaltyNodes);
 
-        pathFindingGrid.resetCells(true);
         pathFindingGrid.computeValidCells();
     }
 
@@ -110,7 +109,6 @@ public class AIController {
     		hasBeenNotified = true;
     		pathFindingAI.computePath();
     	}
-
     }
 
     private void updateAIEvents() {
@@ -198,11 +196,7 @@ public class AIController {
         return pathFindingAI;
     }
 
-    public CellNode getHeadCell(PlayerTwo snake) {
-        return pathFindingGrid.getRelativeHeadCell(snake,0,0);
-    }
-
-    public CellNode getTailCell(PlayerTwo snake) {
-        return pathFindingGrid.getRelativeTailCell(snake);
+    public CellNode getHeadCell(PlayerTwo snake, int r, int c) {
+        return pathFindingGrid.getRelativeHeadCell(snake,r,c);
     }
 }

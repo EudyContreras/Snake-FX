@@ -111,6 +111,7 @@ public class KeyInputHandler {
 					keyDown[5] = true;
 				}
 				if (e.getCode() == KeyCode.P) {
+					game.setStateID(GameStateID.GAME_MENU);
 					game.pauseGame();
 				}
 				if (e.getCode() == KeyCode.R) {

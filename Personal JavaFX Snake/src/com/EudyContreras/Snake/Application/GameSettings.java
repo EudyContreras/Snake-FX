@@ -27,7 +27,7 @@ public class GameSettings {
 	public static int PATH_FINDING_CELL_SIZE = 40;
 	public static int MIN_X = 0;
 	public static int MAX_X = 0;
-	public static int MIN_Y = 81;
+	public static int MIN_Y = 80;
 	public static int MAX_Y = 1920;
 
 	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
@@ -89,7 +89,7 @@ public class GameSettings {
 
 	public static double SAND_SIZE = 5;
 	public static double WIND_FORCE = 1.7;
-	public static double WIND_SPEED = 1.0;
+	public static double WIND_SPEED = 2.0;
 
 	public static boolean WINDOW_ALWAYS_VISIBLE = true;
 	public static boolean SHOW_SPLASHSCREEN = false;

@@ -396,10 +396,10 @@ public class PlayerTwoSection extends AbstractSection {
 			x = (double) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (double) (0 - radius);
-		} else if (y < (GameSettings.MIN_Y-10) - radius*1.5) {
+		} else if (y < GameSettings.MIN_Y - radius*1.5) {
 			y = (double) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (double) ((GameSettings.MIN_Y-10) - radius*1.5);
+			y = (double) (GameSettings.MIN_Y - radius*1.5);
 		}
 	}
 

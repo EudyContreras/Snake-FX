@@ -34,9 +34,9 @@ public class SearchAlgorithmBK {
 		tieBreaker = TieBreaker.NONE;
 	}
 
-	public PathWrapper<CellNode, Direction> GET_SHORTEST_LIST(List<PathWrapper<CellNode, Direction>> paths) {
+	public Path2D<CellNode, Direction> GET_SHORTEST_LIST(List<Path2D<CellNode, Direction>> paths) {
 
-		PathWrapper<CellNode, Direction> shortest = paths.get(0);
+		Path2D<CellNode, Direction> shortest = paths.get(0);
 
 		int minSize = Integer.MAX_VALUE;
 
@@ -51,9 +51,9 @@ public class SearchAlgorithmBK {
 		return shortest;
 	}
 
-	public PathWrapper<CellNode, Direction> GET_LONGEST_LIST(List<PathWrapper<CellNode, Direction>> paths) {
+	public Path2D<CellNode, Direction> GET_LONGEST_LIST(List<Path2D<CellNode, Direction>> paths) {
 
-		PathWrapper<CellNode, Direction> longest = paths.get(0);
+		Path2D<CellNode, Direction> longest = paths.get(0);
 
 		int maxSize = Integer.MIN_VALUE;
 
@@ -165,9 +165,9 @@ public class SearchAlgorithmBK {
 		}
 	}
 
-	public PathWrapper<CellNode, Direction> DEEP_NEIGHBOR_CHECK(PlayerTwo snakeAI,GridNode grid, CellNode cell, int depth, Neighbor neighbor){
+	public Path2D<CellNode, Direction> DEEP_NEIGHBOR_CHECK(PlayerTwo snakeAI,GridNode grid, CellNode cell, int depth, Neighbor neighbor){
 
-		PathWrapper<CellNode, Direction> neighbors = new PathWrapper<>();
+		Path2D<CellNode, Direction> neighbors = new Path2D<>();
 
 		CellNode tempCell = null;
 		CellNode current = null;
@@ -197,11 +197,11 @@ public class SearchAlgorithmBK {
 		return neighbors;
 	}
 
-	public PathWrapper<CellNode, Direction> GET_BRUTE_PATH(PlayerTwo snakeAI, GridNode grid, CellNode current, int depth){
+	public Path2D<CellNode, Direction> GET_BRUTE_PATH(PlayerTwo snakeAI, GridNode grid, CellNode current, int depth){
 
-		PathWrapper<CellNode, Direction> brutePath = null;
+		Path2D<CellNode, Direction> brutePath = null;
 
-		List<PathWrapper<CellNode, Direction>> paths = new LinkedList<>();
+		List<Path2D<CellNode, Direction>> paths = new LinkedList<>();
 
 		Neighbor directionOne = null;
 		Neighbor directionTwo = null;
@@ -343,7 +343,7 @@ public class SearchAlgorithmBK {
 	}
 
 
-	public PathWrapper<CellNode, Direction> GET_ASTAR_LONGEST_PATH(GridNode grid, CellNode startingPoint, CellNode objective) {
+	public Path2D<CellNode, Direction> GET_ASTAR_LONGEST_PATH(GridNode grid, CellNode startingPoint, CellNode objective) {
 
 		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new CellDistanceComparator());
 
@@ -397,10 +397,10 @@ public class SearchAlgorithmBK {
 				searchCount++;
 			}
 		}
-		return new PathWrapper<>();
+		return new Path2D<>();
 	}
 
-	public PathWrapper<CellNode, Direction> GET_ASTAR_LONGEST_HYBRID_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective) {
+	public Path2D<CellNode, Direction> GET_ASTAR_LONGEST_HYBRID_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective) {
 
 		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new HybridCellComparator(PathType.LONGEST_PATH));
 
@@ -525,14 +525,14 @@ public class SearchAlgorithmBK {
 				openCollection.add(neighbor);
 			}
 		}
-		return new PathWrapper<>();
+		return new Path2D<>();
 	}
 
-	public PathWrapper<CellNode,Direction> GET_LONGEST_PATH_ALT(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel){
+	public Path2D<CellNode,Direction> GET_LONGEST_PATH_ALT(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel){
 
 		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new CellDistanceComparator());
 
-		PathWrapper<CellNode,Direction> path = null;
+		Path2D<CellNode,Direction> path = null;
 
 		CellNode current = null;
 
@@ -612,7 +612,7 @@ public class SearchAlgorithmBK {
 		return path;
 	}
 
-	public PathWrapper<CellNode, Direction> GET_LONGEST_PATH_POLY(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
+	public Path2D<CellNode, Direction> GET_LONGEST_PATH_POLY(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
 		if (startingPoint.equals(objective)) {
 	        return null;
@@ -620,7 +620,7 @@ public class SearchAlgorithmBK {
 
 		Direction currentDirection = null;
 
-		PathWrapper<CellNode, Direction> longestPath = new PathWrapper<>();
+		Path2D<CellNode, Direction> longestPath = new Path2D<>();
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -661,7 +661,7 @@ public class SearchAlgorithmBK {
 		}
 	}
 
-	private void GET_LONGEST_PATH_POLY(PlayerTwo snakeAI, Direction direction, GridNode grid, CellNode current, CellNode startingPoint, CellNode objective, PathWrapper<CellNode, Direction> path, DistressLevel distressLevel) {
+	private void GET_LONGEST_PATH_POLY(PlayerTwo snakeAI, Direction direction, GridNode grid, CellNode current, CellNode startingPoint, CellNode objective, Path2D<CellNode, Direction> path, DistressLevel distressLevel) {
 
 		if(!path.isEmpty()){
 			return;
@@ -715,7 +715,7 @@ public class SearchAlgorithmBK {
 		}
 	}
 
-	public PathWrapper<CellNode,Direction> GET_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
+	public Path2D<CellNode,Direction> GET_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
 		PriorityQueue<CellNode> openCollection = new PriorityQueue<CellNode>((grid.getRowCount() * grid.getColumnCount()), new CellCostComparator());
 
@@ -837,13 +837,13 @@ public class SearchAlgorithmBK {
 				}
 			}
 		}
-		return new PathWrapper<CellNode,Direction>();
+		return new Path2D<CellNode,Direction>();
 	}
 
 	/**
 	 * Find a path from start to goal using the Breadth first search algorithm
 	 */
-	public PathWrapper<CellNode,Direction> GET_BFS_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
+	public Path2D<CellNode,Direction> GET_BFS_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
 		Queue<CellNode> openCollection = new LinkedList<>();
 
@@ -916,14 +916,14 @@ public class SearchAlgorithmBK {
 				}
 			}
 		}
-	    return new PathWrapper<CellNode,Direction>();
+	    return new Path2D<CellNode,Direction>();
 	}
 
 	/**
 	 * Find a path from start to goal using the depth first search algorithm
 	 */
 
-	public PathWrapper<CellNode,Direction> GET_DFS_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
+	public Path2D<CellNode,Direction> GET_DFS_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, DistressLevel distressLevel) {
 
 		Stack<CellNode> openCollection = new Stack<CellNode>();
 
@@ -989,7 +989,7 @@ public class SearchAlgorithmBK {
 				openCollection.add(neighbor);
 			}
 		}
-		return new PathWrapper<CellNode,Direction>() ;
+		return new Path2D<CellNode,Direction>() ;
 	}
 
 	public LinkedPath<CellNode, Direction> GET_SAFE_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, CellNode tail, DistressLevel distressLevel) {
@@ -1159,7 +1159,7 @@ public class SearchAlgorithmBK {
 
 			current.setVisited(true);
 
-			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_GOAL)) {
+			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK)) {
 
 				if( neighbor == null) {
 					continue;
@@ -1226,7 +1226,7 @@ public class SearchAlgorithmBK {
 		}
 		return safePath;
 	}
-	private void buildPath(CurrentGoal goal, CellNode from, CellNode to, PathWrapper<CellNode, Direction> path){
+	private void buildPath(CurrentGoal goal, CellNode from, CellNode to, Path2D<CellNode, Direction> path){
 //		 CellNode tmp = to, parent;
 ////
 ////		 	path.add(0,tmp);
@@ -1251,9 +1251,9 @@ public class SearchAlgorithmBK {
 //		    path.add(0,from);
 	}
 
-	private PathWrapper<CellNode, Direction> buildPath(CurrentGoal goal, CellNode current, int searchCount) {
+	private Path2D<CellNode, Direction> buildPath(CurrentGoal goal, CellNode current, int searchCount) {
 
-		PathWrapper<CellNode,Direction> totalPath = new PathWrapper<>(); // arbitrary value, we'll most likely have more than 10 which is default for java
+		Path2D<CellNode,Direction> totalPath = new Path2D<>(); // arbitrary value, we'll most likely have more than 10 which is default for java
 
 		switch(goal){
 		case OBJECTIVE:
@@ -1295,9 +1295,9 @@ public class SearchAlgorithmBK {
 		return totalPath;
 	}
 
-	private PathWrapper<CellNode,Direction> createCoordinates(CellNode current, int searchCount) {
+	private Path2D<CellNode,Direction> createCoordinates(CellNode current, int searchCount) {
 
-		PathWrapper<CellNode,Direction> totalPath = new PathWrapper<>();
+		Path2D<CellNode,Direction> totalPath = new Path2D<>();
 
 		boolean createPath = true;
 
