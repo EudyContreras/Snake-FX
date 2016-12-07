@@ -12,10 +12,3 @@ Notes and Ideas about Artificial Intelligence!
 		affects health. If a boost would allow it to reach objectives which
 		the competitor is pursuing before the competitor does, etc.
 
-	TODO: Fixes and Improvements.
-	
-		*Add a logical stationary tail that the snake could follow. The current
-		methodology is faulty due to how the tail mechanic works.
-		*Adjust the teleporation thereshold for the top side of the map. The
-		teleportation cell intersects the top edge teleportation trigger.
-

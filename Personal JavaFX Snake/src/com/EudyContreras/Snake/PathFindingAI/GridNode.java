@@ -11,7 +11,6 @@ import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 import javafx.geometry.Dimension2D;
-import javafx.scene.paint.Color;
 
 
 public class GridNode {
@@ -26,6 +25,7 @@ public class GridNode {
 
 	private boolean showCells;
 
+	private CellNode head;
 	private CellNode headCell;
 	private CellNode tailCell;
 	private GameManager game;
@@ -73,7 +73,7 @@ public class GridNode {
 		freeCells = new LinkedList<>();
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
-				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new IndexWrapper(row, col));
+				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new Index2D(row, col));
 				cellID++;
 			}
 		}
@@ -155,13 +155,6 @@ public class GridNode {
 			}
 		}
 	}
-//	public void resetPathToTail() {
-//		for (int row = minRow; row < cellNodes.length; row++) {
-//			for (int col = minCol; col < cellNodes[row].length; col++) {
-//				cellNodes[row][col].pathToTail(false);
-//			}
-//		}
-//	}
 
 	public void resetCellValues() {
 		for (int row = minRow; row < cellNodes.length; row++) {
@@ -211,7 +204,6 @@ public class GridNode {
 
 	public void computeValidCells() {
 		this.snakeAI = game.getGameLoader().getPlayerTwo();
-
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				cellNodes[row][col].setContainsTarget(false);
@@ -268,17 +260,10 @@ public class GridNode {
 				}
 			}
 		}
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = 0; col < 1; col++) {
-				CellNode cell = cellNodes[row][col];
-				cell.setTraversable(false);
-				cell.setColor(Color.RED);
-			}
-		}
 	}
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
-		CellNode cell = null;
+		CellNode cell = cellNodes[r][c];
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode tempCell = cellNodes[row][col];
@@ -325,13 +310,12 @@ public class GridNode {
 		return cell;
 	}
 
-	public CellNode markKeyCells() {
-		CellNode cell = null;
+	public void markKeyCells() {
 		AbstractSection tail = game.getSectManagerTwo().getSectionList().get(game.getSectManagerTwo().getSectionList().size()-2);
 
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
-				cell = getCells()[row][col];
+				CellNode cell = getCells()[row][col];
 				cell.updateVisuals();
 
 				if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
@@ -346,7 +330,6 @@ public class GridNode {
 				}
 			}
 		}
-		return cell;
 	}
 
 	public boolean safeSpawn(CellNode cell) {
@@ -365,55 +348,6 @@ public class GridNode {
 			for (int col = startPosY; col <= endPosY; col++) {
 				if(cellNodes[row][col].isOccupied()){
 					safe = false;
-				}
-			}
-		}
-		return safe;
-	}
-
-	public boolean isNeighborNot(CellNode cell, Flag flag) {
-		boolean safe = true;
-
-		int r = cell.getIndex().getRow();
-		int c = cell.getIndex().getCol();
-
-		int startPosX = (r - 1 < minRow) ? r : r - 1;
-		int startPosY = (c - 1 < minCol) ? c : c - 1;
-
-		int endPosX = (r + 1 > rowCount - 1) ? r : r + 1;
-		int endPosY = (c + 1 > columnCount - 1) ? c : c + 1;
-
-		for (int row = startPosX; row <= endPosX; row++) {
-			for (int col = startPosY; col <= endPosY; col++) {
-				CellNode neighbor = cellNodes[row][col];
-				switch(flag){
-				case AVAILABLE:
-					break;
-				case NO_SPAWN:
-					if(!neighbor.isSpawnAllowed()){
-						safe = false;
-					}
-					break;
-				case OCCUPIED:
-					if(neighbor.isOccupied()){
-						safe = false;
-					}
-					break;
-				case SAFE:
-					if(!neighbor.isOccupied() && neighbor.isTraversable() && !neighbor.isDangerZone()){
-						safe = false;
-					}
-					break;
-				case UNAVAILABLE:
-					if(!neighbor.isAvailable()){
-						safe = false;
-					}
-					break;
-				case UNSAFE:
-					if(neighbor.isOccupied() || !neighbor.isTraversable() || neighbor.isDangerZone()){
-						safe = false;
-					}
-					break;
 				}
 			}
 		}
@@ -539,7 +473,7 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 			break;
-		case SAFETY_CHECK_GOAL:
+		case SAFETY_CHECK:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
 			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 				neighbors.add(tempCell);
@@ -554,24 +488,6 @@ public class GridNode {
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
 			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
-				neighbors.add(tempCell);
-			}
-			break;
-		case SAFETY_CHECK_TAIL:
-			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			break;
@@ -582,7 +498,36 @@ public class GridNode {
 		return neighbors;
 	}
 
-	public CellNode getPrevious(PlayerTwo snakeAI, CellNode cell){
+
+	public CellNode getNextCell(PlayerTwo snakeAI) {
+		CellNode next = null;
+
+		Neighbor neighbor = null;
+
+		switch(snakeAI.getCurrentDirection()){
+		case MOVE_DOWN:
+			neighbor = Neighbor.SOUTH;
+			break;
+		case MOVE_LEFT:
+			neighbor = Neighbor.WEST;
+			break;
+		case MOVE_RIGHT:
+			neighbor = Neighbor.EAST;
+			break;
+		case MOVE_UP:
+			neighbor = Neighbor.NORTH;
+			break;
+		case STANDING_STILL:
+			neighbor = Neighbor.SOUTH;
+			break;
+
+		}
+		next = getNeighbor(getRelativeHeadCell(snakeAI), neighbor);
+
+		return next;
+	}
+
+	public CellNode getPreviousCell(PlayerTwo snakeAI, CellNode cell){
 		CellNode previous = null;
 
 		Neighbor neighbor = null;
@@ -676,10 +621,6 @@ public class GridNode {
 		return cellNodes[row][col];
 	}
 
-	public CellNode getCell(IndexWrapper index) {
-		return cellNodes[index.getRow()][index.getCol()];
-	}
-
 	public List<CellNode> getEdges() {
 		return mapEdges;
 	}
@@ -761,7 +702,7 @@ public class GridNode {
 	}
 
 	public enum Flag {
-		UNSAFE, OCCUPIED, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
+		UNSAFE, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
 	}
 
 	public enum TeleportZone {
@@ -771,5 +712,6 @@ public class GridNode {
 	public enum Neighbor{
 		WEST, EAST, SOUTH, NORTH
 	}
+
 
 }
