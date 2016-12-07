@@ -1,87 +1,87 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
-import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
+import java.util.LinkedList;
+import java.util.List;
 
-public class PathWrapper {
+public class PathWrapper<PATH> implements Comparable<PathWrapper<PATH>> {
 
-	private IndexWrapper index;
-	private Direction direction;
-	private PathFlag flag;
+	private List<PATH> nodes;
 
-	public PathWrapper(IndexWrapper index) {
-		this(index, Direction.NONE, PathFlag.PATH_CELL);
+	public PathWrapper(){
+		this.nodes = new LinkedList<>();
 	}
 
-	public PathWrapper(IndexWrapper index, Direction direction) {
-		this(index, direction, PathFlag.PATH_CELL);
-	}
-
-	public PathWrapper(IndexWrapper index, Direction direction, PathFlag flag) {
-		super();
-		this.index = index;
-		this.direction = direction;
-		this.flag = flag;
-	}
-
-	public IndexWrapper getIndex() {
-		return index;
-	}
-
-	public void setIndex(IndexWrapper index) {
-		this.index = index;
-	}
-
-	public Direction getDirection() {
-		return direction;
-	}
-
-	public PathWrapper setDirection(Direction direction) {
-		this.direction = direction;
+	public PathWrapper<PATH> addNode(PATH node){
+		this.nodes.add(node);
 		return this;
 	}
 
-	public PathFlag getFlag() {
-		return flag;
-	}
-
-	public PathWrapper setFlag(PathFlag flag) {
-		this.flag = flag;
+	public PathWrapper<PATH> addNode(int i,PATH node){
+		this.nodes.add(i,node);
 		return this;
 	}
 
-	public enum PathFlag{
-		OBJECTIVE_CELL, PATH_CELL
+	public PathWrapper<PATH> addFirst(PATH node){
+		this.nodes.add(0,node);
+		return this;
+	}
+
+	public PathWrapper<PATH> addLast(PATH node){
+		this.nodes.add(nodes.size()-1,node);
+		return this;
+	}
+
+	public int getIndex(PATH node){
+		return nodes.indexOf(node);
+	}
+
+	public PATH getNode(int i){
+		return nodes.get(i);
+	}
+
+	public PATH getLastNode(){
+		return nodes.get(nodes.size()-1);
+	}
+
+	public PATH getFirstNode(){
+		return nodes.get(0);
+	}
+
+	public PATH removeNode(int i){
+		return nodes.remove(i);
+	}
+
+	public boolean removeNode(PATH i){
+		return nodes.remove(i);
+	}
+
+	public List<PATH> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(List<PATH> nodes) {
+		this.nodes = nodes;
+	}
+
+	public void addPath2D(PathWrapper<PATH> path){
+		nodes.addAll(path.getNodes());
+	}
+
+	public int size(){
+		return nodes.size();
+	}
+
+	public void clear(){
+		nodes.clear();
+	}
+
+	public boolean isEmpty(){
+		return nodes.isEmpty();
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
-		result = prime * result + ((flag == null) ? 0 : flag.hashCode());
-		result = prime * result + ((index == null) ? 0 : index.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PathWrapper other = (PathWrapper) obj;
-		if (direction != other.direction)
-			return false;
-		if (flag != other.flag)
-			return false;
-		if (index == null) {
-			if (other.index != null)
-				return false;
-		} else if (!index.equals(other.index))
-			return false;
-		return true;
+	public int compareTo(PathWrapper<PATH> path) {
+		return Double.compare(size(), path.size());
 	}
 
 

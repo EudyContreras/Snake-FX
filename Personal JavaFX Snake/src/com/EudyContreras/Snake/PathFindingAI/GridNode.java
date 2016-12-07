@@ -155,6 +155,13 @@ public class GridNode {
 			}
 		}
 	}
+//	public void resetPathToTail() {
+//		for (int row = minRow; row < cellNodes.length; row++) {
+//			for (int col = minCol; col < cellNodes[row].length; col++) {
+//				cellNodes[row][col].pathToTail(false);
+//			}
+//		}
+//	}
 
 	public void resetCellValues() {
 		for (int row = minRow; row < cellNodes.length; row++) {

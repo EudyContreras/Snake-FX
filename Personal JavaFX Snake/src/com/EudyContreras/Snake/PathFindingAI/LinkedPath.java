@@ -67,7 +67,7 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 	}
 
 	public boolean isPathSafe(){
-		return (!pathOne.isEmpty() && !pathTwo.isEmpty());
+		return !pathOne.isEmpty() && !pathTwo.isEmpty();
 	}
 
 	public Objective getObjective() {

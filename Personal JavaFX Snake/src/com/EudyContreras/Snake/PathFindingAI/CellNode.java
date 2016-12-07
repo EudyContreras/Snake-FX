@@ -525,4 +525,8 @@ public class CellNode implements Comparable<CellNode>{
 			return false;
 		return true;
 	}
+
+
+
+
 }
