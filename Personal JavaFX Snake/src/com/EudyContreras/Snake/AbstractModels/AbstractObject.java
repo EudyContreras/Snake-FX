@@ -547,7 +547,6 @@ public abstract class AbstractObject {
 
 	public void setCell(CellNode cell) {
 		this.cell = cell;
-
 	}
 
 	public Rectangle2D getBounds() {

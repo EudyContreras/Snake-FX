@@ -16,7 +16,7 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.GridNode.Flag;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
-import com.EudyContreras.Snake.PathFindingAI.ObjectiveWrapper.SortingType;
+import com.EudyContreras.Snake.PathFindingAI.Objective.SortingType;
 import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.PathType;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -1136,7 +1136,7 @@ public class AIPathFinder {
 	private void objectiveReached(CellNode cell){
 		if(cell.isObjective()){
 			cell.setObjective(false);
-			log("ObjectiveWrapper reached");
+			log("Objective reached");
 //			computePath();
 			controller.nofifyAI();
 		}

@@ -679,7 +679,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public boolean withinBounds() {
-		return x > 0 - radius - +1 && x < GameSettings.WIDTH + radius -1 && y > 0 - radius +1
+		return x > 0 - radius - +1 && x < GameSettings.WIDTH + radius -1 && y > (GameSettings.MIN_Y-10) - radius +1
 				&& y < GameSettings.HEIGHT + radius - 1;
 	}
 
@@ -688,10 +688,10 @@ public class PlayerTwo extends AbstractObject {
 			x = (float) (GameSettings.WIDTH + radius-1);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius+1);
-		} else if (y < GameSettings.MIN_Y - radius*1.5) {
+		} else if (y < (GameSettings.MIN_Y-10) - radius*1.5) {
 			y = (float) (GameSettings.HEIGHT + radius-1);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.MIN_Y - radius*1.5+1);
+			y = (float) ((GameSettings.MIN_Y-10) - radius*1.5+1);
 		}
 	}
 

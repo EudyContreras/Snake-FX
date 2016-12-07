@@ -1,44 +1,45 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
-import java.util.List;
 
-public class LinkedPath<T>{
+public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 
 	private ConnectionType type;
-	private Objective objective;
-	private List<T> pathOne;
-	private List<T> pathTwo;
+
+	private ObjectiveWrapper objectiveWrapper;
+
+	private LinkedList<PATH> pathOne;
+	private LinkedList<PATH> pathTwo;
 
 	public LinkedPath() {
-		this(new LinkedList<>(),new LinkedList<>());
+		this(new LinkedList<PATH>(), new LinkedList<PATH>());
 	}
 
 	public LinkedPath(ConnectionType type) {
-		this(new LinkedList<>(),new LinkedList<>());
+		this(new LinkedList<PATH>(), new LinkedList<PATH>());
 		this.type = type;
 	}
 
-	public LinkedPath(List<T> pathOne, List<T> pathTwo) {
+	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo) {
 		this(pathOne, pathTwo, null);
 	}
 
-	public LinkedPath(List<T> pathOne, List<T> pathTwo, Objective objective) {
+	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo, ObjectiveWrapper objectiveWrapper) {
 		super();
-		this.objective = objective;
+		this.objectiveWrapper = objectiveWrapper;
 		this.type = ConnectionType.INTERPOLAR_PATH;
 		if (pathOne != null && pathTwo != null) {
-			this.pathOne = !pathOne.isEmpty() ? pathOne : new LinkedList<>();
-			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new LinkedList<>();
+			this.pathOne = !pathOne.isEmpty() ? pathOne : new  LinkedList<PATH>();
+			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new  LinkedList<PATH>();
 		}
 		else{
-			this.pathOne = new LinkedList<>();
-			this.pathTwo = new LinkedList<>();
+			this.pathOne = new  LinkedList<PATH>();
+			this.pathTwo = new  LinkedList<PATH>();
 		}
 	}
 
-	public List<T> getJoinedPath(){
-		List<T> joinPath = new LinkedList<>();
+	public LinkedList<PATH> getJoinedPath(){
+		 LinkedList<PATH> joinPath = new  LinkedList<PATH>();
 
 		if(!pathOne.isEmpty()){
 			joinPath.addAll(pathOne);
@@ -49,19 +50,19 @@ public class LinkedPath<T>{
 		return joinPath;
 	}
 
-	public void setPathOne(List<T> pathOne){
+	public void setPathOne(LinkedList<PATH> pathOne){
 		this.pathOne = pathOne;
 	}
 
-	public void setPathTwo(List<T> pathTwo){
+	public void setPathTwo(LinkedList<PATH> pathTwo){
 		this.pathTwo = pathTwo;
 	}
 
-	public List<T> getPathOne() {
+	public LinkedList<PATH> getPathOne() {
 		return pathOne;
 	}
 
-	public List<T> getPathTwo() {
+	public LinkedList<PATH> getPathTwo() {
 		return pathTwo;
 	}
 
@@ -69,8 +70,8 @@ public class LinkedPath<T>{
 		return !pathOne.isEmpty() && !pathTwo.isEmpty();
 	}
 
-	public Objective getObjective() {
-		return objective;
+	public ObjectiveWrapper getObjective() {
+		return objectiveWrapper;
 	}
 
 	public ConnectionType getType() {
@@ -81,8 +82,8 @@ public class LinkedPath<T>{
 		this.type = type;
 	}
 
-	public void setObjective(Objective objective) {
-		this.objective = objective;
+	public void setObjective(ObjectiveWrapper objectiveWrapper) {
+		this.objectiveWrapper = objectiveWrapper;
 	}
 
 	public int getPathOneLength(){
@@ -108,5 +109,10 @@ public class LinkedPath<T>{
 
 	public enum ConnectionType{
 		SAFE_PATH_CHECK, INTERPOLAR_PATH
+	}
+
+	@Override
+	public int compareTo(LinkedPath<PATH> path) {
+		return Double.compare(getPathOneLength(),path.getPathOneLength());
 	}
 }
