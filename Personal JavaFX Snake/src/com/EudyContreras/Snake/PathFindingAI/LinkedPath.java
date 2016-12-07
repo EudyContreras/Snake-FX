@@ -6,7 +6,7 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 
 	private ConnectionType type;
 
-	private ObjectiveWrapper objectiveWrapper;
+	private Objective objective;
 
 	private LinkedList<PATH> pathOne;
 	private LinkedList<PATH> pathTwo;
@@ -24,9 +24,9 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 		this(pathOne, pathTwo, null);
 	}
 
-	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo, ObjectiveWrapper objectiveWrapper) {
+	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo, Objective objective) {
 		super();
-		this.objectiveWrapper = objectiveWrapper;
+		this.objective = objective;
 		this.type = ConnectionType.INTERPOLAR_PATH;
 		if (pathOne != null && pathTwo != null) {
 			this.pathOne = !pathOne.isEmpty() ? pathOne : new  LinkedList<PATH>();
@@ -67,11 +67,11 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 	}
 
 	public boolean isPathSafe(){
-		return !pathOne.isEmpty() && !pathTwo.isEmpty();
+		return (!pathOne.isEmpty() && !pathTwo.isEmpty());
 	}
 
-	public ObjectiveWrapper getObjective() {
-		return objectiveWrapper;
+	public Objective getObjective() {
+		return objective;
 	}
 
 	public ConnectionType getType() {
@@ -82,8 +82,8 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 		this.type = type;
 	}
 
-	public void setObjective(ObjectiveWrapper objectiveWrapper) {
-		this.objectiveWrapper = objectiveWrapper;
+	public void setObjective(Objective objective) {
+		this.objective = objective;
 	}
 
 	public int getPathOneLength(){

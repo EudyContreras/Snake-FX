@@ -70,6 +70,7 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetConnections(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
+		pathCell = false;
 		clear(children);
 	}
 
@@ -121,13 +122,13 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
-			if(isPathToGoal())
+			if(isPathCell())
 				visualRep.setFill(Color.BLUE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
 			if(!isAvailable() && !isTargetCell() && !isPathCell() && !isPathToTail())
 				visualRep.setFill(Color.YELLOW);
-			if(isTeleportZone() && !isPathCell())
+			if(isTeleportZone())
 				visualRep.setFill(Color.BLACK);
 			if(isPlayerSpawnZone() && isSpawnAllowed() && !isPathCell())
 				visualRep.setFill(Color.WHITE);
@@ -251,9 +252,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public void setObjective(boolean objective) {
-		if (!this.isTeleportZone()) {
-			this.objective = objective;
-		}
+		this.objective = objective;
 	}
 
 	public int getID() {
@@ -526,8 +525,4 @@ public class CellNode implements Comparable<CellNode>{
 			return false;
 		return true;
 	}
-
-
-
-
 }

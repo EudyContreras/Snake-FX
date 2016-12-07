@@ -110,7 +110,6 @@ public class AIController {
     		hasBeenNotified = true;
     		pathFindingAI.computePath();
     	}
-
     }
 
     private void updateAIEvents() {

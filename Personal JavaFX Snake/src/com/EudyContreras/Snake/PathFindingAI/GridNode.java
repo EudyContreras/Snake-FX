@@ -54,8 +54,8 @@ public class GridNode {
 		this.minRow = ((GameSettings.MIN_X) / cellSize);
 		this.cellPadding = cellPadding;
 		this.dimension = new Dimension2D(width, height);
-//		this.game.getBaseLayer().setScaleX(.5);
-//		this.game.getBaseLayer().setScaleY(.5);
+//		this.game.getBaseLayer().setScaleX(.4);
+//		this.game.getBaseLayer().setScaleY(.4);
 		this.calculateCells();
 		this.createTeleportZones();
 		this.createFreeCells();
@@ -152,15 +152,6 @@ public class GridNode {
 					cellNodes[row][col].pathToGoal(false);
 					cellNodes[row][col].pathToTail(false);
 				}
-			}
-		}
-	}
-	public void resetPaths() {
-		for (int row = minRow; row < cellNodes.length; row++) {
-			for (int col = minCol; col < cellNodes[row].length; col++) {
-				cellNodes[row][col].pathToTail(false);
-				cellNodes[row][col].pathToGoal(false);
-				cellNodes[row][col].setPathCell(false);
 			}
 		}
 	}
@@ -280,16 +271,12 @@ public class GridNode {
 	}
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
-		CellNode cell = getCell(r,c);
+		CellNode cell = null;
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode tempCell = cellNodes[row][col];
-				if (tempCell.getBoundsCheck().contains(snake.getAIBounds())) {
+				if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
 					cell = tempCell;
-				}else{
-					if (tempCell.getBoundsCheck().intersects(snake.getAIBounds())) {
-						cell = tempCell;
-					}
 				}
 			}
 		}
@@ -616,38 +603,6 @@ public class GridNode {
 		return previous;
 	}
 
-	public boolean isNextCellAvailable(PlayerTwo snakeAI, CellNode cell){
-		CellNode nextCell = null;
-
-		Neighbor neighbor = null;
-
-		switch(snakeAI.getCurrentDirection()){
-		case MOVE_DOWN:
-			neighbor = Neighbor.SOUTH;
-			break;
-		case MOVE_LEFT:
-			neighbor = Neighbor.WEST;
-			break;
-		case MOVE_RIGHT:
-			neighbor = Neighbor.EAST;
-			break;
-		case MOVE_UP:
-			neighbor = Neighbor.NORTH;
-			break;
-		case STANDING_STILL:
-			neighbor = Neighbor.SOUTH;
-			break;
-
-		}
-		nextCell = getNeighbor(cell, neighbor);
-
-		if(nextCell.isTraversable() && !nextCell.isOccupied()){
-			return true;
-		}
-
-		return false;
-	}
-
 	public CellNode[] getGhildren(CellNode cell){
 
 		List<CellNode> children = new LinkedList<>();
@@ -712,6 +667,10 @@ public class GridNode {
 
 	public CellNode getCell(int row, int col) {
 		return cellNodes[row][col];
+	}
+
+	public CellNode getCell(IndexWrapper index) {
+		return cellNodes[index.getRow()][index.getCol()];
 	}
 
 	public List<CellNode> getEdges() {
