@@ -70,11 +70,11 @@ public class CellNode implements Comparable<CellNode>{
 	public void resetConnections(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
-		pathCell = false;
 		clear(children);
 	}
 
 	public void resetValues(){
+		pathCell = false;
 		visited = false;
 		distance = -1;
 		heuristic = 0;
@@ -476,7 +476,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public double getDistanceFrom(CellNode from) {
-		return SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
+		return 0;// SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
 	}
 
 	@Override

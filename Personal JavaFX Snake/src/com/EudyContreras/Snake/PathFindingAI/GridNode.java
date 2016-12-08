@@ -25,7 +25,6 @@ public class GridNode {
 
 	private boolean showCells;
 
-	private CellNode head;
 	private CellNode headCell;
 	private CellNode tailCell;
 	private GameManager game;
@@ -136,7 +135,7 @@ public class GridNode {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode cell = cellNodes[row][col];
-				if(cell.isTraversable() && !cell.isDangerZone() && !cell.isTeleportZone()){
+				if(cell.isTraversable() && !cell.isDangerZone()){
 					freeCells.add(cell);
 				}
 			}
@@ -263,7 +262,7 @@ public class GridNode {
 	}
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
-		CellNode cell = cellNodes[r][c];
+		CellNode cell = getCells()[r][c];
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode tempCell = cellNodes[row][col];
@@ -279,14 +278,9 @@ public class GridNode {
 		for (int row = minRow; row < cellNodes.length; row++) {
 			for (int col = minCol; col < cellNodes[row].length; col++) {
 				CellNode cell = cellNodes[row][col];
-				if (cell.getBoundsCheck().contains(snake.getAIBounds())) {
+				if (cell.getBoundsCheck().intersects(snake.getAIBounds())) {
 					setHeadCell(cell);
 					return cell;
-				}else{
-					if (cell.getBoundsCheck().intersects(snake.getAIBounds())) {
-						setHeadCell(cell);
-						return cell;
-					}
 				}
 			}
 		}
@@ -353,7 +347,54 @@ public class GridNode {
 		}
 		return safe;
 	}
+	public boolean isNeighborNot(CellNode cell, Flag flag) {
+		boolean safe = true;
 
+		int r = cell.getIndex().getRow();
+		int c = cell.getIndex().getCol();
+
+		int startPosX = (r - 1 < minRow) ? r : r - 1;
+		int startPosY = (c - 1 < minCol) ? c : c - 1;
+
+		int endPosX = (r + 1 > rowCount - 1) ? r : r + 1;
+		int endPosY = (c + 1 > columnCount - 1) ? c : c + 1;
+
+		for (int row = startPosX; row <= endPosX; row++) {
+			for (int col = startPosY; col <= endPosY; col++) {
+				CellNode neighbor = cellNodes[row][col];
+				switch(flag){
+				case AVAILABLE:
+					break;
+				case NO_SPAWN:
+					if(!neighbor.isSpawnAllowed()){
+						safe = false;
+					}
+					break;
+				case OCCUPIED:
+					if(neighbor.isOccupied()){
+						safe = false;
+					}
+					break;
+				case SAFE:
+					if(!neighbor.isOccupied() && neighbor.isTraversable() && !neighbor.isDangerZone()){
+						safe = false;
+					}
+					break;
+				case UNAVAILABLE:
+					if(!neighbor.isAvailable()){
+						safe = false;
+					}
+					break;
+				case UNSAFE:
+					if(neighbor.isOccupied() || !neighbor.isTraversable() || neighbor.isDangerZone()){
+						safe = false;
+					}
+					break;
+				}
+			}
+		}
+		return safe;
+	}
 	public void findNeighbors(int r, int c, Flag flag) {
 		int startPosX = (r - 1 < minRow) ? r : r - 1;
 		int startPosY = (c - 1 < minCol) ? c : c - 1;
@@ -421,19 +462,19 @@ public class GridNode {
 		switch(scenario){
 		case LEVEL_ONE:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && tempCell.isSpawnAllowed()) {
 				neighbors.add(tempCell);
 			}
 			break;
@@ -498,36 +539,7 @@ public class GridNode {
 		return neighbors;
 	}
 
-
-	public CellNode getNextCell(PlayerTwo snakeAI) {
-		CellNode next = null;
-
-		Neighbor neighbor = null;
-
-		switch(snakeAI.getCurrentDirection()){
-		case MOVE_DOWN:
-			neighbor = Neighbor.SOUTH;
-			break;
-		case MOVE_LEFT:
-			neighbor = Neighbor.WEST;
-			break;
-		case MOVE_RIGHT:
-			neighbor = Neighbor.EAST;
-			break;
-		case MOVE_UP:
-			neighbor = Neighbor.NORTH;
-			break;
-		case STANDING_STILL:
-			neighbor = Neighbor.SOUTH;
-			break;
-
-		}
-		next = getNeighbor(getRelativeHeadCell(snakeAI), neighbor);
-
-		return next;
-	}
-
-	public CellNode getPreviousCell(PlayerTwo snakeAI, CellNode cell){
+	public CellNode getPrevious(PlayerTwo snakeAI, CellNode cell){
 		CellNode previous = null;
 
 		Neighbor neighbor = null;
@@ -553,6 +565,34 @@ public class GridNode {
 		previous = getNeighbor(cell, neighbor);
 
 		return previous;
+	}
+
+	public CellNode getNext(PlayerTwo snakeAI, CellNode cell){
+		CellNode nextCell = null;
+
+		Neighbor neighbor = null;
+
+		switch(snakeAI.getCurrentDirection()){
+		case MOVE_DOWN:
+			neighbor = Neighbor.SOUTH;
+			break;
+		case MOVE_LEFT:
+			neighbor = Neighbor.WEST;
+			break;
+		case MOVE_RIGHT:
+			neighbor = Neighbor.EAST;
+			break;
+		case MOVE_UP:
+			neighbor = Neighbor.NORTH;
+			break;
+		case STANDING_STILL:
+			neighbor = Neighbor.SOUTH;
+			break;
+
+		}
+		nextCell = getNeighbor(cell, neighbor);
+
+		return nextCell;
 	}
 
 	public CellNode[] getGhildren(CellNode cell){
@@ -702,7 +742,7 @@ public class GridNode {
 	}
 
 	public enum Flag {
-		UNSAFE, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
+		UNSAFE, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE, OCCUPIED,
 	}
 
 	public enum TeleportZone {
@@ -712,6 +752,5 @@ public class GridNode {
 	public enum Neighbor{
 		WEST, EAST, SOUTH, NORTH
 	}
-
 
 }
