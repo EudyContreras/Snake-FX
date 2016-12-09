@@ -12,3 +12,20 @@ Notes and Ideas about Artificial Intelligence!
 		affects health. If a boost would allow it to reach objectives which
 		the competitor is pursuing before the competitor does, etc.
 
+	TODO: Fixes and Improvements.
+
+		*Add a logical stationary tail that the snake could follow. The current
+		methodology is faulty due to how the tail mechanic works.
+		*Adjust the teleporation thereshold for the top side of the map. The
+		teleportation cell intersects the top edge teleportation trigger.
+
+		*Create a logical snake replica of the actual snake. The logical snake will travel the returned
+		path and then attempt to create a path to the tail. If a path to the tail is found. The path
+		is then considered safe. If the path is not safe then chase the tail taking the longest path or
+		a path that visits as many cells as possible on the way.
+
+		*If a path to tail is not found find the cell which is farthest away from the
+		current objective and take the longest path to that cell. Pursuit the path until
+		a safe path to the objective can be made. Another stradegy is to find a cell which
+		will lead to an available path to the tail.
+

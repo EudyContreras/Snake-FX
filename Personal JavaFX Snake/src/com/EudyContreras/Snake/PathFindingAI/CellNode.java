@@ -10,7 +10,7 @@ import javafx.scene.shape.Rectangle;
 public class CellNode implements Comparable<CellNode>{
 
 	private Pane layer;
-	private Index2D index;
+	private IndexWrapper index;
 	private Point2D location;
 	private GridNode grid;
 	private CellNode parentNode;
@@ -48,7 +48,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public CellNode(){}
 
-	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, Index2D index) {
+	public CellNode(GridNode grid, Pane layer, double x, double y, double size, int id, IndexWrapper index) {
 		this.id = id;
 		this.grid = grid;
 		this.index = index;
@@ -67,20 +67,23 @@ public class CellNode implements Comparable<CellNode>{
 		}
 	}
 
-	public void resetConnections(){
+	public CellNode resetConnections(){
 		directionInPath = Direction.NONE;
 		parentNode = null;
+		pathCell = false;
+		objective = false;
 		clear(children);
+		return this;
 	}
 
-	public void resetValues(){
-		pathCell = false;
+	public CellNode resetValues(){
 		visited = false;
 		distance = -1;
 		heuristic = 0;
 		movementCost = 10;
 		penaltyCost = 0;
 		totalCost = 0;
+		return this;
 	}
 
 	public void clear(CellNode[] children){
@@ -104,6 +107,10 @@ public class CellNode implements Comparable<CellNode>{
 		setTargetCell(state);
 	}
 
+	public void setColor(Color color) {
+		this.visualRep.setFill(color);
+	}
+
 	public void updateVisuals(){
 		if (showCells && layer!=null){
 			if(spawnAllowed && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
@@ -114,7 +121,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
 				visualRep.setFill(Color.RED.darker());
-			if(isPathToTail())
+			if(isPathToTail() && !isOccupied())
 				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
@@ -255,11 +262,11 @@ public class CellNode implements Comparable<CellNode>{
 		return id;
 	}
 
-	public Index2D getIndex() {
+	public IndexWrapper getIndex() {
 		return index;
 	}
 
-	public void setIndex(Index2D index){
+	public void setIndex(IndexWrapper index){
 		this.index = index;
 	}
 
@@ -311,16 +318,18 @@ public class CellNode implements Comparable<CellNode>{
 		return penaltyCost > 0;
 	}
 
-	public void pathToGoal(boolean state) {
+	public CellNode pathToGoal(boolean state) {
 		this.pathToGoal = state;
+		return this;
 	}
 
 	public boolean isPathToGoal() {
 		return pathToGoal;
 	}
 
-	public void pathToTail(boolean state) {
+	public CellNode pathToTail(boolean state) {
 		this.pathToTail = state;
+		return this;
 	}
 
 	public boolean isPathToTail() {
@@ -476,39 +485,53 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public double getDistanceFrom(CellNode from) {
-		return 0;// SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final CellNode other = (CellNode) obj;
-		if (this.index.getRow() != other.index.getRow()) {
-			return false;
-		}
-		if (this.index.getCol() != other.index.getCol()) {
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 3;
-		hash = 17 * hash + this.index.getRow();
-		hash = 17 * hash + this.index.getCol();
-		return hash;
+		return SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
 	}
 
 	@Override
 	public int compareTo(CellNode node) {
 		return Double.compare(this.getTotalCost(),node.getTotalCost());
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((index == null) ? 0 : index.hashCode());
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CellNode other = (CellNode) obj;
+		if (this.index.getRow() != other.index.getRow())
+			return false;
+		if (this.index.getCol() != other.index.getCol())
+			return false;
+		if (id != other.id)
+			return false;
+		if (index == null) {
+			if (other.index != null)
+				return false;
+		} else if (!index.equals(other.index))
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		return true;
+	}
+
+
 
 
 }
