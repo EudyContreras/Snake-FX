@@ -26,7 +26,7 @@ public enum Language {
 	private final String PATH_LANG_SWEDISH = "com.SnakeGame.Language.lang_se";
 	private final String FILE_LANG_SWEDISH = "lang_se.properties";
 
-	private final String PATH_LANG_ROOT = "." + File.separator + "DummySnake" + File.separator + "Lang" + File.separator;
+	private final String PATH_LANG_ROOT = "." + File.separator + "Snake" + File.separator + "Lang" + File.separator;
 
 	private final String PATH_LANG_FILE = PATH_LANG_ROOT + "lang.ini";
 

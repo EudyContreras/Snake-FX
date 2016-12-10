@@ -72,7 +72,7 @@ public class ScreenRecorder {
 	private final Indicator idle = new Indicator(Color.YELLOW, "paused..");
 	private final String VIDEO_NAME = "recording.ser";
 	private final String FRAME_NAME = "image";
-	private final String DIRECTORY_NAME = "DummySnake Game Videos"+ File.separator;
+	private final String DIRECTORY_NAME = "Snake Game Videos"+ File.separator;
 	private final String PATH_ROOT = System.getProperty("user.home") + "/Desktop" + File.separator +DIRECTORY_NAME;
 	private final String FILE_EXTENSION = "png";
 	private final String PATH_FRAME = PATH_ROOT + FRAME_NAME;

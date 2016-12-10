@@ -470,12 +470,7 @@ public class SearchAlgorithm {
 
 		GET_LONGEST_PATH_POLY(snakeAI, currentDirection, grid, startingPoint, startingPoint, objective, longestPath, distressLevel);
 
-		if(!longestPath.isEmpty()){
-			return longestPath;
-
-		}else{
-			return null;
-		}
+		return longestPath;
 	}
 
 	private void GET_LONGEST_PATH_POLY(PlayerTwo snakeAI, Direction direction, GridNode grid, CellNode current, CellNode startingPoint, CellNode objective, LinkedList<CellNode> path, DistressLevel distressLevel) {
@@ -937,10 +932,9 @@ public class SearchAlgorithm {
 				}
 			}
 		}
-
-
 		return new LinkedList<>();
 	}
+
 	private void buildPath(CurrentGoal goal, CellNode from, CellNode current, LinkedList<CellNode> path){
 		current.setPathToGoal(true);
 		current.setPathCell(true);

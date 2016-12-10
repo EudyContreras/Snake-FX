@@ -13,7 +13,6 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
-import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PathFindingAI.Objective.SortingType;
@@ -147,7 +146,7 @@ public class AIPathFinder {
 				}if (safetyCheck && currentGoal == CurrentGoal.TAIL) {
 					safetyCheckTimer++;
 
-					if (safetyCheckTimer >= 1500) {
+					if (safetyCheckTimer >= 3000) {
 						safetyCheckTimer = 0;
 						currentGoal = CurrentGoal.OBJECTIVE;
 						computePath();
@@ -243,7 +242,6 @@ public class AIPathFinder {
 	public void computePath(){
 		teleporting = false;
 
-//		GridNode grid = grid;
 		CellNode start = null;
 		CellNode tail = null;
 
@@ -271,7 +269,7 @@ public class AIPathFinder {
 					for(int i = 0; i < newObjectives.size(); i++){
 //						if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
 //							continue;
-						path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
+						path = checkObjectiveReach(start, newObjectives.get(i).getCell(), newObjectives.get(i), i, newObjectives, SearchPhase.TO_GOAL);
 						if(path!=null){
 							break;
 						}
@@ -282,7 +280,7 @@ public class AIPathFinder {
 						for(int i = 0; i < newObjectives.size(); i++){
 //							if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
 //								continue;
-							path = checkObjectiveReach(start, newObjectives.get(i), i, newObjectives);
+							path = checkObjectiveReach(start, newObjectives.get(i).getCell(), newObjectives.get(i), i, newObjectives, SearchPhase.TO_GOAL);
 							if(path!=null){
 								break;
 							}
@@ -291,9 +289,9 @@ public class AIPathFinder {
 
 					if(path!=null){
 						showPathToObjective(path);
+
 					}else{
 						currentGoal = CurrentGoal.TAIL;
-//						log("path is not safe!!");
 						removeThrust();
 						computePath();
 					}
@@ -322,23 +320,24 @@ public class AIPathFinder {
 					if (!start.isDangerZone()) {
 						distressLevel = DistressLevel.LEVEL_TWO;
 					}
-					path = new LinkedPath<CellNode>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
+					path = checkObjectiveReach(start, tail, null, -1, null, SearchPhase.TO_TAIL);
 
-					if (!path.getPathOne().isEmpty()) {
+					if (path!=null) {
 
 						showPathToObjective(path);
 					} else {
-
+						log("Path to tail empty!");
 						distressLevel = DistressLevel.LEVEL_THREE;
 
-						path = new LinkedPath<CellNode>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
+						path = checkObjectiveReach(start, tail, null, -1, null, SearchPhase.TO_TAIL);
 
-						if (!path.getPathOne().isEmpty()) {
+						if (path!=null) {
 
 							showPathToObjective(path);
 						} else {
 
 							currentGoal = CurrentGoal.FARTHEST_CELL;
+							removeThrust();
 							computePath();
 
 							log("Emergency path to tail empty!");
@@ -373,6 +372,7 @@ public class AIPathFinder {
 //				}
 			}break;
 		case FARTHEST_CELL:
+			pathFinder.setPathType(PathType.SHORTEST_PATH);
 
 			start = controller.getHeadCell(snakeAI);
 
@@ -382,51 +382,80 @@ public class AIPathFinder {
 				LinkedList<Objective> objectives = getObjectives(start, GoalSearch.CLOSEST_OBJECTIVE,SortingType.CLOSEST);
 
 				while (!objectives.isEmpty()) {
+					path = checkObjectiveReach(start, GET_FARTHEST_CELL(objectives.poll().getCell()), null, -1, null, SearchPhase.FARTHEST_FROM_OBJECTIVE);
 
-					path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(objectives.removeFirst().getCell())),new LinkedList<>());
-
-					if (!path.getPathOne().isEmpty()) {
+					if (path!=null) {
 						break;
 					}
 				}
-				if (!path.getPathOne().isEmpty()) {
+				if (path!=null) {
 					showPathToObjective(path);
 
 				} else {
 					log("Path to farthest cell from objective not found!");
-					path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(tail)), new LinkedList<>());
+					path = checkObjectiveReach(start, GET_FARTHEST_CELL(tail), null, -1, null, SearchPhase.FARTHEST_FROM_TAIL);
 
-					if (!path.getPathOne().isEmpty()) {
+					if (path!=null) {
 
 						showPathToObjective(path);
 					} else {
 						log("Path to farthest cell from tail not found!");
-						path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(start)), new LinkedList<>());
+						path = checkObjectiveReach(start, GET_FARTHEST_CELL(start), null, -1, null, SearchPhase.FARTHEST_FROM_CURRENT);
 
-						if (!path.getPathOne().isEmpty()) {
+						if (path!=null) {
 
 							showPathToObjective(path);
 						} else {
-
+							log("Path to farthest cell from start not found!");
 							LinkedList<CellNode> edges = new LinkedList<>(grid.getEdges());
 
 							Collections.shuffle(edges);
 
-							for(; edges.peek()!=null;){
-								path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, edges.poll()), new LinkedList<>());
+							for(int i = 0; i<10; i++){
 
-								if(!path.getPathOne().isEmpty()){
+								CellNode edge = edges.poll();
+
+								if(edge==null)
+									continue;
+
+								path = checkObjectiveReach(start, edge, null, -1, null, SearchPhase.TO_RANDOM_EDGE);
+
+								if(path!=null){
 									break;
 								}
 							}
 
-							if(!path.getPathOne().isEmpty()){
+							if(path!=null){
+
 								showPathToObjective(path);
 							}else{
-								log("Path to farthest cell from start not found!");
-								currentGoal = CurrentGoal.TAIL;
-								computePath();
+								log("Path to random edge cell from start not found!");
 
+								edges = new LinkedList<>(grid.getEdges());
+
+								Collections.shuffle(edges);
+
+								for(int i = 0; i<10; i++){
+
+									CellNode edge = edges.poll();
+
+									if(edge==null)
+										continue;
+
+									path = checkObjectiveReach(start, GET_FARTHEST_CELL(edge), null, -1, null, SearchPhase.FARTHEST_FROM_EDGE);
+
+									if(path!=null){
+										break;
+									}
+								}
+								if (path != null) {
+
+									showPathToObjective(path);
+								} else {
+									log("Path to farthest cell from random edge not found!");
+									currentGoal = CurrentGoal.TAIL;
+//									computePath();
+								}
 							}
 						}
 					}
@@ -485,7 +514,7 @@ public class AIPathFinder {
 		return false;
 	}
 
-	public LinkedPath<CellNode> checkObjectiveReach(CellNode start, Objective objective, int index, LinkedList<Objective> objectives){
+	public LinkedPath<CellNode> checkObjectiveReach(CellNode start, CellNode goal, Objective objective, int index, LinkedList<Objective> objectives, SearchPhase phase){
 		if(start!=null){
 
 			CellNode tail = grid.getTailCellNeighbor(snakeAI);
@@ -544,20 +573,114 @@ public class AIPathFinder {
 
 			DistressLevel distress = distressLevel == DistressLevel.LEVEL_TWO ? DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO : DistressLevel.SAFETY_CHECK_GOAL_LEVEL_THREE;
 
-			grid.resetCells(true);
+			LinkedPath<CellNode> safePath = null;
 
-			LinkedList<CellNode> pathToGoal = GET_SAFE_ASTAR_PATH(start, objective.getCell(), CurrentGoal.OBJECTIVE,distressLevel);
+			LinkedList<CellNode> pathToGoal = null;
 
-			if (!pathToGoal.isEmpty()) {
+			switch(phase){
+			case FARTHEST_FROM_CURRENT:
+				grid.resetCells(true);
 
-				grid.resetCellValues();
+				pathToGoal = GET_SAFE_ASTAR_PATH(start, goal, CurrentGoal.OBJECTIVE,distressLevel);
 
-				LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(start, tail, CurrentGoal.TAIL, distress);
+				if (!pathToGoal.isEmpty()) {
 
-				if(!pathToTail.isEmpty()){
+					grid.resetCellValues();
 
-					return new LinkedPath<CellNode>(pathToGoal,pathToTail,ConnectionType.SAFE_PATH_CHECK);
+					LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(goal, tail, CurrentGoal.TAIL, distress);
+
+					if(!pathToTail.isEmpty()){
+
+						return new LinkedPath<CellNode>(pathToGoal,pathToTail,ConnectionType.SAFE_PATH_CHECK);
+					}
 				}
+				break;
+			case FARTHEST_FROM_EDGE:
+				grid.resetCells(true);
+
+				pathToGoal = GET_SAFE_ASTAR_PATH(start, goal, CurrentGoal.OBJECTIVE,distressLevel);
+
+				if (!pathToGoal.isEmpty()) {
+
+					grid.resetCellValues();
+
+					LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(goal, tail, CurrentGoal.TAIL, distress);
+
+					if(!pathToTail.isEmpty()){
+
+						return new LinkedPath<CellNode>(pathToGoal,pathToTail,ConnectionType.SAFE_PATH_CHECK);
+					}
+				}
+				break;
+			case FARTHEST_FROM_OBJECTIVE:
+
+				safePath = new LinkedPath<CellNode>(GET_LONGEST_PATH_POLY(start, goal), new LinkedList<>());
+
+				if (!safePath.getPathOne().isEmpty()) {
+
+					return new LinkedPath<CellNode>(pathToGoal,null);
+
+				}
+				break;
+			case FARTHEST_FROM_TAIL:
+				grid.resetCells(true);
+
+				pathToGoal = GET_SAFE_ASTAR_PATH(start, goal, CurrentGoal.OBJECTIVE,distressLevel);
+
+				if (!pathToGoal.isEmpty()) {
+
+					grid.resetCellValues();
+
+					LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(goal, tail, CurrentGoal.TAIL, distress);
+
+					if(!pathToTail.isEmpty()){
+
+						return new LinkedPath<CellNode>(pathToGoal,pathToTail,ConnectionType.SAFE_PATH_CHECK);
+					}
+				}
+				break;
+			case TO_GOAL:
+				grid.resetCells(true);
+
+				pathToGoal = GET_SAFE_ASTAR_PATH(start, objective.getCell(), CurrentGoal.OBJECTIVE,distressLevel);
+
+				if (!pathToGoal.isEmpty()) {
+
+					grid.resetCellValues();
+
+					LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(objective.getCell(), tail, CurrentGoal.TAIL, distress);
+
+					if(!pathToTail.isEmpty()){
+
+						return new LinkedPath<CellNode>(pathToGoal,pathToTail,ConnectionType.SAFE_PATH_CHECK);
+					}
+				}
+				break;
+			case TO_RANDOM_EDGE:
+
+				grid.resetCells(true);
+
+				pathToGoal = GET_SAFE_ASTAR_PATH(start, goal, CurrentGoal.OBJECTIVE,distressLevel);
+
+				if (!pathToGoal.isEmpty()) {
+
+					grid.resetCellValues();
+
+					LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(goal, tail, CurrentGoal.TAIL, distress);
+
+					if(!pathToTail.isEmpty()){
+
+						return new LinkedPath<CellNode>(pathToGoal,pathToTail,ConnectionType.SAFE_PATH_CHECK);
+					}
+				}
+				break;
+			case TO_TAIL:
+				safePath = new LinkedPath<CellNode>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
+
+				if(!safePath.getPathOne().isEmpty()){
+					return safePath;
+				}
+				break;
 			}
 		}
 		return null;
@@ -1364,6 +1487,10 @@ public class AIPathFinder {
 
 	private enum TeleportationImportance{
 		NORMAL,EMERGENCY
+	}
+
+	private enum SearchPhase{
+		TO_GOAL, TO_TAIL, TO_RANDOM_EDGE, FARTHEST_FROM_OBJECTIVE, FARTHEST_FROM_TAIL, FARTHEST_FROM_CURRENT, FARTHEST_FROM_EDGE
 	}
 
 	public enum DistressLevel{

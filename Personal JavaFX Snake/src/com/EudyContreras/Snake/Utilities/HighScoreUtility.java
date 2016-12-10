@@ -27,7 +27,7 @@ public enum HighScoreUtility {
 
 	INSTANCE;
 
-	private final String PATH_ROOT = System.getProperty("user.home")+"/Desktop" + File.separator + "DummySnake Game Video" + File.separator;
+	private final String PATH_ROOT = System.getProperty("user.home")+"/Desktop" + File.separator + "Snake Game Video" + File.separator;
 
 	private final String PATH_USER_PICS = PATH_ROOT  + File.separator + "Pictures" + File.separator;
 	private final String PATH_DEFAULT_PICTURE = "/com/SnakeGame/Images//player.png";

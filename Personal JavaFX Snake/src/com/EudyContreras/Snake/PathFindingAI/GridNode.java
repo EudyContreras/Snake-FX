@@ -59,7 +59,6 @@ public class GridNode {
 		this.calculateCells();
 		this.createTeleportZones();
 		this.createFreeCells();
-		this.createEdges();
 	}
 
 	private void calculateCells() {
@@ -80,6 +79,7 @@ public class GridNode {
 	}
 
 	public void createTeleportZones() {
+		mapEdges = new LinkedList<>();
 		teleportZoneEast = new LinkedList<>();
 		teleportZoneWest = new LinkedList<>();
 		teleportZoneNorth = new LinkedList<>();
@@ -120,10 +120,7 @@ public class GridNode {
 			cell.setTraversable(true);
 			teleportZoneNorth.add(cell);
 		}));
-	}
 
-	public void createEdges(){
-		mapEdges = new LinkedList<>();
 		mapEdges.addAll(teleportZoneEast);
 		mapEdges.addAll(teleportZoneWest);
 		mapEdges.addAll(teleportZoneNorth);
