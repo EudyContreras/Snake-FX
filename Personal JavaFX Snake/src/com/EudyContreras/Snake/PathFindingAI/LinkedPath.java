@@ -16,18 +16,25 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 	}
 
 	public LinkedPath(ConnectionType type) {
-		this(new LinkedList<PATH>(), new LinkedList<PATH>());
-		this.type = type;
+		this(new LinkedList<PATH>(), new LinkedList<PATH>(), type);
 	}
 
 	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo) {
-		this(pathOne, pathTwo, null);
+		this(pathOne, pathTwo, ConnectionType.INTERPOLAR_PATH);
+	}
+
+	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo,ConnectionType connection) {
+		this(pathOne, pathTwo, null, connection);
 	}
 
 	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo, Objective objective) {
+		this(pathOne, pathTwo, objective, null);
+	}
+
+	public LinkedPath(LinkedList<PATH> pathOne, LinkedList<PATH> pathTwo, Objective objective, ConnectionType connection) {
 		super();
 		this.objective = objective;
-		this.type = ConnectionType.INTERPOLAR_PATH;
+		this.type = connection;
 		if (pathOne != null && pathTwo != null) {
 			this.pathOne = !pathOne.isEmpty() ? pathOne : new  LinkedList<PATH>();
 			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new  LinkedList<PATH>();
@@ -67,7 +74,7 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 	}
 
 	public boolean isPathSafe(){
-		return !pathOne.isEmpty() && !pathTwo.isEmpty();
+		return (!pathOne.isEmpty() && !pathTwo.isEmpty());
 	}
 
 	public Objective getObjective() {

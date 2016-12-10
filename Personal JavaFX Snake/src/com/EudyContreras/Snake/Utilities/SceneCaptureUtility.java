@@ -126,7 +126,7 @@ public class SceneCaptureUtility {
 
 	private final String VIDEO_NAME = "recording.FXVideo";
 	private final String FRAME_NAME = "image";
-	private final String DIRECTORY_NAME = "Snake Game Videos"+ File.separator;
+	private final String DIRECTORY_NAME = "DummySnake Game Videos"+ File.separator;
 	private final String PATH_ROOT = System.getProperty("user.home") + "/Desktop" + File.separator +DIRECTORY_NAME;
 	private final String FILE_EXTENSION = "jpg";
 	private final String PATH_FRAME = PATH_ROOT + FRAME_NAME;

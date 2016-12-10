@@ -537,7 +537,7 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 			break;
-		case SAFETY_CHECK_GOAL:
+		case SAFETY_CHECK_GOAL_LEVEL_TWO:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
 			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 				neighbors.add(tempCell);

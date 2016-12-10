@@ -5,11 +5,6 @@ public class PortalWrapper {
 	private CellNode portalIn;
 	private CellNode portalOut;
 
-
-	public PortalWrapper(){
-
-	}
-
 	public CellNode getPortalIn() {
 		return portalIn;
 	}

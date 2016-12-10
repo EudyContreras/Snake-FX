@@ -14,6 +14,7 @@ import javafx.geometry.Rectangle2D;
  *
  */
 public class CollideNode {
+
 	private double x;
 	private double y;
 	private double width;
@@ -45,7 +46,7 @@ public class CollideNode {
 		this.dimension = new Dimension2D(width,height);
 	}
 
-	public RiskFactor getRiskFactor(double x, double y){
+	public final RiskFactor getRiskFactor(double x, double y){
 		if(getDistance(x,y)<=threshold/2){
 			return RiskFactor.VERY_HIGH;
 		}
@@ -60,15 +61,15 @@ public class CollideNode {
 		}
 	}
 
-	public AbstractTile getObject() {
+	public final AbstractTile getObject() {
 		return object;
 	}
 
-	public RiskFactor getRiskFactor() {
+	public final RiskFactor getRiskFactor() {
 		return riskFactor;
 	}
 
-	public double getX() {
+	public final double getX() {
 		return x;
 	}
 
@@ -76,7 +77,7 @@ public class CollideNode {
 		this.x = x;
 	}
 
-	public double getY() {
+	public final double getY() {
 		return y;
 	}
 
@@ -84,19 +85,19 @@ public class CollideNode {
 		this.y = y;
 	}
 
-	public Dimension2D Dimension() {
+	public final Dimension2D Dimension() {
 		return dimension;
 	}
 
-	public double getRangeX(double x) {
+	public final double getRangeX(double x) {
 		return Math.abs(x - this.x);
 	}
 
-	public double getRangeY(double y) {
+	public final double getRangeY(double y) {
 		return Math.abs(y - this.y);
 	}
 
-	public double getDistance(double x, double y) {
+	public final double getDistance(double x, double y) {
 		return Math.abs(x - this.x) + Math.abs(y - this.y);
 	}
 
@@ -104,7 +105,7 @@ public class CollideNode {
 		VERY_HIGH, HIGH, MEDIUM, LOW, NO_SPAWN_ZONE
 	}
 
-	public Rectangle2D getCollideRadius() {
+	public final Rectangle2D getCollideRadius() {
 		return new Rectangle2D(x - clearRadius, y - clearRadius, width + clearRadius * 2, height + clearRadius * 2);
 	}
 

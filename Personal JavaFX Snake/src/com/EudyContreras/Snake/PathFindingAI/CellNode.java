@@ -37,14 +37,14 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean pathToGoal = false;
 	private boolean pathToTail = false;
 	private boolean objective = false;
-	private boolean isTraversable = true;
+	private boolean traversable = true;
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
-	private boolean availableCell = true;
+	private boolean available = true;
 	private boolean playerSpawnZone = false;
 
 	private CellType cellType = CellType.FREE;
-	private Direction directionInPath = Direction.NONE;
+	private Direction direction = Direction.NONE;
 
 	public CellNode(){}
 
@@ -63,16 +63,16 @@ public class CellNode implements Comparable<CellNode>{
 			this.visualRep.setY(location.getY());
 			this.visualRep.setFill(Color.TRANSPARENT);
 			this.visualRep.setStroke(Color.rgb(0,0,0,0.8));
-			layer.getChildren().add(this.getVisualRep());
+			layer.getChildren().add(visualRep);
 		}
 	}
 
 	public CellNode resetConnections(){
-		directionInPath = Direction.NONE;
+		direction = Direction.NONE;
+		children = null;
 		parentNode = null;
 		pathCell = false;
 		objective = false;
-		clear(children);
 		return this;
 	}
 
@@ -86,34 +86,9 @@ public class CellNode implements Comparable<CellNode>{
 		return this;
 	}
 
-	public void clear(CellNode[] children){
-		if(children!=null)
-		for(int i = 0; i<children.length; children[i] = null, i++);
-	}
-
-	public void setLocation(double x, double y) {
-		this.location = new Point2D(x, y);
-		if (showCells && layer!=null) {
-			this.visualRep.setX(x);
-			this.visualRep.setY(y);
-		}
-	}
-
-	public void setDimension(double width, double height) {
-		this.dimension = new Dimension2D(width, height);
-	}
-
-	public void setContainsTarget(boolean state) {
-		setTargetCell(state);
-	}
-
-	public void setColor(Color color) {
-		this.visualRep.setFill(color);
-	}
-
-	public void updateVisuals(){
+	public final void updateVisuals(){
 		if (showCells && layer!=null){
-			if(spawnAllowed && !pathCell && !occupied && !targetCell && availableCell && !playerSpawnZone)
+			if(spawnAllowed && !pathToGoal && !pathToTail && !occupied && !targetCell && available && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
 				visualRep.setFill(Color.rgb(255, 170, 0));
@@ -125,7 +100,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);
-			if(isPathCell())
+			if(isPathToGoal())
 				visualRep.setFill(Color.BLUE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
@@ -138,7 +113,7 @@ public class CellNode implements Comparable<CellNode>{
 		}
 	}
 
-	public void killFamily() {
+	public CellNode killFamily() {
 		if(getParentNode()!=null){
 			if(getParentNode().getParentNode()!=null){
 				getParentNode().setParentNode(null);
@@ -158,26 +133,10 @@ public class CellNode implements Comparable<CellNode>{
 				}
 			}
 		}
+		return this;
 	}
 
-	public void setSpawnAllowed(boolean state) {
-		this.spawnAllowed = state;
-		this.penaltyCost = 200;
-	}
-
-	public void setPathCell(boolean state) {
-		this.pathCell = state;
-	}
-
-	public final void setTraversable(boolean state) {
-		this.isTraversable = state;
-	}
-
-	public void setOccupied(boolean state) {
-		this.occupied = state;
-	}
-
-	public boolean invalidSpawnZone(){
+	public final boolean invalidSpawnZone(){
 		return this.getIndex().getRow()==0 || this.getIndex().getRow()==1 ||
 				this.getIndex().getCol()==1 || this.getIndex().getCol()==2 ||
 				this.getIndex().getRow()==grid.getRowCount()-1 ||
@@ -186,14 +145,14 @@ public class CellNode implements Comparable<CellNode>{
 				this.getIndex().getCol()==grid.getColumnCount()-2;
 	}
 
-	public boolean teleportZone(){
+	public final boolean teleportZone(){
 		return this.getIndex().getRow()==0 ||
 				this.getIndex().getCol()==1 ||
 				this.getIndex().getRow()==grid.getRowCount()-1 ||
 				this.getIndex().getCol()==grid.getColumnCount()-1;
 	}
 
-	public boolean fruitSpawnAllowed(){
+	public final boolean fruitSpawnAllowed(){
 		return isSpawnAllowed() &&
 				isAvailable() &&
 				!isOccupied() &&
@@ -202,231 +161,282 @@ public class CellNode implements Comparable<CellNode>{
 				grid.safeSpawn(this);
 	}
 
-	public boolean isInvalidSpawnZone() {
-		return invalidSpawnZone;
+	public CellNode setLocation(double x, double y) {
+		this.location = new Point2D(x, y);
+		if (showCells && layer!=null) {
+			this.visualRep.setX(x);
+			this.visualRep.setY(y);
+		}
+		return this;
 	}
 
-	public boolean isTeleportZone() {
-		return teleportZone;
+	public CellNode setDimension(double width, double height) {
+		this.dimension = new Dimension2D(width, height);
+		return this;
 	}
 
-	public void setTeleportZone(boolean teleportZone) {
-		this.teleportZone = teleportZone;
-	}
-
-	public boolean isPathCell() {
-		return pathCell;
-	}
-
-	public final CellNode getParentNode() {
-		return parentNode;
-	}
-
-	public final CellNode[] getChildren() {
-		return children;
-	}
-
-	public final void setPlayerSpawnZone(boolean state) {
-		this.playerSpawnZone = state;
-	}
-
-	public final boolean isPlayerSpawnZone() {
-		return playerSpawnZone;
-	}
-
-	public final void setParentNode(CellNode parent) {
-		this.parentNode = parent;
-	}
-
-	public final void setChildren(CellNode[] children) {
-		this.children = children;
-	}
-
-	public double getDistance() {
-		return distance;
-	}
-
-	public void setDistance(double distance) {
-		this.distance = distance;
-	}
-
-	public boolean isObjective() {
-		return objective;
-	}
-
-	public void setObjective(boolean objective) {
-		this.objective = objective;
-	}
-
-	public int getID() {
-		return id;
-	}
-
-	public IndexWrapper getIndex() {
-		return index;
-	}
-
-	public void setIndex(IndexWrapper index){
-		this.index = index;
-	}
-
-	public Rectangle getVisualRep() {
-		return visualRep;
-	}
-
-	public final Point2D getLocation() {
-		return location;
-	}
-
-	public final void setLocation(Point2D location) {
-		this.location = location;
-	}
-
-	public final Dimension2D getDimension() {
-		return dimension;
-	}
-
-	public final void setDimension(Dimension2D dimension) {
-		this.dimension = dimension;
-	}
-
-	public final boolean isTraversable() {
-		return isTraversable;
-	}
-
-	public boolean isOccupied() {
-		return occupied;
-	}
-
-	public final boolean isSpawnAllowed() {
-		return spawnAllowed;
-	}
-
-	public final void setAvailable(boolean state) {
-		this.availableCell = state;
-	}
-
-	public final boolean isAvailable() {
-		return availableCell;
-	}
-
-	public final boolean isTargetCell() {
-		return targetCell;
+	public void setContainsTarget(boolean state) {
+		setTargetCell(state);
 	}
 
 	public final boolean isPenalized() {
 		return penaltyCost > 0;
 	}
 
-	public CellNode pathToGoal(boolean state) {
-		this.pathToGoal = state;
+	public final double getMovementCost() {
+		return movementCost + getPenaltyCost();
+	}
+
+	public CellNode setMovementCost(double movementCost) {
+		this.movementCost = movementCost;
 		return this;
 	}
 
-	public boolean isPathToGoal() {
-		return pathToGoal;
+	public final IndexWrapper getIndex() {
+		return index;
 	}
 
-	public CellNode pathToTail(boolean state) {
-		this.pathToTail = state;
+	public CellNode setIndex(IndexWrapper index) {
+		this.index = index;
 		return this;
 	}
 
-	public boolean isPathToTail() {
-		return pathToTail;
+	public final Point2D getLocation() {
+		return location;
 	}
 
-	public final void setDangerZone(boolean state) {
-		this.dangerZone = state;
+	public CellNode setLocation(Point2D location) {
+		this.location = location;
+		return this;
 	}
 
-	public final boolean isDangerZone() {
-		return dangerZone;
+	public final CellNode getParentNode() {
+		return parentNode;
 	}
 
-	public void setTargetCell(boolean state) {
-		this.targetCell = state;
+	public CellNode setParentNode(CellNode parentNode) {
+		this.parentNode = parentNode;
+		return this;
 	}
 
-	public double getSize() {
+	public final CellNode[] getChildren() {
+		return children;
+	}
+
+	public final CellNode setChildren(CellNode[] children) {
+		this.children = children;
+		return this;
+	}
+
+	public final Dimension2D getDimension() {
+		return dimension;
+	}
+
+	public CellNode setDimension(Dimension2D dimension) {
+		this.dimension = dimension;
+		return this;
+	}
+
+	public final int getId() {
+		return id;
+	}
+
+	public CellNode setId(int id) {
+		this.id = id;
+		return this;
+	}
+
+	public final double getCellSize() {
 		return cellSize;
+	}
+
+	public CellNode setCellSize(double cellSize) {
+		this.cellSize = cellSize;
+		return this;
+	}
+
+	public final double getDistance() {
+		return distance;
+	}
+
+	public CellNode setDistance(double distance) {
+		this.distance = distance;
+		return this;
 	}
 
 	public final double getHeuristic() {
 		return heuristic;
 	}
 
-	public final void setHeuristic(double heuristic) {
+	public CellNode setHeuristic(double heuristic) {
 		this.heuristic = heuristic;
+		return this;
 	}
 
-	public final double getMovementCost() {
-		return movementCost + getPenaltyCost();
-	}
-
-	public final void setMovementCost(double movementCost) {
-		this.movementCost = movementCost;
-	}
-
-	public void setVisited(boolean visited) {
-		this.visited = visited;
-	}
-
-	public boolean isVisited() {
-		return visited;
-	}
-
-	public double getPenaltyCost() {
+	public final double getPenaltyCost() {
 		return penaltyCost;
 	}
 
-	public void setPenaltyCost(double movementPanelty) {
-		this.penaltyCost = movementPanelty;
+	public CellNode setPenaltyCost(double penaltyCost) {
+		this.penaltyCost = penaltyCost;
+		return this;
 	}
 
 	public final double getTotalCost() {
 		return totalCost;
 	}
 
-	public final void setTotalCost(double cost) {
-		this.totalCost = cost;
+	public CellNode setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+		return this;
 	}
 
-	public final void setVisualRep(Rectangle visualRep) {
-		this.visualRep = visualRep;
+	public final boolean isVisited() {
+		return visited;
 	}
 
-	public Rectangle2D getBoundsCheck() {
-		return new Rectangle2D(location.getX(), location.getY(), dimension.getWidth(), dimension.getHeight());
+	public CellNode setVisited(boolean visited) {
+		this.visited = visited;
+		return this;
 	}
 
-	public Direction getDirection() {
-		return directionInPath;
+	public final boolean isPathCell() {
+		return pathCell;
 	}
 
-	public void setDirection(Direction direction) {
-		this.directionInPath = direction;
+	public CellNode setPathCell(boolean pathCell) {
+		this.pathCell = pathCell;
+		return this;
+	}
+
+	public final boolean isTargetCell() {
+		return targetCell;
+	}
+
+	public CellNode setTargetCell(boolean targetCell) {
+		this.targetCell = targetCell;
+		return this;
+	}
+
+	public final boolean isOccupied() {
+		return occupied;
+	}
+
+	public CellNode setOccupied(boolean occupied) {
+		this.occupied = occupied;
+		return this;
+	}
+
+	public final boolean isTeleportZone() {
+		return teleportZone;
+	}
+
+	public CellNode setTeleportZone(boolean teleportZone) {
+		this.teleportZone = teleportZone;
+		return this;
+	}
+
+	public final boolean isDangerZone() {
+		return dangerZone;
+	}
+
+	public CellNode setDangerZone(boolean dangerZone) {
+		this.dangerZone = dangerZone;
+		return this;
+	}
+
+	public final boolean isPathToGoal() {
+		return pathToGoal;
+	}
+
+	public CellNode setPathToGoal(boolean pathToGoal) {
+		this.pathToGoal = pathToGoal;
+		return this;
+	}
+
+	public final boolean isPathToTail() {
+		return pathToTail;
+	}
+
+	public CellNode setPathToTail(boolean pathToTail) {
+		this.pathToTail = pathToTail;
+		return this;
+	}
+
+	public final boolean isObjective() {
+		return objective;
+	}
+
+	public CellNode setObjective(boolean objective) {
+		this.objective = objective;
+		return this;
+	}
+
+	public final boolean isTraversable() {
+		return traversable;
+	}
+
+	public CellNode setTraversable(boolean traversable) {
+		this.traversable = traversable;
+		return this;
+	}
+
+	public final boolean isSpawnAllowed() {
+		return spawnAllowed;
+	}
+
+	public CellNode setSpawnAllowed(boolean spawnAllowed) {
+		this.spawnAllowed = spawnAllowed;
+		return this;
+	}
+
+	public final boolean isInvalidSpawnZone() {
+		return invalidSpawnZone;
+	}
+
+	public CellNode setInvalidSpawnZone(boolean invalidSpawnZone) {
+		this.invalidSpawnZone = invalidSpawnZone;
+		return this;
+	}
+
+	public final boolean isAvailable() {
+		return available;
+	}
+
+	public CellNode setAvailable(boolean availableCell) {
+		this.available = availableCell;
+		return this;
+	}
+
+	public final boolean isPlayerSpawnZone() {
+		return playerSpawnZone;
+	}
+
+	public CellNode setPlayerSpawnZone(boolean playerSpawnZone) {
+		this.playerSpawnZone = playerSpawnZone;
+		return this;
 	}
 
 	public final CellType getCellType() {
 		return cellType;
 	}
 
-	public final void setCellType(CellType cellType) {
+	public CellNode setCellType(CellType cellType) {
 		this.cellType = cellType;
+		return this;
 	}
 
-	public enum CellType {
-		BLOCKED, TRAVERSABLE, UNAVAILABLE, FREE
+	public final Direction getDirection() {
+		return direction;
 	}
 
-	public enum Direction {
-		UP, DOWN, LEFT, RIGHT, NONE;
+	public CellNode setDirection(Direction direction) {
+		this.direction = direction;
+		return this;
+	}
 
-		@Override
-		public String toString() {
-			return this.name();
-		}
+	public Rectangle2D getBoundsCheck() {
+		return new Rectangle2D(location.getX(), location.getY(), dimension.getWidth(), dimension.getHeight());
 	}
 
 	public CellNode getCloned() {
@@ -494,6 +504,11 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	@Override
+	public String toString(){
+		return "ID: "+this.getId()+" Index: "+index.toString();
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -531,7 +546,17 @@ public class CellNode implements Comparable<CellNode>{
 		return true;
 	}
 
+	public enum CellType {
+		BLOCKED, TRAVERSABLE, UNAVAILABLE, FREE
+	}
 
+	public enum Direction {
+		UP, DOWN, LEFT, RIGHT, NONE;
 
+		@Override
+		public String toString() {
+			return this.name();
+		}
+	}
 
 }

@@ -976,7 +976,7 @@ public class SearchAlgorithm {
 
 			current.setVisited(true);
 
-			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_GOAL)) {
+			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO)) {
 
 				if( neighbor == null) {
 					continue;

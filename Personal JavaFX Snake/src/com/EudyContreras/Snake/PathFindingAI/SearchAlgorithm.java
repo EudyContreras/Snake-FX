@@ -9,10 +9,11 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.CurrentGoal;
 import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.GridNode.Neighbor;
-import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
 public class SearchAlgorithm {
@@ -24,11 +25,12 @@ public class SearchAlgorithm {
 	private TieBreaker tieBreaker;
 	private PathType pathType;
 
-	public SearchAlgorithm(){
-		this.initialize();
+
+	public SearchAlgorithm(GameManager game){
+		this.initialize(game);
 	}
 
-	public void initialize() {
+	public void initialize(GameManager game) {
 		heuristicType = HeuristicType.MANHATHAN;
 		pathType = PathType.SHORTEST_PATH;
 		tieBreaker = TieBreaker.NONE;
@@ -128,7 +130,7 @@ public class SearchAlgorithm {
 		}
 	}
 
-	public CellNode GET_FARTHEST_CELL(PlayerTwo snakeAI, GridNode grid, CellNode from){
+	public CellNode GET_FARTHEST_CELL(GridNode grid, CellNode from){
 
 		List<CellNode> nodes = grid.getFreeCells();
 
@@ -577,9 +579,9 @@ public class SearchAlgorithm {
 			current = openCollection.poll();
 			searchCount++;
 
-			if (current.equals(objective)) {
+			if (current == objective) {
 
-				return createCoordinates(objective,searchCount);
+				return buildPath(CurrentGoal.OBJECTIVE, snakeAI, objective,searchCount);
 			}
 
 			current.setVisited(true);
@@ -703,7 +705,7 @@ public class SearchAlgorithm {
 			searchCount++;
 
 			if (current.equals(objective)) {
-				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+				return buildPath(CurrentGoal.OBJECTIVE, snakeAI, objective, searchCount);
 			}
 
 			current.setVisited(true);
@@ -782,7 +784,7 @@ public class SearchAlgorithm {
 
 			if (current.equals(objective)) {
 
-				return buildPath(CurrentGoal.OBJECTIVE, objective, searchCount);
+				return buildPath(CurrentGoal.OBJECTIVE, snakeAI, objective, searchCount);
 			}
 
 			current.setVisited(true);
@@ -807,9 +809,7 @@ public class SearchAlgorithm {
 		return new LinkedList<>() ;
 	}
 
-	public LinkedPath<CellNode> GET_SAFE_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, CellNode tail, DistressLevel distressLevel) {
-
-		LinkedPath<CellNode> safePath = new LinkedPath<>(ConnectionType.SAFE_PATH_CHECK);
+	public LinkedList<CellNode> GET_SAFE_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, CurrentGoal goal, DistressLevel distressLevel) {
 
 		CellNode current = null;
 
@@ -822,10 +822,6 @@ public class SearchAlgorithm {
 		int cellCount = grid.getRowCount() * grid.getColumnCount();
 
 		PriorityQueue<CellNode> goalList = new PriorityQueue<CellNode>( cellCount, new CellCostComparator());
-
-		PriorityQueue<CellNode> tailList = new PriorityQueue<CellNode>( cellCount, new CellCostComparator());
-
-		grid.resetCells(true);
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -868,9 +864,7 @@ public class SearchAlgorithm {
 			searchCount++;
 
 			if( current == objective) {
-				safePath.setPathOne(buildPath(CurrentGoal.OBJECTIVE, objective, searchCount));
-
-				break;
+				return buildPath(goal, snakeAI, current, searchCount);
 			}
 
 			current.setVisited(true);
@@ -944,143 +938,59 @@ public class SearchAlgorithm {
 			}
 		}
 
-		containsNeighbor = false;
 
-		current = null;
+		return new LinkedList<>();
+	}
+	private void buildPath(CurrentGoal goal, CellNode from, CellNode current, LinkedList<CellNode> path){
+		current.setPathToGoal(true);
+		current.setPathCell(true);
+		path.add(0,current);
 
-		turnPenalty = 0;
-
-		searchCount = 0;
-
-		grid.resetCellValues();
-
-		grid.resetPathToTail();
-
-		objective.setMovementCost(0d);
-
-		objective.setTotalCost(objective.getMovementCost() + heuristicCostEstimate(objective, tail, heuristicScale, heuristicType));
-
-		tailList.add(objective);
-
-		while(!tailList.isEmpty()) {
-
-			current = tailList.poll();
-
-			searchCount++;
-
-			if( current == tail) {
-				safePath.setPathTwo(buildPath(CurrentGoal.TAIL, tail, searchCount));
+		while(true) {
+			if(current.getParentNode()!=null){
+				if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+					current.getParentNode().setDirection(Direction.RIGHT);
+				} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+					current.getParentNode().setDirection(Direction.LEFT);
+				} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+					current.getParentNode().setDirection(Direction.DOWN);
+				} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+					current.getParentNode().setDirection(Direction.UP);
+				}
+				current = current.getParentNode();
+				current.setPathToGoal(true);
+				current.setPathCell(true);
+				path.add(0,current);
+			}else{
 				break;
 			}
-
-			current.setVisited(true);
-
-			for( CellNode neighbor: grid.getNeighborCells(current, DistressLevel.SAFETY_CHECK_GOAL)) {
-
-				if( neighbor == null) {
-					continue;
-				}
-
-				if( neighbor.isVisited()) {
-					continue;
-				}
-
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
-
-				if( !(containsNeighbor=tailList.contains(neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
-
-					if( !containsNeighbor) {
-
-					neighbor.setParentNode(current);
-
-					neighbor.setMovementCost(potentialGScore);
-
-					if (current.getParentNode() != null) {
-						if (neighbor.getIndex().getRow() != current.getParentNode().getIndex().getRow()
-						 || neighbor.getIndex().getCol() != current.getParentNode().getIndex().getCol()) {
-							neighbor.setMovementCost(potentialGScore+turnPenalty);
-						}
-					}
-
-					double heuristic = 0;
-
-					heuristic = heuristicCostEstimate(neighbor, tail, 2, heuristicType);
-
-					switch (tieBreaker) {
-					case CROSS:
-
-						double dx1 = neighbor.getLocation().getX() - tail.getLocation().getX();
-						double dy1 = neighbor.getLocation().getY() - tail.getLocation().getY();
-						double dx2 = objective.getLocation().getX() - tail.getLocation().getX();
-						double dy2 = objective.getLocation().getY() - tail.getLocation().getY();
-
-						double cross = Math.abs((dx1 * dy2) - (dx2 * dy1));
-
-						heuristic += cross * 0.001;
-						heuristic *= heuristicScale;
-						break;
-					case PATH:
-
-						double path = 10 / 1000;
-
-						heuristic *= (1.0 + path);
-						heuristic *= heuristicScale;
-						break;
-					case NONE:
-						heuristic *= heuristicScale;
-						break;
-					}
-
-					neighbor.setHeuristic(heuristic); // If used with scaled up heuristic it gives least number of turns!
-
-					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
-
-					tailList.add( neighbor);
-					}
-				}
-			}
 		}
-		return safePath;
-	}
-	private void buildPath(CurrentGoal goal, CellNode from, CellNode to, LinkedList<CellNode> path){
-//		 CellNode tmp = to, parent;
-////
-////		 	path.add(0,tmp);
-////		 	tmp.pathToGoal(true);
-//
-//		    while (tmp != from) {
-//		        parent = tmp.getParentNode();
-//		        path.add(0,parent);
-//		        parent.pathToGoal(true);
-//		        tmp = parent;
-//		    }
-
-
-		path.add(0,to);
-		to.pathToGoal(true);
-
-		while((to = to.getParentNode()) != null) {
-
-			path.add(0,to);
-			to.pathToGoal(true);
-		}
-//		    path.add(0,from);
 	}
 
-	private LinkedList<CellNode> buildPath(CurrentGoal goal, CellNode current, int searchCount) {
+	private LinkedList<CellNode> buildPath(CurrentGoal goal, PlayerTwo snakeAI, CellNode current, int searchCount) {
 		LinkedList<CellNode> path = new LinkedList<>();
 
 		switch(goal){
 		case OBJECTIVE:
-			path.add(current);
-			current.pathToGoal(true);
+			current.setPathToGoal(true);
 			current.setPathCell(true);
+			path.add(current);
+
 			while(true) {
 				if(current.getParentNode()!=null){
+					if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+						current.getParentNode().setDirection(Direction.RIGHT);
+					} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+						current.getParentNode().setDirection(Direction.LEFT);
+					} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+						current.getParentNode().setDirection(Direction.DOWN);
+					} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+						current.getParentNode().setDirection(Direction.UP);
+					}
 					current = current.getParentNode();
-					path.add(current);
-					current.pathToGoal(true);
+					current.setPathToGoal(true);
 					current.setPathCell(true);
+					path.add(current);
 				}else{
 					break;
 				}
@@ -1088,17 +998,42 @@ public class SearchAlgorithm {
 			break;
 		case TAIL:
 			path.add(current);
-
 			if(current.getParentNode()!=null){
 				current = current.getParentNode();
 				path.add(current);
 			}
-
 			while(true) {
 				if(current.getParentNode()!=null){
 					current = current.getParentNode();
+					current.setPathToTail(true);
 					path.add(current);
-					current.pathToTail(true);
+				}else{
+					break;
+				}
+			}
+			break;
+		case FARTHEST_CELL:
+			break;
+		default:
+			current.setPathToGoal(true);
+			current.setPathCell(true);
+			path.add(current);
+
+			while(true) {
+				if(current.getParentNode()!=null){
+					if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+						current.getParentNode().setDirection(Direction.RIGHT);
+					} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+						current.getParentNode().setDirection(Direction.LEFT);
+					} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+						current.getParentNode().setDirection(Direction.DOWN);
+					} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+						current.getParentNode().setDirection(Direction.UP);
+					}
+					current = current.getParentNode();
+					current.setPathToGoal(true);
+					current.setPathCell(true);
+					path.add(current);
 				}else{
 					break;
 				}
@@ -1116,19 +1051,29 @@ public class SearchAlgorithm {
 
 		int pathLength = 0;
 
-		path.add(current);
-		current.pathToGoal(true);
+		current.setPathToGoal(true);
 		current.setPathCell(true);
+
+		path.add(current);
 
 		while (true) {
 
 			pathLength++;
 
 			if(current.getParentNode() != null){
+				if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+					current.getParentNode().setDirection(Direction.RIGHT);
+				} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+					current.getParentNode().setDirection(Direction.LEFT);
+				} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+					current.getParentNode().setDirection(Direction.DOWN);
+				} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+					current.getParentNode().setDirection(Direction.UP);
+				}
 				current = current.getParentNode();
-				path.add(current);
-				current.pathToGoal(true);
+				current.setPathToGoal(true);
 				current.setPathCell(true);
+				path.add(current);
 
 				if(pathLength>=searchCount){
 					break;
@@ -1138,8 +1083,6 @@ public class SearchAlgorithm {
 				break;
 			}
 		}
-
-
 		return path;
 	}
 
@@ -1186,10 +1129,6 @@ public class SearchAlgorithm {
 
 	public void setPathType(PathType pathType) {
 		this.pathType = pathType;
-	}
-
-	public enum CurrentGoal{
-		OBJECTIVE, TAIL,
 	}
 
 	public enum SearchType{

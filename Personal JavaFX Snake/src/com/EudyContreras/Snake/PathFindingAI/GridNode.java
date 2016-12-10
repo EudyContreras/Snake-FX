@@ -144,12 +144,12 @@ public class GridNode {
 		freeCells.parallelStream().forEach(cell -> cell.
 				resetConnections().
 				resetValues().
-				pathToGoal(check ? false : cell.isPathToGoal()).
-				pathToTail(check ? false : cell.isPathToTail()));
+				setPathToGoal(check ? false : cell.isPathToGoal()).
+				setPathToTail(check ? false : cell.isPathToTail()));
 	}
 
 	public void resetPathToTail() {
-		freeCells.parallelStream().forEach(cell -> cell.pathToTail(false));
+		freeCells.parallelStream().forEach(cell -> cell.setPathToTail(false));
 	}
 
 	public void resetCellValues() {
@@ -165,7 +165,7 @@ public class GridNode {
 	}
 
 	public boolean areAllVisited(){
-		return freeCells.stream().filter(cell -> !cell.isVisited()).findFirst().isPresent();
+		return freeCells.stream().allMatch(cell -> cell.isVisited());
 	}
 
 	public void computeValidCells() {
@@ -182,8 +182,8 @@ public class GridNode {
 					cell.setSpawnAllowed(true);
 					cell.setPathCell(false);
 					cell.setDangerZone(false);
-					cell.pathToGoal(false);
-					cell.pathToTail(false);
+					cell.setPathToGoal(false);
+					cell.setPathToTail(false);
 					cell.updateVisuals();
 
 					colliders.parallelStream()
@@ -204,10 +204,6 @@ public class GridNode {
 							.forEach(collider -> new CollisionCheck<CollideNode>(cell, collider.getCollideRadius())
 									.intersect(e -> findNeighbors(cell, Flag.NO_SPAWN)));
 
-					if (cell.invalidSpawnZone()) {
-						cell.setSpawnAllowed(false);
-					}
-
 					penalties.parallelStream()
 							.forEach(penalty -> new CollisionCheck<CollideNode>(cell, penalty.getCollideRadius())
 									.intersect(e -> cell.setSpawnAllowed(false), penalty,
@@ -222,6 +218,9 @@ public class GridNode {
 							.forEach(penalty -> new CollisionCheck<CollideNode>(cell, penalty.getCollideRadius())
 									.intersect(e -> setPlayerSpawnZone(cell, penalty), penalty,
 											p -> penalty.getRiskFactor() == RiskFactor.NO_SPAWN_ZONE));
+					if (cell.invalidSpawnZone()) {
+						cell.setSpawnAllowed(false);
+					}
 
 				}));
 	}
@@ -261,6 +260,9 @@ public class GridNode {
 		CellNode tail = getRelativeTailCell(snake);
 
 		for(CellNode cell: getChildren(tail)){
+			if(cell==null)
+				continue;
+
 			if(!cell.isOccupied()){
 				return cell;
 			}
@@ -275,18 +277,17 @@ public class GridNode {
 		IntStream.range(minRow, cellNodes.length)
 				.forEach(row -> IntStream.range(minCol, cellNodes[row].length).forEach(col -> {
 					final CellNode cell = cellNodes[row][col];
-					cell.updateVisuals();
 
 					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
-						if (!cell.isOccupied()) {
-							cell.setOccupied(true);
-						}
+						cell.setOccupied(true);
+						cell.setPathToGoal(false);
 					}
-					if (tail != null) {
-						if (cell.getBoundsCheck().contains(tail.getBounds())) {
-							cell.setOccupied(false);
-						}
+					if (cell.getBoundsCheck().contains(tail.getBounds())) {
+						cell.setOccupied(false);
 					}
+
+					cell.updateVisuals();
+
 				}));
 	}
 
@@ -327,6 +328,9 @@ public class GridNode {
 		for (int row = startPosX; row <= endPosX; row++) {
 			for (int col = startPosY; col <= endPosY; col++) {
 				CellNode neighbor = cellNodes[row][col];
+				if(neighbor.equals(cell))
+				continue;
+
 				switch(flag){
 				case AVAILABLE:
 					break;
@@ -450,41 +454,59 @@ public class GridNode {
 			break;
 		case LEVEL_TWO:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
 				neighbors.add(tempCell);
 			}
 			break;
 		case LEVEL_THREE:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
 				neighbors.add(tempCell);
 			}
 			break;
-		case SAFETY_CHECK_GOAL:
+		case SAFETY_CHECK_GOAL_LEVEL_TWO:
+			tempCell = getNeighbor(cell, Neighbor.NORTH);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToGoal()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.SOUTH);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToGoal()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.WEST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToGoal()) {
+				neighbors.add(tempCell);
+			}
+			tempCell = getNeighbor(cell, Neighbor.EAST);
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToGoal()) {
+				neighbors.add(tempCell);
+			}
+			break;
+		case SAFETY_CHECK_GOAL_LEVEL_THREE:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
 			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToGoal()) {
 				neighbors.add(tempCell);
@@ -504,19 +526,19 @@ public class GridNode {
 			break;
 		case SAFETY_CHECK_TAIL:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			break;
