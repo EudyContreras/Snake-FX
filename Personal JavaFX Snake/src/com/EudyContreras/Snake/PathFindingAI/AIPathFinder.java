@@ -336,11 +336,12 @@ public class AIPathFinder {
 							showPathToObjective(path);
 						} else {
 
+							log("Emergency path to tail empty!");
+							
 							currentGoal = CurrentGoal.FARTHEST_CELL;
 							removeThrust();
 							computePath();
 
-							log("Emergency path to tail empty!");
 //
 //							distressLevel = DistressLevel.LEVEL_THREE;
 //
@@ -613,7 +614,6 @@ public class AIPathFinder {
 				}
 				break;
 			case FARTHEST_FROM_OBJECTIVE:
-
 				safePath = new LinkedPath<CellNode>(GET_LONGEST_PATH_POLY(start, goal), new LinkedList<>());
 
 				if (!safePath.getPathOne().isEmpty()) {
@@ -657,7 +657,6 @@ public class AIPathFinder {
 				}
 				break;
 			case TO_RANDOM_EDGE:
-
 				grid.resetCells(true);
 
 				pathToGoal = GET_SAFE_ASTAR_PATH(start, goal, CurrentGoal.OBJECTIVE,distressLevel);
