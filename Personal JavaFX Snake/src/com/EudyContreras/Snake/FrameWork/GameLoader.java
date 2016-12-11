@@ -404,7 +404,7 @@ public class GameLoader extends AbstractLoaderModel{
 		int maxColCount = game.getAIController().getGrid().getColumnCount();
 
 		while(!validCell){
-			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
+			CellNode cell = game.getAIController().getGrid().getAllCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
 
 			if(cell.fruitSpawnAllowed()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));

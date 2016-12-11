@@ -700,7 +700,7 @@ public class GridNode {
 		return minCol;
 	}
 
-	public CellNode[][] getCells() {
+	public CellNode[][] getAllCells() {
 		return cellNodes;
 	}
 
