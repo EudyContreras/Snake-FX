@@ -132,7 +132,7 @@ public class SearchAlgorithm {
 
 	public CellNode GET_FARTHEST_CELL(PlayerTwo snakeAI, GridNode grid, CellNode from){
 
-		List<CellNode> nodes = grid.getFreeCellsNoTP();
+		List<CellNode> nodes = grid.getFreeCells();
 
 		grid.resetDistances(-1);
 
@@ -954,6 +954,8 @@ public class SearchAlgorithm {
 
 		objective.setMovementCost(0d);
 
+		tail.setPenaltyCost(10);
+
 		objective.setTotalCost(objective.getMovementCost() + heuristicCostEstimate(objective, tail, heuristicScale, heuristicType));
 
 		DistressLevel distress = distressLevel == DistressLevel.LEVEL_TWO ? DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO : DistressLevel.SAFETY_CHECK_GOAL_LEVEL_THREE;
@@ -1278,6 +1280,15 @@ public class SearchAlgorithm {
 		while (true) {
 			pathLength++;
 			if(current.getParentNode() != null){
+				if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+					current.getParentNode().setDirection(Direction.RIGHT);
+				} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+					current.getParentNode().setDirection(Direction.LEFT);
+				} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+					current.getParentNode().setDirection(Direction.DOWN);
+				} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+					current.getParentNode().setDirection(Direction.UP);
+				}
 				current = current.getParentNode();
 				current.setPathToGoal(true);
 				current.setPathCell(true);

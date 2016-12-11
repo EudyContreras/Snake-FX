@@ -249,235 +249,436 @@ public class AIPathFinder {
 		return objectives;
 	}
 
-	public synchronized void computePath(){
-		teleporting = false;
-
-		CellNode start = controller.getHeadCell(snakeAI);
-		CellNode tail = grid.getRelativeTailCell(snakeAI);
-
-		LinkedPath<PathWrapper> path = null;
-		LinkedList<Objective> objectives = null;
-
-		switch(currentGoal){
-		case OBJECTIVE:
-
-			objectives = getObjectives(start,GoalSearch.SHORTEST_PATH,SortingType.CLOSEST);
-
-			pathFinder.setPathType(PathType.SHORTEST_PATH);
-
-			if (objectives.size() > 0) {
-				if (objectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
-					objectives.get(0).getObject().blowUpAlt();
-				}
-
-				if (start != null) {
-					if (!start.isDangerZone()) {
-						distressLevel = DistressLevel.LEVEL_TWO;
-					}
-
-					for(int i = 0; i < objectives.size(); i++){
-//						if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
-//							continue;
-						path = checkObjectiveReach(start, null, objectives.get(i), i, objectives);
-						if(path!=null){
-							break;
-						}
-					}
-					if(path == null){
-						distressLevel = DistressLevel.LEVEL_THREE;
-
-						for(int i = 0; i < objectives.size(); i++){
-//							if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
-//								continue;
-							path = checkObjectiveReach(start, null, objectives.get(i), i, objectives);
-							if(path!=null){
-								break;
-							}
-						}
-					}
-
-					if(path!=null){
-						showPathToObjective(path);
-					}else{
-						currentGoal = CurrentGoal.TAIL;
-						removeThrust();
-						computePath();
-					}
-				}
-			}
-
-			break;
-		case TAIL:
-			pathFinder.setPathType(PathType.LONGEST_PATH);
-
-			if (tail != null) {
-//				if (!start.isDangerZone() && !start.isTeleportZone()) {
-//					distressLevel = DistressLevel.LEVEL_ONE;
+//	public synchronized void computePath(){
+//		teleporting = false;
+//
+//		CellNode start = controller.getHeadCell(snakeAI);
+//		CellNode tail = grid.getRelativeTailCell(snakeAI);
+//
+//		LinkedPath<PathWrapper> path = null;
+//		LinkedList<Objective> objectives = null;
+//
+//		switch(currentGoal){
+//		case OBJECTIVE:
+//
+//			objectives = getObjectives(start,GoalSearch.SHORTEST_PATH,SortingType.CLOSEST);
+//
+//			pathFinder.setPathType(PathType.SHORTEST_PATH);
+//
+//			if (objectives.size() > 0) {
+//				if (objectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
+//					objectives.get(0).getObject().blowUpAlt();
 //				}
 //
-//				path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, tail), new LinkedList<>());
+//				if (start != null) {
+//					if (!start.isDangerZone()) {
+//						distressLevel = DistressLevel.LEVEL_TWO;
+//					}
 //
-//				if (!path.getPathOne().isEmpty()) {
-//					showPathToObjective(path);
+//					for(int i = 0; i < objectives.size(); i++){
+////						if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
+////							continue;
+//						path = checkObjectiveReach(start, null, objectives.get(i), i, objectives);
+//						if(path!=null){
+//							break;
+//						}
+//					}
+//					if(path == null){
+//						distressLevel = DistressLevel.LEVEL_THREE;
+//
+//						for(int i = 0; i < objectives.size(); i++){
+////							if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
+////								continue;
+//							path = checkObjectiveReach(start, null, objectives.get(i), i, objectives);
+//							if(path!=null){
+//								break;
+//							}
+//						}
+//					}
+//
+//					if(path!=null){
+//						showPathToObjective(path);
+//					}else{
+//						currentGoal = CurrentGoal.TAIL;
+//						removeThrust();
+//						computePath();
+//					}
+//				}
+//			}
+//
+//			break;
+//		case TAIL:
+//			pathFinder.setPathType(PathType.LONGEST_PATH);
+//
+//			if (tail != null) {
+////				if (!start.isDangerZone() && !start.isTeleportZone()) {
+////					distressLevel = DistressLevel.LEVEL_ONE;
+////				}
+////
+////				path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, tail), new LinkedList<>());
+////
+////				if (!path.getPathOne().isEmpty()) {
+////					showPathToObjective(path);
+////				} else {
+//
+//					if (!start.isDangerZone()) {
+//						distressLevel = DistressLevel.LEVEL_TWO;
+//					}
+//					path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, tail), new LinkedList<>());
+//
+//					if (!path.getPathOne().isEmpty()) {
+//
+//						showPathToObjective(path);
+//					} else {
+//						log("Normal path to tail empty!");
+//						distressLevel = DistressLevel.LEVEL_THREE;
+//
+//						path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, tail), new LinkedList<>());
+//
+//						if (!path.getPathOne().isEmpty()) {
+//
+//							showPathToObjective(path);
+//						} else {
+//
+//							log("Danger path to tail empty!");
+//
+//							currentGoal = CurrentGoal.FARTHEST_CELL;
+//							computePath();
+//
+////							distressLevel = DistressLevel.LEVEL_THREE;
+////
+////							LinkedList<Objective> objectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE, SortingType.FARTHEST);
+////
+////							while(!objectives.isEmpty()){
+////
+////								path = emergencyTeleport(grid, start, objectives.removeFirst().getCell());
+////
+////								if(path!=null){
+////									break;
+////								}
+////							}
+////
+////							if (path!=null) {
+////								showPathToObjective(path);
+////							} else {
+//////								game.pauseGame();
+////								log("Emergency teleport path to tail empty!");
+////								//TODO: Stall
+////								//TODO: Find farthest point in the grid
+////								//Make a path to said point and once the point is reach
+////								//Attempt a path search again.
+////								currentGoal = CurrentGoal.FARTHEST_CELL;
+////								allowChecks = false;
+////								computePath();
+////							}
+//						}
+//					}
+////				}
+//			}break;
+//		case FARTHEST_CELL:
+//			// TODO: THe tail must be reachable from any of the following
+//			// objectives
+//			pathFinder.setPathType(PathType.SHORTEST_PATH);
+//
+//			objectives = getObjectives(start, GoalSearch.CLOSEST_OBJECTIVE, SortingType.CLOSEST);
+//
+//			if (start != null) {
+//
+//				for (Objective objective : objectives) {
+//
+//					path = checkObjectiveReach(start, GET_FARTHEST_CELL(objective.getCell()), null, -1, null);
+//
+//					if (path != null) {
+//						break;
+//					}
+//				}
+//				if (path == null) {
+//					for (Objective objective : objectives) {
+//
+//						path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(objective.getCell())), new LinkedList<>());
+//
+//						if (!path.getPathOne().isEmpty()) {
+//							break;
+//						}
+//					}
+//				}
+//				if (path != null) {
+//					if (!path.getPathOne().isEmpty()) {
+//						showPathToObjective(path);
+//					}
+//
 //				} else {
-
-					if (!start.isDangerZone()) {
-						distressLevel = DistressLevel.LEVEL_TWO;
-					}
-					path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, tail), new LinkedList<>());
-
-					if (!path.getPathOne().isEmpty()) {
-
-						showPathToObjective(path);
-					} else {
-						log("Normal path to tail empty!");
-						distressLevel = DistressLevel.LEVEL_THREE;
-
-						path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, tail), new LinkedList<>());
-
-						if (!path.getPathOne().isEmpty()) {
-
-							showPathToObjective(path);
-						} else {
-
-							log("Danger path to tail empty!");
-
-							currentGoal = CurrentGoal.FARTHEST_CELL;
-							computePath();
-
-//							distressLevel = DistressLevel.LEVEL_THREE;
+//					log("Path to farthest cell from objective not found!");
 //
-//							LinkedList<Objective> objectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE, SortingType.FARTHEST);
+//					path = checkObjectiveReach(start, GET_FARTHEST_CELL(tail), null, -1, null);
 //
-//							while(!objectives.isEmpty()){
+//					if (path != null) {
 //
-//								path = emergencyTeleport(grid, start, objectives.removeFirst().getCell());
+//						showPathToObjective(path);
 //
-//								if(path!=null){
-//									break;
+//					} else {
+//						log("Path to farthest cell from tail not found!");
+//
+//						path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(tail)), new LinkedList<>());
+//
+//						if (!path.getPathOne().isEmpty()) {
+//
+//							showPathToObjective(path);
+//
+//						} else {
+//
+//							path = checkObjectiveReach(start, GET_FARTHEST_CELL(start), null, -1, null);
+//
+//							if (path != null) {
+//
+//								showPathToObjective(path);
+//
+//							} else {
+//
+//								path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(start)), new LinkedList<>());
+//
+//								if (!path.getPathOne().isEmpty()) {
+//
+//									showPathToObjective(path);
+//
+//								} else {
+//
+//									log("Path to farthest cell from start not found!");
+//									LinkedList<CellNode> edges = new LinkedList<>(grid.getEdges());
+//
+//									Collections.shuffle(edges);
+//
+//									for (; edges.peek() != null;) {
+//										path = checkObjectiveReach(start, edges.poll(), null, -1, null);
+//
+//										if (path != null) {
+//											break;
+//										} else {
+//											path = checkObjectiveReach(start, GET_FARTHEST_CELL(edges.poll()), null, -1,
+//													null);
+//											if (path != null) {
+//												break;
+//											}
+//										}
+//									}
+//
+//									if (path != null) {
+//										showPathToObjective(path);
+//									} else {
+//										log("Path to farthest edge cell not found!");
+//										currentGoal = CurrentGoal.TAIL;
+//									}
 //								}
 //							}
-//
-//							if (path!=null) {
-//								showPathToObjective(path);
-//							} else {
-////								game.pauseGame();
-//								log("Emergency teleport path to tail empty!");
-//								//TODO: Stall
-//								//TODO: Find farthest point in the grid
-//								//Make a path to said point and once the point is reach
-//								//Attempt a path search again.
-//								currentGoal = CurrentGoal.FARTHEST_CELL;
-//								allowChecks = false;
-//								computePath();
-//							}
-						}
-					}
+//						}
+//					}
 //				}
-			}break;
-		case FARTHEST_CELL:
-			// TODO: THe tail must be reachable from any of the following
-			// objectives
-			pathFinder.setPathType(PathType.SHORTEST_PATH);
+//			}
+//			break;
+//		}
+//		controller.setHasBeenNotified(false);
+//	}
 
-			objectives = getObjectives(start, GoalSearch.CLOSEST_OBJECTIVE, SortingType.CLOSEST);
+	 public void computePath(){
+	        teleporting = false;
 
-			if (start != null) {
+	        CellNode start = controller.getHeadCell(snakeAI);
+			CellNode tail = grid.getRelativeTailCell(snakeAI);
 
-				for (Objective objective : objectives) {
+	        LinkedPath<PathWrapper> path = null;
 
-					path = checkObjectiveReach(start, GET_FARTHEST_CELL(objective.getCell()), null, -1, null);
+	        switch(currentGoal){
+	        case OBJECTIVE:
 
-					if (path != null) {
-						break;
-					}
-				}
-				if (path == null) {
-					for (Objective objective : objectives) {
+	            LinkedList<Objective> newObjectives = getObjectives(start,GoalSearch.SHORTEST_PATH,SortingType.CLOSEST);
 
-						path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(objective.getCell())), new LinkedList<>());
+	            pathFinder.setPathType(PathType.SHORTEST_PATH);
 
-						if (!path.getPathOne().isEmpty()) {
-							break;
-						}
-					}
-				}
-				if (path != null) {
-					if (!path.getPathOne().isEmpty()) {
-						showPathToObjective(path);
-					}
+	            if (newObjectives.size() > 0) {
+	                if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
+	                    newObjectives.get(0).getObject().blowUpAlt();
+	                }
 
-				} else {
-					log("Path to farthest cell from objective not found!");
+	                if (start != null) {
+	                    if (!start.isDangerZone()) {
+	                        distressLevel = DistressLevel.LEVEL_TWO;
+	                    }
 
-					path = checkObjectiveReach(start, GET_FARTHEST_CELL(tail), null, -1, null);
+	                    for(int i = 0; i < newObjectives.size(); i++){
+//							if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
+//								continue;
+	                        path = checkObjectiveReach(start, newObjectives.get(i).getCell(), newObjectives.get(i), i, newObjectives);
+	                        if(path!=null){
+	                            break;
+	                        }
+	                    }
+	                    if(path == null){
+	                        distressLevel = DistressLevel.LEVEL_THREE;
 
-					if (path != null) {
+	                        for(int i = 0; i < newObjectives.size(); i++){
+//								if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
+//									continue;
+	                            path = checkObjectiveReach(start,newObjectives.get(i).getCell(), newObjectives.get(i), i, newObjectives);
+	                            if(path!=null){
+	                                break;
+	                            }
+	                        }
+	                    }
 
-						showPathToObjective(path);
+	                    if(path!=null){
+//	                        int counter = 0;
+//	                        for(CellNode cell: path.getPathTwo()){
+//	                            if(cell.isObjective() | cell.equals(tail)){
+//	                                continue;
+//	                            }
+//	                            if(cell.isPathToGoal()){
+//	                              counter++;
+//	                            }
+//	                        }
+	//
+//	                        log("Path Size: "+ path.getPathTwo().size()+" Fault Count: "+ counter);
+	                        showPathToObjective(path);
+	                    }else{
+	                        currentGoal = CurrentGoal.TAIL;
+//							log("path is not safe!!");
+	                        removeThrust();
+	                        computePath();
+	                    }
+	                }
+	            }
 
-					} else {
-						log("Path to farthest cell from tail not found!");
+	            break;
+	        case TAIL:
+	            pathFinder.setPathType(PathType.LONGEST_PATH);
 
-						path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(tail)), new LinkedList<>());
+	            if (tail != null) {
+//					if (!start.isDangerZone() && !start.isTeleportZone()) {
+//						distressLevel = DistressLevel.LEVEL_ONE;
+//					}
+	//
+//					path = new LinkedPath<CellNode>(GET_DFS_PATH(start, tail), new LinkedList<>());
+	//
+//					if (!path.getPathOne().isEmpty()) {
+//						showPathToObjective(path);
+//					} else {
 
-						if (!path.getPathOne().isEmpty()) {
+	                    if (!start.isDangerZone()) {
+	                        distressLevel = DistressLevel.LEVEL_TWO;
+	                    }
+	                    path = new LinkedPath<PathWrapper>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
 
-							showPathToObjective(path);
+	                    if (!path.getPathOne().isEmpty()) {
 
-						} else {
+	                        showPathToObjective(path);
+	                    } else {
+	                    	log("Path to tail empty!");
+	                        distressLevel = DistressLevel.LEVEL_THREE;
 
-							path = checkObjectiveReach(start, GET_FARTHEST_CELL(start), null, -1, null);
+	                        path = new LinkedPath<PathWrapper>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
 
-							if (path != null) {
+	                        if (!path.getPathOne().isEmpty()) {
 
-								showPathToObjective(path);
+	                            showPathToObjective(path);
+	                        } else {
+	                        	log("Emergency path to tail empty!");
+	                            currentGoal = CurrentGoal.FARTHEST_CELL;
+	                            computePath();
+	//
+//								distressLevel = DistressLevel.LEVEL_THREE;
+	//
+//								LinkedList<Objective> objectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE, SortingType.FARTHEST);
+	//
+//								while(!objectives.isEmpty()){
+	//
+//									path = emergencyTeleport(grid, start, objectives.removeFirst().getCell());
+	//
+//									if(path!=null){
+//										break;
+//									}
+//								}
+	//
+//								if (path!=null) {
+//									showPathToObjective(path);
+//								} else {
+	//
+//									currentGoal = CurrentGoal.FARTHEST_CELL;
+//									computePath();
+//									log("Emergency teleport path to tail empty!");
+//									//TODO: Stall
+//									//TODO: Find farthest point in the grid
+//									//Make a path to said point and once the point is reach
+//									//Attempt a path search again.
+//								}
+	                        }
+	                    }
+//					}
+	            }break;
+	        case FARTHEST_CELL:
 
-							} else {
+	            pathFinder.setPathType(PathType.SHORTEST_PATH);
 
-								path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(start)), new LinkedList<>());
+	            if (start != null) {
+	                LinkedList<Objective> objectives = getObjectives(start, GoalSearch.CLOSEST_OBJECTIVE,SortingType.CLOSEST);
 
-								if (!path.getPathOne().isEmpty()) {
+	                while (!objectives.isEmpty()) {
 
-									showPathToObjective(path);
+	                    path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(objectives.poll().getCell())),new LinkedList<>());
 
-								} else {
+	                    if (!path.getPathOne().isEmpty()) {
+	                        break;
+	                    }
+	                }
+	                if (!path.getPathOne().isEmpty()) {
+	                    showPathToObjective(path);
 
-									log("Path to farthest cell from start not found!");
-									LinkedList<CellNode> edges = new LinkedList<>(grid.getEdges());
+	                } else {
+	                    log("Path to farthest cell from objective not found!");
+	                    path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(tail)), new LinkedList<>());
 
-									Collections.shuffle(edges);
+	                    if (!path.getPathOne().isEmpty()) {
 
-									for (; edges.peek() != null;) {
-										path = checkObjectiveReach(start, edges.poll(), null, -1, null);
+	                        showPathToObjective(path);
+	                    } else {
+	                        log("Path to farthest cell from tail not found!");
+	                        path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(start)), new LinkedList<>());
 
-										if (path != null) {
-											break;
-										} else {
-											path = checkObjectiveReach(start, GET_FARTHEST_CELL(edges.poll()), null, -1,
-													null);
-											if (path != null) {
-												break;
-											}
-										}
-									}
+	                        if (!path.getPathOne().isEmpty()) {
 
-									if (path != null) {
-										showPathToObjective(path);
-									} else {
-										log("Path to farthest edge cell not found!");
-										currentGoal = CurrentGoal.TAIL;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			break;
-		}
-		controller.setHasBeenNotified(false);
-	}
+	                            showPathToObjective(path);
+	                        } else {
+	                            log("Path to farthest cell from start not found!");
+	                            LinkedList<CellNode> edges = new LinkedList<>(grid.getEdges());
+
+	                            Collections.shuffle(edges);
+
+	                            for(; edges.peek()!=null;){
+	                                path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, edges.poll()), new LinkedList<>());
+
+	                                if(!path.getPathOne().isEmpty()){
+	                                    break;
+	                                }else{
+	                                    path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(edges.poll())), new LinkedList<>());
+
+	                                    if(!path.getPathOne().isEmpty()){
+	                                        break;
+	                                    }
+	                                }
+	                            }
+
+	                            if(!path.getPathOne().isEmpty()){
+	                                showPathToObjective(path);
+	                            }else{
+	                                log("Path to farthest edge cell not found!");
+	                                currentGoal = CurrentGoal.TAIL;
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	            break;
+	        }
+	        controller.setHasBeenNotified(false);
+	    }
 
 	/**
 	 * TODO: Perform a check to determine if the computed path to the objective is a safe path
