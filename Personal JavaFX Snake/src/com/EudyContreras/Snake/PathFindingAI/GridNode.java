@@ -138,7 +138,7 @@ public class GridNode {
 	}
 
 	public void resetCells(boolean check) {
-		freeCells.parallelStream().forEach(cell -> cell.
+		freeCells.stream().forEach(cell -> cell.
 				resetConnections().
 				resetValues().
 				setPathToGoal(check ? false : cell.isPathToGoal()).
@@ -146,19 +146,19 @@ public class GridNode {
 	}
 
 	public void resetPathToTail() {
-		freeCells.parallelStream().forEach(cell -> cell.setPathToTail(false));
+		freeCells.stream().forEach(cell -> cell.setPathToTail(false));
 	}
 
 	public void resetCellValues() {
-		freeCells.parallelStream().forEach(cell -> cell.resetValues());
+		freeCells.stream().forEach(cell -> cell.resetValues());
 	}
 
 	public void resetDistances(int distance) {
-		freeCells.parallelStream().forEach(cell -> cell.setDistance(distance));
+		freeCells.stream().forEach(cell -> cell.setDistance(distance));
 	}
 
 	public void prepareDistances(CellNode from) {
-		freeCells.parallelStream().filter(cell -> cell.isTraversable()).forEach(cell -> cell.setDistance(cell.getDistanceFrom(from)));
+		freeCells.stream().filter(cell -> cell.isTraversable()).forEach(cell -> cell.setDistance(cell.getDistanceFrom(from)));
 	}
 
 	public boolean areAllVisited(){
@@ -183,11 +183,11 @@ public class GridNode {
 					cell.setPathToTail(false);
 					cell.updateVisuals();
 
-					colliders.parallelStream()
+					colliders.stream()
 							.forEach(collider -> new CollisionCheck<CollideNode>(cell, collider.getCollideRadius())
 									.intersect(e -> cell.setTraversable(false)));
 
-					penalties.parallelStream()
+					penalties.stream()
 							.forEach(penalty -> new CollisionCheck<CollideNode>(cell, penalty.getCollideRadius())
 									.intersect(e -> cell.setDangerZone(true), penalty,
 											p -> penalty.getRiskFactor() == RiskFactor.HIGH));
@@ -197,21 +197,21 @@ public class GridNode {
 				.forEach(row -> IntStream.range(minCol, cellNodes[row].length).forEach(col -> {
 					final CellNode cell = cellNodes[row][col];
 
-					colliders.parallelStream()
+					colliders.stream()
 							.forEach(collider -> new CollisionCheck<CollideNode>(cell, collider.getCollideRadius())
 									.intersect(e -> findNeighbors(cell, Flag.NO_SPAWN)));
 
-					penalties.parallelStream()
+					penalties.stream()
 							.forEach(penalty -> new CollisionCheck<CollideNode>(cell, penalty.getCollideRadius())
 									.intersect(e -> cell.setSpawnAllowed(false), penalty,
 											p -> penalty.getRiskFactor() == RiskFactor.MEDIUM));
 
-					penalties.parallelStream()
+					penalties.stream()
 							.forEach(penalty -> new CollisionCheck<CollideNode>(cell, penalty.getCollideRadius())
 									.intersect(e -> findNeighbors(cell, Flag.NO_SPAWN), penalty,
 											p -> penalty.getRiskFactor() == RiskFactor.HIGH));
 
-					penalties.parallelStream()
+					penalties.stream()
 							.forEach(penalty -> new CollisionCheck<CollideNode>(cell, penalty.getCollideRadius())
 									.intersect(e -> setPlayerSpawnZone(cell, penalty), penalty,
 											p -> penalty.getRiskFactor() == RiskFactor.NO_SPAWN_ZONE));
@@ -277,10 +277,11 @@ public class GridNode {
 
 					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 						cell.setOccupied(true);
-						cell.setPathToGoal(false);
+						cell.setPathToGoal(true);
 					}
 					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						cell.setOccupied(false);
+						cell.setPathToGoal(false);
 					}
 
 					cell.updateVisuals();
@@ -451,37 +452,37 @@ public class GridNode {
 			break;
 		case LEVEL_TWO:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			break;
 		case LEVEL_THREE:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied()) {
+			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
 			}
 			break;

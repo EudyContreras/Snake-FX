@@ -174,7 +174,7 @@ public class SnakeFood extends AbstractObject {
 	public void adjustBounds(){
 		bounds.setCenterX(x);
 		bounds.setCenterY(y);
-		bounds.setRadius(size * .5);
+		bounds.setRadius(size * .7);
 		if (GameSettings.DEBUG_MODE) {
 			rectBounds.setX(x - size * 1.5 / 2);
 			rectBounds.setY(y - size * 1.5 / 2);

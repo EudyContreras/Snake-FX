@@ -27,5 +27,9 @@ Notes and Ideas about Artificial Intelligence!
 		*If a path to tail is not found find the cell which is farthest away from the
 		current objective and take the longest path to that cell. Pursuit the path until
 		a safe path to the objective can be made. Another stradegy is to find a cell which
-		will lead to an available path to the tail.
+		will lead to an available path to the tail. This may be achieve in various ways. Finding
+		a path to a cell which is farthest from the tail, or a path to a cell which is farthest
+		from the head. If the previous stradegies fail a serial search to a randomized list
+		of edge cells can be made. The search can first be to a random edge cell and if unsuccssesful
+		we can then search for the farthest cell to that given cell.
 
