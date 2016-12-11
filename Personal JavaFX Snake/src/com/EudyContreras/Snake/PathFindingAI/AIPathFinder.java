@@ -208,6 +208,9 @@ public class AIPathFinder {
         return pathFinder.GET_SAFE_ASTAR_PATH(snakeAI,grid, start,objective,tail,distressLevel);
     }
 
+	public LinkedList<CellNode> GET_SAFE_ASTAR_PATH(CellNode start, CellNode objective, CurrentGoal goal, DistressLevel distressLevel){
+		return pathFinder.GET_SAFE_ASTAR_PATH(snakeAI,grid, start,objective,goal,distressLevel);
+	}
     public LinkedList<Objective> getObjectives(CellNode start, GoalSearch goalSearch, SortingType sorting){
 
         LinkedList<Objective> objectives = new LinkedList<>();
@@ -404,14 +407,14 @@ public class AIPathFinder {
 
                 } else {
                     log("Path to farthest cell from objective not found!");
-                    path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(tail)), new LinkedList<>());
+                    path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(tail)), new LinkedList<>());
 
                     if (!path.getPathOne().isEmpty()) {
 
                         showPathToObjective(path);
                     } else {
                         log("Path to farthest cell from tail not found!");
-                        path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(start)), new LinkedList<>());
+                        path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(start)), new LinkedList<>());
 
                         if (!path.getPathOne().isEmpty()) {
 
@@ -423,12 +426,12 @@ public class AIPathFinder {
                             Collections.shuffle(edges);
 
                             for(; edges.peek()!=null;){
-                                path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, edges.poll()), new LinkedList<>());
+                                path = new LinkedPath<>(GET_DFS_PATH(start, edges.poll()), new LinkedList<>());
 
                                 if(!path.getPathOne().isEmpty()){
                                     break;
                                 }else{
-                                    path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, GET_FARTHEST_CELL(edges.poll())), new LinkedList<>());
+                                    path = new LinkedPath<>(GET_DFS_PATH(start, GET_FARTHEST_CELL(edges.poll())), new LinkedList<>());
 
                                     if(!path.getPathOne().isEmpty()){
                                         break;
@@ -556,11 +559,27 @@ public class AIPathFinder {
 //
 //			else{
 
-                LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
+//                LinkedPath<CellNode> path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
+//
+//                if(path.isPathSafe()){
+//                    return path;
+//                }
+    		DistressLevel distress = distressLevel == DistressLevel.LEVEL_TWO ? DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO : DistressLevel.SAFETY_CHECK_GOAL_LEVEL_THREE;
 
-                if(path.isPathSafe()){
-                    return path;
-                }
+            LinkedList<CellNode> pathToGoal = GET_SAFE_ASTAR_PATH(start, objective.getCell(), CurrentGoal.OBJECTIVE, distressLevel);
+
+            if(!pathToGoal.isEmpty()){
+            	pathToGoal.stream().forEach(cell -> cell.setOccupied(true));
+
+            	LinkedList<CellNode> pathToTail = GET_SAFE_ASTAR_PATH(objective.getCell(), tail, CurrentGoal.TAIL, distress);
+
+            	if(!pathToTail.isEmpty()){
+            		return new LinkedPath<>(pathToGoal,null);
+            	}
+
+            }
+
+
 //			}
         }
         return null;
@@ -1069,6 +1088,20 @@ public class AIPathFinder {
 
     private LinkedPath<CellNode> calculateDirection(LinkedPath<CellNode> paths) {
 
+//    	for (int i = path.size()-2; i>=0; i--) {
+//			PathWrapper parentNode = path.get(i+1);
+//			PathWrapper currentNode = path.get(i);
+//			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
+//				parentNode.setDirection(Direction.RIGHT);
+//			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {
+//				parentNode.setDirection(Direction.LEFT);
+//			} else if (currentNode.getIndex().getCol() > parentNode.getIndex().getCol()) {
+//				parentNode.setDirection(Direction.DOWN);
+//			} else if (currentNode.getIndex().getCol() < parentNode.getIndex().getCol()) {
+//				parentNode.setDirection(Direction.UP);
+//			}
+//		}
+//
         return paths;
     }
     /**

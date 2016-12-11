@@ -1042,6 +1042,140 @@ public class SearchAlgorithm {
 		}
 		return safePath;
 	}
+
+	public LinkedList<CellNode> GET_SAFE_ASTAR_PATH(PlayerTwo snakeAI, GridNode grid, CellNode startingPoint, CellNode objective, CurrentGoal goal, DistressLevel distressLevel) {
+
+		CellNode current = null;
+
+		boolean containsNeighbor;
+
+		double turnPenalty = 0;
+
+		int searchCount = 0;
+
+		int cellCount = grid.getRowCount() * grid.getColumnCount();
+
+		PriorityQueue<CellNode> goalList = new PriorityQueue<CellNode>( cellCount, new CellCostComparator());
+
+		grid.resetCells(true);
+
+		switch(snakeAI.getCurrentDirection()){
+		case MOVE_DOWN:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		case MOVE_LEFT:
+			startingPoint.setDirection(Direction.LEFT);
+			break;
+		case MOVE_RIGHT:
+			startingPoint.setDirection(Direction.RIGHT);
+			break;
+		case MOVE_UP:
+			startingPoint.setDirection(Direction.UP);
+			break;
+		case STANDING_STILL:
+			startingPoint.setDirection(Direction.DOWN);
+			break;
+		}
+
+		containsNeighbor = false;
+
+		current = null;
+
+		searchCount = 0;
+
+		objective.setObjective(true);
+
+		startingPoint.setVisited(true);
+
+		startingPoint.setMovementCost(0d);
+
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, heuristicScale, heuristicType));
+
+		goalList.add(startingPoint);
+
+		while( !goalList.isEmpty()) {
+
+			current = goalList.poll();
+
+			searchCount++;
+
+			if( current == objective) {
+				return buildPath(goal, snakeAI, current, searchCount);
+			}
+
+			current.setVisited(true);
+
+			for( CellNode neighbor: grid.getNeighborCells(current, distressLevel)) {
+
+				if( neighbor == null) {
+					continue;
+				}
+
+				if( neighbor.isVisited()) {
+					continue;
+				}
+
+				double potentialGScore = current.getMovementCost() + heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
+
+				if( !(containsNeighbor=goalList.contains( neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
+
+					if( !containsNeighbor) {
+
+					neighbor.setParentNode(current);
+
+					neighbor.setMovementCost(potentialGScore);
+
+					neighbor.setDistance(current.getDistance()+1);
+
+					if (current.getParentNode() != null) {
+						if (neighbor.getIndex().getRow() != current.getParentNode().getIndex().getRow()
+						 || neighbor.getIndex().getCol() != current.getParentNode().getIndex().getCol()) {
+							neighbor.setMovementCost(potentialGScore+turnPenalty);
+						}
+					}
+
+					double heuristic = 0;
+
+					heuristic = heuristicCostEstimate(neighbor, objective, 2, heuristicType);
+
+					switch (tieBreaker) {
+					case CROSS:
+
+						double dx1 = neighbor.getLocation().getX() - objective.getLocation().getX();
+						double dy1 = neighbor.getLocation().getY() - objective.getLocation().getY();
+						double dx2 = startingPoint.getLocation().getX() - objective.getLocation().getX();
+						double dy2 = startingPoint.getLocation().getY() - objective.getLocation().getY();
+
+						double cross = Math.abs((dx1 * dy2) - (dx2 * dy1));
+
+						heuristic += cross * 0.001;
+						heuristic *= heuristicScale;
+						break;
+					case PATH:
+
+						double path = 10 / 1000;
+
+						heuristic *= (1.0 + path);
+						heuristic *= heuristicScale;
+						break;
+					case NONE:
+						heuristic *= heuristicScale;
+						break;
+					}
+
+					neighbor.setHeuristic(heuristic); // If used with scaled up heuristic it gives least number of turns!
+
+					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
+
+					goalList.add(neighbor);
+
+					}
+				}
+			}
+		}
+		return new LinkedList<>();
+	}
+
 	private void buildPath(CurrentGoal goal, CellNode from, CellNode current, LinkedList<CellNode> path){
 		current.setPathToGoal(true);
 		current.setPathCell(true);
