@@ -88,7 +88,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public final void updateVisuals(){
 		if (showCells && layer!=null){
-			if(spawnAllowed && !pathToGoal && !pathToTail && !occupied && !targetCell && available && !playerSpawnZone)
+			if(spawnAllowed && !occupied && !targetCell && available && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
 				visualRep.setFill(Color.rgb(255, 170, 0));
@@ -96,7 +96,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.rgb(250, 110, 0));
 			if(!isTraversable())
 				visualRep.setFill(Color.RED.darker());
-			if(isPathToTail() && !isOccupied())
+			if(isPathToTail())
 				visualRep.setFill(Color.GRAY);
 			if(isOccupied())
 				visualRep.setFill(Color.WHITE);

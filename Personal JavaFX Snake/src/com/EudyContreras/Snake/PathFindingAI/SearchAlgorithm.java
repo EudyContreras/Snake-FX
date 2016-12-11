@@ -132,7 +132,7 @@ public class SearchAlgorithm {
 
 	public CellNode GET_FARTHEST_CELL(PlayerTwo snakeAI, GridNode grid, CellNode from){
 
-		List<CellNode> nodes = grid.getFreeCells();
+		List<CellNode> nodes = grid.getFreeCellsNoTP();
 
 		grid.resetDistances(-1);
 
@@ -1147,7 +1147,7 @@ public class SearchAlgorithm {
 	private void buildPath(CurrentGoal goal, CellNode from, CellNode current, LinkedList<PathWrapper> path){
 		current.setPathToGoal(true);
 		current.setPathCell(true);
-		path.add(new PathWrapper(current.getIndex()));
+		path.add(0,new PathWrapper(current.getIndex()));
 		while(true) {
 			if(current.getParentNode()!=null){
 				if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
@@ -1162,9 +1162,22 @@ public class SearchAlgorithm {
 				current = current.getParentNode();
 				current.setPathToGoal(true);
 				current.setPathCell(true);
-				path.add(new PathWrapper(current.getIndex()));
+				path.add(0,new PathWrapper(current.getIndex()));
 			}else{
 				break;
+			}
+		}
+		for (int index = 1; index<path.size(); index++) {
+			PathWrapper parentNode = path.get(index-1);
+			PathWrapper currentNode = path.get(index);
+			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
+				parentNode.setDirection(Direction.RIGHT);
+			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {
+				parentNode.setDirection(Direction.LEFT);
+			} else if (currentNode.getIndex().getCol() > parentNode.getIndex().getCol()) {
+				parentNode.setDirection(Direction.DOWN);
+			} else if (currentNode.getIndex().getCol() < parentNode.getIndex().getCol()) {
+				parentNode.setDirection(Direction.UP);
 			}
 		}
 	}
@@ -1236,9 +1249,9 @@ public class SearchAlgorithm {
 			}
 			break;
 		}
-		for (int i = path.size()-2; i>=0; i--) {
-			PathWrapper parentNode = path.get(i+1);
-			PathWrapper currentNode = path.get(i);
+		for (int index = path.size()-2; index>=0; index--) {
+			PathWrapper parentNode = path.get(index+1);
+			PathWrapper currentNode = path.get(index);
 			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
 				parentNode.setDirection(Direction.RIGHT);
 			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {
@@ -1278,9 +1291,9 @@ public class SearchAlgorithm {
 			}
 		}
 
-		for (int i = path.size()-2; i>=0; i--) {
-			PathWrapper parentNode = path.get(i+1);
-			PathWrapper currentNode = path.get(i);
+		for (int index = path.size()-2; index>=0; index--) {
+			PathWrapper parentNode = path.get(index+1);
+			PathWrapper currentNode = path.get(index);
 			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
 				parentNode.setDirection(Direction.RIGHT);
 			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {

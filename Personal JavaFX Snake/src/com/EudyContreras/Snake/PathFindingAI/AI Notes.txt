@@ -33,3 +33,7 @@ Notes and Ideas about Artificial Intelligence!
 		of edge cells can be made. The search can first be to a random edge cell and if unsuccssesful
 		we can then search for the farthest cell to that given cell.
 
+		*Note that if chossing a far cell or a random cell the cell must meet
+		certain requirements. The requirements are as follows. A path to the tail
+		must be available from said objective.
+

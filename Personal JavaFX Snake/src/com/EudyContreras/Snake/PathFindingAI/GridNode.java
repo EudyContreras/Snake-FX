@@ -35,6 +35,7 @@ public class GridNode {
 
 	private List<CellNode> mapEdges;
 	private List<CellNode> freeCells;
+	private List<CellNode> freeCellsNoTP;
 
 	private LinkedList<CollideNode> colliders;
 	private LinkedList<CollideNode> penalties;
@@ -58,7 +59,6 @@ public class GridNode {
 //		this.game.getBaseLayer().setScaleY(.4);
 		this.calculateCells();
 		this.createTeleportZones();
-		this.createFreeCells();
 	}
 
 	private void calculateCells() {
@@ -70,6 +70,7 @@ public class GridNode {
 
 	public void placeCells() {
 		freeCells = new LinkedList<>();
+		freeCellsNoTP = new LinkedList<>();
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
 				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new IndexWrapper(row, col));
@@ -128,11 +129,16 @@ public class GridNode {
 	}
 
 	public void createFreeCells(){
+		freeCells.clear();
+		freeCellsNoTP.clear();
 		IntStream.range(minRow, cellNodes.length)
 		.forEach(row -> IntStream.range(minCol, cellNodes[row].length).forEach(col -> {
 			final CellNode cell = cellNodes[row][col];
 			if(cell.isTraversable()){
 				freeCells.add(cell);
+			}
+			if(cell.isTraversable() && cell.isTeleportZone()){
+				freeCellsNoTP.add(cell);
 			}
 		}));
 	}
@@ -220,6 +226,7 @@ public class GridNode {
 					}
 
 				}));
+		createFreeCells();
 	}
 
 	public void setPlayerSpawnZone(CellNode cell, CollideNode penalty){
@@ -231,14 +238,14 @@ public class GridNode {
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
 
-		CellNode headCell = freeCells.parallelStream().filter(cell -> cell.getBoundsCheck().intersects(snake.getAIBounds())).findFirst().orElse(null);
+		CellNode headCell = freeCells.stream().filter(cell -> cell.getBoundsCheck().intersects(snake.getAIBounds())).findFirst().orElse(null);
 
 		return headCell;
 	}
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake) {
 
-		CellNode headCell = freeCells.parallelStream().filter(cell -> (cell.getBoundsCheck().intersects(snake.getAIBounds()))).findFirst().orElse(null);
+		CellNode headCell = freeCells.stream().filter(cell -> (cell.getBoundsCheck().intersects(snake.getAIBounds()))).findFirst().orElse(null);
 
 		return headCell;
 	}
@@ -247,7 +254,7 @@ public class GridNode {
 
 		AbstractSection tail = game.getSectManagerTwo().getSectionList().getLast();
 
-		CellNode tailCell = freeCells.parallelStream().filter(cell -> (cell.getBoundsCheck().intersects(tail.getBounds()))).findFirst().orElse(null);
+		CellNode tailCell = freeCells.stream().filter(cell -> (cell.getBoundsCheck().intersects(tail.getBounds()))).findFirst().orElse(null);
 
 		return tailCell;
 	}
@@ -277,11 +284,11 @@ public class GridNode {
 
 					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 						cell.setOccupied(true);
-						cell.setPathToGoal(true);
+						cell.setPathToGoal(false);
 					}
 					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						cell.setOccupied(false);
-						cell.setPathToGoal(false);
+						cell.setPathToTail(false);
 					}
 
 					cell.updateVisuals();
@@ -718,6 +725,10 @@ public class GridNode {
 
 	public List<CellNode> getFreeCells(){
 		return freeCells;
+	}
+
+	public List<CellNode> getFreeCellsNoTP(){
+		return freeCellsNoTP;
 	}
 
 	public final LinkedList<CellNode> getTeleportZoneWest() {
