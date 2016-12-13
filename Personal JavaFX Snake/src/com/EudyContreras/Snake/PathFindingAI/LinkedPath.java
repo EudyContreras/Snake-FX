@@ -2,10 +2,13 @@ package com.EudyContreras.Snake.PathFindingAI;
 
 import java.util.LinkedList;
 
+import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.PathType;
+
 public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 
 	private boolean teleportPath = false;
 
+	private PathType pathType;
 	private ConnectionType type;
 
 	private Objective objective;
@@ -37,6 +40,7 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 		super();
 		this.objective = objective;
 		this.type = connection;
+//		this.pathType = PathType.SHORTEST_PATH;
 		if (pathOne != null && pathTwo != null) {
 			this.pathOne = !pathOne.isEmpty() ? pathOne : new  LinkedList<PATH>();
 			this.pathTwo = !pathTwo.isEmpty() ? pathTwo : new  LinkedList<PATH>();
@@ -89,6 +93,15 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 
 	public void setType(ConnectionType type) {
 		this.type = type;
+	}
+
+	public PathType getPathType() {
+		return pathType;
+	}
+
+	public LinkedPath<PATH> setPathType(PathType pathType) {
+		this.pathType = pathType;
+		return this;
 	}
 
 	public void setObjective(Objective objective) {

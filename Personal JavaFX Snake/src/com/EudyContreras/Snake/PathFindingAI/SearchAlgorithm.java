@@ -879,7 +879,7 @@ public class SearchAlgorithm {
 
 		PriorityQueue<CellNode> tailList = new PriorityQueue<CellNode>( cellCount, new CellCostComparator());
 
-		grid.resetCells(false);
+		grid.resetCells(true);
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:
@@ -1260,19 +1260,6 @@ public class SearchAlgorithm {
 				break;
 			}
 		}
-		for (int index = 1; index<path.size(); index++) {
-			PathWrapper parentNode = path.get(index-1);
-			PathWrapper currentNode = path.get(index);
-			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
-				parentNode.setDirection(Direction.RIGHT);
-			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {
-				parentNode.setDirection(Direction.LEFT);
-			} else if (currentNode.getIndex().getCol() > parentNode.getIndex().getCol()) {
-				parentNode.setDirection(Direction.DOWN);
-			} else if (currentNode.getIndex().getCol() < parentNode.getIndex().getCol()) {
-				parentNode.setDirection(Direction.UP);
-			}
-		}
 	}
 
 	private LinkedList<PathWrapper> buildPath(CurrentGoal goal, CellNode current, int searchCount) {
@@ -1342,19 +1329,6 @@ public class SearchAlgorithm {
 			}
 			break;
 		}
-		for (int index = path.size()-2; index>=0; index--) {
-			PathWrapper parentNode = path.get(index+1);
-			PathWrapper currentNode = path.get(index);
-			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
-				parentNode.setDirection(Direction.RIGHT);
-			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {
-				parentNode.setDirection(Direction.LEFT);
-			} else if (currentNode.getIndex().getCol() > parentNode.getIndex().getCol()) {
-				parentNode.setDirection(Direction.DOWN);
-			} else if (currentNode.getIndex().getCol() < parentNode.getIndex().getCol()) {
-				parentNode.setDirection(Direction.UP);
-			}
-		}
 		return path;
 	}
 
@@ -1390,20 +1364,6 @@ public class SearchAlgorithm {
 			}
 			else{
 				break;
-			}
-		}
-
-		for (int index = path.size()-2; index>=0; index--) {
-			PathWrapper parentNode = path.get(index+1);
-			PathWrapper currentNode = path.get(index);
-			if (currentNode.getIndex().getRow() > parentNode.getIndex().getRow()) {
-				parentNode.setDirection(Direction.RIGHT);
-			} else if (currentNode.getIndex().getRow() < parentNode.getIndex().getRow()) {
-				parentNode.setDirection(Direction.LEFT);
-			} else if (currentNode.getIndex().getCol() > parentNode.getIndex().getCol()) {
-				parentNode.setDirection(Direction.DOWN);
-			} else if (currentNode.getIndex().getCol() < parentNode.getIndex().getCol()) {
-				parentNode.setDirection(Direction.UP);
 			}
 		}
 		return path;

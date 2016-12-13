@@ -50,7 +50,7 @@ public class PathWrapper {
 	}
 
 	public enum PathFlag{
-		OBJECTIVE_CELL, PATH_CELL
+		OBJECTIVE_CELL, PATH_CELL, VISITED, UNVISITED
 	}
 
 	@Override
