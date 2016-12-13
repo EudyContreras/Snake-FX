@@ -879,7 +879,7 @@ public class SearchAlgorithm {
 
 		PriorityQueue<CellNode> tailList = new PriorityQueue<CellNode>( cellCount, new CellCostComparator());
 
-		grid.resetCells(true);
+		grid.resetCells(false);
 
 		switch(snakeAI.getCurrentDirection()){
 		case MOVE_DOWN:

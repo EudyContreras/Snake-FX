@@ -95,7 +95,7 @@ public class SnakeFood extends AbstractObject {
 		this.size = circle.getRadius();
 		this.targetSize = size;
 		this.cell.setContainsTarget(true);
-		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), Flag.UNAVAILABLE);
+		this.game.getAIController().getGrid().findNeighbors(cell.getIndex().getRow(), cell.getIndex().getCol(), Flag.GOAL_RADIUS);
 		this.addGLow();
 		this.bounds = new Circle(x, y, node.getRadius(), Color.TRANSPARENT);
 		this.bounds.setStrokeWidth(3);

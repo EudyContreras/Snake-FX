@@ -106,10 +106,8 @@ public class AIController {
     }
 
     public void nofifyAI() {
-    	if(!hasBeenNotified){
-    		hasBeenNotified = true;
-
-    	}
+    	pathFindingAI.setAllowUpdate(false);
+    	pathFindingAI.setUpdateTimer(0);
 		pathFindingAI.computePath();
     }
 

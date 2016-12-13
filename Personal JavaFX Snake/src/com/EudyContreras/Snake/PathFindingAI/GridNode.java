@@ -177,6 +177,7 @@ public class GridNode {
 					cell.setTargetCell(false);
 					cell.setOccupied(false);
 					cell.setSpawnAllowed(true);
+					cell.setGoalRadius(false);
 					cell.setPathCell(false);
 					cell.setDangerZone(false);
 					cell.setPathToGoal(false);
@@ -232,7 +233,9 @@ public class GridNode {
 	public CellNode getRelativeHeadCell(PlayerTwo snake) {
 
 		CellNode headCell = freeCells.stream().filter(cell -> cell.getBoundsCheck().intersects(snake.getAIBounds())).findFirst().orElse(null);
-		headCell.setHeadCell(true);
+		if(headCell!=null){
+			headCell.setHeadCell(true);
+		}
 		return headCell;
 	}
 
@@ -350,6 +353,10 @@ public class GridNode {
 						safe = false;
 					}
 					break;
+				case GOAL_RADIUS:
+					break;
+				default:
+					break;
 				}
 			}
 		}
@@ -372,11 +379,17 @@ public class GridNode {
 				if(flag == Flag.AVAILABLE){
 					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
 						cellNodes[row][col].setAvailable(true);
+						cellNodes[row][col].setGoalRadius(false);
 					}
 				}
 				if(flag == Flag.UNAVAILABLE){
 					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
 						cellNodes[row][col].setAvailable(false);
+					}
+				}
+				if(flag == Flag.GOAL_RADIUS){
+					if (cellNodes[row][col].isTraversable()&& cellNodes[row][col].isSpawnAllowed()) {
+						cellNodes[row][col].setGoalRadius(true);
 					}
 				}
 				else if(flag == Flag.UNSAFE){
@@ -823,7 +836,7 @@ public class GridNode {
 	}
 
 	public enum Flag {
-		UNSAFE, OCCUPIED, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE,
+		UNSAFE, OCCUPIED, UNAVAILABLE, NO_SPAWN, AVAILABLE, SAFE, GOAL_RADIUS,
 	}
 
 	public enum TeleportZone {

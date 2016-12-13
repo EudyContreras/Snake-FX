@@ -39,6 +39,7 @@ public class CellNode implements Comparable<CellNode>{
 	private boolean pathToTail = false;
 	private boolean objective = false;
 	private boolean traversable = true;
+	private boolean goalRadius = false;
 	private boolean spawnAllowed = true;
 	private boolean invalidSpawnZone = false;
 	private boolean available = true;
@@ -72,8 +73,6 @@ public class CellNode implements Comparable<CellNode>{
 		direction = Direction.NONE;
 		children = null;
 		parentNode = null;
-		pathCell = false;
-		objective = false;
 		return this;
 	}
 
@@ -89,7 +88,7 @@ public class CellNode implements Comparable<CellNode>{
 
 	public final void updateVisuals(){
 		if (showCells && layer!=null){
-			if(spawnAllowed && !pathToGoal && !pathToTail && !occupied && !targetCell && available && !playerSpawnZone)
+			if(spawnAllowed && !goalRadius && !pathToGoal && !pathToTail && !occupied && !targetCell && available && !playerSpawnZone)
 				visualRep.setFill(Color.TRANSPARENT);
 			if(!isSpawnAllowed() && !isTeleportZone() && !isDangerZone() && isTraversable())
 				visualRep.setFill(Color.rgb(255, 170, 0));
@@ -105,7 +104,7 @@ public class CellNode implements Comparable<CellNode>{
 				visualRep.setFill(Color.BLUE);
 			if(isTargetCell())
 				visualRep.setFill(Color.GREEN);
-			if(!isAvailable() && !isTargetCell() && !isPathCell() && !isPathToTail())
+			if(isGoalRadius() && !isTargetCell() && !isPathToTail())
 				visualRep.setFill(Color.YELLOW);
 			if(isTeleportZone())
 				visualRep.setFill(Color.BLACK);
@@ -156,6 +155,7 @@ public class CellNode implements Comparable<CellNode>{
 	public final boolean fruitSpawnAllowed(){
 		return isSpawnAllowed() &&
 				isAvailable() &&
+				!isGoalRadius() &&
 				!isOccupied() &&
 				!isPlayerSpawnZone() &&
 				!isTeleportZone() &&
@@ -209,6 +209,15 @@ public class CellNode implements Comparable<CellNode>{
 
 	public CellNode setIndex(IndexWrapper index) {
 		this.index = index;
+		return this;
+	}
+
+	public final boolean isGoalRadius() {
+		return goalRadius;
+	}
+
+	public CellNode setGoalRadius(boolean goalRadius) {
+		this.goalRadius = goalRadius;
 		return this;
 	}
 
@@ -379,7 +388,9 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public CellNode setObjective(boolean objective) {
-		this.objective = objective;
+		if (!isTeleportZone()) {
+			this.objective = objective;
+		}
 		return this;
 	}
 

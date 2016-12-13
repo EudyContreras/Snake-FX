@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 
+	private boolean teleportPath = false;
+
 	private ConnectionType type;
 
 	private Objective objective;
@@ -106,6 +108,15 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 		pathTwo.clear();
 	}
 
+	public LinkedPath<PATH> setTeleportPath(boolean teleportPath) {
+		this.teleportPath = teleportPath;
+		return this;
+	}
+
+	public boolean isTeleportPath() {
+		return teleportPath;
+	}
+
 	public boolean isPathOneEmpty(){
 		return pathOne.isEmpty();
 	}
@@ -122,4 +133,5 @@ public class LinkedPath<PATH> implements Comparable<LinkedPath<PATH>>{
 	public int compareTo(LinkedPath<PATH> path) {
 		return Double.compare(getPathOneLength(),path.getPathOneLength());
 	}
+
 }
