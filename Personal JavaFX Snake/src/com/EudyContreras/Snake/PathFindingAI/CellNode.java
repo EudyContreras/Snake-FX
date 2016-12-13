@@ -73,6 +73,8 @@ public class CellNode implements Comparable<CellNode>{
 		direction = Direction.NONE;
 		children = null;
 		parentNode = null;
+		pathCell = false;
+		objective = false;
 		return this;
 	}
 

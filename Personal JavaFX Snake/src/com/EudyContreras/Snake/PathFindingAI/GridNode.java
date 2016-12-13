@@ -438,25 +438,7 @@ public class GridNode {
 		CellNode tempCell = null;
 
 		switch(scenario){
-		case LEVEL_ONE:
-			tempCell = getNeighbor(cell, Neighbor.NORTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.SOUTH);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.WEST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
-				neighbors.add(tempCell);
-			}
-			tempCell = getNeighbor(cell, Neighbor.EAST);
-			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isTeleportZone()) {
-				neighbors.add(tempCell);
-			}
-			break;
-		case LEVEL_TWO:
+		case NORMAL:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
 			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isDangerZone() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);
@@ -474,7 +456,7 @@ public class GridNode {
 				neighbors.add(tempCell);
 			}
 			break;
-		case LEVEL_THREE:
+		case DISTRESSED:
 			tempCell = getNeighbor(cell, Neighbor.NORTH);
 			if (!tempCell.equals(cell) && tempCell.isTraversable() && !tempCell.isOccupied() && !tempCell.isPathToTail()) {
 				neighbors.add(tempCell);

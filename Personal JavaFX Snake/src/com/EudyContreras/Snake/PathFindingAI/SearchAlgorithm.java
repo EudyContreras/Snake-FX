@@ -103,7 +103,7 @@ public class SearchAlgorithm {
 
 		LinkedList<CellNode> cells = new LinkedList<>();
 
-		GET_FARTHEST_CELL_ALT(grid, from, from, cells, initialDistance, DistressLevel.LEVEL_TWO);
+		GET_FARTHEST_CELL_ALT(grid, from, from, cells, initialDistance, DistressLevel.NORMAL);
 
 		return cells.getLast();
 	}
@@ -157,7 +157,7 @@ public class SearchAlgorithm {
 
 			current.setVisited(true);
 
-			for (CellNode neighbor : grid.getNeighborCells(current, DistressLevel.LEVEL_THREE)) {
+			for (CellNode neighbor : grid.getNeighborCells(current, DistressLevel.DISTRESSED)) {
 
 				if (neighbor == null) {
 					continue;
@@ -208,7 +208,7 @@ public class SearchAlgorithm {
 
 	public void LABEL_DISTANCES(GridNode grid, CellNode from){
 
-		List<CellNode> neighbors = grid.getNeighborCells(from, DistressLevel.LEVEL_THREE);
+		List<CellNode> neighbors = grid.getNeighborCells(from, DistressLevel.DISTRESSED);
 
 		for(CellNode neighbor : neighbors){
 			if (neighbor == null) {
@@ -369,7 +369,7 @@ public class SearchAlgorithm {
 
 			current.setVisited(true);
 
-			for (CellNode neighbor : grid.getNeighborCells(current, DistressLevel.LEVEL_THREE)) {
+			for (CellNode neighbor : grid.getNeighborCells(current, DistressLevel.DISTRESSED)) {
 
 				if (neighbor == null) {
 					continue;
@@ -456,7 +456,7 @@ public class SearchAlgorithm {
 
 			current.setVisited(true);
 
-			List<CellNode> neighbors = grid.getNeighborCells(current,DistressLevel.LEVEL_TWO);
+			List<CellNode> neighbors = grid.getNeighborCells(current,DistressLevel.NORMAL);
 
 			SORT_NODES(neighbors, SortingMethod.DISTANCE_SORT, SortingOrder.DESCENDING);
 
@@ -905,7 +905,7 @@ public class SearchAlgorithm {
 
 		searchCount = 0;
 
-		objective.setObjective(true);
+//		objective.setObjective(true);
 
 		startingPoint.setVisited(true);
 
@@ -1014,7 +1014,7 @@ public class SearchAlgorithm {
 
 		objective.setTotalCost(objective.getMovementCost() + heuristicCostEstimate(objective, tail, heuristicScale, heuristicType));
 
-		DistressLevel distress = distressLevel == DistressLevel.LEVEL_TWO ? DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO : DistressLevel.SAFETY_CHECK_GOAL_LEVEL_THREE;
+		DistressLevel distress = distressLevel == DistressLevel.NORMAL ? DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO : DistressLevel.SAFETY_CHECK_GOAL_LEVEL_THREE;
 
 		tailList.add(objective);
 
@@ -1243,15 +1243,15 @@ public class SearchAlgorithm {
 		path.add(0,new PathWrapper(current.getIndex()));
 		while(true) {
 			if(current.getParentNode()!=null){
-				if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
-					current.getParentNode().setDirection(Direction.RIGHT);
-				} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
-					current.getParentNode().setDirection(Direction.LEFT);
-				} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
-					current.getParentNode().setDirection(Direction.DOWN);
-				} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
-					current.getParentNode().setDirection(Direction.UP);
-				}
+//				if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+//					current.getParentNode().setDirection(Direction.RIGHT);
+//				} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+//					current.getParentNode().setDirection(Direction.LEFT);
+//				} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+//					current.getParentNode().setDirection(Direction.DOWN);
+//				} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+//					current.getParentNode().setDirection(Direction.UP);
+//				}
 				current = current.getParentNode();
 				current.setPathToGoal(true);
 				current.setPathCell(true);
@@ -1272,15 +1272,15 @@ public class SearchAlgorithm {
 			path.add(new PathWrapper(current.getIndex()));
 			while(true) {
 				if(current.getParentNode()!=null){
-					if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
-						current.getParentNode().setDirection(Direction.RIGHT);
-					} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
-						current.getParentNode().setDirection(Direction.LEFT);
-					} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
-						current.getParentNode().setDirection(Direction.DOWN);
-					} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
-						current.getParentNode().setDirection(Direction.UP);
-					}
+//					if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+//						current.getParentNode().setDirection(Direction.RIGHT);
+//					} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+//						current.getParentNode().setDirection(Direction.LEFT);
+//					} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+//						current.getParentNode().setDirection(Direction.DOWN);
+//					} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+//						current.getParentNode().setDirection(Direction.UP);
+//					}
 					current = current.getParentNode();
 					current.setPathToGoal(true);
 					current.setPathCell(true);
@@ -1296,15 +1296,15 @@ public class SearchAlgorithm {
 			path.add(new PathWrapper(current.getIndex()));
 			while(true) {
 				if(current.getParentNode()!=null){
-					if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
-						current.getParentNode().setDirection(Direction.RIGHT);
-					} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
-						current.getParentNode().setDirection(Direction.LEFT);
-					} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
-						current.getParentNode().setDirection(Direction.DOWN);
-					} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
-						current.getParentNode().setDirection(Direction.UP);
-					}
+//					if (current.getIndex().getRow() > current.getParentNode().getIndex().getRow()) {
+//						current.getParentNode().setDirection(Direction.RIGHT);
+//					} else if (current.getIndex().getRow() < current.getParentNode().getIndex().getRow()) {
+//						current.getParentNode().setDirection(Direction.LEFT);
+//					} else if (current.getIndex().getCol() > current.getParentNode().getIndex().getCol()) {
+//						current.getParentNode().setDirection(Direction.DOWN);
+//					} else if (current.getIndex().getCol() < current.getParentNode().getIndex().getCol()) {
+//						current.getParentNode().setDirection(Direction.UP);
+//					}
 					current = current.getParentNode();
 					current.setPathToGoal(true);
 					current.setPathCell(true);
@@ -1329,6 +1329,7 @@ public class SearchAlgorithm {
 			}
 			break;
 		}
+
 		return path;
 	}
 

@@ -56,14 +56,14 @@ public class AIPathFinder {
     private boolean allowUpdate = false;
     private boolean onPath = true;
 
-    private int checkTimer = 100;
+    private int checkTimer = 0;
     private int updateTimer = 0;
     private int safetyCheckTimer = 0;
     private int randomBoost = 200;
 
     private DistressLevel distressLevel;
     private CurrentGoal currentGoal;
-    private ActionType state;
+    private ActionType currentState;
     private Direction lastStep;
 
     public AIPathFinder(GameManager game, AIController controller, PlayerTwo snakeAI, LinkedList<CollideNode> possibleColliders) {
@@ -78,13 +78,13 @@ public class AIPathFinder {
         rand = new Random();
         pathFinder = new SearchAlgorithm(game);
         currentGoal = CurrentGoal.OBJECTIVE;
-        distressLevel = DistressLevel.LEVEL_TWO;
-        state = ActionType.FIND_PATH;
+        distressLevel = DistressLevel.NORMAL;
+        currentState = ActionType.FIND_PATH;
         lastStep = Direction.NONE;
     }
 
     public void findObjective() {
-        switch (state) {
+        switch (currentState) {
         case DODGE_OBSTACLES:
             break;
         case FIND_PATH:
@@ -106,8 +106,8 @@ public class AIPathFinder {
         if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL){
 //			snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
             currentGoal = CurrentGoal.OBJECTIVE;
-            distressLevel = DistressLevel.LEVEL_TWO;
-            state = ActionType.FIND_PATH;
+            distressLevel = DistressLevel.NORMAL;
+            currentState = ActionType.FIND_PATH;
             lastStep = Direction.NONE;
             logDirections = false;
             allowChecks = false;
@@ -131,32 +131,27 @@ public class AIPathFinder {
 
                 performLocationBasedAction();
 //                addRandomBoost(true);
-                updateTimer++;
-                if (updateTimer >= 200){
-                	updateTimer = 200;
-                	allowUpdate = true;
-                }
                 if (allowChecks && currentGoal == CurrentGoal.OBJECTIVE) {
                     checkTimer++;
-                    if (allowUpdate && checkTimer >= 200) {
+                    if (checkTimer >= 200) {
 						computePath();
 						checkTimer = 0;
 					}
                 }if (safetyCheck && currentGoal == CurrentGoal.TAIL) {
                     safetyCheckTimer++;
 
-                    if (allowUpdate && safetyCheckTimer >= 600) {
-                        safetyCheckTimer = 0;
+                    if (safetyCheckTimer >= 600) {
                         currentGoal = CurrentGoal.OBJECTIVE;
                         computePath();
+                        safetyCheckTimer = 0;
                     }
-                }if (safetyCheck && currentGoal == CurrentGoal.FARTHEST_CELL) {
+                }if (currentGoal == CurrentGoal.FARTHEST_CELL) {
                     safetyCheckTimer++;
 
-                    if (allowUpdate && safetyCheckTimer >= 300) {
-                        safetyCheckTimer = 0;
+                    if (safetyCheckTimer >= 300) {
                         currentGoal = CurrentGoal.TAIL;
                         computePath();
+                        safetyCheckTimer = 0;
                     }
                 }
             }
@@ -270,7 +265,7 @@ public class AIPathFinder {
 
                 if (start != null) {
                     if (!start.isDangerZone()) {
-                        distressLevel = DistressLevel.LEVEL_TWO;
+                        distressLevel = DistressLevel.NORMAL;
                     }
 
                     for(int i = 0; i < newObjectives.size(); i++){
@@ -282,7 +277,7 @@ public class AIPathFinder {
                         }
                     }
                     if(path == null){
-                        distressLevel = DistressLevel.LEVEL_THREE;
+                        distressLevel = DistressLevel.DISTRESSED;
 
                         for(int i = 0; i < newObjectives.size(); i++){
 //							if(!grid.isNeighborNot(newObjectives.get(i).getCell(), Flag.OCCUPIED))
@@ -325,28 +320,28 @@ public class AIPathFinder {
 //				} else {
 
                     if (!start.isDangerZone()) {
-                        distressLevel = DistressLevel.LEVEL_TWO;
+                        distressLevel = DistressLevel.NORMAL;
                     }
-                    path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
+                    path = new LinkedPath<>(GET_DFS_PATH(start, tail), new LinkedList<>());
 
                     if (!path.getPathOne().isEmpty()) {
-                    	path.setPathType(PathType.LONGEST_PATH);
+                    	path.setPathType(PathType.SHORTEST_PATH);
                         showPathToObjective(path);
                     } else {
                     	log("Path to tail empty!");
-                        distressLevel = DistressLevel.LEVEL_THREE;
+                        distressLevel = DistressLevel.DISTRESSED;
 
-                        path = new LinkedPath<>(GET_LONGEST_PATH_POLY(start, tail), new LinkedList<>());
+                        path = new LinkedPath<>(GET_DFS_PATH(start, tail), new LinkedList<>());
 
                         if (!path.getPathOne().isEmpty()) {
-                        	path.setPathType(PathType.LONGEST_PATH);
+                        	path.setPathType(PathType.SHORTEST_PATH);
                             showPathToObjective(path);
                         } else {
                         	log("Emergency path to tail empty!");
                             currentGoal = CurrentGoal.FARTHEST_CELL;
                             computePath();
 //
-//							distressLevel = DistressLevel.LEVEL_THREE;
+//							distressLevel = DistressLevel.DISTRESSED;
 //
 //							LinkedList<Objective> objectives = getObjectives(start,GoalSearch.CLOSEST_OBJECTIVE, SortingType.FARTHEST);
 //
@@ -488,7 +483,7 @@ public class AIPathFinder {
         if (newObjectives.size() > 0) {
 
             if (start != null) {
-                distressLevel = DistressLevel.LEVEL_THREE;
+                distressLevel = DistressLevel.DISTRESSED;
 
                 for(int i = 0; i < newObjectives.size(); i++){
                     path = new LinkedPath<PathWrapper>(GET_DFS_PATH(start, newObjectives.get(i).getCell()), new LinkedList<PathWrapper>());
@@ -1259,14 +1254,14 @@ public class AIPathFinder {
      */
     public void addRandomBoost(boolean random) {
         if (currentGoal == CurrentGoal.OBJECTIVE) {
-            if (state == ActionType.FREE_MODE) {
+            if (currentState == ActionType.FREE_MODE) {
                 if (random && rand.nextInt(randomBoost) != 0) {
                     return;
                 }
                 if (snakeAI != null) {
                     applyThrust();
                 }
-            } else if (state == ActionType.FIND_PATH) {
+            } else if (currentState == ActionType.FIND_PATH) {
                 if (random && rand.nextInt(randomBoost) != 0) {
                     return;
                 }
@@ -1309,7 +1304,7 @@ public class AIPathFinder {
      * and then perform a move based on the objectives coordinates!
      */
     private void createPath() {
-        switch (state) {
+        switch (currentState) {
         case DODGE_OBSTACLES:
             break;
         case FIND_PATH:
@@ -1328,7 +1323,7 @@ public class AIPathFinder {
      * objective!
      */
     private void performLocationBasedAction() {
-        switch (state) {
+        switch (currentState) {
         case DODGE_OBSTACLES:
             break;
         case FIND_PATH:
@@ -1421,7 +1416,7 @@ public class AIPathFinder {
     }
 
     public enum DistressLevel{
-        LEVEL_ONE,LEVEL_TWO,LEVEL_THREE,SAFETY_CHECK_GOAL_LEVEL_TWO,CAUTIOUS_CHECK_EMERGENCY, SAFETY_CHECK_TAIL, SAFETY_CHECK_GOAL_LEVEL_THREE
+        NORMAL,DISTRESSED,SAFETY_CHECK_GOAL_LEVEL_TWO,CAUTIOUS_CHECK_EMERGENCY, SAFETY_CHECK_TAIL, SAFETY_CHECK_GOAL_LEVEL_THREE
     }
 
     public int getObjectiveCount(){
