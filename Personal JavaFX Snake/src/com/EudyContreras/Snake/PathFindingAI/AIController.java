@@ -108,8 +108,9 @@ public class AIController {
     public void nofifyAI() {
     	if(!hasBeenNotified){
     		hasBeenNotified = true;
-    		pathFindingAI.computePath();
+
     	}
+		pathFindingAI.computePath();
     }
 
     private void updateAIEvents() {
@@ -135,6 +136,9 @@ public class AIController {
     public void obtainAllPenaltyNodes(){
         clearPenalties();
         for(AbstractTile dangers: game.getGameLoader().getTileManager().getTile()){
+        	 if(dangers.getId() == GameLevelObjectID.FENCE){
+             	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.VERY_HIGH));
+             }
             if(dangers.getId() == GameLevelObjectID.CACTUS){
             	addPossiblePenaltyNode(new CollideNode(pathFindingAI, dangers,RiskFactor.HIGH));
             }
@@ -198,7 +202,7 @@ public class AIController {
     }
 
     public CellNode getHeadCell(PlayerTwo snake) {
-        return pathFindingGrid.getRelativeHeadCell(snake,0,0);
+        return pathFindingGrid.getRelativeHeadCell(snake);
     }
 
     public CellNode getTailCell(PlayerTwo snake) {

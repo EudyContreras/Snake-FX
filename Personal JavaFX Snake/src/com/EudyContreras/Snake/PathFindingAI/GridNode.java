@@ -35,7 +35,6 @@ public class GridNode {
 
 	private List<CellNode> mapEdges;
 	private List<CellNode> freeCells;
-	private List<CellNode> freeCellsNoTP;
 
 	private LinkedList<CollideNode> colliders;
 	private LinkedList<CollideNode> penalties;
@@ -59,6 +58,7 @@ public class GridNode {
 //		this.game.getBaseLayer().setScaleY(.4);
 		this.calculateCells();
 		this.createTeleportZones();
+		this.createFreeCells();
 	}
 
 	private void calculateCells() {
@@ -70,7 +70,6 @@ public class GridNode {
 
 	public void placeCells() {
 		freeCells = new LinkedList<>();
-		freeCellsNoTP = new LinkedList<>();
 		for (int row = 0; row < cellNodes.length; row++) {
 			for (int col = 0; col < cellNodes[row].length; col++) {
 				cellNodes[row][col] = new CellNode(this,game.getBaseLayer(),((cellPadding * (row + 1)) + (cellSize * row))-cellSize, cellPadding * (col + 1) + cellSize * col, cellSize, cellID, new IndexWrapper(row, col));
@@ -129,16 +128,11 @@ public class GridNode {
 	}
 
 	public void createFreeCells(){
-		freeCells.clear();
-		freeCellsNoTP.clear();
 		IntStream.range(minRow, cellNodes.length)
 		.forEach(row -> IntStream.range(minCol, cellNodes[row].length).forEach(col -> {
 			final CellNode cell = cellNodes[row][col];
 			if(cell.isTraversable()){
 				freeCells.add(cell);
-			}
-			if(cell.isTraversable() && cell.isTeleportZone()){
-				freeCellsNoTP.add(cell);
 			}
 		}));
 	}
@@ -226,7 +220,6 @@ public class GridNode {
 					}
 
 				}));
-		createFreeCells();
 	}
 
 	public void setPlayerSpawnZone(CellNode cell, CollideNode penalty){
@@ -236,17 +229,10 @@ public class GridNode {
 		}
 	}
 
-	public CellNode getRelativeHeadCell(PlayerTwo snake, int r, int c) {
-
-		CellNode headCell = freeCells.stream().filter(cell -> cell.getBoundsCheck().intersects(snake.getAIBounds())).findFirst().orElse(null);
-
-		return headCell;
-	}
-
 	public CellNode getRelativeHeadCell(PlayerTwo snake) {
 
-		CellNode headCell = freeCells.stream().filter(cell -> (cell.getBoundsCheck().intersects(snake.getAIBounds()))).findFirst().orElse(null);
-
+		CellNode headCell = freeCells.stream().filter(cell -> cell.getBoundsCheck().intersects(snake.getAIBounds())).findFirst().orElse(null);
+		headCell.setHeadCell(true);
 		return headCell;
 	}
 
@@ -285,10 +271,10 @@ public class GridNode {
 					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 						cell.setOccupied(true);
 						cell.setPathToGoal(false);
+						cell.setHeadCell(false);
 					}
 					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						cell.setOccupied(false);
-						cell.setPathToTail(false);
 					}
 
 					cell.updateVisuals();
@@ -582,6 +568,43 @@ public class GridNode {
 		return previous;
 	}
 
+	public boolean isImmidateOccupied(PlayerTwo snakeAI, CellNode cell){
+		CellNode immidiate = null;
+
+		Neighbor neighbor = null;
+
+		switch(snakeAI.getCurrentDirection()){
+		case MOVE_DOWN:
+			neighbor = Neighbor.SOUTH;
+			break;
+		case MOVE_LEFT:
+			neighbor = Neighbor.WEST;
+			break;
+		case MOVE_RIGHT:
+			neighbor = Neighbor.EAST;
+			break;
+		case MOVE_UP:
+			neighbor = Neighbor.NORTH;
+			break;
+		case STANDING_STILL:
+			neighbor = Neighbor.SOUTH;
+			break;
+
+		}
+		immidiate = getNeighbor(cell, neighbor);
+
+		if(!immidiate.isOccupied()){
+			CellNode next = getNeighbor(immidiate, neighbor);
+			if(!next.isOccupied()){
+				return false;
+			}else{
+				return true;
+			}
+		}else{
+			return true;
+		}
+	}
+
 	public boolean isNeighborOccupied(PlayerTwo snakeAI, CellNode cell){
 
 		List<CellNode> children = new LinkedList<>();
@@ -707,7 +730,7 @@ public class GridNode {
 		return minCol;
 	}
 
-	public CellNode[][] getAllCells() {
+	public CellNode[][] getCells() {
 		return cellNodes;
 	}
 
@@ -725,10 +748,6 @@ public class GridNode {
 
 	public List<CellNode> getFreeCells(){
 		return freeCells;
-	}
-
-	public List<CellNode> getFreeCellsNoTP(){
-		return freeCellsNoTP;
 	}
 
 	public final LinkedList<CellNode> getTeleportZoneWest() {

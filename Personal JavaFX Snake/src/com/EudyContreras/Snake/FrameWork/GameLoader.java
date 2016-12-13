@@ -333,7 +333,7 @@ public class GameLoader extends AbstractLoaderModel{
 		}
 
 		GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundFour);
-		
+
 		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
 		game.getScoreKeeper().getTimer().showTimer(false);
 		game.getScoreKeeper().setboardMode(GameModeID.LocalMultiplayer);
@@ -353,9 +353,9 @@ public class GameLoader extends AbstractLoaderModel{
 
 			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROLL)
 				levelManager.loadDesertBorder();
-			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5) {
+//			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5) {
 				levelManager.loadSpikeFence();
-			}
+//			}
 
 			levelManager.loadDesertLevels();
 			game.setLevelLenght(128 * 64);
@@ -404,7 +404,7 @@ public class GameLoader extends AbstractLoaderModel{
 		int maxColCount = game.getAIController().getGrid().getColumnCount();
 
 		while(!validCell){
-			CellNode cell = game.getAIController().getGrid().getAllCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
+			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
 
 			if(cell.fruitSpawnAllowed()){
 				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
