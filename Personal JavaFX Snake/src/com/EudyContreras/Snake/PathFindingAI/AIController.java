@@ -106,9 +106,9 @@ public class AIController {
     }
 
     public void nofifyAI() {
-    	pathFindingAI.setAllowUpdate(false);
-    	pathFindingAI.setUpdateTimer(0);
-		pathFindingAI.computePath();
+//    	pathFindingAI.setAllowUpdate(false);
+//    	pathFindingAI.setUpdateTimer(0);
+//		pathFindingAI.computePath();
     }
 
     private void updateAIEvents() {

@@ -886,7 +886,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, GameSettings.PATH_FINDING_CELL_SIZE-8, GameSettings.PATH_FINDING_CELL_SIZE-8);
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-12)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-12)/2, GameSettings.PATH_FINDING_CELL_SIZE-12, GameSettings.PATH_FINDING_CELL_SIZE-12);
 	}
 
 	public Rectangle2D getAIBounds() {
