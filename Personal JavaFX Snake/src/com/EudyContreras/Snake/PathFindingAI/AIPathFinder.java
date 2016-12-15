@@ -14,7 +14,6 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
-import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.CurrentGoal;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
 import com.EudyContreras.Snake.PathFindingAI.Objective.SortingType;
@@ -304,7 +303,7 @@ public class AIPathFinder {
                         currentGoal = CurrentGoal.TAIL;
                         pathRequests.clear();
                         removeThrust();
-                        computePath(start);
+                        pathRequests.add(new PathRequest(this,currentGoal));
                     }
                 }
             }
@@ -334,7 +333,7 @@ public class AIPathFinder {
                           log("Emergency path to tail empty!");
                           currentGoal = CurrentGoal.FARTHEST_CELL;
                           pathRequests.clear();
-                          computePath(start);
+                          pathRequests.add(new PathRequest(this,currentGoal));
 //
 //							distressLevel = DistressLevel.DISTRESSED;
 //

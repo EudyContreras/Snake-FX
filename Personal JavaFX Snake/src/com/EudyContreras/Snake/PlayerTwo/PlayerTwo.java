@@ -80,7 +80,9 @@ public class PlayerTwo extends AbstractObject {
 	private ImagePattern eatingFrame;
 	private ImagePattern blinkingFrame;
 	private LinkedList<PlayerMovement> turns = new LinkedList<>();
+
 	private PlayerMovement direction;
+
 	public static int NUMERIC_ID = 0;
 	public static Double SPEED = 6.0;
 	public static Boolean DEAD = false;
@@ -209,7 +211,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public void updateBounds() {
 		checkBounds();
-		if (GameSettings.DEBUG_MODE) {
+		if (!GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
 			bounds.setWidth(radius);
@@ -750,7 +752,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void drawBoundingBox() {
-		if (GameSettings.DEBUG_MODE) {
+		if (!GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
 			bounds.setStroke(Color.YELLOW);
 			bounds.setStrokeWidth(3);
@@ -886,7 +888,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-12)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-12)/2, GameSettings.PATH_FINDING_CELL_SIZE-12, GameSettings.PATH_FINDING_CELL_SIZE-12);
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-6)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-6)/2, GameSettings.PATH_FINDING_CELL_SIZE-6, GameSettings.PATH_FINDING_CELL_SIZE-6);
 	}
 
 	public Rectangle2D getAIBounds() {
