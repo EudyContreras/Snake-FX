@@ -250,6 +250,7 @@ public class AIPathFinder {
     }
 
     public void computePath(CellNode head){
+//    	System.out.println("Request Size: "+pathRequests.size());
         teleporting = false;
 
         CellNode start = head!=null ? head : controller.getHeadCell(snakeAI);
@@ -301,9 +302,10 @@ public class AIPathFinder {
                         showPathToObjective(path);
                     }else{
                         currentGoal = CurrentGoal.TAIL;
-                        pathRequests.clear();
                         removeThrust();
-                        pathRequests.add(new PathRequest(this,currentGoal));
+                        computePath(start);
+//                        pathRequests.clear();
+//                        pathRequests.add(new PathRequest(this,currentGoal));
                     }
                 }
             }
@@ -332,8 +334,9 @@ public class AIPathFinder {
                       } else {
                           log("Emergency path to tail empty!");
                           currentGoal = CurrentGoal.FARTHEST_CELL;
-                          pathRequests.clear();
-                          pathRequests.add(new PathRequest(this,currentGoal));
+                          computePath(start);
+//                          pathRequests.clear();
+//                          pathRequests.add(new PathRequest(this,currentGoal));
 //
 //							distressLevel = DistressLevel.DISTRESSED;
 //
@@ -1110,7 +1113,7 @@ public class AIPathFinder {
      */
 
     public void steerAI() {
-        CellNode head = grid.getRelativeHeadCell(snakeAI);
+//        CellNode head = grid.getRelativeHeadCell(snakeAI);
 
         if (pathCoordinates != null) {
             pathCoordinates.getPathOne().stream().forEach(wrapper -> {
@@ -1119,41 +1122,35 @@ public class AIPathFinder {
                 if(wrapper.getFlag() == PathFlag.VISITED)
                     return;
 
+                if (cell.getBoundsCheck().contains(snakeAI.getAIBounds())) {
+                    cell.setPathCell(false);
+                    objectiveReached(cell);
+                    onPath = true;
+                }
+
                 if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
                     switch (wrapper.getDirection()) {
                     case DOWN:
                         snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
                         wrapper.setFlag(PathFlag.VISITED);
-                        cell.setPathCell(false);
-                        objectiveReached(cell);
-                        onPath = true;
                         break;
                     case LEFT:
                         snakeAI.setDirectCoordinates(PlayerMovement.MOVE_LEFT);
                         wrapper.setFlag(PathFlag.VISITED);
-                        cell.setPathCell(false);
-                        objectiveReached(cell);
-                        onPath = true;
                         break;
                     case RIGHT:
                         snakeAI.setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
                         wrapper.setFlag(PathFlag.VISITED);
-                        cell.setPathCell(false);
-                        objectiveReached(cell);
-                        onPath = true;
                         break;
                     case UP:
                         snakeAI.setDirectCoordinates(PlayerMovement.MOVE_UP);
                         wrapper.setFlag(PathFlag.VISITED);
-                        cell.setPathCell(false);
-                        objectiveReached(cell);
-                        onPath = true;
                         break;
                     case NONE:
                         onPath = false;
+                  		System.out.println(wrapper.getDirection());
+                        objectiveReached(cell,true);
                         wrapper.setFlag(PathFlag.VISITED);
-                        cell.setPathCell(false);
-                        objectiveReached(cell);
                         break;
                     }
                 }
@@ -1166,40 +1163,32 @@ public class AIPathFinder {
                       if(wrapper.getFlag() == PathFlag.VISITED)
                          return;
 
-                     if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
+                      if (cell.getBoundsCheck().contains(snakeAI.getAIBounds())) {
+                          cell.setPathCell(false);
+                          objectiveReached(cell);
+                          onPath = true;
+                      }
+                      if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
                          switch (wrapper.getDirection()) {
                          case DOWN:
                              snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
                              wrapper.setFlag(PathFlag.VISITED);
-                             cell.setPathCell(false);
-                             objectiveReached(cell);
-                             onPath = true;
                              break;
                          case LEFT:
                              snakeAI.setDirectCoordinates(PlayerMovement.MOVE_LEFT);
                              wrapper.setFlag(PathFlag.VISITED);
-                             cell.setPathCell(false);
-                             objectiveReached(cell);
-                             onPath = true;
                              break;
                          case RIGHT:
                              snakeAI.setDirectCoordinates(PlayerMovement.MOVE_RIGHT);
                              wrapper.setFlag(PathFlag.VISITED);
-                             cell.setPathCell(false);
-                             objectiveReached(cell);
-                             onPath = true;
                              break;
                          case UP:
                              snakeAI.setDirectCoordinates(PlayerMovement.MOVE_UP);
                              wrapper.setFlag(PathFlag.VISITED);
-                             cell.setPathCell(false);
-                             objectiveReached(cell);
-                             onPath = true;
                              break;
                          case NONE:
                              onPath = false;
                              wrapper.setFlag(PathFlag.VISITED);
-                             cell.setPathCell(false);
                              objectiveReached(cell);
                              break;
                          }
@@ -1208,29 +1197,49 @@ public class AIPathFinder {
             }
         }
 
-        if(head != null){
-            if(head.isPathToGoal()){
-                onPath = true;
-            }else{
-                onPath = false;
-            }
-        }
+//        if(head != null){
+//            if(head.isPathToGoal()){
+//                onPath = true;
+//            }else{
+//                onPath = false;
+//            }
+//        }
     }
 
     private void objectiveReached(CellNode cell){
+    	objectiveReached(cell,false);
+    }
+    private void objectiveReached(CellNode cell, boolean lost){
 
-        if(cell.isObjective()){
-            cell.setObjective(false);
-//			currentGoal = CurrentGoal.OBJECTIVE;
-            computePath(cell);
-//          controller.nofifyAI();
-        }else if(!pathRequests.isEmpty()){
-        	PathRequest request = pathRequests.poll();
-            request.execute(snake -> {
-            	snake.setGoal(request.getGoal());
-            	snake.computePath(cell);
-            });
-        }
+		if (!lost) {
+			if (cell.isObjective()) {
+				cell.setObjective(false);
+				// currentGoal = CurrentGoal.OBJECTIVE;
+				computePath(cell);
+				// controller.nofifyAI();
+			}else{
+				if(!pathRequests.isEmpty()){
+		        	PathRequest request = pathRequests.poll();
+		            request.execute(snake -> {
+		            	snake.setGoal(request.getGoal());
+		            	snake.computePath(cell);
+		            });
+		        }
+			}
+		}else{
+			if (cell.isObjective()) {
+				cell.setObjective(false);
+			}
+			if(!pathRequests.isEmpty()){
+	        	PathRequest request = pathRequests.poll();
+	            request.execute(snake -> {
+	            	snake.setGoal(request.getGoal());
+	            	snake.computePath(cell);
+	            });
+			} else {
+				computePath(null);
+			}
+		}
     }
     /**
      * Method which under certain conditions will activate the
@@ -1379,9 +1388,9 @@ public class AIPathFinder {
         return snakeAI.getCurrentDirection();
     }
 
-    public Rectangle2D getCollisionBounds() {
-        return snakeAI.getAIBounds();
-    }
+//    public Rectangle2D getCollisionBounds() {
+//        return snakeAI.getAIBounds();
+//    }
 
     private enum GoalSearch{
         CLOSEST_OBJECTIVE, SHORTEST_PATH

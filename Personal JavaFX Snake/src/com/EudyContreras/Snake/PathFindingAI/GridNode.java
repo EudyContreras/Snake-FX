@@ -232,7 +232,10 @@ public class GridNode {
 
 	public CellNode getRelativeHeadCell(PlayerTwo snake) {
 
-		CellNode headCell = freeCells.stream().filter(cell -> cell.getBoundsCheck().intersects(snake.getAIBounds())).findFirst().orElse(null);
+		CellNode headCell = freeCells.stream().filter(cell ->
+		cell.getBoundsCheck().intersects(snake.getAIBounds())
+//		&& !cell.getBoundsCheck().intersects(snake.getBounds())
+		).findFirst().orElse(null);
 
 		if(headCell!=null){
 			headCell.setHeadCell(true);
@@ -240,12 +243,6 @@ public class GridNode {
 		return headCell;
 	}
 
-	public CellNode getAbsoluteHeadCell(PlayerTwo snake) {
-
-		CellNode headCell = freeCells.stream().filter(cell -> cell.getBoundsCheck().contains(snake.getBounds())).findFirst().orElse(null);
-
-		return headCell;
-	}
 
 	public CellNode getRelativeTailCell(PlayerTwo snake) {
 
