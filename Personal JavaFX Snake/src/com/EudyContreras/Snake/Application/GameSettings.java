@@ -109,7 +109,7 @@ public class GameSettings {
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 
-	public static boolean PARENT_CACHE = true;
+	public static boolean PARENT_CACHE = false;
 	public static boolean ALLOW_ASTAR_GRAPH = true;
 	public static boolean SHOW_ASTAR_GRAPH = false;
 	public static boolean DEBUG_MODE = false;

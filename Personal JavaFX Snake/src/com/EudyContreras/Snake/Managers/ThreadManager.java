@@ -33,7 +33,7 @@ public class ThreadManager {
 	}
 
     public synchronized ThreadManager submitThread(String name, TaskType taskType, TaskWrapper... tasks){
-    	return submitThread(name,taskType,0,0,tasks);
+    	return submitThread(name,taskType,1,0,tasks);
     }
 
     public synchronized ThreadManager submitThread(String name, TaskType taskType, int updateFrequency, int startDelay, TaskWrapper... tasks){
@@ -298,6 +298,5 @@ public class ThreadManager {
     public synchronized int threadCount(){
     	return threads.size();
     }
-
 
 }

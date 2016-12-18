@@ -37,3 +37,4 @@ Notes and Ideas about Artificial Intelligence!
 		certain requirements. The requirements are as follows. A path to the tail
 		must be available from said objective.
 
+

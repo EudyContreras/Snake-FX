@@ -234,7 +234,7 @@ public class GridNode {
 
 		CellNode headCell = freeCells.stream().filter(cell ->
 		cell.getBoundsCheck().intersects(snake.getAIBounds())
-//		&& !cell.getBoundsCheck().intersects(snake.getBounds())
+		&& !cell.getBoundsCheck().intersects(snake.getBounds())
 		).findFirst().orElse(null);
 
 		if(headCell!=null){
@@ -271,23 +271,24 @@ public class GridNode {
 
 	public void markKeyCells() {
 		AbstractSection tail = game.getSectManagerTwo().getSectionList().get(game.getSectManagerTwo().getSectionList().size()-2);
+		AbstractSection neck = game.getSectManagerTwo().getSectionList().get(2);
 
 		IntStream.range(minRow, cellNodes.length)
 				.forEach(row -> IntStream.range(minCol, cellNodes[row].length).forEach(col -> {
 					final CellNode cell = cellNodes[row][col];
 
-					if (cell.getBoundsCheck().intersects(snakeAI.getAIBounds())){
-						cell.setHeadCell(true);
+					if (cell.getBoundsCheck().intersects(neck.getBounds())){
+						cell.setHeadCell(false);
 					}
 
 					if (cell.getBoundsCheck().contains(snakeAI.getBounds())) {
 						cell.setOccupied(true);
 						cell.setPathToGoal(false);
-						cell.setHeadCell(false);
 					}
 
 					if (cell.getBoundsCheck().contains(tail.getBounds())) {
 						cell.setOccupied(false);
+						cell.setHeadCell(false);
 					}
 
 					cell.updateVisuals();

@@ -21,10 +21,17 @@ public class PathRequest {
 	public CurrentGoal getGoal() {
 		return goal;
 	}
+
 	public void setGoal(CurrentGoal goal) {
 		this.goal = goal;
 	}
+
 	public void execute(Consumer<AIPathFinder> action){
 		action.accept(pathFinder);
+	}
+
+	public void execute(AIPathFinder ai, CellNode cell){
+		ai.setGoal(goal);
+		ai.computePath(cell);
 	}
 }

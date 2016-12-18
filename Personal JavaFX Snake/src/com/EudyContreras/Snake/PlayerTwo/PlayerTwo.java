@@ -47,7 +47,7 @@ public class PlayerTwo extends AbstractObject {
 	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
 	private double bodyTrigger;
-	private double offset = 25;
+	private double offset = 15;
 	private double offsetX = 0;
 	private double offsetY = 0;
 	private boolean isDead = false;
@@ -212,10 +212,10 @@ public class PlayerTwo extends AbstractObject {
 	public void updateBounds() {
 		checkBounds();
 		if (!GameSettings.DEBUG_MODE) {
-			bounds.setX(x - radius/4 + offsetX);
-			bounds.setY(y - radius/4 + offsetY);
-			bounds.setWidth(radius/2);
-			bounds.setHeight(radius/2);
+			bounds.setX(x - radius/2 + offsetX);
+			bounds.setY(y - radius/2 + offsetY);
+			bounds.setWidth(radius);
+			bounds.setHeight(radius);
 			boundBox.setX(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
 			boundBox.setY(y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2);
 			boundBox.setWidth(GameSettings.PATH_FINDING_CELL_SIZE-8);
@@ -889,15 +889,15 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-6)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-6)/2, GameSettings.PATH_FINDING_CELL_SIZE-6, GameSettings.PATH_FINDING_CELL_SIZE-6);
-	} 
+		return new Rectangle2D(x - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, y - (GameSettings.PATH_FINDING_CELL_SIZE-8)/2, GameSettings.PATH_FINDING_CELL_SIZE-8, GameSettings.PATH_FINDING_CELL_SIZE-8);
+	}
 
 	public Rectangle2D getCollideBounds() {
 		return new Rectangle2D((x - (radius / 2)) + offsetX, (y - (radius / 2)) + offsetY, radius, radius);
 	}
 
 	public Rectangle2D getAIBounds() {
-		return new Rectangle2D((x - (radius / 4)) + offsetX, (y - (radius / 4)) + offsetY,radius/2,radius/2);
+		return new Rectangle2D((x - (radius / 2)) + offsetX, (y - (radius / 2)) + offsetY,radius,radius);
 	}
 
 	public PlayerTwoHead getHead() {

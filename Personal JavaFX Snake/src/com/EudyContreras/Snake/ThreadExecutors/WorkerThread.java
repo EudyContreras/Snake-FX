@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.ThreadExecutors;
 
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import com.EudyContreras.Snake.Managers.ThreadManager;
 
@@ -8,18 +9,18 @@ import com.EudyContreras.Snake.Managers.ThreadManager;
 
 /**
  * Class which represents a worker. This class
- * creates a thread and assigns a task to the thread.
+ * creates a thread and assigns a valueTask to the thread.
  * The functions of this class are controlled by a Thread Manager.
  * Created by Eudy Contreras on 10/14/2016.
  */
-public class WorkerThread {
+public class WorkerThread{
 
 	private String name;
 
 	private ThreadManager manager;
 	private WorkerThreadHelper workerHelper;
 
-	private LinkedHashMap<String,TaskWrapper> tasks;
+	private LinkedHashMap<String,TaskWrapper> computeTask;
 
 	private boolean onHold = false;
 	private boolean parallel = false;
@@ -48,14 +49,14 @@ public class WorkerThread {
 	/**
 	 * Constructor which creates a worker thread and sets all the initial values.
 	 * @param manager The manager of this worker
-	 * @param taskType The type of task: Continuous or Single instance
-	 * @param timeUnit The time unit which the task uses
+	 * @param taskType The type of valueTask: Continuous or Single instance
+	 * @param timeUnit The time unit which the valueTask uses
 	 * @param updateFrequency The frequency in which the updates will be made
 	 * @param startDelay The delay before the first update is performed
-	 * @param update The task to be performed by this thread
+	 * @param update The valueTask to be performed by this thread
 	 */
 	public WorkerThread(ThreadManager manager, String name, TaskType taskType, TimeUnit timeUnit, int updateFrequency, int startDelay, TaskWrapper... update) {
-		this.tasks = addTasks(update);
+		this.computeTask = addTasks(update);
 		this.name = name;
 		this.timeUnit = timeUnit;
 		this.taskType = taskType;
@@ -66,21 +67,21 @@ public class WorkerThread {
 
 
 	private LinkedHashMap<String,TaskWrapper> addTasks(TaskWrapper...taskWrappers){
-		tasks = new LinkedHashMap<>();
+		computeTask = new LinkedHashMap<>();
 		for(TaskWrapper wrapper: taskWrappers){
 			taskCounter++;
 			if(wrapper instanceof TaskUpdate){
 				TaskUpdate update = (TaskUpdate)wrapper;
 				if(update.getTaskID()!=null){
-					tasks.put(update.getTaskID(), update);
+					computeTask.put(update.getTaskID(), update);
 				}else{
-					tasks.put(String.valueOf(taskCounter), update);
+					computeTask.put(String.valueOf(taskCounter), update);
 				}
 			}else{
-				tasks.put(String.valueOf(taskCounter), wrapper);
+				computeTask.put(String.valueOf(taskCounter), wrapper);
 			}
 		}
-		return tasks;
+		return computeTask;
 	}
 	/**
 	 * Method which creates and start the thread
@@ -90,6 +91,7 @@ public class WorkerThread {
 		if (workerHelper == null) {
 			workerHelper = null;
 			workerHelper = new WorkerThreadHelper();
+			workerHelper.setDaemon(true);
 			workerHelper.setName(name);
 			workerHelper.start();
 			running = true;
@@ -221,7 +223,7 @@ public class WorkerThread {
 	}
 
 	/**
-	 * Method which returns the ID of the task being performed by the thread
+	 * Method which returns the ID of the valueTask being performed by the thread
 	 * @return
 	 */
 	public String getThreadName(){
@@ -230,38 +232,38 @@ public class WorkerThread {
 	}
 
 	/**
-	 * Method which returns the task being performed by this thread
+	 * Method which returns the valueTask being performed by this thread
 	 * @return
 	 */
 	public TaskWrapper getTask(String name) {
-		return tasks.get(name);
+		return computeTask.get(name);
 	}
 
 	/**
-	 * Method which adds a new task to be performed by the thread.
+	 * Method which adds a new valueTask to be performed by the thread.
 	 * @param update
 	 */
 	public void addTask(TaskWrapper update) {
 		if(update instanceof TaskUpdate){
 			TaskUpdate task = (TaskUpdate)update;
 			if(task.getTaskID()!=null){
-				tasks.put(task.getTaskID(), update);
+				computeTask.put(task.getTaskID(), update);
 			}else{
-				tasks.put(String.valueOf(taskCounter), update);
+				computeTask.put(String.valueOf(taskCounter), update);
 			}
 		}else{
-			tasks.put(String.valueOf(taskCounter), update);
+			computeTask.put(String.valueOf(taskCounter), update);
 		}
 	}
 
 	/**
-	 * Method which removes task from the task collection
+	 * Method which removes valueTask from the valueTask collection
 	 * @param name
 	 * @return
 	 */
 	public boolean removeTask(String name){
-		if(tasks.containsKey(name)){
-			tasks.remove(name);
+		if(computeTask.containsKey(name)){
+			computeTask.remove(name);
 			return true;
 		}else{
 			return false;
@@ -278,13 +280,12 @@ public class WorkerThread {
 		} catch (InterruptedException e) {
 		}
 	}
-
 	/**
-	 * Method which performs an update to the task
+	 * Method which performs an update to the valueTask
 	 */
-	public void performUpdate() {
+	private void performUpdate() {
 		if (parallel) {
-			tasks.entrySet().parallelStream().forEach(entry -> {
+			computeTask.entrySet().parallelStream().forEach(entry -> {
 				TaskWrapper value = entry.getValue();
 
 				if (value != null) {
@@ -293,16 +294,14 @@ public class WorkerThread {
 			});
 
 		} else {
-			tasks.forEach((Key,Value) -> {
-				if (Value != null) {
-					Value.doBackgroundWork();
-				}
-			});
+			for(Entry<String,TaskWrapper> entry : computeTask.entrySet()){
+				entry.getValue().doBackgroundWork();
+			}
 		}
 	}
 
 	/**
-	 * Thread class used by the worker to perform a task.
+	 * Thread class used by the worker to perform a valueTask.
 	 * @author Eudy Contreas
 	 *
 	 */
@@ -395,7 +394,7 @@ public class WorkerThread {
 	}
 
 	/**
-	 * Enumeration containing task types
+	 * Enumeration containing valueTask types
 	 * @author Eudy Contreras
 	 *
 	 */

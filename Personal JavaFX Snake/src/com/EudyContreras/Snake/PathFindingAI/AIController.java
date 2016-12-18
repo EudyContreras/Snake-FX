@@ -7,6 +7,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
+import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.CurrentGoal;
 import com.EudyContreras.Snake.PathFindingAI.CollideNode.RiskFactor;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -96,7 +97,7 @@ public class AIController {
     }
 
     public void update_AI_Simulation(long timePassed) {
-    	if(game.getStateID()==GameStateID.GAMEPLAY){
+    	if(game.getStateID()!=GameStateID.GAME_MENU){
     		updateAIEvents();
         	updateGridEvents();
     	}
@@ -106,9 +107,9 @@ public class AIController {
     }
 
     public void nofifyAI() {
-//    	pathFindingAI.setAllowUpdate(false);
-//    	pathFindingAI.setUpdateTimer(0);
-//		pathFindingAI.computePath();
+    	pathFindingAI.setAllowUpdate(false);
+    	pathFindingAI.setUpdateTimer(0);
+		pathFindingAI.submitPathRequest(new PathRequest(pathFindingAI,CurrentGoal.OBJECTIVE));
     }
 
     private void updateAIEvents() {

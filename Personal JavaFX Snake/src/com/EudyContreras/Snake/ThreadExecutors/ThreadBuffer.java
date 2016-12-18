@@ -7,7 +7,7 @@ public class ThreadBuffer<T> {
 	private LinkedList<T> buffer = new LinkedList<>();
 
 	public synchronized void put(T element) {
-		buffer.addLast(element);
+		buffer.add(element);
 		notifyAll();
 	}
 
@@ -15,7 +15,7 @@ public class ThreadBuffer<T> {
 		while(buffer.isEmpty()) {
 			wait();
 		}
-		return buffer.removeFirst();
+		return buffer.poll();
 	}
 
 	public synchronized boolean hasNext(){

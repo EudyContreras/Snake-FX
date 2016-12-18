@@ -62,7 +62,7 @@ public class GameObjectController {
 		Iterator<AbstractObject> fruitIter = fruits.iterator();
 
 		while (fruitIter.hasNext()) {
-			AbstractObject tempFruit = fruitIter.next();
+			tempFruit = fruitIter.next();
 			tempFruit.move();
 			tempFruit.updateUI();
 			tempFruit.checkCollision();
@@ -77,9 +77,17 @@ public class GameObjectController {
 				continue;
 			}
 		}
+		if(fruits.size() > 4){
+			fruits.get(fruits.size()-1).setRemovable(true);
+		}
+		if(GameSettings.APPLE_COUNT <= 4){
+			if(fruits.size() > GameSettings.APPLE_COUNT){
+				fruits.get(fruits.size()-1).setRemovable(true);
+			}
+		}
 	}
 
-	public void updateBufss(long timePassed) {
+	public void updateBuffs(long timePassed) {
 		Iterator<AbstractObject> buffIter = buffs.iterator();
 
 		while (buffIter.hasNext()) {
