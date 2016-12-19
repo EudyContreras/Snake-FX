@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.EudyContreras.Snake.ThreadExecutors.TaskWrapper;
+import com.EudyContreras.Snake.ThreadExecutors.ValueTask;
 import com.EudyContreras.Snake.ThreadExecutors.WorkerThread;
 import com.EudyContreras.Snake.ThreadExecutors.WorkerThread.TaskType;
 import com.EudyContreras.Snake.ThreadExecutors.WorkerThread.TimeUnit;
@@ -299,4 +300,72 @@ public class ThreadManager {
     	return threads.size();
     }
 
+    public static synchronized void performeTask(TaskWrapper task){
+    	performeTask("",task);
+    }
+
+    public static synchronized void performeTask(String name, TaskWrapper task){
+
+    	Worker worker = new Worker(task);
+
+    	Thread thread = new Thread(worker);
+
+    	thread.setName(name);
+    	thread.setDaemon(true);
+    	thread.start();
+    }
+
+	private static class Worker implements Runnable {
+		private volatile TaskWrapper task;
+
+		public Worker(TaskWrapper task) {
+			this.task = task;
+		}
+
+		@Override
+		public void run() {
+			task.doBackgroundWork();
+		}
+	}
+
+	public synchronized static <VALUE> VALUE computeValue(ValueTask<VALUE> task){
+		return computeValue("",task);
+	}
+
+	public synchronized static <VALUE> VALUE computeValue(String name, ValueTask<VALUE> task){
+
+    	ValueWorker<VALUE> worker = new ValueWorker<>(task);
+
+    	Thread thread = new Thread(worker);
+
+    	thread.setName(name);
+    	thread.setDaemon(true);
+    	thread.start();
+
+    	try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+    	return worker.getValue();
+    }
+
+    private static class ValueWorker<VALUE> implements Runnable {
+
+	     private volatile VALUE value;
+	     private volatile ValueTask<VALUE> task;
+
+	     public ValueWorker(ValueTask<VALUE> task){
+	    	 this.task = task;
+	     }
+	     @Override
+	     public void run() {
+	        value = task.computeValue();
+	     }
+
+	     public VALUE getValue() {
+	    	 return value;
+	     }
+	 }
 }

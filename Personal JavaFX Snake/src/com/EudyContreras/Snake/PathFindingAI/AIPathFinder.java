@@ -23,8 +23,6 @@ import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.PathType;
 import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.Reach;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.ThreadExecutors.ValueTask;
-import com.EudyContreras.Snake.ThreadExecutors.WorkerThread.TaskType;
-
 import javafx.geometry.Rectangle2D;
 
 /**
@@ -45,10 +43,6 @@ import javafx.geometry.Rectangle2D;
  */
 public class AIPathFinder {
 
-	private ThreadManager threadManager;
-	private ScriptManager<LinkedPath<PathWrapper>> linkedPathThread;
-	private ScriptManager<LinkedList<PathWrapper>> pathThread;
-	private ScriptManager<CellNode> cellThread;
     private LinkedPath<PathWrapper> pathCoordinates;
     private LinkedList<PathRequest> pathRequests;
     private SearchAlgorithm pathFinder;
@@ -87,10 +81,6 @@ public class AIPathFinder {
         rand = new Random();
         pathRequests = new LinkedList<>();
         pathFinder = new SearchAlgorithm(game);
-        linkedPathThread = new ScriptManager<>();
-        pathThread = new ScriptManager<>();
-        cellThread = new ScriptManager<>();
-        threadManager = new ThreadManager();
         currentGoal = CurrentGoal.OBJECTIVE;
         distressLevel = DistressLevel.NORMAL;
         currentState = ActionType.FIND_PATH;
@@ -144,7 +134,7 @@ public class AIPathFinder {
             if (game.getStateID() != GameStateID.GAME_MENU) {
 
                 performLocationBasedAction();
-                addRandomBoost(true);
+//                addRandomBoost(true);
                 if (allowChecks && currentGoal == CurrentGoal.OBJECTIVE) {
                     checkTimer++;
                     if (checkTimer >= 200) {
@@ -173,75 +163,81 @@ public class AIPathFinder {
     }
 
     public CellNode GET_FARTHEST_CELL(CellNode from) {
-    	return cellThread.computeValue("Cell Thread 1",new ValueTask<CellNode>(){
-			@Override
-			public CellNode computeValue() {
-		        return pathFinder.GET_FARTHEST_CELL(grid, from);
-			}
+    	return ThreadManager.computeValue(()->{
+    		  return pathFinder.GET_FARTHEST_CELL(grid, from);
     	});
     }
 
     public CellNode GET_AVAILABLE_CELL(CellNode from, Reach reach) {
-    	return cellThread.computeValue("Cell Thread 2",new ValueTask<CellNode>(){
-			@Override
-			public CellNode computeValue() {
-				 return pathFinder.GET_AVAILABLE_CELL(grid, from, reach);
-			}
+    	return ThreadManager.computeValue(()->{
+    		 return pathFinder.GET_AVAILABLE_CELL(grid, from, reach);
     	});
     }
 
     public LinkedList<PathWrapper> GET_BRUTE_PATH(CellNode from) {
-        return pathFinder.GET_BRUTE_PATH(snakeAI, grid, from, 5);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_BRUTE_PATH(snakeAI, grid, from, 5);
+    	});
     }
 
     public LinkedList<PathWrapper> GET_LONGEST_LIST(List<LinkedList<PathWrapper>> lists) {
-        return pathFinder.GET_LONGEST_LIST(lists);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_LONGEST_LIST(lists);
+    	});
     }
 
     public LinkedList<PathWrapper> GET_SHORTEST_LIST(List<LinkedList<PathWrapper>> lists) {
-        return pathFinder.GET_SHORTEST_LIST(lists);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_SHORTEST_LIST(lists);
+    	});
     }
 
     public LinkedList<PathWrapper> GET_LONGEST_PATH_POLY(CellNode start, CellNode objective) {
-    	return pathThread.computeValue("Longest Path",new ValueTask<LinkedList<PathWrapper>>(){
-			@Override
-			public LinkedList<PathWrapper> computeValue() {
-				 return pathFinder.GET_LONGEST_PATH_POLY(snakeAI, grid, start, objective, distressLevel);
-			}
+    	return ThreadManager.computeValue(()->{
+    		 return pathFinder.GET_LONGEST_PATH_POLY(snakeAI, grid, start, objective, distressLevel);
     	});
     }
 
     public LinkedList<PathWrapper> GET_BFS_PATH(CellNode start, CellNode objective) {
-        return pathFinder.GET_BFS_PATH(snakeAI,grid,start,objective,distressLevel);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_BFS_PATH(snakeAI,grid,start,objective,distressLevel);
+    	});
     }
 
     public LinkedList<PathWrapper> GET_DFS_PATH(CellNode start, CellNode objective) {
-        return pathFinder.GET_DFS_PATH(snakeAI,grid,start,objective,distressLevel);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_DFS_PATH(snakeAI,grid,start,objective,distressLevel);
+    	});
     }
 
     public boolean QUICK_PATH_CHECK(CellNode start, CellNode objective) {
-        return pathFinder.QUICK_PATH_SEARCH(grid, start, objective);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.QUICK_PATH_SEARCH(grid, start, objective);
+    	});
     }
 
     public LinkedList<PathWrapper> GET_ASTAR_PATH(CellNode start, CellNode objective) {
-        return pathFinder.GET_ASTAR_PATH(snakeAI,grid,start,objective,distressLevel);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_ASTAR_PATH(snakeAI,grid,start,objective,distressLevel);
+    	});
     }
 
     public LinkedList<PathWrapper> GET_ASTAR_LONGEST_PATH(CellNode start, CellNode objective) {
-        return pathFinder.GET_ASTAR_LONGEST_HYBRID_PATH(snakeAI,grid,start,objective);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_ASTAR_LONGEST_HYBRID_PATH(snakeAI,grid,start,objective);
+    	});
     }
 
     public LinkedPath<PathWrapper> GET_SAFE_ASTAR_PATH(CellNode start, CellNode objective, CellNode tail){
-    	return linkedPathThread.computeValue("Safe Path",new ValueTask<LinkedPath<PathWrapper>>(){
-			@Override
-			public LinkedPath<PathWrapper> computeValue() {
-				return pathFinder.GET_SAFE_ASTAR_PATH(snakeAI,grid, start, objective, tail, distressLevel);
-			}
+    	return ThreadManager.computeValue("Safe Path",()->{
+    		return pathFinder.GET_SAFE_ASTAR_PATH(snakeAI,grid, start, objective, tail, distressLevel);
     	});
     }
 
     public LinkedList<PathWrapper> GET_SAFE_ASTAR_PATH(CellNode start, CellNode objective, CurrentGoal goal, DistressLevel distressLevel){
-        return pathFinder.GET_SAFE_ASTAR_PATH(snakeAI,grid, start,objective,goal,distressLevel);
+    	return ThreadManager.computeValue(()->{
+    		return pathFinder.GET_SAFE_ASTAR_PATH(snakeAI,grid, start,objective,goal,distressLevel);
+    	});
     }
 
     public LinkedList<Objective> getObjectives(CellNode start, GoalSearch goalSearch, SortingType sorting){
@@ -1057,10 +1053,7 @@ public class AIPathFinder {
 
 
     private void submitPath(LinkedPath<PathWrapper> cells){
-        threadManager.submitThread("Direction Compute Thread", TaskType.SINGLE_INSTANCE, ()->{
-            calculateDirection(cells);
-        }).start("Direction Compute Thread");
-
+        ThreadManager.performeTask("Compute Directions", ()-> calculateDirection(cells));
         setPathCoordinates(cells);
     }
 

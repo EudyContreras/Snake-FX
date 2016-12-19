@@ -65,7 +65,6 @@ public class WorkerThread{
 		this.startDelay = getSleepTime(timeUnit,startDelay);;
 	}
 
-
 	private LinkedHashMap<String,TaskWrapper> addTasks(TaskWrapper...taskWrappers){
 		computeTask = new LinkedHashMap<>();
 		for(TaskWrapper wrapper: taskWrappers){
