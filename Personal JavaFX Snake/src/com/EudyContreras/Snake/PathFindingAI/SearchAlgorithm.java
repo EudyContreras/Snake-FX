@@ -576,24 +576,6 @@ public class SearchAlgorithm {
 
 		grid.resetCells(true);
 
-		switch(snakeAI.getCurrentDirection()){
-		case MOVE_DOWN:
-			startingPoint.setDirection(Direction.DOWN);
-			break;
-		case MOVE_LEFT:
-			startingPoint.setDirection(Direction.LEFT);
-			break;
-		case MOVE_RIGHT:
-			startingPoint.setDirection(Direction.RIGHT);
-			break;
-		case MOVE_UP:
-			startingPoint.setDirection(Direction.UP);
-			break;
-		case STANDING_STILL:
-			startingPoint.setDirection(Direction.DOWN);
-			break;
-		}
-
 		objective.setObjective(true);
 
 		startingPoint.setVisited(true);

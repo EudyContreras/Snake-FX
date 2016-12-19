@@ -6,14 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
-
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
-import com.EudyContreras.Snake.Managers.ScriptManager;
 import com.EudyContreras.Snake.Managers.ThreadManager;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
@@ -22,7 +20,7 @@ import com.EudyContreras.Snake.PathFindingAI.PathWrapper.PathFlag;
 import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.PathType;
 import com.EudyContreras.Snake.PathFindingAI.SearchAlgorithm.Reach;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.EudyContreras.Snake.ThreadExecutors.ValueTask;
+
 import javafx.geometry.Rectangle2D;
 
 /**
@@ -108,7 +106,7 @@ public class AIPathFinder {
      */
     public void startSimulation() {
         if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL){
-//			snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
+			snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
             currentGoal = CurrentGoal.OBJECTIVE;
             distressLevel = DistressLevel.NORMAL;
             currentState = ActionType.FIND_PATH;
@@ -283,11 +281,11 @@ public class AIPathFinder {
 
         CellNode start = head!=null ? head : controller.getHeadCell(snakeAI);
 
-        boolean inBound = start.getBoundsCheck().contains(snakeAI.getAIBounds());
-
-    	if(!inBound){
-    		log("No Bounds");
-    	}
+//        boolean inBound = start.getBoundsCheck().contains(snakeAI.getAIBounds());
+//
+//    	if(!inBound){
+//    		log("No Bounds");
+//    	}
 
         CellNode tail = grid.getRelativeTailCell(snakeAI);
 
@@ -502,65 +500,65 @@ public class AIPathFinder {
 
             CellNode tail = grid.getRelativeTailCell(snakeAI);
 
-//			if((objectives.get(index).getDistance()) > objectives.get(objectives.size()-1).getInterpolarDistance(start.getLocation().getX(),start.getLocation().getY())){
-//			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-//			if(path!=null){
-//				return path;
-//			}else{
-//				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-//
-//				if(path.isPathSafe()){
-//					return path;
-//				}
-//			}
-//		}
-//		else if((objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.4) && objectives.get(index).getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.4){
-//			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-//			if(path!=null){
-//				return path;
-//			}else{
-//				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-//
-//				if(path.isPathSafe()){
-//					return path;
-//				}
-//			}
-//		}
-//		else if(objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5 && objectives.get(index).getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.5){
-//			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-//			if(path!=null){
-//				return path;
-//			}else{
-//				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-//
-//				if(path.isPathSafe()){
-//					return path;
-//				}
-//			}
-//		}
-//		else if(objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5 && objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
-//			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-//			if(path!=null){
-//				return path;
-//			}else{
-//				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-//
-//				if(path.isPathSafe()){
-//					return path;
-//				}
-//			}
-//		}
-//		//TODO: Find additional conditions that may qualify for interpolation
-//
-//		else{
+			if((objectives.get(index).getDistance()) > objectives.get(objectives.size()-1).getInterpolarDistance(start.getLocation().getX(),start.getLocation().getY())){
+			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
+			if(path!=null){
+				return path;
+			}else{
+				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
 
-                LinkedPath<PathWrapper> path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
+				if(path.isPathSafe()){
+					return path;
+				}
+			}
+		}
+		else if((objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.4) && objectives.get(index).getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.4){
+			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
+			if(path!=null){
+				return path;
+			}else{
+				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
 
-                if(path.isPathSafe()){
-                    return path;
-                }
-//			}
-        }
+				if(path.isPathSafe()){
+					return path;
+				}
+			}
+		}
+		else if(objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5 && objectives.get(index).getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.5){
+			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
+			if(path!=null){
+				return path;
+			}else{
+				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
+
+				if(path.isPathSafe()){
+					return path;
+				}
+			}
+		}
+		else if(objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5 && objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
+			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
+			if(path!=null){
+				return path;
+			}else{
+				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
+
+				if(path.isPathSafe()){
+					return path;
+				}
+			}
+		}else {
+
+			LinkedPath<PathWrapper> path = GET_SAFE_ASTAR_PATH(start, objective.getCell(), tail);
+
+			if (path.isPathSafe()) {
+				return path;
+			}
+		}
+		//TODO: Find additional conditions that may qualify for interpolation
+
+
+		}
         return null;
     }
     /*
@@ -569,7 +567,7 @@ public class AIPathFinder {
      * based on relational distance planes.
      */
 
-    private LinkedPath<PathWrapper> computeInterpolarDirection(GridNode grid, CellNode start, Objective objective, CellNode tail, LinkedList<Objective> objectives) {
+    private LinkedPath<PathWrapper> computeInterpolarDirection(CellNode start, Objective objective, CellNode tail, LinkedList<Objective> objectives) {
 
         if((objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45) && objective.getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.45){
 
@@ -589,13 +587,13 @@ public class AIPathFinder {
                 return getPortal(grid, start, tail, objective, objectives, CardinalPoint.SOUTH);
             }
         }
-        else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
-
-        }
+//        else if(objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45 && objective.getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.45){
+//
+//        }
         return null;
     }
 
-    public LinkedPath<PathWrapper> emergencyTeleport(GridNode grid, CellNode start, CellNode  end) {
+    private LinkedPath<PathWrapper> emergencyTeleport(GridNode grid, CellNode start, CellNode  end) {
         LinkedPath<PathWrapper> path;
 
         if(start.getLocation().getX() > GameSettings.WIDTH*.55 && start.getLocation().getY() > GameSettings.HEIGHT*.35 && start.getLocation().getY() < GameSettings.HEIGHT*.65){
@@ -1109,12 +1107,12 @@ public class AIPathFinder {
             }
             break;
         }
-//		if (currentGoal == CurrentGoal.OBJECTIVE) {
-//		if (paths.isTeleportPath()) {
-//			paths.getPathOne().get(0).setDirection(lastStep);
-//			lastStep = Direction.NONE;
-//		}
-//	}
+		if (currentGoal == CurrentGoal.OBJECTIVE) {
+			if (path.isTeleportPath()) {
+				path.getPathOne().get(0).setDirection(lastStep);
+				lastStep = Direction.NONE;
+			}
+		}
         return path;
     }
 
@@ -1209,8 +1207,8 @@ public class AIPathFinder {
 							break;
 						case NONE:
 							onPath = false;
-							wrapper.setFlag(PathFlag.VISITED);
 							objectiveReached(cell);
+							wrapper.setFlag(PathFlag.VISITED);
 							break;
 						}
 					}

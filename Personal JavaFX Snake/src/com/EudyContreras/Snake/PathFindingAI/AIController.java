@@ -97,7 +97,7 @@ public class AIController {
     }
 
     public void update_AI_Simulation(long timePassed) {
-    	if(game.getStateID()!=GameStateID.GAME_MENU){
+    	if(game.getStateID()==GameStateID.GAMEPLAY){
     		updateAIEvents();
         	updateGridEvents();
     	}

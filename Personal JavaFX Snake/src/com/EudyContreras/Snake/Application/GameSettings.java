@@ -38,7 +38,7 @@ public class GameSettings {
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 800;
+	public static int APPLE_COUNT = 100;
 	public static int BUFF_COUNT = 0;
 	public static int SECTIONS_TO_ADD = 1;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
@@ -68,7 +68,7 @@ public class GameSettings {
 	public static double DAMAGE_AMOUNT = 0;
 
 	public static final double PLAYER_ONE_SPEED = 8.0;
-	public static final double PLAYER_TWO_SPEED = 10.0;
+	public static final double PLAYER_TWO_SPEED = 8.0;
 	public static final double CLASSIC_SNAKE_SPEED = 9.0;
 	public static final double PLAYER_SIZE = 24;
 

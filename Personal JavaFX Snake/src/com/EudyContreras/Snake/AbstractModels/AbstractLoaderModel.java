@@ -17,7 +17,7 @@ import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 import javafx.scene.image.WritableImage;
 
 public abstract class AbstractLoaderModel {
-	public static int LEVEL = 5;
+	public static int LEVEL = 1;
 	protected GameThemeID levelTheme;
 	protected WritableImage border;
 	protected WritableImage fence;
@@ -62,7 +62,7 @@ public abstract class AbstractLoaderModel {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadDesertLevels() {
-		this.levelMain = ImageLoadingUtility.loadImage("desert-level-0.png");
+		this.levelMain = 	 ImageLoadingUtility.loadImage("desert-level-0.png");
 		this.desertLevel_1 = ImageLoadingUtility.loadImage("desert-level-1.png");
 		this.desertLevel_2 = ImageLoadingUtility.loadImage("desert-level-2.png");
 		this.desertLevel_3 = ImageLoadingUtility.loadImage("desert-level-3.png");

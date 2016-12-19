@@ -167,6 +167,7 @@ public class LevelManager extends AbstractLoaderModel{
 	 * making it so that the snake can no longer teleport
 	 */
 	public void loadSpikeFence() {
+
 		for (double row = 0; row < loader.getLevelWidth(); row++) {
 			for (double col = 0; col < loader.getLevelHeight(); col++) {
 				pixel = loader.getSpikeFence().getPixelReader().getArgb((int) row, (int) col);
