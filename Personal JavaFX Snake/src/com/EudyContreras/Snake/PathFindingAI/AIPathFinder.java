@@ -294,6 +294,8 @@ public class AIPathFinder {
         switch(currentGoal){
         case OBJECTIVE:
 
+            if (start != null) {
+
             LinkedList<Objective> newObjectives = getObjectives(start,GoalSearch.SHORTEST_PATH,SortingType.CLOSEST);
 
             pathFinder.setPathType(PathType.SHORTEST_PATH);
@@ -303,7 +305,6 @@ public class AIPathFinder {
 //                    newObjectives.get(0).getObject().blowUpAlt();
 //                }
 
-                if (start != null) {
                     if (!start.isDangerZone()) {
                         distressLevel = DistressLevel.NORMAL;
                     }
@@ -496,76 +497,65 @@ public class AIPathFinder {
     }
 
     public LinkedPath<PathWrapper> checkObjectiveReach(CellNode start, Objective objective, int index, LinkedList<Objective> objectives){
-        if(start!=null){
+		if (start != null) {
 
-            CellNode tail = grid.getRelativeTailCell(snakeAI);
+			CellNode tail = grid.getRelativeTailCell(snakeAI);
 
-			if((objectives.get(index).getDistance()) > objectives.get(objectives.size()-1).getInterpolarDistance(start.getLocation().getX(),start.getLocation().getY())){
-			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-			if(path!=null){
-				return path;
-			}else{
-				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
+//			if ((objectives.get(index).getXDistance(start.getLocation().getX()) > GameSettings.WIDTH * .4)
+//					&& objectives.get(index).getYDistance(start.getLocation().getY()) < GameSettings.HEIGHT * .4) {
+//				LinkedPath<PathWrapper> path = computeInterpolarDirection(start, objective, tail, objectives);
+//				if (path != null) {
+//					return path;
+//				} else {
+//					path = GET_SAFE_ASTAR_PATH(start, objective.getCell(), tail);
+//
+//					if (path.isPathSafe()) {
+//						return path;
+//					}
+//				}
+//			} else if (objectives.get(index).getYDistance(start.getLocation().getY()) > GameSettings.HEIGHT * .5
+//					&& objectives.get(index).getXDistance(start.getLocation().getX()) < GameSettings.WIDTH * .5) {
+//				LinkedPath<PathWrapper> path = computeInterpolarDirection(start, objective, tail, objectives);
+//				if (path != null) {
+//					return path;
+//				} else {
+//					path = GET_SAFE_ASTAR_PATH(start, objective.getCell(), tail);
+//
+//					if (path.isPathSafe()) {
+//						return path;
+//					}
+//				}
+//			} else if (objectives.get(index).getXDistance(start.getLocation().getX()) > GameSettings.WIDTH * .5
+//					&& objectives.get(index).getYDistance(start.getLocation().getY()) > GameSettings.HEIGHT * .5) {
+//				LinkedPath<PathWrapper> path = computeInterpolarDirection(start, objective, tail, objectives);
+//				if (path != null) {
+//					return path;
+//				} else {
+//					path = GET_SAFE_ASTAR_PATH(start, objective.getCell(), tail);
+//
+//					if (path.isPathSafe()) {
+//						return path;
+//					}
+//				}
+//			} else {
 
-				if(path.isPathSafe()){
+				LinkedPath<PathWrapper> path = GET_SAFE_ASTAR_PATH(start, objective.getCell(), tail);
+
+				if (path.isPathSafe()) {
 					return path;
 				}
-			}
-		}
-		else if((objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.4) && objectives.get(index).getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.4){
-			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-			if(path!=null){
-				return path;
-			}else{
-				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-
-				if(path.isPathSafe()){
-					return path;
-				}
-			}
-		}
-		else if(objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5 && objectives.get(index).getXDistance(start.getLocation().getX())<GameSettings.WIDTH*.5){
-			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-			if(path!=null){
-				return path;
-			}else{
-				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-
-				if(path.isPathSafe()){
-					return path;
-				}
-			}
-		}
-		else if(objectives.get(index).getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.5 && objectives.get(index).getYDistance(start.getLocation().getY())>GameSettings.HEIGHT*.5){
-			LinkedPath<PathWrapper> path = computeInterpolarDirection(start,objective,tail,objectives);
-			if(path!=null){
-				return path;
-			}else{
-				path = GET_SAFE_ASTAR_PATH(start, objective.getCell(),tail);
-
-				if(path.isPathSafe()){
-					return path;
-				}
-			}
-		}else {
-
-			LinkedPath<PathWrapper> path = GET_SAFE_ASTAR_PATH(start, objective.getCell(), tail);
-
-			if (path.isPathSafe()) {
-				return path;
-			}
-		}
-		//TODO: Find additional conditions that may qualify for interpolation
-
+//			}
+			// TODO: Find additional conditions that may qualify for
+			// interpolation
 
 		}
-        return null;
-    }
-    /*
-     * Unsafe amd unchecked teleport method which triggers a teleportation when a the distance
-     * between the snake and the objective is above a certain threshold. The calculations are made
-     * based on relational distance planes.
-     */
+		return null;
+	}
+	/*
+	 * Unsafe amd unchecked teleport method which triggers a teleportation when
+	 * a the distance between the snake and the objective is above a certain
+	 * threshold. The calculations are made based on relational distance planes.
+	 */
 
     private LinkedPath<PathWrapper> computeInterpolarDirection(CellNode start, Objective objective, CellNode tail, LinkedList<Objective> objectives) {
 

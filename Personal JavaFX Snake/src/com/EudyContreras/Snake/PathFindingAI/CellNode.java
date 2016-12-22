@@ -1,5 +1,7 @@
 package com.EudyContreras.Snake.PathFindingAI;
 
+import java.awt.Point;
+
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -519,7 +521,7 @@ public class CellNode implements Comparable<CellNode>{
 	}
 
 	public double getDistanceFrom(CellNode from) {
-		return SearchAlgorithm.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
+		return NodeHeuristic.calculateManhathanDistance(from.getLocation().getX(), getLocation().getX(), from.getLocation().getY(), getLocation().getY());
 	}
 
 	@Override
@@ -577,6 +579,29 @@ public class CellNode implements Comparable<CellNode>{
 	public enum Direction {
 		UP, DOWN, LEFT, RIGHT, NONE;
 
+		/**
+		 * Returns the opposite direction of the one given
+		 * @param other
+		 * @return
+		 */
+		public static Direction opposite(Direction other) {
+			if (other == Direction.UP) return Direction.DOWN;
+			else if (other == Direction.DOWN) return Direction.UP;
+			else if (other == Direction.LEFT) return Direction.RIGHT;
+			else return Direction.LEFT;	// RIGHT
+		}
+
+		/**
+		 * Moves the given point in the given direction
+		 * @param p
+		 * @param direction
+		 */
+		public static void movePoint(Point p, Direction direction) {
+			if (direction == Direction.UP) { p.y -= 1; }
+			else if (direction == Direction.DOWN) { p.y += 1; }
+			else if (direction == Direction.RIGHT){ p.x += 1; }
+			else if (direction == Direction.LEFT) { p.x -= 1; }
+		}
 		@Override
 		public String toString() {
 			return this.name();

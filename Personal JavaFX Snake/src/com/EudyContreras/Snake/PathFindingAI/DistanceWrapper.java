@@ -19,7 +19,7 @@ public class DistanceWrapper implements Comparable<DistanceWrapper>{
 	}
 
 	public DistanceWrapper(CellNode start, AbstractObject objective){
-		this.distance = SearchAlgorithm.calculateManhathanDistance(start.getLocation().getX(), objective.getX(),start.getLocation().getY(),objective.getY());
+		this.distance = NodeHeuristic.calculateManhathanDistance(start.getLocation().getX(), objective.getX(),start.getLocation().getY(),objective.getY());
 		this.object = objective;
 	}
 

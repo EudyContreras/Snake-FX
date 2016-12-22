@@ -16,6 +16,7 @@ import com.EudyContreras.Snake.PathFindingAI.AIPathFinder.DistressLevel;
 import com.EudyContreras.Snake.PathFindingAI.CellNode.Direction;
 import com.EudyContreras.Snake.PathFindingAI.GridNode.Neighbor;
 import com.EudyContreras.Snake.PathFindingAI.LinkedPath.ConnectionType;
+import com.EudyContreras.Snake.PathFindingAI.NodeHeuristic.HeuristicType;
 import com.EudyContreras.Snake.PathFindingAI.PathWrapper.PathFlag;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 
@@ -354,7 +355,7 @@ public class SearchAlgorithm {
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, 1, HeuristicType.MANHATHAN)); //The higher the scale the less the number of turn: scale from 1 to 2
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + NodeHeuristic.heuristicCostEstimate(startingPoint, objective, 1, HeuristicType.MANHATHAN)); //The higher the scale the less the number of turn: scale from 1 to 2
 
 		openCollection.add(startingPoint);
 
@@ -379,7 +380,7 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate(current, neighbor, 1, HeuristicType.MANHATHAN); //The higher the scale the less the number of turn: scale from 1 to 2
+				double potentialGScore = current.getMovementCost() + NodeHeuristic.heuristicCostEstimate(current, neighbor, 1, HeuristicType.MANHATHAN); //The higher the scale the less the number of turn: scale from 1 to 2
 
 				if (!(containsNeighbor = openCollection.contains(neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
@@ -389,7 +390,7 @@ public class SearchAlgorithm {
 
 					neighbor.setMovementCost(potentialGScore);
 
-					neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective, 1, HeuristicType.MANHATHAN));
+					neighbor.setHeuristic(NodeHeuristic.heuristicCostEstimate(neighbor, objective, 1, HeuristicType.MANHATHAN));
 
 					neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
@@ -440,7 +441,7 @@ public class SearchAlgorithm {
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, 1, HeuristicType.EUCLIDIAN)); //The higher the scale the less the number of turn: scale from 1 to 2
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + NodeHeuristic.heuristicCostEstimate(startingPoint, objective, 1, HeuristicType.EUCLIDIAN)); //The higher the scale the less the number of turn: scale from 1 to 2
 
 		openCollection.add(startingPoint);
 
@@ -470,13 +471,13 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate(current, neighbor, 1, HeuristicType.EUCLIDIAN);
+				double potentialGScore = current.getMovementCost() + NodeHeuristic.heuristicCostEstimate(current, neighbor, 1, HeuristicType.EUCLIDIAN);
 
 				neighbor.setParentNode(current);
 
 				neighbor.setMovementCost(potentialGScore);
 
-				neighbor.setHeuristic(heuristicCostEstimate(neighbor, objective, 1, HeuristicType.EUCLIDIAN));
+				neighbor.setHeuristic(NodeHeuristic.heuristicCostEstimate(neighbor, objective, 1, HeuristicType.EUCLIDIAN));
 
 				neighbor.setTotalCost(neighbor.getMovementCost() + neighbor.getHeuristic());
 
@@ -582,7 +583,7 @@ public class SearchAlgorithm {
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective,heuristicScale,heuristicType)); //The higher the scale the less the number of turn: scale from 1 to 2
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + NodeHeuristic.heuristicCostEstimate(startingPoint, objective,heuristicScale,heuristicType)); //The higher the scale the less the number of turn: scale from 1 to 2
 
 		openCollection.add(startingPoint);
 
@@ -608,7 +609,7 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate(current, neighbor,heuristicScale,heuristicType); //The higher the scale the less the number of turn: scale from 1 to 2
+				double potentialGScore = current.getMovementCost() + NodeHeuristic.heuristicCostEstimate(current, neighbor,heuristicScale,heuristicType); //The higher the scale the less the number of turn: scale from 1 to 2
 
 				if (!(containsNeighbor = openCollection.contains(neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
@@ -629,7 +630,7 @@ public class SearchAlgorithm {
 
 					double heuristic = 0;
 
-					heuristic = heuristicCostEstimate(neighbor, objective, 2, heuristicType);
+					heuristic = NodeHeuristic.heuristicCostEstimate(neighbor, objective, 2, heuristicType);
 
 					switch (tieBreaker) {
 					case CROSS:
@@ -854,7 +855,7 @@ public class SearchAlgorithm {
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, heuristicScale, heuristicType));
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + NodeHeuristic.heuristicCostEstimate(startingPoint, objective, heuristicScale, heuristicType));
 
 		goalList.add(startingPoint);
 
@@ -882,7 +883,7 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
+				double potentialGScore = current.getMovementCost() + NodeHeuristic.heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
 
 				if( !(containsNeighbor=goalList.contains( neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
@@ -903,7 +904,7 @@ public class SearchAlgorithm {
 
 					double heuristic = 0;
 
-					heuristic = heuristicCostEstimate(neighbor, objective, 2, heuristicType);
+					heuristic = NodeHeuristic.heuristicCostEstimate(neighbor, objective, 2, heuristicType);
 
 					switch (tieBreaker) {
 					case CROSS:
@@ -953,7 +954,7 @@ public class SearchAlgorithm {
 
 		objective.setMovementCost(0d);
 
-		objective.setTotalCost(objective.getMovementCost() + heuristicCostEstimate(objective, tail, heuristicScale, heuristicType));
+		objective.setTotalCost(objective.getMovementCost() + NodeHeuristic.heuristicCostEstimate(objective, tail, heuristicScale, heuristicType));
 
 		DistressLevel distress = distressLevel == DistressLevel.NORMAL ? DistressLevel.SAFETY_CHECK_GOAL_LEVEL_TWO : DistressLevel.SAFETY_CHECK_GOAL_LEVEL_THREE;
 
@@ -994,7 +995,7 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
+				double potentialGScore = current.getMovementCost() + NodeHeuristic.heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
 
 				if( !(containsNeighbor=tailList.contains(neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
@@ -1006,7 +1007,7 @@ public class SearchAlgorithm {
 
 					double heuristic = 0;
 
-					heuristic = heuristicCostEstimate(neighbor, tail, 2, heuristicType);
+					heuristic = NodeHeuristic.heuristicCostEstimate(neighbor, tail, 2, heuristicType);
 
 					switch (tieBreaker) {
 					case CROSS:
@@ -1091,7 +1092,7 @@ public class SearchAlgorithm {
 
 		startingPoint.setMovementCost(0d);
 
-		startingPoint.setTotalCost(startingPoint.getMovementCost() + heuristicCostEstimate(startingPoint, objective, heuristicScale, heuristicType));
+		startingPoint.setTotalCost(startingPoint.getMovementCost() + NodeHeuristic.heuristicCostEstimate(startingPoint, objective, heuristicScale, heuristicType));
 
 		goalList.add(startingPoint);
 
@@ -1117,7 +1118,7 @@ public class SearchAlgorithm {
 					continue;
 				}
 
-				double potentialGScore = current.getMovementCost() + heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
+				double potentialGScore = current.getMovementCost() + NodeHeuristic.heuristicCostEstimate( current, neighbor, heuristicScale, heuristicType);
 
 				if( !(containsNeighbor=goalList.contains( neighbor)) || Double.compare(potentialGScore, neighbor.getMovementCost()) < 0) {
 
@@ -1138,7 +1139,7 @@ public class SearchAlgorithm {
 
 					double heuristic = 0;
 
-					heuristic = heuristicCostEstimate(neighbor, objective, 2, heuristicType);
+					heuristic = NodeHeuristic.heuristicCostEstimate(neighbor, objective, 2, heuristicType);
 
 					switch (tieBreaker) {
 					case CROSS:
@@ -1311,47 +1312,6 @@ public class SearchAlgorithm {
 		return path;
 	}
 
-	public double calculateDistance(double fromX, double toX, double fromY, double toY) {
-		return Math.hypot(fromX - toX, fromY - toY);
-	}
-
-	public static double calculateManhathanDistance(double fromX, double toX, double fromY, double toY) {
-		return Math.abs(fromX - toX) + Math.abs(fromY - toY);
-	}
-
-	public double calculateEuclidianDistance(double fromX, double toX, double fromY, double toY) {
-		return Math.sqrt((fromX - toX) * (fromX - toX) + (fromY - toY) * (fromY - toY));
-	}
-
-	public double getCrossPolarDistance(CellNode start, CellNode closestRelativeCell, CellNode closestPolarCell, CellNode objective){
-		double distanceOne = calculateManhathanDistance(start.getLocation().getX(),start.getLocation().getY(),closestRelativeCell.getLocation().getX(),closestRelativeCell.getLocation().getY());
-		double distanceTwo = calculateManhathanDistance(closestPolarCell.getLocation().getX(),closestPolarCell.getLocation().getY(), objective.getLocation().getX(),objective.getLocation().getY());;
-		return (distanceOne+distanceTwo);
-	}
-
-	@SuppressWarnings("unused")
-	private double getHeuristicCost(CellNode start, CellNode end, Double scale) {
-		double dx = Math.abs(start.getLocation().getX() - end.getLocation().getX());
-		double dy = Math.abs(start.getLocation().getY() - end.getLocation().getY());
-		return scale * (dx + dy);
-	}
-
-	private double heuristicCostEstimate(CellNode start, CellNode end, int scale, HeuristicType cost) {
-		double distance = 0;
-		switch(cost){
-		case CUSTOM_EUCLUDIAN:
-			distance = scale*calculateDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
-			break;
-		case EUCLIDIAN:
-			distance = scale*calculateEuclidianDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
-			break;
-		case MANHATHAN:
-			distance = scale*calculateManhathanDistance(start.getLocation().getX(), end.getLocation().getX(), start.getLocation().getY(),end.getLocation().getY());
-			break;
-		}
-		return distance;
-	}
-
 	public void setPathType(PathType pathType) {
 		this.pathType = pathType;
 	}
@@ -1370,10 +1330,6 @@ public class SearchAlgorithm {
 
 	public enum TieBreaker{
 		PATH,CROSS, NONE
-	}
-
-	public enum HeuristicType{
-		MANHATHAN, EUCLIDIAN, CUSTOM_EUCLUDIAN,
 	}
 
 	public enum BorderPole{
