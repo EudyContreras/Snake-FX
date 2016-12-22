@@ -1,6 +1,5 @@
-package com.EudyContreras.Snake.ThreadExecutors;
+package com.EudyContreras.Snake.ThreadTools;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -16,7 +15,6 @@ public class DefaultExecutorSupplier {
 	 * Number of cores to decide the number of threads
 	 */
 	public static final int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
-
 	/*
 	 * thread pool executor for background tasks
 	 */
@@ -25,17 +23,10 @@ public class DefaultExecutorSupplier {
 	 * thread pool executor for background prioritized tasks
 	 */
 	private final PriorityThreadPoolExecutor priorityBackgroundTask;
-
 	/*
 	 * thread pool executor for light weight background tasks
 	 */
 	private final ThreadPoolExecutor lightBackgroundExecutor;
-
-	/*
-	 * thread pool executor for main thread tasks
-	 */
-	private final Executor mainBackgroundExecutor;
-
 	/*
 	 * an instance of DefaultExecutorSupplier
 	 */
@@ -82,9 +73,6 @@ public class DefaultExecutorSupplier {
 				TimeUnit.SECONDS,
 				backgroundPriorityThreadFactory
 				);
-
-		// setting the thread pool executor for mMainThreadExecutor;
-		mainBackgroundExecutor = new MainThreadExecutor();
 	}
 
 	/*
@@ -106,13 +94,6 @@ public class DefaultExecutorSupplier {
 	 */
 	public PriorityThreadPoolExecutor prioritizeBackgroundTask() {
 		return priorityBackgroundTask;
-	}
-
-	/*
-	 * returns the thread pool executor for main thread task
-	 */
-	public Executor forMainThreadTasks() {
-		return mainBackgroundExecutor;
 	}
 
 }

@@ -1,8 +1,8 @@
-package com.EudyContreras.Snake.Managers;
+package com.EudyContreras.Snake.ThreadManagers;
 
 import java.util.LinkedList;
 
-import com.EudyContreras.Snake.ThreadExecutors.ValueTask;
+import com.EudyContreras.Snake.ThreadTools.ValueTask;
 
 /**
  * Thread managing class which allows the managing of threads

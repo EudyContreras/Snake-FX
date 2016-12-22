@@ -1,9 +1,10 @@
-package com.EudyContreras.Snake.ThreadExecutors;
+package com.EudyContreras.Snake.ThreadTools;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
-import com.EudyContreras.Snake.Managers.ThreadManager;
+import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
 
 
 
@@ -22,17 +23,17 @@ public class WorkerThread{
 
 	private LinkedHashMap<String,TaskWrapper> computeTask;
 
-	private boolean onHold = false;
-	private boolean parallel = false;
-	private boolean running = false;
-	private boolean active = false;
+	private volatile boolean onHold = false;
+	private volatile boolean parallel = false;
+	private volatile boolean running = false;
+	private volatile boolean active = false;
 
 	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 	private TaskType taskType  = TaskType.CONTINUOUS;
 
-	private int taskCounter = 0;
-	private int updateFrequency = 0;
-	private int startDelay = 0;
+	private volatile int taskCounter = 0;
+	private volatile int updateFrequency = 0;
+	private volatile int startDelay = 0;
 
 	public WorkerThread(ThreadManager manager, String name, int updateFrequency,TaskWrapper... update) {
 		this(manager, name, TaskType.CONTINUOUS, TimeUnit.MILLISECONDS,updateFrequency,0,update);
@@ -122,6 +123,15 @@ public class WorkerThread{
 		}
 	}
 
+	/**
+	 * Method which joins this this thread
+	 */
+	public void setDaemon(boolean state) {
+		if(workerHelper == null)
+			return;
+
+		workerHelper.setDaemon(state);
+	}
 	/**
 	 * Method which resumes the thread
 	 */
@@ -336,6 +346,7 @@ public class WorkerThread{
 	 * Method which removes this worker from the manager.
 	 */
 	private void remove(){
+		if(manager!=null)
 		manager.removeTask(this);
 	}
 
@@ -381,15 +392,6 @@ public class WorkerThread{
 			break;
 		}
 		return time;
-	}
-
-	/**
-	 * Enumeration containing time units.
-	 * @author Eudy Contreras
-	 *
-	 */
-	public enum TimeUnit{
-		SECONDS,MILLISECONDS,MINUTES,HOURS
 	}
 
 	/**

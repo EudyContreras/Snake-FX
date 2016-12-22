@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.ThreadExecutors;
+package com.EudyContreras.Snake.ThreadTools;
 
 public class EventQueue {
 

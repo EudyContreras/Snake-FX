@@ -1,13 +1,15 @@
-package com.EudyContreras.Snake.Managers;
+package com.EudyContreras.Snake.ThreadManagers;
 
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
-import com.EudyContreras.Snake.ThreadExecutors.TaskWrapper;
-import com.EudyContreras.Snake.ThreadExecutors.ValueTask;
-import com.EudyContreras.Snake.ThreadExecutors.WorkerThread;
-import com.EudyContreras.Snake.ThreadExecutors.WorkerThread.TaskType;
-import com.EudyContreras.Snake.ThreadExecutors.WorkerThread.TimeUnit;
+import com.EudyContreras.Snake.ThreadTools.EventQueue;
+import com.EudyContreras.Snake.ThreadTools.TaskWrapper;
+import com.EudyContreras.Snake.ThreadTools.ValueTask;
+import com.EudyContreras.Snake.ThreadTools.WorkerThread;
+import com.EudyContreras.Snake.ThreadTools.WorkerThread.TaskType;
+
 
 /**
  * Thread managing class which allows the managing of threads
@@ -19,6 +21,8 @@ import com.EudyContreras.Snake.ThreadExecutors.WorkerThread.TimeUnit;
 public class ThreadManager {
 
     private ConcurrentHashMap<String, WorkerThread> threads;
+    private EventQueue eventQueue;
+
 
     /**
      * Constructor which initializes this manager
@@ -26,7 +30,7 @@ public class ThreadManager {
      * @param startTime
      */
     public ThreadManager(){
-        this.threads = new ConcurrentHashMap<String, WorkerThread>();
+       threads = new ConcurrentHashMap<String, WorkerThread>();
     }
 
     public synchronized ThreadManager sumbitThread(String name, TaskWrapper... tasks){
@@ -300,6 +304,29 @@ public class ThreadManager {
     	return threads.size();
     }
 
+    public synchronized EventQueue addToEventQueue(Runnable runnable){
+    	if(eventQueue == null){
+    		eventQueue = new EventQueue();
+    		eventQueue.start();
+    	}
+    	eventQueue.execute(runnable);
+    	return eventQueue;
+    }
+
+    public synchronized void stopEventQueue(){
+    	if(eventQueue!=null){
+    		if(eventQueue.isRunning()){
+    			eventQueue.stop();
+    		}
+    	}
+    }
+
+    /**
+     * Static method which performs a given task
+     * with a designated thread.
+     * @param task
+     */
+
     public static synchronized void performeTask(TaskWrapper task){
     	performeTask("",task);
     }
@@ -315,6 +342,24 @@ public class ThreadManager {
     	thread.start();
     }
 
+    public static synchronized void performeScript(Runnable script){
+    	Thread thread = new Thread(script);
+    	thread.start();
+	}
+
+    public static synchronized WorkerThread performeTask(TaskType taskType, TimeUnit timeUnit, int updateFrequency, int startDelay, TaskWrapper task){
+    	WorkerThread thread = new WorkerThread(null,"", taskType, timeUnit, updateFrequency, startDelay, task);
+    	thread.setDaemon(true);
+    	thread.start();
+    	return thread;
+	}
+
+
+    /**
+     * Worker class used for performing tasks.
+     * @author Eudy Contreras.
+     *
+     */
 	private static class Worker implements Runnable {
 		private volatile TaskWrapper task;
 
@@ -327,7 +372,12 @@ public class ThreadManager {
 			task.doBackgroundWork();
 		}
 	}
-
+	/**
+	 * Static method computes a value with a
+	 * designated thread.
+	 * @param task
+	 * @return
+	 */
 	public synchronized static <VALUE> VALUE computeValue(ValueTask<VALUE> task){
 		return computeValue("",task);
 	}
@@ -350,7 +400,12 @@ public class ThreadManager {
 
     	return worker.getValue();
     }
-
+	/**
+	 * Worker class used for computing values.
+	 * @author Eudy Contreras
+	 *
+	 * @param <VALUE>
+	 */
     private static class ValueWorker<VALUE> implements Runnable {
 
 	     private volatile VALUE value;

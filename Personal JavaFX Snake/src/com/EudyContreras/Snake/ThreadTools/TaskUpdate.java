@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.ThreadExecutors;
+package com.EudyContreras.Snake.ThreadTools;
 
 /**
  * Task container class which can be used to wrap task

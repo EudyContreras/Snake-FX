@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.ThreadExecutors;
+package com.EudyContreras.Snake.ThreadTools;
 
 /**
  * Created by Eudy Contreras on 10/14/2016.
