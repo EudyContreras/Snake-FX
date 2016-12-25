@@ -65,7 +65,7 @@ public class FadeScreenController{
 		}
 	}
 
-	public void prepareIntorScreen(){
+	public void prepareIntroScreen(){
 		outerFadePercentage = 2.0;
 		mainFadeScreen.setOpacity(outerFadePercentage);
 		game.getMainRoot().getChildren().remove(mainFadeScreen);

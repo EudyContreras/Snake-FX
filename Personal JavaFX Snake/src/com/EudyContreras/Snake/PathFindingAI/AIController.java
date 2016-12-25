@@ -97,7 +97,8 @@ public class AIController {
     }
 
     public void update_AI_Simulation(long timePassed) {
-    	if(game.getStateID()==GameStateID.GAMEPLAY){
+    	if(game.getStateID()==GameStateID.GAMEPLAY || game.getStateID()==GameStateID.DEATH_ANIMATION
+    			|| game.getStateID() == GameStateID.GAME_OVER){
     		updateAIEvents();
         	updateGridEvents();
     	}

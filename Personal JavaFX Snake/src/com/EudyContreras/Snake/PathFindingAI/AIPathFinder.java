@@ -282,11 +282,11 @@ public class AIPathFinder {
 
         CellNode start = head!=null ? head : controller.getHeadCell(snakeAI);
 
-//        boolean inBound = start.getBoundsCheck().contains(snakeAI.getAIBounds());
-//
-//    	if(!inBound){
-//    		log("No Bounds");
-//    	}
+        boolean inBound = start.getBoundsCheck().contains(snakeAI.getAIBounds());
+
+    	if(!inBound){
+    		log("No Bounds");
+    	}
 
         CellNode tail = grid.getRelativeTailCell(snakeAI);
 
@@ -302,9 +302,9 @@ public class AIPathFinder {
             pathFinder.setPathType(PathType.SHORTEST_PATH);
 
             if (newObjectives.size() > 0) {
-//                if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
-//                    newObjectives.get(0).getObject().blowUpAlt();
-//                }
+                if (newObjectives.get(0) != null && GameSettings.SHOW_ASTAR_GRAPH) {
+                    newObjectives.get(0).getObject().blowUpAlt();
+                }
 
                     if (!start.isDangerZone()) {
                         distressLevel = DistressLevel.NORMAL;
@@ -338,8 +338,6 @@ public class AIPathFinder {
                         currentGoal = CurrentGoal.TAIL;
                         removeThrust();
                         computePath(start);
-//                        pathRequests.clear();
-//                        pathRequests.add(new PathRequest(this,currentGoal));
                     }
                 }
             }
@@ -1098,7 +1096,8 @@ public class AIPathFinder {
             }
             break;
         }
-		if (currentGoal == CurrentGoal.OBJECTIVE) {
+
+		if (currentGoal == CurrentGoal.OBJECTIVE && GameSettings.ALLOW_AI_TELEPORT) {
 			if (path.isTeleportPath()) {
 				path.getPathOne().get(0).setDirection(lastStep);
 				lastStep = Direction.NONE;

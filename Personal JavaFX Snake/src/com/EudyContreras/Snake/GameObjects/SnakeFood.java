@@ -7,7 +7,7 @@ import com.EudyContreras.Snake.AbstractModels.AbstractSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
-import com.EudyContreras.Snake.HUDElements.GamePoint;
+import com.EudyContreras.Snake.HudElements.GamePoint;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;

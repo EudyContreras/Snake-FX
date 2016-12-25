@@ -16,8 +16,8 @@ public class ResizeHelper {
 
 	public static void addSceneManipulation(GameManager game,Stage stage, Scene scene) {
 		new GestureListener(game,stage,scene);
-
 	}
+
 	private static class GestureListener {
 
 		private GameManager game;

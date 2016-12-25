@@ -1,4 +1,4 @@
-package com.EudyContreras.Snake.HUDElements;
+package com.EudyContreras.Snake.HudElements;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;

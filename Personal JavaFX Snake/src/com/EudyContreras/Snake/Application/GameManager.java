@@ -11,22 +11,22 @@ import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
 import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
 import com.EudyContreras.Snake.FrameWork.CursorUtility;
 import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
+import com.EudyContreras.Snake.HudElements.CountDownScreen;
+import com.EudyContreras.Snake.HudElements.EnergyBarOne;
+import com.EudyContreras.Snake.HudElements.EnergyBarTwo;
+import com.EudyContreras.Snake.HudElements.GameBorder;
+import com.EudyContreras.Snake.HudElements.GameHud;
+import com.EudyContreras.Snake.HudElements.GameOverScreen;
+import com.EudyContreras.Snake.HudElements.HealthBarOne;
+import com.EudyContreras.Snake.HudElements.HealthBarTwo;
+import com.EudyContreras.Snake.HudElements.PauseMenu;
+import com.EudyContreras.Snake.HudElements.ReadyNotification;
+import com.EudyContreras.Snake.HudElements.ScoreBoard;
+import com.EudyContreras.Snake.HudElements.ScoreKeeper;
+import com.EudyContreras.Snake.HudElements.VictoryScreen;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.ResizeHelper;
 import com.EudyContreras.Snake.FrameWork.ResizeListener;
-import com.EudyContreras.Snake.HUDElements.CountDownScreen;
-import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
-import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
-import com.EudyContreras.Snake.HUDElements.GameBorder;
-import com.EudyContreras.Snake.HUDElements.GameHud;
-import com.EudyContreras.Snake.HUDElements.GameOverScreen;
-import com.EudyContreras.Snake.HUDElements.HealthBarOne;
-import com.EudyContreras.Snake.HUDElements.HealthBarTwo;
-import com.EudyContreras.Snake.HUDElements.PauseMenu;
-import com.EudyContreras.Snake.HUDElements.ReadyNotification;
-import com.EudyContreras.Snake.HUDElements.ScoreBoard;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
-import com.EudyContreras.Snake.HUDElements.VictoryScreen;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
@@ -84,23 +84,13 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel {
 
-	private double animationWidth = 0;
-	private double animationHeight = 0;
-	private boolean allowStageScale = false;
-
-
 	public void start(Stage primaryStage) {
 		if(GameSettings.SHOW_SPLASHSCREEN){
 			new SplashScreen(primaryStage,GameImageBank.splash_screen, ()->initialize(),()->showGame());
+		}else{
+			initialize();
+			showGame();
 		}
-		else{
-		initialize();
-		showGame();
-		}
-	}
-
-	public void fullScreenOff() {
-		getMainWindow().setFullScreen(false);
 	}
 
 	private void resizeListener(final Stage stage, final Scene scene, final Pane pane) {
@@ -215,7 +205,7 @@ public class GameManager extends AbstractGameModel {
 		addToGameRoot(ninthLayer);
 		addToGameRoot(outerParticleLayer);
 
-		mainRoot.getChildren().add(getGameRoot());
+		mainRoot.getChildren().add(root);
 		mainRoot.setMaxWidth(GameSettings.WIDTH);
 		mainRoot.setMaxHeight(GameSettings.HEIGHT);
 		scene.getStylesheets().add(GameManager.class.getResource("application.css").toExternalForm());
@@ -237,14 +227,14 @@ public class GameManager extends AbstractGameModel {
 			closeGame();
 		});
 
+		mainWindow.setFullScreen(false);
 		mainWindow.initStyle(StageStyle.UNDECORATED);
 		mainWindow.show();
 
 		resizeListener(mainWindow, scene, sceneRoot);
 		setNewRatio(false);
 
-		getMainWindow().setFullScreen(false);
-		getGameBorder().showBorders(true);
+		gameBorder.showBorders(true);
 
 		ResizeHelper.baseWidth = ResizeHelper.baseWidth*.45;
 		ResizeHelper.baseHeight = ResizeHelper.baseHeight*.45;
@@ -258,13 +248,9 @@ public class GameManager extends AbstractGameModel {
 
 		Platform.setImplicitExit(false);
 		translateObjects(mainRoot.getChildren());
-		pauseGame();
-//		backgroundWorkerTwo();
-//		objectChecker();
 		gameLoop();
-
-
 	}
+
 	private void addToGameRoot(Pane pane){
 		pane.setFocusTraversable(true);
 		getGameRoot().getChildren().add(pane);
@@ -395,6 +381,10 @@ public class GameManager extends AbstractGameModel {
 	public void processGestures() {
 		pauseMenu.processTouch();
 		gestures.processGestures(this);
+	}
+
+	public void fullScreenOff() {
+		mainWindow.setFullScreen(false);
 	}
 
 	public void setPerformance(Pane pane) {
@@ -739,8 +729,7 @@ public class GameManager extends AbstractGameModel {
 	 * translating a and element from point a to be but it may not update the
 	 * element itself within its run method
 	 *
-	 * @throws: Not
-	 *              the JavaFX Thread!! if any JavaFX UI element is updated on
+	 * @throws: Not the JavaFX Thread!! if any JavaFX UI element is updated on
 	 *              this thread
 	 */
 	@SuppressWarnings("unused")
@@ -850,7 +839,7 @@ public class GameManager extends AbstractGameModel {
 
 	public void prepareGame() {
 		resetGame();
-		getFadeScreenHandler().prepareIntorScreen();
+		getFadeScreenHandler().prepareIntroScreen();
 		loader.loadPixelMap();
 		showCursor(false, getScene());
 		processGameInput();

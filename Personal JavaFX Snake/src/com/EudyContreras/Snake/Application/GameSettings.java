@@ -97,6 +97,7 @@ public class GameSettings {
 	public static boolean OBJECT_TRACKER = false;
 
 	public static boolean ALLOW_AI_CONTROLL = true;
+	public static boolean ALLOW_AI_TELEPORT = false;
 	public static boolean ALLOW_SNAKE_GROWTH = true;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
@@ -113,7 +114,7 @@ public class GameSettings {
 	public static boolean ALLOW_ASTAR_GRAPH = true;
 	public static boolean SHOW_ASTAR_GRAPH = false;
 	public static boolean DEBUG_MODE = false;
-	public static boolean RENDER_GAME = true;
+	public static boolean RENDER_GAME = false;
 	public static boolean RENDER_INTERFACE = true;
 
 	public static boolean LOAD_SPIKE_FENCE = false;

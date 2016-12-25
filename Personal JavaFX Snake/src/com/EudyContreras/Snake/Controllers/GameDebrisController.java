@@ -50,17 +50,32 @@ public class GameDebrisController {
 	}
 
 	public void updateAllStream(){
-		debris.stream().parallel().forEach(AbstractParticlesEffect::move);
-		particles.stream().parallel().forEach(AbstractParticlesEffect::move);
-		debris.forEach(AbstractParticlesEffect::updateUI);
-		particles.forEach(AbstractParticlesEffect::updateUI);
-		debris.forEach(AbstractParticlesEffect::collide);
-		particles.forEach(AbstractParticlesEffect::collide);
-		removeDeadDebris();
-		removeDeadParticles();
+		debris.stream().forEach(debri->{
+			if (debri != null) {
+				debri.move();
+				debri.updateUI();
+				debri.draw();
+				debri.collide();
+				if (!debri.isAlive()) {
+					removeDebris(debri);
+				}
+			}
+		});
+
+		particles.stream().forEach(particle->{
+			if (particle != null) {
+				particle.move();
+				particle.updateUI();
+				particle.draw();
+				particle.collide();
+				if (!particle.isAlive()) {
+					removeParticle(particle);
+				}
+			}
+		});
 	}
 
-	public synchronized void updateAll() {
+	public void updateAll() {
 		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
 		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
 
@@ -91,38 +106,6 @@ public class GameDebrisController {
 		}
 	}
 
-	private void removeDeadParticles() {
-		Iterator<AbstractParticlesEffect> particleList = particles.iterator();
-
-		while(particleList.hasNext()) {
-
-			AbstractParticlesEffect particle = particleList.next();
-
-			if (!particle.isAlive()) {
-
-				particle.remove();
-				particleList.remove();
-
-			}
-		}
-	}
-
-	private void removeDeadDebris() {
-		Iterator<AbstractParticlesEffect> debrisList = debris.iterator();
-
-		while(debrisList.hasNext()) {
-
-			AbstractParticlesEffect debris = debrisList.next();
-
-			if (!debris.isAlive()) {
-
-				debris.remove();
-				debrisList.remove();
-
-			}
-		}
-	}
-
 	public synchronized void updateAllFor() {
 		for(int i = 0; i<debris.size(); i++){
 			AbstractParticlesEffect tempDebris = debris.get(i);
@@ -143,17 +126,6 @@ public class GameDebrisController {
 				tempParticle.remove();
 				particles.remove(tempParticle);
 			}
-		}
-	}
-
-	public synchronized void moveAllFor() {
-		for(int i = 0; i<debris.size(); i++){
-			AbstractParticlesEffect tempDebris = debris.get(i);
-			tempDebris.move();
-		}
-		for(int i = 0; i<particles.size(); i++){
-			AbstractParticlesEffect tempParticle = particles.get(i);
-			tempParticle.move();
 		}
 	}
 
@@ -191,6 +163,16 @@ public class GameDebrisController {
 
 	public List<AbstractParticlesEffect> getParticleList() {
 		return particles;
+	}
+
+	private void removeDebris(AbstractParticlesEffect debri){
+		debri.remove();
+		debris.remove(debri);
+	}
+
+	private void removeParticle(AbstractParticlesEffect particle){
+		particle.remove();
+		particles.remove(particle);
 	}
 
 	public void clearDebris() {

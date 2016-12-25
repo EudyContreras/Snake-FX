@@ -28,8 +28,6 @@ public class GameObjectController {
 	private ObservableList<AbstractObject> fruits;
 	private LinkedList<AbstractObject> fruitList;
 	private LinkedList<AbstractObject> buffs;
-	private AbstractObject tempFruit;
-	private AbstractObject tempBuff;
 	private GameManager game;
 
 	public GameObjectController(GameManager game) {
@@ -46,7 +44,7 @@ public class GameObjectController {
 			@Override
 			public void onChanged(@SuppressWarnings("rawtypes") ListChangeListener.Change change) {
 				if(game.getStateID() == GameStateID.GAMEPLAY){
-				game.getAIController().nofifyAI();
+					game.getAIController().nofifyAI();
 				}
 			}
 		});
@@ -62,7 +60,7 @@ public class GameObjectController {
 		Iterator<AbstractObject> fruitIter = fruits.iterator();
 
 		while (fruitIter.hasNext()) {
-			tempFruit = fruitIter.next();
+			AbstractObject tempFruit = fruitIter.next();
 			tempFruit.move();
 			tempFruit.updateUI();
 			tempFruit.checkCollision();
@@ -91,7 +89,7 @@ public class GameObjectController {
 		Iterator<AbstractObject> buffIter = buffs.iterator();
 
 		while (buffIter.hasNext()) {
-			tempBuff = buffIter.next();
+			AbstractObject tempBuff = buffIter.next();
 			tempBuff.move();
 			tempBuff.updateUI();
 			tempBuff.checkCollision();
@@ -124,7 +122,7 @@ public class GameObjectController {
 	public void updateAll(long timePassed) {
 
 		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
+			AbstractObject tempFruit = fruits.get(i);
 			tempFruit.move();
 			tempFruit.updateUI();
 			tempFruit.checkCollision();
@@ -145,80 +143,6 @@ public class GameObjectController {
 			if(fruits.size() > GameSettings.APPLE_COUNT){
 				fruits.get(fruits.size()-1).setRemovable(true);
 			}
-		}
-	}
-
-	/**
-	 * Method used to explicitly update the graphics
-	 */
-	public void updateUI() {
-
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.updateUI();
-		}
-	}
-
-	/**
-	 * Method used to explicitly update animations
-	 */
-	public void updateAnimation(long timePassed) {
-
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.updateAnimation(timePassed);
-		}
-	}
-
-	/**
-	 * Method used to explicitly move the objects
-	 */
-	public void move() {
-
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.move();
-		}
-	}
-
-	/**
-	 * Method used to explicitly draw the graphics
-	 */
-	public void draw() {
-
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.draw();
-		}
-	}
-
-	/**
-	 * Method used to explicitly add physics to the objects
-	 */
-	public void addPhysics() {
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.addPhysics();
-		}
-	}
-
-	/**
-	 * Method used to check if the fruits should be removed
-	 */
-	public void checkIfRemoveable() {
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.checkRemovability();
-		}
-	}
-
-	/**
-	 * Method used to check if the fruits has collied with another fruits
-	 */
-	public void checkCollisions() {
-		for (int i = 0; i < fruits.size(); i++) {
-			tempFruit = fruits.get(i);
-			tempFruit.checkCollision();
 		}
 	}
 

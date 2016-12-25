@@ -8,7 +8,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
+import com.EudyContreras.Snake.HudElements.ScoreKeeper;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;

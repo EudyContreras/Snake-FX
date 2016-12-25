@@ -1,10 +1,10 @@
-package com.EudyContreras.Snake.HUDElements;
+package com.EudyContreras.Snake.HudElements;
 
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
+import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -18,18 +18,17 @@ import javafx.scene.shape.Rectangle;
  * @author Eudy Contreras
  *
  */
-public class EnergyBarTwo {
+public class EnergyBarOne {
 
 	private boolean depleated = false;
 	private boolean speedThrust = false;
 	private double maxEnergyLevel = 100;
-	private double depleteX = 0;
 	private double x = 0;
 	private double width = 0;
 	private double delay = 0;
-	private double moveX = 400;
+	private double moveX = -400;
 	private GameManager game;
-	private PlayerTwo player;
+	private PlayerOne player;
 	private Rectangle energyBar = new Rectangle();
 	private Rectangle energyBarRed = new Rectangle();
 
@@ -42,12 +41,12 @@ public class EnergyBarTwo {
 	 * @param width: Horizontal dimension for this energy bar
 	 * @param height: Vertival dimension for this energy bar
 	 */
-	public EnergyBarTwo(GameManager game, double x, double y, double width, double height) {
+	public EnergyBarOne(GameManager game, double x, double y, double width, double height) {
 		this.x = x;
 		this.game = game;
 		this.width = width;
 		this.maxEnergyLevel = width;
-		this.player = game.getGameLoader().getPlayerTwo();
+		this.player = game.getGameLoader().getPlayerOne();
 		this.energyBar.setWidth(width);
 		this.energyBar.setHeight(height);
 		this.energyBar.setTranslateX(x);
@@ -77,7 +76,7 @@ public class EnergyBarTwo {
 	}
 
 	private void popIn(){
-		this.energyBar.setTranslateX(x+moveX+depleteX);
+		this.energyBar.setTranslateX(x+moveX);
 		this.energyBarRed.setTranslateX(x+moveX);
 	}
 
@@ -91,7 +90,6 @@ public class EnergyBarTwo {
 	 */
 	private void depleteEnergy() {
 		if (speedThrust == true) {
-			depleteX+=GameSettings.ENERGY_COMSUMPTION_SPEED;
 			width -= GameSettings.ENERGY_COMSUMPTION_SPEED;
 		}
 
@@ -99,7 +97,6 @@ public class EnergyBarTwo {
 			player.setAllowThrust(false);
 			player.setThrustState(false);
 			width = 0;
-			depleteX = maxEnergyLevel;
 		}
 		this.energyBar.setWidth(width);
 	}
@@ -126,25 +123,20 @@ public class EnergyBarTwo {
 				if (delay <= 0){
 					delay = 0;
 					width += GameSettings.ENERGY_REGENRATION_SPEED;
-					depleteX-=GameSettings.ENERGY_REGENRATION_SPEED;
 				}
 			}
 		}
 		if (width >= 25) {
-			if(player.isAllowCollision())
-			player.setAllowThrust(true);
+			if(PlayerOne.KEEP_MOVING){
+				player.setAllowThrust(true);
+			}
 		}
-	}
-
-	public double getEnergyLevel(){
-		return width;
 	}
 	/**
 	 * Method which when called will refill energy
 	 * levels to their maximun levels
 	 */
 	public void refill() {
-		this.depleteX = 0;
 		this.width = maxEnergyLevel;
 		this.energyBar.setWidth(maxEnergyLevel);
 		this.player.setAllowThrust(true);
@@ -155,7 +147,6 @@ public class EnergyBarTwo {
 	 */
 	public void drainAll(){
 		this.width = 0;
-		this.depleteX = maxEnergyLevel;
 		this.energyBar.setWidth(width);
 		this.player.setAllowThrust(false);
 	}
@@ -170,16 +161,12 @@ public class EnergyBarTwo {
 		energyBarRed.setVisible(state);
 	}
 
-	public boolean isDepleated() {
-		return depleated;
+	public boolean isSpeedThrust() {
+		return speedThrust;
 	}
 
-	public void setDepleated(boolean depleated) {
-		this.depleated = depleated;
-	}
-
-	public void setSpeedThrust(boolean shotsFired) {
-		this.speedThrust = shotsFired;
+	public void setSpeedThrust(boolean speedBoost) {
+		this.speedThrust = speedBoost;
 	}
 
 	public void setSetDelay(boolean setDelay) {
@@ -193,14 +180,6 @@ public class EnergyBarTwo {
 		this.maxEnergyLevel = maxEnergyLevel;
 	}
 
-	public double getWidth() {
-		return width;
-	}
-
-	public void setWidth(double width) {
-		this.width = width;
-	}
-
 	public double getDelay() {
 		return delay;
 	}
@@ -211,6 +190,15 @@ public class EnergyBarTwo {
 
 	public void setPlayer() {
 		this.player = null;
-		this.player = game.getGameLoader().getPlayerTwo();
+		this.player = game.getGameLoader().getPlayerOne();
 	}
+
+	public boolean isDepleated() {
+		return depleated;
+	}
+
+	public void setDepleated(boolean depleated) {
+		this.depleated = depleated;
+	}
+
 }

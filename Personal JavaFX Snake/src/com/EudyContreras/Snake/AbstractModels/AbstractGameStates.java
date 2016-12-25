@@ -12,6 +12,7 @@ import com.EudyContreras.Snake.Identifiers.GameStateID;
  */
 
 public abstract class AbstractGameStates {
+	
 	protected GameStateID id;
 	protected GameStateController stateMangager;
 

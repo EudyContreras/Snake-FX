@@ -14,7 +14,7 @@ import com.EudyContreras.Snake.GameObjects.GenericObject;
 import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
-import com.EudyContreras.Snake.HUDElements.GameTimer.TimerStyle;
+import com.EudyContreras.Snake.HudElements.GameTimer.TimerStyle;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
@@ -355,10 +355,8 @@ public class GameLoader extends AbstractLoaderModel{
 
 			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROLL)
 				levelManager.loadDesertBorder();
-//			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5) {
-			if (GameSettings.ALLOW_AI_CONTROLL){
-//			 	setLevel(getSpikeFence());
-//				levelManager.loadSpikeFence();
+			if (GameSettings.ALLOW_AI_CONTROLL || GameSettings.LOAD_SPIKE_FENCE){
+				levelManager.loadSpikeFence();
 			}
 
 			levelManager.loadDesertLevels();

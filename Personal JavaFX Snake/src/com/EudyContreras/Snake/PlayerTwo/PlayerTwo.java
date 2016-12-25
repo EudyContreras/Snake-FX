@@ -8,7 +8,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
+import com.EudyContreras.Snake.HudElements.ScoreKeeper;
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.Identifiers.GameStateID;
@@ -211,7 +211,7 @@ public class PlayerTwo extends AbstractObject {
 
 	public void updateBounds() {
 		checkBounds();
-		if (!GameSettings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius/2 + offsetX);
 			bounds.setY(y - radius/2 + offsetY);
 			bounds.setWidth(radius);
@@ -753,7 +753,7 @@ public class PlayerTwo extends AbstractObject {
 	}
 
 	public void drawBoundingBox() {
-		if (!GameSettings.DEBUG_MODE) {
+		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius/4, y - radius/4, radius/2, radius/2);
 			bounds.setStroke(Color.YELLOW);
 			bounds.setStrokeWidth(3);
