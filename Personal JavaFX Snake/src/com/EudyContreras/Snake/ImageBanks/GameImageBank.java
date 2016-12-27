@@ -185,6 +185,9 @@ import javafx.scene.shape.Circle;
 			public static final Image transparentFill = ImageEffectUtility.preCreateCircle(Color.GREEN, GameSettings.PLAYER_ONE_SIZE*.75);
 
 
+			public static final Image play_room_hub_bar = new Image(ImageLoadingUtility.loadResource("connect_hub_alt.png"));
+
+
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

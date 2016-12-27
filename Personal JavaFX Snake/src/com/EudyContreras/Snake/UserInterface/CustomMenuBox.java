@@ -47,6 +47,23 @@ public class CustomMenuBox {
 		this.pane.getChildren().addAll(background, menuBox);
 	}
 
+	public CustomMenuBox(double width, double height, int spacing, String style, Pos alignment) {
+		this.width = width;
+		this.height = height;
+		this.background = new Rectangle(width, height);
+		this.background.setStyle(style);
+		this.background.setFill(Color.BLACK);
+		this.background.setArcHeight(50);
+		this.background.setArcWidth(50);
+		this.menuBox = new VBox(spacing);
+		this.menuBox.setAlignment(alignment);
+		this.pane = new StackPane();
+		this.buttonList = new LinkedList<CustomMenuButton>();
+		this.pane.setTranslateX(GameSettings.WIDTH / 2 - width);
+		this.pane.setTranslateY(GameSettings.HEIGHT / 2 - height);
+		this.pane.getChildren().addAll(background, menuBox);
+	}
+
 	public void addMenuButton(CustomMenuButton button, int index) {
 		this.menuBox.getChildren().add(index, button.BUTTON());
 		this.menuBox.setMaxWidth(button.getButtonWidth());

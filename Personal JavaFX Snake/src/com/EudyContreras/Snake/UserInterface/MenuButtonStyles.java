@@ -25,4 +25,9 @@ public class MenuButtonStyles {
 //			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, black 45%, rgba(40,40,40,1) 50%);"
 			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, rgba(255,209,124,1) 45%, rgba(241,174,23) 50%);"
 			+"-fx-effect: dropshadow(three-pass-box, orange,"+55+", 0.7, 0, 0);";
+	public static final String FX_CONNECT_BOX_STYLE  =
+			" -fx-fill-radius: "+30+";"
+//			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, black 45%, rgba(40,40,40,1) 50%);"
+			+"-fx-fill: radial-gradient(center 50% -40%, radius 200%, rgba(192,192,192,1) 45%, rgba(140,140,140) 50%);"
+			+"-fx-effect: dropshadow(two-pass-box, rgba(200,200,200),"+10+", 0.2, 0, 0);";
 }

@@ -73,7 +73,14 @@ public class ModesMenu extends AbstractMenuElement {
 				MODES_MENU_BOX.setChosen(currentChoice);
 				break;
 			case ESCAPE:
-				MODES_MENU_BOX.getButton(3).deactivate();
+				if(menu.getConnectHub().isShowing()){
+					menu.getConnectHub().swipeUp(()->menu.onFocus());
+				}else{
+					MODES_MENU_BOX.getButton(3).deactivate();
+				}
+				break;
+			case H:
+				menu.showFXConnect();
 				break;
 			case ENTER:
 				if(!e.isControlDown()){

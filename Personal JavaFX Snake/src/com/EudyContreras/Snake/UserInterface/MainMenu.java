@@ -73,6 +73,14 @@ public class MainMenu extends AbstractMenuElement {
 				}
 				MAIN_MENU_BOX.setChosen(currentChoice);
 				break;
+			case H:
+				menu.showFXConnect();
+				break;
+			case ESCAPE:
+				if(menu.getConnectHub().isShowing()){
+					menu.getConnectHub().swipeUp(()->menu.onFocus());
+				}
+				break;
 			case ENTER:
 				if(!e.isControlDown()){
 					MAIN_MENU_BOX.getButton(currentChoice).activate();
