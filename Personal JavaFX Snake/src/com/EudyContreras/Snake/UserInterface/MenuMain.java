@@ -9,12 +9,12 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class MainMenu extends AbstractMenuElement {
+public class MenuMain extends AbstractMenuElement {
 
 	private final static Pane MAIN_MENU = new Pane();
 	private final static CustomMenuBox MAIN_MENU_BOX = new CustomMenuBox(1200, 700, 30, Color.BLACK, Pos.CENTER);
 
-	public MainMenu(GameManager game, MenuManager menu) {
+	public MenuMain(GameManager game, MenuManager menu) {
 		this.game = game;
 		this.menu = menu;
 		this.setUp();

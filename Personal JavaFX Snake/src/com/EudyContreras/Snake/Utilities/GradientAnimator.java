@@ -3,7 +3,6 @@ package com.EudyContreras.Snake.Utilities;
 import java.util.Random;
 
 import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
-import com.EudyContreras.Snake.Utilities.ShapeUtility.Shape;
 
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -14,10 +13,10 @@ import javafx.util.Duration;
 
 public class GradientAnimator {
 
-	private int changeOne;
-	private int changeTwo;
-	private int valueOne;
-	private int valueTwo;
+	private int minValue;
+	private int maxValue;
+	private int[] offset;
+	private int[] value;
 	private volatile boolean running;
 	private Rectangle rect;
 	private Circle circle;
@@ -30,35 +29,44 @@ public class GradientAnimator {
 
 	public GradientAnimator(Node node, Duration duration){
 		this.rand = new Random();
+		this.value = new int[3];
+		this.offset = new int[3];
 		this.setNode(node);
 		this.resetAnim();
 	}
 
-	private void resetAnim(){
-		this.changeOne = 1;
-		this.changeTwo = 1;
-		this.valueOne =  getRandomRange(100,215);
-		this.valueTwo =  getRandomRange(100,215);
-	}
-
 	public void setNode(Node node){
+
+		Color[] colors = new Color[value.length];
+
+		for(int i = 0; i<colors.length; i++){
+			colors[i] = getColor(value[i]);
+		}
+
 		if(node instanceof Circle){
 			circle = ((Circle)(node));
-			circle.setFill(ShapeUtility.LINEAR_GRADIENT(getColor(valueOne),getColor(valueTwo)));
+			circle.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
 		}
 		if(node instanceof Rectangle){
 			rect = ((Rectangle)(node));
-			rect.setFill(ShapeUtility.LINEAR_GRADIENT(getColor(valueOne),getColor(valueTwo)));
+			rect.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
 		}
 	}
 
 	private void colorAnimation(){
 		clampColors();
+
+		Color[] colors = new Color[value.length];
+
+		for(int i = 0; i<colors.length; i++){
+			colors[i] = getColor(value[i]);
+		}
+
 		if(rect!=null){
-			rect.setFill(ShapeUtility.LINEAR_GRADIENT(getColor(valueOne),getColor(valueTwo)));
+			rect.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
 		}
 		else{
-			circle.setFill(ShapeUtility.LINEAR_GRADIENT(getColor(valueOne),getColor(valueTwo)));
+			circle.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
 		}
 	}
 
@@ -71,22 +79,24 @@ public class GradientAnimator {
 	}
 
 	private void clampColors(){
-		valueOne+=changeOne;
-		if(valueOne>215){
-			valueOne = 215;
-			changeOne = -1;
-		}if(valueOne<100){
-			valueOne = 100;
-			changeOne = 1;
+		for(int i = 0; i<value.length; i++){
+			value[i]+=offset[i];
+			if(value[i]>maxValue){
+				value[i] = maxValue;
+				offset[i] = -1;
+			}if(value[i]<minValue){
+				value[i] = minValue;
+				offset[i] = 1;
+			}
 		}
+	}
 
-		valueTwo+=changeTwo;
-		if(valueTwo>215){
-			valueTwo = 215;
-			changeTwo = -1;
-		}if(valueTwo<100){
-			valueTwo = 100;
-			changeTwo = 1;
+	private void resetAnim(){
+		this.minValue = 50;
+		this.maxValue = 215;
+		for(int i = 0; i<value.length; i++){
+			value[i] = getRandomRange(minValue,maxValue);
+			offset[i] = 1;
 		}
 	}
 
@@ -102,7 +112,7 @@ public class GradientAnimator {
 							colorAnimation();
 						});
 						try {
-							Thread.sleep(26);
+							Thread.sleep(80);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}

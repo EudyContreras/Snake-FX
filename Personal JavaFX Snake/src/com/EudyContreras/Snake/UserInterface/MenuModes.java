@@ -10,12 +10,12 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-public class ModesMenu extends AbstractMenuElement {
+public class MenuModes extends AbstractMenuElement {
 
 	private final static Pane GAME_MODE_MENU = new Pane();
 	private final static CustomMenuBox MODES_MENU_BOX = new CustomMenuBox(1200, 700, 30, Color.BLACK,Pos.CENTER);
 
-	public ModesMenu(GameManager game, MenuManager menu) {
+	public MenuModes(GameManager game, MenuManager menu) {
 		this.game = game;
 		this.menu = menu;
 		this.setUp();

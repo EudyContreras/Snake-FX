@@ -82,11 +82,11 @@ public class ConnectHub {
 	}
 
 	private void initFrame(){
-		this.frame.setWidth(1200);
-		this.frame.setHeight(900);
+		this.frame.setWidth(GameSettings.WIDTH-90);
+		this.frame.setHeight(GameSettings.HEIGHT-100);
 		this.frame.setStyle(MenuButtonStyles.FX_CONNECT_BOX_STYLE);
 		this.frame.setStroke(Color.rgb(215, 215, 215));
-		this.frame.setStrokeWidth(15);
+		this.frame.setStrokeWidth(7);
 		this.frame.setFill(Color.BLACK);
 		this.frame.setArcHeight(50);
 		this.frame.setArcWidth(50);

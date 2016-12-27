@@ -32,8 +32,8 @@ public class MenuManager extends AbstractMenuElement{
 	private BoxBlur focus = new BoxBlur();
 	private ConnectHub connectHub;
 	private MediaPlayer music;
-	private MainMenu main_menu;
-	private ModesMenu modes_menu;
+	private MenuMain main_menu;
+	private MenuModes modes_menu;
 
 	public MenuManager(GameManager game) {
 		this.game = game;
@@ -104,8 +104,8 @@ public class MenuManager extends AbstractMenuElement{
 	}
 
 	public void setUpMenus(){
-		main_menu = new MainMenu(game,this);
-		modes_menu = new ModesMenu(game, this);
+		main_menu = new MenuMain(game,this);
+		modes_menu = new MenuModes(game, this);
 	}
 
 	public void setUpBackground(){
