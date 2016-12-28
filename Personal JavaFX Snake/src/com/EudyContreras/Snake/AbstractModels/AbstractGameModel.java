@@ -302,16 +302,6 @@ public abstract class AbstractGameModel extends Application {
 		return root;
 	}
 
-	public void setRoot(Parent root) {
-		scene.setFill(Color.BLACK);
-		if (!mainWindow.isFullScreen()) {
-			root.setTranslateY(15);
-		} else {
-			root.setTranslateY(0);
-		}
-		sceneRoot.setCenter(root);
-	}
-
 	public Pane getBaseLayer() {
 		return gridLayer;
 	}

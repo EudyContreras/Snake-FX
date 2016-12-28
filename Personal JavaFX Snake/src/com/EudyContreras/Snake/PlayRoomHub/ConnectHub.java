@@ -3,15 +3,15 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.UserInterface.MenuButtonStyles;
-import com.EudyContreras.Snake.Utilities.GradientAnimator;
 import com.EudyContreras.Snake.Utilities.ShapeUtility;
 import com.EudyContreras.Snake.Utilities.ShapeUtility.Center;
 import com.EudyContreras.Snake.Utilities.ShapeUtility.Shape;
 
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Dimension2D;
+import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -34,13 +34,14 @@ public class ConnectHub {
 	private boolean showHub = false;
 	private boolean showing = false;
 	private Pane layer;
-	private Pane window;
+	private Group window;
+	private HBox sections;
 	private GameManager game;
-	private GradientAnimator gradientAnim;
 	private TranslateTransition hubTransition;
 	private TranslateTransition frameTransition;
+	private ConnectProfile connectProfile;
+	private ConnectWindow connectWindow;
 	private DropShadow shadow = new DropShadow();
-	private Rectangle frame = new Rectangle();
 	private Rectangle hubBar = new Rectangle();
 
 	/**
@@ -63,16 +64,27 @@ public class ConnectHub {
 		this.shadow.setOffsetY(15);
 		this.hubTransition = new TranslateTransition();
 		this.frameTransition = new TranslateTransition();
-		this.gradientAnim = new GradientAnimator();
-		this.window = new Pane();
+		this.connectWindow = new ConnectWindow();
+		this.window = new Group();
+		this.sections = new HBox(20);
 		this.hubTransition.setNode(hubBar);
-		this.frameTransition.setNode(frame);
-		this.gradientAnim.setNode(frame);
-		this.initHub();
-		this.initFrame();
+		this.frameTransition.setNode(connectWindow);
+		this.window.getChildren().add(connectWindow);
+		this.initSections();
 	}
 
-	private void initHub(){
+	private void initSections(){
+		hubSection();
+		profileSection();
+	}
+
+	private void profileSection(){
+		connectProfile = new ConnectProfile("Eudy Contreras","28","Sweden");
+		sections.getChildren().add(connectProfile);
+		connectWindow.addNodeToRegion(sections);
+	}
+
+	private void hubSection(){
 		this.hubBar.setWidth(GameSettings.WIDTH+20);
 		this.hubBar.setHeight(125);
 		this.hubBar.setTranslateY(-hubBar.getHeight());
@@ -81,19 +93,7 @@ public class ConnectHub {
 		layer.getChildren().add(hubBar);
 	}
 
-	private void initFrame(){
-		this.frame.setWidth(GameSettings.WIDTH-90);
-		this.frame.setHeight(GameSettings.HEIGHT-100);
-		this.frame.setStyle(MenuButtonStyles.FX_CONNECT_BOX_STYLE);
-		this.frame.setStroke(Color.rgb(215, 215, 215));
-		this.frame.setStrokeWidth(7);
-		this.frame.setFill(Color.BLACK);
-		this.frame.setArcHeight(50);
-		this.frame.setArcWidth(50);
-		this.frame.setTranslateY(-frame.getHeight()-50);
-		this.window.getChildren().add(frame);
-		ShapeUtility.CENTER_SHAPE(Shape.RECTANGLE, Center.CENTER_X, frame, new Dimension2D(GameSettings.WIDTH,GameSettings.HEIGHT));
-	}
+
 	/**
 	 * Method which updates the movement of
 	 * both the top and the bottom HUD bar
@@ -142,13 +142,12 @@ public class ConnectHub {
 		hubTransition.play();
 
 		frameTransition.setDuration(Duration.millis(250));
-		frameTransition.setToY(-(frame.getHeight()+30));
+		frameTransition.setToY(-(connectWindow.getHeight()+30));
 		frameTransition.play();
 
 		hubTransition.setOnFinished(e-> {
 			finished = true;
 			showing = false;
-			gradientAnim.stop();
 			if(layer.getChildren().contains(window)){
 				layer.getChildren().remove(window);
 			}
@@ -166,7 +165,6 @@ public class ConnectHub {
 		if(!layer.getChildren().contains(window)){
 			layer.getChildren().add(0,window);
 		}
-		gradientAnim.play();
 
 		finished = false;
 

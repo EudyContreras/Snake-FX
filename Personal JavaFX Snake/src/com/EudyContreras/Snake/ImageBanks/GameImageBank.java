@@ -186,13 +186,13 @@ import javafx.scene.shape.Circle;
 
 
 			public static final Image play_room_hub_bar = new Image(ImageLoadingUtility.loadResource("connect_hub.png"));
-
-
+			public static final Image default_user_pic = new Image(ImageLoadingUtility.loadResource("default-user.png"));
+			public static final Image play_engine_logo = new Image(ImageLoadingUtility.loadResource("fx_play_engine_logo.png"));
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-			public static final String loadResource(String resource) {
-			return GameImageBank.class.getResource(resource).toExternalForm();
-		}
-
+	public static final String loadResource(String resource) {
+		return GameImageBank.class.getResource(resource).toExternalForm();
 	}
+
+}

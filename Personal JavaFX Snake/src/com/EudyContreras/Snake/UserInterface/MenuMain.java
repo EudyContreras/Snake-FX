@@ -21,7 +21,7 @@ public class MenuMain extends AbstractMenuElement {
 	}
 
 	public void setUp() {
-		MAIN_MENU_BOX.setMenuBoxOffset(0,150);
+		MAIN_MENU_BOX.setMenuBoxOffset(0,140);
 
 		MAIN_MENU_BOX.addButtons(
 				new CustomMenuButton("START GAME", Pos.CENTER, ButtonStyle.BLACK, Color.WHITE, fontSize, buttonSizeW,

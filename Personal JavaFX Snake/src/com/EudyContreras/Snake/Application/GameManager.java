@@ -93,7 +93,7 @@ public class GameManager extends AbstractGameModel {
 		}
 	}
 
-	private void resizeListener(final Stage stage, final Scene scene, final Pane pane) {
+	public void resizeListener(final Stage stage, final Scene scene, final Pane pane) {
 
 		final double initWidth = GameSettings.WIDTH;
 		final double initHeight = GameSettings.HEIGHT;
@@ -135,6 +135,17 @@ public class GameManager extends AbstractGameModel {
 				}
 			}
 		}
+	}
+
+	public void setRoot(Pane root) {
+
+		scene.setFill(Color.BLACK);
+		if (!mainWindow.isFullScreen()) {
+			root.setTranslateY(15);
+		} else {
+			root.setTranslateY(0);
+		}
+		sceneRoot.setCenter(root);
 	}
 
 	public void setWindowSize(double width, double height){
@@ -253,7 +264,7 @@ public class GameManager extends AbstractGameModel {
 
 	private void addToGameRoot(Pane pane){
 		pane.setFocusTraversable(true);
-		getGameRoot().getChildren().add(pane);
+		root.getChildren().add(pane);
 	}
 
 	public Image copyBackground(Group content) {

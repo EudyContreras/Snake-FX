@@ -12,7 +12,6 @@ import com.EudyContreras.Snake.Utilities.ValueWrapper;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
@@ -23,12 +22,10 @@ import javafx.scene.shape.Rectangle;
 public class MenuManager extends AbstractMenuElement{
 
 	private Rectangle backgroundImage;
-	private Pane fadeScreen = new Pane();
 	private Pane hubLayer = new Pane();
 	private Pane menuRoot = new Pane();
 	private Pane menuContainer = new Pane();
 	private Pane mainContainer = new Pane();
-	private GaussianBlur blur = new GaussianBlur();
 	private BoxBlur focus = new BoxBlur();
 	private ConnectHub connectHub;
 	private MediaPlayer music;
@@ -53,6 +50,8 @@ public class MenuManager extends AbstractMenuElement{
 		if(connectHub.isShowing()){
 			connectHub.swipeUp(()->onFocus());
 		}else{
+			showMenu = false;
+			hideMenu = false;
 			connectHub.swipeDown(()->offFocus());
 		}
 	}
@@ -110,17 +109,17 @@ public class MenuManager extends AbstractMenuElement{
 
 	public void setUpBackground(){
 		backgroundImage = new Rectangle(20, 20, GameSettings.WIDTH-40, GameSettings.HEIGHT-40);
-		clearUp = new Rectangle(0, 0, GameSettings.WIDTH, GameSettings.HEIGHT);
-		clearUp.setPickOnBounds(false);
-		clearUp.setFill(Color.BLACK);
+//		mainContainer.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+//		mainContainer.setMinHeight(GameSettings.HEIGHT);
+//		mainContainer.setMinWidth(GameSettings.WIDTH);
 	}
 
 	public void setupMainMenu() {
 		showMenu = true;
-		fadeScreen.getChildren().add(clearUp);
-		fadeScreen.setPickOnBounds(false);
+		menuRoot.setMaxWidth(GameSettings.WIDTH);
+		menuRoot.setMaxHeight(GameSettings.HEIGHT);
 		setMenu(main_menu.main_menu_screen());
-		mainContainer.getChildren().addAll(backgroundImage, menuLogo, menuContainer, fadeScreen);
+		mainContainer.getChildren().addAll(backgroundImage, menuLogo, menuContainer);
 		menuRoot.getChildren().addAll(mainContainer, hubLayer);
 		game.setRoot(menuRoot);
 	}
@@ -137,7 +136,7 @@ public class MenuManager extends AbstractMenuElement{
 		menuLogo.setWidth((MenuImageBank.gameLogo.getWidth()*1.3));
 		menuLogo.setHeight((MenuImageBank.gameLogo.getHeight()*1.3));
 		menuLogo.setX((GameSettings.WIDTH/2-menuLogo.getWidth()/2));
-		menuLogo.setY(25);
+		menuLogo.setY(0);
 	}
 
 	public void addMusic() {
@@ -172,34 +171,34 @@ public class MenuManager extends AbstractMenuElement{
 
 	public void transition() {
 		if (showMenu) {
-			opacity -= fadeSpeed;
-			clearUp.setOpacity(opacity);
-			if (opacity <= 0) {
-				opacity = 0.0;
-				mainContainer.getChildren().remove(fadeScreen);
+			opacity += fadeSpeed;
+			mainContainer.setOpacity(opacity);
+			if (opacity >= 1) {
+				opacity = 1.0;
 				showMenu = false;
 			}
 		}
 		if (hideMenu) {
-			opacity += fadeSpeed;
-			if(opacity<=1){
-				clearUp.setOpacity(opacity);
+			opacity -= fadeSpeed;
+			if(opacity >= 0){
+				mainContainer.setOpacity(opacity);
 			}
-			if (opacity >= 1.0) {
+			if (opacity < 0) {
 				removeMenu(main_menu.main_menu_screen());
 				removeMenu(modes_menu.modes_menu_screen());
 				menuLogo.setVisible(false);
 			}
-			if (opacity >=1.5) {
-				opacity = 1.0;
+			if (opacity <= -1.0) {
+				opacity = -1.0;
 				introTheGame();
 				hideMenu = false;
 			}
 		}
 		if (radius >= 0) {
 			radius -= 1;
-			mainContainer.setEffect(blur);
-			blur.setRadius(radius);
+			mainContainer.setEffect(focus);
+			focus.setWidth(radius);
+			focus.setHeight(radius);
 		}
 	}
 
@@ -210,13 +209,14 @@ public class MenuManager extends AbstractMenuElement{
 	 * game.
 	 */
 	public void setMainMenu() {
+		menuRoot.setMaxWidth(GameSettings.WIDTH);
+		menuRoot.setMaxHeight(GameSettings.HEIGHT);
 		menuLogo.setVisible(true);
-		mainContainer.getChildren().add(fadeScreen);
 		showMenu = true;
 		startingGame = false;
 		fadeSpeed = 0.01;
-		opacity = 1.0;
-		clearUp.setOpacity(opacity);
+		opacity = 0.0;
+		mainContainer.setOpacity(opacity);
 		setMenu(main_menu.main_menu_screen());
 		game.showCursor(true, game.getScene());
 		game.setRoot(menuRoot);
@@ -233,9 +233,8 @@ public class MenuManager extends AbstractMenuElement{
 				this.modeID = modeID;
 				this.fadeSpeed = 0.05;
 				this.opacity = 0;
-				this.clearUp.setOpacity(opacity);
-				this.mainContainer.getChildren().remove(fadeScreen);
-				this.mainContainer.getChildren().add(fadeScreen);
+
+				this.mainContainer.setOpacity(opacity);
 				this.hideMenu = true;
 			}
 			else if(opacity > 0){
@@ -253,7 +252,6 @@ public class MenuManager extends AbstractMenuElement{
 			// TODO: Show a loading screen
 			game.setModeID(modeID);
 			game.prepareGame();
-			mainContainer.getChildren().remove(fadeScreen);
 			game.resumeGame();
 			game.showCursor(false, game.getScene());
 			game.setRoot(game.getMainRoot());

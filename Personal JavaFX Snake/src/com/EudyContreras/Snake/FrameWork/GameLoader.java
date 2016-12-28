@@ -334,7 +334,7 @@ public class GameLoader extends AbstractLoaderModel{
 		}
 //		GameBackground.SET_SEQUENTIAL_BACKGROUND(game, GameThemeID.DESERT_THEME);
 
-		GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundFour);
+		GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundSeven);
 
 		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
 		game.getScoreKeeper().getTimer().showTimer(false);

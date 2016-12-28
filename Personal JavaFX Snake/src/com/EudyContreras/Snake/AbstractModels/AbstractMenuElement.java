@@ -18,7 +18,7 @@ public abstract class AbstractMenuElement {
 
 	protected int currentChoice = 0;
 	protected double radius = 63.0;
-	protected double opacity = 1.0;
+	protected double opacity = 0.0;
 	protected double buttonSizeW = 400;
 	protected double buttonSizeH = 80;
 	protected double fontSize = 50;
@@ -28,7 +28,6 @@ public abstract class AbstractMenuElement {
 	protected boolean startingGame = false;
 	protected GameModeID modeID;
 	protected DropShadow glowLED;
-	protected Rectangle clearUp;
 	protected Rectangle menuLogo;
 	protected GameManager game;
 	protected MenuManager menu;
