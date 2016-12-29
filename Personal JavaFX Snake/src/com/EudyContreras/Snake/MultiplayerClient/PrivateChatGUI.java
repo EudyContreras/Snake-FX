@@ -177,7 +177,7 @@ public class PrivateChatGUI extends JPanel implements Observer{
 		}
 	}
 	/**
-	 * This method will update the list of online users when someone logs in or out
+	 * This method will updates the list of online users when someone logs in or out
 	 */
 	public void update(Observable obs, Object obj) {
 		Double command = (Double)obj;

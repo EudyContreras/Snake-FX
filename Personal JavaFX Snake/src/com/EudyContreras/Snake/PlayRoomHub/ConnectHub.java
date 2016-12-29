@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.Utilities.ShapeUtility;
 import com.EudyContreras.Snake.Utilities.ShapeUtility.Center;
 import com.EudyContreras.Snake.Utilities.ShapeUtility.Shape;
-
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
@@ -39,7 +38,9 @@ public class ConnectHub {
 	private GameManager game;
 	private TranslateTransition hubTransition;
 	private TranslateTransition frameTransition;
+	private ConnectUsers connectUsers;
 	private ConnectProfile connectProfile;
+	private ConnectFrame usersFrame;
 	private ConnectWindow connectWindow;
 	private DropShadow shadow = new DropShadow();
 	private Rectangle hubBar = new Rectangle();
@@ -64,7 +65,9 @@ public class ConnectHub {
 		this.shadow.setOffsetY(15);
 		this.hubTransition = new TranslateTransition();
 		this.frameTransition = new TranslateTransition();
-		this.connectWindow = new ConnectWindow();
+		this.connectWindow = new ConnectWindow(game);
+		this.connectUsers = new ConnectUsers(game);
+		this.usersFrame = new ConnectFrame(game);
 		this.window = new Group();
 		this.sections = new HBox(20);
 		this.hubTransition.setNode(hubBar);
@@ -79,7 +82,13 @@ public class ConnectHub {
 	}
 
 	private void profileSection(){
-		connectProfile = new ConnectProfile("Eudy Contreras","28","Sweden");
+
+        usersFrame.addForeground(connectUsers.get());
+        usersFrame.setFrameSize(connectUsers.getWidth()+20, connectUsers.getHeight()+100);
+		connectProfile = new ConnectProfile(game,"Eudy Contreras","28","Sweden");
+
+
+		sections.getChildren().add(usersFrame.get());
 		sections.getChildren().add(connectProfile);
 		connectWindow.addNodeToRegion(sections);
 	}
@@ -93,12 +102,6 @@ public class ConnectHub {
 		layer.getChildren().add(hubBar);
 	}
 
-
-	/**
-	 * Method which updates the movement of
-	 * both the top and the bottom HUD bar
-	 *
-	 */
 	public void updateHudBar() {
 		moveY = moveY + swipeSpeed;
 		if (showHub) {
@@ -179,6 +182,10 @@ public class ConnectHub {
 		hubTransition.setOnFinished(e->{
 			finished = true;
 			showing = true;
+			connectUsers.getTable().requestFocus();
+	        connectUsers.getTable().getSelectionModel().clearAndSelect(0);
+	        connectUsers.getTable().getFocusModel().focus(0);
+	        connectUsers.getTable().getSelectionModel().selectFirst();
 		});
 
 	}

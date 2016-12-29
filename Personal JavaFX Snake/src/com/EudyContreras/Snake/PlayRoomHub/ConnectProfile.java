@@ -1,12 +1,11 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Utilities.ImageChooser;
 import com.EudyContreras.Snake.Utilities.ShapeUtility;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -36,9 +35,11 @@ public class ConnectProfile extends StackPane{
 	private BorderPane container;
 	private ConnectFrame background;
 	private ImageChooser chooser;
+	private GameManager game;
 
-	public ConnectProfile(String name, String country, String age){
+	public ConnectProfile(GameManager game, String name, String country, String age){
 		super();
+		this.game = game;
 		this.age = new Text(age);
 		this.name = new Text(name);
 		this.country = new Text(country);
@@ -46,7 +47,7 @@ public class ConnectProfile extends StackPane{
 		this.nameLbl = new Text("Name:");
 		this.countryLbl = new Text("Country:");
 		this.chooser = new ImageChooser();
-		this.background = new ConnectFrame();
+		this.background = new ConnectFrame(game);
 		this.container = new BorderPane();
 		this.details = new VBox(10);
 		this.labels = new VBox(10);
@@ -82,9 +83,9 @@ public class ConnectProfile extends StackPane{
 		container.setCenter(frame);
 
 		background.setFrameSize(300, 500);
-		background.setFill(ShapeUtility.LINEAR_GRADIENT(Color.BLACK, Color.rgb(80, 80, 80)));
+		background.setFill(ShapeUtility.LINEAR_GRADIENT(Color.rgb(120, 120, 120),Color.BLACK, Color.rgb(120, 120, 120)));
 
-		getChildren().add(background);
+		getChildren().add(background.get());
 		getChildren().add(container);
 	}
 

@@ -126,7 +126,7 @@ public class AIPathFinder {
 
     /*
      * this method gets called from the game loop and it is called at 60fps. The
-     * method update and keeps track of things
+     * method updates and keeps track of things
      */
     public void updateSimulation() {
         if (game.getModeID() == GameModeID.LocalMultiplayer) {

@@ -77,9 +77,7 @@ public class MenuMain extends AbstractMenuElement {
 				menu.showFXConnect();
 				break;
 			case ESCAPE:
-				if(menu.getConnectHub().isShowing()){
-					menu.getConnectHub().swipeUp(()->menu.onFocus());
-				}
+				menu.showFXConnect(false);
 				break;
 			case ENTER:
 				if(!e.isControlDown()){

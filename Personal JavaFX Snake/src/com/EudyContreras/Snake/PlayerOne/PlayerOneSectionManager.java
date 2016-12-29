@@ -54,7 +54,7 @@ public class PlayerOneSectionManager {
 		}
 	}
 	/**
-	 * Method used to update every section in the game. this method uses a
+	 * Method used to updates every section in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
@@ -83,7 +83,7 @@ public class PlayerOneSectionManager {
 		}
 	}
 	/**
-	 * Method used to update every section in the game. this method uses a
+	 * Method used to updates every section in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
@@ -115,7 +115,7 @@ public class PlayerOneSectionManager {
 		}
 	}
 	/**
-	 * Method used to explicitly update the graphics
+	 * Method used to explicitly updates the graphics
 	 */
 	public void updateUI() {
 		for (int i = 0; i < sectionList.size(); i++) {
@@ -125,7 +125,7 @@ public class PlayerOneSectionManager {
 	}
 
 	/**
-	 * Method used to explicitly update animations
+	 * Method used to explicitly updates animations
 	 */
 	public void updateAnimation(long timePassed) {
 		for (int i = 0; i < sectionList.size(); i++) {

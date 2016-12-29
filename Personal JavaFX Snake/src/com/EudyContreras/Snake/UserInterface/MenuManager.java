@@ -56,6 +56,16 @@ public class MenuManager extends AbstractMenuElement{
 		}
 	}
 
+	public void showFXConnect(boolean state){
+		if(state){
+			showMenu = false;
+			hideMenu = false;
+			connectHub.swipeDown(()->offFocus());
+		}else{
+			connectHub.swipeUp(()->onFocus());
+		}
+	}
+
 	public void onFocus(){
 		ValueAnimator valueAnimator = new ValueAnimator(300, 30, 0,new ValueWrapper(){
 			@Override

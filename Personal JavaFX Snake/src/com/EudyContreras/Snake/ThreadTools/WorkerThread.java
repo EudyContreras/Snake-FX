@@ -53,8 +53,8 @@ public class WorkerThread{
 	 * @param taskType The type of valueTask: Continuous or Single instance
 	 * @param timeUnit The time unit which the valueTask uses
 	 * @param updateFrequency The frequency in which the updates will be made
-	 * @param startDelay The delay before the first update is performed
-	 * @param update The valueTask to be performed by this thread
+	 * @param startDelay The delay before the first updates is performed
+	 * @param updates The valueTask to be performed by this thread
 	 */
 	public WorkerThread(ThreadManager manager, String name, TaskType taskType, TimeUnit timeUnit, int updateFrequency, int startDelay, TaskWrapper... update) {
 		this.computeTask = addTasks(update);
@@ -200,7 +200,7 @@ public class WorkerThread{
 		return onHold;
 	}
 	/**
-	 * Method which returns the update frequency of this thread
+	 * Method which returns the updates frequency of this thread
 	 * @return
 	 */
 	public int getUpdateFrequency() {
@@ -208,7 +208,7 @@ public class WorkerThread{
 	}
 
 	/**
-	 * Method which sets the update frequency of this thread
+	 * Method which sets the updates frequency of this thread
 	 * @param updateFrequency
 	 */
 	public void setUpdateFrequency(int updateFrequency) {
@@ -250,7 +250,7 @@ public class WorkerThread{
 
 	/**
 	 * Method which adds a new valueTask to be performed by the thread.
-	 * @param update
+	 * @param updates
 	 */
 	public void addTask(TaskWrapper update) {
 		if(update instanceof TaskUpdate){
@@ -290,7 +290,7 @@ public class WorkerThread{
 		}
 	}
 	/**
-	 * Method which performs an update to the valueTask
+	 * Method which performs an updates to the valueTask
 	 */
 	private void performUpdate() {
 		if (parallel) {

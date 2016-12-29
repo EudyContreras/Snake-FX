@@ -115,7 +115,7 @@ public class GameObjectController {
 	}
 
 	/**
-	 * Method used to update every fruits in the game. this method uses a
+	 * Method used to updates every fruits in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */

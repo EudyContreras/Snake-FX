@@ -251,7 +251,7 @@ public class ThreadManager {
 	}
 
 	  /**
-     * Method which gets the update frequency of a thread at a specified index is running
+     * Method which gets the updates frequency of a thread at a specified index is running
      * @param name
      */
 	public synchronized int getUpdateFrequency(String name) {
@@ -262,7 +262,7 @@ public class ThreadManager {
 	}
 
 	  /**
-     * Method which sets the update frequency of a thread at a specified index is running
+     * Method which sets the updates frequency of a thread at a specified index is running
      * @param index
      */
 	public synchronized void setUpdateFrequency(int updateFrequency, int String) {
@@ -273,7 +273,7 @@ public class ThreadManager {
 	}
 
 	  /**
-     * Method which sets the update frequency of all threads
+     * Method which sets the updates frequency of all threads
      * @param index
      */
 	public synchronized void setUpdateFrequencyForAll(int updateFrequency) {

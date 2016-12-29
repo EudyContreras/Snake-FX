@@ -75,7 +75,7 @@ public class PlayerTwoManager {
 	}
 
 	/**
-	 * Method used to update every the logic object in the game. this method uses a
+	 * Method used to updates every the logic object in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
@@ -95,7 +95,7 @@ public class PlayerTwoManager {
 		}
 	}
 	/**
-	 * Method used to update the movement of every object in the game. this method uses a
+	 * Method used to updates the movement of every object in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
@@ -108,7 +108,7 @@ public class PlayerTwoManager {
 	}
 
 	/**
-	 * Method used to explicitly update the graphics
+	 * Method used to explicitly updates the graphics
 	 */
 	public void updateUI() {
 		for (int i = 0; i < playerTwoList.size(); i++) {
@@ -118,7 +118,7 @@ public class PlayerTwoManager {
 	}
 
 	/**
-	 * Method used to explicitly update animations
+	 * Method used to explicitly updates animations
 	 */
 	public void updateAnimation(long timePassed) {
 		for (int i = 0; i < playerTwoList.size(); i++) {

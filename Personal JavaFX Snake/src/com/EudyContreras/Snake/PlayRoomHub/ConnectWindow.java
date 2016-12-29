@@ -1,14 +1,12 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.UserInterface.MenuButtonStyles;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -18,16 +16,18 @@ import javafx.scene.shape.Rectangle;
 
 public class ConnectWindow extends StackPane{
 
+	private GameManager game;
 	private Rectangle background;
 	private Pane frame;
 	private HBox hBoxRegion;
 
 
-	public ConnectWindow() {
+	public ConnectWindow(GameManager game) {
 		super();
+		this.game = game;
 		this.hBoxRegion = new HBox(10);
 		this.frame = new StackPane();
-		this.frame.setPadding(new Insets(150,100,150,100));
+		this.frame.setPadding(new Insets(150,100,80,100));
 		this.frame.getChildren().add(hBoxRegion);
 		this.hBoxRegion.setAlignment(Pos.CENTER);
 		this.background = new Rectangle();

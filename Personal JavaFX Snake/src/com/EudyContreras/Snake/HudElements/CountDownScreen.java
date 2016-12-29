@@ -124,7 +124,7 @@ public class CountDownScreen {
 	}
 
 	/**
-	 * Resumes the countdown update
+	 * Resumes the countdown updates
 	 */
 	public void resumeCountdow() {
 		if (allowCountdown)
@@ -134,7 +134,7 @@ public class CountDownScreen {
 	}
 
 	/**
-	 * Stops the countdown update
+	 * Stops the countdown updates
 	 */
 	public void stopCountdown() {
 		if (!allowCountdown)

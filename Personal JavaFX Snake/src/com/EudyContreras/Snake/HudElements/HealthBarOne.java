@@ -86,7 +86,7 @@ public class HealthBarOne {
 	}
 
 	/**
-	 * Calls to this method which update
+	 * Calls to this method which updates
 	 * the draining and regeneration funcitonality
 	 * of this healthbar
 	 */

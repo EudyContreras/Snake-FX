@@ -27,7 +27,9 @@ public class SplashTest extends Application{
 		Rectangle[] tiles = new Rectangle[itemsToLoad];
 		root = new TilePane();
 		for (int i = 0; i < tiles.length; i++) {
-			tiles[i] = new Rectangle(25,25, randomColor());
+			tiles[i] = new Rectangle(40,40, randomColor(250,255,40,200,0,0));
+			tiles[i].setStroke(randomColor(240,250,120,230,0,0));
+			tiles[i].setStrokeWidth(2);
 		}
 		root.getChildren().addAll(tiles);
 	}
@@ -45,6 +47,10 @@ public class SplashTest extends Application{
 		return Color.rgb(0, getRandomColor(70, 155), getRandomColor(200, 255));
 	}
 
+	private Color randomColor(int startR, int endR, int startG, int endG, int startB, int endB) {
+		return Color.rgb(getRandomColor(startR, endR), getRandomColor(startG, endG), getRandomColor(startB, endB));
+	}
+	
 	public int getRandomColor(int minValue, int maxValue) {
 		Random rand = new Random();
 		int color = rand.nextInt(maxValue + 1 - minValue) + minValue;

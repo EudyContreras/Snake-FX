@@ -44,7 +44,7 @@ public class ShapeUtility {
 			stops[i] = new Stop(offset*i, colors[i]);
 		}
 
-		LinearGradient LINEAR_GRADIENT = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, stops);
+		LinearGradient LINEAR_GRADIENT = new LinearGradient(0, 0.2, 0, 1, true, CycleMethod.NO_CYCLE, stops);
 
 		return LINEAR_GRADIENT;
 	}

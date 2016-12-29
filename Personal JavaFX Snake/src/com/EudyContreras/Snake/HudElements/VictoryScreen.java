@@ -619,7 +619,7 @@ public class VictoryScreen extends AbstractHudElement {
 	}
 
 	/**
-	 * method used to both update the opacity of the main score board shown
+	 * method used to both updates the opacity of the main score board shown
 	 * after the game ends. This method also produces a transition which will
 	 * change the image shown each time the board reaches its minimum opacity
 	 * level

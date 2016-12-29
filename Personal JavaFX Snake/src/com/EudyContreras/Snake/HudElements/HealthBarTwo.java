@@ -87,7 +87,7 @@ public class HealthBarTwo {
 		this.game.getEleventhLayer().getChildren().add(playerHead);
 	}
 	/**
-	 * Calls to this method which update
+	 * Calls to this method which updates
 	 * the draining and regeneration funcitonality
 	 * of this healthbar
 	 */
