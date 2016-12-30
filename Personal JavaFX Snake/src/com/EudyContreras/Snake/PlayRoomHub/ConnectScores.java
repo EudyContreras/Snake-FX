@@ -3,7 +3,6 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import java.util.Collections;
 
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.ThreadManagers.ExecutorManager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,19 +13,17 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-public class ConnectUsers{
+public class ConnectScores{
 
 	private ObservableList<ConnectedUser> observableData;
 	private TableView<ConnectedUser> userTable;
 	private StackPane container;
-	private Rectangle shape;
 	private double width;
 	private double height;
 
 
-	public ConnectUsers(GameManager game){
+	public ConnectScores(GameManager game){
 		super();
 		initialize();
 		createColumns();
@@ -35,14 +32,10 @@ public class ConnectUsers{
 	private void initialize(){
 		container = new StackPane();
 		userTable = new TableView<>();
-		shape = new Rectangle();
-		shape.setArcHeight(25);
-		shape.setArcWidth(25);
-		container.setClip(shape);
 		setSize(490,500);
 		observableData = FXCollections.observableArrayList();
 		container.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
-		container.getStylesheets().add(ConnectUsers.class.getResource("connectUsers.css").toExternalForm());
+		container.getStylesheets().add(ConnectScores.class.getResource("connectUsers.css").toExternalForm());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -63,9 +56,9 @@ public class ConnectUsers{
         levelCol.setPrefWidth(100);
         levelCol.setCellValueFactory( new PropertyValueFactory<>("level"));
 
-        TableColumn<ConnectedUser, String> statusCol = new TableColumn<>("Status");
+        TableColumn<ConnectedUser, String> statusCol = new TableColumn<>("High Score");
         statusCol.setPrefWidth(100);
-        statusCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>("status"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>("score"));
 //        statusCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
 //            public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
 //                return new TableCell<ConnectedUser, String>() {
@@ -92,22 +85,19 @@ public class ConnectUsers{
 
         userTable.setItems(observableData);
 
-      	ConnectedUser[] users = new ConnectedUser[10000];
+        ConnectedUser[] users = new ConnectedUser[10000];
 
-        ExecutorManager.executeTask(()->{
+        for(int i = 0; i<users.length; i++){
+        	if(i%2==0 && i%5!=0){
+        		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.AVAILABLE);
+        	}else if(i%2!=0 && i%5!=0){
+        		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.PLAYING);
+        	}else if(i%5==0){
+        		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.UNAVAILABLE);
+        	}
+        }
 
-            for(int i = 0; i<users.length; i++){
-            	if(i%2==0 && i%5!=0){
-            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.AVAILABLE);
-            	}else if(i%2!=0 && i%5!=0){
-            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.PLAYING);
-            	}else if(i%5==0){
-            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.UNAVAILABLE);
-            	}
-            }
-
-            addUser(users);
-       });
+        addUser(users);
 
         userTable.setPickOnBounds(false);
 
@@ -118,22 +108,14 @@ public class ConnectUsers{
 		return container;
 	}
 
-	public void setWidth(double width) {
-		this.width = width;
-		shape.setWidth(width);
-		container.setPrefWidth(width);
-		container.setMaxWidth(width);
-	}
-
-	public void setHeight(double height) {
-		this.height = height;
-		shape.setHeight(height);
-		container.setPrefHeight(height);
-		container.setMaxHeight(height);
-	}
-
 	public double getWidth() {
 		return width;
+	}
+
+	public void setWidth(double width) {
+		this.width = width;
+		container.setPrefWidth(width);
+		container.setMaxWidth(width);
 	}
 
 	public double getHeight() {
@@ -143,10 +125,14 @@ public class ConnectUsers{
 	public void setSize(double width, double height) {
 		this.width = width;
 		this.height = height;
-		shape.setWidth(width);
-		shape.setHeight(height);
 		container.setPrefSize(width,height);
 		container.setMaxSize(width, height);
+	}
+
+	public void setHeight(double height) {
+		this.height = height;
+		container.setPrefHeight(height);
+		container.setMaxHeight(height);
 	}
 
 	public void addUser(ConnectedUser... user){

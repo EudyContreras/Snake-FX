@@ -126,7 +126,7 @@ public class ExecutorManager {
     	DefaultExecutorSupplier.getInstance().backgroundTasks().execute(task);
     }
 
-    public static void executeTask(TaskWrapper task){
+    public static void executeTaskW(TaskWrapper task){
     	DefaultExecutorSupplier.getInstance().backgroundTasks().execute(()-> task.doBackgroundWork());
     }
 

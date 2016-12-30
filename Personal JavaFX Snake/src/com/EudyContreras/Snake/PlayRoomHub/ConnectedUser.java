@@ -14,12 +14,23 @@ public class ConnectedUser {
 	private SimpleStringProperty name;
 	private SimpleStringProperty country;
 	private SimpleIntegerProperty level;
+	private SimpleIntegerProperty score;
 	private SimpleStringProperty status;
+
 
 	public ConnectedUser(int id, String name, String country, int level, String status) {
 		this.id = new SimpleIntegerProperty(id);
 		this.name = new SimpleStringProperty(name);
 		this.country = new SimpleStringProperty(country);
+		this.level = new SimpleIntegerProperty(level);
+		this.status = new SimpleStringProperty(status);
+	}
+
+	public ConnectedUser(int id, String name, String country, int level, int score, String status) {
+		this.id = new SimpleIntegerProperty(id);
+		this.name = new SimpleStringProperty(name);
+		this.country = new SimpleStringProperty(country);
+		this.score = new SimpleIntegerProperty(score);
 		this.level = new SimpleIntegerProperty(level);
 		this.status = new SimpleStringProperty(status);
 	}
@@ -54,6 +65,14 @@ public class ConnectedUser {
 
 	public void setLevel(int level){
 		this.level.set(level);
+	}
+
+	public int getScore(){
+		return score.get();
+	}
+
+	public void setScore(int score){
+		this.score.set(score);
 	}
 
 	public String getStatus(){

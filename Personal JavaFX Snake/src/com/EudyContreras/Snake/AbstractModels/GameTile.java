@@ -3,6 +3,7 @@ package com.EudyContreras.Snake.AbstractModels;
 
 import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.PathFindingAI.CellNode;
+
 import javafx.geometry.Bounds;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;

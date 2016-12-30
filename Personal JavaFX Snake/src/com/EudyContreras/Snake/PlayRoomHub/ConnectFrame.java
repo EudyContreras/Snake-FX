@@ -38,17 +38,16 @@ public class ConnectFrame{
 	    this.label.setFrameOpacity(50.0);
 	    this.label.setFrameSize(width-20, 50);
 	    this.label.setTextSize(40);
-	    this.label.setBorderColor(Color.TRANSPARENT);
-	    this.label.setTextGlow(GlowType.PULSING);
+	    this.label.setTextGlow(GlowType.STATIC);
 		this.background.setStroke(Color.DARKGRAY);
 		this.background.setStrokeWidth(7);
 		this.background.setArcHeight(50);
 		this.background.setArcWidth(50);
-		this.mainContainer.getChildren().addAll(background);
-		this.mainContainer.getChildren().add(layout);
 		this.layout.setAlignment(Pos.CENTER);
 		this.layout.getChildren().add(label.get());
 		this.layout.getChildren().add(container);
+		this.mainContainer.getChildren().addAll(background);
+		this.mainContainer.getChildren().add(layout);
 		this.background.setWidth(mainContainer.getWidth());
 		this.background.setHeight(mainContainer.getHeight());
 		setFrameGradient(Color.GRAY.brighter(),Color.SILVER.brighter(),Color.GRAY);
@@ -83,6 +82,22 @@ public class ConnectFrame{
 		container.setTranslateY((GameSettings.HEIGHT / 2 - background.getHeight() / 2) + offsetY);
 	}
 
+	public void setLabel(String label){
+		this.label.setText(label);
+	}
+
+	public void activate(boolean state){
+		if(state){
+			label.setStyle(Style.BLUE_STYLE);
+			label.setTextGlow(GlowType.STATIC);
+//			label.setTextInnerShadow(false);
+		}else{
+			label.setStyle(Style.SILVER_STYLE);
+			label.setTextGlow(GlowType.NONE);
+//			label.setTextInnerShadow(true);
+		}
+	}
+
 	public StackPane get(){
 		return mainContainer;
 	}
@@ -95,7 +110,7 @@ public class ConnectFrame{
 		return background;
 	}
 
-	public void addForeground(Pane node) {
+	public void addRegion(Pane node) {
 		container.getChildren().add(node);
 		background.setWidth(mainContainer.getWidth()+20);
 		background.setHeight(mainContainer.getHeight()+20);

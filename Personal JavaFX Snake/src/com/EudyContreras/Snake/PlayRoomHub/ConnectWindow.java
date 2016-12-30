@@ -25,22 +25,22 @@ public class ConnectWindow extends StackPane{
 	public ConnectWindow(GameManager game) {
 		super();
 		this.game = game;
-		this.hBoxRegion = new HBox(10);
+		this.hBoxRegion = new HBox(20);
 		this.frame = new StackPane();
-		this.frame.setPadding(new Insets(150,100,80,100));
+		this.frame.setPadding(new Insets(160,100,80,100));
 		this.frame.getChildren().add(hBoxRegion);
 		this.hBoxRegion.setAlignment(Pos.CENTER);
 		this.background = new Rectangle();
 		this.background.setWidth(GameSettings.WIDTH-300);
-		this.background.setHeight(GameSettings.HEIGHT-300);
+		this.background.setHeight(GameSettings.HEIGHT-50);
 		this.background.setStyle(MenuButtonStyles.FX_CONNECT_BOX_STYLE);
 		this.background.setStroke(Color.rgb(215, 215, 215));
 		this.background.setStrokeWidth(7);
 		this.background.setFill(Color.BLACK);
-		this.background.setArcHeight(50);
-		this.background.setArcWidth(50);
+		this.background.setArcHeight(90);
+		this.background.setArcWidth(90);
 		setTranslateX(GameSettings.WIDTH / 2 - background.getWidth()/2);
-		setTranslateY(-background.getHeight()-50);
+		setTranslateY(-background.getHeight()-60);
 		getChildren().addAll(background,frame);
 	}
 

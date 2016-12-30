@@ -54,7 +54,10 @@ public class ConnectLabel {
 		this.background.heightProperty().bind(container.heightProperty());
 		this.background.setStyle(MenuButtonStyles.FX_CONNECT_BOX_STYLE);
 		this.text.setFont(Font.font("AR DESTINE", FontWeight.EXTRA_BOLD, size));
-		this.text.setStroke(getColor(style).darker());
+		this.shadow.setOffsetX(0);
+		this.shadow.setOffsetY(0);
+		this.shadow.setRadius(2);
+		this.shadow.setColor(Color.color(0, 0, 0,1));
 		this.glow.setOffsetX(0);
 		this.glow.setOffsetY(0);
 		this.glow.setRadius(4);
@@ -97,11 +100,9 @@ public class ConnectLabel {
 
 	public void setTextInnerShadow(boolean state){
 		if(state){
-			glow.setInput(shadow);
-			text.setEffect(glow);
+			text.setEffect(shadow);
 		}else{
-			glow.setInput(null);
-			text.setEffect(glow);
+			text.setEffect(null);
 		}
 	}
 	public void setText(String text){
@@ -114,23 +115,22 @@ public class ConnectLabel {
 			text.setEffect(null);
 			break;
 		case PULSING:
-			glow.setSpread(0.5);
-			game.performUIUpdate(()->{
+			glow.setSpread(0.3);
+			text.setEffect(glow);
+			game.performGUIUpdate(()->{
 				glow.setRadius(glowValue);
-				text.setEffect(glow);
 				glowValue+=glowPulse;
-				if(glowValue>=30){
+				if(glowValue>=18){
 					glowPulse = -0.2;
 				}
-				if(glowValue<=10){
+				if(glowValue<=5){
 					glowPulse = 0.2;
 				}
-
 			});
 			break;
 		case STATIC:
-			glow.setSpread(0.5);
-			glow.setRadius(20);
+			glow.setSpread(0.4);
+			glow.setRadius(10);
 			text.setEffect(glow);
 			break;
 		}
@@ -138,6 +138,7 @@ public class ConnectLabel {
 
 	public void setStyle(Style style){
 		this.text.setStyle(getStyle(style));
+		this.text.setStroke(getColor(style).darker());
 		this.glow.setColor(getColor(style));
 		this.text.setEffect(glow);
 	}
@@ -149,10 +150,10 @@ public class ConnectLabel {
 	}
 
 	private String getStyle(Style style){
-		String blueStyle = "-fx-fill:  linear-gradient(cyan , dodgerblue);";
-		String yellowStyle = "-fx-fill:  linear-gradient(yellow , orange );";
-		String silverStyle = "-fx-fill:  linear-gradient(silver , darkgray);";
-		String darkStyle = "-fx-fill:  linear-gradient(silver , black);";
+		String blueStyle = "-fx-fill:  linear-gradient(cyan, dodgerblue);";
+		String yellowStyle = "-fx-fill:  linear-gradient(yellow, orange );";
+		String silverStyle = "-fx-fill:  linear-gradient(silver, gray);";
+		String darkStyle = "-fx-fill:  linear-gradient(silver, black);";
 
 		switch(style){
 		case BLUE_STYLE:
@@ -174,7 +175,7 @@ public class ConnectLabel {
 		case DARK_STYLE:
 			return Color.rgb(0, 0, 0);
 		case SILVER_STYLE:
-			return Color.rgb(100, 100, 100);
+			return Color.rgb(180, 180, 180);
 		case YELLOW_STYLE:
 			return Color.rgb(250, 175, 0);
 		}

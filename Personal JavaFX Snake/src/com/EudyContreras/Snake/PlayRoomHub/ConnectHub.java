@@ -39,8 +39,10 @@ public class ConnectHub {
 	private TranslateTransition hubTransition;
 	private TranslateTransition frameTransition;
 	private ConnectUsers connectUsers;
+	private ConnectFriends connectFriends;
 	private ConnectProfile connectProfile;
 	private ConnectFrame usersFrame;
+	private ConnectFrame friendsFrame;
 	private ConnectWindow connectWindow;
 	private DropShadow shadow = new DropShadow();
 	private Rectangle hubBar = new Rectangle();
@@ -65,8 +67,10 @@ public class ConnectHub {
 		this.shadow.setOffsetY(15);
 		this.hubTransition = new TranslateTransition();
 		this.frameTransition = new TranslateTransition();
+		this.connectFriends = new ConnectFriends(game);
 		this.connectWindow = new ConnectWindow(game);
 		this.connectUsers = new ConnectUsers(game);
+		this.friendsFrame = new ConnectFrame(game);
 		this.usersFrame = new ConnectFrame(game);
 		this.window = new Group();
 		this.sections = new HBox(20);
@@ -82,12 +86,15 @@ public class ConnectHub {
 	}
 
 	private void profileSection(){
-
-        usersFrame.addForeground(connectUsers.get());
+		friendsFrame.setLabel("Friends");
+		friendsFrame.addRegion(connectFriends.get());
+        usersFrame.addRegion(connectUsers.get());
+        friendsFrame.setFrameSize(connectFriends.getWidth()+20, connectFriends.getHeight()+100);
         usersFrame.setFrameSize(connectUsers.getWidth()+20, connectUsers.getHeight()+100);
 		connectProfile = new ConnectProfile(game,"Eudy Contreras","28","Sweden");
 
 
+		sections.getChildren().add(friendsFrame.get());
 		sections.getChildren().add(usersFrame.get());
 		sections.getChildren().add(connectProfile);
 		connectWindow.addNodeToRegion(sections);
@@ -176,7 +183,7 @@ public class ConnectHub {
 		hubTransition.play();
 
 		frameTransition.setDuration(Duration.millis(250));
-		frameTransition.setToY(0);
+		frameTransition.setToY(-10);
 		frameTransition.play();
 
 		hubTransition.setOnFinished(e->{

@@ -83,7 +83,7 @@ public class MenuManager extends AbstractMenuElement{
 			}
 		});
 
-		valueAnimator2.setOnFinished(()->valueAnimator.play());
+//		valueAnimator2.setOnFinished(()->valueAnimator.play());
 		valueAnimator2.play();
 	}
 
@@ -104,7 +104,7 @@ public class MenuManager extends AbstractMenuElement{
 			}
 		});
 
-		valueAnimator2.setOnFinished(()->valueAnimator.play());
+//		valueAnimator2.setOnFinished(()->valueAnimator.play());
 		valueAnimator2.play();
 	}
 

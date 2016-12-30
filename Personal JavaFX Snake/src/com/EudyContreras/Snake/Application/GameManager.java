@@ -87,7 +87,7 @@ import javafx.util.Duration;
  */
 public class GameManager extends AbstractGameModel {
 
-    private LinkedList<TaskWrapper> uiUpdates = new LinkedList<>();
+    private LinkedList<TaskWrapper> guiUpdate = new LinkedList<>();
     private LinkedList<TaskWrapper> gameUpdates = new LinkedList<>();
 
     public void start(Stage primaryStage) {
@@ -414,8 +414,8 @@ public class GameManager extends AbstractGameModel {
         gameUpdates.add(update);
     }
 
-    public void performUIUpdate(TaskWrapper update){
-    	uiUpdates.add(update);
+    public void performGUIUpdate(TaskWrapper update){
+    	guiUpdate.add(update);
     }
 
     public void closeGame() {
@@ -478,11 +478,10 @@ public class GameManager extends AbstractGameModel {
                     if (!GameSettings.RENDER_GAME) {
                         menuManager.transition();
 
-                        if (!uiUpdates.isEmpty()){
-                            uiUpdates.stream().forEach(update-> update.doBackgroundWork());
+                        if (!guiUpdate.isEmpty()){
+                            guiUpdate.stream().forEach(update-> update.doBackgroundWork());
                         }
-                    }
-                    if (GameSettings.RENDER_GAME) {
+                    }if (GameSettings.RENDER_GAME) {
 
                         if (!gameUpdates.isEmpty()){
                             gameUpdates.stream().forEach(update-> update.doBackgroundWork());
