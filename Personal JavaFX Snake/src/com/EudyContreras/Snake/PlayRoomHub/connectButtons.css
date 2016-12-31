@@ -7,38 +7,45 @@
 }
 
 #btnPlay{
-	-fx-background-color:  linear-gradient(rgb(170,170,170), rgb(100.0,100.0,100.0) );
+	-fx-background-color: linear-gradient(rgb(0,170,255), rgb(0,80,170) );
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
     -fx-text-fill: white;
-    -fx-stroke: black;
-    -fx-border-color: black;
 }
 
 #btnUnfriend{
-	-fx-background-color:  linear-gradient(rgb(170,170,170), rgb(100.0,100.0,100.0) );
+	-fx-background-color: linear-gradient(rgb(255,0,0), rgb(130,0,0) );
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
     -fx-text-fill: white;
-    -fx-stroke: black;
-    -fx-border-color: black;
 }
 
 #btnChat{
-	-fx-background-color:  linear-gradient(rgb(170,170,170), rgb(100.0,100.0,100.0) );
+	-fx-background-color: linear-gradient(rgb(0,250,100), rgb(0,140,50) );
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
     -fx-text-fill: white;
-    -fx-stroke: black;
-    -fx-border-color: black;
-}
-
-#btnChat{
-	-fx-background-color:  linear-gradient(rgb(170,170,170), rgb(100.0,100.0,100.0) );
-    -fx-text-fill: white;
-    -fx-stroke: black;
-    -fx-border-color: black;
 }
 
 #button{
-	-fx-background-color:  linear-gradient(rgb(170,170,170), rgb(100.0,100.0,100.0) );
-    -fx-text-fill: white;
+ 	-fx-background-color:
+        linear-gradient(rgb(185,185,185), rgb(115,115,115)),
+        linear-gradient(rgb(195,195,195), rgb(115,115,115)),
+        linear-gradient(rgb(205,205,205), rgb(115,115,115)),
+        linear-gradient(rgb(215,215,215) 0%, rgb(195,195,195) 50%, rgb(120,120,120) 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+
+
+	/*-fx-background-color: linear-gradient(yellow, orange);
+	-fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: black;
     -fx-stroke: black;
-    -fx-border-color: black;
+    -fx-border-color: black;*/
 }
 
 #btnPlay:hover{

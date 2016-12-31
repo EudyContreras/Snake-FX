@@ -1,5 +1,6 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -14,9 +15,21 @@ public class ConnectedUser {
 	private SimpleStringProperty name;
 	private SimpleStringProperty country;
 	private SimpleIntegerProperty level;
-	private SimpleIntegerProperty score;
+	private SimpleIntegerProperty highScore;
+	private SimpleIntegerProperty goldenApples;
+	private SimpleDoubleProperty winLooseRatio;
 	private SimpleStringProperty status;
 
+	public ConnectedUser() {
+		this.id = new SimpleIntegerProperty(0);
+		this.name = new SimpleStringProperty("Unknown");
+		this.country = new SimpleStringProperty("Unknown");
+		this.level = new SimpleIntegerProperty(0);
+		this.status = new SimpleStringProperty("Unknown");
+		this.highScore = new SimpleIntegerProperty(0);
+		this.goldenApples = new SimpleIntegerProperty(0);
+		this.winLooseRatio = new SimpleDoubleProperty(0);
+	}
 
 	public ConnectedUser(int id, String name, String country, int level, String status) {
 		this.id = new SimpleIntegerProperty(id);
@@ -24,15 +37,9 @@ public class ConnectedUser {
 		this.country = new SimpleStringProperty(country);
 		this.level = new SimpleIntegerProperty(level);
 		this.status = new SimpleStringProperty(status);
-	}
-
-	public ConnectedUser(int id, String name, String country, int level, int score, String status) {
-		this.id = new SimpleIntegerProperty(id);
-		this.name = new SimpleStringProperty(name);
-		this.country = new SimpleStringProperty(country);
-		this.score = new SimpleIntegerProperty(score);
-		this.level = new SimpleIntegerProperty(level);
-		this.status = new SimpleStringProperty(status);
+		this.highScore = new SimpleIntegerProperty(0);
+		this.goldenApples = new SimpleIntegerProperty(0);
+		this.winLooseRatio = new SimpleDoubleProperty(0);
 	}
 
 	public int getId() {
@@ -67,12 +74,28 @@ public class ConnectedUser {
 		this.level.set(level);
 	}
 
-	public int getScore(){
-		return score.get();
+	public int getGoldenApples(){
+		return goldenApples.get();
 	}
 
-	public void setScore(int score){
-		this.score.set(score);
+	public void setGoldenApples(int apples){
+		this.goldenApples.set(apples);
+	}
+
+	public double getWinLooseRatio(){
+		return winLooseRatio.get();
+	}
+
+	public void setWinLooseRatio(double ratio){
+		this.winLooseRatio.set(ratio);
+	}
+
+	public int getHighScore(){
+		return highScore.get();
+	}
+
+	public void setHighScore(int score){
+		this.highScore.set(score);
 	}
 
 	public String getStatus(){

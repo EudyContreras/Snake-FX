@@ -3,9 +3,6 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.UserInterface.MenuButtonStyles;
 import com.EudyContreras.Snake.Utilities.ShapeUtility;
-import com.EudyContreras.Snake.Utilities.ValueAnimator;
-import com.EudyContreras.Snake.Utilities.ValueWrapper;
-
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;

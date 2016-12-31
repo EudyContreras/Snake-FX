@@ -22,6 +22,12 @@
     -fx-background-color: transparent;
 }
 
+.table-view .row-header,
+.table-view .row-header .filler,
+.table-view .row-header-background .filler {
+    -fx-background-color: transparent;
+}
+
 .table-view:focused{
     -fx-background-color: transparent;
 }
@@ -51,8 +57,7 @@
     -fx-text-fill: white;
     -fx-font-weight:bold;
     -fx-font-size:14.0px;
- 	-fx-border-color: transparent;
- 	-fx-padding: 0.0em;
+ 	-fx-border-color: transparent
 }
 
 .table-row-cell{
@@ -69,7 +74,13 @@
 }
 
 .table-row-cell:selected {
-    -fx-background-color: linear-gradient(cyan, dodgerblue);
+    -fx-background-color: -fx-table-cell-border-color, rgb(100.0,100.0,100.0);
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 1.0;
+}
+
+.table-row-cell:odd:selected {
+    -fx-background-color: -fx-table-cell-border-color, rgb(120.0,120.0,120.0);
     -fx-background-insets: 0.0;
     -fx-background-radius: 1.0;
 }

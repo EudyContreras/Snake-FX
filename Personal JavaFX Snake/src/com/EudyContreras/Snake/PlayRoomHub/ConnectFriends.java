@@ -3,20 +3,30 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import java.util.Collections;
 
 import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayRoomHub.ConnectButtons.Alignment;
+import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
+import com.EudyContreras.Snake.Utilities.ShapeUtility;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
 
 public class ConnectFriends{
@@ -32,6 +42,7 @@ public class ConnectFriends{
 	public ConnectFriends(GameManager game){
 		super();
 		initialize();
+		setSize(420,330);
 		createColumns();
 	}
 
@@ -43,7 +54,6 @@ public class ConnectFriends{
 		shape.setArcHeight(25);
 		shape.setArcWidth(25);
 		container.setClip(shape);
-		setSize(420,500);
 		observableData = FXCollections.observableArrayList();
 		container.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
 		container.getStylesheets().add(ConnectFriends.class.getResource("connectFriends.css").toExternalForm());
@@ -52,13 +62,75 @@ public class ConnectFriends{
 
 	@SuppressWarnings("unchecked")
 	private void createColumns(){
-        TableColumn<ConnectedUser, String> nameCol = new TableColumn<>("Name");
-        nameCol.setPrefWidth(100);
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<ConnectedUser, Integer> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setPrefWidth(60);
+        idCol.setCellFactory(new Callback<TableColumn<ConnectedUser,Integer>,TableCell<ConnectedUser,Integer>>(){
+        	@Override
+        	public TableCell<ConnectedUser, Integer> call(TableColumn<ConnectedUser, Integer> param) {
+        		return new TableCell<ConnectedUser, Integer>(){
+
+        			@Override
+        			public void updateItem(Integer item, boolean empty) {
+        				if(item!=null){
+        					setFont(Font.font(null,FontWeight.EXTRA_BOLD,22));
+        					setTextFill(Color.WHITE);
+        					setText(item+"");
+        				}
+        			}
+        		};
+        	}
+        });
+
+        
+        TableColumn<ConnectedUser, String> userInfo = new TableColumn<>("Player");
+        userInfo.setCellValueFactory(new PropertyValueFactory<>("name"));
+        userInfo.setCellFactory(new Callback<TableColumn<ConnectedUser,String>,TableCell<ConnectedUser,String>>(){
+        	@Override
+        	public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
+        		return new TableCell<ConnectedUser, String>(){
+        			ImageView imageView = new ImageView();
+        			@Override
+        			public void updateItem(String item, boolean empty) {
+        				if(item!=null){
+        					ConnectedUser user = getTableView().getItems().get(getIndex());
+        					HBox hBox= new HBox();
+        					VBox vBox = new VBox();
+        					GameLabel name = new GameLabel(user.getName());
+        					GameLabel country = new GameLabel(user.getCountry());
+        					GameLabel level = new GameLabel(user.getLevel()+"");
+
+        					name.setFill(user.getName(), Color.WHITE.brighter());
+        					name.setFont(user.getName(), Font.font(null,FontWeight.EXTRA_BOLD,16));
+        					country.setFill(user.getCountry(), Color.WHITE.brighter());
+        					country.setFont(user.getCountry(), Font.font(12));
+        					level.setFill(user.getLevel()+"", Color.WHITE.brighter());
+        					level.setFont(user.getLevel()+"", Font.font(12));
+        					
+        					hBox.setSpacing(10) ;
+        					vBox.setSpacing(0);
+        					vBox.getChildren().add(name.get());
+        					vBox.getChildren().add(country.get());
+        					vBox.getChildren().add(level.get());
+
+        					imageView.setImage(GameImageBank.profile_default_male);
+        					imageView.setPreserveRatio(true);
+        					imageView.setFitHeight(60);
+        					imageView.setFitWidth(60);
+
+        					hBox.getChildren().addAll(imageView,vBox);
+//        					setBackground(ShapeUtility.PAINT_FILL(ShapeUtility.LINEAR_GRADIENT(Color.BLACK)));
+        					setPadding(new Insets(0,30,0,30));
+        					setGraphic(hBox);
+        				}
+        			}
+        		};
+        	}
+        });
 
         TableColumn<ConnectedUser, String> actionCol = new TableColumn<>( "Action" );
         actionCol.setCellValueFactory( new PropertyValueFactory<>( "action" ) );
-        actionCol.setMinWidth(140);
         actionCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
 			@Override
 			public TableCell<ConnectedUser, String> call(final TableColumn<ConnectedUser, String> param) {
@@ -98,49 +170,69 @@ public class ConnectFriends{
 
 
         TableColumn<ConnectedUser, String> statusCol = new TableColumn<>("Status");
-        statusCol.setPrefWidth(90);
+        statusCol.setMinWidth(100);
         statusCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>("status"));
-//        statusCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
-//            public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
-//                return new TableCell<ConnectedUser, String>() {
-//
-//                	final StatusIndicator circle = new StatusIndicator(10);
-//
-//                    @Override
-//                    public void updateItem(final String status, boolean empty) {
-//                        super.updateItem(status, empty);
-//                        if (!isEmpty()) {
-//                            if(status!=null){
-//                            	setGraphic(circle.getIndicator(status));
-//                            }else{
-//                            	setGraphic(circle.getIndicator(ConnectedUser.UNAVAILABLE));
-//                            }
-//                        }else{
-//                        	setGraphic(null);
-//                        }
-//                    }
-//                };
-//            }
-//        });
-//
-//    	ConnectedUser[] users = new ConnectedUser[10];
-//
-//        ExecutorManager.executeTask(()->{
-//
-//            for(int i = 0; i<users.length; i++){
-//            	if(i%2==0 && i%5!=0){
-//            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.AVAILABLE);
-//            	}else if(i%2!=0 && i%5!=0){
-//            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.PLAYING);
-//            	}else if(i%5==0){
-//            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.UNAVAILABLE);
-//            	}
-//            }
-//
-//            addUser(users);
-//       });;
+        statusCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
+            public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
+                return new TableCell<ConnectedUser, String>() {
 
-        userTable.getColumns().addAll(nameCol, statusCol, actionCol);
+                	final StatusIndicator circle = new StatusIndicator(10);
+
+                    @Override
+                    public void updateItem(final String status, boolean empty) {
+                        super.updateItem(status, empty);
+                        if (!isEmpty()) {
+                            if(status!=null){
+                            	setGraphic(circle.getIndicator(status));
+                            }else{
+                            	setGraphic(circle.getIndicator(ConnectedUser.UNAVAILABLE));
+                            }
+                        }else{
+                        	setGraphic(null);
+                        }
+                    }
+                };
+            }
+        });
+        
+        TableColumn<ConnectedUser, String> checkCol = new TableColumn<>("");
+        checkCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>(""));
+        checkCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
+            public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
+                return new TableCell<ConnectedUser, String>() {
+
+                    @Override
+                    public void updateItem(final String status, boolean empty) {
+                        super.updateItem(status, empty);
+                        if (!isEmpty()) {
+                        	CheckBox checkBox = new CheckBox();
+                        	setGraphic(checkBox);
+                        }else{
+                        	setGraphic(null);
+                        }
+                    }
+                };
+            }
+        });
+
+    	ConnectedUser[] users = new ConnectedUser[10];
+
+        ThreadManager.performeScript(()->{
+
+            for(int i = 0; i<users.length; i++){
+            	if(i%2==0 && i%5!=0){
+            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.AVAILABLE);
+            	}else if(i%2!=0 && i%5!=0){
+            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.PLAYING);
+            	}else if(i%5==0){
+            		users[i] = new ConnectedUser(i, "User"+i, "Nowhere", i, ConnectedUser.UNAVAILABLE);
+            	}
+            }
+
+            addUser(users);
+       });
+
+        userTable.getColumns().addAll(idCol, userInfo, statusCol, checkCol);
 
         userTable.setItems(observableData);
 

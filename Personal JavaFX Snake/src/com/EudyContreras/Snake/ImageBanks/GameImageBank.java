@@ -177,7 +177,9 @@ import javafx.scene.shape.Circle;
 		 * general game object
 		 */
 			public static final Image apple = new Image(ImageLoadingUtility.loadResource("apple.png"));
+			public static final Image apple_gold = new Image(ImageLoadingUtility.loadResource("apple_golden.png"));
 			public static final Image apple_alt = new Image(ImageLoadingUtility.loadResource("apple_alt.png"));
+			public static final Image award_icon_gold = new Image(ImageLoadingUtility.loadResource("award_icon_gold.png"));
 			public static final Image classicSnakeHead = ImageEffectUtility.preCreateShadedCircle(Color.LIME, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);
 			public static final Image classicSnakeBody = ImageEffectUtility.preCreateShadedCircle(Color.GREEN, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, 30);
 			public static final Image classicSnakeBodyDebris = ImageEffectUtility.preCreateAlternateGlowingCircle(Color.GREEN,1, 300, 0.2, GameSettings.PLAYER_ONE_SIZE*5);
@@ -187,6 +189,8 @@ import javafx.scene.shape.Circle;
 
 			public static final Image play_room_hub_bar = new Image(ImageLoadingUtility.loadResource("connect_hub.png"));
 			public static final Image default_user_pic = new Image(ImageLoadingUtility.loadResource("default-user.png"));
+			public static final Image profile_default_male = new Image(ImageLoadingUtility.loadResource("user_placeholder_male.png"));
+			public static final Image profile_default_female = new Image(ImageLoadingUtility.loadResource("user_placeholder_female.png"));
 			public static final Image play_engine_logo = new Image(ImageLoadingUtility.loadResource("fx_play_engine_logo.png"));
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

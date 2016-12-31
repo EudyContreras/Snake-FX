@@ -6,36 +6,36 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 
 public class StatusIndicator extends Circle{
 
-	private LinearGradient gradient;
+	private RadialGradient gradient;
 	private DropShadow dropShadow = new DropShadow();
 	private InnerShadow innerShadow = new InnerShadow();
 
 
 	public StatusIndicator(double radius){
 		super(radius);
-		innerShadow.setBlurType(BlurType.GAUSSIAN);
-		innerShadow.setOffsetY(5);
+		innerShadow.setBlurType(BlurType.ONE_PASS_BOX);
+		innerShadow.setOffsetY(0);
 		innerShadow.setRadius(5);
 		dropShadow.setRadius(5);
 		dropShadow.setOffsetX(0);
 		dropShadow.setOffsetX(0);
-		dropShadow.setBlurType(BlurType.GAUSSIAN);
+		dropShadow.setBlurType(BlurType.ONE_PASS_BOX);
 		dropShadow.setInput(innerShadow);
 	}
 
 	public StatusIndicator getIndicator(String status){
+		String colorValue;
 		switch(status){
     	case ConnectedUser.AVAILABLE:
-    		gradient = new LinearGradient(0, 18, 0, 110,
-                    false, CycleMethod.NO_CYCLE,
-                    new Stop(0.0, Color.rgb(0,100,250)),
-                    new Stop(1.0, Color.rgb(0,70,150)));
-
+    		colorValue = "radial-gradient(focus-angle 45deg, focus-distance 50%, " +
+    				"center 50% 50%, radius 50%, cyan 0%, dodgerblue 100%)";
+    		gradient = RadialGradient.valueOf(colorValue);
 
     		innerShadow.setColor(Color.color(0, 0, 0, 1));
 
@@ -46,12 +46,9 @@ public class StatusIndicator extends Circle{
 
     		break;
     	case ConnectedUser.UNAVAILABLE:
-
-    		gradient = new LinearGradient(0, 18, 0, 110,
-                    false, CycleMethod.NO_CYCLE,
-                    new Stop(0.0, Color.rgb(250, 0, 0)),
-                    new Stop(1.0, Color.rgb(100, 0, 0)));
-
+    		colorValue = "radial-gradient(focus-angle 45deg, focus-distance 50%, " +
+    				"center 50% 50%, radius 50%, red 0%, rgb(150,0,0) 100%)";
+    		gradient = RadialGradient.valueOf(colorValue);
 
     		innerShadow.setColor(Color.color(0, 0, 0, 1));
 
@@ -62,11 +59,9 @@ public class StatusIndicator extends Circle{
 
     		break;
     	case ConnectedUser.PLAYING:
-    		gradient = new LinearGradient(0, 18, 0, 110,
-                    false, CycleMethod.NO_CYCLE,
-                    new Stop(0.0, Color.rgb(0,100,250)),
-                    new Stop(1.0, Color.rgb(0,70,150)));
-
+    		colorValue = "radial-gradient(focus-angle 45deg, focus-distance 50%, " +
+    				"center 50% 50%, radius 50%, yellow 0%, orange 100%)";
+    		gradient = RadialGradient.valueOf(colorValue);
 
     		innerShadow.setColor(Color.color(0, 0, 0, 1));
 

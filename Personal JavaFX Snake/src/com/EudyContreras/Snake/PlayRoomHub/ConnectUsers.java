@@ -4,9 +4,11 @@ import java.util.Collections;
 
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.ThreadManagers.ExecutorManager;
+import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,6 +17,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Callback;
 
 public class ConnectUsers{
 
@@ -29,6 +32,7 @@ public class ConnectUsers{
 	public ConnectUsers(GameManager game){
 		super();
 		initialize();
+		setSize(475,375);
 		createColumns();
 	}
 
@@ -39,7 +43,6 @@ public class ConnectUsers{
 		shape.setArcHeight(25);
 		shape.setArcWidth(25);
 		container.setClip(shape);
-		setSize(490,500);
 		observableData = FXCollections.observableArrayList();
 		container.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
 		container.getStylesheets().add(ConnectUsers.class.getResource("connectUsers.css").toExternalForm());
@@ -64,28 +67,32 @@ public class ConnectUsers{
         levelCol.setCellValueFactory( new PropertyValueFactory<>("level"));
 
         TableColumn<ConnectedUser, String> statusCol = new TableColumn<>("Status");
-        statusCol.setPrefWidth(100);
+        statusCol.setPrefWidth(85);
         statusCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>("status"));
-//        statusCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
-//            public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
-//                return new TableCell<ConnectedUser, String>() {
-//
-//                	final StatusIndicator circle = new StatusIndicator(10);
-//
-//                    @Override
-//                    public void updateItem(final String status, boolean empty) {
-//                        super.updateItem(status, empty);
-//                        if (!isEmpty()) {
-//                            if(status!=null){
-//                            	setGraphic(circle.getIndicator(status));
-//                            }
-//                        }else{
-//                        	setGraphic(circle.getIndicator(ConnectedUser.UNAVAILABLE));
-//                        }
-//                    }
-//                };
-//            }
-//        });
+        statusCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
+            public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
+                return new TableCell<ConnectedUser, String>() {
+                    @Override
+                    public void updateItem(final String status, boolean empty) {
+                        super.updateItem(status, empty);
+                        if (!isEmpty()) {
+							if (status != null) {
+//								HBox container = new HBox(10);
+//								Text text = new Text(status);
+								StatusIndicator circle = new StatusIndicator(10);
+								circle.getIndicator(status);
+//								text.setFill(Color.WHITE);
+//								container.setAlignment(Pos.CENTER_LEFT);
+//								container.getChildren().addAll(circle, text);
+								setGraphic(circle);
+//								setTextAlignment(TextAlignment.LEFT);
+//								setAlignment(Pos.CENTER_LEFT);
+                            }
+                        }
+                    }
+                };
+            }
+        });
 
 
         userTable.getColumns().addAll(idCol, nameCol, countryCol, levelCol, statusCol);
@@ -94,7 +101,7 @@ public class ConnectUsers{
 
       	ConnectedUser[] users = new ConnectedUser[10000];
 
-        ExecutorManager.executeTask(()->{
+      	 ThreadManager.performeScript(()->{
 
             for(int i = 0; i<users.length; i++){
             	if(i%2==0 && i%5!=0){

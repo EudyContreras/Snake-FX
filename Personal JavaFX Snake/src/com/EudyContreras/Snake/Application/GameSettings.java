@@ -106,7 +106,7 @@ public class GameSettings {
 	public static boolean ALLOW_ROCK_COLLISION = true;
 	public static boolean ALLOW_FAST_TURNS = false;
 
-	public static boolean ALLOW_DIRT = false;
+	public static boolean ALLOW_DIRT = true;
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 

@@ -46,7 +46,7 @@ public class ConnectFrame{
 		this.layout.setAlignment(Pos.CENTER);
 		this.layout.getChildren().add(label.get());
 		this.layout.getChildren().add(container);
-		this.mainContainer.getChildren().addAll(background);
+		this.mainContainer.getChildren().add(background);
 		this.mainContainer.getChildren().add(layout);
 		this.background.setWidth(mainContainer.getWidth());
 		this.background.setHeight(mainContainer.getHeight());
@@ -64,6 +64,10 @@ public class ConnectFrame{
 
 	public void setBorderColor(Paint fill){
 		this.background.setStroke(fill);
+	}
+
+	public void setButtons(GameButton buttons){
+		this.layout.getChildren().add(buttons.get());
 	}
 
 	public void setFrameSize(double width, double height) {
@@ -90,11 +94,9 @@ public class ConnectFrame{
 		if(state){
 			label.setStyle(Style.BLUE_STYLE);
 			label.setTextGlow(GlowType.STATIC);
-//			label.setTextInnerShadow(false);
 		}else{
 			label.setStyle(Style.SILVER_STYLE);
 			label.setTextGlow(GlowType.NONE);
-//			label.setTextInnerShadow(true);
 		}
 	}
 
@@ -112,6 +114,13 @@ public class ConnectFrame{
 
 	public void addRegion(Pane node) {
 		container.getChildren().add(node);
+		background.setWidth(mainContainer.getWidth()+20);
+		background.setHeight(mainContainer.getHeight()+20);
+	}
+
+	public void addRegionToMan(Pane node) {
+		mainContainer.getChildren().remove(layout);
+		mainContainer.getChildren().add(node);
 		background.setWidth(mainContainer.getWidth()+20);
 		background.setHeight(mainContainer.getHeight()+20);
 	}

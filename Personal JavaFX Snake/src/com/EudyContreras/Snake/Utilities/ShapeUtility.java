@@ -4,10 +4,13 @@ package com.EudyContreras.Snake.Utilities;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Paint;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
@@ -54,6 +57,10 @@ public class ShapeUtility {
 		ImagePattern IMAGE_FILL = new ImagePattern(image);
 
 		return IMAGE_FILL;
+	}
+	
+	public final static Background PAINT_FILL(Paint fill){
+		return new Background(new BackgroundFill(fill,null,null));
 	}
 
 	public final static Color COLOR_FILL(Color color, double hueShift, double saturation, double brightness, double opacity){
