@@ -52,16 +52,52 @@ public class GameButton {
 		buttons.get(label).setFont(font);
 	}
 
-	public void setFill(String label, Paint fill){
+	public void setFontToAll(Font font){
+		buttons.entrySet().stream().forEach(button-> button.getValue().setFont(font));
+	}
+
+	public void setTextFill(String label, Paint fill){
 		buttons.get(label).setTextFill(fill);
+	}
+
+	public void setTextFilltoALl(Paint fill){
+		buttons.entrySet().stream().forEach(button-> button.getValue().setTextFill(fill));
 	}
 
 	public void setAlignment(String label, TextAlignment alignment){
 		buttons.get(label).setTextAlignment(alignment);
 	}
 
+	public void setAlignmentToALl(TextAlignment alignment){
+		buttons.entrySet().stream().forEach(entry-> entry.getValue().setTextAlignment(alignment));
+	}
+
+	public void setWidth(String label, double width){
+		buttons.get(label).setMinWidth(width);
+		buttons.get(label).setMaxWidth(width);
+	}
+
+	public void setWidthToAll(double width){
+		buttons.entrySet().stream().forEach(entry-> {
+			entry.getValue().setMinWidth(width);
+			entry.getValue().setMaxWidth(width);
+		});
+	}
+
 	public void setStyle(String label, String style){
 		buttons.get(label).setStyle(style);
+	}
+
+	public void setStyleToAll(String style){
+		buttons.entrySet().stream().forEach(entry-> entry.getValue().setStyle(style));
+	}
+
+	public void setID(String label, String id){
+		buttons.get(label).setId(id);
+	}
+
+	public void setIDToAll(String id){
+		buttons.entrySet().stream().forEach(entry-> entry.getValue().setId(id));
 	}
 
 	public void setSpacing(int spacing){

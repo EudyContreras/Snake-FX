@@ -16,6 +16,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 /**
@@ -98,11 +100,17 @@ public class ConnectHub {
 		leaderFrame.setLabel("Leaderboard");
 		leaderFrame.addRegion(connectLeaderboard.get());
         usersFrame.addRegion(connectUsers.get());
-        friendsFrame.setFrameSize(connectFriends.getWidth()+20, connectFriends.getHeight()+145);
+        friendsFrame.setFrameSize(connectFriends.getWidth()+20, connectFriends.getHeight()+135);
         usersFrame.setFrameSize(connectUsers.getWidth()+20, connectUsers.getHeight()+100);
         leaderFrame.setFrameSize(connectLeaderboard.getWidth()+20, connectLeaderboard.getHeight()+100);
 		connectProfile = new ConnectProfile(game,"Eudy Contreras","28","Sweden");
-		friendsFrame.setButtons(new GameButton(10, "Remove","Chat", "Play"));
+		GameButton buttons = new GameButton(10, "Remove","Chat", "Play");
+		buttons.setIDToAll("button");
+		buttons.setID("Remove", "btnUnfriend");
+		buttons.setFontToAll(Font.font(null, FontWeight.BOLD, 15));
+		buttons.setWidthToAll(120);
+		friendsFrame.get().getStylesheets().add(ConnectFriends.class.getResource("connectButtons.css").toExternalForm());
+		friendsFrame.setButtons(buttons);
 
 		hSections.getChildren().add(usersFrame.get());
 		hSections.getChildren().add(friendsFrame.get());

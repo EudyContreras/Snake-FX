@@ -3,7 +3,6 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import java.util.Collections;
 
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.ThreadManagers.ExecutorManager;
 import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
 
 import javafx.collections.FXCollections;
@@ -32,7 +31,7 @@ public class ConnectUsers{
 	public ConnectUsers(GameManager game){
 		super();
 		initialize();
-		setSize(475,375);
+		setSize(475,350);
 		createColumns();
 	}
 

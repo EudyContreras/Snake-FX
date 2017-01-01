@@ -27,7 +27,7 @@ public class ConnectWindow extends StackPane{
 		this.game = game;
 		this.hBoxRegion = new HBox(20);
 		this.frame = new StackPane();
-		this.frame.setPadding(new Insets(155,20,80,20));
+		this.frame.setPadding(new Insets(175,20,80,20));
 		this.frame.getChildren().add(hBoxRegion);
 		this.hBoxRegion.setAlignment(Pos.CENTER);
 		this.background = new Rectangle();

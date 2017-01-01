@@ -20,7 +20,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -41,7 +40,7 @@ public class ConnectLeaderboard{
 	public ConnectLeaderboard(GameManager game){
 		super();
 		initialize();
-		setSize(930,300);
+		setSize(935,275);
 		createColumns();
 	}
 
@@ -63,7 +62,7 @@ public class ConnectLeaderboard{
 	private void createColumns(){
 
         TableColumn<ConnectedUser, Integer> rankCol = new TableColumn<>("Rank");
-        rankCol.setPrefWidth(80);
+        rankCol.setMinWidth(80);
         rankCol.setCellValueFactory( new PropertyValueFactory<>("id"));
         rankCol.setCellFactory(new Callback<TableColumn<ConnectedUser,Integer>,TableCell<ConnectedUser,Integer>>(){
         	@Override
@@ -95,6 +94,7 @@ public class ConnectLeaderboard{
         TableColumn<ConnectedUser, String> userInfo = new TableColumn<>("Player");
         userInfo.setCellValueFactory(new PropertyValueFactory<>("name"));
         userInfo.setMinWidth(100);
+        userInfo.setSortable(false);
         userInfo.setCellFactory(new Callback<TableColumn<ConnectedUser,String>,TableCell<ConnectedUser,String>>(){
         	@Override
         	public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
@@ -118,6 +118,7 @@ public class ConnectLeaderboard{
         TableColumn<ConnectedUser, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameCol.setMinWidth(100);
+        nameCol.setSortable(false);
         nameCol.setCellFactory(new Callback<TableColumn<ConnectedUser,String>,TableCell<ConnectedUser,String>>(){
         	@Override
         	public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
@@ -140,6 +141,7 @@ public class ConnectLeaderboard{
         TableColumn<ConnectedUser, String> countryCol = new TableColumn<>("Country");
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
         countryCol.setMinWidth(100);
+        countryCol.setSortable(false);
         countryCol.setCellFactory(new Callback<TableColumn<ConnectedUser,String>,TableCell<ConnectedUser,String>>(){
         	@Override
         	public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
@@ -161,6 +163,7 @@ public class ConnectLeaderboard{
         TableColumn<ConnectedUser, Integer> levelCol = new TableColumn<>("Level");
         levelCol.setCellValueFactory(new PropertyValueFactory<>("level"));
         levelCol.setMinWidth(100);
+        levelCol.setSortable(false);
         levelCol.setCellFactory(new Callback<TableColumn<ConnectedUser,Integer>,TableCell<ConnectedUser,Integer>>(){
         	@Override
         	public TableCell<ConnectedUser, Integer> call(TableColumn<ConnectedUser, Integer> param) {
@@ -199,7 +202,7 @@ public class ConnectLeaderboard{
         });
 
         TableColumn<ConnectedUser, Integer> highScoreCol = new TableColumn<>("High Score");
-        highScoreCol.setMinWidth(120);
+        highScoreCol.setMinWidth(150);
         highScoreCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, Integer>("highScore"));
         highScoreCol.setCellFactory(new Callback<TableColumn<ConnectedUser,Integer>,TableCell<ConnectedUser,Integer>>(){
         	@Override
@@ -228,8 +231,8 @@ public class ConnectLeaderboard{
         	}
         });
 
-        TableColumn<ConnectedUser, Integer> goldAppleCol = new TableColumn<>("Awards");
-        goldAppleCol.setMinWidth(120);
+        TableColumn<ConnectedUser, Integer> goldAppleCol = new TableColumn<>("Golden Apples");
+        goldAppleCol.setMinWidth(150);
         goldAppleCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, Integer>("goldenApples"));
         goldAppleCol.setCellFactory(new Callback<TableColumn<ConnectedUser,Integer>,TableCell<ConnectedUser,Integer>>(){
         	@Override

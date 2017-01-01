@@ -6,7 +6,6 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.PlayRoomHub.ConnectButtons.Alignment;
 import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
-import com.EudyContreras.Snake.Utilities.ShapeUtility;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +41,7 @@ public class ConnectFriends{
 	public ConnectFriends(GameManager game){
 		super();
 		initialize();
-		setSize(420,330);
+		setSize(420,310);
 		createColumns();
 	}
 
@@ -83,7 +82,7 @@ public class ConnectFriends{
         	}
         });
 
-        
+
         TableColumn<ConnectedUser, String> userInfo = new TableColumn<>("Player");
         userInfo.setCellValueFactory(new PropertyValueFactory<>("name"));
         userInfo.setCellFactory(new Callback<TableColumn<ConnectedUser,String>,TableCell<ConnectedUser,String>>(){
@@ -107,7 +106,7 @@ public class ConnectFriends{
         					country.setFont(user.getCountry(), Font.font(12));
         					level.setFill(user.getLevel()+"", Color.WHITE.brighter());
         					level.setFont(user.getLevel()+"", Font.font(12));
-        					
+
         					hBox.setSpacing(10) ;
         					vBox.setSpacing(0);
         					vBox.getChildren().add(name.get());
@@ -170,7 +169,7 @@ public class ConnectFriends{
 
 
         TableColumn<ConnectedUser, String> statusCol = new TableColumn<>("Status");
-        statusCol.setMinWidth(100);
+        statusCol.setMinWidth(130);
         statusCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>("status"));
         statusCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
             public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {
@@ -194,8 +193,9 @@ public class ConnectFriends{
                 };
             }
         });
-        
-        TableColumn<ConnectedUser, String> checkCol = new TableColumn<>("");
+
+        TableColumn<ConnectedUser, String> checkCol = new TableColumn<>("Select");
+        checkCol.setMinWidth(70);
         checkCol.setCellValueFactory(new PropertyValueFactory<ConnectedUser, String>(""));
         checkCol.setCellFactory(new Callback<TableColumn<ConnectedUser, String>, TableCell<ConnectedUser, String>>() {
             public TableCell<ConnectedUser, String> call(TableColumn<ConnectedUser, String> param) {

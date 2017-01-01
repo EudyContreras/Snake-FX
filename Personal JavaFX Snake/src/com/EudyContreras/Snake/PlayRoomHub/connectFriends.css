@@ -69,7 +69,13 @@
 }
 
 .table-row-cell:selected {
-    -fx-background-color: linear-gradient(cyan, dodgerblue);
+    -fx-background-color: -fx-table-cell-border-color, rgb(100.0,100.0,100.0);
+    -fx-background-insets: 0.0;
+    -fx-background-radius: 1.0;
+}
+
+.table-row-cell:odd:selected {
+    -fx-background-color: -fx-table-cell-border-color, rgb(120.0,120.0,120.0);
     -fx-background-insets: 0.0;
     -fx-background-radius: 1.0;
 }

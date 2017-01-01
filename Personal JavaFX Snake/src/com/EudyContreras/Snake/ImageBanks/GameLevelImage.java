@@ -49,8 +49,7 @@ public class GameLevelImage {
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
 		public static final Image desertBackgroundSix = ImageEffectUtility.preCreateShadedBackground("desert_level_background_6.png",
 			GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
-		public static final Image desertBackgroundSeven = ImageEffectUtility.preCreateShadedBackground("desert_level_background_7.png",
-				GameSettings.GlOBAL_ILLUMINATION, 0, GameSettings.SCREEN_WIDTH, GameSettings.SCREEN_HEIGHT);
+		public static final Image desertBackgroundSeven = new Image(ImageLoadingUtility.loadResource("desert_level_background_7.png"));
 
 		public static final Image horizontalFence = ImageEffectUtility.precreatedLightedImage("horizontal_spike_fence_alt.png", GameSettings.GlOBAL_ILLUMINATION,
 			GameSettings.GLOBAL_SPECULARITY, 180, 65 );
