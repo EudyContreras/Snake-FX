@@ -15,6 +15,7 @@ public class ValueAnimator {
 	private double toValue;
 	private double value;
 	private double temp;
+	private int delay = 0;
 	private int duration;
 	private int current;
 	private int counter = 1;
@@ -69,12 +70,22 @@ public class ValueAnimator {
 		this.revert = state;
 		return this;
 	}
+	
+	public void setDelay(int delay){
+		this.delay = delay;
+	}
 
 	public void play(){
-		final int toNewValue = 22;
 		ThreadManager.performeScript(new Runnable() {
 			@Override
 			public void run() {
+				
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
 				long lastTime = System.nanoTime();
 				double updateCount = 1000.0;
 				double nanoSeconds = 1000000000 / updateCount;

@@ -67,8 +67,24 @@ public class ConnectWindow extends StackPane{
 		getChildren().add(node);
 	}
 
-	public void addNodeToRegion(Node... node){
+	public void addNodeToRegion(Node node){
+		hBoxRegion.getChildren().add(node);
+	}
+
+	public void addNodeToRegion(int index, Node node){
+		hBoxRegion.getChildren().add(index,node);
+	}
+
+	public void removeNodeFromRegion(Node node){
+		hBoxRegion.getChildren().removeAll(node);
+	}
+
+	public void addNodesToRegion(Node... node){
 		hBoxRegion.getChildren().addAll(node);
+	}
+
+	public void removeNodeFromRegion(Node... node){
+		hBoxRegion.getChildren().removeAll(node);
 	}
 
 	public void setMenuBoxBackground(Paint fill) {

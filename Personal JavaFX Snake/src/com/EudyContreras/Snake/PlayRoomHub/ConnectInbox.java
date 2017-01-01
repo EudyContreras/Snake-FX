@@ -3,13 +3,13 @@ import java.util.Random;
 
 import com.EudyContreras.Snake.Utilities.ShapeUtility;
 
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
@@ -26,46 +26,127 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class ConnectInbox extends Application {
+public class ConnectInbox{
 
-    public static void main(String[] args) {
+    private Pane root = new Pane();
+    private Mail mail = new Mail(97,40);
+    private SlipUp slipUp = new SlipUp();
+    private SlipUp slipUpInner = new SlipUp();
+    private SlipLeft left = new SlipLeft();
+    private SlipRight right = new SlipRight();
+    private DropShadow shadow = new DropShadow();
+    private Rectangle clickBounds = new Rectangle(80,80);
+    private Notification notification = new Notification();
+    private TranslateTransition translate = new TranslateTransition();
+    private ScaleTransition scale = new ScaleTransition();
+    private RotateTransition rotate = new RotateTransition();
+    private ParallelTransition transitions = new ParallelTransition();
+    private ConnectHub connect;
+    private boolean showingMail = false;
+    private boolean animating = false;
 
-       Application.launch(args);
+	public ConnectInbox(ConnectHub connect) {
+		this.connect = connect;
+		mail.setSize(97, 40);
+		mail.get().setLayoutY(40);
+		notification.increaseCount(50);
+		notification.setLocation(80, 25);
+		shadow.setBlurType(BlurType.THREE_PASS_BOX);
+		shadow.setColor(Color.color(0, 0, 0, 0.5));
+		shadow.setOffsetX(-4);
+		shadow.setOffsetY(-2);
+		shadow.setRadius(16);
+		root.setEffect(shadow);
+		clickBounds.setX(15);
+		clickBounds.setOpacity(0);
+		clickBounds.setOnMousePressed(e->showMessage());
+		slipUpInner.relocate(0, 10);
+		slipUp.setFill(ShapeUtility.LINEAR_GRADIENT(Color.SILVER, Color.GRAY.brighter()));
+		left.setFill(ShapeUtility.LINEAR_GRADIENT(Color.GRAY, Color.GRAY, Color.SILVER));
+		right.setFill(ShapeUtility.LINEAR_GRADIENT(Color.SILVER, Color.GRAY, Color.SILVER));
+		slipUpInner.setFill(ShapeUtility.LINEAR_GRADIENT(Color.WHITE, Color.SILVER, Color.SILVER));
+		root.getChildren().addAll(slipUp, slipUpInner, mail.get(), left, right, notification.get(), clickBounds);
+    	transitions.getChildren().add(translate);
+    	transitions.getChildren().add(rotate);
+    	transitions.getChildren().add(scale);
+	}
+
+    public Pane get(){
+    	return root;
     }
 
-    public void start(Stage primaryStage) {
+	public void showMessage() {
+		if (!animating) {
+			if (showingMail) {
+				animating = true;
 
-      primaryStage.setTitle("Path");
+				translate.setNode(mail.get());
+				translate.setDuration(Duration.millis(500));
+				translate.setInterpolator(Interpolator.EASE_OUT);
+				translate.setToX(0);
+				translate.setToY(-115);
 
-      Pane root = new Pane();
-      SlipUp slipUp = new SlipUp();
-      SlipUp slipUpInner = new SlipUp();
-      SlipRight slipRight = new SlipRight();
-      SlipLeft slipLeft = new SlipLeft();
-      Mail mail = new Mail(200,80);
-      Notification notification = new Notification();
-      Scene scene = new Scene(new Group(root), 700, 250, Color.WHITE);
+				rotate.setNode(mail.get());
+				rotate.setDuration(Duration.millis(500));
+				rotate.setInterpolator(Interpolator.EASE_OUT);
+				rotate.setToAngle(0);
 
-      mail.get().setLayoutY(70);
-      notification.setLocation(160, 50);
-      slipUpInner.relocate(0, 10);
-      slipUp.setFill(ShapeUtility.LINEAR_GRADIENT(Color.DODGERBLUE,Color.DODGERBLUE.brighter()));
-      slipRight.setFill(ShapeUtility.LINEAR_GRADIENT(Color.CYAN,Color.DODGERBLUE));
-      slipLeft.setFill(ShapeUtility.LINEAR_GRADIENT(Color.CYAN,Color.DODGERBLUE));
-      slipUpInner.setFill(ShapeUtility.LINEAR_GRADIENT(Color.WHITE,Color.SILVER));
-      root.setTranslateX(0);
+				scale.setNode(mail.get());
+				scale.setDuration(Duration.millis(500));
+				scale.setInterpolator(Interpolator.EASE_OUT);
+				scale.setToX(1);
+				scale.setToY(1);
 
-      root.getChildren().addAll(slipUp,slipUpInner,mail.get(),slipRight,slipLeft, notification.get());
-      primaryStage.setScene(scene);
-      primaryStage.show();
+				transitions.setOnFinished(e->{
+					animating = false;
+					showingMail = false;
+					mail.animate(true, null);
+				});
+
+				transitions.play();
+			} else {
+				animating = true;
+
+				translate.setNode(mail.get());
+				translate.setDuration(Duration.millis(650));
+				translate.setInterpolator(Interpolator.EASE_OUT);
+				translate.setToX(-550);
+				translate.setToY(355);
+
+				rotate.setNode(mail.get());
+				rotate.setDuration(Duration.millis(650));
+				rotate.setInterpolator(Interpolator.EASE_OUT);
+				rotate.setToAngle(-360*2);
+
+				scale.setNode(mail.get());
+				scale.setDuration(Duration.millis(650));
+				scale.setInterpolator(Interpolator.EASE_OUT);
+				scale.setToX(7);
+				scale.setToY(15);
+
+				mail.animate(false, ()->transitions.play());
+
+				transitions.setOnFinished(e -> {
+					showingMail = true;
+					animating = false;
+				});
+
+			}
+		}
+	}
+
+    public void increaseCounter(){
+    	notification.increaseCount(1);
     }
 
+    public void decreaseCounter(){
+    	notification.decreaseCount(1);
+    }
 
-	private class SlipLeft extends Path {
-		public SlipLeft() {
+	private class SlipRight extends Path {
+		public SlipRight() {
 
 			DropShadow shadow = new DropShadow();
 			LineTo[] line = new LineTo[3];
@@ -76,36 +157,37 @@ public class ConnectInbox extends Application {
 			shadow.setOffsetX(-4);
 			shadow.setOffsetY(-2);
 
-			moveTo.setX(250);
-			moveTo.setY(150);
+			moveTo.setX(150);
+			moveTo.setY(100);
 
 			line[0] = new LineTo();
-			line[0].setX(250);
+			line[0].setX(150);
 			line[0].setY(50);
 
 			line[1] = new LineTo();
 			line[1].setX(50);
-			line[1].setY(150);
+			line[1].setY(100);
 
 			line[2] = new LineTo();
-			line[2].setX(250);
-			line[2].setY(150);
+			line[2].setX(150);
+			line[2].setY(100);
 
+			setStroke(Color.SILVER);
 			setEffect(shadow);
 			getElements().add(moveTo);
 			getElements().addAll(line);
-			relocate(0, 70);
+			relocate(0, 32);
 		}
     }
 
-	private class SlipRight extends Path {
-		public SlipRight() {
+	private class SlipLeft extends Path {
+		public SlipLeft() {
 
 			LineTo[] line = new LineTo[3];
 			MoveTo moveTo = new MoveTo();
 
-			moveTo.setX(250);
-			moveTo.setY(150);
+			moveTo.setX(150);
+			moveTo.setY(100);
 
 			line[0] = new LineTo();
 			line[0].setX(50);
@@ -113,15 +195,16 @@ public class ConnectInbox extends Application {
 
 			line[1] = new LineTo();
 			line[1].setX(50);
-			line[1].setY(150);
+			line[1].setY(100);
 
 			line[2] = new LineTo();
-			line[2].setX(250);
-			line[2].setY(150);
+			line[2].setX(150);
+			line[2].setY(100);
 
+			setStroke(Color.SILVER);
 			getElements().add(moveTo);
 			getElements().addAll(line);
-			relocate(0, 70);
+			relocate(0, 32);
 		}
     }
 
@@ -138,21 +221,22 @@ public class ConnectInbox extends Application {
 			shadow.setOffsetX(0);
 			shadow.setOffsetY(-4);
 
-			moveTo.setX(250);
+			moveTo.setX(150);
 			moveTo.setY(150);
 
 			line[0] = new LineTo();
-			line[0].setX(150);
-			line[0].setY(80);
+			line[0].setX(100);
+			line[0].setY(115);
 
 			line[1] = new LineTo();
 			line[1].setX(50);
 			line[1].setY(150);
 
 			line[2] = new LineTo();
-			line[2].setX(250);
+			line[2].setX(150);
 			line[2].setY(150);
 
+			setStroke(Color.SILVER);
 			setEffect(shadow);
 			getElements().add(moveTo);
 			getElements().addAll(line);
@@ -162,8 +246,10 @@ public class ConnectInbox extends Application {
 
 	private class Mail{
 
+		private double lastY;
 		private Rectangle mail;
 		private StackPane container;
+		private TranslateTransition anim;
 
 		public Mail() {
 			super();
@@ -183,33 +269,36 @@ public class ConnectInbox extends Application {
 		}
 
 		private void create(){
+			DropShadow shadow = new DropShadow();
 			Random rand = new Random();
-			VBox layout = new VBox(5);
-			Line[] line = new Line[8];
+			VBox layout = new VBox(2);
+			Line[] line = new Line[6];
 
 			for(int i = 0; i<line.length; i++){
 				double randomValue = mail.getWidth()*.5 + (mail.getWidth()*.8 - mail.getWidth()*.5) * rand.nextDouble();
 				line[i]= new Line(0, 0, randomValue , 0);
-				line[i].setStroke(Color.WHITE);
-				line[i].setStrokeWidth(4);
+				line[i].setStroke(Color.BLACK);
+				line[i].setStrokeWidth(2);
 				line[i].setOpacity(.4);
 				layout.getChildren().add(line[i]);
 			}
 
 			layout.setPadding(new Insets(15,0,0,15));
-			DropShadow shadow = new DropShadow();
-			shadow.setColor(Color.color(0, 0, 0,0.5));
+
+			shadow.setColor(Color.color(0, 0, 0,.5));
 			shadow.setBlurType(BlurType.GAUSSIAN);
-			shadow.setOffsetX(-5);
-			shadow.setOffsetY(-6);
+			shadow.setOffsetX(0);
+			shadow.setOffsetY(-5);
+
 			mail.setEffect(shadow);
 			mail.setStroke(ShapeUtility.RADIAL_GRADIENT(Color.YELLOW,Color.ORANGE));
-			mail.setStrokeWidth(5);
-			mail.setWidth((mail.getWidth()-mail.getStrokeWidth())-5);
+			mail.setStrokeWidth(2);
+			mail.setWidth((mail.getWidth()-mail.getStrokeWidth())-2);
 			mail.setFill(ShapeUtility.LINEAR_GRADIENT(Color.YELLOW,Color.ORANGE));
-			mail.setArcHeight(20);
-			mail.setArcWidth(20);
-			container.setPadding(new Insets(0,0,0,7));
+			mail.setArcHeight(5);
+			mail.setArcWidth(5);
+
+			container.setPadding(new Insets(0,0,0,3));
 			container.getChildren().addAll(mail,layout);
 			animate();
 		}
@@ -218,11 +307,9 @@ public class ConnectInbox extends Application {
 			this.mail.setWidth(width);
 		}
 
-
 		public void setHeight(int height){
 			this.mail.setHeight(height);
 		}
-
 
 		public void setSize(int width, int height){
 			this.mail.setWidth(width);
@@ -233,10 +320,57 @@ public class ConnectInbox extends Application {
 			this.mail.setFill(fill);
 		}
 
+		public void animate(boolean state, Runnable script){
+			if(state){
+				root.getChildren().remove(container);
+				root.getChildren().add(2,container);
+				anim.stop();
+				anim.setFromY(container.getTranslateY());
+				anim.setToY(lastY);
+				anim.setFromX(0);
+				anim.setToX(0);
+				anim.setDelay(Duration.millis(50));
+				anim.setDuration(Duration.millis(300));
+				anim.setAutoReverse(false);
+				anim.setCycleCount(1);
+				anim.setOnFinished(e->{
+					connect.cullRegion(connect.getVRegion(), false);
+					anim.stop();
+					anim.setFromY(lastY);
+					anim.setFromX(0);
+					anim.setToX(0);
+					anim.setToY(lastY-25);
+					anim.setDelay(Duration.millis(200));
+					anim.setDuration(Duration.seconds(1));
+					anim.setCycleCount(Timeline.INDEFINITE);
+					anim.setAutoReverse(true);
+					anim.play();
+				});
+				anim.play();
+
+			}else{
+				anim.stop();
+				anim.setCycleCount(1);
+				anim.setAutoReverse(false);
+				anim.setDuration(Duration.millis(300));
+				anim.setToY(-125);
+				anim.setToX(-50);
+				anim.setOnFinished(e->{
+					connect.cullRegion(connect.getVRegion(), true);
+					container.toFront();
+					if(script!=null){
+						script.run();
+					}
+				});
+				anim.play();
+			}
+		}
+
 		private void animate(){
-			TranslateTransition anim = new TranslateTransition(Duration.seconds(1), container);
-			anim.setFromY(container.getTranslateY()+10);
-			anim.setToY(container.getTranslateY()-35);
+			lastY = container.getTranslateY();
+			anim = new TranslateTransition(Duration.seconds(1), container);
+			anim.setFromY(lastY);
+			anim.setToY(lastY-25);
 			anim.setCycleCount(Timeline.INDEFINITE);
 			anim.setAutoReverse(true);
 			anim.play();
@@ -257,13 +391,13 @@ public class ConnectInbox extends Application {
 
 		public Notification(){
 			this.text = new Text("0");
-			this.circle = new Circle(30);
+			this.circle = new Circle(15);
 			this.container = new StackPane();
-			this.circle.setFill(Color.RED);
+			this.circle.setFill(ShapeUtility.RADIAL_GRADIENT(Color.DODGERBLUE.brighter(), Color.DODGERBLUE));
 			this.circle.setStroke(Color.WHITE);
-			this.circle.setStrokeWidth(5);
+			this.circle.setStrokeWidth(2);
 			this.text.setFill(Color.WHITE);
-			this.text.setFont(Font.font(null,FontWeight.EXTRA_BOLD,25));
+			this.text.setFont(Font.font("BAUHAUS 91",FontWeight.EXTRA_BOLD,12));
 			this.container.getChildren().addAll(circle,text);
 			this.addAnimAndEffects();
 		}
@@ -280,8 +414,8 @@ public class ConnectInbox extends Application {
 			anim.setAutoReverse(true);
 			anim.setDuration(Duration.seconds(1));
 			anim.setCycleCount(Timeline.INDEFINITE);
-			anim.setFromX(0.9);
-			anim.setFromY(0.9);
+			anim.setFromX(1);
+			anim.setFromY(1);
 			anim.setToX(1.2);
 			anim.setToY(1.2);
 			anim.play();
@@ -296,32 +430,30 @@ public class ConnectInbox extends Application {
 			this.container.setTranslateY(y);
 		}
 
-		public void setSize(int size){
+		public void setBubbleSize(int size){
 			this.circle.setRadius(size);
 		}
 
 		public void setTextSize(int size){
-			this.text.setFont(Font.font(null,FontWeight.EXTRA_BOLD, size));
-		}
-
-		public void increaseCount(){
-			count++;
-			text.setText(count+"");
+			this.text.setFont(Font.font("BAUHAUS 91",FontWeight.EXTRA_BOLD, size));
 		}
 
 		public void increaseCount(int count){
 			this.count = this.count+count;
-			text.setText(count+"");
-		}
-
-		public void decreaseCount(){
-			count--;
-			text.setText(count+"");
+			if(count>99){
+				text.setText("99+");
+			}else{
+				text.setText(count+"");
+			}
 		}
 
 		public void decreaseCount(int count){
 			this.count = this.count-count;
-			text.setText(count+"");
+			if(count>99){
+				text.setText("99+");
+			}else{
+				text.setText(count+"");
+			}
 		}
 	}
 }

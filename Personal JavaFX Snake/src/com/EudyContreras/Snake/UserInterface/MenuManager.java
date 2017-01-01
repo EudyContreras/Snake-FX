@@ -67,45 +67,26 @@ public class MenuManager extends AbstractMenuElement{
 	}
 
 	public void onFocus(){
-		ValueAnimator valueAnimator = new ValueAnimator(300, 30, 0,new ValueWrapper(){
-			@Override
-			public void onUpdate(double value) {
-				focus.setWidth(value);
-				focus.setHeight(value);
-				mainContainer.setEffect(focus);
-			}
-		});
-
-		ValueAnimator valueAnimator2 = new ValueAnimator(200, 0.1, 1,new ValueWrapper(){
+		ValueAnimator animator = new ValueAnimator(250, 0.1, 1,new ValueWrapper(){
 			@Override
 			public void onUpdate(double value) {
 				mainContainer.setOpacity(value);
 			}
 		});
 
-//		valueAnimator2.setOnFinished(()->valueAnimator.play());
-		valueAnimator2.play();
+		animator.setDelay(100);
+		animator.play();
 	}
 
 	private void offFocus(){
-		ValueAnimator valueAnimator = new ValueAnimator(300, 0, 30,new ValueWrapper(){
-			@Override
-			public void onUpdate(double value) {
-				focus.setWidth(value);
-				focus.setHeight(value);
-				mainContainer.setEffect(focus);
-			}
-		});
-
-		ValueAnimator valueAnimator2 = new ValueAnimator(200, 1, 0.1,new ValueWrapper(){
+		ValueAnimator animator = new ValueAnimator(200, 1, 0.1,new ValueWrapper(){
 			@Override
 			public void onUpdate(double value) {
 				mainContainer.setOpacity(value);
 			}
 		});
 
-//		valueAnimator2.setOnFinished(()->valueAnimator.play());
-		valueAnimator2.play();
+		animator.play();
 	}
 
 	public ConnectHub getConnectHub(){
