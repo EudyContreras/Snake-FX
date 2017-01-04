@@ -119,7 +119,7 @@ public class ConnectFriends{
         					imageView.setFitWidth(60);
 
         					hBox.getChildren().addAll(imageView,vBox);
-//        					setBackground(ShapeUtility.PAINT_FILL(ShapeUtility.LINEAR_GRADIENT(Color.BLACK)));
+//        					setBackground(FillUtility.PAINT_FILL(FillUtility.LINEAR_GRADIENT(Color.BLACK)));
         					setPadding(new Insets(0,30,0,30));
         					setGraphic(hBox);
         				}

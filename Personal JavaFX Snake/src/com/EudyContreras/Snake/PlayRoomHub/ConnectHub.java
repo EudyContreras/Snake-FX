@@ -3,18 +3,22 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.Utilities.ShapeUtility;
-import com.EudyContreras.Snake.Utilities.ShapeUtility.Center;
-import com.EudyContreras.Snake.Utilities.ShapeUtility.Shape;
+import com.EudyContreras.Snake.Utilities.AnimationTimer;
+import com.EudyContreras.Snake.Utilities.FillUtility;
+import com.EudyContreras.Snake.Utilities.TimePeriod;
+import com.EudyContreras.Snake.Utilities.FillUtility.Center;
+import com.EudyContreras.Snake.Utilities.FillUtility.Shape;
+import com.EudyContreras.Snake.Utilities.ValueAnimator;
+import com.EudyContreras.Snake.Utilities.ValueWrapper;
 
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
@@ -29,8 +33,9 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 /**
- * This class simulates a simple game heads up display which is shown at the to the level
- * this display shows useful information concerning game statistics
+ * This class simulates a simple game heads up display which is shown at the to
+ * the level this display shows useful information concerning game statistics
+ *
  * @author Eudy Contreras
  *
  */
@@ -61,18 +66,25 @@ public class ConnectHub {
 	private ConnectFrame friendsFrame;
 	private ConnectFrame leaderFrame;
 	private ConnectWindow connectWindow;
+	private GaussianBlur blur = new GaussianBlur();
 	private ImageView snapShot = new ImageView();
 	private DropShadow shadow = new DropShadow();
 	private Rectangle hubBar = new Rectangle();
 
 	/**
-	 * Constructor which takes the main class as a parameter along with the coordintate
-	 * and dimensions of Hud element.
-	 * @param game: Main game class which connects this class to all others
-	 * @param x: X coordinate of this element
-	 * @param y: Y coordinate of this element
-	 * @param width: Horizontal dimension of this element
-	 * @param height: Vertical dimension of this element
+	 * Constructor which takes the main class as a parameter along with the
+	 * coordintate and dimensions of Hud element.
+	 *
+	 * @param game:
+	 *            Main game class which connects this class to all others
+	 * @param x:
+	 *            X coordinate of this element
+	 * @param y:
+	 *            Y coordinate of this element
+	 * @param width:
+	 *            Horizontal dimension of this element
+	 * @param height:
+	 *            Vertical dimension of this element
 	 */
 
 	public ConnectHub(GameManager game, Pane layer) {
@@ -103,7 +115,7 @@ public class ConnectHub {
 		this.initSections();
 	}
 
-	private void initSections(){
+	private void initSections() {
 		hubSection();
 		profileSection();
 	}
@@ -117,35 +129,66 @@ public class ConnectHub {
 			snapShot.setImage(writableImage);
 			connectWindow.removeNodeFromRegion(region);
 			connectWindow.removeNodeFromRegion(snapShot);
-			connectWindow.addNodeToRegion(0,snapShot);
+			connectWindow.addNodeToRegion(0, snapShot);
 		} else {
 			connectWindow.removeNodeFromRegion(snapShot);
 			connectWindow.removeNodeFromRegion(region);
-			connectWindow.addNodeToRegion(0,region);
+			connectWindow.addNodeToRegion(0, region);
 		}
 	}
-	
-	public VBox getVRegion(){
+
+	public void blurBackground(boolean state) {
+		ValueAnimator animator = new ValueAnimator();
+
+		if (state) {
+			blur.setRadius(0);
+			snapShot.setEffect(blur);
+
+			animator.onUpdate(value->{
+				blur.setRadius(value);
+			});
+			animator.setOnFinished(null);
+			animator.setDuration(TimePeriod.millis(350));
+			animator.setFrom(0);
+			animator.setTo(40);
+			animator.play();
+		} else {
+			animator.onUpdate(value->{
+				blur.setRadius(value);
+			});
+			animator.setDuration(TimePeriod.millis(300));
+			animator.setFrom(40);
+			animator.setTo(0);
+			animator.play();
+			animator.setOnFinished(()->{
+				snapShot.setEffect(null);
+				blur.setRadius(0);
+			});
+		}
+	}
+
+	public VBox getVRegion() {
 		return vSections;
 	}
 
-	private void profileSection(){
+	private void profileSection() {
 		friendsFrame.setLabel("Friends");
 		friendsFrame.addRegion(connectFriends.get());
 		leaderFrame.setLabel("Leaderboard");
 		leaderFrame.addRegion(connectLeaderboard.get());
-        usersFrame.addRegion(connectUsers.get());
-        friendsFrame.setFrameSize(connectFriends.getWidth()+20, connectFriends.getHeight()+135);
-        usersFrame.setFrameSize(connectUsers.getWidth()+20, connectUsers.getHeight()+100);
-        leaderFrame.setFrameSize(connectLeaderboard.getWidth()+20, connectLeaderboard.getHeight()+100);
-		connectProfile = new ConnectProfile(game,"Eudy Contreras","28","Sweden");
+		usersFrame.addRegion(connectUsers.get());
+		friendsFrame.setFrameSize(connectFriends.getWidth() + 20, connectFriends.getHeight() + 135);
+		usersFrame.setFrameSize(connectUsers.getWidth() + 20, connectUsers.getHeight() + 100);
+		leaderFrame.setFrameSize(connectLeaderboard.getWidth() + 20, connectLeaderboard.getHeight() + 100);
+		connectProfile = new ConnectProfile(game, "Eudy Contreras", "28", "Sweden");
 
-		buttons = new GameButton(10, "Remove","Chat", "Play");
+		buttons = new GameButton(10, "Remove", "Chat", "Play");
 		buttons.setIDToAll("button");
 		buttons.setID("Remove", "btnUnfriend");
 		buttons.setFontToAll(Font.font(null, FontWeight.BOLD, 15));
 		buttons.setWidthToAll(120);
-		friendsFrame.get().getStylesheets().add(ConnectFriends.class.getResource("connectButtons.css").toExternalForm());
+		friendsFrame.get().getStylesheets()
+				.add(ConnectFriends.class.getResource("connectButtons.css").toExternalForm());
 		friendsFrame.setButtons(buttons);
 
 		hSections.getChildren().add(usersFrame.get());
@@ -153,39 +196,42 @@ public class ConnectHub {
 		vSections.getChildren().add(hSections);
 		vSections.getChildren().add(leaderFrame.get());
 
-		for(int i = 0; i<scaleTransition.length; i++){
+		for (int i = 0; i < scaleTransition.length; i++) {
 			scaleTransition[i] = new ScaleTransition();
-			if(i == 0){
+			if (i == 0) {
 				scaleTransition[i].setNode(usersFrame.get());
-			}else if(i == 1){
+			} else if (i == 1) {
 				scaleTransition[i].setNode(friendsFrame.get());
-			}else if(i == 2){
+			} else if (i == 2) {
 				scaleTransition[i].setNode(leaderFrame.get());
 			}
 		}
 
-        usersFrame.get().setScaleX(0);
-        usersFrame.get().setScaleY(0);
-
-        friendsFrame.get().setScaleX(0);
-        friendsFrame.get().setScaleY(0);
-
-        leaderFrame.get().setScaleX(0);
-        leaderFrame.get().setScaleY(0);
+//		usersFrame.get().setScaleX(0);
+//		usersFrame.get().setScaleY(0);
+//
+//		friendsFrame.get().setScaleX(0);
+//		friendsFrame.get().setScaleY(0);
+//
+//		leaderFrame.get().setScaleX(0);
+//		leaderFrame.get().setScaleY(0);
 
 		connectWindow.addNodesToRegion(vSections);
 		connectWindow.addNodesToRegion(connectInbox.get());
 	}
 
-	private void hubSection(){
-		this.hubBar.setWidth(GameSettings.WIDTH+20);
+	private void hubSection() {
+		this.hubBar.setWidth(GameSettings.WIDTH + 20);
 		this.hubBar.setHeight(125);
 		this.hubBar.setTranslateY(-hubBar.getHeight());
 		this.hubBar.setFill(new ImagePattern(GameImageBank.play_room_hub_bar));
-		ShapeUtility.CENTER_SHAPE(Shape.RECTANGLE, Center.CENTER_X, hubBar, new Dimension2D(GameSettings.WIDTH,GameSettings.HEIGHT));
+		FillUtility.CENTER_SHAPE(Shape.RECTANGLE, Center.CENTER_X, hubBar,new Dimension2D(GameSettings.WIDTH, GameSettings.HEIGHT));
 		layer.getChildren().add(hubBar);
-		layer.getChildren().add(0,window);
+		layer.getChildren().add(0, window);
 
+		AnimationTimer.runLater(TimePeriod.seconds(1), ()->{
+			layer.getChildren().remove(window);
+		});
 	}
 
 	public void updateHudBar() {
@@ -207,142 +253,136 @@ public class ConnectHub {
 		updateMovement();
 	}
 
-	public void updateMovement(){
-		hideY+=hideVelY;
-		if(hideY<-80){
+	public void updateMovement() {
+		hideY += hideVelY;
+		if (hideY < -80) {
 			stopMoving();
 		}
-		if(hideY >0){
+		if (hideY > 0) {
 			hideY = 0;
 		}
 	}
 
-	public void swipeUp(Runnable runnable){
-		if(!finished)
+	public void swipeUp(Runnable runnable) {
+		if (!finished)
 			return;
 
-		if(runnable!=null){
+		if (runnable != null) {
 			runnable.run();
 		}
 
 		finished = false;
-
-		cullRegion(vSections,true);
+		snapShot.setEffect(null);
+		cullRegion(vSections, true);
 
 		hubTransition.setDuration(Duration.millis(250));
 		hubTransition.setToY(-hubBar.getHeight());
 		hubTransition.play();
 
+		frameTransition.setInterpolator(Interpolator.LINEAR);
 		frameTransition.setDuration(Duration.millis(250));
-		frameTransition.setToY(-(connectWindow.getHeight()+30));
+		frameTransition.setToY(-(connectWindow.getHeight() + 30));
 		frameTransition.play();
 
-		hubTransition.setOnFinished(e-> {
+		hubTransition.setOnFinished(e -> {
 			finished = true;
 			showing = false;
-			if(layer.getChildren().contains(window)){
+			if (layer.getChildren().contains(window)) {
 				layer.getChildren().remove(window);
 			}
 
-	        usersFrame.get().setScaleX(0);
-	        usersFrame.get().setScaleY(0);
-
-	        friendsFrame.get().setScaleX(0);
-	        friendsFrame.get().setScaleY(0);
-
-	        leaderFrame.get().setScaleX(0);
-	        leaderFrame.get().setScaleY(0);
-
-			for (int i = 0; i < scaleTransition.length; i++) {
-				scaleTransition[i].stop();
-				scaleTransition[i].setDelay(Duration.millis(0));
-				scaleTransition[i].setDuration(Duration.millis(200));
-				scaleTransition[i].setFromX(1);
-				scaleTransition[i].setFromY(1);
-				scaleTransition[i].setToX(0);
-				scaleTransition[i].setToY(0);
-			}
-
-			cullRegion(vSections,false);
+			connectInbox.hideMail();
+			cullRegion(vSections, false);
 		});
 	}
 
-	public void swipeDown(Runnable runnable){
-		if(!finished)
+	public void swipeDown(Runnable runnable) {
+		if (!finished)
 			return;
 
-		if(runnable!=null){
+		if (runnable != null) {
 			runnable.run();
 		}
 
-		if(!layer.getChildren().contains(window)){
-			layer.getChildren().add(0,window);
+		if (!layer.getChildren().contains(window)) {
+			layer.getChildren().add(0, window);
 		}
 		finished = false;
 
-		int delay = 250;
+		vSections.setScaleX(1);
+		vSections.setScaleY(1);
 
-	    vSections.setScaleX(1);
-	    vSections.setScaleY(1);
+		cullRegion(vSections, true);
 
-		for (int i = 0; i < scaleTransition.length; i++) {
-			scaleTransition[i].stop();
-			scaleTransition[i].setInterpolator(Interpolator.EASE_OUT);
-			scaleTransition[i].setDelay(Duration.millis(delay));
-			scaleTransition[i].setDuration(Duration.millis(200));
-			scaleTransition[i].setFromX(0);
-			scaleTransition[i].setFromY(0);
-			scaleTransition[i].setToX(1);
-			scaleTransition[i].setToY(1);
-			scaleTransition[i].play();
-			delay+=200;
-		}
+//		usersFrame.get().setScaleX(0);
+//		usersFrame.get().setScaleY(0);
+//
+//		friendsFrame.get().setScaleX(0);
+//		friendsFrame.get().setScaleY(0);
+//
+//		leaderFrame.get().setScaleX(0);
+//		leaderFrame.get().setScaleY(0);
+//
+//		int delay = 250;
+//
+//		for (int i = 0; i < scaleTransition.length; i++) {
+//			scaleTransition[i].stop();
+//			scaleTransition[i].setDelay(Duration.millis(delay));
+//			scaleTransition[i].setDuration(Duration.millis(150));
+//			scaleTransition[i].setFromX(0);
+//			scaleTransition[i].setFromY(0);
+//			scaleTransition[i].setToX(1);
+//			scaleTransition[i].setToY(1);
+//			scaleTransition[i].play();
+//			delay += 150;
+//		}
 
 		hubTransition.setDuration(Duration.millis(250));
 		hubTransition.setToY(-6);
 		hubTransition.play();
 
-		frameTransition.setInterpolator(Interpolator.EASE_OUT);
+		frameTransition.setInterpolator(Interpolator.SPLINE(0, 0, 0, 1));
 		frameTransition.setDuration(Duration.millis(250));
 		frameTransition.setToY(-40);
 		frameTransition.play();
 
-		hubTransition.setOnFinished(e->{
+		hubTransition.setOnFinished(e -> {
+			cullRegion(vSections, false);
 			finished = true;
 			showing = true;
 			connectUsers.getTable().requestFocus();
-	        connectUsers.getTable().getSelectionModel().clearAndSelect(0);
-	        connectUsers.getTable().getFocusModel().focus(0);
-	        connectUsers.getTable().getSelectionModel().selectFirst();
+			connectUsers.getTable().getSelectionModel().clearAndSelect(0);
+			connectUsers.getTable().getFocusModel().focus(0);
+			connectUsers.getTable().getSelectionModel().selectFirst();
 
 		});
 
 	}
 
-	public void stopMoving(){
+	public void stopMoving() {
 		hideVelY = 0;
 	}
+
 	/**
-	 * Method which shows the HUD bar
-	 * cover
+	 * Method which shows the HUD bar cover
 	 */
 	public void showHub(boolean state) {
 		this.showHub = state;
 	}
+
 	/**
-	 * Method which sets the visibility
-	 * of all the hud elements in this class
-	 * to false
+	 * Method which sets the visibility of all the hud elements in this class to
+	 * false
 	 */
 	public void visible(boolean state) {
 		hubBar.setVisible(state);
 	}
 
-	public void showShadow(boolean state){
-		hubBar.setEffect( state? shadow: null);
+	public void showShadow(boolean state) {
+		hubBar.setEffect(state ? shadow : null);
 	}
 
-	public double getTopCoverY(){
+	public double getTopCoverY() {
 		return hubBar.getY();
 	}
 

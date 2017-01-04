@@ -5,7 +5,7 @@ import java.util.Collections;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
-import com.EudyContreras.Snake.Utilities.ShapeUtility;
+import com.EudyContreras.Snake.Utilities.FillUtility;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -130,7 +130,7 @@ public class ConnectLeaderboard{
         					Text text = new Text();
         					text.setText(""+item);
         					text.setFont(Font.font(null,FontWeight.EXTRA_BOLD,16));
-        					text.setFill(ShapeUtility.LINEAR_GRADIENT(Color.WHITE));
+        					text.setFill(FillUtility.LINEAR_GRADIENT(Color.WHITE));
         					setGraphic(text);
         				}
         			}
@@ -217,7 +217,7 @@ public class ConnectLeaderboard{
                 			HBox container = new HBox(10);
         					text.setText("x "+item);
         					text.setFont(Font.font(null,FontWeight.EXTRA_BOLD,16));
-        					text.setFill(ShapeUtility.LINEAR_GRADIENT(Color.WHITE));
+        					text.setFill(FillUtility.LINEAR_GRADIENT(Color.WHITE));
         					imageView.setFitWidth(50);
         					imageView.setFitHeight(50);
         					imageView.setPreserveRatio(true);
@@ -247,7 +247,7 @@ public class ConnectLeaderboard{
                 			HBox container = new HBox(10);
         					text.setText("x "+item);
         					text.setFont(Font.font(null,FontWeight.EXTRA_BOLD,16));
-        					text.setFill(ShapeUtility.LINEAR_GRADIENT(Color.WHITE));
+        					text.setFill(FillUtility.LINEAR_GRADIENT(Color.WHITE));
         					imageView.setFitWidth(50);
         					imageView.setFitHeight(50);
         					imageView.setPreserveRatio(true);

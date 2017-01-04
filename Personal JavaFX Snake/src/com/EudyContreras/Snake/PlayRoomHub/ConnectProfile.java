@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.PlayRoomHub;
 
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Utilities.ImageChooser;
-import com.EudyContreras.Snake.Utilities.ShapeUtility;
+import com.EudyContreras.Snake.Utilities.FillUtility;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -83,7 +83,7 @@ public class ConnectProfile extends StackPane{
 		container.setCenter(frame);
 
 		background.setFrameSize(300, 500);
-		background.setFill(ShapeUtility.LINEAR_GRADIENT(Color.rgb(120, 120, 120),Color.BLACK, Color.rgb(120, 120, 120)));
+		background.setFill(FillUtility.LINEAR_GRADIENT(Color.rgb(120, 120, 120),Color.BLACK, Color.rgb(120, 120, 120)));
 
 		getChildren().add(background.get());
 		getChildren().add(container);

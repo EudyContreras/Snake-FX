@@ -6,6 +6,7 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.Identifiers.GameModeID;
 import com.EudyContreras.Snake.PlayRoomHub.ConnectHub;
 import com.EudyContreras.Snake.Utilities.GameAudio;
+import com.EudyContreras.Snake.Utilities.TimePeriod;
 import com.EudyContreras.Snake.Utilities.ValueAnimator;
 import com.EudyContreras.Snake.Utilities.ValueWrapper;
 
@@ -67,26 +68,30 @@ public class MenuManager extends AbstractMenuElement{
 	}
 
 	public void onFocus(){
-		ValueAnimator animator = new ValueAnimator(250, 0.1, 1,new ValueWrapper(){
-			@Override
-			public void onUpdate(double value) {
-				mainContainer.setOpacity(value);
-			}
-		});
+		ValueAnimator animator = new ValueAnimator();
 
+		animator.onUpdate(value->{
+			mainContainer.setOpacity(value);
+		});
+		animator.setDuration(TimePeriod.millis(250));
+		animator.setFrom(0.1);
+		animator.setTo(1.0);
 		animator.setDelay(100);
 		animator.play();
 	}
 
 	private void offFocus(){
-		ValueAnimator animator = new ValueAnimator(200, 1, 0.1,new ValueWrapper(){
-			@Override
-			public void onUpdate(double value) {
-				mainContainer.setOpacity(value);
-			}
-		});
+		ValueAnimator animator = new ValueAnimator();
 
+		animator.onUpdate(value->{
+			mainContainer.setOpacity(value);
+		});
+		animator.setDuration(TimePeriod.millis(250));
+		animator.setFrom(1.0);
+		animator.setTo(0.1);
 		animator.play();
+
+
 	}
 
 	public ConnectHub getConnectHub(){

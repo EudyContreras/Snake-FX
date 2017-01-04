@@ -16,7 +16,7 @@ import javafx.scene.paint.Stop;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
-public class ShapeUtility {
+public class FillUtility {
 
 
 	public final static RadialGradient RADIAL_GRADIENT(Color colorOne, Color colorTwo){

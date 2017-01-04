@@ -4,7 +4,7 @@ import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.PlayRoomHub.ConnectLabel.GlowType;
 import com.EudyContreras.Snake.PlayRoomHub.ConnectLabel.Style;
-import com.EudyContreras.Snake.Utilities.ShapeUtility;
+import com.EudyContreras.Snake.Utilities.FillUtility;
 
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
@@ -36,7 +36,7 @@ public class ConnectFrame{
 		this.label = new ConnectLabel(game,"Online Users",40, 200, 100, Style.BLUE_STYLE);
 	    this.label.setFrameGradient(Color.SILVER.brighter(), Color.SILVER.brighter(),Color.GRAY);
 	    this.label.setFrameOpacity(50.0);
-	    this.label.setFrameSize(width-20, 50);
+	    this.label.setFrameSize(width-20, 65);
 	    this.label.setTextSize(40);
 	    this.label.setTextGlow(GlowType.STATIC);
 		this.background.setStroke(Color.DARKGRAY);
@@ -59,7 +59,7 @@ public class ConnectFrame{
 
 	public void setFrameGradient(Color...colors){
 		this.background.setStyle(null);
-		this.background.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
+		this.background.setFill(FillUtility.LINEAR_GRADIENT(colors));
 	}
 
 	public void setBorderColor(Paint fill){
@@ -73,7 +73,7 @@ public class ConnectFrame{
 	public void setFrameSize(double width, double height) {
 		background.setWidth(width);
 		background.setHeight(height);
-		label.setFrameSize(width-20, 45);
+		label.setFrameSize(width-20, 55);
 	}
 
 	public void setFrameLocation(double x, double y) {

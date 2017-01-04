@@ -45,11 +45,11 @@ public class GradientAnimator {
 
 		if(node instanceof Circle){
 			circle = ((Circle)(node));
-			circle.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
+			circle.setFill(FillUtility.LINEAR_GRADIENT(colors));
 		}
 		if(node instanceof Rectangle){
 			rect = ((Rectangle)(node));
-			rect.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
+			rect.setFill(FillUtility.LINEAR_GRADIENT(colors));
 		}
 	}
 
@@ -63,10 +63,10 @@ public class GradientAnimator {
 		}
 
 		if(rect!=null){
-			rect.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
+			rect.setFill(FillUtility.LINEAR_GRADIENT(colors));
 		}
 		else{
-			circle.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
+			circle.setFill(FillUtility.LINEAR_GRADIENT(colors));
 		}
 	}
 

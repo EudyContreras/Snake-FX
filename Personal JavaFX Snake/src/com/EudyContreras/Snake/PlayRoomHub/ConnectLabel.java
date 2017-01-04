@@ -2,7 +2,7 @@ package com.EudyContreras.Snake.PlayRoomHub;
 
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.UserInterface.MenuButtonStyles;
-import com.EudyContreras.Snake.Utilities.ShapeUtility;
+import com.EudyContreras.Snake.Utilities.FillUtility;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
@@ -80,7 +80,7 @@ public class ConnectLabel {
 
 	public void setFrameGradient(Color...colors){
 		this.background.setStyle(null);
-		this.background.setFill(ShapeUtility.LINEAR_GRADIENT(colors));
+		this.background.setFill(FillUtility.LINEAR_GRADIENT(colors));
 	}
 
 	public void setFrameOpacity(double opacity) {

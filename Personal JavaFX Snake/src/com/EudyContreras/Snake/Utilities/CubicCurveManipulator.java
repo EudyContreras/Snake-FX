@@ -65,7 +65,7 @@ public class CubicCurveManipulator extends Application {
   }
 
   // a draggable anchor displayed around a point.
-  class Anchor extends Circle { 
+  class Anchor extends Circle {
     Anchor(Color color, DoubleProperty x, DoubleProperty y) {
       super(x.get(), y.get(), 10);
       setFill(color.deriveColor(1, 1, 1, 0.5));
@@ -99,11 +99,11 @@ public class CubicCurveManipulator extends Application {
           double newX = mouseEvent.getX() + dragDelta.x;
           if (newX > 0 && newX < getScene().getWidth()) {
             setCenterX(newX);
-          }  
+          }
           double newY = mouseEvent.getY() + dragDelta.y;
           if (newY > 0 && newY < getScene().getHeight()) {
             setCenterY(newY);
-          }  
+          }
         }
       });
       setOnMouseEntered(new EventHandler<MouseEvent>() {
@@ -124,5 +124,5 @@ public class CubicCurveManipulator extends Application {
 
     // records relative x and y co-ordinates.
     private class Delta { double x, y; }
-  }  
+  }
 }

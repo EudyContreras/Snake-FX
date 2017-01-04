@@ -16,15 +16,14 @@
    -fx-border-color: black;
 }
 
+.table-view .corner{
+   -fx-background-color: transparent;
+   -fx-border-color: transparent;
+}
+
 .table-view .column-header,
 .table-view .column-header .filler,
 .table-view .column-header-background .filler {
-    -fx-background-color: transparent;
-}
-
-.table-view .row-header,
-.table-view .row-header .filler,
-.table-view .row-header-background .filler {
     -fx-background-color: transparent;
 }
 
@@ -57,7 +56,8 @@
     -fx-text-fill: white;
     -fx-font-weight:bold;
     -fx-font-size:14.0px;
- 	-fx-border-color: transparent
+ 	-fx-border-color: transparent;
+ 	-fx-padding: 0.0em;
 }
 
 .table-row-cell{
@@ -85,22 +85,6 @@
     -fx-background-radius: 1.0;
 }
 
-/*
-.table-view > .virtual-flow > .scroll-bar:vertical,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track,
-.table-view > .virtual-flow > .scroll-bar:vertical > .track-background,
-.table-view > .virtual-flow > .scroll-bar:horizontal,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track,
-.table-view > .virtual-flow > .scroll-bar:horizontal > .track-background {
-    -fx-background-color: transparent;
-}
-
-.table-view > .virtual-flow > .scroll-bar > .increment-button,
-.table-view > .virtual-flow > .scroll-bar > .decrement-button {
-    -fx-opacity: 1.0;
-    -fx-background-color: linear-gradient(cyan, dodgerblue);
-}
-*/
 /****************************************************************
   ScrollBar Skin
 ****************************************************************/
@@ -115,8 +99,7 @@
 	-fx-background-radius: 2.0em;
 }
 
-.scroll-bar:vertical .track-background, .scroll-bar:horizontal .track-background
-	{
+.scroll-bar:vertical .track-background, .scroll-bar:horizontal .track-background{
 	-fx-background-color: gray;
 	-fx-background-insets: 0.0;
 	-fx-background-radius: 2.0em;
@@ -144,15 +127,13 @@
 	-fx-effect: dropshadow(three-pass-box, rgb(0,140,250) ,25, 0.7, 0, 0);
 }
 
-.scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button
-	{
+.scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button{
 	-fx-background-color: transparent;
 	-fx-background-radius: 2.0em;
 	-fx-padding: 8.0;
 }
 
-.scroll-bar:horizontal .increment-button, .scroll-bar:horizontal .decrement-button
-	{
+.scroll-bar:horizontal .increment-button, .scroll-bar:horizontal .decrement-button{
 	-fx-background-color: transparent;
 	-fx-background-radius: 2.0em;
 	-fx-padding: 8.0;
