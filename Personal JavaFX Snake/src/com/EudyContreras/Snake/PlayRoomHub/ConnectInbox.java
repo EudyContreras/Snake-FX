@@ -1,6 +1,8 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 import java.util.Random;
 
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.PlayRoomHub.ConnectLabel.Style;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 
 import javafx.animation.Interpolator;
@@ -43,16 +45,36 @@ public class ConnectInbox{
     private ScaleTransition scale = new ScaleTransition();
     private RotateTransition rotate = new RotateTransition();
     private ParallelTransition transitions = new ParallelTransition();
+    private SegmentedButtons connectMail = new SegmentedButtons();
+//    private ConnectFrame mailFrame;
     private ConnectHub connect;
     private boolean showingMail = false;
     private boolean animating = false;
 
-	public ConnectInbox(ConnectHub connect) {
+	public ConnectInbox(GameManager game, ConnectHub connect) {
 		this.connect = connect;
-		mail.setSize(97, 40);
-		mail.get().setLayoutY(40);
+		mail.setSize(720, 580);
+		mail.setScale(0.13,0.07);
+		mail.get().setLayoutY(65);
+		mail.get().setLayoutX(50);
+		mail.create();
 		notification.increaseCount(50);
 		notification.setLocation(80, 25);
+//		mailFrame = new ConnectFrame(game);
+//		mailFrame.setLabel("Mail");
+//		mailFrame.addRegion(connectMail.get());
+//		mailFrame.setFrameSize(635, 600);
+//		mailFrame.get().setTranslateY(30);
+//		mailFrame.getLabel().setFrameOpacity(100);
+//		mailFrame.setFill(FillUtility.LINEAR_GRADIENT(Color.YELLOW,Color.ORANGE));
+//		mailFrame.setBorderColor(FillUtility.LINEAR_GRADIENT(Color.YELLOW,Color.ORANGE,Color.ORANGE));
+//		mailFrame.getLabel().setFrameFill(FillUtility.LINEAR_GRADIENT(Color.BLACK,Color.GRAY.darker(),Color.BLACK));
+//		mailFrame.getLabel().setBorderColor(Color.GRAY.darker().darker());
+//		mailFrame.getLabel().setStyle(Style.YELLOW_STYLE);
+//		mailFrame.getLabel().getGlow().setRadius(5);
+//		mailFrame.getLabel().getGlow().setBlurType(BlurType.TWO_PASS_BOX);
+//		mailFrame.getLabel().setTextGlow(GlowType.NONE);
+//		mailFrame.getLabel().setTextFill(FillUtility.LINEAR_GRADIENT(Color.BLACK,Color.GRAY.darker()));
 		shadow.setBlurType(BlurType.THREE_PASS_BOX);
 		shadow.setColor(Color.color(0, 0, 0, 0.5));
 		shadow.setOffsetX(-4);
@@ -87,7 +109,10 @@ public class ConnectInbox{
 		if (!animating) {
 			if (showingMail) {
 				animating = true;
-
+				mail.showShadow(false);
+				connect.removeFromOverlay(connectMail.get());
+				connectMail.show(false);
+				connect.showOverlay(false);
 				connect.blurBackground(false);
 
 				translate.setNode(mail.get());
@@ -104,25 +129,29 @@ public class ConnectInbox{
 				scale.setNode(mail.get());
 				scale.setDuration(Duration.millis(500));
 				scale.setInterpolator(Interpolator.SPLINE(0, 0, 0, 1));
-				scale.setToX(1);
-				scale.setToY(1);
+				scale.setToX(0.13);
+				scale.setToY(0.07);
 
 				transitions.setOnFinished(e->{
 					animating = false;
 					showingMail = false;
 					mail.normalize();
+					mail.showShadow(true);
 					mail.animate(true, null);
-
 				});
 
 				transitions.play();
 			} else {
 				animating = true;
 
+				connectMail.show(false);
+				connect.showOverlay(true);
+				connect.addToOverlay(650,650,connectMail.get());
+
 				translate.setNode(mail.get());
 				translate.setDuration(Duration.millis(650));
 				translate.setInterpolator(Interpolator.EASE_OUT);
-				translate.setToX(-500);
+				translate.setToX(-490);
 				translate.setToY(355);
 
 				rotate.setNode(mail.get());
@@ -133,13 +162,16 @@ public class ConnectInbox{
 				scale.setNode(mail.get());
 				scale.setDuration(Duration.millis(650));
 				scale.setInterpolator(Interpolator.EASE_OUT);
-				scale.setToX(7);
-				scale.setToY(15);
+				scale.setToX(1);
+				scale.setToY(1);
 
 				mail.animate(false, ()->transitions.play());
 				transitions.setOnFinished(e -> {
 					showingMail = true;
 					animating = false;
+					mail.showShadow(true);
+					mail.normalize();
+					connectMail.show(true);
 				});
 
 			}
@@ -257,38 +289,38 @@ public class ConnectInbox{
 
 		private double lastY;
 		private Rectangle mail;
-		private StackPane container;
+		private StackPane content;
 		private TranslateTransition anim;
-
-		public Mail() {
-			super();
-			this.create();
-		}
+		private VBox layout = new VBox(30);
+		private DropShadow shadow = new DropShadow();
 
 		public Mail(double width, double height) {
 			this.mail = new Rectangle(width,height);
-			this.container = new StackPane();
-			this.create();
+			this.content = new StackPane();
+			this.content.setBackground(FillUtility.PAINT_FILL(Color.color(0, 0, 0, 0.4)));
+		}
+
+		public void showShadow(boolean state) {
+			mail.setEffect(state ? shadow : null);
 		}
 
 		public Mail(int x, int y, double width, double height) {
 			this.mail = new Rectangle(x,y,width,height);
-			this.container = new StackPane();
-			this.create();
+			this.content = new StackPane();
 		}
 
 		private void create(){
-			DropShadow shadow = new DropShadow();
+
 			Random rand = new Random();
-			VBox layout = new VBox(2);
-			Line[] line = new Line[6];
+
+			Line[] line = new Line[10];
 
 			for(int i = 0; i<line.length; i++){
 				double randomValue = mail.getWidth()*.5 + (mail.getWidth()*.8 - mail.getWidth()*.5) * rand.nextDouble();
 				line[i]= new Line(0, 0, randomValue , 0);
 				line[i].setStroke(Color.BLACK);
-				line[i].setStrokeWidth(2);
-				line[i].setOpacity(.4);
+				line[i].setStrokeWidth(10);
+				line[i].setOpacity(.6);
 				layout.getChildren().add(line[i]);
 			}
 
@@ -304,24 +336,32 @@ public class ConnectInbox{
 			mail.setStrokeWidth(2);
 			mail.setWidth((mail.getWidth()-mail.getStrokeWidth())-2);
 			mail.setFill(FillUtility.LINEAR_GRADIENT(Color.YELLOW,Color.ORANGE));
-			mail.setArcHeight(5);
-			mail.setArcWidth(5);
+			mail.setArcHeight(25);
+			mail.setArcWidth(25);
 
-			container.setPadding(new Insets(0,0,0,3));
-			container.getChildren().addAll(mail,layout);
+			content.setPadding(new Insets(0,0,0,3));
+			content.getChildren().addAll(mail,layout);
 			animate();
-		}
-
-		public void adjust(){
-			mail.setEffect(null);
-			mail.setStroke(FillUtility.RADIAL_GRADIENT(Color.YELLOW,Color.ORANGE));
-			mail.setStrokeWidth(0);
 		}
 
 		public void normalize(){
 			mail.setEffect(shadow);
-			mail.setStroke(FillUtility.RADIAL_GRADIENT(Color.YELLOW,Color.ORANGE));
-			mail.setStrokeWidth(2);
+			shadow.setColor(Color.color(0, 0, 0, 0.5));
+			shadow.setBlurType(BlurType.GAUSSIAN);
+			shadow.setRadius(105);
+			shadow.setOffsetX(-25);
+			shadow.setOffsetY(25);
+			mail.setStrokeWidth(15);
+		}
+
+		public void adjust(){
+			mail.setEffect(null);
+			shadow.setColor(Color.color(0, 0, 0,0.5));
+			shadow.setBlurType(BlurType.GAUSSIAN);
+			shadow.setRadius(10);
+			shadow.setOffsetX(0);
+			shadow.setOffsetY(-5);
+			mail.setStrokeWidth(15);
 		}
 
 		public void setWidth(int width){
@@ -337,39 +377,58 @@ public class ConnectInbox{
 			this.mail.setHeight(height);
 		}
 
+		public void setScale(double x, double y) {
+			this.content.setScaleX(x);
+			this.content.setScaleY(y);
+			this.content.setManaged(false);
+		}
+
 		public void setFill(Paint fill){
 			this.mail.setFill(fill);
 		}
 
+		public DropShadow getShadow(){
+			return shadow;
+		}
+
 		public void reset(){
-			this.container.setScaleX(1);
-			this.container.setScaleY(1);
-			this.container.setRotate(0);
-			this.container.setTranslateY(lastY);
-			this.container.setTranslateX(0);
-			root.getChildren().remove(container);
-			root.getChildren().add(2,container);
+
+			setScale(0.13,0.07);
+			this.content.setLayoutY(65);
+			this.content.setLayoutX(50);
+			this.content.setRotate(0);
+			this.content.setTranslateY(lastY);
+			this.content.setTranslateX(0);
+			root.getChildren().remove(content);
+			root.getChildren().add(2,content);
+			anim.setDuration(Duration.seconds(1));
+			anim.setFromY(lastY-5);
+			anim.setToY(lastY-20);
+			anim.setCycleCount(Timeline.INDEFINITE);
+			anim.setAutoReverse(true);
+			anim.play();
 		}
 
 		public void animate(boolean state, Runnable script){
 			if(state){
-				root.getChildren().remove(container);
-				root.getChildren().add(2,container);
+				root.getChildren().remove(content);
+				root.getChildren().add(2,content);
 				anim.stop();
-				anim.setFromY(container.getTranslateY());
-				anim.setToY(lastY);
+				anim.setFromY(content.getTranslateY());
+				anim.setToY(lastY-5);
 				anim.setFromX(0);
 				anim.setToX(0);
 				anim.setDuration(Duration.millis(300));
 				anim.setAutoReverse(false);
 				anim.setCycleCount(1);
 				anim.setOnFinished(e->{
+					layout.setVisible(true);
 					connect.cullRegion(connect.getVRegion(), false);
 					anim.stop();
-					anim.setFromY(lastY);
+					anim.setFromY(lastY-5);
 					anim.setFromX(0);
 					anim.setToX(0);
-					anim.setToY(lastY-25);
+					anim.setToY(lastY-20);
 					anim.setDelay(Duration.millis(200));
 					anim.setDuration(Duration.seconds(1));
 					anim.setCycleCount(Timeline.INDEFINITE);
@@ -387,7 +446,9 @@ public class ConnectInbox{
 				anim.setToY(-85);
 				anim.setOnFinished(e->{
 					adjust();
-					container.toFront();
+					layout.setVisible(false);
+					showShadow(false);
+					content.toFront();
 					if(script!=null){
 						script.run();
 						connect.blurBackground(true);
@@ -399,17 +460,19 @@ public class ConnectInbox{
 		}
 
 		private void animate(){
-			lastY = container.getTranslateY();
-			anim = new TranslateTransition(Duration.seconds(1), container);
-			anim.setFromY(lastY);
-			anim.setToY(lastY-25);
+			lastY = content.getTranslateY();
+			anim = new TranslateTransition();
+			anim.setDuration(Duration.seconds(1));
+			anim.setNode(content);
+			anim.setFromY(lastY-5);
+			anim.setToY(lastY-20);
 			anim.setCycleCount(Timeline.INDEFINITE);
 			anim.setAutoReverse(true);
 			anim.play();
 		}
 
 		public StackPane get(){
-			return container;
+			return content;
 
 		}
 	}

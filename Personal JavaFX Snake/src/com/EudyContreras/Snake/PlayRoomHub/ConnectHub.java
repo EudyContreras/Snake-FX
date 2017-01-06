@@ -5,17 +5,17 @@ import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.Utilities.AnimationTimer;
 import com.EudyContreras.Snake.Utilities.FillUtility;
-import com.EudyContreras.Snake.Utilities.TimePeriod;
 import com.EudyContreras.Snake.Utilities.FillUtility.Center;
 import com.EudyContreras.Snake.Utilities.FillUtility.Shape;
+import com.EudyContreras.Snake.Utilities.TimePeriod;
 import com.EudyContreras.Snake.Utilities.ValueAnimator;
-import com.EudyContreras.Snake.Utilities.ValueWrapper;
 
 import javafx.animation.Interpolator;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
 import javafx.geometry.Dimension2D;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
@@ -24,6 +24,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -66,6 +67,7 @@ public class ConnectHub {
 	private ConnectFrame friendsFrame;
 	private ConnectFrame leaderFrame;
 	private ConnectWindow connectWindow;
+	private StackPane overlay = new StackPane();
 	private GaussianBlur blur = new GaussianBlur();
 	private ImageView snapShot = new ImageView();
 	private DropShadow shadow = new DropShadow();
@@ -96,10 +98,11 @@ public class ConnectHub {
 		this.shadow.setOffsetX(0);
 		this.shadow.setOffsetY(15);
 		this.scaleTransition = new ScaleTransition[3];
+		//this.overlay.setBackground(FillUtility.PAINT_FILL(Color.BLACK));
 		this.hubTransition = new TranslateTransition();
 		this.frameTransition = new TranslateTransition();
 		this.connectFriends = new ConnectFriends(game);
-		this.connectInbox = new ConnectInbox(this);
+		this.connectInbox = new ConnectInbox(game,this);
 		this.connectLeaderboard = new ConnectLeaderboard(game);
 		this.connectWindow = new ConnectWindow(game);
 		this.connectUsers = new ConnectUsers(game);
@@ -169,6 +172,29 @@ public class ConnectHub {
 
 	public VBox getVRegion() {
 		return vSections;
+	}
+
+	public void showOverlay(boolean state){
+		if(state){
+			if(!connectWindow.getChildren().contains(overlay)){
+				connectWindow.getChildren().add(overlay);
+			}
+		}else{
+			connectWindow.getChildren().remove(overlay);
+		}
+	}
+
+	public void addToOverlay(double width, double height, Node node){
+		if(!overlay.getChildren().contains(node)){
+			overlay.getChildren().add(node);
+			overlay.setMaxSize(width, height);
+		}
+	}
+
+	public void removeFromOverlay(Node node){
+		if(overlay.getChildren().contains(node)){
+			overlay.getChildren().remove(node);
+		}
 	}
 
 	private void profileSection() {

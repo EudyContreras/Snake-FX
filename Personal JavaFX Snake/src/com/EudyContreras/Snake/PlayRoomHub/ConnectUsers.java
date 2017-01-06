@@ -23,7 +23,6 @@ public class ConnectUsers{
 	private ObservableList<ConnectedUser> observableData;
 	private TableView<ConnectedUser> userTable;
 	private StackPane container;
-	private Rectangle shape;
 	private double width;
 	private double height;
 
@@ -38,11 +37,8 @@ public class ConnectUsers{
 	private void initialize(){
 		container = new StackPane();
 		userTable = new TableView<>();
-		shape = new Rectangle();
-		shape.setArcHeight(25);
-		shape.setArcWidth(25);
-		container.setClip(shape);
 		observableData = FXCollections.observableArrayList();
+		container.setId("container");
 		container.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
 		container.getStylesheets().add(ConnectUsers.class.getResource("connectUsers.css").toExternalForm());
 	}
@@ -126,14 +122,12 @@ public class ConnectUsers{
 
 	public void setWidth(double width) {
 		this.width = width;
-		shape.setWidth(width);
 		container.setPrefWidth(width);
 		container.setMaxWidth(width);
 	}
 
 	public void setHeight(double height) {
 		this.height = height;
-		shape.setHeight(height);
 		container.setPrefHeight(height);
 		container.setMaxHeight(height);
 	}
@@ -149,8 +143,6 @@ public class ConnectUsers{
 	public void setSize(double width, double height) {
 		this.width = width;
 		this.height = height;
-		shape.setWidth(width);
-		shape.setHeight(height);
 		container.setPrefSize(width,height);
 		container.setMaxSize(width, height);
 	}

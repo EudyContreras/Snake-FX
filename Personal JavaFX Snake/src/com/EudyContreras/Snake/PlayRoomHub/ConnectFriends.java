@@ -23,7 +23,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Callback;
@@ -33,7 +32,6 @@ public class ConnectFriends{
 	private ObservableList<ConnectedUser> observableData;
 	private TableView<ConnectedUser> userTable;
 	private StackPane container;
-	private Rectangle shape;
 	private double width;
 	private double height;
 
@@ -49,10 +47,6 @@ public class ConnectFriends{
 
 		container = new StackPane();
 		userTable = new TableView<>();
-		shape = new Rectangle();
-		shape.setArcHeight(25);
-		shape.setArcWidth(25);
-		container.setClip(shape);
 		observableData = FXCollections.observableArrayList();
 		container.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
 		container.getStylesheets().add(ConnectFriends.class.getResource("connectFriends.css").toExternalForm());
@@ -238,6 +232,8 @@ public class ConnectFriends{
 
         userTable.setPickOnBounds(false);
 
+        container.setId("container");
+
         container.getChildren().add(userTable);
 	}
 
@@ -247,14 +243,12 @@ public class ConnectFriends{
 
 	public void setWidth(double width) {
 		this.width = width;
-		shape.setWidth(width);
 		container.setPrefWidth(width);
 		container.setMaxWidth(width);
 	}
 
 	public void setHeight(double height) {
 		this.height = height;
-		shape.setHeight(height);
 		container.setPrefHeight(height);
 		container.setMaxHeight(height);
 	}
@@ -270,8 +264,6 @@ public class ConnectFriends{
 	public void setSize(double width, double height) {
 		this.width = width;
 		this.height = height;
-		shape.setWidth(width);
-		shape.setHeight(height);
 		container.setPrefSize(width,height);
 		container.setMaxSize(width, height);
 	}

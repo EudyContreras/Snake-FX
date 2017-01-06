@@ -1,0 +1,64 @@
+#background {
+    -light-black: rgb(50, 50, 50);
+    -dark-highlight: rgb(87, 89, 92);
+    -dark-black: rgb(30, 30, 30);
+    -darkest-black: rgb(5, 5, 5);
+    -mid-orange: rgb(250, 150, 0);
+    -light-orange: rgb(250, 210, 0);
+    -mid-yellow: rgb(220, 220, 0);
+    -fx-background-color: transparent;
+}
+.tool-bar {
+    -fx-base: transparent;
+    -fx-font-size: 12pt;
+    -fx-background-color:transparent;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: .9em 0.416667em .9em 0.416667em;
+
+}
+.segmented-button-bar .toggle-button {
+    -fx-background-color:
+        -darkest-black,
+        -dark-highlight,
+        linear-gradient(to bottom, -light-black 2%, -dark-black 98%);
+    -fx-background-insets: 0, 1 1 1 0, 2 1 1 1;
+    -fx-background-radius: 0;
+    -fx-padding: 0.4em 1.833333em 0.4em 1.833333em;
+    -fx-font-weight: bold;
+    -fx-font-size: 14.0px;
+    -fx-text-fill: linear-gradient(to bottom, yellow 15%, orange 85%);
+}
+
+.segmented-button-bar .toggle-button:selected {
+    -fx-background-color:
+        -darkest-black,
+        -dark-highlight,
+        linear-gradient(to bottom, -mid-yellow 15%, orange 85%);
+    -fx-effect: dropshadow(one-pass-box , rgba(0,0,0,1) , 7, 0.5 , 0 , 1);
+    -fx-background-insets: 0, 1 1 1 0, 2 1 1 1;
+    -fx-background-radius: 0;
+    -fx-font-weight: bold;
+    -fx-font-size: 14.0px;
+    -fx-text-fill: black;
+    -fx-padding: 0.4em 1.833333em 0.4em 1.833333em;
+}
+
+.segmented-button-bar .toggle-button.first {
+    -fx-background-insets: 0, 1, 2 1 1 1;
+    -fx-background-radius: 10 0 0 10, 9 0 0 9, 9 0 0 9;
+}
+
+.segmented-button-bar .toggle-button.last {
+    -fx-background-insets: 0, 1 1 1 0, 2 1 1 1;
+    -fx-background-radius: 0 10 10 0, 0 9 9 0, 0 9 9 0;
+}
+
+.segmented-button-bar .button:pressed {
+    -fx-background-color:
+        -darkest-black,
+        rgb(55, 57, 58),
+        linear-gradient(to top, -light-black 2%, -dark-black 98%);
+}
+.tool-bar .spacer {
+    -fx-padding: 0 5.417em 0 0;
+}

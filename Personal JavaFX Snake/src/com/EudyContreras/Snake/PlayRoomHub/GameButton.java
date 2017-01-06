@@ -16,6 +16,13 @@ public class GameButton {
 	private StackPane container;
 	private HashMap<String, Button> buttons;
 
+	public GameButton(){
+		this.layout = new HBox(5);
+		this.buttons = new HashMap<>();
+		this.container = new StackPane();
+		this.layout.setAlignment(Pos.CENTER);
+		this.container.getChildren().add(layout);
+	}
 	public GameButton(String... text){
 		this.layout = new HBox(5);
 		this.buttons = new HashMap<>();
@@ -46,6 +53,14 @@ public class GameButton {
 
 	public StackPane get(){
 		return container;
+	}
+
+	public void addButton(String...text){
+		for(int i = 0; i<text.length; i++){
+			Button button = new Button(text[i]);
+			buttons.put(text[i], button);
+			layout.getChildren().add(button);
+		}
 	}
 
 	public void setFont(String label, Font font){
@@ -81,6 +96,14 @@ public class GameButton {
 		buttons.entrySet().stream().forEach(entry-> {
 			entry.getValue().setMinWidth(width);
 			entry.getValue().setMaxWidth(width);
+		});
+	}
+
+	public void addEvent(String label, Runnable script) {
+		buttons.get(label).setOnAction(e->{
+			if(script!=null){
+				script.run();
+			}
 		});
 	}
 

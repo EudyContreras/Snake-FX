@@ -6,17 +6,24 @@ import com.EudyContreras.Snake.PlayRoomHub.ConnectLabel.GlowType;
 import com.EudyContreras.Snake.PlayRoomHub.ConnectLabel.Style;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 
+import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class ConnectFrame{
 
 
+	private FadeTransition fadeTransition;
+	private DropShadow dropShadow;
 	private Rectangle background;
 	private StackPane mainContainer;
 	private StackPane container;
@@ -29,10 +36,13 @@ public class ConnectFrame{
 
 	public ConnectFrame(GameManager game, Paint fill, int width, int height) {
 		super();
-		this.layout = new VBox(20);
+		this.layout = new VBox(10);
 		this.container = new StackPane();
 		this.mainContainer = new StackPane();
 		this.background = new Rectangle();
+		this.dropShadow = new DropShadow();
+		this.fadeTransition = new FadeTransition();
+    	this.fadeTransition.setNode(mainContainer);
 		this.label = new ConnectLabel(game,"Online Users",40, 200, 100, Style.BLUE_STYLE);
 	    this.label.setFrameGradient(Color.SILVER.brighter(), Color.SILVER.brighter(),Color.GRAY);
 	    this.label.setFrameOpacity(50.0);
@@ -112,7 +122,7 @@ public class ConnectFrame{
 		return background;
 	}
 
-	public void addRegion(Pane node) {
+	public void addRegion(Node node) {
 		container.getChildren().add(node);
 		background.setWidth(mainContainer.getWidth()+20);
 		background.setHeight(mainContainer.getHeight()+20);
@@ -128,5 +138,20 @@ public class ConnectFrame{
 	public void adjustDimension(){
 		background.setWidth(mainContainer.getWidth()+20);
 		background.setHeight(mainContainer.getHeight()+20);
+	}
+
+	public void show(boolean state) {
+		if(state){
+			fadeTransition.setDuration(Duration.millis(120));
+			fadeTransition.setFromValue(0);
+			fadeTransition.setToValue(1);
+			fadeTransition.play();
+		}else{
+			mainContainer.setOpacity(0);
+		}
+	}
+
+	public ConnectLabel getLabel() {
+		return label;
 	}
 }

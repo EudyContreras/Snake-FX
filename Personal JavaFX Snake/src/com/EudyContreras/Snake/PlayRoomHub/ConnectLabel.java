@@ -8,6 +8,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -133,6 +134,10 @@ public class ConnectLabel {
 		}
 	}
 
+	public DropShadow getGlow(){
+		return glow;
+	}
+	
 	public void setStyle(Style style){
 		this.text.setStyle(getStyle(style));
 		this.text.setStroke(getColor(style).darker());
@@ -146,11 +151,21 @@ public class ConnectLabel {
 		this.text.setEffect(glow);
 	}
 
+	public void setTextFill(Paint fill) {
+		text.setStyle(null);
+		text.setFill(fill);
+	}
+
+	public void setTextFill(String style) {
+		text.setStyle(style);
+	}
+
 	private String getStyle(Style style){
 		String blueStyle = "-fx-fill:  linear-gradient(cyan, dodgerblue);";
 		String yellowStyle = "-fx-fill:  linear-gradient(yellow, orange );";
 		String silverStyle = "-fx-fill:  linear-gradient(silver, gray);";
-		String darkStyle = "-fx-fill:  linear-gradient(silver, black);";
+		String darkStyle = "-fx-fill:  linear-gradient(black, "
+				+ "gray, black);";
 
 		switch(style){
 		case BLUE_STYLE:

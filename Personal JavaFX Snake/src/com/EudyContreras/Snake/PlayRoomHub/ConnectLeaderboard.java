@@ -32,7 +32,6 @@ public class ConnectLeaderboard{
 	private ObservableList<ConnectedUser> observableData;
 	private TableView<ConnectedUser> userTable;
 	private StackPane container;
-	private Rectangle shape;
 	private double width;
 	private double height;
 
@@ -47,10 +46,6 @@ public class ConnectLeaderboard{
 	private void initialize(){
 		container = new StackPane();
 		userTable = new TableView<>();
-		shape = new Rectangle();
-		shape.setArcHeight(25);
-		shape.setArcWidth(25);
-		container.setClip(shape);
 		observableData = FXCollections.observableArrayList();
 		container.setBackground(new Background(new BackgroundFill(Color.BLACK,null,null)));
 		container.getStylesheets().add(ConnectLeaderboard.class.getResource("connectLeaderboards.css").toExternalForm());
@@ -282,6 +277,8 @@ public class ConnectLeaderboard{
 
         userTable.setPickOnBounds(false);
 
+        container.setId("container");
+
         container.getChildren().add(userTable);
 	}
 
@@ -292,22 +289,18 @@ public class ConnectLeaderboard{
 	public void setSize(double width, double height) {
 		this.width = width;
 		this.height = height;
-		shape.setWidth(width);
-		shape.setHeight(height);
 		container.setPrefSize(width,height);
 		container.setMaxSize(width, height);
 	}
 
 	public void setWidth(double width) {
 		this.width = width;
-		shape.setWidth(width);
 		container.setPrefWidth(width);
 		container.setMaxWidth(width);
 	}
 
 	public void setHeight(double height) {
 		this.height = height;
-		shape.setHeight(height);
 		container.setPrefHeight(height);
 		container.setMaxHeight(height);
 	}

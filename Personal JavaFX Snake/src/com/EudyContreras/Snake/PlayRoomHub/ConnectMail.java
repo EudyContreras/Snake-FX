@@ -4,27 +4,15 @@ package com.EudyContreras.Snake.PlayRoomHub;
 
 
 
-import javafx.application.Application;
-
-import javafx.beans.value.ChangeListener;
-
 import javafx.beans.value.ObservableValue;
-
 import javafx.geometry.Pos;
-
 import javafx.scene.Parent;
-
-import javafx.scene.Scene;
-
 import javafx.scene.control.Toggle;
-
 import javafx.scene.control.ToggleButton;
-
 import javafx.scene.control.ToggleGroup;
-
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 
 
@@ -34,12 +22,18 @@ import javafx.stage.Stage;
 
  */
 
-public class ConnectMail extends Application {
+public class ConnectMail {
 
 
-	 private ConnectFriends friends;
+	private static final String CHAT_TAB = "Chats";
+	private static final String REQUESTS_TAB = "Requests";
+	private static final String MAIL_TAB = "Mail";
+
+	 private ConnectMailChat chat;
+	 private ConnectMailRequest requests;
 	 private ToggleGroup group;
 	 private ToggleButton[] tabs;
+	 private StackPane content;
 	 private VBox contentContainer;
 	 private HBox tabContainer;
 
@@ -47,14 +41,21 @@ public class ConnectMail extends Application {
 		 group = new ToggleGroup();
 		 tabContainer = new HBox();
 		 contentContainer = new VBox();
-		 friends = new ConnectFriends(null);
-		 createTabs(170,"Chats","Requests","Mail");
+		 content = new StackPane();
+		 chat = new ConnectMailChat(null);
+		 requests = new ConnectMailRequest(null);
+		 createTabs(170,CHAT_TAB,REQUESTS_TAB,MAIL_TAB);
+		 createContent();
+		 chat.setSize(555,450);
+		 requests.setSize(555,450);
 	 }
 
     public Parent createContent() {
     	tabContainer.setAlignment(Pos.CENTER);
     	tabContainer.getChildren().addAll(tabs);
-    	contentContainer.getChildren().addAll(tabContainer, friends.get());
+    	contentContainer.setAlignment(Pos.CENTER);
+    	contentContainer.getChildren().addAll(tabContainer, content);
+    	contentContainer.getStylesheets().add(ConnectMail.class.getResource("connectMailChat.css").toExternalForm());
         return contentContainer;
     }
 
@@ -69,30 +70,35 @@ public class ConnectMail extends Application {
 			tabs[i].setMinSize(width, 45);
 		}
 
-		group.selectToggle(tabs[0]);
-
 		group.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) -> {
 			if (newValue == null) {
 				group.selectToggle(oldValue);
+			}else{
+				switchContent(((ToggleButton)newValue).getText());
 			}
 		});
+
+		group.selectToggle(tabs[0]);
 	}
 
-    @Override
+    private void switchContent(String name) {
+		switch(name){
+		case CHAT_TAB:
+			content.getChildren().clear();
+			content.getChildren().add(chat.get());
+			break;
+		case REQUESTS_TAB:
+			content.getChildren().clear();
+			content.getChildren().add(requests.get());
+			break;
+		case MAIL_TAB:
+			break;
+		}
+	}
 
-    public void start(Stage primaryStage) throws Exception {
-
-        primaryStage.setScene(new Scene(createContent()));
-
-        primaryStage.show();
-
+    public Parent get(){
+    	return contentContainer;
     }
 
-
-    public static void main(String[] args) {
-
-        launch(args);
-
-    }
 
 }

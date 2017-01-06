@@ -6,14 +6,6 @@
     -fx-background-color: #262626;
 }
 
-#container{
-    -fx-background-color: black;
-    -fx-border-color: black;
-	-fx-border-width: 1 1 2 1;
-	-fx-border-radius: 12 12 20 12;
-  	-fx-background-radius: 12 12 20 12;
-}
-
 .table-view{
    -fx-background-color: transparent;
    -fx-border-color: transparent;
@@ -45,15 +37,15 @@
 }
 
 .table-view .column-header-background{
-    -fx-background-color: linear-gradient(#131313 0.0%, #424141 100.0%);
+    -fx-background-color: linear-gradient(black 0.0%, rgb(60,60,60) 100.0%);
 }
 
 .table-view .column-header-background .label{
     -fx-background-color: transparent;
     -fx-font-weight: bold;
     -fx-font-size: 18.0px;
-    -fx-text-fill: linear-gradient(cyan, dodgerblue);
-    -fx-font-family: "AR DESTINE";
+
+    -fx-text-fill: linear-gradient(black, black);
 }
 
 .table-view .column-header {
@@ -64,8 +56,7 @@
     -fx-text-fill: white;
     -fx-font-weight:bold;
     -fx-font-size:14.0px;
- 	-fx-border-color: transparent;
- 	-fx-padding: 0.0em;
+ 	-fx-border-color: transparent
 }
 
 .table-row-cell{
@@ -76,22 +67,58 @@
 }
 
 .table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color, rgb(120.0,120.0,120.0);
+    -fx-background-color: -fx-table-cell-border-color, rgb(100.0,100.0,100.0);
     -fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
     -fx-padding: 0.0em;
 }
 
 .table-row-cell:selected {
-    -fx-background-color: -fx-table-cell-border-color, rgb(100.0,100.0,100.0);
+    -fx-background-color: -fx-table-cell-border-color,rgb(120.0,120.0,120.0);
     -fx-background-insets: 0.0;
     -fx-background-radius: 1.0;
 }
 
-.table-row-cell:odd:selected {
-    -fx-background-color: -fx-table-cell-border-color, rgb(120.0,120.0,120.0);
+.table-row-cell:selectedC:odd{
+    -fx-background-color:-fx-table-cell-border-color, rgb(120.0,120.0,120.0);
     -fx-background-insets: 0.0;
     -fx-background-radius: 1.0;
 }
+
+
+/****************************************************************
+ ToggleButton skin
+****************************************************************/
+.toggle-button {
+  	-fx-background-color: linear-gradient(black,black);
+    -fx-font-weight: bold;
+    -fx-font-size: 18.0px;
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+	-fx-font-weight: bold;
+    -fx-font-size: 18.0px;
+    -fx-text-fill: gray;
+
+}
+
+.toggle-button:selected {
+
+    -fx-background-color:
+        #000000,
+        linear-gradient(rgb(250,250,0), orange),
+        linear-gradient(rgb(200,200,0), rgb(200,150,0)),
+        linear-gradient(rgb(180,180,0), rgb(180,150,0));
+    -fx-effect: dropshadow(one-pass-box , rgba(0,0,0,1) , 10, 0.6 , 0 , 1);
+    -fx-font-weight: bold;
+    -fx-font-size: 18.0px;
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-text-fill: black;
+}
+
+.toggle-button:selected:focused {
+ 	-fx-background-color: linear-gradient(orange,yellow,orange);
+ }
 
 /****************************************************************
   ScrollBar Skin
@@ -108,31 +135,31 @@
 }
 
 .scroll-bar:vertical .track-background, .scroll-bar:horizontal .track-background{
-	-fx-background-color: gray;
+	-fx-background-color: black;
 	-fx-background-insets: 0.0;
 	-fx-background-radius: 2.0em;
 }
 
 .scroll-bar:horizontal .thumb {
-	-fx-background-color: linear-gradient(cyan , dodgerblue);
+	-fx-background-color: linear-gradient(yellow , Orange);
 	-fx-background-insets: 4.0 0.0 4.0 0.0;
 	-fx-background-radius: 2.0em;
 }
 
 .scroll-bar:vertical .thumb {
-	-fx-background-color: linear-gradient(cyan , dodgerblue);
+	-fx-background-color: linear-gradient(yellow , Orange);
 	-fx-background-insets: 0.0 4.0 0.0 4.0;
 	-fx-background-radius: 2.0em;
 }
 
 .scroll-bar:horizontal .thumb:hover, .scroll-bar:vertical .thumb:hover {
-	-fx-fill:  linear-gradient(cyan , dodgerblue);
-	-fx-effect: dropshadow(three-pass-box, rgb(0,140,250) ,10, 0.7, 0, 0);
+	-fx-fill:  linear-gradient(yellow , Orange, yellow);
+	-fx-effect: dropshadow(three-pass-box, rgb(255,200,0) ,10, 0.7, 0, 0);
 }
 
 .scroll-bar:horizontal .thumb:pressed, .scroll-bar:vertical .thumb:pressed{
-	-fx-fill:  linear-gradient(cyan , dodgerblue);
-	-fx-effect: dropshadow(three-pass-box, rgb(0,140,250) ,25, 0.7, 0, 0);
+	-fx-fill:  linear-gradient(yellow , Orange, yellow);
+	-fx-effect: dropshadow(three-pass-box, rgb(255,200,0) ,25, 0.7, 0, 0);
 }
 
 .scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button{
@@ -149,27 +176,27 @@
 
 .scroll-bar:horizontal .increment-arrow {
 	-fx-shape: "M 0 0 L 4 8 L 8 0 Z";
-	-fx-background-color: linear-gradient(cyan , dodgerblue);
+	-fx-background-color: linear-gradient(yellow , Orange);
 	-fx-padding: 0.25em;
 	-fx-rotate: -90.0;
 }
 
 .scroll-bar:vertical .increment-arrow {
-	-fx-background-color: linear-gradient(cyan , dodgerblue);
+	-fx-background-color: linear-gradient(yellow , Orange);
 	-fx-shape: "M 0 0 L 4 8 L 8 0 Z";
 	-fx-padding: 0.25em;
 	-fx-rotate: 0.0;
 }
 
 .scroll-bar:horizontal .decrement-arrow {
-	-fx-background-color: linear-gradient(cyan , dodgerblue);
+	-fx-background-color: linear-gradient(yellow , Orange);
 	-fx-shape: "M 0 0 L 4 8 L 8 0 Z";
 	-fx-padding: 0.25em;
 	-fx-rotate: 90.0;
 }
 
 .scroll-bar:vertical .decrement-arrow {
-	-fx-background-color: linear-gradient(cyan , dodgerblue);
+	-fx-background-color: linear-gradient(yellow , Orange);
 	-fx-shape: "M 0 0 L 4 8 L 8 0 Z";
 	-fx-padding: 0.25em;
 	-fx-rotate: -180.0;

@@ -53,11 +53,6 @@ public class ValueAnimator implements Animator{
 		return this;
 	}
 
-	public ValueAnimator addUpdateAlt(Consumer<ValueWrapper> consumer){
-		consumer.accept(update);
-		return this;
-	}
-
 	private void updateValue(float deltaTime){
 		value = fromValue + ((toValue - fromValue) * interpolator.interpolate(deltaTime));
 
