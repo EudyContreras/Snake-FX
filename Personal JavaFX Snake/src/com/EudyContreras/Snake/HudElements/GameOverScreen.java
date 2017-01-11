@@ -166,10 +166,10 @@ public class GameOverScreen {
 
 		stopGame();
 
-		if( state == State.GAME_OVER && rank == -1) {
+		if( state == FXListState.GAME_OVER && rank == -1) {
 			Scoreboard.INSTANCE.update(null, null, score);
 			screensController.setScreen(Main.SCREEN_GAME, Main.SCREEN_GAME_OVER);
-		} else if(state == State.GAME_OVER && rank > -1) {
+		} else if(state == FXListState.GAME_OVER && rank > -1) {
 			Scoreboard.INSTANCE.updateLatestRank(rank);
 			Scoreboard.INSTANCE.updateLatestScore(score);
 			screensController.setScreen(Main.SCREEN_GAME, Main.SCREEN_ADD_SCORE);

@@ -1,25 +1,31 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
+import com.EudyContreras.Snake.CustomNodes.AnimationType;
+import com.EudyContreras.Snake.CustomNodes.FXCallback;
+import com.EudyContreras.Snake.CustomNodes.FXListCell;
+import com.EudyContreras.Snake.CustomNodes.FXListView;
+import com.EudyContreras.Snake.CustomNodes.FXListView.AddOrder;
+import com.EudyContreras.Snake.CustomNodes.FXTransition;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.Utilities.FillUtility;
+import com.EudyContreras.Snake.Utilities.TimePeriod;
 
+import javafx.animation.Interpolator;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.OverrunStyle;
-import javafx.scene.control.RadioButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -31,27 +37,30 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
+import javafx.util.Duration;
 
-public class ConnectMailList{
+public class ConnectMailList {
 
-	private ListView<MailItem> listView;
+	private FXListView<MailItem> listView;
 	private ArrayList<MailItem> toRemove = new ArrayList<>();
 	private GameButton buttons = new GameButton();
 	private Rectangle clip = new Rectangle();
 	private StackPane root = new StackPane();
 	private VBox layout = new VBox(4);
+	int counter = 0;
 
+	public ConnectMailList() {
 
-	public  ConnectMailList(){
-		MailItem[] items = new MailItem[100];
+		ObservableList<MailItem> data = FXCollections.observableArrayList();
+
+		MailItem[] items = new MailItem[2000];
 
 		for (int i = 0; i < items.length; i++) {
-			items[i] = new MailItem("Eddie " + i, "Hello Friend!");
+			items[i] = new MailItem("Eddie " + i, "Hello Friend!" + i);
 			items[i].setDate(LocalDateTime.now());
-			if(i%2==0){
+			if (i % 2 == 0) {
 				items[i].setMessage("ssdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu");
-			}else{
+			} else {
 				items[i].setMessage("sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
 						+ "Once upon a time there was a game sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
 						+ "Once upon a time there was a game sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
@@ -59,51 +68,71 @@ public class ConnectMailList{
 			}
 		}
 
-		ObservableList<MailItem> data = FXCollections.observableArrayList();
 		data.addAll(items);
 
-		listView = new ListView<MailItem>(data);
-		listView.setBackground(FillUtility.PAINT_FILL(Color.TRANSPARENT));
-		listView.setPrefHeight(450);
-		listView.setPrefWidth(640);
-		listView.setMaxHeight(450);
-		listView.setMaxWidth(640);
-		listView.setCellFactory(new Callback<ListView<MailItem>, ListCell<MailItem>>() {
 
+		listView = new FXListView<MailItem>(data, AddOrder.TOP);
+		listView.setFill(Color.ORANGE);
+		listView.setScrollAnimationDuration(TimePeriod.millis(500));
+		listView.setHeight(450);
+		listView.setWidth(640);
+		listView.setSpacing(4);
+		listView.setPadding(new Insets(4));
+		listView.setScrollAnimation(AnimationType.NONE);
+
+		listView.addListListener((state,cell) -> {
+			counter++;
+			System.out.println(counter);
+//			switch(state){
+//			case CELL_ADDED:
+//				System.out.println("Cell added");
+//				break;
+//			case CELL_REMOVE:
+//				System.out.println("Cell removed");
+//				break;
+//			}
+		});
+
+
+		listView.setCellFactory(new FXCallback<FXListView<MailItem>, FXListCell<MailItem>>() {
 			@Override
-			public ListCell<MailItem> call(ListView<MailItem> arg0) {
+			public FXListCell<MailItem> call(FXListView<MailItem> arg0) {
 
-				return new ListCell<MailItem>() {
-
+				return new FXListCell<MailItem>() {
 					@Override
-					protected void updateItem(MailItem item, boolean bln) {
-						super.updateItem(item, bln);
+					public void createCell(MailItem item) {
+						super.createCell(item);
 						if (item != null) {
 							Notifcation notification = new Notifcation();
 
 							notification.setHeader(item.getHeader());
 							notification.setDate(item.getDate());
 							notification.setContent(item.getMessage());
-							notification.setOnSelect(()->{
-								toRemove.add(item);
-							});
-							notification.setOnUnSelect(()->{
-								toRemove.remove(item);
+							notification.setOnSelect(() -> {
+								listView.getItems().remove(item);
 							});
 							setGraphic(notification.get());
-							setBackground(FillUtility.PAINT_FILL(Color.TRANSPARENT));
+							setBackground(FillUtility.PAINT_FILL(Color.ORANGE));
+//
+//							TranslateTransition translate = new TranslateTransition();
+//							translate.setDuration(Duration.millis(500));
+//							translate.setFromX(0);
+//							translate.setToX(700);
+//
+//							ScaleTransition scale = new ScaleTransition();
+//							scale.setInterpolator(Interpolator.SPLINE(0, 0, 0, 1));
+//							scale.setDuration(Duration.millis(500));
+//							scale.setFromX(0);
+//							scale.setFromY(0);
+//							scale.setToX(1);
+//							scale.setToY(1);
+//
+//							setAddedTransition(scale);
+//
+//							setDeleteTransition(translate);
 
-							setOnMouseClicked(e -> {
-								notification.select();
-							});
-
-							setOnMouseEntered(e ->{
-								notification.hovered(true);
-							});
-
-							setOnMouseExited(e ->{
-								notification.hovered(false);
-							});
+						} else {
+							setGraphic(null);
 						}
 					}
 				};
@@ -111,29 +140,31 @@ public class ConnectMailList{
 		});
 
 		buttons.setSpacing(10);
-		buttons.addButton("Clear");
+		buttons.addButton("Clear","Add New");
 		buttons.setIDToAll("button");
 		buttons.setFontToAll(Font.font(null, FontWeight.BOLD, 15));
-//		buttons.addEvent("Delete",()->{
-//			for(int i = 0; i<toRemove.size(); i++){
-//				MailItem item = toRemove.get(i);
-//				listView.getItems().remove(item);
-//			}
-//			toRemove.clear();
-//		});
-		buttons.addEvent("Clear",()->{
+
+		buttons.addEvent("Clear", () -> {
 			listView.getItems().clear();
 		});
-		buttons.setWidthToAll(400);
+
+		buttons.addEvent("Add New", () -> {
+			MailItem item =  new MailItem("Eddie ", "Hello Friend!");
+			item.setDate(LocalDateTime.now());
+			item.setHeader("Whats up");
+			item.setMessage("sdfhusd hfusdh fusdfu sdfghisud fsud fusdfusdg sudfsi difu");
+			data.add(item);
+		});
+
+		buttons.setWidthToAll(200);
 		buttons.get().getStylesheets().add(ConnectFriends.class.getResource("connectMailList.css").toExternalForm());
 
-
-		clip.setWidth(listView.getPrefWidth()+40);
-		clip.setHeight(listView.getPrefHeight()+70);
+		// clip.setWidth(listView.get().getPrefWidth()+40);
+		// clip.setHeight(listView.get().getPrefHeight()+70);
 		layout.setSpacing(14);
 		layout.setAlignment(Pos.CENTER);
-		layout.getChildren().addAll(listView,buttons.get());
-		root.setClip(clip);
+		layout.getChildren().addAll(listView.get(), buttons.get());
+		// root.setClip(clip);
 		root.getChildren().add(layout);
 		root.getStylesheets().add(ConnectMailChat.class.getResource("connectMailList.css").toExternalForm());
 	}
@@ -152,7 +183,7 @@ public class ConnectMailList{
 		}));
 	}
 
-	public Region get(){
+	public Region get() {
 		return root;
 	}
 
@@ -161,15 +192,15 @@ public class ConnectMailList{
 		private Text date;
 		private Label header;
 		private Label content;
-		private RadioButton mark;
+		private Button delete;
 		private VBox container;
 		private HBox sections;
 		private VBox info;
 		private BorderPane divider;
+		private BorderPane divider2;
 		private StackPane indicator;
 		private ImageView imageView;
-		private Runnable selected;
-		private Runnable unselected;
+		private Runnable action;
 
 		public Notifcation() {
 			this.info = new VBox(3);
@@ -179,75 +210,51 @@ public class ConnectMailList{
 			this.container = new VBox();
 			this.sections = new HBox(4);
 			this.indicator = new StackPane();
-			this.mark = new RadioButton();
+			this.delete = new Button("X");
+			this.divider2 = new BorderPane();
 			this.divider = new BorderPane();
 			this.imageView = new ImageView();
 			this.selectListener();
 			this.create();
 		}
 
-		private void selectListener(){
-			this.mark.setOnAction(e->{
-				if(mark.isSelected()){
-					if(selected!=null){
-						selected.run();
-					}
-				}else{
-					if(unselected!=null){
-						unselected.run();
-					}
+		private void selectListener() {
+			this.delete.setOnAction(e -> {
+				if (action != null) {
+					action.run();
 				}
 			});
-		}
-		public void setOnUnSelect(Runnable script) {
-			this.unselected = script;
+			this.delete.setOnMouseEntered(e -> {
+				delete.setTextFill(Color.RED);
+			});
+			this.delete.setOnMouseExited(e -> {
+				delete.setTextFill(Color.BLACK);
+			});
 		}
 
 		public void setOnSelect(Runnable script) {
-			this.selected = script;
-		}
-
-		public void hovered(boolean state) {
-			if(state){
-				header.setTextFill(Color.WHITE);
-				content.setTextFill(Color.WHITE);
-				date.setFill(Color.WHITE);
-				indicator.setBackground(FillUtility.PAINT_FILL(FillUtility.LINEAR_GRADIENT(Color.rgb(20,190,255))));
-			}else{
-				header.setTextFill(Color.WHITE);
-				content.setTextFill(Color.WHITE);
-				date.setFill(Color.WHITE);
-				indicator.setBackground(FillUtility.PAINT_FILL(FillUtility.LINEAR_GRADIENT(Color.rgb(255, 200, 0))));
-			}
-		}
-
-		public void select() {
-			if(mark.isSelected()){
-				mark.setSelected(false);
-				if(unselected!=null){
-					unselected.run();
-				}
-			}else{
-				mark.setSelected(true);
-				if(selected!=null){
-					selected.run();
-				}
-			}
+			this.action = script;
 		}
 
 		private void create() {
 			divider.setRight(date);
 			divider.setLeft(header);
+			divider2.setTop(delete);
+			BorderPane.setAlignment(delete, Pos.TOP_RIGHT);
 			divider.setPadding(new Insets(0, 20, 0, 0));
 			header.setFont(Font.font(null, FontWeight.EXTRA_BOLD, 18));
-			date.setFont(Font.font(null,FontWeight.BLACK,14));
-			content.setFont(Font.font(null,FontWeight.SEMI_BOLD,14));
+			date.setFont(Font.font(null, FontWeight.BLACK, 14));
+			content.setFont(Font.font(null, FontWeight.SEMI_BOLD, 14));
 			header.setTextFill(Color.WHITE);
 			content.setTextFill(Color.WHITE);
 			date.setFill(Color.WHITE);
+			delete.setPadding(new Insets(0, 6, 0, 0));
+			delete.setFont(Font.font(null, FontWeight.BOLD, 20));
+			delete.setTextFill(Color.BLACK);
+			delete.setStyle("-fx-background-color: transparent;");
 			content.setWrapText(true);
-			content.setMinWidth(listView.getPrefWidth() - 200);
-			content.setMaxWidth(listView.getPrefWidth() - 200);
+			content.setMinWidth(listView.getWidth() - 200);
+			content.setMaxWidth(listView.getWidth() - 200);
 			content.setMaxHeight(80);
 			content.setTextOverrun(OverrunStyle.ELLIPSIS);
 			imageView.setImage(GameImageBank.profile_default_male);
@@ -263,7 +270,7 @@ public class ConnectMailList{
 			indicator.setBackground(FillUtility.PAINT_FILL(FillUtility.LINEAR_GRADIENT(Color.rgb(255, 200, 0))));
 			info.setSpacing(2);
 			info.getChildren().addAll(divider, content);
-			sections.getChildren().addAll(indicator, info, mark);
+			sections.getChildren().addAll(indicator, info, divider2);
 			container.getChildren().add(sections);
 		}
 
@@ -293,7 +300,6 @@ public class ConnectMailList{
 		private Object attachment;
 		private LocalDateTime date;
 		private DateTimeFormatter format;
-
 
 		public MailItem() {
 			super();
@@ -348,11 +354,11 @@ public class ConnectMailList{
 			return sender;
 		}
 
-		public void selected(boolean state){
+		public void selected(boolean state) {
 			this.selected = state;
 		}
 
-		public boolean isSelected(){
+		public boolean isSelected() {
 			return selected;
 		}
 

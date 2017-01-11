@@ -39,7 +39,7 @@ public class GameStateController{
 	public void setState(GameStateID id) {
 		AbstractGameStates state = map.get(id);
 		if (state == null) {
-			System.err.println("State <" + id + "> does not exist");
+			System.err.println("FXListState <" + id + "> does not exist");
 			return;
 		}
 		currentState.exitState();

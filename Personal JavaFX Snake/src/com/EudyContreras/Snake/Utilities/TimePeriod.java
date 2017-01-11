@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TimePeriod {
 
+
 	public static final Period hours(int time){
 		return new Hour(time);
 	}

@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.ThreadTools;
 public class EventQueue {
 
 	private ThreadBuffer<Runnable> buffer = new ThreadBuffer<>();
-	
+
 	private WorkerThread worker;
 
 	public void start() {
@@ -42,5 +42,4 @@ public class EventQueue {
 			}
 		}
 	}
-
 }

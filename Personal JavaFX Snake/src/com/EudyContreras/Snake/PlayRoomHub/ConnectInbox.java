@@ -2,7 +2,6 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import java.util.Random;
 
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.PlayRoomHub.ConnectLabel.Style;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 
 import javafx.animation.Interpolator;
@@ -411,6 +410,7 @@ public class ConnectInbox{
 
 		public void animate(boolean state, Runnable script){
 			if(state){
+				layout.setVisible(true);
 				root.getChildren().remove(content);
 				root.getChildren().add(2,content);
 				anim.stop();
@@ -418,11 +418,10 @@ public class ConnectInbox{
 				anim.setToY(lastY-5);
 				anim.setFromX(0);
 				anim.setToX(0);
-				anim.setDuration(Duration.millis(300));
+				anim.setDuration(Duration.millis(600));
 				anim.setAutoReverse(false);
 				anim.setCycleCount(1);
 				anim.setOnFinished(e->{
-					layout.setVisible(true);
 					connect.cullRegion(connect.getVRegion(), false);
 					anim.stop();
 					anim.setFromY(lastY-5);
@@ -488,7 +487,7 @@ public class ConnectInbox{
 			this.text = new Text("0");
 			this.circle = new Circle(15);
 			this.container = new StackPane();
-			this.circle.setFill(FillUtility.RADIAL_GRADIENT(Color.DODGERBLUE.brighter(), Color.DODGERBLUE));
+			this.circle.setFill(FillUtility.RADIAL_GRADIENT(Color.RED.brighter(), Color.RED.darker()));
 			this.circle.setStroke(Color.WHITE);
 			this.circle.setStrokeWidth(2);
 			this.text.setFill(Color.WHITE);

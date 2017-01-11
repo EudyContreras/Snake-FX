@@ -1,6 +1,8 @@
 
 package com.EudyContreras.Snake.GameObjects;
 
+import java.util.Random;
+
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
@@ -14,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Shear;
 
 /**
  * This class represents a cactus which creates a moving
@@ -22,15 +25,26 @@ import javafx.scene.transform.Rotate;
  *
  */
 public class DesertCactusBig extends AbstractTile {
+	private Shear shear = new Shear();
+	private double waveX = 0.0;
+	private double waveXVel = 0.0;
+	private double maxWaveLeft = 0;
+	private double maxWaveRight = 0;
 	private GameManager game;
 
 	public DesertCactusBig(float x, float y, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		if (GameSettings.SAND_STORM)
 			this.velR = velR;
+		this.waveXVel = 0.01;
+		this.maxWaveLeft = -0.07;
+		this.maxWaveRight = 0.07;
+		this.view.setFitWidth(view.getImage().getWidth());
+		this.view.setFitHeight(view.getImage().getHeight());
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.view.setRotationAxis(Rotate.Y_AXIS);
+		this.view.getTransforms().add(shear);
 		if(RandomGenUtility.getRandom(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_cactus_big_alt);
 			this.width = image.getWidth()+20;
@@ -40,6 +54,7 @@ public class DesertCactusBig extends AbstractTile {
 			this.y = y-30;
 		}
 
+		this.shear.setPivotY(view.getFitHeight());
 	}
 	/**
 	 * Method which moves this object
@@ -53,6 +68,16 @@ public class DesertCactusBig extends AbstractTile {
 	 * Method which makes this object wave or rotate.
 	 */
 	public void wave() {
+		waveX+=waveXVel;
+
+		if(waveX>=maxWaveRight){
+			maxWaveRight = RandomGenUtility.getRandom(0.05, 0.07);
+			waveXVel = -RandomGenUtility.getRandom(0.008, 0.014);
+		}
+		if(waveX<=maxWaveLeft){
+			maxWaveLeft = -RandomGenUtility.getRandom(0.05, 0.07);
+			waveXVel = RandomGenUtility.getRandom(0.008, 0.014);
+		}
 		if (r > 4) {
 			velR -= Math.random() * (0.4 - 0.01 + 1) + 0.01;
 		}
@@ -60,6 +85,8 @@ public class DesertCactusBig extends AbstractTile {
 			if (velR < 4)
 				velR += 0.5f;
 		}
+
+		shear.setX(waveX);
 	}
 	/**
 	 * Methods which draws a bounding box

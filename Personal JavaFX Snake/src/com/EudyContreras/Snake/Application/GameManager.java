@@ -1,6 +1,7 @@
 
 package com.EudyContreras.Snake.Application;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractGameModel;
@@ -14,6 +15,9 @@ import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
 import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
 import com.EudyContreras.Snake.FrameWork.CursorUtility;
 import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
+import com.EudyContreras.Snake.FrameWork.GameLoader;
+import com.EudyContreras.Snake.FrameWork.ResizeHelper;
+import com.EudyContreras.Snake.FrameWork.ResizeListener;
 import com.EudyContreras.Snake.HudElements.CountDownScreen;
 import com.EudyContreras.Snake.HudElements.EnergyBarOne;
 import com.EudyContreras.Snake.HudElements.EnergyBarTwo;
@@ -27,9 +31,6 @@ import com.EudyContreras.Snake.HudElements.ReadyNotification;
 import com.EudyContreras.Snake.HudElements.ScoreBoard;
 import com.EudyContreras.Snake.HudElements.ScoreKeeper;
 import com.EudyContreras.Snake.HudElements.VictoryScreen;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
-import com.EudyContreras.Snake.FrameWork.ResizeHelper;
-import com.EudyContreras.Snake.FrameWork.ResizeListener;
 import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
@@ -90,6 +91,7 @@ public class GameManager extends AbstractGameModel {
 
     private LinkedList<TaskWrapper> guiUpdate = new LinkedList<>();
     private LinkedList<TaskWrapper> gameUpdates = new LinkedList<>();
+    private static ArrayList<ShowListener> showListeners = new ArrayList<>();
 
     public void start(Stage primaryStage) {
         if(GameSettings.SHOW_SPLASHSCREEN){
@@ -248,6 +250,13 @@ public class GameManager extends AbstractGameModel {
         mainWindow.setFullScreen(false);
         mainWindow.initStyle(StageStyle.UNDECORATED);
         mainWindow.show();
+
+        if(!showListeners.isEmpty()){
+        	for(int i = 0; i<showListeners.size(); i++){
+        		showListeners.get(i).onShow();
+        	}
+        }
+        showListeners.clear();
 
         resizeListener(mainWindow, scene, sceneRoot);
         setNewRatio(false);
@@ -1025,5 +1034,7 @@ public class GameManager extends AbstractGameModel {
         launch(args);
     }
 
-
+	public static void addShowListener(ShowListener listener) {
+		showListeners.add(listener);
+	}
 }

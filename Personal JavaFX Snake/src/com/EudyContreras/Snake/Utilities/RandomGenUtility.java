@@ -16,8 +16,8 @@ public abstract class RandomGenUtility {
 	}
 
 	//Gets a random double number in range. inclusive.
-	public static double getRandom(double minValue, double maxValue) {
-		return rand.nextDouble()*(maxValue + 1 - minValue) + minValue;
+	public static double getRandom(double rangeMin, double rangeMax) {
+		return rangeMin + (rangeMax - rangeMin) * rand.nextDouble();
 	}
 
 	//Gets a random float number in range. inclusive.

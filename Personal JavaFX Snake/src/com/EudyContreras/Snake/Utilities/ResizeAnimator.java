@@ -6,6 +6,7 @@ import java.util.List;
 import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
 
 import javafx.application.Platform;
+import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 
 public class ResizeAnimator implements Animator{
@@ -18,8 +19,8 @@ public class ResizeAnimator implements Animator{
 	private Runnable endScript;
 	private Period playTime;
 	private Rectangle node;
+	private Region region;
     private long startTime = -1;
-	private boolean keepCenter = false;
 	private boolean running = true;
 	private boolean revert = false;
 	private boolean repeat = false;
@@ -67,8 +68,42 @@ public class ResizeAnimator implements Animator{
         }
     }
 
+	protected void interpolate(float delta) {
+		double progress;
+        switch (resizeAxis){
+            case RESIZE_WIDTH:
+                progress = interpolator.interpolate(delta);
+                newWidth = startWidth + ((int) Math.round((endWidth - startWidth) * progress));
+                Platform.runLater(()->{
+                    region.setPrefWidth(newWidth);
+				});
+                break;
+            case RESIZE_HEIGHT:
+            	progress = interpolator.interpolate(delta);
+                newHeight = startHeight + ((int) Math.round((endHeight - startHeight) * progress));
+                Platform.runLater(()->{
+                    region.setPrefHeight(newHeight);
+				});
+                break;
+            case RESIZE_WIDTH_HEIGHT:
+                progress = interpolator.interpolate(delta);
+                newWidth = startWidth + ((int) Math.round((endWidth - startWidth) * progress));
+                newHeight = startHeight + ((int) Math.round((endHeight - startHeight) * progress));
+                Platform.runLater(()->{
+                    region.setPrefWidth(newWidth);
+                    region.setPrefHeight(newHeight);
+				});
+                break;
+        }
+	}
+
+
 	public void setNode(Rectangle node){
 		this.node = node;
+	}
+
+	public void setRegion(Region region){
+		this.region = region;
 	}
 
 	public void setResizeAxis(int axis) {
@@ -136,11 +171,6 @@ public class ResizeAnimator implements Animator{
 		return this;
 	}
 
-	public ResizeAnimator keepCenter(boolean state){
-		this.keepCenter = state;
-		return this;
-	}
-
 	public void setDelay(int delay){
 		this.delay = delay;
 	}
@@ -162,24 +192,34 @@ public class ResizeAnimator implements Animator{
 	}
 
 	private void notifyStart(){
-		if(!listeners.isEmpty()){
-			listeners.stream().filter(listener-> listener!=null).forEach(listener-> listener.OnStart(this));
-		}
+		Platform.runLater(() -> {
+			if (!listeners.isEmpty()) {
+				listeners.stream().filter(listener -> listener != null).forEach(listener -> listener.OnStart(this));
+			}
+		});
 	}
 
-	private void notifyEnd(){
-		if(!listeners.isEmpty()){
-			listeners.stream().filter(listener-> listener!=null).forEach(listener-> listener.OnEnd(this));
-		}
+	private void notifyEnd() {
+		Platform.runLater(() -> {
+			if (!listeners.isEmpty()) {
+				listeners.stream().filter(listener -> listener != null).forEach(listener -> listener.OnEnd(this));
+			}
+		});
 	}
 
-	private void notifyRepeat(){
-		if(!listeners.isEmpty()){
-			listeners.stream().filter(listener-> listener!=null).forEach(listener-> listener.OnRepeat(this));
-		}
+	@SuppressWarnings("unused")
+	private void notifyRepeat() {
+		Platform.runLater(() -> {
+			if (!listeners.isEmpty()) {
+				listeners.stream().filter(listener -> listener != null).forEach(listener -> listener.OnRepeat(this));
+			}
+		});
 	}
 	@Override
 	public void play(){
+		if(interpolator==null){
+			interpolator = Interpolators.getLinearInstance();
+		}
 		ThreadManager.performeScript(() ->{
 
 			sleep(delay);
@@ -193,7 +233,11 @@ public class ResizeAnimator implements Animator{
 	              long duration = now - startTime;
 	              float deltaTime = (float) duration / (float) playTime.getDuration();
 
-	              applyTransformation(deltaTime);
+	              if(node!=null){
+	            	  applyTransformation(deltaTime);
+	              }else if(region!=null){
+	            	  interpolate(deltaTime);
+	              }
 
 	              if (duration >= playTime.getDuration()) {
 	                  deltaTime = 1;
@@ -203,7 +247,7 @@ public class ResizeAnimator implements Animator{
 
 	      		sleep(1);
 			}
-			System.out.println("Width :" +newWidth);
+
 			if(endScript!=null){
 				Platform.runLater(endScript);
 
