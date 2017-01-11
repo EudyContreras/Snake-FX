@@ -1,7 +1,11 @@
 package com.EudyContreras.Snake.CustomNodes;
 
 import javafx.animation.Transition;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Region;
 
 public class FXListCell<T> extends Region{
@@ -9,11 +13,53 @@ public class FXListCell<T> extends Region{
 	private int index;
 	private T item;
 	private Region graphic;
+	private ScrollPane container;
 	private Transition deleteTransition;
 	private Transition addedTransition;
 
 	public FXListCell(){
 		this.setPadding(new Insets(3,2,3,2));
+	}
+
+	private void addCullListener(){
+		container.vvalueProperty().addListener(listener->{
+			cullCells(container);
+
+		});
+	}
+
+	private void cullCells(ScrollPane container) {
+		Bounds paneBounds = container.localToScene(container.getBoundsInParent());
+		Bounds nodeBounds = this.localToScene(this.getBoundsInLocal());
+		if (withinBounds(50, paneBounds, nodeBounds)) {
+			if(!this.isRendered()){
+				this.render(true);
+			}
+		} else {
+			if(this.isRendered()){
+				this.render(false);
+			}
+		}
+	}
+
+	private boolean withinBounds(double offset, Bounds parent, Bounds child){
+		return new Rectangle2D(
+				parent.getMinX(),
+				parent.getMinY()-offset,
+				parent.getWidth(),
+				parent.getHeight()+offset*2).
+				intersects(
+						child.getMinX(),
+						child.getMinY(),
+						child.getWidth(),
+						child.getHeight());
+	}
+
+	private void setParentList(ScrollPane region){
+		this.container = region;
+		if(region!=null){
+			addCullListener();
+		}
 	}
 
 	public void createCell(T item) {
@@ -56,7 +102,18 @@ public class FXListCell<T> extends Region{
 
 	public void setGraphic(Region node) {
 		this.graphic = node;
-		this.getChildren().add(node);
+		this.showGraphic(true);
+	}
+
+	public void showGraphic(boolean state){
+		if(state){
+			this.getChildren().remove(graphic);
+			this.getChildren().add(graphic);
+			this.setMinHeight(0);
+		}else{
+			this.setMinHeight(graphic.getBoundsInParent().getHeight()+8);
+			this.getChildren().remove(graphic);
+		}
 	}
 
 	public boolean containsItem(T item) {
@@ -106,5 +163,14 @@ public class FXListCell<T> extends Region{
 		} else if (!item.equals(other.item))
 			return false;
 		return true;
+	}
+
+	public void render(boolean state) {
+		this.setVisible(state);
+		this.showGraphic(state);
+	}
+
+	public boolean isRendered(){
+		return this.isVisible();
 	}
 }
