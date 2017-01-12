@@ -42,7 +42,7 @@ public class ThreadManager {
     }
 
     public synchronized ThreadManager submitThread(String name, TaskType taskType, int updateFrequency, int startDelay, TaskWrapper... tasks){
-    	return submitThread(name,taskType,TimeUnit.MILLISECONDS, updateFrequency,0,tasks);
+    	return submitThread(name,taskType,TimeUnit.MILLISECONDS, updateFrequency,startDelay,tasks);
     }
 
     /**
