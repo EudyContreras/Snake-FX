@@ -4,19 +4,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import com.EudyContreras.Snake.CustomNodes.AnimationType;
 import com.EudyContreras.Snake.CustomNodes.FXCallback;
+import com.EudyContreras.Snake.CustomNodes.FXListAnimation.AnimationType;
 import com.EudyContreras.Snake.CustomNodes.FXListCell;
 import com.EudyContreras.Snake.CustomNodes.FXListView;
 import com.EudyContreras.Snake.CustomNodes.FXListView.AddOrder;
-import com.EudyContreras.Snake.CustomNodes.FXTransition;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 import com.EudyContreras.Snake.Utilities.TimePeriod;
 
-import javafx.animation.Interpolator;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -37,7 +33,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 
 public class ConnectMailList {
 
@@ -53,7 +48,7 @@ public class ConnectMailList {
 
 		ObservableList<MailItem> data = FXCollections.observableArrayList();
 
-		MailItem[] items = new MailItem[4000];
+		MailItem[] items = new MailItem[7000];
 
 		for (int i = 0; i < items.length; i++) {
 			items[i] = new MailItem("Eddie " + i, "Hello Friend!" + i);
@@ -71,7 +66,7 @@ public class ConnectMailList {
 		data.addAll(items);
 
 
-		listView = new FXListView<MailItem>(data, AddOrder.TOP);
+		listView = new FXListView<MailItem>(AddOrder.TOP,data);
 		listView.setFill(Color.ORANGE);
 		listView.setScrollAnimationDuration(TimePeriod.millis(500));
 		listView.setHeight(450);
@@ -110,7 +105,7 @@ public class ConnectMailList {
 							});
 
 							setGraphic(notification.get());
-							setBackground(FillUtility.PAINT_FILL(Color.RED));
+							setBackground(FillUtility.PAINT_FILL(Color.ORANGE));
 //
 //							TranslateTransition translate = new TranslateTransition();
 //							translate.setDuration(Duration.millis(500));
