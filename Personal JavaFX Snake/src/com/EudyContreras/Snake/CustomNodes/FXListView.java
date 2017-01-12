@@ -33,11 +33,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
@@ -48,6 +53,7 @@ public class FXListView<T> {
 
 	private boolean allowAnimations = true;
 	private boolean allowSelfRestore = true;
+	private boolean showingPlaceholder = false;
 	private boolean divider = false;
 
 	private int animDuration = 250;
@@ -67,7 +73,15 @@ public class FXListView<T> {
 	private Transition removeTransition;
 	private Transition newCellTransition;
 
+	private ImageView placeHolder;
+
+	private WritableImage writableImage;
+
+	private SnapshotParameters parameters;
+
 	private FXListAnimation<T> animation;
+
+	private StackPane parentContainer;
 
 	private ScrollPane container;
 
@@ -89,10 +103,14 @@ public class FXListView<T> {
 		this.animation = new FXListAnimation<>();
 		this.fxListTranstion = new FXTransition();
 		this.nodeCollection = new LinkedList<>();
+		this.parentContainer = new StackPane();
 		this.container.setContent(listLayout);
 		this.container.setFitToWidth(true);
 		this.listLayout.setFillWidth(true);
-		this.listLayout.setMaxHeight(2000);
+		this.parentContainer.getChildren().add(container);
+		this.placeHolder = new ImageView();
+		this.parameters = new SnapshotParameters();
+		this.parameters.setFill(Color.TRANSPARENT);
 		this.observeChanges();
 	}
 
@@ -100,7 +118,11 @@ public class FXListView<T> {
 		this(order,FXCollections.observableArrayList());;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void observeChanges() {
+		listLayout.setOnScrollFinished(e->{
+			cacheState();
+		});
 
 		container.heightProperty().addListener((obs, oldValue, newValue) -> {
 
@@ -142,48 +164,43 @@ public class FXListView<T> {
 				scrollBar.addEventFilter(MouseEvent.MOUSE_DRAGGED,event -> {
 
 				});
-				scrollBar.addEventFilter(MouseEvent.MOUSE_RELEASED,event ->{
+				scrollBar.addEventFilter(MouseEvent.MOUSE_RELEASED,event -> {
+
 					cullCells(container,oldValue.doubleValue(),newValue.doubleValue());
+
+					cacheState();
 			    });
 			}
 
 			cullCells(container,oldValue.doubleValue(),newValue.doubleValue());
 		});
 
-		container.sceneProperty().addListener((obs, oldScene, newScene) -> {
+		parentContainer.sceneProperty().addListener((obs, oldScene, newScene) -> {
 
 			if (newScene == null) {
-				// not showing...
+				switch (addOrder) {
+				case BOTTOM:
+					for (Node cell : listLayout.getChildren()) {
+						nodeCollection.add((FXListCell<T>) cell);
+					}
+					break;
+				case TOP:
+					for (Node cell : listLayout.getChildren()) {
+						nodeCollection.add(0,(FXListCell<T>) cell);
+					}
+					break;
+				}
+
+				listLayout.getChildren().clear();
+
 			} else {
-//				int size = nodeCollection.size();
-//
-//				switch (addOrder) {
-//				case BOTTOM:
-//
-//					for (int i = 0; i < MAX_INITIAL_COUNT; i++) {
-//						if (i < size) {
-//							FXListCell<T> cell = nodeCollection.get(nodeCollection.size()-1);
-//							listLayout.getChildren().add(cell);
-//							nodeCollection.remove(nodeCollection.size()-1);
-//						}
-//					}
-//					break;
-//				case TOP:
-//					for (int i = 0; i < MAX_INITIAL_COUNT; i++) {
-//						if (i < size) {
-//							FXListCell<T> cell = nodeCollection.get(nodeCollection.size()-1);
-//							listLayout.getChildren().add(0, cell);
-//							nodeCollection.remove(nodeCollection.size()-1);
-//						}
-//					}
-//					break;
-//				}
 
-//				cullCells(container);
+				showPlaceHolder(true);
 
-				AnimationTimer.runLater(TimePeriod.millis(1200), ()->{
+			AnimationTimer.runLater(TimePeriod.millis(1600), ()->{
 
-					listLayout.setMaxHeight(Integer.MAX_VALUE);
+				listLayout.getChildren().clear();
+
 					switch (addOrder) {
 					case BOTTOM:
 						for (FXListCell<T> cell : nodeCollection) {
@@ -196,6 +213,12 @@ public class FXListView<T> {
 						}
 						break;
 					}
+
+					nodeCollection.clear();
+
+					showPlaceHolder(false);
+
+					cacheState();
 				});
 			}
 
@@ -303,6 +326,27 @@ public class FXListView<T> {
 		}
 	}
 
+	public void showPlaceHolder(boolean state) {
+		if (state) {
+			if(container.getHeight()>10){
+			this.parentContainer.getChildren().clear();
+			this.parentContainer.getChildren().add(placeHolder);
+			this.showingPlaceholder = true;
+			}
+		} else {
+			this.parentContainer.getChildren().clear();
+			this.parentContainer.getChildren().add(container);
+			this.showingPlaceholder = false;
+		}
+	}
+
+	private void cacheState(){
+		writableImage = new WritableImage((int) container.getWidth(), (int) container.getHeight());
+		container.snapshot(parameters, writableImage);
+		placeHolder.setImage(writableImage);
+	}
+
+
 	private void animateOnSight(FXListCell<?> node) {
 		KeyFrame[] frames = getKeyFrames(node, animDuration, animType);
 		if (frames != null) {
@@ -394,19 +438,6 @@ public class FXListView<T> {
 			}
 		}
 	}
-//
-//	private ScrollBar getScrollBar(ScrollPane table, Orientation orientation) {
-//		ScrollBar result = null;
-//		for (Node node : table.lookupAll(".scroll-bar")) {
-//			if (node instanceof ScrollBar) {
-//				ScrollBar bar = (ScrollBar) node;
-//				if (bar.getOrientation().equals(orientation)) {
-//					result = bar;
-//				}
-//			}
-//		}
-//		return result;
-//	}
 
 	@SuppressWarnings("unused")
 	private void log(Object obj){
@@ -441,9 +472,12 @@ public class FXListView<T> {
 		if(allowAnimations){
 		animateRemoval(cell,()->{
 			listLayout.getChildren().remove(cell);
+			nodeCollection.remove(cell);
+
 		});
 		}else{
 			listLayout.getChildren().remove(cell);
+			nodeCollection.remove(cell);
 		}
 	}
 
@@ -489,23 +523,23 @@ public class FXListView<T> {
 
 	private void removeCellAnimation(Region node, FXListEvent event) {
 		ResizeAnimator resize = new ResizeAnimator(ResizeAnimator.RESIZE_HEIGHT);
-		resize.setInterpolator(Interpolators.getEasingInstance(0,0));
 		resize.setDuration(TimePeriod.millis(250));
 		resize.setStartHeight(node.getBoundsInParent().getHeight());
 		resize.setEndHeight(0);
 		resize.setRegion(node);
 		resize.setOnFinished(()->{
-			cullCells(container);
 			if(event!=null){
 				event.fire();
 			}
+			cullCells(container);
+			cacheState();
 		});
 		resize.play();
 	}
 
 	private void animateAddition(FXListCell<T> node, FXListEvent startEvent, FXListEvent endEvent){
 		ResizeAnimator resize = new ResizeAnimator(ResizeAnimator.RESIZE_HEIGHT);
-		resize.setInterpolator(Interpolators.getEasingInstance(0,0));
+		resize.setInterpolator(Interpolators.getEasingInstance(0,1));
 		resize.setDuration(TimePeriod.millis(250));
 		resize.addListener(new AnimatorListener(){
 			@Override
@@ -527,11 +561,12 @@ public class FXListView<T> {
 
 				addCellAnimation(node);
 
-				cullCells(container);
-
 				if(endEvent!=null){
 					endEvent.fire();
 				}
+
+				cullCells(container);
+				cacheState();
 			}
 		});
 
@@ -579,6 +614,40 @@ public class FXListView<T> {
 			pairCollection.put(item, cell);
 			index++;
 		}
+
+		if (nodeCollection.size() > MAX_INITIAL_COUNT) {
+			for (int i = nodeCollection.size() - MAX_INITIAL_COUNT; i < nodeCollection.size(); i++) {
+				FXListCell<T> cell = null;
+				switch (addOrder) {
+				case BOTTOM:
+					cell = nodeCollection.get(i);
+					cell.render(true);
+					listLayout.getChildren().add(cell);
+					break;
+				case TOP:
+					cell = nodeCollection.get(i);
+					cell.render(true);
+					listLayout.getChildren().add(0, cell);
+					break;
+				}
+			}
+		}else{
+			for (int i = 0; i < nodeCollection.size(); i++) {
+				FXListCell<T> cell = null;
+				switch (addOrder) {
+				case BOTTOM:
+					cell = nodeCollection.get(i);
+					cell.render(true);
+					listLayout.getChildren().add(cell);
+					break;
+				case TOP:
+					cell = nodeCollection.get(i);
+					cell.render(true);
+					listLayout.getChildren().add(0, cell);
+					break;
+				}
+			}
+		}
 	}
 
 	private void removeItem(T item) {
@@ -588,6 +657,7 @@ public class FXListView<T> {
 
 	private void clearItems(){
 		listLayout.getChildren().clear();
+		nodeCollection.clear();
 		pairCollection.clear();
 	}
 
@@ -610,6 +680,7 @@ public class FXListView<T> {
 	public void clear(){
 		listLayout.getChildren().clear();
 		pairCollection.clear();
+		nodeCollection.clear();
 		observableData.clear();
 	}
 
@@ -690,12 +761,13 @@ public class FXListView<T> {
 	}
 
 	public void setPadding(Insets insets){
-		container.setPadding(insets);
+		parentContainer.setPadding(insets);
 	}
 
 	public void setFill(Paint fill) {
 		container.setBackground(FillUtility.PAINT_FILL(fill));
 		listLayout.setBackground(FillUtility.PAINT_FILL(fill));
+		parentContainer.setBackground(FillUtility.PAINT_FILL(fill));
 	}
 
 	private void addDividers(Node node){
@@ -742,7 +814,7 @@ public class FXListView<T> {
 	}
 
 	public Region get() {
-		return container;
+		return parentContainer;
 	}
 
 	public enum AddOrder{
