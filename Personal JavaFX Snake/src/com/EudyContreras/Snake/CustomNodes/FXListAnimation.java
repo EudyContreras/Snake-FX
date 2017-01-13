@@ -196,11 +196,27 @@ public class FXListAnimation<VALUE> {
 						new KeyFrame(Duration.millis(animDuration), new KeyValue(node.scaleYProperty(), 1))});
 	}
 
+	public KeyFrame[] getZoomOut(Node node, int animDuration, double from, KeyFrame... frames) {
+		return ArrayUtils.CONCAT(frames,
+				new KeyFrame[] {
+						new KeyFrame(Duration.millis(0), new KeyValue(node.scaleXProperty(), from)),
+						new KeyFrame(Duration.millis(0), new KeyValue(node.scaleYProperty(), from)),
+						new KeyFrame(Duration.millis(animDuration), new KeyValue(node.scaleXProperty(), 0)),
+						new KeyFrame(Duration.millis(animDuration), new KeyValue(node.scaleYProperty(), 0))});
+	}
+
 	public KeyFrame[] fadeIn(Node node, int animDuration, KeyFrame... frames) {
 		return ArrayUtils.CONCAT(frames,
 				new KeyFrame[] {
 						new KeyFrame(Duration.millis(0), new KeyValue(node.opacityProperty(), 0)),
 						new KeyFrame(Duration.millis(animDuration), new KeyValue(node.opacityProperty(), 1)) });
+	}
+
+	public KeyFrame[] fadeOut(Node node, int animDuration, KeyFrame... frames) {
+		return ArrayUtils.CONCAT(frames,
+				new KeyFrame[] {
+						new KeyFrame(Duration.millis(0), new KeyValue(node.opacityProperty(), 1)),
+						new KeyFrame(Duration.millis(animDuration), new KeyValue(node.opacityProperty(), 0)) });
 	}
 
 	public ObservableList<KeyFrame> getKeyFrames() {
@@ -238,6 +254,7 @@ public class FXListAnimation<VALUE> {
 	}
 
 	public enum AnimationType {
+	    FADE_IN,
 	    FADE_OUT,
 	    FLAP_RIGHT,
 	    POP_AND_SPAND,
@@ -252,7 +269,8 @@ public class FXListAnimation<VALUE> {
 	    TRANSITION_TOP,
 	    ZOOM_IN,
 	    POP_OUT,
-	    NONE;
+	    NONE,
+	    ZOOM_OUT;
 
 	    public String getName() {
 	        return toString();

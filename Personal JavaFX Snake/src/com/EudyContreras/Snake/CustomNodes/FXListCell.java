@@ -1,23 +1,22 @@
 package com.EudyContreras.Snake.CustomNodes;
 
+import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Region;
 
-public class FXListCell<T> extends Region {
+public class FXListCell<T> extends Region{
 
 	private int index;
 	private T item;
 	private Region graphic;
+	private Timeline timeLine;
 	private Transition deleteTransition;
 	private Transition addedTransition;
 
 
-	public FXListCell() {
-//		this.setCache(true);
-//		this.setCacheShape(true);
-//		this.setCacheHint(CacheHint.SPEED);
-		this.setPadding(new Insets(3, 2, 3, 2));
+	public FXListCell(){
+		this.setPadding(new Insets(3,2,3,2));
 	}
 
 	public void createCell(T item) {
@@ -58,34 +57,52 @@ public class FXListCell<T> extends Region {
 		}
 	}
 
+	public void setTimeLine(Timeline timeline){
+		this.timeLine = timeline;
+		this.timeLine.play();
+	}
+
+	public void removeTimeLine(){
+		if(timeLine!=null){
+			timeLine.stop();
+			timeLine = null;
+		}
+	}
+
 	public void setGraphic(Region node) {
 		this.graphic = node;
 		this.showGraphic(true);
 	}
 
-	private void showGraphic(boolean state) {
-		if (state) {
-			this.getChildren().clear();
+	public void showGraphic(boolean state){
+		if(state){
+			this.getChildren().remove(graphic);
 			this.getChildren().add(graphic);
 			this.setMinHeight(0);
-		} else {
-			if(getHeight()>6){
-				this.setMinHeight(getHeight());
-			} else {
-				this.setMinHeight(graphic.getBoundsInParent().getHeight() + 8);
-			}
-			this.getChildren().clear();
+		}else{
+			this.setMinHeight(graphic.getBoundsInParent().getHeight()+8);
+			this.getChildren().remove(graphic);
 		}
 	}
 
-
 	public void render(boolean state) {
-		 this.setVisible(state);
-		 this.showGraphic(state);
+		this.setVisible(state);
+		this.showGraphic(state);
 	}
 
-	public boolean isRendered() {
+	public boolean isRendered(){
 		return this.isVisible();
+	}
+
+	public void resetProperties() {
+//		this.translateXProperty().set(0);
+//		this.translateYProperty().set(0);
+//		this.translateZProperty().set(0);
+//		this.scaleYProperty().set(1);
+//		this.scaleXProperty().set(1);
+//		this.scaleZProperty().set(1);
+//		this.rotateProperty().set(0);
+//		this.opacityProperty().set(1);
 	}
 
 	public boolean containsItem(T item) {

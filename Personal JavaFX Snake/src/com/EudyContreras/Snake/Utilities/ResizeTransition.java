@@ -52,14 +52,22 @@ public class ResizeTransition extends Transition {
 	private void resizeRegion(double fraction){
 		switch(resize){
 		case HEIGHT:
+			region.setPrefHeight(fromHeight + (heightDiff * fraction));
 			region.setMinHeight(fromHeight + (heightDiff * fraction));
+			region.setMaxHeight(fromHeight + (heightDiff * fraction));
 			break;
 		case WIDTH:
+			region.setPrefWidth(fromWidth + (widthDiff * fraction));
 			region.setMinWidth(fromWidth + (widthDiff * fraction));
+			region.setMaxWidth(fromWidth + (widthDiff * fraction));
 			break;
 		case WIDTH_AND_HEIGHT:
+			region.setPrefWidth(fromWidth + (widthDiff * fraction));
 			region.setMinWidth(fromWidth + (widthDiff * fraction));
+			region.setMaxWidth(fromWidth + (widthDiff * fraction));
+			region.setPrefHeight(fromHeight + (heightDiff * fraction));
 			region.setMinHeight(fromHeight + (heightDiff * fraction));
+			region.setMaxHeight(fromHeight + (heightDiff * fraction));
 			break;
 		}
 	}

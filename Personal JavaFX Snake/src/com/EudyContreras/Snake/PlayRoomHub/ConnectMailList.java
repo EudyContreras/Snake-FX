@@ -48,7 +48,7 @@ public class ConnectMailList {
 
 		ObservableList<MailItem> data = FXCollections.observableArrayList();
 
-		MailItem[] items = new MailItem[7000];
+		MailItem[] items = new MailItem[10000];
 
 		for (int i = 0; i < items.length; i++) {
 			items[i] = new MailItem("Eddie " + i, "Hello Friend!" + i);
@@ -73,7 +73,7 @@ public class ConnectMailList {
 		listView.setWidth(640);
 		listView.setSpacing(4);
 		listView.setPadding(new Insets(4));
-		listView.setScrollAnimation(AnimationType.NONE);
+		listView.setScrollAnimation(AnimationType.POP_OUT);
 //		listView.addListListener((state,cell) -> {
 //			switch(state){
 //			case CELL_ADDED:
@@ -101,7 +101,7 @@ public class ConnectMailList {
 							notification.setDate(item.getDate());
 							notification.setContent(item.getMessage());
 							notification.setOnSelect(() -> {
-								listView.getItems().remove(item);
+								data.remove(item);
 							});
 
 							setGraphic(notification.get());
@@ -138,14 +138,10 @@ public class ConnectMailList {
 		buttons.setFontToAll(Font.font(null, FontWeight.BOLD, 15));
 
 		buttons.addEvent("Clear", () -> {
-			listView.getItems().clear();
+			data.clear();
 		});
 
 		buttons.addEvent("Add New", () -> {
-			System.out.println("Count: " +listView.getCellCount());
-//			counter++;
-//			System.out.println(counter);
-
 			MailItem item =  new MailItem("Eddie ", "Hello Friend!");
 			item.setDate(LocalDateTime.now());
 			item.setHeader("Whats up");
