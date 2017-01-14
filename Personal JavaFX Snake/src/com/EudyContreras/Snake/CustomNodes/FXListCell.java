@@ -3,19 +3,32 @@ package com.EudyContreras.Snake.CustomNodes;
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
+import javafx.scene.CacheHint;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 
 public class FXListCell<T> extends Region{
 
 	private int index;
 	private T item;
 	private Region graphic;
+	private ImageView placeholder;
 	private Timeline timeLine;
 	private Transition deleteTransition;
 	private Transition addedTransition;
+	private SnapshotParameters parameters;
+	private WritableImage writableImage;
 
 
 	public FXListCell(){
+		this.placeholder = new ImageView();
+		this.placeholder.setCache(true);
+		this.placeholder.setCacheHint(CacheHint.SPEED);
+		this.parameters = new SnapshotParameters();
+		this.parameters.setFill(Color.TRANSPARENT);
 		this.setPadding(new Insets(3,2,3,2));
 	}
 
@@ -57,12 +70,51 @@ public class FXListCell<T> extends Region{
 		}
 	}
 
-	public void setTimeLine(Timeline timeline){
-		this.timeLine = timeline;
-		this.timeLine.play();
+	private void cacheState() {
+		if(graphic.getHeight()<10)
+			return;
+
+		if(writableImage!=null)
+			return;
+
+		if(writableImage==null){
+			writableImage = new WritableImage((int) graphic.getWidth(), (int) graphic.getHeight());
+		}else{
+			if(writableImage.getWidth()!=graphic.getWidth() || writableImage.getHeight()!=graphic.getHeight()){
+				writableImage = new WritableImage((int) graphic.getWidth(), (int) graphic.getHeight());
+			}
+		}
+
+		graphic.snapshot(parameters, writableImage);
+
+		placeholder.setImage(writableImage);
 	}
 
-	public void removeTimeLine(){
+	private void showPlaceHolder(boolean state) {
+		if(state){
+			cacheState();
+			this.getChildren().clear();
+			if(placeholder.getImage()!=null){
+				this.getChildren().add(placeholder);
+			}else{
+				this.getChildren().add(graphic);
+			}
+			this.setMinHeight(0);
+		}else{
+			this.setMinHeight(graphic.getBoundsInParent().getHeight()+8);
+			this.getChildren().clear();
+			this.removeTimeLine();
+		}
+	}
+
+	public void setTimeLine(Timeline timeline) {
+		if (timeLine == null) {
+			this.timeLine = timeline;
+			this.timeLine.play();
+		}
+	}
+
+	private void removeTimeLine(){
 		if(timeLine!=null){
 			timeLine.stop();
 			timeLine = null;
@@ -76,33 +128,24 @@ public class FXListCell<T> extends Region{
 
 	public void showGraphic(boolean state){
 		if(state){
-			this.getChildren().remove(graphic);
+			this.getChildren().clear();
 			this.getChildren().add(graphic);
 			this.setMinHeight(0);
 		}else{
 			this.setMinHeight(graphic.getBoundsInParent().getHeight()+8);
-			this.getChildren().remove(graphic);
+			this.getChildren().clear();
+			this.removeTimeLine();
 		}
 	}
 
 	public void render(boolean state) {
 		this.setVisible(state);
+		this.setOpacity(state ? 1 : 0);
 		this.showGraphic(state);
 	}
 
 	public boolean isRendered(){
 		return this.isVisible();
-	}
-
-	public void resetProperties() {
-//		this.translateXProperty().set(0);
-//		this.translateYProperty().set(0);
-//		this.translateZProperty().set(0);
-//		this.scaleYProperty().set(1);
-//		this.scaleXProperty().set(1);
-//		this.scaleZProperty().set(1);
-//		this.rotateProperty().set(0);
-//		this.opacityProperty().set(1);
 	}
 
 	public boolean containsItem(T item) {

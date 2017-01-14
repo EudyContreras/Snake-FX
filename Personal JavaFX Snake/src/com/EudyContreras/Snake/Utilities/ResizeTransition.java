@@ -6,6 +6,10 @@ import javafx.util.Duration;
 
 public class ResizeTransition extends Transition {
 
+	public static final int RESIZE_WIDTH = 0;
+	public static final int RESIZE_HEIGHT = 1;
+	public static final int RESIZE_WIDTH_HEIGHT = 2;
+
 	protected Region region;
 	protected double fromHeight;
 	protected double fromWidth;
@@ -13,9 +17,10 @@ public class ResizeTransition extends Transition {
 	protected double toWidth;
 	protected double heightDiff;
 	protected double widthDiff;
-	protected Resize resize;
+	protected int resize;
 
-	public ResizeTransition(Resize resize) {
+
+	public ResizeTransition(int resize) {
 		super();
 		this.resize = resize;
 	}
@@ -51,17 +56,17 @@ public class ResizeTransition extends Transition {
 
 	private void resizeRegion(double fraction){
 		switch(resize){
-		case HEIGHT:
+		case RESIZE_HEIGHT:
 			region.setPrefHeight(fromHeight + (heightDiff * fraction));
 			region.setMinHeight(fromHeight + (heightDiff * fraction));
 			region.setMaxHeight(fromHeight + (heightDiff * fraction));
 			break;
-		case WIDTH:
+		case RESIZE_WIDTH:
 			region.setPrefWidth(fromWidth + (widthDiff * fraction));
 			region.setMinWidth(fromWidth + (widthDiff * fraction));
 			region.setMaxWidth(fromWidth + (widthDiff * fraction));
 			break;
-		case WIDTH_AND_HEIGHT:
+		case RESIZE_WIDTH_HEIGHT:
 			region.setPrefWidth(fromWidth + (widthDiff * fraction));
 			region.setMinWidth(fromWidth + (widthDiff * fraction));
 			region.setMaxWidth(fromWidth + (widthDiff * fraction));
@@ -81,9 +86,5 @@ public class ResizeTransition extends Transition {
 	public void play(){
 		computeDifference();
 		super.play();
-	}
-
-	public enum Resize{
-		WIDTH, HEIGHT, WIDTH_AND_HEIGHT
 	}
 }

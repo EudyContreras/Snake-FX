@@ -3,14 +3,14 @@ package com.EudyContreras.Snake.Utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
-
-import javafx.animation.Transition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
-public class ResizeAnimationFX extends Transition implements Animator{
+public class ResizeAnimation implements Animator{
 
 	public static final int RESIZE_WIDTH = 0;
 	public static final int RESIZE_HEIGHT = 1;
@@ -19,15 +19,10 @@ public class ResizeAnimationFX extends Transition implements Animator{
 	private Interpolator interpolator;
 	private Runnable endScript;
 	private Period playTime;
+	private Timeline timeLine;
 	private Rectangle node;
 	private Region region;
     private long startTime = -1;
-	private boolean keepCenter = false;
-	private boolean running = true;
-	private boolean revert = false;
-	private boolean repeat = false;
-	private double widthDifference;
-	private double heightDifference;
 	private double startWidth;
 	private double startHeight;
 	private double endWidth;
@@ -38,20 +33,12 @@ public class ResizeAnimationFX extends Transition implements Animator{
 	private int delay = 0;
 
 
-	public ResizeAnimationFX(int axis){
+	public ResizeAnimation(int axis){
 		resizeAxis = axis;
 		listeners = new ArrayList<>();
-	}
+		timeLine = new Timeline();
+        timeLine.setCycleCount( Timeline.INDEFINITE );
 
-	@Override
-	protected void interpolate(double fraction) {
-		region.setMinHeight( startHeight + ( heightDifference * fraction ) );
-		region.setMinWidth( startWidth + ( widthDifference * fraction ) );
-	}
-
-	private void computeDifferences(){
-		 this.heightDifference = endHeight - startHeight;
-		 this.widthDifference = endWidth - startWidth;
 	}
 
     private void applyTransformation(float delta) {
@@ -60,28 +47,59 @@ public class ResizeAnimationFX extends Transition implements Animator{
             case RESIZE_WIDTH:
                 progress = interpolator.interpolate(delta);
                 newWidth = startWidth + ((int) Math.round((endWidth - startWidth) * progress));
-                Platform.runLater(()->{
-                    node.setWidth(newWidth);
-				});
+                node.setWidth(newWidth);
+
                 break;
             case RESIZE_HEIGHT:
             	progress = interpolator.interpolate(delta);
                 newHeight = startHeight + ((int) Math.round((endHeight - startHeight) * progress));
-                Platform.runLater(()->{
-                    node.setHeight(newHeight);
-				});
+                node.setHeight(newHeight);
+
                 break;
             case RESIZE_WIDTH_HEIGHT:
                 progress = interpolator.interpolate(delta);
                 newWidth = startWidth + ((int) Math.round((endWidth - startWidth) * progress));
                 newHeight = startHeight + ((int) Math.round((endHeight - startHeight) * progress));
-                Platform.runLater(()->{
-                    node.setWidth(newWidth);
-                    node.setHeight(newHeight);
-				});
+                node.setWidth(newWidth);
+                node.setHeight(newHeight);
+
                 break;
         }
     }
+
+	protected void interpolate(float delta) {
+		double progress;
+        switch (resizeAxis){
+            case RESIZE_WIDTH:
+                progress = interpolator.interpolate(delta);
+                newWidth = startWidth + ((int) Math.round((endWidth - startWidth) * progress));
+                region.setPrefWidth(newWidth);
+                region.setMinWidth(newWidth);
+                region.setMaxWidth(newWidth);
+
+                break;
+            case RESIZE_HEIGHT:
+            	progress = interpolator.interpolate(delta);
+                newHeight = startHeight + ((int) Math.round((endHeight - startHeight) * progress));
+                region.setPrefHeight(newHeight);
+                region.setMinHeight(newHeight);
+                region.setMaxHeight(newHeight);
+
+                break;
+            case RESIZE_WIDTH_HEIGHT:
+                progress = interpolator.interpolate(delta);
+                newWidth = startWidth + ((int) Math.round((endWidth - startWidth) * progress));
+                newHeight = startHeight + ((int) Math.round((endHeight - startHeight) * progress));
+                region.setPrefHeight(newHeight);
+                region.setMinHeight(newHeight);
+                region.setMaxHeight(newHeight);
+                region.setPrefWidth(newWidth);
+                region.setMinWidth(newWidth);
+                region.setMaxWidth(newWidth);
+                break;
+        }
+	}
+
 
 	public void setNode(Rectangle node){
 		this.node = node;
@@ -146,21 +164,6 @@ public class ResizeAnimationFX extends Transition implements Animator{
 		this.interpolator = interpolator;
 	}
 
-	public ResizeAnimationFX setRepeat(boolean state){
-		this.repeat = state;
-		return this;
-	}
-
-	public ResizeAnimationFX setRevert(boolean state){
-		this.revert = state;
-		return this;
-	}
-
-	public ResizeAnimationFX keepCenter(boolean state){
-		this.keepCenter = state;
-		return this;
-	}
-
 	public void setDelay(int delay){
 		this.delay = delay;
 	}
@@ -182,63 +185,73 @@ public class ResizeAnimationFX extends Transition implements Animator{
 	}
 
 	private void notifyStart(){
-		if(!listeners.isEmpty()){
-			listeners.stream().filter(listener-> listener!=null).forEach(listener-> listener.OnStart(this));
-		}
-	}
-
-	private void notifyEnd(){
-		if(!listeners.isEmpty()){
-			listeners.stream().filter(listener-> listener!=null).forEach(listener-> listener.OnEnd(this));
-		}
-	}
-
-	private void notifyRepeat(){
-		if(!listeners.isEmpty()){
-			listeners.stream().filter(listener-> listener!=null).forEach(listener-> listener.OnRepeat(this));
-		}
-	}
-	@Override
-	public void play(){
-		super.play();
-		computeDifferences();
-		ThreadManager.performeScript(() ->{
-
-			sleep(delay);
-			notifyStart();
-
-			while(running){
-				  if (startTime < 0) {
-	                  startTime = System.currentTimeMillis();
-	              }
-	              long now = System.currentTimeMillis();
-	              long duration = now - startTime;
-	              float deltaTime = (float) duration / (float) playTime.getDuration();
-
-	              applyTransformation(deltaTime);
-
-	              if (duration >= playTime.getDuration()) {
-	                  deltaTime = 1;
-	                  running = false;
-		              notifyEnd();
-	              }
-
-	      		sleep(1);
+		Platform.runLater(() -> {
+			if (!listeners.isEmpty()) {
+				listeners.stream().filter(listener -> listener != null).forEach(listener -> listener.OnStart(this));
 			}
-			System.out.println("Width :" +newWidth);
-			if(endScript!=null){
-				Platform.runLater(endScript);
+		});
+	}
 
+	private void notifyEnd() {
+		if(endScript!=null){
+			endScript.run();
+		}
+		Platform.runLater(() -> {
+			if (!listeners.isEmpty()) {
+				listeners.stream().filter(listener -> listener != null).forEach(listener -> listener.OnEnd(this));
 			}
 		});
 	}
 
 	@Override
-	public void stop(){
-		running = false;
+	public void play(){
+		if(delay>0){
+			TimerFX.runLater(TimePeriod.millis(delay), ()->{
+				animate();
+			});
+		}else{
+			animate();
+		}
 	}
 
+	private void animate(){
+		notifyStart();
 
+		timeLine.getKeyFrames().clear();
+
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(1), (e) -> {
+			if (startTime < 0) {
+                startTime = System.currentTimeMillis();
+            }
+            long now = System.currentTimeMillis();
+
+            long duration = now - startTime;
+
+            float deltaTime = (float) duration / (float) playTime.getDuration();
+
+			if (node != null) {
+				applyTransformation(deltaTime);
+			} else if (region != null) {
+				interpolate(deltaTime);
+			}
+
+            if (duration >= playTime.getDuration()) {
+                deltaTime = 1;
+               	timeLine.stop();
+	            notifyEnd();
+            }
+
+		});
+
+		timeLine.getKeyFrames().add(keyFrame);
+		timeLine.play();
+
+	}
+
+	@Override
+	public void stop(){
+		timeLine.stop();
+	}
 
 
 }

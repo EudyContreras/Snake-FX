@@ -42,7 +42,10 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.GestureEvent;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -50,10 +53,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
-public class FXListView<ITEM> {
+public class FXListViewDoubleCached<ITEM> {
 
 	private final static int MAX_INITIAL_COUNT = 70;
-	private final static int FRUSTUM_CULLING_OFFSET = 100;
+	private final static int FRUSTUM_CULLING_OFFSET = 50;
 
 	private boolean allowAnimations = true;
 	private boolean allowSelfRestore = true;
@@ -61,7 +64,7 @@ public class FXListView<ITEM> {
 
 	private int animDuration = 250;
 
-	private FXCallback<FXListView<ITEM>, FXListCell<ITEM>> callBack;
+	private FXCallback<FXListViewDoubleCached<ITEM>, FXListCell<ITEM>> callBack;
 
 	private ObservableList<ITEM> observableData;
 
@@ -97,7 +100,7 @@ public class FXListView<ITEM> {
 
 	private AnimationType animType = AnimationType.NONE;
 
-	public FXListView(AddOrder order, ObservableList<ITEM> data) {
+	public FXListViewDoubleCached(AddOrder order, ObservableList<ITEM> data) {
 		this.addOrder = order;
 		this.observableData = data;
 		this.divider = true;
@@ -119,7 +122,7 @@ public class FXListView<ITEM> {
 		this.observeChanges();
 	}
 
-	public FXListView(AddOrder order) {
+	public FXListViewDoubleCached(AddOrder order) {
 		this(order, FXCollections.observableArrayList());
 	}
 
@@ -147,16 +150,24 @@ public class FXListView<ITEM> {
 
 				scrollBar = getScrollBar(container, Orientation.VERTICAL);
 
-				
 				scrollBar.addEventFilter(MouseEvent.DRAG_DETECTED, event -> {
+
 
 				});
 				scrollBar.addEventFilter(MouseEvent.MOUSE_DRAGGED, event -> {
 
 				});
+
 				scrollBar.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> {
 
+					getVisibleCells();
+
+					for(FXListCell<?> cell: visibleCells){
+						cell.showGraphic(true);
+					}
+
 				});
+
 				scrollBar.addEventFilter(MouseEvent.MOUSE_EXITED, event -> {
 
 					cacheState();
@@ -231,7 +242,7 @@ public class FXListView<ITEM> {
 		} else {
 			showPlaceHolder(true);
 
-			TimerFX.runLater(TimePeriod.millis(1500), () -> {
+			TimerFX.runLater(TimePeriod.millis(1400), () -> {
 
 				listLayout.getChildren().clear();
 
@@ -252,6 +263,7 @@ public class FXListView<ITEM> {
 
 				showPlaceHolder(false);
 
+//				cacheState();
 			});
 		}
 
@@ -337,6 +349,7 @@ public class FXListView<ITEM> {
 				}
 			}
 		}
+
 	}
 
 
@@ -532,10 +545,10 @@ public class FXListView<ITEM> {
 		}
 	}
 
-	private void addAllItems(List<? extends ITEM> sublist) {
+	private void addAllItems(List<? extends ITEM> addedSubList) {
 		int index = 0;
 
-		for (ITEM item : sublist) {
+		for (ITEM item : addedSubList) {
 			FXListCell<ITEM> cell = callBack.call(this);
 
 			cell.createCell(item);
@@ -544,7 +557,7 @@ public class FXListView<ITEM> {
 
 			cell.setCacheHint(CacheHint.SPEED);
 
-			if (index < sublist.size() - MAX_INITIAL_COUNT) {
+			if (index < addedSubList.size() - MAX_INITIAL_COUNT) {
 				cell.render(false);
 			}
 
@@ -919,7 +932,7 @@ public class FXListView<ITEM> {
 		return new ArrayList<FXListCell<ITEM>>(pairCollection.values());
 	}
 
-	public void setCellFactory(FXCallback<FXListView<ITEM>, FXListCell<ITEM>> callBack) {
+	public void setCellFactory(FXCallback<FXListViewDoubleCached<ITEM>, FXListCell<ITEM>> callBack) {
 		this.callBack = callBack;
 
 		if (observableData != null) {
@@ -931,7 +944,7 @@ public class FXListView<ITEM> {
 		}
 	}
 
-	public FXCallback<FXListView<ITEM>, FXListCell<ITEM>> getCellFactory() {
+	public FXCallback<FXListViewDoubleCached<ITEM>, FXListCell<ITEM>> getCellFactory() {
 		return callBack;
 	}
 

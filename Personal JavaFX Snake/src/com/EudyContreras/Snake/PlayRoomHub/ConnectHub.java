@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.Utilities.AnimationTimer;
+import com.EudyContreras.Snake.Utilities.TimerFX;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 import com.EudyContreras.Snake.Utilities.FillUtility.Center;
 import com.EudyContreras.Snake.Utilities.FillUtility.Shape;
@@ -255,7 +255,7 @@ public class ConnectHub {
 		layer.getChildren().add(hubBar);
 		layer.getChildren().add(0, window);
 
-		AnimationTimer.runLater(TimePeriod.seconds(1), ()->{
+		TimerFX.runLater(TimePeriod.seconds(1), ()->{
 			layer.getChildren().remove(window);
 		});
 	}

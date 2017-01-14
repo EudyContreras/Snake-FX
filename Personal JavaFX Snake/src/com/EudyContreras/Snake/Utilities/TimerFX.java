@@ -4,7 +4,7 @@ import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
 
 import javafx.application.Platform;
 
-public class AnimationTimer {
+public class TimerFX {
 
 	public static void runLater(Period period, Runnable script){
 		ThreadManager.performeScript(()->{
