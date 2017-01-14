@@ -2,12 +2,14 @@ package com.EudyContreras.Snake.CustomNodes;
 
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.CacheHint;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public class FXListCell<T> extends Region{
@@ -15,20 +17,12 @@ public class FXListCell<T> extends Region{
 	private int index;
 	private T item;
 	private Region graphic;
-	private ImageView placeholder;
 	private Timeline timeLine;
 	private Transition deleteTransition;
 	private Transition addedTransition;
-	private SnapshotParameters parameters;
-	private WritableImage writableImage;
 
 
 	public FXListCell(){
-		this.placeholder = new ImageView();
-		this.placeholder.setCache(true);
-		this.placeholder.setCacheHint(CacheHint.SPEED);
-		this.parameters = new SnapshotParameters();
-		this.parameters.setFill(Color.TRANSPARENT);
 		this.setPadding(new Insets(3,2,3,2));
 	}
 
@@ -70,43 +64,6 @@ public class FXListCell<T> extends Region{
 		}
 	}
 
-	private void cacheState() {
-		if(graphic.getHeight()<10)
-			return;
-
-		if(writableImage!=null)
-			return;
-
-		if(writableImage==null){
-			writableImage = new WritableImage((int) graphic.getWidth(), (int) graphic.getHeight());
-		}else{
-			if(writableImage.getWidth()!=graphic.getWidth() || writableImage.getHeight()!=graphic.getHeight()){
-				writableImage = new WritableImage((int) graphic.getWidth(), (int) graphic.getHeight());
-			}
-		}
-
-		graphic.snapshot(parameters, writableImage);
-
-		placeholder.setImage(writableImage);
-	}
-
-	private void showPlaceHolder(boolean state) {
-		if(state){
-			cacheState();
-			this.getChildren().clear();
-			if(placeholder.getImage()!=null){
-				this.getChildren().add(placeholder);
-			}else{
-				this.getChildren().add(graphic);
-			}
-			this.setMinHeight(0);
-		}else{
-			this.setMinHeight(graphic.getBoundsInParent().getHeight()+8);
-			this.getChildren().clear();
-			this.removeTimeLine();
-		}
-	}
-
 	public void setTimeLine(Timeline timeline) {
 		if (timeLine == null) {
 			this.timeLine = timeline;
@@ -139,6 +96,12 @@ public class FXListCell<T> extends Region{
 	}
 
 	public void render(boolean state) {
+		this.setVisible(state);
+		this.setOpacity(state ? 1 : 0);
+		this.showGraphic(state);
+	}
+
+	public void render(VBox list, boolean state) {
 		this.setVisible(state);
 		this.setOpacity(state ? 1 : 0);
 		this.showGraphic(state);

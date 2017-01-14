@@ -13,9 +13,11 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 import com.EudyContreras.Snake.Utilities.TimePeriod;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -47,23 +49,19 @@ public class ConnectMailList {
 	public ConnectMailList() {
 
 		ObservableList<MailItem> data = FXCollections.observableArrayList();
-
-		MailItem[] items = new MailItem[10000];
-
-		for (int i = 0; i < items.length; i++) {
-			items[i] = new MailItem("Eddie " + i, "Hello Friend!" + i);
-			items[i].setDate(LocalDateTime.now());
+		for (int i = 0; i < 10000; i++) {
+			MailItem item = new MailItem("Eddie " + i, "Hello Friend!" + i);
+			item.setDate(LocalDateTime.now());
 			if (i % 2 == 0) {
-				items[i].setMessage("ssdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu");
+				item.setMessage("ssdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu");
 			} else {
-				items[i].setMessage("sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
+				item.setMessage("sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
 						+ "Once upon a time there was a game sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
 						+ "Once upon a time there was a game sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu"
 						+ "Once upon a time there was a game sdfusdf  udsf iusdif siduf sdf suidf sdfuisdf sidfu");
 			}
+			data.add(item);
 		}
-
-		data.addAll(items);
 
 
 		listView = new FXListView<MailItem>(AddOrder.TOP,data);
@@ -73,7 +71,7 @@ public class ConnectMailList {
 		listView.setWidth(640);
 		listView.setSpacing(4);
 		listView.setPadding(new Insets(4));
-		listView.setScrollAnimation(AnimationType.POP_OUT);
+		listView.setScrollAnimation(AnimationType.NONE);
 //		listView.addListListener((state,cell) -> {
 //			switch(state){
 //			case CELL_ADDED:

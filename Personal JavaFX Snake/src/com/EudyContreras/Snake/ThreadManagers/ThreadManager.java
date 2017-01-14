@@ -344,7 +344,6 @@ public class ThreadManager {
 
     public static synchronized void performeScript(Runnable script){
     	Thread thread = new Thread(script);
-    	thread.setDaemon(true);
     	thread.start();
 	}
 
