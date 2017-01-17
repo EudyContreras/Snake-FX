@@ -3,12 +3,12 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.UserInterface.MenuButtonStyles;
 import com.EudyContreras.Snake.Utilities.FillUtility;
+
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;

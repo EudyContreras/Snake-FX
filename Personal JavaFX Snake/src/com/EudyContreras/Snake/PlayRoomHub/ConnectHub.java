@@ -3,11 +3,11 @@ package com.EudyContreras.Snake.PlayRoomHub;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
-import com.EudyContreras.Snake.Utilities.TimerFX;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 import com.EudyContreras.Snake.Utilities.FillUtility.Center;
 import com.EudyContreras.Snake.Utilities.FillUtility.Shape;
 import com.EudyContreras.Snake.Utilities.TimePeriod;
+import com.EudyContreras.Snake.Utilities.TimerFX;
 import com.EudyContreras.Snake.Utilities.ValueAnimator;
 
 import javafx.animation.Interpolator;
@@ -213,6 +213,9 @@ public class ConnectHub {
 		buttons.setID("Remove", "btnUnfriend");
 		buttons.setFontToAll(Font.font(null, FontWeight.BOLD, 15));
 		buttons.setWidthToAll(120);
+		buttons.addEvent("Play", ()->{
+			connectInbox.addNotification();
+		});
 		friendsFrame.get().getStylesheets()
 				.add(ConnectFriends.class.getResource("connectButtons.css").toExternalForm());
 		friendsFrame.setButtons(buttons);

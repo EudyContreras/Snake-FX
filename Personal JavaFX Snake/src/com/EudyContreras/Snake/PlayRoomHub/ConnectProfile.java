@@ -1,8 +1,8 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
 import com.EudyContreras.Snake.Application.GameManager;
-import com.EudyContreras.Snake.Utilities.ImageChooser;
 import com.EudyContreras.Snake.Utilities.FillUtility;
+import com.EudyContreras.Snake.Utilities.ImageChooser;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

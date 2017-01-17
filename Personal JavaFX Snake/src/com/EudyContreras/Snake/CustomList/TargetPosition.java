@@ -1,6 +1,7 @@
 package com.EudyContreras.Snake.CustomList;
 
 interface TargetPosition {
+	
     static TargetPosition BEGINNING = new StartOffStart(0, 0.0);
 
     TargetPosition transformByChange(int pos, int removedSize, int addedSize);

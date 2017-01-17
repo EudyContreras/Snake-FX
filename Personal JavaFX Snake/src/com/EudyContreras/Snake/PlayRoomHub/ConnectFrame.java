@@ -9,7 +9,6 @@ import com.EudyContreras.Snake.Utilities.FillUtility;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;

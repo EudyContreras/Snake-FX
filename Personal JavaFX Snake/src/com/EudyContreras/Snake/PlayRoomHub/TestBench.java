@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
 
-import com.EudyContreras.Snake.PlayRoomHub.TestBench.BookCell;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 
 import javafx.animation.FadeTransition;

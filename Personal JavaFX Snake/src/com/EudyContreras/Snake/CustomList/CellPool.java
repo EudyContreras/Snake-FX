@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.function.Function;
 
 final class CellPool<T, C extends Cell<T, ?>> {
+	
     private final Function<? super T, ? extends C> cellFactory;
     private final Queue<C> pool = new LinkedList<>();
 

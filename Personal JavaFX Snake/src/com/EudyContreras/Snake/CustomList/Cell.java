@@ -7,25 +7,30 @@ import javafx.scene.Node;
 
 @FunctionalInterface
 public interface Cell<T, N extends Node> {
-    static <T, N extends Node> Cell<T, N> wrapNode(N node) {
+	
+    public static <T, N extends Node> Cell<T, N> wrapNode(N node) {
         return new Cell<T, N>() {
 
             @Override
-            public N getNode() { return node; }
+            public N getNode() { 
+            	return node; 
+            }
 
             @Override
-            public String toString() { return node.toString(); }
+            public String toString() { 
+            	return node.toString(); 
+            }
         };
     }
 
-    N getNode();
+    public N getNode();
 
     /**
      * Indicates whether this cell can be reused to display different items.
      *
      * <p>Default implementation returns {@code false}.
      */
-    default boolean isReusable() {
+    public default boolean isReusable() {
         return false;
     }
 

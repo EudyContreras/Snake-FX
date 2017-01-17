@@ -1,17 +1,18 @@
 package com.EudyContreras.Snake.CustomControll;
 
-import com.sun.javafx.scene.control.behavior.BehaviorBase;
-import com.sun.javafx.scene.control.behavior.KeyBinding;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import static javafx.scene.input.KeyCode.SPACE;
+import static javafx.scene.input.KeyEvent.KEY_PRESSED;
+import static javafx.scene.input.KeyEvent.KEY_RELEASED;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static javafx.scene.input.KeyCode.SPACE;
-import static javafx.scene.input.KeyEvent.KEY_PRESSED;
-import static javafx.scene.input.KeyEvent.KEY_RELEASED;
+import com.sun.javafx.scene.control.behavior.BehaviorBase;
+import com.sun.javafx.scene.control.behavior.KeyBinding;
+
+import javafx.scene.control.ButtonBase;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 
 /**

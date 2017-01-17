@@ -20,10 +20,12 @@ public class SegmentedButtons {
 	private VBox container = new VBox();
 	private StackPane root = new StackPane();
 	private FadeTransition fadeTransition;
+	private ConnectMailList connectMailList;
 	private ToggleButton[] buttons;
 
 
 	public SegmentedButtons() {
+		connectMailList = new ConnectMailList();
 		fadeTransition = new FadeTransition();
 
 		root.setTranslateY(30);
@@ -41,7 +43,7 @@ public class SegmentedButtons {
 		buttonBar.getChildren().addAll(buttons);
 
 		container.setAlignment(Pos.CENTER);
-		container.getChildren().addAll(buttonBar, new ConnectMailList().get());
+		container.getChildren().addAll(buttonBar, connectMailList.get());
 		root.getChildren().add(container);
 
 	}
@@ -74,6 +76,10 @@ public class SegmentedButtons {
 		group.selectToggle(buttons[0]);
 	}
 
+	public void postNotification(MailItem... items) {
+		connectMailList.postNotification(items);
+	}
+
 
 	public Region get() {
 		return root;
@@ -90,5 +96,4 @@ public class SegmentedButtons {
 			container.setOpacity(0);
 		}
 	}
-
 }

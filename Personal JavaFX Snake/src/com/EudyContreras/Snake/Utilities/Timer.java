@@ -44,11 +44,11 @@ public interface Timer {
      * }
      * </pre>
      *
-     * In contrast, using the {@link FxTimer}, the action is guaranteed not to
+     * In contrast, using the {@link FXTimer}, the action is guaranteed not to
      * be executed after {@code stop()}:
      * <pre>
      * {@code
-     * Timer timer = FxTimer.runLater(
+     * Timer timer = FXTimer.runLater(
      *         Duration.ofMillis(1000),
      *         () -> System.out.println("FIRED"));
      *
@@ -61,4 +61,6 @@ public interface Timer {
      * </pre>
      */
     void stop();
+
+    boolean isRunning();
 }

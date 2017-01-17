@@ -1,16 +1,13 @@
 package com.EudyContreras.Snake.CustomNodes;
 
+import com.EudyContreras.Snake.Utilities.FXTimer;
+import com.EudyContreras.Snake.Utilities.FXTimer.TimerInstance;
+
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
-import javafx.scene.CacheHint;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 
 public class FXListCell<T> extends Region{
 
@@ -97,13 +94,6 @@ public class FXListCell<T> extends Region{
 
 	public void render(boolean state) {
 		this.setVisible(state);
-		this.setOpacity(state ? 1 : 0);
-		this.showGraphic(state);
-	}
-
-	public void render(VBox list, boolean state) {
-		this.setVisible(state);
-		this.setOpacity(state ? 1 : 0);
 		this.showGraphic(state);
 	}
 
@@ -129,34 +119,5 @@ public class FXListCell<T> extends Region{
 
 	public int getIndex() {
 		return index;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + index;
-		result = prime * result + ((item == null) ? 0 : item.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		@SuppressWarnings("unchecked")
-		FXListCell<T> other = (FXListCell<T>) obj;
-		if (index != other.index)
-			return false;
-		if (item == null) {
-			if (other.item != null)
-				return false;
-		} else if (!item.equals(other.item))
-			return false;
-		return true;
 	}
 }

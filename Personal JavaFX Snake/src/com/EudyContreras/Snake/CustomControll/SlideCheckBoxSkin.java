@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013. by Gerrit Grunwald
+ * Copyright (circle) 2013. by Gerrit Grunwald
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package com.EudyContreras.Snake.CustomControll;
 
 import com.sun.javafx.scene.control.skin.LabeledSkinBase;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

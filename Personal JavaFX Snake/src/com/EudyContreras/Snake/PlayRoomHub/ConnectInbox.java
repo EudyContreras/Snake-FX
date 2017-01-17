@@ -1,4 +1,5 @@
 package com.EudyContreras.Snake.PlayRoomHub;
+import java.time.LocalDateTime;
 import java.util.Random;
 
 import com.EudyContreras.Snake.Application.GameManager;
@@ -175,6 +176,15 @@ public class ConnectInbox{
 
 			}
 		}
+	}
+
+	public void addNotification() {
+
+		MailItem item =  new MailItem("Test Person","This is a test");
+		item.setDate(LocalDateTime.now());
+		item.setHeader("Whats up this is a test");
+		item.setMessage("sdfhusd hfusdh fusdfu sdfghisud fsud fusdfusdg sudfsi difu");
+		connectMail.postNotification(item);
 	}
 
     public void increaseCounter(){

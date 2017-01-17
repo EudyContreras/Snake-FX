@@ -1,7 +1,6 @@
 package com.EudyContreras.Snake.PlayRoomHub;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import com.EudyContreras.Snake.CustomNodes.FXCallback;
@@ -13,11 +12,9 @@ import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.Utilities.FillUtility;
 import com.EudyContreras.Snake.Utilities.TimePeriod;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -70,8 +67,9 @@ public class ConnectMailList {
 		listView.setHeight(450);
 		listView.setWidth(640);
 		listView.setSpacing(4);
+//		listView.setAllowAnimations(false);
 		listView.setPadding(new Insets(4));
-		listView.setScrollAnimation(AnimationType.NONE);
+		listView.setScrollAnimation(AnimationType.ZOOM_IN);
 //		listView.addListListener((state,cell) -> {
 //			switch(state){
 //			case CELL_ADDED:
@@ -140,11 +138,13 @@ public class ConnectMailList {
 		});
 
 		buttons.addEvent("Add New", () -> {
-			MailItem item =  new MailItem("Eddie ", "Hello Friend!");
+			counter++;
+			MailItem item =  new MailItem("Eddie "+counter, "Hello Friend!");
 			item.setDate(LocalDateTime.now());
-			item.setHeader("Whats up");
+			item.setHeader("Whats up " + counter);
 			item.setMessage("sdfhusd hfusdh fusdfu sdfghisud fsud fusdfusdg sudfsi difu");
 			data.add(item);
+
 		});
 
 		buttons.setWidthToAll(200);
@@ -172,6 +172,11 @@ public class ConnectMailList {
 				view.scrollTo(size - 1);
 			}
 		}));
+	}
+
+	public void postNotification(MailItem... items) {
+		listView.addAll(items);
+
 	}
 
 	public Region get() {
@@ -280,79 +285,6 @@ public class ConnectMailList {
 		public VBox get() {
 			return container;
 		}
-	}
-
-	public class MailItem {
-
-		private boolean selected;
-		private String sender;
-		private String header;
-		private String message;
-		private Object attachment;
-		private LocalDateTime date;
-		private DateTimeFormatter format;
-
-		public MailItem() {
-			super();
-			format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		}
-
-		public MailItem(String sender, String header) {
-			super();
-			this.format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-			this.sender = sender;
-			this.header = header;
-		}
-
-		public String getHeader() {
-			return header;
-		}
-
-		public void setHeader(String header) {
-			this.header = header;
-		}
-
-		public String getMessage() {
-			return message;
-		}
-
-		public void setMessage(String message) {
-			this.message = message;
-		}
-
-		public Object getAttachment() {
-			return attachment;
-		}
-
-		public void setAttachment(Object attachment) {
-			this.attachment = attachment;
-		}
-
-		public String getDate() {
-			return format.format(date);
-		}
-
-		public void setDate(LocalDateTime date) {
-			this.date = date;
-			this.date.format(format);
-		}
-
-		public void setSender(String sender) {
-			this.sender = sender;
-		}
-
-		public String getSender() {
-			return sender;
-		}
-
-		public void selected(boolean state) {
-			this.selected = state;
-		}
-
-		public boolean isSelected() {
-			return selected;
-		}
-
 	}
 
 }
