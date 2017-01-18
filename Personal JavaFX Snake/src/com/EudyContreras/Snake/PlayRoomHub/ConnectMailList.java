@@ -61,7 +61,7 @@ public class ConnectMailList {
 		}
 
 
-		listView = new FXListView<MailItem>(AddOrder.TOP,data);
+		listView = new FXListView<MailItem>(AddOrder.BOTTOM,data);
 		listView.setFill(Color.ORANGE);
 		listView.setScrollAnimationDuration(TimePeriod.millis(500));
 		listView.setHeight(450);

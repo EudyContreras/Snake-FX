@@ -1,20 +1,15 @@
 package com.EudyContreras.Snake.CustomNodes;
 
-import com.EudyContreras.Snake.Utilities.FXTimer;
-import com.EudyContreras.Snake.Utilities.FXTimer.TimerInstance;
-
 import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
 
 public class FXListCell<T> extends Region{
 
 	private int index;
 	private T item;
 	private Region graphic;
-	private Timeline timeLine;
 	private Transition deleteTransition;
 	private Transition addedTransition;
 
@@ -61,20 +56,6 @@ public class FXListCell<T> extends Region{
 		}
 	}
 
-	public void setTimeLine(Timeline timeline) {
-		if (timeLine == null) {
-			this.timeLine = timeline;
-			this.timeLine.play();
-		}
-	}
-
-	private void removeTimeLine(){
-		if(timeLine!=null){
-			timeLine.stop();
-			timeLine = null;
-		}
-	}
-
 	public void setGraphic(Region node) {
 		this.graphic = node;
 		this.showGraphic(true);
@@ -82,13 +63,11 @@ public class FXListCell<T> extends Region{
 
 	public void showGraphic(boolean state){
 		if(state){
-			this.getChildren().clear();
 			this.getChildren().add(graphic);
 			this.setMinHeight(0);
 		}else{
 			this.setMinHeight(graphic.getBoundsInParent().getHeight()+8);
 			this.getChildren().clear();
-			this.removeTimeLine();
 		}
 	}
 

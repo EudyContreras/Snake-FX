@@ -4,8 +4,11 @@ package com.EudyContreras.Snake.Utilities;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.EudyContreras.Snake.ThreadManagers.ThreadManager;
+
 import javafx.animation.Animation;
 import javafx.animation.Animation.Status;
+import javafx.application.Platform;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -38,6 +41,21 @@ public class FXTimer<T> implements Timer {
 //		return new TimeCapsule<Long>();
 //	}
 
+	public static void runAfter(Duration delay, Runnable script){
+		ThreadManager.performeScript(()->{
+			waitTime(delay.toMillis());
+			Platform.runLater(script);
+		});
+	}
+
+	private static void waitTime(double millis){
+		try {
+			Thread.sleep((long) millis);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static<V> TimerInstance<V> getTimeCapsule(){
 		return new TimeCapsule<V>();
 	}
