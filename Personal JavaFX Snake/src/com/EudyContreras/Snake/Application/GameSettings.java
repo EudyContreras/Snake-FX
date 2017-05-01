@@ -30,11 +30,11 @@ public class GameSettings {
 	public static int MIN_Y = 81;
 	public static int MAX_Y = 1920;
 
-	public static int WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX);
-	public static int HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY);
+	public static int WIDTH = (int) (1920/GameLoader.ResolutionScaleX);
+	public static int HEIGHT = (int) (1080/GameLoader.ResolutionScaleY);
 
-	public static int SCREEN_WIDTH = (int) (Screen.getPrimary().getBounds().getWidth()/GameLoader.ResolutionScaleX)+40;
-	public static int SCREEN_HEIGHT = (int) (Screen.getPrimary().getBounds().getHeight()/GameLoader.ResolutionScaleY)+80;
+	public static int SCREEN_WIDTH =  WIDTH+40;
+	public static int SCREEN_HEIGHT = HEIGHT+80;
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 

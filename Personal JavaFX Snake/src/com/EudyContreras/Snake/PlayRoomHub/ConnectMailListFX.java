@@ -34,8 +34,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class ConnectMailListFX{
 
+public class ConnectMailListFX{
+/*
 	private FXListView<MailItem> listView;
 	private ArrayList<MailItem> toRemove = new ArrayList<>();
 	private GameButton buttons = new GameButton();
@@ -334,5 +335,5 @@ public class ConnectMailListFX{
 		}
 
 	}
-
+*/
 }

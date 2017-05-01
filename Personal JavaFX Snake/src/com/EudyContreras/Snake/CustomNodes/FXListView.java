@@ -386,7 +386,7 @@ public class FXListView<ITEM> {
     private void cullCells(ScrollPane container, double oldValue, double newValue) {
         Bounds paneBounds = container.localToScene(container.getBoundsInParent());
 
-        if(nodeCollection.isEmpty()){
+//        if(nodeCollection.isEmpty()){
         int index = 0;
 
         int listSize = listLayout.getChildren().size();
@@ -442,29 +442,9 @@ public class FXListView<ITEM> {
                 }
             }
         });
-        }else{
+//       
 
-            for (Node node : listLayout.getChildrenUnmodifiable()) {
-
-                Bounds nodeBounds = node.localToScene(node.getBoundsInLocal());
-
-                FXListCell<?> cell = (FXListCell<?>) node;
-
-                if (renderBounds(FRUSTUM_CULLING_OFFSET, paneBounds, nodeBounds)) {
-                    if (!cell.isRendered()) {
-                        cell.render(true);
-
-                        animateOnScroll(cell);
-                    }
-                } else {
-                    if (cell.isRendered()) {
-
-                        cell.render(false);
-
-                    }
-                }
-            }
-        }
+        
     }
 
 
@@ -561,7 +541,7 @@ public class FXListView<ITEM> {
 
 
     private void createScrollAnimations() {
-        this.scrollTimelines = new Timeline[8];
+        this.scrollTimelines = new Timeline[20];
         for (int i = 0; i < scrollTimelines.length; i++) {
             scrollTimelines[i] = new Timeline();
         }
@@ -1181,7 +1161,15 @@ public class FXListView<ITEM> {
         return callBack;
     }
 
-    public boolean isAllowAnimations() {
+    public boolean isAllowLazyLoading() {
+		return allowLazyLoading;
+	}
+
+	public void setAllowLazyLoading(boolean allowLazyLoading) {
+		this.allowLazyLoading = allowLazyLoading;
+	}
+
+	public boolean isAllowAnimations() {
         return allowAnimations;
     }
 

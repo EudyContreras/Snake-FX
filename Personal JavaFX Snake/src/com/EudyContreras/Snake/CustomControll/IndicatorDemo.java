@@ -19,20 +19,21 @@ public class IndicatorDemo extends Application {
 		Color color = Color.ORANGE;
 
 		CustomProgressIndicator indicator = new CustomProgressIndicator(100,Color.ORANGE);
-		indicator.setVisible(true);
-		
-	    ValueAnimator animator = new ValueAnimator();
-	    animator.setDelay(500);
-	    animator.setDuration(TimePeriod.seconds(3));
-	    animator.setFrom(0);
-	    animator.setTo(1);
-	    animator.onUpdate(e -> {
-	    	indicator.progressProperty().set(e);
-	    });
-	    animator.setOnFinished(()->{
-
-	    });
-	    animator.play();
+		indicator.setIndeterminate(true);
+//		indicator.setVisible(true);
+//		
+//	    ValueAnimator animator = new ValueAnimator();
+//	    animator.setDelay(500);
+//	    animator.setDuration(TimePeriod.seconds(3));
+//	    animator.setFrom(0);
+//	    animator.setTo(1);
+//	    animator.onUpdate(e -> {
+//	    	indicator.progressProperty().set(e);
+//	    });
+//	    animator.setOnFinished(()->{
+//
+//	    });
+//	    animator.play();
 
 
 	    Scene scene = new Scene(new StackPane(indicator.get()));

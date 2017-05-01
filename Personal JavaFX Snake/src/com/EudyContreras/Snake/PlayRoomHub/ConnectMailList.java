@@ -61,15 +61,16 @@ public class ConnectMailList {
 		}
 
 
-		listView = new FXListView<MailItem>(AddOrder.BOTTOM,data);
+		listView = new FXListView<MailItem>(AddOrder.TOP,data);
 		listView.setFill(Color.ORANGE);
 		listView.setScrollAnimationDuration(TimePeriod.millis(500));
 		listView.setHeight(450);
 		listView.setWidth(640);
 		listView.setSpacing(4);
+
 //		listView.setAllowAnimations(false);
 		listView.setPadding(new Insets(4));
-		listView.setScrollAnimation(AnimationType.ZOOM_IN);
+		listView.setScrollAnimation(AnimationType.NONE);
 //		listView.addListListener((state,cell) -> {
 //			switch(state){
 //			case CELL_ADDED:
