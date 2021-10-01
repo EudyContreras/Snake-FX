@@ -1,0 +1,63 @@
+Notes and Ideas about the Game
+
+Bugs and Issues and Fixes{
+  *There is an issue that may happen when a path creating attempt happens when the head of the snake is one cell or less less from the its body
+  and the head of the snake is directly facing its body. This events makes it so no path is created since there is a neigbor check that makes the path
+  unsafe thus makes the path creation in this particular scenario impossible. I have to re-implement some logic that produces a fix for this specific case.
+
+  *There is a chance for there to to be array exceptions once a index is access
+}
+Multiplayer System Common{
+
+-There could be buffs in the form of spawnable bugs or flowers. The bugs will have negative effects while the
+ flowers may have benefits. The bugs will spawn in order in front of each player at a distance determined by the current
+ speed of the player. The benefits will spawn randomly at a fair distance from both players.
+
+	.Local System:
+
+	.Remote System:
+
+
+}
+
+AI Functions{
+	Add a special bounding box to the mouth of the snake which checks for imminent collisions before fatal collisions happen
+	If the head of the snake looses a path and intersects its body allow the snake to enter an evasive state in which
+	checks are made to ensure that the snake does not make any collisions. make a collision based action dependant on range!
+	The function will check its surroundings and make a brute decissions base on a small range of self awareness.
+	"PSEUDO CODE"
+		if collision: assess the neighbors of the current cell at a initial depth of 3. meaning the neighbors of the current
+		cell and the neighbors of those neighbors and the neighbors of the last checked neighbors.
+		asses the amount of neighbors for each available turn. If there was a biggest amount of neighbors
+		produced by one of the checks perform the turn that produced those neighbors . If both turns produce
+		the same amount of neighbors favor the turn that makes the snake closer to the closest border.
+
+
+	Stall Mechanics:
+		allow the snake zic zac in the following pattern.
+			"PSEUDO CODE"
+				make the snake turn to its right
+				Once the snake meets an occupied cell
+
+
+	Here is another one: Do not allow the AI to get out of the tail chasing state until a path to an objective is found!
+
+	Implement a mechanic that allows the ai to assest paths while chasing tail. If a favorable path is found then pursuit th path
+	otherwise keep chasing tail.
+
+	If path to goal is safe : go for apple! Else check next apple until a safe path is found or all
+	apples are checked. If no path to any apple is safe including the paths produced if teleportation is
+	possible, Then find the farthest path to the tail and remain chasing the tail until a safe path to an
+	objective becomes available. If no path to tail is found : Find a path which is farthest from the closest objective and
+	if not possiblecstall until death using the following pattern!
+
+	if moving left:
+		move down until blocked then move left until blocked. move up until block: then move right once cell until blocked. Then down
+		until block move on cell right
+	if moving right:
+	if moving up:
+	if moving down:
+
+	Do not let the snake commit to a path before the a check is made to see if the path is better than the current path.
+
+}

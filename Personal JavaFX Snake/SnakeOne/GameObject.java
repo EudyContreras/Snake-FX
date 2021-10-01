@@ -1,5 +1,6 @@
 package com.SnakeGame.Core;
 
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;

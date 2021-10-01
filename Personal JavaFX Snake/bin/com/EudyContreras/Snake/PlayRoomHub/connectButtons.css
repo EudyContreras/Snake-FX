@@ -1,0 +1,87 @@
+/****************************************************************
+  TableView Skin
+****************************************************************/
+
+.root{
+    -fx-background-color: #262626;
+}
+
+#btnPlay{
+	-fx-background-color: linear-gradient(rgb(0,170,255), rgb(0,80,170) );
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: white;
+}
+
+#btnUnfriend{
+-fx-background-color:
+        linear-gradient(rgb(185,0,0), rgb(115,0,0)),
+        linear-gradient(rgb(195,0,0), rgb(115,0,0)),
+        linear-gradient(rgb(205,0,0), rgb(115,0,0)),
+        linear-gradient(rgb(215,0,0) 0%, rgb(195,0,0) 50%, rgb(120,0,0) 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: white;
+}
+
+#btnChat{
+	-fx-background-color: linear-gradient(rgb(0,250,100), rgb(0,140,50) );
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-text-fill: white;
+}
+
+#button{
+ 	-fx-background-color:
+        linear-gradient(rgb(185,185,185), rgb(115,115,115)),
+        linear-gradient(rgb(195,195,195), rgb(115,115,115)),
+        linear-gradient(rgb(205,205,205), rgb(115,115,115)),
+        linear-gradient(rgb(215,215,215) 0%, rgb(195,195,195) 50%, rgb(120,120,120) 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0));
+    -fx-background-radius: 8;
+    -fx-background-insets: 0,1,2,3,0;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: white;
+
+
+	/*-fx-background-color: linear-gradient(yellow, orange);
+	-fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: black;
+    -fx-stroke: black;
+    -fx-border-color: black;*/
+}
+
+#btnPlay:hover{
+    -fx-background-color: linear-gradient(rgb(0,170,250), rgb(0,50,100) );
+}
+#btnUnfriend:hover{
+	-fx-background-color: linear-gradient(rgb(250,0,0), rgb(100,0,0) );
+}
+#btnChat:hover{
+	-fx-background-color: linear-gradient(rgb(0,250,100), rgb(0,150,50) );
+}
+#button:hover{
+	-fx-background-color: linear-gradient(yellow, orange);
+	-fx-text-fill: black;
+}
+
+#btnPlay:pressed{
+    -fx-background-color: linear-gradient(rgb(0,170,250), rgb(0,110,180) );
+	-fx-effect: dropshadow(three-pass-box, rgb(0,170,250) ,10, 0.3, 0, 0);
+}
+#btnUnfriend:pressed{
+	-fx-background-color: linear-gradient(rgb(250,0,0), rgb(160,0,0) );
+	-fx-effect: dropshadow(three-pass-box, rgb(240,0,0) ,10, 0.3, 0, 0);
+}
+#btnChat:pressed{
+	-fx-background-color: linear-gradient(rgb(0,250,100), rgb(0,190,70) );
+	-fx-effect: dropshadow(three-pass-box, rgb(0,250,100) ,10, 0.3, 0, 0);
+}
+#button:pressed{
+	-fx-background-color: linear-gradient(yellow, orange);
+	-fx-effect: dropshadow(three-pass-box, rgb(250,200,0) ,10, 0.3, 0, 0);
+	-fx-text-fill: black;
+}

@@ -1,0 +1,86 @@
+
+
+#styleOne{
+	-fx-background-radius: 30;
+    -fx-text-fill: white;
+    -fx-background-color:
+        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+    	linear-gradient(#020b02, #3a3a3a),
+        linear-gradient(green, limegreen);
+    -fx-effect: dropshadow(three-pass-box, limeGreen, 5, 0, 0, 0);
+    -fx-text-fill: black;
+}
+#styleOne:hover {
+	-fx-background-color: radial-gradient(center 50% -40%, radius 200%, lime 45%, green 50%);
+	-fx-effect: dropshadow(three-pass-box, limeGreen, 30, 0.5, 0, 0);
+}
+#styleOne:pressed {
+    -fx-background-color:
+        linear-gradient(white, greenyellow, limegreen);
+    -fx-text-fill: black;
+}
+#btn2{
+	-fx-background-color:  linear-gradient(greenyellow   , limegreen );
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
+    -fx-padding: 5 30 5 30;
+   }
+
+#btn3{
+	-fx-background-color:	linear-gradient(orange, orangered );
+	-fx-text-fill: black;
+	-fx-font-size: 20px;
+	-fx-padding: 5 30 5 30;
+    }
+
+#btn4{
+	-fx-text-fill:white;
+	-fx-font-size: 20px;
+	-fx-background-color: linear-gradient(#999999 0%, #000000 50%, #999999 100%);
+	-fx-padding: 5 30 5 30;
+
+    }
+#btn5 {
+    -fx-text-fill:white;
+
+
+    -fx-background-color:
+    linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+    linear-gradient(#020b02, #3a3a3a),
+    linear-gradient(#9d9e9d 0%, #6b6a6b 20%, #343534 80%, #242424 100%),
+    linear-gradient(#8a8a8a 0%, #6b6a6b 20%, #343534 80%, #262626 100%),
+    linear-gradient(#777777 0%, #606060 50%, #505250 51%, #2a2b2a 100%);
+    -fx-background-insets: 0,1,4,5,6;
+    -fx-background-radius: 9,8,5,4,3;
+}
+#btn5:hover {
+    -fx-background-color:
+        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+    	linear-gradient(#020b02, #3a3a3a),
+        linear-gradient(greenyellow, limegreen);
+    -fx-text-fill: black;
+}
+#btn5:pressed {
+    -fx-background-color:
+        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+    	linear-gradient(#020b02, #3a3a3a),
+        linear-gradient(white, greenyellow, limegreen);
+    -fx-text-fill: black;
+}
+.toggle-button {
+  -fx-color: paleturquoise;
+}
+
+.toggle-button:selected {
+    -fx-background-color:
+        -fx-shadow-highlight-color,
+        linear-gradient(to bottom, derive(-fx-color,-22%) 0%, derive(-fx-color,-15%) 100%),
+        linear-gradient(to bottom, derive(-fx-color,-15%) 0%, derive(-fx-color,-10%) 50%, derive(-fx-color,-8%) 98%, derive(-fx-color,-12%) 100%);
+}
+
+.toggle-button:selected:focused {
+    -fx-background-color:
+        -fx-focus-color,
+        linear-gradient(to bottom, derive(-fx-color,-22%) 0%, derive(-fx-color,-15%) 100%),
+        linear-gradient(to bottom, derive(-fx-color,-15%) 0%, derive(-fx-color,-10%) 50%, derive(-fx-color,-8%) 98%, derive(-fx-color,-12%) 100%);
+}

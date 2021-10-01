@@ -1,0 +1,14 @@
+Notes and Ideas about Artificial Intelligence!
+
+	TODO: Future Implementations and Ideas.
+
+		*Add strategic give up so that the the AI would stop pursuing and
+		objective that is either out of reach or that the competitor will
+		certainly get to first.
+
+		*Add strategic speed boost: If competing for an objective make the
+		ai use its energy levels intelligently so that it can be used under
+		the right circumstances. Example: If going through an area which
+		affects health. If a boost would allow it to reach objectives which
+		the competitor is pursuing before the competitor does, etc.
+
