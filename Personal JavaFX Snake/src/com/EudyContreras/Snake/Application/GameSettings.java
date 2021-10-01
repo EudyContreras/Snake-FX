@@ -17,16 +17,13 @@ public class GameSettings {
 	public static String PLAYER_ONE_NAME = "";
 	public static String PLAYER_TWO_NAME = "";
 
-	public static double FRAMECAP = 1.0 / 60.0;
 	public static double SIZE_SCALE = 1.0;
-	public static double FRAME_SCALE = 1.0f;
-	public static double MANUAL_SIZE_SCALE = 1.0;
+	public static double FRAME_SCALE = 1.4f;
 
 	public static int PATH_FINDING_CELL_SIZE = 40;
+
 	public static int MIN_X = 0;
-	public static int MAX_X = 0;
 	public static int MIN_Y = 81;
-	public static int MAX_Y = 1920;
 
 	public static int WIDTH = (int) (1920/GameLoader.ResolutionScaleX);
 	public static int HEIGHT = (int) (1080/GameLoader.ResolutionScaleY);
@@ -80,9 +77,7 @@ public class GameSettings {
 	public static int PARTICLE_LIMIT = 250;
 	public static int MAX_DEBRIS_AMOUNT = 45;
 	public static int SAND_SPAWN_DELAY = 1;
-	public static int RAIN_SPAWN_DELAY = 1;
 	public static int SAND_AMOUNT = 5;
-	public static int RAIN_AMOUNT = 0;
 	public static int DIRT_AMOUNT = 4;
 
 	public static double SAND_SIZE = 6;
@@ -91,10 +86,9 @@ public class GameSettings {
 
 	public static boolean WINDOW_ALWAYS_VISIBLE = true;
 	public static boolean SHOW_SPLASHSCREEN = true;
-	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 
-	public static boolean ALLOW_AI_CONTROL = false;
+	public static boolean ALLOW_AI_CONTROL = true;
 	public static boolean ALLOW_AI_TELEPORT = true;
 	public static boolean ALLOW_SNAKE_GROWTH = true;
 	public static boolean ALLOW_SELF_COLLISION = true;
@@ -108,23 +102,17 @@ public class GameSettings {
 	public static boolean SAND_STORM = true;
 	public static boolean RAIN_STORM = false;
 
-	public static boolean PARENT_CACHE = false;
 	public static boolean ALLOW_ASTAR_GRAPH = true;
-	public static boolean SHOW_ASTAR_GRAPH = true;
+	public static boolean SHOW_ASTAR_GRAPH = false;
 	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = false;
-	public static boolean RENDER_INTERFACE = true;
+	public static boolean PARENT_CACHE = false;
 
 	public static boolean LOAD_SPIKE_FENCE = false;
 
 	public static boolean ALLOW_MOUSE_INPUT = false;
-	public static boolean SHOW_CURSOR = false;
-
-	public static boolean ALLOW_TELEPORT = true;
-	public static boolean ALLOW_PHYSICS = true;
 	public static boolean ALLOW_VARIATIONS = true;
 	public static boolean ADD_LIGHTING = true;
-	public static boolean ADD_BLUR = true;
 	public static boolean ADD_GLOW = true;
 
 
