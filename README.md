@@ -3,7 +3,7 @@ A Snake Game made with JavaFX.
 
 ![capture](https://github.com/EudyContreras/SnakeFX/blob/master/Capture.PNG)
 
-I made this game as a personal challenge at the end of my first year in computer science. It became a big project that helped me learn a bunch. Feels a little late to put this project here but better late than never. It is not completed but it is enough. 
+I made this game to try out JavaFX and as a personal challenge at the end of my first year in computer science in 2016. It became a big project that helped me learn a bunch. Feels a little late to put this project here but better late than never. It is not completed but it is enough. 
 
 ## Game Features
 
