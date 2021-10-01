@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="038ecec2-d89f-475f-b772-e134badf63a3" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1yuriPhkiJtqV8B0nJTv5xiqN9A" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/com" />
+  </component>
+  <component name="RunManager" selected="Application.GameManager">
+    <configuration name="ArcToDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.EudyContreras.Snake.CustomControll.ArcToDemo" />
+      <module name="Personal JavaFX Snake" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.EudyContreras.Snake.CustomControll.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Demo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.EudyContreras.Snake.CustomControll.Demo" />
+      <module name="Personal JavaFX Snake" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.EudyContreras.Snake.CustomControll.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameManager" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.EudyContreras.Snake.Application.GameManager" />
+      <module name="Personal JavaFX Snake" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.EudyContreras.Snake.Application.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IndicatorDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.EudyContreras.Snake.CustomControll.IndicatorDemo" />
+      <module name="Personal JavaFX Snake" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.EudyContreras.Snake.CustomControll.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestBench" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.EudyContreras.Snake.PlayRoomHub.TestBench" />
+      <module name="Personal JavaFX Snake" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.EudyContreras.Snake.PlayRoomHub.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.GameManager" />
+        <item itemvalue="Application.ArcToDemo" />
+        <item itemvalue="Application.IndicatorDemo" />
+        <item itemvalue="Application.Demo" />
+        <item itemvalue="Application.TestBench" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="038ecec2-d89f-475f-b772-e134badf63a3" name="Changes" comment="" />
+      <created>1633112446972</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1633112446972</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
