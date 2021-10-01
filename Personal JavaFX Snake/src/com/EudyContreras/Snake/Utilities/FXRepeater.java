@@ -9,11 +9,11 @@ public class FXRepeater{
 	}
 
 	public static void repeat(int times, RepeatWrapper repeater){
-		IntStream.range(0, times).forEach(i -> repeater.repeat(i));
+		for(int i = 0; i<times; repeater.repeat(i), i++);
 	}
 
 	public static void repeat(int start, int end, RepeatWrapper repeater){
-		IntStream.range(start, end).forEach(i -> repeater.repeat(i));
+		for(int i = start; i<end; repeater.repeat(i), i++);
 	}
 
 	public interface RepeatWrapper{

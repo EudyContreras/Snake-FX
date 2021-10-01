@@ -93,7 +93,7 @@ public class AIPathFinder {
         case FIND_PATH:
             break;
         case FREE_MODE:
-            if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL)
+            if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROL)
                 createPath();
             break;
         default:
@@ -106,7 +106,7 @@ public class AIPathFinder {
      * Gets called when the game begins in order to initiate the simulation
      */
     public void startSimulation() {
-        if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROLL){
+        if (game.getModeID() == GameModeID.LocalMultiplayer && GameSettings.ALLOW_AI_CONTROL){
 			snakeAI.setDirectCoordinates(PlayerMovement.MOVE_DOWN);
             currentGoal = CurrentGoal.OBJECTIVE;
             distressLevel = DistressLevel.NORMAL;
@@ -457,7 +457,8 @@ public class AIPathFinder {
      * be consider somewhat "Safe"!!. If the path is safe allow the snake to go for the apple. but if the path isnt safe
      */
 
-    private boolean safePathChecker(){
+    @SuppressWarnings("unused")
+	private boolean safePathChecker(){
 
         LinkedList<Objective> newObjectives = new LinkedList<>();
 
@@ -556,7 +557,8 @@ public class AIPathFinder {
 	 * threshold. The calculations are made based on relational distance planes.
 	 */
 
-    private LinkedPath<PathWrapper> computeInterpolarDirection(CellNode start, Objective objective, CellNode tail, LinkedList<Objective> objectives) {
+    @SuppressWarnings("unused")
+	private LinkedPath<PathWrapper> computeInterpolarDirection(CellNode start, Objective objective, CellNode tail, LinkedList<Objective> objectives) {
 
         if((objective.getXDistance(start.getLocation().getX())>GameSettings.WIDTH*.45) && objective.getYDistance(start.getLocation().getY())<GameSettings.HEIGHT*.45){
 
@@ -582,7 +584,8 @@ public class AIPathFinder {
         return null;
     }
 
-    private LinkedPath<PathWrapper> emergencyTeleport(GridNode grid, CellNode start, CellNode  end) {
+    @SuppressWarnings("unused")
+	private LinkedPath<PathWrapper> emergencyTeleport(GridNode grid, CellNode start, CellNode  end) {
         LinkedPath<PathWrapper> path;
 
         if(start.getLocation().getX() > GameSettings.WIDTH*.55 && start.getLocation().getY() > GameSettings.HEIGHT*.35 && start.getLocation().getY() < GameSettings.HEIGHT*.65){

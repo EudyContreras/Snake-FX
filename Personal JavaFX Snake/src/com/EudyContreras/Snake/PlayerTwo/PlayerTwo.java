@@ -42,7 +42,7 @@ public class PlayerTwo extends AbstractObject {
 	private int appleCount = 0;
 	private int counter = 0;
 	private double accelaration = 0.5;
-	private double maxSize = GameSettings.ALLOW_AI_CONTROLL ? 26 : 30;
+	private double maxSize = GameSettings.ALLOW_AI_CONTROL ? 26 : 30;
 	private double normalSpeed = GameSettings.PLAYER_TWO_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_TWO_SPEED*2.5;
 	private double minimumSpeed = GameSettings.PLAYER_TWO_SPEED/8;
@@ -596,7 +596,7 @@ public class PlayerTwo extends AbstractObject {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getCollideBounds().intersects(tempTile.getBounds())) {
-						if (GameSettings.ALLOW_ROCK_COLLISION && !GameSettings.ALLOW_AI_CONTROLL) {
+						if (GameSettings.ALLOW_ROCK_COLLISION && !GameSettings.ALLOW_AI_CONTROL) {
 							if (allowCollision) {
 								this.allowThrust = false;
 								this.thrust = false;

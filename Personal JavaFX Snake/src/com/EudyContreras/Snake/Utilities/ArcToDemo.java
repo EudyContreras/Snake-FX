@@ -1,32 +1,18 @@
 package com.EudyContreras.Snake.Utilities;
 
 import javafx.animation.AnimationTimer;
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.animation.PathTransitionBuilder;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.ClosePath;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.PathBuilder;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class ArcToDemo extends Application {
 
-    private PathTransition pathTransitionCircle;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -57,8 +43,8 @@ public class ArcToDemo extends Application {
 
 				double t = (currentNanoTime - startNanoTime) / 1000000000.0;
 
-				t = t * 10;
-				double radius = 4;
+				t = t * 3;
+				double radius = 14;
 
 				for(Node node: root.getChildren()){
 					Circle circle = (Circle)node;

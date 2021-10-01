@@ -78,6 +78,13 @@ public class ScoreKeeper extends AbstractHudElement{
 		setupText();
 		processCount();
 	}
+	
+	public void setCount(int appleCount){
+		APPLE_COUNT = appleCount;
+		this.count = appleCount;
+		this.initialAmount = appleCount;
+		processCount();
+	}
 
 	/**O
 	 * Method which initializes various text related elements which

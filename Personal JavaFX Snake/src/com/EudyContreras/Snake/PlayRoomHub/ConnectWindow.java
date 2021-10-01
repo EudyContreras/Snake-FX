@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 
 public class ConnectWindow extends StackPane{
 
+	@SuppressWarnings("unused")
 	private GameManager game;
 	private Rectangle background;
 	private Pane frame;

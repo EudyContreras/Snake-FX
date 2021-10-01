@@ -75,7 +75,7 @@ public class PlayerTwoFangs extends AbstractObject {
 		checkOffset();
 		x = (float) (snake.getX() + offsetX);
 		y = (float) (snake.getY() + offsetY);
-		circle.setRadius(GameSettings.ALLOW_AI_CONTROLL ? GameSettings.PLAYER_TWO_SIZE * 0.30 : GameSettings.PLAYER_TWO_SIZE * 0.40);
+		circle.setRadius(GameSettings.ALLOW_AI_CONTROL ? GameSettings.PLAYER_TWO_SIZE * 0.30 : GameSettings.PLAYER_TWO_SIZE * 0.40);
 	}
 
 	public void logicUpdate() {
@@ -85,16 +85,16 @@ public class PlayerTwoFangs extends AbstractObject {
 
 	public void checkOffset() {
 		if (snake.getCurrentDirection()== PlayerMovement.MOVE_UP) {
-			this.offsetY = GameSettings.ALLOW_AI_CONTROLL ? -this.snakeHead.getRadius()*.45 : -this.snakeHead.getRadius()*.65;
+			this.offsetY = GameSettings.ALLOW_AI_CONTROL ? -this.snakeHead.getRadius()*.45 : -this.snakeHead.getRadius()*.65;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_DOWN) {
-			this.offsetY = GameSettings.ALLOW_AI_CONTROLL ? this.snakeHead.getRadius()*.45 : this.snakeHead.getRadius()*.65;
+			this.offsetY = GameSettings.ALLOW_AI_CONTROL ? this.snakeHead.getRadius()*.45 : this.snakeHead.getRadius()*.65;
 			this.offsetX = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_LEFT) {
-			this.offsetX = GameSettings.ALLOW_AI_CONTROLL ? -this.snakeHead.getRadius()*.45 : -this.snakeHead.getRadius()*.65;
+			this.offsetX = GameSettings.ALLOW_AI_CONTROL ? -this.snakeHead.getRadius()*.45 : -this.snakeHead.getRadius()*.65;
 			this.offsetY = 0;
 		} else if (snake.getCurrentDirection() == PlayerMovement.MOVE_RIGHT) {
-			this.offsetX = GameSettings.ALLOW_AI_CONTROLL ? this.snakeHead.getRadius()*.45 : this.snakeHead.getRadius()*.65;
+			this.offsetX = GameSettings.ALLOW_AI_CONTROL ? this.snakeHead.getRadius()*.45 : this.snakeHead.getRadius()*.65;
 			this.offsetY = 0;
 		}
 	}
@@ -128,7 +128,7 @@ public class PlayerTwoFangs extends AbstractObject {
 						}
 					}
 					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
-						if(!GameSettings.ALLOW_AI_CONTROLL)
+						if(!GameSettings.ALLOW_AI_CONTROL)
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}

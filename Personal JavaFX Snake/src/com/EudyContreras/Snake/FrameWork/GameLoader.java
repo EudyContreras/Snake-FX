@@ -237,36 +237,82 @@ public class GameLoader extends AbstractLoaderModel{
 
 		switch (LEVEL) {
 		case 0:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 10;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 8.0;
+			GameSettings.PLAYER_TWO_SPEED = 7.0;
 			setLevel(levelMain);
 			break;
 		case 1:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 10;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 8.5;
+			GameSettings.PLAYER_TWO_SPEED = 7.5;
 			setLevel(desertLevel_1);
 			break;
 		case 2:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 10;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 9.0;
+			GameSettings.PLAYER_TWO_SPEED = 8.0;
 			setLevel(desertLevel_2);
 			break;
 		case 3:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 15;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 9.5;
+			GameSettings.PLAYER_TWO_SPEED = 8.5;
 			setLevel(desertLevel_3);
 			break;
 		case 4:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 15;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 10.0;
+			GameSettings.PLAYER_TWO_SPEED = 8.5;
 			setLevel(desertLevel_4);
 			break;
 		case 5:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 10.5;
+			GameSettings.PLAYER_TWO_SPEED = 9.0;
 			setLevel(desertLevel_5);
 			break;
 		case 6:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 11.0;
+			GameSettings.PLAYER_TWO_SPEED = 9.0;
 			setLevel(desertLevel_6);
 			break;
 		case 7:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_7);
 			break;
 		case 8:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_8);
 			break;
 		case 9:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_9);
 			break;
 		case 10:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_10);
 			break;
 		}
@@ -332,9 +378,9 @@ public class GameLoader extends AbstractLoaderModel{
 		if(levelBounds!=null){
 			levelBounds.showBounds(false);
 		}
-//		GameBackground.SET_SEQUENTIAL_BACKGROUND(game, GameThemeID.DESERT_THEME);
+		GameBackground.SET_SEQUENTIAL_BACKGROUND(game, GameThemeID.DESERT_THEME);
 
-		GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundSeven);
+		//GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundTwo);
 
 		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
 		game.getScoreKeeper().getTimer().showTimer(false);
@@ -353,9 +399,9 @@ public class GameLoader extends AbstractLoaderModel{
 				spawnBackgroundStuff(true);
 			}
 
-			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROLL)
+			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROL)
 				levelManager.loadDesertBorder();
-			if (GameSettings.ALLOW_AI_CONTROLL || GameSettings.LOAD_SPIKE_FENCE){
+			if (GameSettings.ALLOW_AI_CONTROL || GameSettings.LOAD_SPIKE_FENCE){
 				levelManager.loadSpikeFence();
 			}
 

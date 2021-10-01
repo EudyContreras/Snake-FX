@@ -205,7 +205,7 @@ public class GameManager extends AbstractGameModel {
         splash = null;
         splashScene = null;
         mainWindow = new Stage();
-        gridLayer.setVisible(GameSettings.SHOW_ASTAR_GRAPH ? true : false);
+        gridLayer.setVisible(GameSettings.SHOW_ASTAR_GRAPH ? GameSettings.ALLOW_AI_CONTROL : false);
 
         addToGameRoot(gridLayer);
         addToGameRoot(debrisLayer);
@@ -263,8 +263,8 @@ public class GameManager extends AbstractGameModel {
 
         gameBorder.showBorders(true);
 
-        ResizeHelper.baseWidth = ResizeHelper.baseWidth*.45;
-        ResizeHelper.baseHeight = ResizeHelper.baseHeight*.45;
+        ResizeHelper.baseWidth = ResizeHelper.baseWidth*.65;
+        ResizeHelper.baseHeight = ResizeHelper.baseHeight*.65;
 
         animationWidth = ResizeHelper.baseWidth*.05;
         animationHeight = ResizeHelper.baseHeight*.05;
@@ -536,7 +536,7 @@ public class GameManager extends AbstractGameModel {
                             for (int speed = 0; speed < PlayerTwo.SPEED; speed += 1) {
                                 playerTwoManager.updateAllMovementI();
                                 sectManagerTwo.updateAllMovementI();
-                                if (GameSettings.ALLOW_AI_CONTROLL){
+                                if (GameSettings.ALLOW_AI_CONTROL){
                                     aiController.update_AI_Simulation(timePassed);
                                 }
                             }
@@ -819,28 +819,21 @@ public class GameManager extends AbstractGameModel {
                 public void handle(ActionEvent e) {
                     System.out.println("Amount of objects in dirt layer: " + dirtLayer.getChildren().size());
                     System.out.println("Amount of objects in debris layer: " + debrisLayer.getChildren().size());
-                    System.out.println(
-                            "Amount of objects in lower particle layer: " + innerParticleLayer.getChildren().size());
-                    System.out.println(
-                            "Amount of objects in higher particle layer: " + outerParticleLayer.getChildren().size());
+                    System.out.println("Amount of objects in lower particle layer: " + innerParticleLayer.getChildren().size());
+                    System.out.println("Amount of objects in higher particle layer: " + outerParticleLayer.getChildren().size());
                     System.out.println("Amount of objects in all layers: " + getGameRoot().getChildren().size());
                     System.out.println();
                     System.out.println();
-                    System.out
-                            .println("Amount of objects in player manager: " + playerOneManager.getObjectList().size());
+                    System.out.println("Amount of objects in particle manager: " + debrisManager.getParticleList().size());
+                    System.out.println("Amount of objects in player manager: " + playerOneManager.getObjectList().size());
                     System.out.println("Amount of objects in object manager: " + objectManager.getObsFruitList().size());
                     System.out.println("Amount of objects in debris manager: " + debrisManager.getDebrisList().size());
-                    System.out.println(
-                            "Amount of objects in particle manager: " + debrisManager.getParticleList().size());
-                    System.out
-                            .println("Amount of objects in tile manager: " + loader.getTileManager().getTile().size());
-                    System.out.println(
-                            "Amount of objects in block manager: " + loader.getTileManager().getBlock().size());
-                    System.out
-                            .println("Amount of objects in trap manager: " + loader.getTileManager().getTrap().size());
+                    System.out.println("Amount of objects in tile manager: " + loader.getTileManager().getTile().size());
+                    System.out.println("Amount of objects in block manager: " + loader.getTileManager().getBlock().size());
+                    System.out.println("Amount of objects in trap manager: " + loader.getTileManager().getTrap().size());
                     System.out.println();
                     System.out.println("---------------------------------------------------------------------------");
-
+                    System.out.println();
                 }
             });
             levelUpdateLoop.getKeyFrames().add(keyFrame);
@@ -898,7 +891,9 @@ public class GameManager extends AbstractGameModel {
     public void goToNext() {
         resetGame();
         loader.switcLevel();
+        scoreKeeper.setCount(GameSettings.APPLE_COUNT); 
         loader.loadPixelMap();
+
         showCursor(false, getScene());
         processGameInput();
         processGestures();
@@ -924,7 +919,7 @@ public class GameManager extends AbstractGameModel {
         PlayerTwo.DEAD = false;
         PlayerTwo.MOUTH_CLOSE = true;
         PlayerTwo.KEEP_MOVING = true;
-        PlayerTwo.AI_CONTROLLED = GameSettings.ALLOW_AI_CONTROLL;
+        PlayerTwo.AI_CONTROLLED = GameSettings.ALLOW_AI_CONTROL;
         ClassicSnake.NUMERIC_ID = 0;
         ClassicSnake.DEAD = false;
         ClassicSnake.MOUTH_CLOSE = true;
@@ -1022,6 +1017,7 @@ public class GameManager extends AbstractGameModel {
         getHealthBarTwo().setVisible(state);
         getEnergyBarOne().setVisible(state);
         getEnergyBarTwo().setVisible(state);
+        
         getScoreBoardOne().show(state);
         getScoreBoardTwo().show(state);
     }

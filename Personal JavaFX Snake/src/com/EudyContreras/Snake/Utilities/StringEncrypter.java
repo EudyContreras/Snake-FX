@@ -20,23 +20,34 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
  *
  * This programs allows you encrypt a String and store as a byte array.
  * the program provides a simple encryption set of methods which make use of
- * scrambling/adding/replacing/swapping/ the core structure of the String.
- * The encrypted message is the store as byte array object which can be sent through sockets
+ * scrambling/adding/replacing/swapping/salting the core structure of the String.
+ * The encrypted message is stored as a byte array object which can be sent through sockets
  * or stored locally. In order to be able to view the content of the String the object
- * must be passed through the decrypt method of this program which will format and reconstruc the
+ * must be passed through the decrypt method of this program which will format and reconstruct the
  * String to it's original state.
  *
  * If the message is infiltrated while stored as an encrypted byte array whether if it is traveling
  * through a socket or store locally on a system. the thief wont be able to see
- * the content of the message without the key used by this class
+ * the content of the message or deduct its content without the key and password used by this class.
+ * In order to achieve the level of encryption various pseudo hash and salt techniques are used.
  *
  * @author Eudy Contreras
  * @version 1.1
  * @since 2016-08-16
  */
 public class StringEncrypter {
-	@SuppressWarnings("unused")
-	private static char[] base_char_set =
+	
+	private static final String[] PLAIN_BYTE_SET = {"1","2","3","4","5","6","7","8","9","0"};
+	
+	private static final char[] PLAIN_CHAR_SET = {
+			'A','B','C','D','E','F','G','H',
+			'I','J','K','L','M','N','O','P',
+			'Q','R','S','T','U','V','W','X',
+			'Y','Z','Ö','Ä','Å','0','1','2',
+			'3','4','5','6','7','8','9',' ',
+			',','?','.','!','-'};
+	
+	private static final char[] BASE_CHAR_SET =
 			   {'–','—','‘','’','‚','“','”','„','†',' ','‡','•','&','…','(',')','*','+',',','-','.',
 				'/','0','‰','1','2','3','4','5','6','7','8','9','‹',':','›',';','<','=','>','?','@',
 				'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U',
@@ -72,11 +83,8 @@ public class StringEncrypter {
 				'҈','҉','Ҋ','ҋ','Ҍ','ҍ','Ҏ','ҏ','Ґ','ґ','Ғ','ғ','Ҕ','ҕ','Җ','җ','Ҙ','ҙ','Қ','қ','Ҝ',
 				'ҝ','Ҟ','ҟ',};
 
-    private static char[] added  = {'L','3','5','G','0','Ä','1','0',
-    							    'A','D','9','Å','N','C','0','Y',
-    							    'W','S','8','Ö','4','V','4','1',
-    							    'Q','7','K','6','O','3','6','X',
-    							    '8','3','2','9','0','5','7'};
+    private static final char[] ADDED  = BASE_CHAR_SET;
+    
     /*
      * Meps which hold the encryption base and key data structures.
      */
@@ -88,7 +96,7 @@ public class StringEncrypter {
 
     /**
      * This values determined the swap indexes at which the swapping methods
-     * will operate. More swapp indexes may be added for increase security.
+     * will operate. More swapp indexes may be ADDED for increase security.
      */
     private final static int  SWAP_INDEX_1 = 2;
     private final static int  SWAP_INDEX_2 = 6;
@@ -96,7 +104,7 @@ public class StringEncrypter {
     private final static int  SWAP_INDEX_4 = 3;
 
     /*
-     * The higher the number the more random characters will be added to the encryption.
+     * The higher the number the more random characters will be ADDED to the encryption.
      * The number set here will affect the performance of the application. The higher the
      * number the lower the performance will be but the more populated with random characters
      * he encryption will be.
@@ -171,17 +179,21 @@ public class StringEncrypter {
      * the lower the encryption but the faster the encryption will be.
      * @return Returns the String given String as an encrypted byte array.
      */
+    public static byte[] encrypt(String message, Password password, SecurityLevel security){
+    	return encrypt(message, password, BASE_CHAR_SET, security);
+    }
+    
     public static byte[] encrypt(String message, Password password, char[] new_CharSet, SecurityLevel security){
 
         if(prepareEncryption(new_CharSet, password, security)){
 
-        String cypher = addRandom(message).toString();
+        	String cypher = addRandom(message).toString();
 
-        byte[] encryption = cypher.getBytes(StandardCharsets.UTF_8);
+        	byte[] encryption = cypher.getBytes(StandardCharsets.UTF_8);
 
-        byte[] swapped_Bytes = revertBytes(EncryptionUtils.toByteObject(encryption));
+        	byte[] swapped_Bytes = revertBytes(EncryptionUtils.toByteObject(encryption));
 
-        return swapBytes(swapped_Bytes);
+        	return swapBytes(swapped_Bytes);
 
         }else{
             return null;
@@ -221,6 +233,7 @@ public class StringEncrypter {
     public static String decrypt(byte[] encryption, Password password, char[] new_CharSet){
     	 return decrypt(encryption,password,new_CharSet,null);
     }
+    
     /**
      * Method used for decrypting a String in the form
      * of a encrypted byte array. The array will go through a series
@@ -239,18 +252,24 @@ public class StringEncrypter {
      * the security level used to encrypt the String.
      * @return Returns a decypted String.
      */
+    
+    public static String decrypt(byte[] encryption, Password password, SecurityLevel security){
+    	return decrypt(encryption, password, BASE_CHAR_SET, security);
+    }
+    
     public static String decrypt(byte[] encryption, Password password, char[] new_CharSet, SecurityLevel security){
-        if(prepareEncryption(new_CharSet, password, security)){
+        
+    	if(prepareEncryption(new_CharSet, password, security)){
 
-        byte[] unswapped_Bytes = revertBytesBack(EncryptionUtils.toByteObject(unSwapBytes(encryption)));
+    		byte[] unswapped_Bytes = revertBytesBack(EncryptionUtils.toByteObject(unSwapBytes(encryption)));
 
-        List<String> list  = EncryptionUtils.fromStringToList(new String(unswapped_Bytes, StandardCharsets.UTF_8),", ");
+    		List<String> list  = EncryptionUtils.fromStringToList(new String(unswapped_Bytes, StandardCharsets.UTF_8),", ");
 
-        EncryptedMessage unScrambled = removeRandom(list);
+    		EncryptedMessage unScrambled = removeRandom(list);
 
-        String decyphered = revertSubstitution(unScrambled);
+    		String decyphered = revertSubstitution(unScrambled);
 
-        return decyphered;
+    		return decyphered;
         }
         else{
             return "";
@@ -264,21 +283,11 @@ public class StringEncrypter {
      */
     private static boolean prepareEncryption(char[] new_CharSet, Password password, SecurityLevel security){
         boolean duplicates = false;
-        String[] byte_Plain =
-            {"1","2","3","4","5","6","7","8","9","0"};
-
-        char[] plain_char_set =
-            {'A','B','C','D','E','F','G','H',
-             'I','J','K','L','M','N','O','P',
-             'Q','R','S','T','U','V','W','X',
-             'Y','Z','Ö','Ä','Å','0','1','2',
-             '3','4','5','6','7','8','9',' ',
-             ',','?','.','!'};
 
         if (password.isPasswordOk() && new_CharSet != null) {
             duplicates = EncryptionUtils.containsDuplicates(new_CharSet) ;
             if(!duplicates && new_CharSet.length>=40) {
-                KeyGenerator keyGen = new KeyGenerator(password.getPassword(),new_CharSet, byte_Plain);
+                KeyGenerator keyGen = new KeyGenerator(password.getPassword(),new_CharSet, PLAIN_BYTE_SET);
                 setSecurityLevel(password.getPassword(), security);
                 KEY_MAP.clear();
                 PLAIN_MAP.clear();
@@ -288,7 +297,7 @@ public class StringEncrypter {
                     PLAIN_MAP.put(keyGen.getBase_key()[i], keyGen.getNew_Key()[i]);
                     KEY_MAP.put(keyGen.getNew_Key()[i], keyGen.getBase_key()[i]);
                 }
-                for (int i = 0; i < byte_Plain.length; i++) {
+                for (int i = 0; i < PLAIN_BYTE_SET.length; i++) {
                     PLAIN_BYTE_MAP.put(keyGen.getBase_Byte()[i], keyGen.getNew_Byte()[i]);
                     PLAIN_KEY_MAP.put(keyGen.getNew_Byte()[i], keyGen.getBase_Byte()[i]);
                 }
@@ -312,17 +321,17 @@ public class StringEncrypter {
 
         }
         else if (password.isPasswordOk() && new_CharSet == null) {
-        	KeyGenerator keyGen = new KeyGenerator(password.getPassword(),plain_char_set, byte_Plain);
+        	KeyGenerator keyGen = new KeyGenerator(password.getPassword(),PLAIN_CHAR_SET, PLAIN_BYTE_SET);
         	setSecurityLevel(password.getPassword(), security);
             KEY_MAP.clear();
             PLAIN_MAP.clear();
             PLAIN_KEY_MAP.clear();
             PLAIN_BYTE_MAP.clear();
-            for (int i = 0; i < plain_char_set.length; i++) {
+            for (int i = 0; i < PLAIN_CHAR_SET.length; i++) {
             	 PLAIN_MAP.put(keyGen.getBase_key()[i], keyGen.getNew_Key()[i]);
                  KEY_MAP.put(keyGen.getNew_Key()[i], keyGen.getBase_key()[i]);
             }
-            for (int i = 0; i < byte_Plain.length; i++) {
+            for (int i = 0; i < PLAIN_BYTE_SET.length; i++) {
                 PLAIN_BYTE_MAP.put(keyGen.getBase_Byte()[i], keyGen.getNew_Byte()[i]);
                 PLAIN_KEY_MAP.put(keyGen.getNew_Byte()[i], keyGen.getBase_Byte()[i]);
             }
@@ -371,11 +380,8 @@ public class StringEncrypter {
      */
     private static char[] revertCharacterSwap(char[] chars) {
         for (int i1 = chars.length - (SWAP_INDEX_1+1); i1 >= 0; i1--) {
-
             for (int i2 = chars.length - (SWAP_INDEX_2+1); i2 >= 0; i2--) {
-
                 for (int i3 = chars.length - (SWAP_INDEX_3+1); i3 >= 0; i3--) {
-
                     for (int i4 = chars.length - 1; i4 >= (SWAP_INDEX_4); i4--) {
                         char temp4 = chars[i4];
                         chars[i4] = chars[i4 - SWAP_INDEX_4];
@@ -464,7 +470,7 @@ public class StringEncrypter {
      * random numbers and characters to the body of the already encrypted message. This
      * is done at key places of the message in order to allow the subtraction of the original
      * version of the encryption without having to deal with the extract characters and numbers
-     * added by this function. The function a
+     * ADDED by this function. The function a
      * the process can then be reversed with an additional key.
 
      */
@@ -488,7 +494,7 @@ public class StringEncrypter {
 
     }
     /*
-     * Method used to remove all previously added obfuscation elements. The method
+     * Method used to remove all previously ADDED obfuscation elements. The method
      * will loop through the values of a given list and it will filter the orignal's
      * message values into their respective char arrays, one holding the code and the
      * other holding the case related data.
@@ -629,8 +635,8 @@ public class StringEncrypter {
     /*
      * Method which checks the security level required by the user
      * and base on the specifications it will adjust the amount of characters per character
-     * which are to be added to the encrypted message. The higher the security level the
-     * higher the number of added characters and vice versa.
+     * which are to be ADDED to the encrypted message. The higher the security level the
+     * higher the number of ADDED characters and vice versa.
      */
     private final static void setSecurityLevel(String password, SecurityLevel security){
 		SecureRandom insertRandom = new SecureRandom();
@@ -735,7 +741,7 @@ public class StringEncrypter {
             for(Character char_Objects : char_Object)chars[i++] = char_Objects;
 
             return chars;
-        }
+        } 
         /*
          * Method which converts a primitive byte array to an object byte array.
          */
@@ -787,7 +793,7 @@ public class StringEncrypter {
         private static String getRandomString(int length, char code, int index){
             char[] randomString = new char[length];
             for(int i = 0;i<length; i++){
-                randomString[i] =added[getRandom(added.length)];
+                randomString[i] =ADDED[getRandom(ADDED.length)];
                 if(i==index){
                     randomString[i] = code;
                 }
@@ -801,7 +807,7 @@ public class StringEncrypter {
         private static String getRandomString(int length){
             char[] randomString = new char[length];
             for(int i = 0;i<length; i++){
-                randomString[i] =added[getRandom(added.length)];
+                randomString[i] =ADDED[getRandom(ADDED.length)];
             }
             return String.valueOf(randomString);
         }
@@ -944,15 +950,19 @@ public class StringEncrypter {
 		private enum ShuffelMethod {
 			FISHER_YATES_SHUFFLE, RICHARD_DURSTENFELD_SHUFFLE,
 		}
+
 		private char[] getBase_key() {
 			return char_base_set;
 		}
+
 		private String[] getBase_Byte() {
 			return byte_base_set;
 		}
+
 		private char[] getNew_Key() {
 			return char_key_set;
 		}
+
 		private String[] getNew_Byte() {
 			return byte_key_set;
 		}
@@ -966,20 +976,22 @@ public class StringEncrypter {
     public static class Password{
         private String password;
 
-        public Password(String password){
-            this.password = password;
-        }
-        private String getPassword(){
-            return password;
-        }
-        private boolean isPasswordOk(){
-            return password.length()>=6 && password!=null;
-        }
+		public Password(String password) {
+			this.password = password;
+		}
+
+		private String getPassword() {
+			return password;
+		}
+
+		private boolean isPasswordOk() {
+			return password.length() >= 6 && password != null;
+		}
     }
 
-    public enum SecurityLevel{
-    	LOW,MEDIUM,HIGH,VERY_HIGH
-    }
+	public enum SecurityLevel {
+		LOW, MEDIUM, HIGH, VERY_HIGH
+	}
 
     private static class InvalidPasswordException extends Exception {
         private static final long serialVersionUID = 1L;
@@ -1005,21 +1017,11 @@ public class StringEncrypter {
 
     public static void main(String[] args) {
 
-    	char[] plain_char_set =
-            {'A','B','C','D','E','F','G','H',
-             'I','J','K','L','M','N','O','P',
-             'Q','R','S','T','U','V','W','X',
-             'Y','Z','Ö','Ä','Å','0','1','2',
-             '3','4','5','6','7','8','9',' ',
-             ',','?','.','!','-'};
-
-
-
         long encrypt_start_time = System.currentTimeMillis();
-        byte[] encryption = StringEncrypter.encrypt("hey how are you!", new Password("password"),plain_char_set, SecurityLevel.VERY_HIGH);
+        byte[] encryption = StringEncrypter.encrypt("Hey how are you!", new Password("password"),SecurityLevel.LOW);
         long encrypt_end_time = System.currentTimeMillis();
+        
         System.out.println("Encryption speed: "+(encrypt_end_time - encrypt_start_time)+ " Milliseconds");
-
 
         System.out.println("Actual encrypted message:");
         System.out.println("////////////////////////////////////////////////////////////////////////////////");
@@ -1027,11 +1029,11 @@ public class StringEncrypter {
         EncryptionUtils.printBytes(encryption);
         System.out.println("");
         System.out.println("////////////////////////////////////////////////////////////////////////////////");
-
+        System.out.println("");
 
         long decrypt_start_time = System.currentTimeMillis();
-        System.out.println(StringEncrypter.decrypt(encryption,new Password("password"),plain_char_set,SecurityLevel.VERY_HIGH));
-        System.out.println(StringEncrypter.decrypt(Base64.decode("HJYTHTgcPiMcHBgNGhw+HBgcOBgYJBzDGhMOHTYzPh80HIUcwx8+GBgcDYUdOBwYGB9fPh8cNjMzNyQYPhwLGD4QNcM+GDU+wxgdPhwfYgs0Djgkwz5fDSY+OBIRMxA2Iic5HBhfND43GITDEhgYOT4LPpZhPhgdEyM1DZYcPhwaCz4+GBg5NjcyORwzwxwzNzI3MzQeJsMzGAs+HGEzEF83Mzc+GBw3hDMcHA4cNCVRPjY4GBEyEYVTOT4YNxwHPiccHA4YGDQYHBzDNhwaOT8+BwccGBgcHBw0ND4+NR0cHJY1HAc+NTI2Bx1h"),new Password("password")));
+        System.out.println(StringEncrypter.decrypt(encryption,new Password("password"),SecurityLevel.LOW));
+        //System.out.println(StringEncrypter.decrypt(Base64.decode("HMMchZYnlhwRGDc2PiMkEsPDGF81YSE+OTkyGBE2EcM5YTg4ER8kJCQ+NjbDHJYLhWFQljU0Iz43wzQyHBwzHBMcGIQkPsMRwxAYDRIfCyc1EhwYYjk+hDMcGhFhIxgQOTM+GB00DSViHB02OT4nEDczGMMdC4UcHMMiMzM0HBg+HzQ2HyU0DTQ+HzkLHIUjNWIcHCJfHD4fJ8M3GDkdhCYnGB0QCz4YOTkyNDgcMzbDhTYQwz4SEx0zGIUzljgTOSQ4Pjk5GBw2HMMyHF8fEhwYC1HDODiWPiMzBzU5HBxTHCQyOQccHB0HNBwYPhw5IgeEDRw2HCQ+wzkT"),new Password("password"),PLAIN_CHAR_SET, SecurityLevel.VERY_HIGH));
         long decrypt_end_time = System.currentTimeMillis();
         System.out.println("Decryption speed: "+(decrypt_end_time - decrypt_start_time)+ " Milliseconds");
     }

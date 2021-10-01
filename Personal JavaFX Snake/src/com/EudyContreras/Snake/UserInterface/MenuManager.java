@@ -8,7 +8,6 @@ import com.EudyContreras.Snake.PlayRoomHub.ConnectHub;
 import com.EudyContreras.Snake.Utilities.GameAudio;
 import com.EudyContreras.Snake.Utilities.TimePeriod;
 import com.EudyContreras.Snake.Utilities.ValueAnimator;
-import com.EudyContreras.Snake.Utilities.ValueWrapper;
 
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.BoxBlur;

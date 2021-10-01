@@ -128,7 +128,7 @@ public class PlayerOneFangs extends AbstractObject {
 						}
 					}
 					if (snake.getHead().getBounds().intersects(tempObject.getBounds())) {
-						if(!GameSettings.ALLOW_AI_CONTROLL)
+						if(!GameSettings.ALLOW_AI_CONTROL)
 						tempObject.bounce(snake, snake.getX(), snake.getY());
 						break;
 					}

@@ -1,6 +1,5 @@
 package com.EudyContreras.Snake.CustomNodes;
 
-import javafx.animation.Timeline;
 import javafx.animation.Transition;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Region;

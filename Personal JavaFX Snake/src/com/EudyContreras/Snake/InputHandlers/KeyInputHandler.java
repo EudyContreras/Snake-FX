@@ -148,6 +148,7 @@ public class KeyInputHandler {
 						if(!game.getMainWindow().isFullScreen() && ResizeHelper.isSupportedRatio()){
 							game.setNewRatio(true);
 							game.getMainWindow().setFullScreen(true);
+	
 							game.getGameBorder().showBorders(false);
 						}
 						else{

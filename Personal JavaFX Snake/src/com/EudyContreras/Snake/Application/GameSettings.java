@@ -2,8 +2,6 @@ package com.EudyContreras.Snake.Application;
 
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 
-import javafx.stage.Screen;
-
 /**
  * This class contains all global settings within the game which can be easily
  * modified. The following settings can be used to increase the speed of the
@@ -33,12 +31,12 @@ public class GameSettings {
 	public static int WIDTH = (int) (1920/GameLoader.ResolutionScaleX);
 	public static int HEIGHT = (int) (1080/GameLoader.ResolutionScaleY);
 
-	public static int SCREEN_WIDTH =  WIDTH+40;
-	public static int SCREEN_HEIGHT = HEIGHT+80;
+	public static int SCREEN_WIDTH =  WIDTH + 40;
+	public static int SCREEN_HEIGHT = HEIGHT + 80;
 
 	public static final String IMAGE_SOURCE_DIRECTORY = "com/EudyContreras/Snake/ImageFiles/";
 
-	public static int APPLE_COUNT = 100;
+	public static int APPLE_COUNT = 40;
 	public static int BUFF_COUNT = 0;
 	public static int SECTIONS_TO_ADD = 1;
 	public static int SNAKE_SPEED = 1; // must be a number which the size of the result remains whole
@@ -65,39 +63,39 @@ public class GameSettings {
 	public static double ENERGY_COMSUMPTION_SPEED = 3;
 	public static double ENERGY_REGENRATION_SPEED = 1.0;
 	public static double ENERGY_REGENRATION_DELAY = 40;
-	public static double DAMAGE_AMOUNT = 0;
+	public static double DAMAGE_AMOUNT = 25;
 
-	public static final double PLAYER_ONE_SPEED = 8.0;
-	public static final double PLAYER_TWO_SPEED = 8.0;
-	public static final double CLASSIC_SNAKE_SPEED = 9.0;
+	public static double PLAYER_ONE_SPEED = 8.0;
+	public static double PLAYER_TWO_SPEED = 8.0;
+	public static final double CLASSIC_SNAKE_SPEED = 9.0;  
 	public static final double PLAYER_SIZE = 24;
 
 	public static double PLAYER_HEALTH = 100.0;
 
-	public static double GlOBAL_ILLUMINATION = 2.0;
-	public static double GLOBAL_SPECULARITY = 2.0;
+	public static double GlOBAL_ILLUMINATION = 1.75;
+	public static double GLOBAL_SPECULARITY = 2.870;
 
 	public static int BLUR_RANDOMNESS = 500;
-	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 800;
-	public static int PARTICLE_LIMIT = 350;
-	public static int MAX_DEBRIS_AMOUNT = 50;
-	public static int SAND_SPAWN_DELAY = 2;
+	public static int MAX_AMOUNT_OF_BACKGROUND_OBJECT = 100;
+	public static int PARTICLE_LIMIT = 250;
+	public static int MAX_DEBRIS_AMOUNT = 45;
+	public static int SAND_SPAWN_DELAY = 1;
 	public static int RAIN_SPAWN_DELAY = 1;
-	public static int SAND_AMOUNT = 4;
+	public static int SAND_AMOUNT = 5;
 	public static int RAIN_AMOUNT = 0;
 	public static int DIRT_AMOUNT = 4;
 
-	public static double SAND_SIZE = 5;
-	public static double WIND_FORCE = 1.7;
-	public static double WIND_SPEED = 1.0;
+	public static double SAND_SIZE = 6;
+	public static double WIND_FORCE = 2.7;
+	public static double WIND_SPEED = 2.0;
 
 	public static boolean WINDOW_ALWAYS_VISIBLE = true;
-	public static boolean SHOW_SPLASHSCREEN = false;
+	public static boolean SHOW_SPLASHSCREEN = true;
 	public static boolean MANUAL_SIZE_SCALE_STATE = true;
 	public static boolean OBJECT_TRACKER = false;
 
-	public static boolean ALLOW_AI_CONTROLL = true;
-	public static boolean ALLOW_AI_TELEPORT = false;
+	public static boolean ALLOW_AI_CONTROL = false;
+	public static boolean ALLOW_AI_TELEPORT = true;
 	public static boolean ALLOW_SNAKE_GROWTH = true;
 	public static boolean ALLOW_SELF_COLLISION = true;
 	public static boolean ALLOW_TOUCH_CONTROL = false;
@@ -112,7 +110,7 @@ public class GameSettings {
 
 	public static boolean PARENT_CACHE = false;
 	public static boolean ALLOW_ASTAR_GRAPH = true;
-	public static boolean SHOW_ASTAR_GRAPH = false;
+	public static boolean SHOW_ASTAR_GRAPH = true;
 	public static boolean DEBUG_MODE = false;
 	public static boolean RENDER_GAME = false;
 	public static boolean RENDER_INTERFACE = true;

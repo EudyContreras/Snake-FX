@@ -1,8 +1,6 @@
 
 package com.EudyContreras.Snake.GameObjects;
 
-import java.util.Random;
-
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
 import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.Application.GameSettings;

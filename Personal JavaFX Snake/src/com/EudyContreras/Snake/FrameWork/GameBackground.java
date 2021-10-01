@@ -28,7 +28,7 @@ import javafx.scene.image.ImageView;
 			} else if (RandomGenUtility.getRandom(1, 5) == 2) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwo);
 			} else if (RandomGenUtility.getRandom(1, 5) == 3) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThree);
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSeven);
 			} else if (RandomGenUtility.getRandom(1, 5) == 4) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
 			} else if (RandomGenUtility.getRandom(1, 5) == 5) {
@@ -49,13 +49,13 @@ import javafx.scene.image.ImageView;
 			}else if (INDEX == 2) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundTwo);
 			}else if (INDEX == 3) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundThree);
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSeven);
 			}else if (INDEX == 4) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFour);
 			}else if (INDEX == 5) {
 				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundFive);
 			}else if (INDEX == 6) {
-				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSix);
+				BACKGROUND_VIEW.setImage(GameLevelImage.desertBackgroundSeven);
 			}
 		}
 		else if (gameTheme == null) {

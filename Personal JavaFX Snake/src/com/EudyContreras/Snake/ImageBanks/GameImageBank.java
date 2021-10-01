@@ -36,11 +36,12 @@ import javafx.scene.shape.Circle;
 			public static final Image fruit = ImageEffectUtility.precreatedLightedAndShadedImage("apple.png", GameSettings.GlOBAL_ILLUMINATION, 0,
 					150, 192 );
 			public static final Image classicSnakeFruit = ImageEffectUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY, GameSettings.PLAYER_ONE_SIZE);
-			public static final Image fruitDebrisOne = ImageEffectUtility.preCreateShadedCircle(Color.RED, 2, 1.8,
+			public static final Image fruitDebrisOne = ImageEffectUtility.preCreateShadedCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION, GameSettings.GLOBAL_SPECULARITY,
 					10);
-			public static final Image fruitDebrisTwo = ImageEffectUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION,
-					GameSettings.GLOBAL_SPECULARITY + 0.4, 10, 10 );
-			public static final Image sand_grain = ImageEffectUtility.precreateSnapshot("sand_grain.png", 20, 20 );
+			public static final Image fruitDebrisTwo = ImageEffectUtility.preCreateShadedGlowingCircle(Color.RED, GameSettings.GlOBAL_ILLUMINATION * 1.1,
+					GameSettings.GLOBAL_SPECULARITY*0.8, 10, 10 );
+			public static final Image sand_grain = ImageEffectUtility.precreatedLightedImage("sand_grain.png", GameSettings.GlOBAL_ILLUMINATION * 1.3,
+					0, 20, 20 );
 			public static final Image snakeBones = ImageEffectUtility.precreatedLightedImage("snake-bones.png", GameSettings.GlOBAL_ILLUMINATION,
 					GameSettings.GLOBAL_SPECULARITY-0.5, 197, 176 );
 			public static final Image snakeSkull = ImageEffectUtility.precreatedLightedImage("snake-skull.png", GameSettings.GlOBAL_ILLUMINATION,
