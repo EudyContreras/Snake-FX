@@ -2,10 +2,9 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,16 +21,13 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class DesertBark extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
-	float speed;
+	private Rectangle2D collisionBounds;
+	private GameManager game;
 
 	public DesertBark(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
-		this.speed = speed;
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
@@ -53,7 +49,7 @@ public class DesertBark extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		collisionBounds = new Rectangle2D(x+GameManager.ScaleX(80), y + GameManager.ScaleY(140), width - GameManager.ScaleX(130), height*0.3);
+		collisionBounds = new Rectangle2D(x+80, y + 140, width - 130, height*0.3);
 
 	}
 
@@ -75,7 +71,7 @@ public class DesertBark extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(80), y + GameManager.ScaleY(140), width - GameManager.ScaleX(140), height*0.3);
+			Rectangle bounds = new Rectangle(x+80, y + 140, width - 140, height*0.3);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

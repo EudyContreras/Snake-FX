@@ -2,11 +2,10 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,10 +21,8 @@ import javafx.scene.transform.Rotate;
  *
  */
 public class DesertBush extends AbstractTile {
-	GameTileManager tileManager;
-	GameManager game;
-	float oldX;
-	float speed;
+	private GameManager game;
+	private float oldX;
 	private double count = 60;
 	private double threshold = 0;
 	private boolean playerCollision = false;
@@ -64,6 +61,7 @@ public class DesertBush extends AbstractTile {
 				velR += 0.5f;
 		}
 	}
+
 	public void displace(){
 		if(playerCollision){
 		this.velX += threshold;
@@ -87,6 +85,7 @@ public class DesertBush extends AbstractTile {
 			}
 		}
 	}
+
 	public void checkDisplacement(){
 		if(playerCollision == true && contact == false){
 			count--;
@@ -118,6 +117,7 @@ public class DesertBush extends AbstractTile {
 	 * for debugging purposes
 	 */
 	public void checkCollision(){
+		if(game.getGameLoader().getPlayerOne()!=null)
 		if(this.getBounds().intersects(game.getGameLoader().getPlayerOne().getBounds())){
 			if(contact == true){
 				if(game.getGameLoader().getPlayerOne().getCurrentDirection()==PlayerMovement.MOVE_LEFT){
@@ -130,6 +130,7 @@ public class DesertBush extends AbstractTile {
 			contact = false;
 			}
 		}
+		if(game.getGameLoader().getPlayerTwo()!=null)
 		if(this.getBounds().intersects(game.getGameLoader().getPlayerTwo().getBounds())){
 			if(contact == true){
 				if(game.getGameLoader().getPlayerTwo().getCurrentDirection()==PlayerMovement.MOVE_LEFT){
@@ -142,12 +143,12 @@ public class DesertBush extends AbstractTile {
 			contact = false;
 			}
 		}
-
 	}
+
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(10), y + GameManager.ScaleY(50), width - GameManager.ScaleX(60), height - GameManager.ScaleY(90));
+			Rectangle bounds = new Rectangle(x+10, y + 50, width - 60, height - 90);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -159,7 +160,7 @@ public class DesertBush extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x+GameManager.ScaleX(10), y + GameManager.ScaleY(50), width - GameManager.ScaleX(60), height - GameManager.ScaleY(90));
+		return new Rectangle2D(x+10, y + 50, width - 60, height - 90);
 	}
 
 	public Bounds getCollisionBounds() {

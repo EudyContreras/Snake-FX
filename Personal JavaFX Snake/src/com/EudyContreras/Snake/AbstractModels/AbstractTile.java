@@ -1,9 +1,9 @@
 
 package com.EudyContreras.Snake.AbstractModels;
 
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -22,26 +22,28 @@ public abstract class AbstractTile {
 
 	protected Image image;
 	protected ImageView view = new ImageView();
-	protected double x;
-	protected double y;
+	protected double x = 0;
+	protected double y = 0;
 	protected double r;
 	protected double velX;
 	protected double velY;
 	protected double velR;
 	protected boolean status = true;
-	protected double width;
-	protected double height;
+	protected double width = 0;
+	protected double height = 0;
 	protected GameLevelObjectID id;
 
 	public AbstractTile() {
 
 	}
+
 	public AbstractTile(double x, double y) {
 		this.x = x;
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
+
 	public AbstractTile(double x, double y, Image image) {
 		this.x = x;
 		this.y = y;
@@ -50,11 +52,13 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
-	public AbstractTile(double x, double y,GameLevelObjectID id) {
+
+	public AbstractTile(double x, double y, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
 		this.id = id;
 	}
+
 	public AbstractTile(double x, double y, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
@@ -64,6 +68,7 @@ public abstract class AbstractTile {
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 	}
+
 	public AbstractTile(double x, double y, double width, double height, Image image, GameLevelObjectID id) {
 		this.x = x;
 		this.y = y;
@@ -75,6 +80,7 @@ public abstract class AbstractTile {
 		this.view.setFitWidth(width);
 		this.view.setFitHeight(height);
 	}
+
 	public ImageView getView() {
 		return view;
 	}
@@ -130,13 +136,17 @@ public abstract class AbstractTile {
 	}
 
 	public void move() {
-		x = x + (velX * GameSettings.FRAME_SCALE)/GameManager.ScaleX;
-		y = y + (velY * GameSettings.FRAME_SCALE)/GameManager.ScaleY;
-		r = r + (velR * GameSettings.FRAME_SCALE)/GameManager.ScaleX_ScaleY;
+		x = x + (velX * GameSettings.FRAME_SCALE);
+		y = y + (velY * GameSettings.FRAME_SCALE);
+		r = r + (velR * GameSettings.FRAME_SCALE);
 	}
 
 	public Image getImage() {
 		return image;
+	}
+
+	public void setCell(CellNode... cell) {
+
 	}
 
 	public void setImage(Image image) {
@@ -166,7 +176,6 @@ public abstract class AbstractTile {
 	public void setY(double y) {
 		this.y = y;
 	}
-
 
 	public void setId(GameLevelObjectID id) {
 		this.id = id;
@@ -217,7 +226,7 @@ public abstract class AbstractTile {
 		return this.view.getLayoutBounds();
 	}
 
-	public Bounds getBounds2D() {
+	public Rectangle2D getBounds2D() {
 		return null;
 	}
 

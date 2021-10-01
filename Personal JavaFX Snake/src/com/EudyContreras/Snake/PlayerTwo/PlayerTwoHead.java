@@ -2,16 +2,15 @@ package com.EudyContreras.Snake.PlayerTwo;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
-import com.EudyContreras.Snake.DebrisEffects.FruitSplashTwo;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.EudyContreras.Snake.FrameWork.GameLoader;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.ParticleEffects.FruitSplashTwo;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -30,6 +29,12 @@ public class PlayerTwoHead extends AbstractObject {
 	private double fadeValue = 1.0;
 	private double offsetX = 0;
 	private double offsetY = 0;
+	private double rotationAngle = 90;
+	private double rotationAmount = 6;
+	private double rotationDirection = 0;
+	private double rotationLimit = 0;
+	private boolean added = false;
+	private boolean rotate = false;
 	private boolean showTheSkull = false;
 	private int equivalence;
 	private Text text;
@@ -44,8 +49,9 @@ public class PlayerTwoHead extends AbstractObject {
 	private Rectangle headBoundsTop;
 	private Rectangle headBoundsBottom;
 	private Rectangle clearFromCollision;
+	private PlayerTwoFangs snakeMouth;
 	private PlayerTwoManager playerManager;
-	private PlayerMovement newDirection;
+
 
 	public PlayerTwoHead(PlayerTwo snake, GameManager game, Pane layer, Circle node, double x, double y, GameObjectID id,
 			PlayerMovement Direction) {
@@ -55,19 +61,15 @@ public class PlayerTwoHead extends AbstractObject {
 		this.game = game;
 		this.playerManager = game.getPlayerTwoManager();
 		this.text = new Text();
-		this.font = Font.font("Plain", FontWeight.BOLD, 18 / GameLoader.ResolutionScaleX);
+		this.font = Font.font("Plain", FontWeight.BOLD, 18);
 		this.text.setFill(Color.rgb(210, 0, 0));
 		this.text.setFont(font);
 		this.text.setText(GameSettings.PLAYER_TWO_NAME);
-		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
-				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
-		this.playerManager.addObject(new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.2, Color.TRANSPARENT), this.x,
-				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
 		this.headBoundsLeft = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsRight = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsTop = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
 		this.headBoundsBottom = new Rectangle(x, y, node.getRadius() * .5, node.getRadius() * .5);
-		this.clearFromCollision = new Rectangle(x, y, node.getRadius() * 2, node.getRadius() * 2);
+		this.clearFromCollision = new Rectangle(x-radius, y-radius, node.getRadius() * 2, node.getRadius() * 2);
 		this.radialBounds = new Circle(radius,x,y, Color.TRANSPARENT);
 		if (GameSettings.DEBUG_MODE) {
 			this.headBoundsRight.setFill(Color.BLUE);
@@ -86,12 +88,19 @@ public class PlayerTwoHead extends AbstractObject {
 			this.clearFromCollision.setStroke(Color.WHITE);
 			this.clearFromCollision.setStrokeWidth(4);
 			this.layer.getChildren().add(clearFromCollision);
-			this.radialBounds.setStroke(Color.WHITE);
-			this.radialBounds.setStrokeWidth(4);
 			this.drawBoundingBox();
+			this.adjustBounds();
 		}
-		this.layer.getChildren().add(radialBounds);
 		this.layer.getChildren().add(text);
+		this.loadMouth();
+	}
+
+	private void loadMouth(){
+		this.playerManager.addObject(new PlayerTwoEatTrigger(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.8, Color.TRANSPARENT), this.x,
+				this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT));
+		this.snakeMouth = new PlayerTwoFangs(this, snake, game, layer, new Circle(GameSettings.PLAYER_TWO_SIZE * 0.15, Color.TRANSPARENT), this.x,
+					this.y, GameObjectID.SnakeMouth, PlayerMovement.MOVE_LEFT);
+		this.playerManager.addObject(snakeMouth);
 	}
 
 	public void move() {
@@ -99,32 +108,36 @@ public class PlayerTwoHead extends AbstractObject {
 			if (GameSettings.DEBUG_MODE) {
 				adjustBounds();
 			}
-			this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE*1.4);
+			this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE*1.5);
 			this.radius = circle.getRadius();
 			this.y = snake.getY();
 			this.x = snake.getX();
+			this.r = r+velR;
 			this.text.setX(x - 50);
 			this.text.setY(y - 40);
 		}
-
+		rotate();
 	}
+
 	public void updateUI(){
 		if(!PlayerTwo.DEAD)
 		super.updateUI();
 	}
+
 	public void logicUpdate(){
 		showTheSkull();
 		updateBounds();
 	}
+
 	public void updateBounds() {
 		if (GameSettings.DEBUG_MODE) {
-			bounds.setX(x - radius / 2 + offsetX);
-			bounds.setY(y - radius / 2 + offsetY);
+			bounds.setX(x - radius*1.1 / 2 + offsetX);
+			bounds.setY(y - radius*1.1 / 2 + offsetY);
+			bounds.setWidth(radius*1.1);
+			bounds.setHeight(radius*1.1);
 		}
-		radialBounds.setCenterX(x);
-		radialBounds.setCenterY(y);
-		radialBounds.setRadius(radius*.7);
 	}
+
 	public void showTheSkull() {
 		if (showTheSkull == true) {
 			fadeValue -= 0.01;
@@ -134,39 +147,97 @@ public class PlayerTwoHead extends AbstractObject {
 			}
 		}
 	}
+
 	public void rotate() {
-		if (r == 0 && newDirection == PlayerMovement.MOVE_LEFT) {
-			velR = 8;
-			targetRotation = 89;
-			equivalence = 1;
-		} else if (r == 0 && newDirection == PlayerMovement.MOVE_RIGHT) {
-			velR = -8;
-			targetRotation = -89;
-			equivalence = 0;
-		} else if (r == 89 && newDirection == PlayerMovement.MOVE_UP) {
-			velR = 8;
-			targetRotation = 89;
-			equivalence = 1;
-		} else if (r == 89 && newDirection == PlayerMovement.MOVE_DOWN) {
-			velR = -8;
-			targetRotation = 0;
-			equivalence = 0;
-		} else if (r == -89 && newDirection == PlayerMovement.MOVE_UP) {
-			velR = 8;
-			targetRotation = 180;
-			equivalence = 1;
-		} else if (r == -89 && newDirection == PlayerMovement.MOVE_DOWN) {
-			velR = 8;
-			targetRotation = 0;
-			equivalence = 1;
-		} else if (r == 180 && newDirection == PlayerMovement.MOVE_LEFT) {
-			velR = -8;
-			targetRotation = 89;
-			equivalence = 0;
-		} else if (r == 180 && newDirection == PlayerMovement.MOVE_RIGHT) {
-			velR = 8;
-			targetRotation = 270;
-			equivalence = 0;
+		if(rotate){
+			velR = rotationDirection;
+			if(added){
+				if(r>=rotationLimit){
+					r = rotationLimit;
+					velR = 0;
+					rotate = false;
+				}
+			}
+			else{
+				if(r<=rotationLimit){
+					r = rotationLimit;
+					velR = 0;
+					rotate = false;
+				}
+			}
+		}
+	}
+
+	public void performRotation(PlayerMovement from, PlayerMovement to) {
+		if (from != null) {
+			switch (from) {
+			case MOVE_DOWN:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_LEFT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case MOVE_RIGHT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_UP:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = snake.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = snake.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case STANDING_STILL:
+				break;
+			}
 		}
 	}
 
@@ -194,10 +265,11 @@ public class PlayerTwoHead extends AbstractObject {
 	public void checkRemovability() {
 
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
-		if (!PlayerTwo.DEAD) {
+		if (!PlayerTwo.DEAD && PlayerTwo.KEEP_MOVING) {
 			for (int i = 0; i < 2; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt,0.5, (double) x, (double) y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game,game.getSixthLayer(), GameImageBank.dirt,0.5, (double) x, (double) y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -207,7 +279,7 @@ public class PlayerTwoHead extends AbstractObject {
 		if (GameSettings.DEBUG_MODE) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							showVisualQue(Color.RED);
@@ -225,13 +297,14 @@ public class PlayerTwoHead extends AbstractObject {
 							showVisualQue(Color.YELLOW);
 						}
 					}
+					break;
 				}
 			}
 		}
 		if (!GameSettings.DEBUG_MODE) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBoundsLeft().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							displaceDirt(getBoundsLeft().getMinX(),getBoundsLeft().getMinY(),0,0);
@@ -249,6 +322,7 @@ public class PlayerTwoHead extends AbstractObject {
 							displaceDirt(getBoundsBottom().getMinX(),getBoundsBottom().getMinY(),0,0);
 						}
 					}
+					break;
 				}
 			}
 		}
@@ -259,7 +333,6 @@ public class PlayerTwoHead extends AbstractObject {
 			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
 			if (getBoundsLeft().intersects(tempTile.getBounds())) {
 				return false;
-
 			}
 		}
 		return true;
@@ -300,7 +373,7 @@ public class PlayerTwoHead extends AbstractObject {
 	public void checkRadiusCollision() {
 		for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 			AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-			if (tempTile.getId() == GameLevelObjectID.rock) {
+			if (tempTile.getId() == GameLevelObjectID.ROCK) {
 				if (getCollisionRadiusBounds().intersects(tempTile.getBounds()) == false) {
 					showVisualQue(Color.WHITE);
 				}
@@ -318,19 +391,22 @@ public class PlayerTwoHead extends AbstractObject {
 				new FruitSplashTwo(game, color, 1, 10, (float) (x + this.radius / 2), (float) (y + this.radius / 2)));
 	}
 
-	public void setRotate(boolean rotate, PlayerMovement newDirection, int targetRotation) {
-		this.newDirection = newDirection;
-		this.targetRotation = targetRotation;
-	}
-
 	public void setAnim(ImagePattern scene) {
 		this.circle.setFill(scene);
 	}
+
 	public void addBones() {
-		skull = new Circle(x, y, this.radius*0.8, new ImagePattern(GameImageBank.snakeSkull));
-		skull.setRotate(r);
-		game.getBaseLayer().getChildren().add(skull);
+		skull = new Circle(this.radius * .8, new ImagePattern(GameImageBank.snakeSkull));
+		skull.setTranslateX(x);
+		skull.setTranslateY(y);
+		skull.setRotate(circle.getRotate());
+		game.getDebrisLayer().getChildren().add(skull);
 	}
+
+	public double getRadius(){
+		return this.circle.getRadius();
+	}
+
 	public boolean isShowTheSkull() {
 		return showTheSkull;
 	}
@@ -338,10 +414,10 @@ public class PlayerTwoHead extends AbstractObject {
 	public void setShowTheSkull(boolean showTheSkull) {
 		this.showTheSkull = showTheSkull;
 	}
-	public void drawBoundingBox() {
 
+	public void drawBoundingBox() {
 		if (GameSettings.DEBUG_MODE) {
-			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
+			bounds = new Rectangle(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 			bounds.setStroke(Color.WHITE);
 			bounds.setStrokeWidth(3);
 			bounds.setFill(Color.TRANSPARENT);
@@ -360,12 +436,24 @@ public class PlayerTwoHead extends AbstractObject {
 		this.headBoundsBottom.setY(y + radius - headBoundsBottom.getHeight() / 2);
 		this.clearFromCollision.setX(x - radius);
 		this.clearFromCollision.setY(y - radius);
+		this.headBoundsLeft.setWidth(circle.getRadius() * .5);
+		this.headBoundsLeft.setHeight(circle.getRadius() * .5);
+		this.headBoundsRight.setWidth(circle.getRadius() * .5);
+		this.headBoundsRight.setHeight(circle.getRadius() * .5);
+		this.headBoundsTop.setWidth(circle.getRadius() * .5);
+		this.headBoundsTop.setHeight(circle.getRadius() * .5);
+		this.headBoundsBottom.setWidth(circle.getRadius() * .5);
+		this.headBoundsBottom.setHeight(circle.getRadius() * .5);
+		this.clearFromCollision.setWidth(circle.getRadius() * 2);
+		this.clearFromCollision.setHeight(circle.getRadius() * 2);
 	}
+
 	public Bounds getRadialBounds(){
 		return radialBounds.getBoundsInParent();
 	}
+
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
+		return new Rectangle2D(x - radius*1.1 / 2, y - radius*1.1 / 2, radius*1.1, radius*1.1);
 	}
 
 	public Rectangle2D getBoundsTop() {

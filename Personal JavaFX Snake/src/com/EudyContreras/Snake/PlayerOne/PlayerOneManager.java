@@ -4,10 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-
-import javafx.scene.canvas.GraphicsContext;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 /**
  * This manager class is the core of every game object and is responsible for
@@ -21,8 +19,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class PlayerOneManager {
 
-	private LinkedList<AbstractObject> playerTwoList;
-	private AbstractObject tempPlayerTwoObject;
+	private LinkedList<AbstractObject> playerOneList;
+	private AbstractObject tempPlayerOneObject;
 	private GameManager game;
 
 	public PlayerOneManager(GameManager gameJavaFX) {
@@ -33,7 +31,7 @@ public class PlayerOneManager {
 	 * method used to initialize the list.
 	 */
 	public void initialize() {
-		this.playerTwoList = new LinkedList<AbstractObject>();
+		this.playerOneList = new LinkedList<AbstractObject>();
 	}
 
 	/**
@@ -42,8 +40,9 @@ public class PlayerOneManager {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void updateAllLogicI(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+	public void updateAllLogicI(long timePassed) {
+		Iterator<? extends AbstractObject> objectIterator = playerOneList.iterator();
+
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -52,7 +51,7 @@ public class PlayerOneManager {
 			tempObject.addPhysics();
 			tempObject.updateAnimation(timePassed);
 			tempObject.logicUpdate();
-			tempObject.draw(gc);
+			tempObject.draw();
 			tempObject.checkRemovability();
 			if (tempObject.isRemovable() || !tempObject.isAlive()) {
 				tempObject.removeFromLayer();
@@ -67,8 +66,9 @@ public class PlayerOneManager {
 	 * list can only be modified through this method or else an exception will
 	 * be thrown
 	 */
-	public void updateAllMovementI(GraphicsContext gc, long timePassed) {
-		Iterator<? extends AbstractObject> objectIterator = playerTwoList.iterator();
+	public void updateAllMovementI(long timePassed) {
+		Iterator<? extends AbstractObject> objectIterator = playerOneList.iterator();
+
 		while (objectIterator.hasNext()) {
 			AbstractObject tempObject = objectIterator.next();
 			tempObject.move();
@@ -77,57 +77,56 @@ public class PlayerOneManager {
 	}
 
 	/**
-	 * Method used to update every the logic object in the game. this method uses a
+	 * Method used to updates every the logic object in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAllLogic(GraphicsContext gc, long timePassed) {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkCollision();
-			tempPlayerTwoObject.addPhysics();
-			tempPlayerTwoObject.updateAnimation(timePassed);
-			tempPlayerTwoObject.logicUpdate();
-			tempPlayerTwoObject.draw(gc);
-			tempPlayerTwoObject.checkRemovability();
-			if (tempPlayerTwoObject.isRemovable() || !tempPlayerTwoObject.isAlive()) {
-				tempPlayerTwoObject.removeFromLayer();
-				playerTwoList.remove(i);
+	public void updateAllLogic(long timePassed) {
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkCollision();
+			tempPlayerOneObject.addPhysics();
+			tempPlayerOneObject.updateAnimation(timePassed);
+			tempPlayerOneObject.logicUpdate();
+			tempPlayerOneObject.draw();
+			tempPlayerOneObject.checkRemovability();
+			if (tempPlayerOneObject.isRemovable() || !tempPlayerOneObject.isAlive()) {
+				tempPlayerOneObject.removeFromLayer();
+				playerOneList.remove(i);
 			}
 		}
 	}
 	/**
-	 * Method used to update the movement of every object in the game. this method uses a
+	 * Method used to updates the movement of every object in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
 	public void updateAllMovement(){
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.move();
-			tempPlayerTwoObject.updateUI();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.move();
+			tempPlayerOneObject.updateUI();
 		}
 	}
 
 	/**
-	 * Method used to explicitly update the graphics
+	 * Method used to explicitly updates the graphics
 	 */
 	public void updateUI() {
 
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.updateUI();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.updateUI();
 		}
 	}
 
 	/**
-	 * Method used to explicitly update animations
+	 * Method used to explicitly updates animations
 	 */
 	public void updateAnimation(long timePassed) {
-
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.updateAnimation(timePassed);
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.updateAnimation(timePassed);
 		}
 	}
 
@@ -135,21 +134,19 @@ public class PlayerOneManager {
 	 * Method used to explicitly move the objects
 	 */
 	public void move() {
-
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.move();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.move();
 		}
 	}
 
 	/**
 	 * Method used to explicitly draw the graphics
 	 */
-	public void draw(GraphicsContext gc) {
-
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.draw(gc);
+	public void draw() {
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.draw();
 		}
 	}
 
@@ -157,28 +154,27 @@ public class PlayerOneManager {
 	 * Method used to explicitly add physics to the objects
 	 */
 	public void addPhysics() {
-
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.addPhysics();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.addPhysics();
 		}
 	}
 	/**
 	 * Method used to check if the object has collied with another object
 	 */
 	public void updateLogic() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.logicUpdate();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.logicUpdate();
 		}
 	}
 	/**
 	 * Method used to check if the object should be removed
 	 */
 	public void checkIfRemoveable() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkRemovability();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkRemovability();
 		}
 	}
 
@@ -186,9 +182,9 @@ public class PlayerOneManager {
 	 * Method used to check if the object has collied with another object
 	 */
 	public void checkCollisions() {
-		for (int i = 0; i < playerTwoList.size(); i++) {
-			tempPlayerTwoObject = playerTwoList.get(i);
-			tempPlayerTwoObject.checkCollision();
+		for (int i = 0; i < playerOneList.size(); i++) {
+			tempPlayerOneObject = playerOneList.get(i);
+			tempPlayerOneObject.checkCollision();
 		}
 	}
 
@@ -205,7 +201,7 @@ public class PlayerOneManager {
 	 * Procedurally places the objects in the level
 	 */
 	public void procedurallyCreateLevel() {
-		Iterator<? extends AbstractObject> spriteIter = playerTwoList.iterator();
+		Iterator<? extends AbstractObject> spriteIter = playerOneList.iterator();
 		while (spriteIter.hasNext()) {
 			AbstractObject sprite = spriteIter.next();
 			sprite.createLevel();
@@ -213,21 +209,21 @@ public class PlayerOneManager {
 	}
 
 	public LinkedList<AbstractObject> getObjectList() {
-		return playerTwoList;
+		return playerOneList;
 	}
 
 	public void addObject(AbstractObject object) {
-		this.playerTwoList.add(object);
+		this.playerOneList.add(object);
 	}
 
 	public void removeObject(AbstractObject object) {
-		this.playerTwoList.remove(object);
+		this.playerOneList.remove(object);
 	}
 	/**
 	 * Clears the object list.
 	 */
 	public void clearAll() {
-		this.playerTwoList.clear();
+		this.playerOneList.clear();
 	}
 	/**
 	 * Finds a specified object with a given id
@@ -236,7 +232,7 @@ public class PlayerOneManager {
 	 * @return
 	 */
 	public AbstractObject findObject(GameObjectID id) {
-		for (AbstractObject go : playerTwoList) {
+		for (AbstractObject go : playerOneList) {
 			if (go.getId() == id) {
 				return go;
 			}

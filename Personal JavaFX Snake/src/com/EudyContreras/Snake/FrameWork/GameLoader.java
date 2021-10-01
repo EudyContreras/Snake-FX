@@ -4,25 +4,33 @@ package com.EudyContreras.Snake.FrameWork;
 import java.util.Random;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractLoaderModel;
-import com.EudyContreras.Snake.DebrisEffects.BackgroundDirt;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameThemeID;
-import com.EudyContreras.Snake.GameObjects.DesertBackground;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
+import com.EudyContreras.Snake.Controllers.GameTileController;
+import com.EudyContreras.Snake.GameObjects.BackgroundDirt;
+import com.EudyContreras.Snake.GameObjects.ClassicSnakeFood;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
+import com.EudyContreras.Snake.GameObjects.LevelBounds;
 import com.EudyContreras.Snake.GameObjects.NoSpawnZone;
 import com.EudyContreras.Snake.GameObjects.SnakeFood;
+import com.EudyContreras.Snake.HudElements.GameTimer.TimerStyle;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameModeID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
-import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.transform.Scale;
 import javafx.stage.Screen;
 
 /**
@@ -35,18 +43,20 @@ import javafx.stage.Screen;
  */
 public class GameLoader extends AbstractLoaderModel{
 
-
+	public static Scale scaleFactor;
 
 	public GameLoader(GameManager game) {
 		this.game = game;
 		this.rand = new Random();
-		this.objectManger = game.getObjectManager();
+		this.objectManger = game.getGameObjectController();
 		this.levelManager = new LevelManager(game,this);
-		this.setTileManager(new GameTileManager(game));
+		this.setTileManager(new GameTileController(game));
 		this.setLevelTheme(GameThemeID.DESERT_THEME);
 		loadDesertLevels();
 		initializeMain();
+
 	}
+
 	public void initializeMain(){
 		this.border = ImageLoadingUtility.loadImage("desert-level-border.png");
 		this.fence = ImageLoadingUtility.loadImage("desert-level-fence.png");
@@ -54,27 +64,34 @@ public class GameLoader extends AbstractLoaderModel{
 		this.setLevelWidth((int) getLevel().getWidth());
 		this.setLevelHeight((int) getLevel().getHeight());
 		this.game.setLevelLenght(128 * 64);
-		System.out.print("loaded");
 	}
 	/**
 	 * Method which creates a resolution scale base on the systems's current resolution
 	 */
-	public static void scaleResolution(double scaleX, double scaleY, boolean manualScaling) {
+	public static void scaleResolution() {
+
 		double resolutionX = Screen.getPrimary().getBounds().getWidth();
 		double resolutionY = Screen.getPrimary().getBounds().getHeight();
-		double baseResolutionX = 1920;
-		double baseResolutionY = 1080;
-		ResolutionScaleX = baseResolutionX / resolutionX;
-		ResolutionScaleY = baseResolutionY / resolutionY;
 
-		if(manualScaling==true){
-			ResolutionScaleX = ResolutionScaleX*scaleX;
-			ResolutionScaleY = ResolutionScaleY*scaleY;
-			FullScreen = false;
-		}
+		final double baseResolutionX = 1920;
+		final double baseResolutionY = 1080;
+
+		ResolutionScaleX = resolutionX / baseResolutionX;
+		ResolutionScaleY = resolutionY / baseResolutionY;
+
+		scaleFactor = new Scale(ResolutionScaleX , ResolutionScaleY);
+
 		System.out.println("width scale = " + ResolutionScaleX);
 		System.out.println("height scale = " + ResolutionScaleY);
+	}
 
+	public void setScale(Scale scaleFactor){
+		game.getScene().getRoot().getTransforms().setAll(scaleFactor);
+	}
+
+	public void setScale(Double scale){
+		game.getScene().getRoot().setScaleX(scale);
+		game.getScene().getRoot().setScaleY(scale);
 	}
 	/**
 	 * Method which will attempt to scale the speed and the size of the snake according
@@ -84,7 +101,9 @@ public class GameLoader extends AbstractLoaderModel{
 	public static void scaleSpeedAndSize() {
 		int newSize = (int) (GameSettings.SECTION_SIZE / GameLoader.ResolutionScaleX);
 		int newSpeed = (int) (GameSettings.SNAKE_SPEED / GameLoader.ResolutionScaleX);
+
 		boolean divisible = newSize % newSpeed == 0;
+
 		if (divisible) {
 			GameSettings.SECTION_SIZE = newSize;
 			GameSettings.SNAKE_SPEED = newSpeed;
@@ -130,10 +149,13 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 
 	public static void scalePlayerSize() {
+
 		int newSizeOne = (int) (GameSettings.PLAYER_ONE_SIZE / GameLoader.ResolutionScaleX);
 		int newSizeTwo = (int) (GameSettings.PLAYER_TWO_SIZE / GameLoader.ResolutionScaleX);
+
 		GameSettings.PLAYER_ONE_SIZE = newSizeOne;
 		GameSettings.PLAYER_TWO_SIZE = newSizeTwo;
+
 		System.out.println("new player radius: " + GameSettings.PLAYER_ONE_SIZE );
 	}
 
@@ -152,29 +174,26 @@ public class GameLoader extends AbstractLoaderModel{
 	 * also call the level loading method.
 	 */
 	public void loadPixelMap() {
-		if(levelTheme == GameThemeID.DESERT_THEME){
-			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
-				spawnBackgroundStuff(true);
-			}
-			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=3)
-				levelManager.loadDesertBorder();
-			if (GameSettings.LOAD_SPIKE_FENCE && LEVEL<=3) {
-				levelManager.loadSpikeFence();
-			}
-			levelManager.loadDesertLevels();
-			DesertBackground.SET_SEQUENTIAL_BACKGROUND(game);
-			game.setLevelLenght(128 * 64);
-			loadNoSpawnZone();
-		}else if(levelTheme == GameThemeID.JUNGLE_THEME){
-
-		}else if(levelTheme == GameThemeID.WATER_THEME){
-
-		}else if(levelTheme == GameThemeID.SCIFI_THEME){
-
-		}else if(levelTheme == GameThemeID.ALIEN_THEME){
-
-		}else if(levelTheme == GameThemeID.MECH_THEME){
-
+//		setLevel(desertLevel_6);
+		game.getGameHud().showHUDCover();
+		switch(game.getModeID()){
+		case CampaingMode:
+			break;
+		case ClassicMode:
+				loadClassicMode();
+			break;
+		case LocalMultiplayer:
+				loadMultiplayerMode();
+			break;
+		case RemoteMultiplayer:
+				loadMultiplayerMode();
+			break;
+		case SinglePlayer:
+			break;
+		case TimeMode:
+			break;
+		default:
+			break;
 		}
 	}
 
@@ -215,45 +234,92 @@ public class GameLoader extends AbstractLoaderModel{
 	public void switcLevel() {
 		Front_Distance_LOD = 512;
 		Rear_Distance_LOD = 511;
+
 		switch (LEVEL) {
 		case 0:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 10;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 8.0;
+			GameSettings.PLAYER_TWO_SPEED = 7.0;
 			setLevel(levelMain);
 			break;
 		case 1:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 10;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 8.5;
+			GameSettings.PLAYER_TWO_SPEED = 7.5;
 			setLevel(desertLevel_1);
 			break;
 		case 2:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 10;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 9.0;
+			GameSettings.PLAYER_TWO_SPEED = 8.0;
 			setLevel(desertLevel_2);
 			break;
 		case 3:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 15;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 9.5;
+			GameSettings.PLAYER_TWO_SPEED = 8.5;
 			setLevel(desertLevel_3);
 			break;
 		case 4:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 15;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 10.0;
+			GameSettings.PLAYER_TWO_SPEED = 8.5;
 			setLevel(desertLevel_4);
 			break;
 		case 5:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 10.5;
+			GameSettings.PLAYER_TWO_SPEED = 9.0;
 			setLevel(desertLevel_5);
 			break;
 		case 6:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
+			GameSettings.DAMAGE_AMOUNT = GameSettings.DAMAGE_AMOUNT  + 5;
+			GameSettings.IMMUNITY_TIME = GameSettings.IMMUNITY_TIME - 2;
+			GameSettings.HEALTH_REGENERATION_SPEED = GameSettings.HEALTH_REGENERATION_SPEED * 0.9;
+			GameSettings.PLAYER_ONE_SPEED = 11.0;
+			GameSettings.PLAYER_TWO_SPEED = 9.0;
 			setLevel(desertLevel_6);
 			break;
 		case 7:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_7);
 			break;
 		case 8:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_8);
 			break;
 		case 9:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_9);
 			break;
 		case 10:
+			GameSettings.APPLE_COUNT = GameSettings.APPLE_COUNT + 20;
 			setLevel(desertLevel_10);
 			break;
 		}
 
 		this.setLevelWidth((int) getLevel().getWidth());
 		this.setLevelHeight((int) getLevel().getHeight());
-		loadPixelMap();
+
 		LEVEL++;
 	}
 
@@ -281,6 +347,7 @@ public class GameLoader extends AbstractLoaderModel{
 		getTileManager().updateTraps();
 		getTileManager().updateEdibles();
 		getTileManager().checkIfRemovable();
+//		getTileManager().updateAll();
 	}
 	/**
 	 * Method responsible for clearing all tiles from the level
@@ -289,6 +356,77 @@ public class GameLoader extends AbstractLoaderModel{
 		getTileManager().clearAll();
 	}
 
+	public void loadClassicMode(){
+		GameSettings.SAND_STORM = false;
+		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
+		game.getScoreKeeper().getTimer().showTimer(true);
+		game.getScoreKeeper().setboardMode(GameModeID.ClassicMode);
+		loadClassicSnake();
+		GameBackground.SET_BACKGROUND(game, GameLevelImage.classic_background);
+		game.getKeyInput().setClassicSnake(game.getGameLoader().getClassicSnake());
+
+		if(levelBounds==null){
+			levelBounds = new LevelBounds(game, game.getTenthLayer());
+			getTileManager().addTile(levelBounds);
+		}
+		else{
+			levelBounds.showBounds(true);
+		}
+
+	}
+	public void loadMultiplayerMode(){
+		if(levelBounds!=null){
+			levelBounds.showBounds(false);
+		}
+		GameBackground.SET_SEQUENTIAL_BACKGROUND(game, GameThemeID.DESERT_THEME);
+
+		//GameBackground.SET_BACKGROUND(game, GameLevelImage.desertBackgroundTwo);
+
+		game.getScoreKeeper().getTimer().setStyle(TimerStyle.BLUE_STYLE);
+		game.getScoreKeeper().getTimer().showTimer(false);
+		game.getScoreKeeper().setboardMode(GameModeID.LocalMultiplayer);
+
+		if(levelTheme == GameThemeID.DESERT_THEME){
+
+			GameSettings.SAND_STORM = true;
+
+			loadPlayerOne();
+			loadPlayerTwo();
+
+			game.assignPlayer();
+
+			for (int i = 0; i < GameSettings.MAX_AMOUNT_OF_BACKGROUND_OBJECT; i++) {
+				spawnBackgroundStuff(true);
+			}
+
+			if (!GameSettings.LOAD_SPIKE_FENCE && LEVEL<=5 &&!GameSettings.ALLOW_AI_CONTROL)
+				levelManager.loadDesertBorder();
+			if (GameSettings.ALLOW_AI_CONTROL || GameSettings.LOAD_SPIKE_FENCE){
+				levelManager.loadSpikeFence();
+			}
+
+			levelManager.loadDesertLevels();
+			game.setLevelLenght(128 * 64);
+			loadNoSpawnZone();
+
+		}else if(levelTheme == GameThemeID.JUNGLE_THEME){
+
+		}else if(levelTheme == GameThemeID.WATER_THEME){
+
+		}else if(levelTheme == GameThemeID.SCIFI_THEME){
+
+		}else if(levelTheme == GameThemeID.ALIEN_THEME){
+
+		}else if(levelTheme == GameThemeID.MECH_THEME){
+
+		}
+		game.getAIController().updateGrid();
+
+		for(int i = 0; i<4; i++){
+			this.spawnSnakeFood();
+		}
+
+	}
 	/**
 	 * Method which could be used to create and place an object at a specific
 	 * position within the level
@@ -306,25 +444,88 @@ public class GameLoader extends AbstractLoaderModel{
 	 * Method responsible for spawning the food on the level
 	 */
 	public void spawnSnakeFood() {
-		Circle fruit = new Circle(30 / ResolutionScaleX - (5), new ImagePattern(GameImageBank.fruit));
-		float x = (int) (Math.random() * ((GameSettings.WIDTH - fruit.getRadius() * 3) - fruit.getRadius() * 3 + 1)
-				+ fruit.getRadius() * 3);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - fruit.getRadius() * 3) - GameSettings.START_Y+fruit.getRadius() + 1)
-				+ GameSettings.START_Y+fruit.getRadius());
-		SnakeFood food = new SnakeFood(game, game.getBaseLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
-		game.getObjectManager().addObject(food);
+		boolean validCell = false;
+
+		int minRow = game.getAIController().getGrid().getMinRow();
+		int minCol = game.getAIController().getGrid().getMinCol();
+		int maxRowCount = game.getAIController().getGrid().getRowCount();
+		int maxColCount = game.getAIController().getGrid().getColumnCount();
+
+		while(!validCell){
+			CellNode cell = game.getAIController().getGrid().getCells()[RandomGenUtility.getRandom(minRow+2, maxRowCount-2)][RandomGenUtility.getRandom(minCol+2, maxColCount-2)];
+
+			if(cell.fruitSpawnAllowed()){
+				Circle fruit = new Circle(30, new ImagePattern(GameImageBank.fruit));
+
+				int x =  (int) (cell.getLocation().getX() + cell.getDimension().getWidth()/2);
+				int y = (int) (cell.getLocation().getY() + cell.getDimension().getHeight()/2);
+
+				SnakeFood food = new SnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, cell, appleNumber);
+
+				game.getGameObjectController().addFruit(food);
+
+				appleNumber++;
+				validCell = true;
+				break;
+			}
+		}
+	}
+	/**
+	 * Method responsible for spawning the food on the level
+	 */
+	public void spawnClassicSnakeFood() {
+		Circle fruit = new Circle(30, new ImagePattern(GameImageBank.apple_alt));
+
+		float x = RandomGenUtility.getRandom(60, (GameSettings.WIDTH - 90));
+		float y = RandomGenUtility.getRandom(GameSettings.MIN_Y + 60, (GameSettings.HEIGHT - 90));
+
+		ClassicSnakeFood food = new ClassicSnakeFood(game, game.getFruitLayer(), fruit, x, y, GameObjectID.Fruit, appleNumber);
+
+		game.getGameObjectController().addFruit(food);
 		appleNumber++;
 	}
 	/**
 	 * Method used to create the player one and position the player at a specified
 	 * position.
 	 */
-	public void loadPlayerOne() {
-		float x = (float) (GameSettings.WIDTH / 2 - GameImageBank.snakeOneSphere.getRadius()*1.5);
+	public void loadClassicSnake() {
+		game.setPlayerInfoVisibility(false);
+		classicSnake = null;
+
+		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.CLASSIC_SNAKE_SIZE/2);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		playerOne = new PlayerOne(game, game.getSnakeOneLayer(),
-				new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_ONE_SPEED, GameObjectID.PlayerOne, game.getObjectManager());
+
+		classicSnake = new ClassicSnake(game,
+				game.getSnakeOneLayer(),
+				new Circle(GameSettings.CLASSIC_SNAKE_SIZE,
+				new ImagePattern(GameImageBank.classicSnakeHead)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0,
+				GameSettings.CLASSIC_SNAKE_SPEED,
+				GameObjectID.classicSnake,
+				game.getGameObjectController());
+
+		game.getClassicSnakeManager().addObject(classicSnake);
+	}
+	/**
+	 * Method used to create the player one and position the player at a specified
+	 * position.
+	 */
+	public void loadPlayerOne() {
+		game.setPlayerInfoVisibility(true);
+		playerOne = null;
+
+		float x = (float) (GameSettings.WIDTH / 2 - GameSettings.PATH_FINDING_CELL_SIZE*1.5);
+		float y = (float) (GameSettings.HEIGHT * 0.50);
+
+		playerOne = new PlayerOne(game,
+				game.getSnakeOneLayer(),
+				new Circle(GameSettings.PLAYER_ONE_SIZE,
+				new ImagePattern(GameImageBank.snakeOneSkin)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0,
+				GameSettings.PLAYER_ONE_SPEED,
+				GameObjectID.PlayerOne,
+				game.getGameObjectController());
+
 		game.getPlayerOneManager().addObject(playerOne);
 	}
 	/**
@@ -332,35 +533,37 @@ public class GameLoader extends AbstractLoaderModel{
 	 * position.
 	 */
 	public void loadPlayerTwo() {
-		float x = (float) (GameSettings.WIDTH / 2 + GameImageBank.snakeTwoSphere.getRadius()*1.5);
+		playerTwo = null;
+
+		float x = (float) (GameSettings.WIDTH / 2 + GameSettings.PATH_FINDING_CELL_SIZE*1.5);
 		float y = (float) (GameSettings.HEIGHT * 0.50);
-		playerTwo = new PlayerTwo(game, game.getSnakeTwoLayer(),
-				new Circle(GameSettings.PLAYER_TWO_SIZE, new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, GameSettings.PLAYER_TWO_SPEED, GameObjectID.PlayerTwo, game.getObjectManager());
+
+		playerTwo = new PlayerTwo(game,
+				game.getSnakeTwoLayer(),
+				new Circle(GameSettings.PLAYER_TWO_SIZE,
+				new ImagePattern(GameImageBank.snakeTwoSkin)), x, y, 0, 0, 0, 0,
+				GameSettings.PLAYER_HEALTH, 0,
+				GameSettings.PLAYER_TWO_SPEED,
+				GameObjectID.PlayerTwo,
+				game.getGameObjectController());
+
 		game.getPlayerTwoManager().addObject(playerTwo);
 	}
-	/**
-	 * Method used to create the Slither snake and position the player at a specified
-	 * position.
-	 */
-	public void createSlither() {
-		float x = (float) (GameSettings.WIDTH / 2 + 25);
-		float y = (float) (GameSettings.HEIGHT * 0.55);
-		slither = new SlitherSnake(game, game.getFithLayer(), GameImageBank.slither, x, y, 0, 0, 0, 0,
-				GameSettings.PLAYER_HEALTH, 0, 0, GameObjectID.SlitherSnake, game.getSlitherManager());
-		game.getSlitherManager().addObject(slither);
-	}
+
 	/**
 	 * Loads a no spawn zone used to prevent objects such as apples from spawning at a desire location
 	 */
 	public void loadNoSpawnZone(){
-		double width = 160/ResolutionScaleX;
-		double height = 200/ResolutionScaleY;
+		double width = 160;
+		double height = 200;
+
 		float x = (float)(GameSettings.WIDTH/2-width/2);
-		float y = (float)((GameSettings.HEIGHT/2-height/2)-15/ResolutionScaleY);
-		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.noSpawnZone);
+		float y = (float)((GameSettings.HEIGHT/2-height/2)-15);
+
+		NoSpawnZone noSpawnZone = new NoSpawnZone(game,x,y,width,height, GameLevelObjectID.NO_SPAWN_ZONE);
+
 		getTileManager().addTile(noSpawnZone);
-		game.getDirtLayer().getChildren().add(noSpawnZone.getDebugBounds());
+
 	}
 
 	/**
@@ -371,8 +574,9 @@ public class GameLoader extends AbstractLoaderModel{
 	 */
 	public void spawnBackgroundStuff(boolean random) {
 		float x = (int) (Math.random() * ((GameSettings.WIDTH - 30) - 30 + 1) + 30);
-		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.START_Y+10 + 1) + GameSettings.START_Y+10);
-		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain,0.5, x, y, new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8));
+		float y = (int) (Math.random() * ((GameSettings.HEIGHT - 30) - GameSettings.MIN_Y+10 + 1) + GameSettings.MIN_Y+10);
+
+		new BackgroundDirt(game, game.getDirtLayer(), GameImageBank.sand_grain, x, y);
 	}
 
 	/**

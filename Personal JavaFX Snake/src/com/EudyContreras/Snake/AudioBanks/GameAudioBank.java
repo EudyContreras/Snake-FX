@@ -16,6 +16,6 @@ public class GameAudioBank {
 	public static Clip name;
 
 	public GameAudioBank() {
-		// name = GameAudioManager.processAudioFile("");
+		// name = GameAudioController.processAudioFile("");
 	}
 }

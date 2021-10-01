@@ -3,10 +3,10 @@ package com.EudyContreras.Snake.AbstractModels;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
@@ -31,7 +31,7 @@ import javafx.scene.shape.Rectangle;
 public abstract class AbstractSlitherSection {
 
 	protected GameObjectID id;
-	protected PlayerMovement direction ;
+	protected PlayerMovement direction;
 	protected Image image;
 	protected ImageView imageView;
 	protected ArrayList<Point2D> lastPosition = new ArrayList<>();
@@ -246,7 +246,8 @@ public abstract class AbstractSlitherSection {
 	public void setRemovable(boolean removable) {
 		this.removable = removable;
 	}
-	public boolean getTeleporting(){
+
+	public boolean getTeleporting() {
 		return teleporting;
 	}
 
@@ -269,20 +270,16 @@ public abstract class AbstractSlitherSection {
 		return imageView;
 	}
 
-	/**
-	 * This method is responsible for visually updating the object
-	 *
-	 */
 	public void updateUI() {
 		circle.setCenterX(x);
 		circle.setCenterY(y);
 		circle.setRotate(r);
 	}
 
-	public void logicUpdate(){
-
+	public void logicUpdate() {
 
 	}
+
 	public void createLevel() {
 
 	}
@@ -360,12 +357,14 @@ public abstract class AbstractSlitherSection {
 	 * condition in which the object will be removed and the objects collision
 	 * boundaries
 	 */
-	public void checkRemovability(){
+	public void checkRemovability() {
 
 	}
-	public void checkCollision(){
+
+	public void checkCollision() {
 
 	}
+
 	protected void removePerformedCoordinateChange() {
 		lastPosition.remove(0);
 		lastDirection.remove(0);
@@ -423,9 +422,11 @@ public abstract class AbstractSlitherSection {
 	public void die() {
 
 	}
-	public void setRotation(double rotation){
+
+	public void setRotation(double rotation) {
 		this.rotation = rotation;
 	}
+
 	public double getRotation() {
 
 		return rotation;

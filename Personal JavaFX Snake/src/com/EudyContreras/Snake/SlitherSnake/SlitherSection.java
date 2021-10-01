@@ -1,13 +1,13 @@
 package com.EudyContreras.Snake.SlitherSnake;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSlitherSection;
-import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
-import com.EudyContreras.Snake.DebrisEffects.SectionDisintegration;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
@@ -70,10 +70,10 @@ public class SlitherSection extends AbstractSlitherSection {
 			}
 		}
 	}
+
 	public void updateUI() {
 		super.updateUI();
-		 teleport();
-		 if(x>0+radius && x<GameSettings.WIDTH-radius && y>GameSettings.START_Y && y<GameSettings.START_Y-radius){
+		 if(x>0+radius && x<GameSettings.WIDTH-radius && y>GameSettings.MIN_Y && y<GameSettings.MIN_Y-radius){
 			 teleporting = false;
 		 }
 		if (GameSettings.ALLOW_DIRT) {
@@ -116,7 +116,7 @@ public class SlitherSection extends AbstractSlitherSection {
 	public void blowUp() {
 		if (blowUp == true) {
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
-				if (GameSettings.ADD_VARIATION) {
+				if (GameSettings.ALLOW_VARIATIONS) {
 					particleSize = Math.random() * (12 - 5 + 1) + 5;
 					particleLife = Math.random() * (2.0 - 1.0 + 1) + 1.5;
 				}
@@ -127,22 +127,6 @@ public class SlitherSection extends AbstractSlitherSection {
 		}
 	}
 
-	public void teleport() {
-
-		if (x < 0 - radius * 2) {
-			teleporting = true;
-			x = (float) (GameSettings.WIDTH + radius);
-		} else if (x > GameSettings.WIDTH + radius * 2) {
-			teleporting = true;
-			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius * 2) {
-			teleporting = true;
-			y = (float) (GameSettings.HEIGHT + radius);
-		} else if (y > GameSettings.HEIGHT + radius * 2) {
-			teleporting = true;
-			y = (float) (0 - radius);
-		}
-	}
 
 	public void checkRemovability() {
 

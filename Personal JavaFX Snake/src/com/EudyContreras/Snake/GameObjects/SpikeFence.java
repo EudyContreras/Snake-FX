@@ -2,16 +2,16 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 
 /**
  * this class is an object which will kill the player
@@ -22,10 +22,9 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class SpikeFence extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
-	int orientation;
+	private Rectangle2D collisionBounds;
+	private GameManager game;
+	private int orientation;
 
 	public SpikeFence(GameManager game, float x, float y, float speed, float velY, int orientation, Image image,GameLevelObjectID id) {
 		super(x, y, image, id);
@@ -53,10 +52,16 @@ public class SpikeFence extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		if(orientation==1)
-			collisionBounds = new Rectangle2D(x, y+GameManager.ScaleY(20), width, height-GameManager.ScaleY(40));
-		if(orientation==2)
-			collisionBounds = new Rectangle2D(x+GameManager.ScaleX(15), y, width-GameManager.ScaleX(65), height);
+		if(orientation==1){
+			collisionBounds = new Rectangle2D(x, y+20, width, height-40);
+		}
+		if(orientation==2){
+			if(x>0){
+				this.view.setRotationAxis(Rotate.Y_AXIS);
+				
+			}
+			collisionBounds = new Rectangle2D(x+15, y, width-65, height);
+		}
 	}
 	/**
 	 * Moves this object
@@ -77,14 +82,14 @@ public class SpikeFence extends AbstractTile {
 
 		if (GameSettings.DEBUG_MODE) {
 			if(orientation == 1){
-				Rectangle bounds = new Rectangle(x, y+GameManager.ScaleY(20), width, height-GameManager.ScaleY(40));
+				Rectangle bounds = new Rectangle(x, y+20, width, height-40);
 				bounds.setStroke(Color.WHITE);
 				bounds.setFill(Color.TRANSPARENT);
 				bounds.setStrokeWidth(3);
 				game.getSeventhLayer().getChildren().add(bounds);
 			}
 			else if (orientation == 2){
-				Rectangle bounds = new Rectangle(x+GameManager.ScaleX(15), y, width-GameManager.ScaleX(65), height);
+				Rectangle bounds = new Rectangle(x+15, y, width-65, height);
 				bounds.setStroke(Color.WHITE);
 				bounds.setFill(Color.TRANSPARENT);
 				bounds.setStrokeWidth(3);

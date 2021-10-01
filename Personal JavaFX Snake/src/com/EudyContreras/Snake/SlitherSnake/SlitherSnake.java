@@ -4,15 +4,15 @@ import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractSlither;
 import com.EudyContreras.Snake.AbstractModels.AbstractSlitherSection;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
+import com.EudyContreras.Snake.HudElements.ScoreKeeper;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -36,10 +36,11 @@ public class SlitherSnake extends AbstractSlither {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
+	private int snakeLength;
 	private double accelaration = 0.5;
-	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
-	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2;
-	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
+	private double normalSpeed = GameSettings.SLITHER_SPEED;
+	private double maxSpeed = GameSettings.SLITHER_SPEED*2;
+	private double minimumSpeed = GameSettings.SLITHER_SPEED/2;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -63,7 +64,6 @@ public class SlitherSnake extends AbstractSlither {
 	private boolean allowMovement = true;
 	private boolean rotateLeft = false;
 	private boolean rotateRight = false;
-	private int snakeLength;
 	private double speed;
 	private double rotation = 0;
 	private double angle;
@@ -224,7 +224,6 @@ public class SlitherSnake extends AbstractSlither {
 	}
 
 	public void updateBounds() {
-		checkBounds();
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
@@ -289,25 +288,25 @@ public class SlitherSnake extends AbstractSlither {
 
 	public void speedUp(){
 		if(thrust){
-			GameSettings.PLAYER_ONE_SPEED+=accelaration;
-			if(GameSettings.PLAYER_ONE_SPEED>=maxSpeed){
-				GameSettings.PLAYER_ONE_SPEED = maxSpeed;
+			GameSettings.SLITHER_SPEED+=accelaration;
+			if(GameSettings.SLITHER_SPEED>=maxSpeed){
+				GameSettings.SLITHER_SPEED = maxSpeed;
 			}
 		}
 	}
 	public void speedDown(){
 		if(!thrust){
-			GameSettings.PLAYER_ONE_SPEED-=(accelaration/2);
-			if(GameSettings.PLAYER_ONE_SPEED<=normalSpeed){
-				GameSettings.PLAYER_ONE_SPEED = normalSpeed;
+			GameSettings.SLITHER_SPEED-=(accelaration/2);
+			if(GameSettings.SLITHER_SPEED<=normalSpeed){
+				GameSettings.SLITHER_SPEED = normalSpeed;
 			}
 		}
 	}
 	public void slowDown(){
 		if(!thrust && goSlow){
-			GameSettings.PLAYER_ONE_SPEED-=accelaration;
-			if(GameSettings.PLAYER_ONE_SPEED<= minimumSpeed){
-				GameSettings.PLAYER_ONE_SPEED = minimumSpeed;
+			GameSettings.SLITHER_SPEED-=accelaration;
+			if(GameSettings.SLITHER_SPEED<= minimumSpeed){
+				GameSettings.SLITHER_SPEED = minimumSpeed;
 			}
 		}
 	}
@@ -376,8 +375,8 @@ public class SlitherSnake extends AbstractSlither {
 
 	public void checkCollision() {
 		if (!DEAD && !LEVEL_COMPLETED) {
-			for (int i = 0; i < game.getObjectManager().getObjectList().size(); i++) {
-				AbstractObject tempObject = game.getObjectManager().getObjectList().get(i);
+			for (int i = 0; i < game.getGameObjectController().getObsFruitList().size(); i++) {
+				AbstractObject tempObject = game.getGameObjectController().getObsFruitList().get(i);
 				if (tempObject.getId() == GameObjectID.Fruit) {
 					if (getRadialBounds().intersects(tempObject.getRadialBounds())) {
 						addSection();
@@ -390,7 +389,7 @@ public class SlitherSnake extends AbstractSlither {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
-				if (tempTile.getId() == GameLevelObjectID.cactus) {
+				if (tempTile.getId() == GameLevelObjectID.CACTUS) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage && game.getStateID() != GameStateID.GAME_MENU) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
@@ -408,7 +407,7 @@ public class SlitherSnake extends AbstractSlither {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							if (allowCollision) {
@@ -421,7 +420,7 @@ public class SlitherSnake extends AbstractSlither {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
-				if (tempTile.getId() == GameLevelObjectID.fence) {
+				if (tempTile.getId() == GameLevelObjectID.FENCE) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY)
@@ -429,7 +428,7 @@ public class SlitherSnake extends AbstractSlither {
 						}
 					}
 				}
-				if (tempTile.getId() == GameLevelObjectID.trap) {
+				if (tempTile.getId() == GameLevelObjectID.TRAP) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY)
@@ -495,17 +494,6 @@ public class SlitherSnake extends AbstractSlither {
 	public boolean withinBounds() {
 		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
 				&& y < GameSettings.HEIGHT + radius + 1;
-	}
-	public void checkBounds() {
-		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
-		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius);
-		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
-		}
 	}
 
 	public void draw(GraphicsContext gc) {

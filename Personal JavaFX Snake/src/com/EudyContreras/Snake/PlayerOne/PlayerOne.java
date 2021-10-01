@@ -4,16 +4,17 @@ import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractObject;
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
-import com.EudyContreras.Snake.FrameWork.ObjectManager;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Controllers.GameObjectController;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
+import com.EudyContreras.Snake.HudElements.ScoreKeeper;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
 import com.EudyContreras.Snake.Utilities.AnimationUtility;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
@@ -39,11 +40,11 @@ public class PlayerOne extends AbstractObject {
 	private int moveDelay = 0;
 	private int appleCount = 0;
 	private int counter = 0;
-	private double accelaration = 0.5/GameManager.ScaleX_ScaleY;
-	private double maxSize = GameSettings.PLAYER_ONE_SIZE+2;
+	private double accelaration = 0.5;
+	private double maxSize = GameSettings.ALLOW_AI_CONTROL ? 26 : 30;
 	private double normalSpeed = GameSettings.PLAYER_ONE_SPEED;
 	private double maxSpeed = GameSettings.PLAYER_ONE_SPEED*2.5;
-	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/2;
+	private double minimumSpeed = GameSettings.PLAYER_ONE_SPEED/8;
 	private double bodyTrigger;
 	private double offsetX = 0;
 	private double offsetY = 0;
@@ -54,6 +55,7 @@ public class PlayerOne extends AbstractObject {
 	private boolean eatCoolDown = false;
 	private boolean setDelay = false;
 	private boolean allowDamage = true;
+	private boolean gameOverOverride = false;
 	private boolean allowScreenShake = true;
 	private boolean allowCollision = true;
 	private boolean hasBaseBody = false;
@@ -71,14 +73,14 @@ public class PlayerOne extends AbstractObject {
 	private PlayerOneHead snakeHead;
 	private PlayerOneSection neighbor;
 	private PlayerOneSectionManager sectManager;
-	private BoxBlur motionBlur = new BoxBlur();
-	private ImagePattern eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
-	private ImagePattern blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
-	private LinkedList<PlayerMovement> turns = new LinkedList<>();
+	private BoxBlur motionBlur;
+	private ImagePattern eatingFrame;
+	private ImagePattern blinkingFrame;
+	private LinkedList<PlayerMovement> turnBuffer = new LinkedList<>();
 	private PlayerMovement direction;
 	public static int NUMERIC_ID = 0;
-	public static boolean DEAD = false;
-	public static double SPEED = 6;
+	public static Double SPEED = 6.0;
+	public static Boolean DEAD = false;
 	public static Boolean LEVEL_COMPLETED = false;
 	public static Boolean STOP_MOVING = false;
 	public static Boolean MOUTH_OPEN = false;
@@ -87,22 +89,28 @@ public class PlayerOne extends AbstractObject {
 	public static Boolean ALLOW_FADE = false;
 
 	public PlayerOne(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, double speed, GameObjectID id, ObjectManager gom) {
+			double velR, double health, double damage, double speed, GameObjectID id, GameObjectController gom) {
 		super(game, layer, node, x, y, r, velX, velY, velR, health, damage, id);
 		this.game = game;
 		this.anim = new AnimationUtility();
 		this.circle.setVisible(false);
-		this.motionBlur.setIterations(1);
 		this.overlay = game.getOverlayEffect();
-		this.snakeHead = new PlayerOneHead(this, game, layer,
-				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.4, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
-				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
-		this.game.getPlayerOneManager().addObject(snakeHead);
+		this.eatingFrame = new ImagePattern(GameImageBank.snakeOneEating);
+		this.blinkingFrame = new ImagePattern(GameImageBank.snakeOneBlinking);
 		this.sectManager = game.getSectManagerOne();
+		this.loadHead();
 		this.loadImages();
 		this.drawBoundingBox();
 		this.moveDown();
 	}
+
+	private void loadHead(){
+		this.snakeHead = new PlayerOneHead(this, game, layer,
+				new Circle(GameSettings.PLAYER_ONE_SIZE * 1.5, new ImagePattern(GameImageBank.snakeOneHead)), x, y,
+				GameObjectID.SnakeMouth, PlayerMovement.MOVE_DOWN);
+		this.game.getPlayerOneManager().addObject(snakeHead);
+	}
+
 	public void loadImages() {
 		anim.addScene(GameImageBank.snakeOneHead, 4000);
 		anim.addScene(GameImageBank.snakeOneBlinking, 250);
@@ -133,13 +141,18 @@ public class PlayerOne extends AbstractObject {
 		updateTurns();
 		updateImmunity();
 		updateSpeedDirt();
-		updateDirt();
 		checkTurns();
-		fadeOut();
 		speedUp();
 		speedDown();
-		//slowDown();
+		relax();
+	}
 
+	private void relax(){
+		if(PlayerTwo.DEAD){
+			thrust = false;
+			goSlow = true;
+			slowDown();
+		}
 	}
 
 	public void controlEating() {
@@ -196,6 +209,8 @@ public class PlayerOne extends AbstractObject {
 		if (GameSettings.DEBUG_MODE) {
 			bounds.setX(x - radius / 2 + offsetX);
 			bounds.setY(y - radius / 2 + offsetY);
+			bounds.setWidth(radius);
+			bounds.setHeight(radius);
 		}
 		if (neighbor != null) {
 			headAdjustment();
@@ -223,6 +238,7 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void updateSpeedDirt() {
 		if (thrust) {
 			dirtDelay--;
@@ -234,8 +250,9 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void updateTurns() {
-		if (turns.size() > 0) {
+		if (turnBuffer.size() > 0) {
 			turnDelay--;
 			if (turnDelay <= 0) {
 				makeTurn();
@@ -275,13 +292,14 @@ public class PlayerOne extends AbstractObject {
 		}
 	}
 	public void speedDown(){
-		if(!thrust){
+		if(!thrust && !goSlow){
 			SPEED-=(accelaration/2);
 			if(SPEED<=normalSpeed){
 				SPEED = normalSpeed;
 			}
 		}
 	}
+
 	public void slowDown(){
 		if(!thrust && goSlow){
 			SPEED-=accelaration;
@@ -290,14 +308,17 @@ public class PlayerOne extends AbstractObject {
 			}
 		}
 	}
+
 	public void addMotionBlur(){
 		this.layer.setEffect(motionBlur);
 	}
+
 	public void removeMotionBlur(){
 		this.layer.setEffect(null);
 	}
+
 	public void setDirection(PlayerMovement direction) {
-		if (game.getStateID()== GameStateID.GAMEPLAY) {
+		if (game.getStateID() == GameStateID.GAMEPLAY) {
 			if (!GameSettings.ALLOW_SELF_COLLISION) {
 				setDirectCoordinates(direction);
 			}
@@ -411,23 +432,69 @@ public class PlayerOne extends AbstractObject {
 		}
 	}
 
+	public void setGestureDirection(PlayerMovement direction) {
+		if (game.getStateID() == GameStateID.GAMEPLAY) {
+			if (!GameSettings.ALLOW_SELF_COLLISION) {
+				setDirectCoordinates(direction);
+			}
+			if (GameSettings.ALLOW_SELF_COLLISION) {
+				if (!LEVEL_COMPLETED && !DEAD) {
+					if (this.direction == direction) {
+						this.direction = direction;
+					} else {
+						switch (direction) {
+						case MOVE_UP:
+							if (this.direction != PlayerMovement.MOVE_DOWN) {
+								if (allowTurnUp)
+									moveUp();
+							}
+							break;
+						case MOVE_DOWN:
+							if (this.direction != PlayerMovement.MOVE_UP) {
+								if (allowTurnDown)
+									moveDown();
+							}
+							break;
+						case MOVE_LEFT:
+							if (this.direction != PlayerMovement.MOVE_RIGHT) {
+								if (allowTurnLeft)
+									moveLeft();
+							}
+							break;
+						case MOVE_RIGHT:
+							if (this.direction != PlayerMovement.MOVE_LEFT) {
+								if (allowTurnRight)
+									moveRight();
+							}
+							break;
+						case STANDING_STILL:
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public void turnDelay(PlayerMovement newDirection) {
-		turns.add(newDirection);
+		turnBuffer.add(newDirection);
 	}
 
 	public void makeTurn() {
-		if (turns.get(0) == PlayerMovement.MOVE_UP) {
-			moveUp();
-			this.direction = PlayerMovement.MOVE_UP;
-		} else if (turns.get(0) == PlayerMovement.MOVE_DOWN) {
-			moveDown();
-			this.direction = PlayerMovement.MOVE_DOWN;
-		} else if (turns.get(0) == PlayerMovement.MOVE_LEFT) {
-			moveLeft();
-			this.direction = PlayerMovement.MOVE_LEFT;
-		} else if (turns.get(0) == PlayerMovement.MOVE_RIGHT) {
-			moveRight();
-			this.direction = PlayerMovement.MOVE_RIGHT;
+		if (withinBounds()) {
+			if (turnBuffer.get(0) == PlayerMovement.MOVE_UP) {
+				moveUp();
+				this.direction = PlayerMovement.MOVE_UP;
+			} else if (turnBuffer.get(0) == PlayerMovement.MOVE_DOWN) {
+				moveDown();
+				this.direction = PlayerMovement.MOVE_DOWN;
+			} else if (turnBuffer.get(0) == PlayerMovement.MOVE_LEFT) {
+				moveLeft();
+				this.direction = PlayerMovement.MOVE_LEFT;
+			} else if (turnBuffer.get(0) == PlayerMovement.MOVE_RIGHT) {
+				moveRight();
+				this.direction = PlayerMovement.MOVE_RIGHT;
+			}
 		}
 	}
 
@@ -439,8 +506,8 @@ public class PlayerOne extends AbstractObject {
 		r = 180;
 		snakeHead.setR(180);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -461,8 +528,8 @@ public class PlayerOne extends AbstractObject {
 		r = 0;
 		snakeHead.setR(0);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -483,8 +550,8 @@ public class PlayerOne extends AbstractObject {
 		r = -90;
 		snakeHead.setR(-90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -505,8 +572,8 @@ public class PlayerOne extends AbstractObject {
 		r = 90;
 		snakeHead.setR(90);
 		if (!GameSettings.ALLOW_FAST_TURNS){
-			if(turns.size()>0)
-				turns.remove(0);
+			if(turnBuffer.size()>0)
+				turnBuffer.remove(0);
 		}
 		turnDelay = GameSettings.TURN_DELAY;
 		if (KEEP_MOVING == false) {
@@ -531,7 +598,7 @@ public class PlayerOne extends AbstractObject {
 		if (!DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTile().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTile().get(i);
-				if (tempTile.getId() == GameLevelObjectID.cactus) {
+				if (tempTile.getId() == GameLevelObjectID.CACTUS) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (allowDamage  && game.getStateID()== GameStateID.GAMEPLAY) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY) {
@@ -542,6 +609,7 @@ public class PlayerOne extends AbstractObject {
 								}
 								immunity = GameSettings.IMMUNITY_TIME;
 								allowDamage = false;
+								break;
 							}
 						}
 					}
@@ -549,7 +617,7 @@ public class PlayerOne extends AbstractObject {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getBlock().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getBlock().get(i);
-				if (tempTile.getId() == GameLevelObjectID.rock) {
+				if (tempTile.getId() == GameLevelObjectID.ROCK) {
 					if (getBounds().intersects(tempTile.getBounds())) {
 						if (GameSettings.ALLOW_ROCK_COLLISION) {
 							if (allowCollision) {
@@ -559,7 +627,8 @@ public class PlayerOne extends AbstractObject {
 								this.game.getEnergyBarOne().setSpeedThrust(false);
 								KEEP_MOVING = false;
 								if (allowScreenShake) {
-									overlay.addScreenShake(0.4, true, true);
+									overlay.addScreenShake(game.getGameRoot(),0.4, true, true);
+									overlay.addNodeShake(layer, 0.35);
 									allowScreenShake = false;
 								}
 								allowCollision = false;
@@ -570,28 +639,30 @@ public class PlayerOne extends AbstractObject {
 			}
 			for (int i = 0; i < game.getGameLoader().getTileManager().getTrap().size(); i++) {
 				AbstractTile tempTile = game.getGameLoader().getTileManager().getTrap().get(i);
-				if (tempTile.getId() == GameLevelObjectID.fence) {
+				if (tempTile.getId() == GameLevelObjectID.FENCE) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
 								if (allowScreenShake) {
-									overlay.addScreenShake(1.2, true, true);
+									overlay.addScreenShake(game.getGameRoot(),1.2, true, true);
 									allowScreenShake = false;
 								}
 								die();
+								break;
 							}
 						}
 					}
 				}
-				if (tempTile.getId() == GameLevelObjectID.trap) {
+				if (tempTile.getId() == GameLevelObjectID.TRAP) {
 					if (snakeHead.getBounds().intersects(tempTile.getBounds())) {
 						if (!DEAD) {
 							if (!GameSettings.ALLOW_DAMAGE_IMMUNITY){
 								if (allowScreenShake) {
-									overlay.addScreenShake(1.2, true, true);
+									overlay.addScreenShake(game.getGameRoot(),1.2, true, true);
 									allowScreenShake = false;
 								}
 								die();
+								break;
 							}
 						}
 					}
@@ -601,7 +672,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void addbaseSections() {
-		for (int i = 0; i < 2 + 1; i++) {
+		for (int i = 0; i < 4 + 1; i++) {
 			sectManager.addSection(new PlayerOneSection(this, game, layer,
 					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
@@ -612,7 +683,7 @@ public class PlayerOne extends AbstractObject {
 	public void addSection() {
 		if (GameSettings.PLAYER_ONE_SIZE < maxSize) {
 			counter++;
-			if (counter >= 15) {
+			if (counter >= 10) {
 				counter = 0;
 				if(GameSettings.ALLOW_SNAKE_GROWTH)
 					GameSettings.PLAYER_ONE_SIZE += 2;
@@ -623,16 +694,18 @@ public class PlayerOne extends AbstractObject {
 					new Circle(GameSettings.PLAYER_ONE_SIZE, new ImagePattern(GameImageBank.snakeOneSkin)), x, y,
 					GameObjectID.SnakeSection, getCurrentDirection(), NUMERIC_ID));
 			NUMERIC_ID++;
+
 			appleCount++;
 		}
 		game.getScoreBoardOne().increaseScore();
-		if (ScoreKeeper.APPLE_COUNT > 4)
+		if (ScoreKeeper.APPLE_COUNT > 4){
 			game.getGameLoader().spawnSnakeFood();
+		}
 	}
 
 	public boolean withinBounds() {
-		return x > 0 - radius - 1 && x < GameSettings.WIDTH + radius + 1 && y > 0 - radius - 1
-				&& y < GameSettings.HEIGHT + radius + 1;
+		return x > 0 - radius - +1 && x < GameSettings.WIDTH + radius -1 && y > 0 - radius +1
+				&& y < GameSettings.HEIGHT + radius - 1;
 	}
 
 	public void checkBounds() {
@@ -640,10 +713,10 @@ public class PlayerOne extends AbstractObject {
 			x = (float) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
 			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
+		} else if (y < GameSettings.MIN_Y - radius) {
 			y = (float) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
+			y = (float) (GameSettings.MIN_Y - radius);
 		}
 	}
 
@@ -702,7 +775,6 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void drawBoundingBox() {
-
 		if (GameSettings.DEBUG_MODE) {
 			bounds = new Rectangle(x - radius / 2, y - radius / 2, radius, radius);
 			bounds.setStroke(Color.WHITE);
@@ -715,7 +787,7 @@ public class PlayerOne extends AbstractObject {
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
 			}
 		}
@@ -724,24 +796,19 @@ public class PlayerOne extends AbstractObject {
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !DEAD && !LEVEL_COMPLETED) {
 			for (int i = 0; i < GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt, 1, x, y,
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain, 1, x, y,
 						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
 			}
 		}
 	}
+
 	public void die() {
 		DEAD = true;
 		game.getHealthBarOne().drainAll();
-		game.setStateID(GameStateID.GAME_OVER);
+		game.setStateID(GameStateID.DEATH_ANIMATION);
 		overlay.addToneOverlay(Color.RED, 5, 0.05);
 		isDead = true;
-	}
-
-	public void fadeOut() {
-		if (ALLOW_FADE) {
-			overlay.addFadeScreen(5, GameStateID.GAME_OVER);
-			ALLOW_FADE = false;
-		}
+		GameSettings.ALLOW_DAMAGE_IMMUNITY = true;
 	}
 
 	public Image getAnimationImage() {
@@ -769,7 +836,7 @@ public class PlayerOne extends AbstractObject {
 	}
 
 	public void setSpeedThrust(boolean thrust){
-		if (allowThrust) {
+		if (allowThrust && direction!=PlayerMovement.STANDING_STILL) {
 			if (thrust == true) {
 				this.thrust = thrust;
 				this.game.getEnergyBarOne().setSpeedThrust(true);
@@ -785,9 +852,11 @@ public class PlayerOne extends AbstractObject {
 	public void setThrustState(boolean state){
 		this.thrust = state;
 	}
+
 	public boolean getSpeedThrust(){
 		return thrust;
 	}
+
 	public void blurOut() {
 		this.overlay.addDeathBlur();
 	}
@@ -866,6 +935,15 @@ public class PlayerOne extends AbstractObject {
 
 	public double getAppleCount() {
 		return appleCount;
+	}
+
+	public void setManualGameOver(boolean state){
+		if(game.getStateID()==GameStateID.DEATH_ANIMATION)
+		this.gameOverOverride = state;
+	}
+
+	public boolean getManualGameOver() {
+		return gameOverOverride;
 	}
 
 }

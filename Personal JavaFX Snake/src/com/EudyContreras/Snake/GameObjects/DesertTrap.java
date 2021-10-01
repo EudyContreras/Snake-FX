@@ -2,9 +2,9 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -15,22 +15,21 @@ import javafx.scene.shape.Rectangle;
 /**
  * This class represents a cactus which creates a moving
  * or wind caused waving illusion.
+ *
  * @author Eudy Contreras
  *
  */
 public class DesertTrap extends AbstractTile {
 
-	GameManager game;
-	Rectangle bounds;
-	Rectangle2D bounds2D;
-	float speed;
-	float oldX;
+	private GameManager game;
+	private Rectangle bounds;
+	private Rectangle2D bounds2D;
 
 	public DesertTrap(GameManager game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
-		this.oldX = x;
 		if (GameSettings.SAND_STORM)
 			this.velX = velX;
+		this.x = x+6;
 		this.velR = velR;
 		this.game = game;
 		this.view.setTranslateX(x);
@@ -39,7 +38,7 @@ public class DesertTrap extends AbstractTile {
 		this.setBounds();
 	}
 	public void setBounds(){
-		 bounds2D = new Rectangle2D(x+width*0.15, y+height*0.45, width*0.5, height*0.45);
+		 bounds2D = new Rectangle2D(x+width*0.05, y+height*0.45, width*0.65, height*0.45);
 	}
 	/**
 	 * Method which moves this object
@@ -48,20 +47,6 @@ public class DesertTrap extends AbstractTile {
 		super.move();
 
 	}
-	/**
-	 * Method which makes this object
-	 * move or rotate
-	 */
-	public void wave() {
-		if (x > oldX + GameSettings.WIND_FORCE) {
-			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
-		}
-		if (x <= oldX) {
-			if (velX < GameSettings.WIND_FORCE)
-				velX += 0.4f;
-		}
-	}
-
 	/**
 	 * Methods which draws a bounding box
 	 */
@@ -75,7 +60,7 @@ public class DesertTrap extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			bounds = new Rectangle(x+width*0.15, y+height*0.45, width*0.5, height*0.45);
+			bounds = new Rectangle(x+width*0.05, y+height*0.45, width*0.65, height*0.45);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

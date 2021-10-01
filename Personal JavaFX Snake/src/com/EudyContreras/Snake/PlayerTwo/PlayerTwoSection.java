@@ -1,33 +1,41 @@
 package com.EudyContreras.Snake.PlayerTwo;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
-import com.EudyContreras.Snake.DebrisEffects.DirtDisplacement;
-import com.EudyContreras.Snake.DebrisEffects.SectionDisintegration;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
+import com.EudyContreras.Snake.ParticleEffects.DirtDisplacement;
+import com.EudyContreras.Snake.ParticleEffects.SectionDisintegration;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 public class PlayerTwoSection extends AbstractSection {
+	private double opacity = 0;
 	private double particleLife;
 	private double particleSize;
 	private double fadeValue = 1.0;
-	private boolean fade = false;
+	private double rotationAngle = 90;
+	private double rotationAmount = 6;
+	private double rotationDirection = 0;
+	private double rotationLimit = 0;
+	private boolean added = false;
+	private boolean rotate = false;
+	private boolean newBorn = true;
+	private boolean fadeOut = false;
 	private boolean blowUp = true;
 	private int dirtDelay = 10;
 	private PlayerTwo playerTwo;
 	private GameManager game;
 	private Circle bones;
-	private AbstractSection previousSection;
+	private AbstractSection previousSect;
 	private PlayerTwoSectionManager sectManager;
 
 	public PlayerTwoSection(PlayerTwo snake, GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
@@ -36,6 +44,7 @@ public class PlayerTwoSection extends AbstractSection {
 		this.game = game;
 		this.playerTwo = snake;
 		this.numericID = numericID;
+		this.circle.setOpacity(0);
 		this.sectManager = game.getSectManagerTwo();
 		if (this.numericID <= 0) {
 			if (Direction == PlayerMovement.MOVE_UP) {
@@ -80,52 +89,49 @@ public class PlayerTwoSection extends AbstractSection {
 				snake.setNeighbor(this);
 			}
 		} else if (this.numericID > 0) {
-			for (int i = sectManager.getSectionList().size() - 1; i >= 0; i--) {
-				AbstractSection previousSect = sectManager.getSectionList().get(i);
-				if (previousSect.getNumericID() == this.numericID - 1) {
-					previousSection = previousSect;
-					switch (previousSect.getLastDirection()) {
-					case MOVE_UP:
-						setLastDirection(PlayerMovement.MOVE_UP);
-						this.y = previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
-						this.x = previousSect.getX();
-						this.r = previousSect.getR();
-						this.velX = previousSect.getVelX();
-						this.velY = previousSect.getVelY();
-						break;
-					case MOVE_DOWN:
-						setLastDirection(PlayerMovement.MOVE_DOWN);
-						this.y = previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
-						this.x = previousSect.getX();
-						this.r = previousSect.getR();
-						this.velX = previousSect.getVelX();
-						this.velY = previousSect.getVelY();
-						break;
-					case MOVE_LEFT:
-						setLastDirection(PlayerMovement.MOVE_LEFT);
-						this.x = previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
-						this.y = previousSect.getY();
-						this.r = previousSect.getR();
-						this.velX = previousSect.getVelX();
-						this.velY = previousSect.getVelY();
-						break;
-					case MOVE_RIGHT:
-						setLastDirection(PlayerMovement.MOVE_RIGHT);
-						this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
-						this.y = previousSect.getY();
-						this.r = previousSect.getR();
-						this.velX = previousSect.getVelX();
-						this.velY = previousSect.getVelY();
-						break;
-					case STANDING_STILL:
-						setLastDirection(PlayerMovement.STANDING_STILL);
-						this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
-						this.y = previousSect.getY();
-						this.r = previousSect.getR();
-						this.velX = previousSect.getVelX();
-						this.velY = previousSect.getVelY();
-						break;
-					}
+			previousSect = sectManager.getSectionList().get(sectManager.getSectionList().size() - 1);
+			if (previousSect.getNumericID() == this.numericID - 1) {
+				switch (previousSect.getLastDirection()) {
+				case MOVE_UP:
+					setLastDirection(PlayerMovement.MOVE_UP);
+					this.y = previousSect.getY() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = previousSect.getX();
+					this.r = previousSect.getR();
+					this.velX = previousSect.getVelX();
+					this.velY = previousSect.getVelY();
+					break;
+				case MOVE_DOWN:
+					setLastDirection(PlayerMovement.MOVE_DOWN);
+					this.y = previousSect.getY() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.x = previousSect.getX();
+					this.r = previousSect.getR();
+					this.velX = previousSect.getVelX();
+					this.velY = previousSect.getVelY();
+					break;
+				case MOVE_LEFT:
+					setLastDirection(PlayerMovement.MOVE_LEFT);
+					this.x = previousSect.getX() + this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = previousSect.getY();
+					this.r = previousSect.getR();
+					this.velX = previousSect.getVelX();
+					this.velY = previousSect.getVelY();
+					break;
+				case MOVE_RIGHT:
+					setLastDirection(PlayerMovement.MOVE_RIGHT);
+					this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = previousSect.getY();
+					this.r = previousSect.getR();
+					this.velX = previousSect.getVelX();
+					this.velY = previousSect.getVelY();
+					break;
+				case STANDING_STILL:
+					setLastDirection(PlayerMovement.STANDING_STILL);
+					this.x = previousSect.getX() - this.circle.getRadius() * GameSettings.SECTION_DISTANCE;
+					this.y = previousSect.getY();
+					this.r = previousSect.getR();
+					this.velX = previousSect.getVelX();
+					this.velY = previousSect.getVelY();
+					break;
 				}
 			}
 		}
@@ -133,54 +139,173 @@ public class PlayerTwoSection extends AbstractSection {
 
 	public void move() {
 		this.circle.setRadius(GameSettings.PLAYER_TWO_SIZE);
-		checkBounds();
-		disguiseLast();
-		sectionAdjustment();
+		this.radius = circle.getRadius();
 		if (PlayerTwo.DEAD == false && PlayerTwo.LEVEL_COMPLETED == false && PlayerTwo.KEEP_MOVING && game.getStateID()!=GameStateID.GAME_MENU)
 			super.move();
 		if (lastPosition.size() > 0) {
-			if (x == lastPosition.get(0).getX() && y == lastPosition.get(0).getY()) {
+			if (withinRange(x,lastPosition.get(0).getX()) && withinRange(y,lastPosition.get(0).getY())) {
 				removeLatestLocation();
 				if (lastDirection.get(0) == PlayerMovement.MOVE_UP) {
-					setLastDirection(PlayerMovement.MOVE_UP);
-					removeLatestDirection();
 					velX = 0;
 					velY = -GameSettings.SNAKE_TWO_SPEED;
+					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = 180;
+					if(this.numericID == PlayerTwo.NUMERIC_ID-1){
+						performRotation(direction, lastDirection.get(0));
+					}
+					setLastDirection(PlayerMovement.MOVE_UP);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_UP, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_DOWN) {
-					setLastDirection(PlayerMovement.MOVE_DOWN);
-					removeLatestDirection();
 					velX = 0;
 					velY = GameSettings.SNAKE_TWO_SPEED;
+					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = 0;
+					if(this.numericID == PlayerTwo.NUMERIC_ID-1){
+						performRotation(direction, lastDirection.get(0));
+					}
+					setLastDirection(PlayerMovement.MOVE_DOWN);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_DOWN, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_LEFT) {
-					setLastDirection(PlayerMovement.MOVE_LEFT);
-					removeLatestDirection();
 					velY = 0;
 					velX = -GameSettings.SNAKE_TWO_SPEED;
+					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = 90;
+					if(this.numericID == PlayerTwo.NUMERIC_ID-1){
+						performRotation(direction, lastDirection.get(0));
+					}
+					setLastDirection(PlayerMovement.MOVE_LEFT);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_LEFT, this.numericID + 1);
 				} else if (lastDirection.get(0) == PlayerMovement.MOVE_RIGHT) {
-					setLastDirection(PlayerMovement.MOVE_RIGHT);
-					removeLatestDirection();
 					velY = 0;
 					velX = GameSettings.SNAKE_TWO_SPEED;
+					if(this.numericID!=PlayerTwo.NUMERIC_ID-1);
 					r = -90;
+					if(this.numericID == PlayerTwo.NUMERIC_ID-1){
+						performRotation(direction, lastDirection.get(0));
+					}
+					setLastDirection(PlayerMovement.MOVE_RIGHT);
+					removeLatestDirection();
 					sectManager.addNewCoordinates(new Point2D(x, y), PlayerMovement.MOVE_RIGHT, this.numericID + 1);
 				}
 			}
 		}
+		rotate();
+		checkBounds();
+		sectionAdjustment();
 	}
-	public void logicUpdate(){
-		if(GameSettings.ALLOW_DIRT)
-			updateDirt();
-		if(playerTwo.getSpeedThrust())
-			updateSpeedDirt();
 
-		fadeToBones();
+	public void rotate() {
+		if(rotate){
+			velR = rotationDirection;
+			if(added){
+				if(r>=rotationLimit){
+					r = rotationLimit;
+					velR = 0;
+					rotate = false;
+				}
+			}
+			else{
+				if(r<=rotationLimit){
+					r = rotationLimit;
+					velR = 0;
+					rotate = false;
+				}
+			}
+		}
 	}
+
+	public void performRotation(PlayerMovement from, PlayerMovement to) {
+		if (from != null) {
+			switch (from) {
+			case MOVE_DOWN:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_LEFT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case MOVE_RIGHT:
+				if (to == PlayerMovement.MOVE_DOWN) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_UP) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				break;
+			case MOVE_UP:
+				if (to == PlayerMovement.MOVE_LEFT) {
+					r = previousSect.getR() + rotationAngle;
+					rotationLimit = r - rotationAngle;
+					rotationDirection = -rotationAmount;
+					added = false;
+					rotate = true;
+				}
+				if (to == PlayerMovement.MOVE_RIGHT) {
+					r = previousSect.getR() - rotationAngle;
+					rotationLimit = r + rotationAngle;
+					rotationDirection = rotationAmount;
+					added = true;
+					rotate = true;
+				}
+				break;
+			case STANDING_STILL:
+				break;
+
+			}
+		}
+	}
+
+	public static boolean withinRange(double value, double targetRange) {
+		double threshold = 0.1;
+		return Math.abs(value) > Math.abs(targetRange) - threshold
+				&& Math.abs(value) < Math.abs(targetRange) + threshold;
+	}
+
+	public void logicUpdate(){
+		if(playerTwo.getSpeedThrust()&& GameSettings.ALLOW_DIRT){
+			updateSpeedDirt();
+		}
+		disguiseLast();
+		fadeToBones();
+		setVisible();
+	}
+
 	public void setMotionBlur(){
 		if(playerTwo.getSpeedThrust()){
 			this.circle.setFill(GameImageBank.speedPatternTwo);
@@ -189,6 +314,7 @@ public class PlayerTwoSection extends AbstractSection {
 			this.circle.setFill(GameImageBank.normalPatternTwo);
 		}
 	}
+
 	public void updateDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -200,6 +326,7 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void updateSpeedDirt() {
 		if ((this.numericID & 1) == 0) {
 			dirtDelay--;
@@ -211,28 +338,22 @@ public class PlayerTwoSection extends AbstractSection {
 			}
 		}
 	}
+
 	public void displaceDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
 			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
-						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (8 - -8 + 1) + -8)));
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt_grain,1.5, x, y,
+						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
 			}
 		}
 	}
 
 	public void displaceSpeedDirt(double x, double y, double low, double high) {
 		if (direction != PlayerMovement.STANDING_STILL && !PlayerTwo.DEAD && !PlayerTwo.LEVEL_COMPLETED) {
-			for (int i = 0; i <GameSettings.DIRT_AMOUNT ; i++) {
-				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.sand_grain,1.5, x, y,
-						new Point2D((Math.random() * (8 - -8 + 1) + -8), Math.random() * (13 - -13 + 1) + -13)));
+			for (int i = 0; i <GameSettings.DIRT_AMOUNT; i++) {
+				game.getDebrisManager().addDebris(new DirtDisplacement(game, GameImageBank.dirt_grain,1.5, x, y,
+						new Point2D((Math.random() * (5 - -5 + 1) + -5), Math.random() * (6 - -6+ 1) + -6)));
 			}
-		}
-	}
-	public void hideLast() {
-		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
-			this.circle.setVisible(false);
-		} else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
-			this.circle.setVisible(true);
 		}
 	}
 
@@ -242,98 +363,110 @@ public class PlayerTwoSection extends AbstractSection {
 				this.circle.setFill(GameImageBank.tailImage);
 			}
 			else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
-				this.circle.setFill(GameImageBank.snakeTwoBody);
+				setMotionBlur();
 			}
 		}
 	}
-	public void fadeToBones(){
-		if (fade == true) {
-			fadeValue -= 0.03/GameManager.ScaleX_ScaleY;
-			this.circle.setOpacity(fadeValue);
-			if (fadeValue <= 0) {
-				fadeValue = 0;
+
+	public void fadeToBones() {
+		if (fadeOut == true) {
+			if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
+				fadeValue -= 0.03;
+				this.circle.setOpacity(fadeValue);
+				if (fadeValue <= 0) {
+					fadeValue = 0;
+				}
 			}
 		}
 	}
+
+	private void setVisible(){
+		if(newBorn){
+			opacity +=0.05;
+			circle.setOpacity(opacity);
+			if(opacity>=1){
+				circle.setOpacity(1);
+				newBorn = false;
+			}
+		}
+	}
+
 	public void checkBounds() {
 		if (x < 0 - radius) {
-			x = (float) (GameSettings.WIDTH + radius);
+			x = (double) (GameSettings.WIDTH + radius);
 		} else if (x > GameSettings.WIDTH + radius) {
-			x = (float) (0 - radius);
-		} else if (y < GameSettings.START_Y - radius) {
-			y = (float) (GameSettings.HEIGHT + radius);
+			x = (double) (0 - radius);
+		} else if (y < (GameSettings.MIN_Y-10) - radius*1.5) {
+			y = (double) (GameSettings.HEIGHT + radius);
 		} else if (y > GameSettings.HEIGHT + radius) {
-			y = (float) (GameSettings.START_Y - radius);
+			y = (double) ((GameSettings.MIN_Y-10) - radius*1.5);
 		}
 	}
 
 	public void sectionAdjustment() {
-		if (previousSection != null) {
-			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.START_Y + radius
-					&& y < GameSettings.HEIGHT - radius) {
-				if (this.direction == PlayerMovement.MOVE_DOWN) {
-					if (previousSection.getY() - y >= this.radius) {
-						y = previousSection.getY() - this.radius;
-						x = previousSection.getX();
+		if (previousSect != null) {
+			if (x > 0 + radius && x < GameSettings.WIDTH - radius && y > GameSettings.MIN_Y + radius && y < GameSettings.HEIGHT - radius) {
+				if (this.direction == previousSect.getLastDirection()) {
+					if (previousSect.getY()>y && x==previousSect.getX()) {
+						if(previousSect.getY() - y < radius*.75  || previousSect.getY() - y > radius*1.25){
+							y = previousSect.getY() - circle.getRadius();
+						}
 					}
-				}
-				if (this.direction == PlayerMovement.MOVE_UP) {
-					if (previousSection.getY() - y >= this.radius) {
-						y = previousSection.getY() - this.radius;
-						x = previousSection.getX();
+					if (previousSect.getY()<y && x==previousSect.getX()) {
+						if(y - previousSect.getY() < radius*.75  || y - previousSect.getY() > radius*1.25 ){
+							y = previousSect.getY() + circle.getRadius();
+						}
 					}
-				}
-				if (this.direction == PlayerMovement.MOVE_LEFT) {
-					if (x - previousSection.getX() >= this.radius) {
-						x = previousSection.getX() + this.radius;
-						y = previousSection.getY();
+					if (previousSect.getX()>x && y==previousSect.getY()) {
+						if(previousSect.getX() - x < radius*.75 || previousSect.getX() - x > radius*1.25){
+							x = previousSect.getX() - circle.getRadius();
+						}
 					}
-				}
-				if (this.direction == PlayerMovement.MOVE_RIGHT) {
-					if (previousSection.getX() - x >= this.radius) {
-						x = previousSection.getX() - this.radius;
-						y = previousSection.getY();
+					if (previousSect.getX()<x && y==previousSect.getY()) {
+						if(x - previousSect.getX() < radius*.75 || x - previousSect.getX() > radius*1.25){
+							x = previousSect.getX() + circle.getRadius();
+						}
 					}
 				}
 			}
 		}
 	}
+
 	public void loadBones() {
 		if (this.numericID == PlayerTwo.NUMERIC_ID - 1) {
 			bones = new Circle(x, y, this.radius * 0.4, new ImagePattern(GameImageBank.snakeBones));
-			game.getBaseLayer().getChildren().add(bones);
+			game.getDebrisLayer().getChildren().add(bones);
 			bones.setRotate(r-90);
 		}
 		else if (this.numericID != PlayerTwo.NUMERIC_ID - 1) {
-			bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
-			game.getBaseLayer().getChildren().add(bones);
-			bones.setRotate(r-90);
+			if (this.numericID > 0) {
+				bones = new Circle(x, y, this.radius * 0.8, new ImagePattern(GameImageBank.snakeBones));
+				game.getDebrisLayer().getChildren().add(bones);
+				bones.setRotate(r - 90);
+			}
 		}
-
-
 	}
 
 	public void blowUp() {
 		if (blowUp == true) {
+			SectionDisintegration[] sectParticle = new SectionDisintegration[GameSettings.MAX_DEBRIS_AMOUNT];
 			for (int i = 0; i < GameSettings.MAX_DEBRIS_AMOUNT; i++) {
-				if (GameSettings.ADD_VARIATION) {
-					particleSize = (Math.random() * (10 - 5 + 1) + 5)/GameManager.ScaleX_ScaleY;
-					particleLife = (Math.random() * (1.5 - 0.5 + 1) + 0.5)/GameManager.ScaleX_ScaleY;
+				if (GameSettings.ALLOW_VARIATIONS) {
+					particleSize = RandomGenUtility.getRandom(5,10);
+					particleLife = RandomGenUtility.getRandom(1.5f,0.5f);
 				}
-				game.getDebrisManager().addParticle(new SectionDisintegration(game, GameImageBank.snakeTwoDebris,
-						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2)));
+				sectParticle[i] = new SectionDisintegration(game, GameImageBank.snakeTwoDebris,
+						particleLife, particleSize, (double) (x + this.radius / 2), (double) (y + this.radius / 2));
 			}
+			game.getDebrisManager().addParticle(sectParticle);
 			blowUp = false;
 		}
 	}
 
 	public void die() {
 		loadBones();
-		fade = true;
+		fadeOut = true;
 		blowUp();
 	}
-	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x - radius / 2, y - radius / 2, radius, radius);
-	}
 }

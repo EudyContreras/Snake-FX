@@ -1,22 +1,21 @@
 package com.EudyContreras.Snake.AbstractModels;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedList;
 
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
@@ -34,13 +33,15 @@ public abstract class AbstractSection {
 	protected PlayerMovement direction = PlayerMovement.STANDING_STILL;
 	protected Image image;
 	protected ImageView imageView;
-	protected ArrayList<Point2D> lastPosition = new ArrayList<>();
-	protected ArrayList<Enum<PlayerMovement>> lastDirection = new ArrayList<>();
+	protected Rectangle boundBox;
+	protected LinkedList<Point2D> lastPosition = new LinkedList<>();
+	protected LinkedList<PlayerMovement> lastDirection = new LinkedList<>();
 	protected Point2D position;
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
 	protected Circle circle;
+	protected int numericID;
 	protected double x;
 	protected double y;
 	protected double r;
@@ -51,8 +52,8 @@ public abstract class AbstractSection {
 	protected double height;
 	protected double radius;
 	protected double health = 50;
+	protected double speed = 1.0f;
 	protected double damage;
-	protected int numericID;
 	protected boolean isAlive = false;
 	protected boolean removable = false;
 	protected boolean canMove = true;
@@ -124,7 +125,6 @@ public abstract class AbstractSection {
 		this.imageView.setImage(image);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		// addToLayer();
 
 	}
 
@@ -146,7 +146,9 @@ public abstract class AbstractSection {
 	}
 
 	public void addToLayer(Node node) {
+		this.setUpBoundBox();
 		this.layer.getChildren().add(0, node);
+
 	}
 
 	public void addToCanvas() {
@@ -156,6 +158,15 @@ public abstract class AbstractSection {
 	public void removeFromLayer() {
 		this.layer.getChildren().remove(this.imageView);
 		this.layer.getChildren().remove(this.circle);
+	}
+
+	private void setUpBoundBox() {
+		if (GameSettings.DEBUG_MODE) {
+			this.boundBox = new Rectangle();
+			this.boundBox.setStroke(Color.WHITE);
+			this.boundBox.setFill(Color.TRANSPARENT);
+			this.layer.getChildren().add(boundBox);
+		}
 	}
 
 	public Pane getLayer() {
@@ -276,12 +287,18 @@ public abstract class AbstractSection {
 		circle.setTranslateX(x);
 		circle.setTranslateY(y);
 		circle.setRotate(r);
+		if (GameSettings.DEBUG_MODE) {
+			boundBox.setX(x - radius * .5 / 2);
+			boundBox.setY(y - radius * .5 / 2);
+			boundBox.setWidth(radius * .5);
+			boundBox.setHeight(radius * .5);
+		}
 	}
 
-	public void logicUpdate(){
-
+	public void logicUpdate() {
 
 	}
+
 	public void createLevel() {
 
 	}
@@ -294,7 +311,7 @@ public abstract class AbstractSection {
 
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 
@@ -320,7 +337,7 @@ public abstract class AbstractSection {
 
 	public Rectangle2D getBounds() {
 
-		return new Rectangle2D(x, y, width, height);
+		return new Rectangle2D(x - radius * .5 / 2, y - radius * .5 / 2, radius * .5, radius * .5);
 	}
 
 	public Rectangle2D getBoundsTop() {
@@ -354,17 +371,12 @@ public abstract class AbstractSection {
 		this.canMove = false;
 	}
 
-	/**
-	 * Abstract methods every object must have in order to determined the
-	 * condition in which the object will be removed and the objects collision
-	 * boundaries
-	 */
-	public void checkRemovability(){
-
+	public void checkRemovability() {
 	}
-	public void checkCollision(){
 
+	public void checkCollision() {
 	}
+
 	protected void removePerformedCoordinateChange() {
 		lastPosition.remove(0);
 		lastDirection.remove(0);
@@ -378,21 +390,12 @@ public abstract class AbstractSection {
 		lastDirection.remove(0);
 	}
 
-	public void setNewLocation(Point2D... location) {
-		if (location.length > 1) {
-			lastPosition.addAll(Arrays.asList(location));
-		} else {
-			lastPosition.add(location[0]);
-		}
-
+	public void setNewLocation(Point2D location) {
+		lastPosition.add(location);
 	}
 
-	public void setNewDirection(PlayerMovement... direction) {
-		if (direction.length > 1) {
-			lastDirection.addAll(Arrays.asList(direction));
-		} else {
-			lastDirection.add(direction[0]);
-		}
+	public void setNewDirection(PlayerMovement direction) {
+		lastDirection.add(direction);
 	}
 
 	protected void setLastDirection(PlayerMovement direction) {

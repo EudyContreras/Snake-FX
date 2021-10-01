@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSlither;
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -42,6 +42,7 @@ public class SlitherManager {
 	 */
 	public void update(GraphicsContext gc, long timePassed) {
 		Iterator<? extends AbstractSlither> spriteIter = object.iterator();
+
 		while (spriteIter.hasNext()) {
 			AbstractSlither sprite = spriteIter.next();
 			sprite.updateUI();
@@ -59,12 +60,11 @@ public class SlitherManager {
 	}
 
 	/**
-	 * Method used to update every object in the game. this method uses a
+	 * Method used to updates every object in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
 	public void updateAll(GraphicsContext gc, long timePassed) {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.updateUI();
@@ -81,7 +81,7 @@ public class SlitherManager {
 	}
 
 	/**
-	 * Method used to explicitly update the graphics
+	 * Method used to explicitly updates the graphics
 	 */
 	public void updateUI() {
 
@@ -92,10 +92,9 @@ public class SlitherManager {
 	}
 
 	/**
-	 * Method used to explicitly update animations
+	 * Method used to explicitly updates animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.updateAnimation(timePassed);
@@ -106,7 +105,6 @@ public class SlitherManager {
 	 * Method used to explicitly move the objects
 	 */
 	public void move() {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.move();
@@ -117,7 +115,6 @@ public class SlitherManager {
 	 * Method used to explicitly draw the graphics
 	 */
 	public void draw(GraphicsContext gc) {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.draw(gc);
@@ -128,7 +125,6 @@ public class SlitherManager {
 	 * Method used to explicitly add physics to the objects
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < object.size(); i++) {
 			tempObject = object.get(i);
 			tempObject.addPhysics();
@@ -181,7 +177,6 @@ public class SlitherManager {
 
 	public void addObject(AbstractSlither object) {
 		this.object.add(object);
-
 	}
 
 	public void removeObject(AbstractSlither object) {

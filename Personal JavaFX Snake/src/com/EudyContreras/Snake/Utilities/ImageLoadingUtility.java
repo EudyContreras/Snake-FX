@@ -3,7 +3,7 @@ package com.EudyContreras.Snake.Utilities;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameSettings;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -32,11 +32,7 @@ public class ImageLoadingUtility {
 	private static PixelReader reader;
 	private static PixelWriter writer;
 	private static int width, height;
-	private final static Map<String, Image> textureMap = new HashMap<String, Image>();
-
-	public ImageLoadingUtility() {
-
-	}
+	private final static Map<String, Image> TEXTURE_MAP = new HashMap<String, Image>();
 
 	/**
 	 * constructor which creates a bufferedImage from a given name and will then
@@ -46,13 +42,13 @@ public class ImageLoadingUtility {
 	 */
 	public ImageLoadingUtility(String name) {
 		ImageLoadingUtility.name = name;
-		Image oldImage = textureMap.get(name);
+		Image oldImage = TEXTURE_MAP.get(name);
 		if (oldImage != null) {
 			image = oldImage;
 		} else {
 
 			image = new Image(loadResource(name));
-			textureMap.put(name, image);
+			TEXTURE_MAP.put(name, image);
 
 		}
 		width = (int)image.getWidth();
@@ -67,13 +63,13 @@ public class ImageLoadingUtility {
 	 */
 	public static WritableImage loadImage(String name) {
 		ImageLoadingUtility.name = name;
-		Image oldImage = textureMap.get(name);
+		Image oldImage = TEXTURE_MAP.get(name);
 		if (oldImage != null) {
 			image = oldImage;
 		} else {
 
 			image = new Image(loadResource(name));
-			textureMap.put(name, image);
+			TEXTURE_MAP.put(name, image);
 
 		}
 		reader = image.getPixelReader();
@@ -101,9 +97,11 @@ public class ImageLoadingUtility {
 		String url = GameSettings.IMAGE_SOURCE_DIRECTORY + image;
 		return url;
 	}
+
 	public static Image getImage(){
 		return image;
 	}
+
 	public static WritableImage getWImage() {
 		return wImage;
 	}
@@ -113,7 +111,7 @@ public class ImageLoadingUtility {
 	}
 
 	public static void clear() {
-		textureMap.clear();
+		TEXTURE_MAP.clear();
 	}
 
 	public static void setWImage(WritableImage Image) {

@@ -2,12 +2,11 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
-import com.EudyContreras.Snake.Utilities.RandomGenerator;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -15,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Shear;
 
 /**
  * This class represents a cactus which creates a moving
@@ -23,18 +23,27 @@ import javafx.scene.transform.Rotate;
  *
  */
 public class DesertCactusBig extends AbstractTile {
-	GameTileManager tileManager;
-	GameManager game;
-	float speed;
+	private Shear shear = new Shear();
+	private double waveX = 0.0;
+	private double waveXVel = 0.0;
+	private double maxWaveLeft = 0;
+	private double maxWaveRight = 0;
+	private GameManager game;
 
 	public DesertCactusBig(float x, float y, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		if (GameSettings.SAND_STORM)
 			this.velR = velR;
+		this.waveXVel = 0.01;
+		this.maxWaveLeft = -0.07;
+		this.maxWaveRight = 0.07;
+		this.view.setFitWidth(view.getImage().getWidth());
+		this.view.setFitHeight(view.getImage().getHeight());
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
 		this.view.setRotationAxis(Rotate.Y_AXIS);
-		if(RandomGenerator.getRNG(1, 3) == 3){
+		this.view.getTransforms().add(shear);
+		if(RandomGenUtility.getRandom(1, 3) == 3){
 			this.view.setImage(GameLevelImage.desert_cactus_big_alt);
 			this.width = image.getWidth()+20;
 			this.height = image.getHeight()+30;
@@ -43,6 +52,7 @@ public class DesertCactusBig extends AbstractTile {
 			this.y = y-30;
 		}
 
+		this.shear.setPivotY(view.getFitHeight());
 	}
 	/**
 	 * Method which moves this object
@@ -56,6 +66,16 @@ public class DesertCactusBig extends AbstractTile {
 	 * Method which makes this object wave or rotate.
 	 */
 	public void wave() {
+		waveX+=waveXVel;
+
+		if(waveX>=maxWaveRight){
+			maxWaveRight = RandomGenUtility.getRandom(0.05, 0.07);
+			waveXVel = -RandomGenUtility.getRandom(0.008, 0.014);
+		}
+		if(waveX<=maxWaveLeft){
+			maxWaveLeft = -RandomGenUtility.getRandom(0.05, 0.07);
+			waveXVel = RandomGenUtility.getRandom(0.008, 0.014);
+		}
 		if (r > 4) {
 			velR -= Math.random() * (0.4 - 0.01 + 1) + 0.01;
 		}
@@ -63,6 +83,8 @@ public class DesertCactusBig extends AbstractTile {
 			if (velR < 4)
 				velR += 0.5f;
 		}
+
+		shear.setX(waveX);
 	}
 	/**
 	 * Methods which draws a bounding box
@@ -77,7 +99,7 @@ public class DesertCactusBig extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x, y + GameManager.ScaleY(30), width - GameManager.ScaleX(30), height - GameManager.ScaleY(30));
+			Rectangle bounds = new Rectangle(x, y + 30, width - 30, height - 30);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
@@ -89,7 +111,7 @@ public class DesertCactusBig extends AbstractTile {
 	 * based on coordinates and dimensions.
 	 */
 	public Rectangle2D getBounds() {
-		return new Rectangle2D(x, y + GameManager.ScaleY(30), width - GameManager.ScaleX(30), height - GameManager.ScaleY(30));
+		return new Rectangle2D(x, y + 30, width - 30, height - 30);
 	}
 
 	public Bounds getCollisionBounds() {

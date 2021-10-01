@@ -1,5 +1,8 @@
 package com.EudyContreras.Snake.FrameWork;
 
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+
 /**
  * Thread used for updating non graphical elements or any other elements
  * that do not involve x and y translations within nodes.
@@ -8,13 +11,12 @@ package com.EudyContreras.Snake.FrameWork;
  */
 public class LogicThread extends Thread {
 
-	private GameManager game;
 	private Boolean isRunning = false;
 	private Thread mainThread;
 	private Thread helperThread;
 
 	public LogicThread(GameManager game){
-		this.game = game;
+
 	}
 	public synchronized void startMainThread() {
 		if (isRunning)
@@ -29,6 +31,7 @@ public class LogicThread extends Thread {
 			return;
 		isRunning = false;
 	}
+
 	public synchronized void startHelperThread() {
 		if (isRunning)
 			return;
@@ -42,6 +45,7 @@ public class LogicThread extends Thread {
 			return;
 		isRunning = false;
 	}
+
 	public void run() {
 		long lastTime = System.nanoTime();
 		long startTime = System.currentTimeMillis();
@@ -105,7 +109,7 @@ public class LogicThread extends Thread {
 		}
 	}
 
-	public class HelperThread extends Thread {
+ 	public class HelperThread extends Thread {
 
 		public void run() {
 			long lastTime = System.nanoTime();
@@ -165,6 +169,7 @@ public class LogicThread extends Thread {
 			}
 		}
 	}
+
 	protected void updateAt1() {
 	}
 
@@ -175,11 +180,8 @@ public class LogicThread extends Thread {
 	}
 
 	protected void updateAt60() {
-		game.getPlayerOneManager().updateAllLogic(null, 0);
-		game.getSectManagerOne().updateAllLogic(null, 0);
-		game.getSectManagerTwo().updateAllLogic(null, 0);
-	}
 
+	}
 	protected void updateAt120() {
 	}
 

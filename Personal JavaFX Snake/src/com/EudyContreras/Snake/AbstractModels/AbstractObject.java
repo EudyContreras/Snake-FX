@@ -1,8 +1,10 @@
 package com.EudyContreras.Snake.AbstractModels;
 
-import com.EudyContreras.Snake.EnumIDs.GameObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
+import com.EudyContreras.Snake.Identifiers.GameObjectID;
+import com.EudyContreras.Snake.PathFindingAI.CellNode;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSection;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
@@ -11,7 +13,6 @@ import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSection;
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Light.Point;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,6 +36,7 @@ public abstract class AbstractObject {
 	protected Pane layer;
 	protected Node node;
 	protected Rectangle rect;
+	protected CellNode cell;
 	protected Circle circle;
 	protected int numericCode;
 	protected double x;
@@ -52,14 +54,19 @@ public abstract class AbstractObject {
 	protected double accelarationY;
 	protected double stopX;
 	protected double stopY;
-	protected boolean isAlive = false;
+	protected boolean isAlive = true;
 	protected boolean removable = false;
 	protected boolean canMove = true;
+	protected boolean remainStatic = false;
 	protected boolean drawBounds = false;
 	protected boolean hitBounds = false;
 	protected boolean hitBoundsTop = false;
 	protected boolean hitBoundsRight = false;
 	protected boolean hitBoundsLeft = false;
+
+	public AbstractObject() {
+
+	}
 
 	/**
 	 * The constructors used in this class allows objects to be created in
@@ -102,8 +109,8 @@ public abstract class AbstractObject {
 
 	}
 
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, double r, double velX, double velY,
-			double velR, double health, double damage, GameObjectID id) {
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, double r, double velX,
+			double velY, double velR, double health, double damage, GameObjectID id) {
 
 		this.layer = layer;
 		this.x = x;
@@ -207,7 +214,9 @@ public abstract class AbstractObject {
 		}
 
 	}
-	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id, boolean layer1) {
+
+	public AbstractObject(GameManager game, Pane layer, Node node, double x, double y, GameObjectID id,
+			boolean layer1) {
 		this.layer = layer;
 		this.x = x;
 		this.y = y;
@@ -232,6 +241,7 @@ public abstract class AbstractObject {
 		}
 
 	}
+
 	public AbstractObject(GameManager game, Pane layer, Node node, GameObjectID id) {
 		this.layer = layer;
 		this.id = id;
@@ -263,7 +273,6 @@ public abstract class AbstractObject {
 		this.imageView.setImage(image);
 		this.width = image.getWidth();
 		this.height = image.getHeight();
-		// addToLayer();
 
 	}
 
@@ -305,7 +314,6 @@ public abstract class AbstractObject {
 		this.numericCode = numericCode;
 	}
 
-
 	public Pane getLayer() {
 		return layer;
 	}
@@ -330,12 +338,6 @@ public abstract class AbstractObject {
 		this.y = y;
 	}
 
-	/**
-	 * This method will relocate the object to specific point
-	 *
-	 * @param x
-	 * @param y
-	 */
 	public void relocate(Point point) {
 		imageView.setTranslateX(point.getX());
 		imageView.setTranslateY(point.getY());
@@ -373,6 +375,72 @@ public abstract class AbstractObject {
 		this.velR = velR;
 	}
 
+	public double getXDistance(double x) {
+		return Math.abs(x - this.x);
+	}
+
+	public double getYDistance(double y) {
+		return Math.abs(y - this.y);
+	}
+
+	public double getDistance(double x, double y) {
+		return Math.abs(x - this.x) + Math.abs(y - this.y);
+	}
+
+	public double getInterpolarXDistance(double x) {
+		double dX;
+		double xDistance;
+		if (this.x > x) {
+			dX = GameSettings.WIDTH - x;
+			xDistance = Math.abs(dX - this.x);
+		} else {
+			dX = x - GameSettings.WIDTH;
+			xDistance = Math.abs(dX - this.x);
+		}
+		return xDistance;
+	}
+
+	public double getInterpolarYDistance(double y) {
+		double dX;
+		double xDistance;
+		if (this.y > y) {
+			dX = GameSettings.WIDTH - y;
+			xDistance = Math.abs(dX - this.y);
+		} else {
+			dX = y - GameSettings.WIDTH;
+			xDistance = Math.abs(dX - this.y);
+		}
+		return xDistance;
+	}
+
+	public double getInterpolarDistance(double x, double y) {
+		double dX;
+		double dY;
+		double distance;
+
+		if (this.x > x) {
+			dX = GameSettings.WIDTH - x;
+
+			if (this.y > y) {
+				dY = GameSettings.HEIGHT - y;
+			} else {
+				dY = y - GameSettings.HEIGHT;
+			}
+			distance = Math.abs(dX - this.x) - Math.abs(dY - this.y);
+		} else {
+			dX = x - GameSettings.WIDTH;
+
+			if (this.y > y) {
+				dY = GameSettings.HEIGHT - y;
+			} else {
+				dY = y - GameSettings.HEIGHT;
+			}
+			distance = Math.abs(dX - this.x) - Math.abs(dY - this.y);
+		}
+		return distance;
+
+	}
+
 	public double getHealth() {
 		return health;
 	}
@@ -394,20 +462,21 @@ public abstract class AbstractObject {
 	}
 
 	public void setRemovable(boolean removable) {
+		this.isAlive = false;
 		this.removable = removable;
 	}
-	public void logicUpdate(){
+
+	public void logicUpdate() {
 
 	}
-	/**
-	 * This method is responsible for moving and rotating the object
-	 */
+
 	public void move() {
 		if (!canMove)
 			return;
 		x = x + velX * GameSettings.FRAME_SCALE;
 		y = y + velY * GameSettings.FRAME_SCALE;
 		r = r + velR * GameSettings.FRAME_SCALE;
+		radius = circle.getRadius();
 	}
 
 	public boolean isAlive() {
@@ -440,7 +509,7 @@ public abstract class AbstractObject {
 
 	}
 
-	public void draw(GraphicsContext gc) {
+	public void draw() {
 
 	}
 
@@ -460,8 +529,24 @@ public abstract class AbstractObject {
 		return y + height * 0.5;
 	}
 
+	public double getRadius() {
+		return circle.getRadius();
+	}
+
 	public Bounds getRadialBounds() {
 		return circle.getBoundsInParent();
+	}
+
+	public boolean isStatic() {
+		return remainStatic;
+	}
+
+	public CellNode getCell() {
+		return cell;
+	}
+
+	public void setCell(CellNode cell) {
+		this.cell = cell;
 	}
 
 	public Rectangle2D getBounds() {
@@ -504,6 +589,10 @@ public abstract class AbstractObject {
 
 	}
 
+	public void bounce(ClassicSnake snake, double x, double y) {
+
+	}
+
 	public void bounce(PlayerOneSection section, double x, double y) {
 
 	}
@@ -511,7 +600,16 @@ public abstract class AbstractObject {
 	public void bounce(PlayerTwoSection section, double x, double y) {
 
 	}
+
 	public void blowUp() {
+
+	}
+
+	public void getPoint() {
+
+	}
+
+	public void blowUpAlt() {
 
 	}
 
@@ -526,4 +624,5 @@ public abstract class AbstractObject {
 	public void checkCollision() {
 
 	}
+
 }

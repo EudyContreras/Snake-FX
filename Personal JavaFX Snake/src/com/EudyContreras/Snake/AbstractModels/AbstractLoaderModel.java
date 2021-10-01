@@ -1,16 +1,17 @@
-package com.EudyContreras.Snake.AbstractModels;
+ package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.Random;
 
-import com.EudyContreras.Snake.EnumIDs.GameThemeID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnake;
+import com.EudyContreras.Snake.Controllers.GameObjectController;
+import com.EudyContreras.Snake.Controllers.GameTileController;
 import com.EudyContreras.Snake.FrameWork.LevelManager;
-import com.EudyContreras.Snake.FrameWork.ObjectManager;
 import com.EudyContreras.Snake.GameObjects.GenericObject;
+import com.EudyContreras.Snake.GameObjects.LevelBounds;
+import com.EudyContreras.Snake.Identifiers.GameThemeID;
 import com.EudyContreras.Snake.PlayerOne.PlayerOne;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwo;
-import com.EudyContreras.Snake.SlitherSnake.SlitherSnake;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
 import com.EudyContreras.Snake.Utilities.ImageLoadingUtility;
 
 import javafx.scene.image.WritableImage;
@@ -33,12 +34,13 @@ public abstract class AbstractLoaderModel {
 	protected WritableImage desertLevel_10;
 	protected WritableImage overlay;
 	protected LevelManager levelManager;
-	protected ObjectManager objectManger;
-	protected GameTileManager tileManager;
+	protected LevelBounds levelBounds;
+	protected GameObjectController objectManger;
+	protected GameTileController tileManager;
 	protected GenericObject gameTile;
+	protected ClassicSnake classicSnake;
 	protected PlayerOne playerOne;
 	protected PlayerTwo playerTwo;
-	protected SlitherSnake slither;
 	protected GameManager game;
 	protected Random rand;
 	protected int appleNumber = 0;
@@ -60,12 +62,12 @@ public abstract class AbstractLoaderModel {
 	 * will be loaded first, and the final dimensions of that level
 	 */
 	public void loadDesertLevels() {
-		this.levelMain = ImageLoadingUtility.loadImage("desert-level-0.png");
+		this.levelMain = 	 ImageLoadingUtility.loadImage("desert-level-0.png");
 		this.desertLevel_1 = ImageLoadingUtility.loadImage("desert-level-1.png");
 		this.desertLevel_2 = ImageLoadingUtility.loadImage("desert-level-2.png");
-		this.desertLevel_3 = ImageLoadingUtility.loadImage("image.png");
-		this.desertLevel_4 = ImageLoadingUtility.loadImage("image.png");
-		this.desertLevel_5 = ImageLoadingUtility.loadImage("image.png");
+		this.desertLevel_3 = ImageLoadingUtility.loadImage("desert-level-3.png");
+		this.desertLevel_4 = ImageLoadingUtility.loadImage("desert-level-4.png");
+		this.desertLevel_5 = ImageLoadingUtility.loadImage("desert-level-5.png");
 		this.desertLevel_6 = ImageLoadingUtility.loadImage("image.png");
 		this.desertLevel_7 = ImageLoadingUtility.loadImage("image.png");
 		this.desertLevel_8 = ImageLoadingUtility.loadImage("image.png");
@@ -102,11 +104,11 @@ public abstract class AbstractLoaderModel {
 		this.levelMain = level;
 	}
 
-	public GameTileManager getTileManager() {
+	public GameTileController getTileManager() {
 		return tileManager;
 	}
 
-	public void setTileManager(GameTileManager tileManager) {
+	public void setTileManager(GameTileController tileManager) {
 		this.tileManager = tileManager;
 	}
 
@@ -126,6 +128,14 @@ public abstract class AbstractLoaderModel {
 		this.fence = fence;
 	}
 
+	public ClassicSnake getClassicSnake() {
+		return classicSnake;
+	}
+
+	public void setClassicSnake(ClassicSnake classicSnake) {
+		this.classicSnake = classicSnake;
+	}
+
 	public void setPlayerOne(PlayerOne player) {
 		this.playerOne = player;
 	}
@@ -142,16 +152,24 @@ public abstract class AbstractLoaderModel {
 		return playerTwo;
 	}
 
-	public SlitherSnake getSlither() {
-		return slither;
-	}
-
 	public void killPlayerOne() {
 		playerOne = null;
 	}
 
 	public void killPlayerTwo() {
 		playerTwo = null;
+	}
+
+	public void killClassicSnake(){
+		classicSnake = null;
+	}
+
+	public void setLevelBounds(LevelBounds bounds){
+		this.levelBounds = bounds;
+	}
+
+	public LevelBounds getLevelBounds(){
+		return levelBounds;
 	}
 
 	public int getLevelWidth() {

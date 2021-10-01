@@ -47,10 +47,12 @@ public enum Language {
 	private String loadLanguageSettingFromFile() {
 		File root = new File(PATH_LANG_ROOT);
 		File file = new File(PATH_LANG_FILE);
-		int c;
+
 		StringBuilder lang = new StringBuilder();
 
 		BufferedReader buffer;
+
+		int c;
 
 		if( root.exists() && file.exists() ) {
 
@@ -60,7 +62,6 @@ public enum Language {
 				System.out.println("Could not load lang");
 				return null;
 			}
-
 
 			while(true) {
 				try {
@@ -95,6 +96,7 @@ public enum Language {
 	private boolean saveLanguageSettingToFile(String language) {
 		File root = new File(PATH_LANG_ROOT);
 		File file = new File(PATH_LANG_FILE);
+
 		if( ( root.exists() && file.exists() ) == false) {
 			root.mkdirs();
 			try {

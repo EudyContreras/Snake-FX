@@ -1,40 +1,47 @@
 package com.EudyContreras.Snake.AbstractModels;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
-import com.EudyContreras.Snake.DebrisEffects.RainEmitter;
-import com.EudyContreras.Snake.DebrisEffects.SandEmitter;
-import com.EudyContreras.Snake.EnumIDs.GameStateID;
-import com.EudyContreras.Snake.FrameWork.FadeScreenHandler;
-import com.EudyContreras.Snake.FrameWork.GameDebrisManager;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeManager;
+import com.EudyContreras.Snake.ClassicSnake.ClassicSnakeSectionManager;
+import com.EudyContreras.Snake.Controllers.FadeScreenController;
+import com.EudyContreras.Snake.Controllers.GameDebrisController;
+import com.EudyContreras.Snake.Controllers.GameObjectController;
+import com.EudyContreras.Snake.EffectEmitter.RainEmitter;
+import com.EudyContreras.Snake.EffectEmitter.SandEmitter;
+import com.EudyContreras.Snake.FrameWork.CursorUtility;
+import com.EudyContreras.Snake.FrameWork.CursorUtility.CursorID;
 import com.EudyContreras.Snake.FrameWork.GameLoader;
 import com.EudyContreras.Snake.FrameWork.LogicThread;
-import com.EudyContreras.Snake.FrameWork.ObjectManager;
-import com.EudyContreras.Snake.HUDElements.CountDownScreen;
-import com.EudyContreras.Snake.HUDElements.EnergyBarOne;
-import com.EudyContreras.Snake.HUDElements.EnergyBarTwo;
-import com.EudyContreras.Snake.HUDElements.GameHud;
-import com.EudyContreras.Snake.HUDElements.GameOverScreen;
-import com.EudyContreras.Snake.HUDElements.HealthBarOne;
-import com.EudyContreras.Snake.HUDElements.HealthBarTwo;
-import com.EudyContreras.Snake.HUDElements.PauseMenu;
-import com.EudyContreras.Snake.HUDElements.ScoreBoard;
-import com.EudyContreras.Snake.HUDElements.ScoreKeeper;
-import com.EudyContreras.Snake.HUDElements.VictoryScreen;
+import com.EudyContreras.Snake.FrameWork.ResizeListener;
+import com.EudyContreras.Snake.HudElements.CountDownScreen;
+import com.EudyContreras.Snake.HudElements.EnergyBarOne;
+import com.EudyContreras.Snake.HudElements.EnergyBarTwo;
+import com.EudyContreras.Snake.HudElements.GameBorder;
+import com.EudyContreras.Snake.HudElements.GameHud;
+import com.EudyContreras.Snake.HudElements.GameOverScreen;
+import com.EudyContreras.Snake.HudElements.HealthBarOne;
+import com.EudyContreras.Snake.HudElements.HealthBarTwo;
+import com.EudyContreras.Snake.HudElements.PauseMenu;
+import com.EudyContreras.Snake.HudElements.ReadyNotification;
+import com.EudyContreras.Snake.HudElements.ScoreBoard;
+import com.EudyContreras.Snake.HudElements.ScoreKeeper;
+import com.EudyContreras.Snake.HudElements.VictoryScreen;
+import com.EudyContreras.Snake.Identifiers.GameModeID;
+import com.EudyContreras.Snake.Identifiers.GameStateID;
 import com.EudyContreras.Snake.ImageBanks.GameImageBank;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.InputHandlers.InputManagerGestures;
-import com.EudyContreras.Snake.InputHandlers.InputManagerKey;
-import com.EudyContreras.Snake.InputHandlers.InputManagerMouse;
+import com.EudyContreras.Snake.InputHandlers.KeyInputHandler;
+import com.EudyContreras.Snake.InputHandlers.MouseInputHandler;
+import com.EudyContreras.Snake.InputHandlers.TouchInputHandler;
+import com.EudyContreras.Snake.PathFindingAI.AIController;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneManager;
 import com.EudyContreras.Snake.PlayerOne.PlayerOneSectionManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoManager;
 import com.EudyContreras.Snake.PlayerTwo.PlayerTwoSectionManager;
-import com.EudyContreras.Snake.SlitherSnake.SlitherManager;
 import com.EudyContreras.Snake.SlitherSnake.SlitherSectionManager;
-import com.EudyContreras.Snake.UserInterface.MainMenu;
+import com.EudyContreras.Snake.UserInterface.MenuManager;
 import com.EudyContreras.Snake.Utilities.ScreenEffectUtility;
 
 import javafx.animation.AnimationTimer;
@@ -45,55 +52,58 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public abstract class AbstractGameModel extends Application {
 
 	protected GameStateID stateID;
+	protected GameModeID modeID = GameModeID.LocalMultiplayer;
+	protected BorderPane sceneRoot;
+	protected BorderPane layoutContainer;
 	protected GameLoader loader;
 	protected Timeline frameGameLoop;
+	protected ResizeListener sizeListener;
 	protected Service<Void> backgroundThread;
-	protected ExecutorService backgroundThreadOne;
-	protected ScheduledExecutorService backgroundThreadTwo;
+	protected Task<Void> task;
+	protected ScheduledExecutorService scheduledExecutor;
 	protected AnimationTimer playerMovementLoop;
-	protected InputManagerKey keyInput;
-	protected InputManagerMouse mouseInput;
-	protected InputManagerGestures gestures;
-	protected GraphicsContext gc;
+	protected KeyInputHandler keyInput;
+	protected MouseInputHandler mouseInput;
+	protected TouchInputHandler gestures;
 	protected ScreenEffectUtility overlayEffect;
-	protected ObjectManager objectManager;
-	protected SlitherManager slitherManager;
+	protected GameObjectController objectManager;
 	protected PlayerOneManager playerOneManager;
 	protected PlayerTwoManager playerTwoManager;
-	protected GameDebrisManager debrisManager;
+	protected ClassicSnakeManager classicSnakeManager;
+	protected GameDebrisController debrisManager;
 	protected PlayerOneSectionManager sectManagerOne;
-	protected PlayerTwoSectionManager sectManagerTwo;;
-	protected SlitherSectionManager slitherSectManager;
+	protected PlayerTwoSectionManager sectManagerTwo;
+	protected ClassicSnakeSectionManager sectManagerThree;
 	protected CountDownScreen countDownScreen;
+	protected AIController aiController;
+	protected Group rootContainer;
+	protected GameBorder gameBorder;
 	protected FadeTransition fadeSplash;
 	protected LogicThread thread;
-	protected MainMenu mainMenu;
-	protected Canvas canvas;
+	protected Thread mainThread;
+	protected Stage splashWindow;
+	protected MenuManager menuManager;
 	protected Scene scene;
 	protected Scene splashScene;
-	protected Group mainRoot;
-	protected Stage mainWindow;
+	protected Pane mainRoot;
 	protected Pane root;
+	protected Pane gridLayer;
 	protected Pane splashLayout;
 	protected Pane levelLayer;
 	protected Pane snakeOneLayer;
 	protected Pane snakeTwoLayer;
-	protected Pane baseLayer;
+	protected Pane fruitLayer;
 	protected Pane dirtLayer;
 	protected Pane innerParticleLayer;
 	protected Pane outerParticleLayer;
@@ -113,7 +123,7 @@ public abstract class AbstractGameModel extends Application {
 	protected Pane thirTeenthLayer;
 	protected Pane fourTeenthLayer;
 	protected Pane fadeScreenLayer;
-	protected Text TextFPS;
+	protected Text FPS_TEXT;
 	protected PauseMenu pauseMenu;
 	protected GameImageBank imageBank;
 	protected GameLevelImage levelImageBank;
@@ -130,13 +140,15 @@ public abstract class AbstractGameModel extends Application {
 	protected AnimationTimer animationLoop;
 	protected AnimationTimer particleLoop;
 	protected GameOverScreen gameOverScreen;
-	protected FadeScreenHandler fadeHandler;
+	protected ReadyNotification readyNotification;
+	protected FadeScreenController fadeHandler;
 	protected ScoreKeeper scoreKeeper;
 	protected ImageView backgroundImage;
 	protected ImageView splash;
 	protected Rectangle2D bounds;
 	protected GameHud gameHud;
 	protected String title = "SNAKE";
+	protected boolean allowStageScale = false;
 	protected boolean isRunning = true;
 	protected boolean gameRunning = false;
 	protected boolean goToNext;
@@ -144,11 +156,25 @@ public abstract class AbstractGameModel extends Application {
 	protected int splashWidth;
 	protected int splashHeight;
 	protected int levelLenght;
+	protected double animationWidth = 0;
+	protected double animationHeight = 0;
 	protected double splashFadeDuration;
 	protected double splashFadeDelay;
-	public static double ScaleX = GameLoader.ResolutionScaleX;
-	public static double ScaleY = GameLoader.ResolutionScaleY;
-	public static double ScaleX_ScaleY = (GameLoader.ResolutionScaleX+GameLoader.ResolutionScaleY)/2;
+	protected double yOffset = 0;
+	protected double xOffset = 0;
+	protected static Stage mainWindow;
+
+	public AIController getAIController() {
+		return aiController;
+	}
+
+	public BorderPane getRootLayer() {
+		return sceneRoot;
+	}
+
+	public GameBorder getGameBorder() {
+		return gameBorder;
+	}
 
 	public HealthBarOne getHealthBarOne() {
 		return healthBarOne;
@@ -172,6 +198,26 @@ public abstract class AbstractGameModel extends Application {
 
 	public void setPlayerTwoManager(PlayerTwoManager playerManager) {
 		this.playerTwoManager = playerManager;
+	}
+
+	public ClassicSnakeManager getClassicSnakeManager() {
+		return classicSnakeManager;
+	}
+
+	public void setClassicSnakeManager(ClassicSnakeManager classicSnakeManager) {
+		this.classicSnakeManager = classicSnakeManager;
+	}
+
+	public ClassicSnakeSectionManager getSectManagerThree() {
+		return sectManagerThree;
+	}
+
+	public void setSectManagerThree(ClassicSnakeSectionManager sectManagerThree) {
+		this.sectManagerThree = sectManagerThree;
+	}
+
+	public SlitherSectionManager getSlitherSectManager() {
+		return null;
 	}
 
 	public void setHealthBarOne(HealthBarOne healthBarOne) {
@@ -218,28 +264,28 @@ public abstract class AbstractGameModel extends Application {
 		this.energyBarTwo = energyBarTwo;
 	}
 
-	public PauseMenu getPauseMenu(){
+	public PauseMenu getPauseMenu() {
 		return pauseMenu;
 	}
 
-	public CountDownScreen getCountDownScreen(){
+	public CountDownScreen getCountDownScreen() {
 		return countDownScreen;
 	}
 
-	public MainMenu getMainMenu() {
-		return mainMenu;
+	public ReadyNotification getReadyNotification() {
+		return readyNotification;
 	}
 
-	public void setMainMenu(MainMenu mainMenu) {
-		this.mainMenu = mainMenu;
+	public MenuManager getMainMenu() {
+		return menuManager;
+	}
+
+	public void setMainMenu(MenuManager menuManager) {
+		this.menuManager = menuManager;
 	}
 
 	public Stage getMainWindow() {
 		return mainWindow;
-	}
-
-	public void setMainWindow(Stage mainWindow) {
-		this.mainWindow = mainWindow;
 	}
 
 	public GameLoader getGameLoader() {
@@ -254,9 +300,8 @@ public abstract class AbstractGameModel extends Application {
 		return root;
 	}
 
-	public void setRoot(Parent root) {
-		scene.setFill(Color.BLACK);
-		scene.setRoot(root);
+	public Pane getBaseLayer() {
+		return gridLayer;
 	}
 
 	public Pane getSnakeOneLayer() {
@@ -279,19 +324,15 @@ public abstract class AbstractGameModel extends Application {
 		return levelLayer;
 	}
 
-	public ObjectManager getObjectManager() {
+	public GameObjectController getGameObjectController() {
 		return objectManager;
 	}
 
-	public void setObjectManager(ObjectManager objectManager) {
+	public void setGameObjectController(GameObjectController objectManager) {
 		this.objectManager = objectManager;
 	}
 
-	public SlitherManager getSlitherManager() {
-		return slitherManager;
-	}
-
-	public GameDebrisManager getDebrisManager() {
+	public GameDebrisController getDebrisManager() {
 		return debrisManager;
 	}
 
@@ -303,15 +344,11 @@ public abstract class AbstractGameModel extends Application {
 		return sectManagerTwo;
 	}
 
-	public SlitherSectionManager getSlitherSectManager() {
-		return slitherSectManager;
-	}
-
-	public void setDebrisManager(GameDebrisManager debrisManager) {
+	public void setDebrisManager(GameDebrisController debrisManager) {
 		this.debrisManager = debrisManager;
 	}
 
-	public FadeScreenHandler getFadeScreenHandler(){
+	public FadeScreenController getFadeScreenHandler() {
 		return fadeHandler;
 	}
 
@@ -327,7 +364,7 @@ public abstract class AbstractGameModel extends Application {
 		return gameHud;
 	}
 
-	public Group getMainRoot() {
+	public Pane getMainRoot() {
 		return mainRoot;
 	}
 
@@ -339,16 +376,16 @@ public abstract class AbstractGameModel extends Application {
 		this.scoreBoardTwo = scoreBoard;
 	}
 
-	public InputManagerKey getKeyInput() {
+	public KeyInputHandler getKeyInput() {
 		return keyInput;
 	}
 
-	public void setKeyInput(InputManagerKey keyInput) {
+	public void setKeyInput(KeyInputHandler keyInput) {
 		this.keyInput = keyInput;
 	}
 
-	public Pane getBaseLayer() {
-		return baseLayer;
+	public Pane getFruitLayer() {
+		return fruitLayer;
 	}
 
 	public Pane getDirtLayer() {
@@ -384,7 +421,7 @@ public abstract class AbstractGameModel extends Application {
 	}
 
 	public void setBaseLayer(Pane baseLayer) {
-		this.baseLayer = baseLayer;
+		this.fruitLayer = baseLayer;
 	}
 
 	public Pane getFirstLayer() {
@@ -511,62 +548,66 @@ public abstract class AbstractGameModel extends Application {
 		this.stateID = stateID;
 	}
 
-	public ScreenEffectUtility getOverlayEffect(){
+	public GameModeID getModeID() {
+		return modeID;
+	}
+
+	public void setModeID(GameModeID modeID) {
+		this.modeID = modeID;
+	}
+
+	public ScreenEffectUtility getOverlayEffect() {
 		return overlayEffect;
 	}
 
 	public void showCursor(boolean choice, Scene scene) {
 		if (!choice)
-			scene.setCursor(Cursor.NONE);
+			CursorUtility.setCursor(CursorID.NONE, scene);
 
 		else if (choice)
-			scene.setCursor(Cursor.DEFAULT);
+			CursorUtility.setCursor(CursorID.NORMAL, scene);
 	}
 
 	public int getLevelLenght() {
 		return levelLenght;
 	}
 
-	public Timeline getGameLoop(){
+	public Timeline getGameLoop() {
 		return frameGameLoop;
 	}
 
 	public void setLevelLenght(int levelLenght) {
 		this.levelLenght = levelLenght;
 	}
-	public void backgroundWorker(){
+
+	public void backgroundWorker() {
 		backgroundThread = new Service<Void>() {
-	        @Override
-	        protected Task<Void> createTask() {
-	            return new Task<Void>() {
-	                @Override
-	                protected Void call() throws Exception {
-	                    //Background work
-	                	//
-	                	//
-	                	//
+			@Override
+			protected Task<Void> createTask() {
+				return new Task<Void>() {
+					@Override
+					protected Void call() throws Exception {
+						// Background work
+						final CountDownLatch latch = new CountDownLatch(1);
 
-	                    final CountDownLatch latch = new CountDownLatch(1);
-	                    Platform.runLater(new Runnable() {
-	                        @Override
-	                        public void run() {
-	                            try{
-
-
-	                                //FX Stuff done here
-	                            }finally{
-	                                latch.countDown();
-	                            }
-	                        }
-	                    });
-	                    latch.await();
-	                    //Keep with the background work
-	                    return null;
-	                }
-	            };
-	        }
-	    };
-	    backgroundThread.start();
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								try {
+									// FX Stuff done here
+								} finally {
+									latch.countDown();
+								}
+							}
+						});
+						latch.await();
+						// Keep with the background work
+						return null;
+					}
+				};
+			}
+		};
+		backgroundThread.start();
 	}
 
 }

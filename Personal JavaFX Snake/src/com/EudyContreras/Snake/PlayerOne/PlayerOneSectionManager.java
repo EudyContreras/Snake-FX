@@ -1,13 +1,14 @@
 package com.EudyContreras.Snake.PlayerOne;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractSection;
-import com.EudyContreras.Snake.FrameWork.GameManager;
+import com.EudyContreras.Snake.Application.GameManager;
 import com.EudyContreras.Snake.FrameWork.PlayerMovement;
 
 import javafx.geometry.Point2D;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  * This manager class is the core of every game section and is responsible for
@@ -53,11 +54,11 @@ public class PlayerOneSectionManager {
 		}
 	}
 	/**
-	 * Method used to update every section in the game. this method uses a
+	 * Method used to updates every section in the game. this method uses a
 	 * conventional for loop and allows the list to be modified from an outside
 	 * source without provoking a break.
 	 */
-	public void updateAllLogic(GraphicsContext gc, long timePassed) {
+	public void updateAllLogic(long timePassed) {
 
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
@@ -65,7 +66,7 @@ public class PlayerOneSectionManager {
 			tempSection.logicUpdate();
 			tempSection.addPhysics();
 			tempSection.updateAnimation(timePassed);
-			tempSection.draw(gc);
+			tempSection.draw();
 			tempSection.checkRemovability();
 			if (tempSection.isRemovable() || !tempSection.isAlive()) {
 				tempSection.removeFromLayer();
@@ -73,8 +74,8 @@ public class PlayerOneSectionManager {
 			}
 		}
 	}
-	public void updateAllMovement(GraphicsContext gc, long timePassed) {
 
+	public void updateAllMovement(long timePassed) {
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.move();
@@ -82,10 +83,41 @@ public class PlayerOneSectionManager {
 		}
 	}
 	/**
-	 * Method used to explicitly update the graphics
+	 * Method used to updates every section in the game. this method uses a
+	 * conventional for loop and allows the list to be modified from an outside
+	 * source without provoking a break.
+	 */
+	public void updateAllLogicIter(long timePassed) {
+		Iterator<AbstractSection> sectionIter = sectionList.iterator();
+
+		while (sectionIter.hasNext()) {
+			tempSection = sectionIter.next();
+			tempSection.checkCollision();
+			tempSection.logicUpdate();
+			tempSection.addPhysics();
+			tempSection.updateAnimation(timePassed);
+			tempSection.draw();
+			tempSection.checkRemovability();
+			if (tempSection.isRemovable() || !tempSection.isAlive()) {
+				tempSection.removeFromLayer();
+				sectionIter.remove();
+			}
+		}
+	}
+
+	public void updateAllMovementIter(long timePassed) {
+		Iterator<AbstractSection> sectionIter = sectionList.iterator();
+
+		while (sectionIter.hasNext()) {
+			tempSection = sectionIter.next();
+			tempSection.move();
+			tempSection.updateUI();
+		}
+	}
+	/**
+	 * Method used to explicitly updates the graphics
 	 */
 	public void updateUI() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.updateUI();
@@ -93,10 +125,9 @@ public class PlayerOneSectionManager {
 	}
 
 	/**
-	 * Method used to explicitly update animations
+	 * Method used to explicitly updates animations
 	 */
 	public void updateAnimation(long timePassed) {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.updateAnimation(timePassed);
@@ -107,7 +138,6 @@ public class PlayerOneSectionManager {
 	 * Method used to explicitly move the sections
 	 */
 	public void move() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.move();
@@ -117,11 +147,10 @@ public class PlayerOneSectionManager {
 	/**
 	 * Method used to explicitly draw the graphics
 	 */
-	public void draw(GraphicsContext gc) {
-
+	public void draw() {
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
-			tempSection.draw(gc);
+			tempSection.draw();
 		}
 	}
 
@@ -129,7 +158,6 @@ public class PlayerOneSectionManager {
 	 * Method used to explicitly add physics to the sections
 	 */
 	public void addPhysics() {
-
 		for (int i = 0; i < sectionList.size(); i++) {
 			tempSection = sectionList.get(i);
 			tempSection.addPhysics();
@@ -163,8 +191,8 @@ public class PlayerOneSectionManager {
 		return sectionList;
 	}
 
-	public void addSection(AbstractSection sect) {
-		sectionList.add(sect);
+	public void addSection(AbstractSection... sect) {
+		Collections.addAll(sectionList,sect);
 	}
 
 	public void removeSection(AbstractSection section) {

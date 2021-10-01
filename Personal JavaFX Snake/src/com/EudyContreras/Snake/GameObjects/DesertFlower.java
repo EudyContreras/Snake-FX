@@ -2,12 +2,11 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 import com.EudyContreras.Snake.ImageBanks.GameLevelImage;
-import com.EudyContreras.Snake.Utilities.GameTileManager;
-import com.EudyContreras.Snake.Utilities.RandomGenerator;
+import com.EudyContreras.Snake.Utilities.RandomGenUtility;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -24,23 +23,28 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class DesertFlower extends AbstractTile {
-	GameTileManager tileManager;
-	Rectangle2D collisionBounds;
-	GameManager game;
-	float speed;
+
+	private Rectangle2D collisionBounds;
+	private GameManager game;
+
 
 	public DesertFlower(GameManager game, float x, float y, float speed, float velY, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
 		this.game = game;
 		this.velX = 0;
-		this.speed = speed;
 		this.velY = velY;
 		this.view.setTranslateX(x);
 		this.view.setTranslateY(y);
-		if(RandomGenerator.getRNG(1, 3) == 3){
+		int rand = RandomGenUtility.getRandom(1, 3);
+		if( rand == 3){
 			this.view.setImage(GameLevelImage.desert_flower_alt);
 		}
+		else if(rand == 2){
+			this.view.setImage(GameLevelImage.desert_flower_alt2);
+		}
 		this.adjustBounds();
+		this.width = image.getWidth();
+		this.height = image.getHeight();
 		this.draw();
 	}
 
@@ -65,7 +69,7 @@ public class DesertFlower extends AbstractTile {
 	 * Method which initializes bounds for a specific object
 	 */
 	public void adjustBounds() {
-		collisionBounds = new Rectangle2D(x+GameManager.ScaleX(10), y + GameManager.ScaleY(45), width - GameManager.ScaleX(70), height - GameManager.ScaleY(45));
+		collisionBounds = new Rectangle2D(x+10, y + 45, width - 65, height - 45);
 
 	}
 
@@ -81,7 +85,7 @@ public class DesertFlower extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			Rectangle bounds = new Rectangle(x+GameManager.ScaleX(10), y + GameManager.ScaleY(45), width - GameManager.ScaleX(70), height - GameManager.ScaleY(45));
+			Rectangle bounds = new Rectangle(x+10, y + 45, width - 65, height - 45);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);

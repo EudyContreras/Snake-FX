@@ -2,9 +2,9 @@
 package com.EudyContreras.Snake.GameObjects;
 
 import com.EudyContreras.Snake.AbstractModels.AbstractTile;
-import com.EudyContreras.Snake.EnumIDs.GameLevelObjectID;
-import com.EudyContreras.Snake.FrameWork.GameManager;
-import com.EudyContreras.Snake.FrameWork.GameSettings;
+import com.EudyContreras.Snake.Application.GameManager;
+import com.EudyContreras.Snake.Application.GameSettings;
+import com.EudyContreras.Snake.Identifiers.GameLevelObjectID;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Rectangle2D;
@@ -20,11 +20,10 @@ import javafx.scene.shape.Rectangle;
  */
 public class DesertCactusSmall extends AbstractTile {
 
-	GameManager game;
-	Rectangle bounds;
-	Rectangle2D bounds2D;
-	float speed;
-	float oldX;
+	private GameManager game;
+	private Rectangle bounds;
+	private Rectangle2D bounds2D;
+	private float oldX;
 
 	public DesertCactusSmall(GameManager game, float x, float y, float velX, float velR, Image image, GameLevelObjectID id) {
 		super(x, y, image, id);
@@ -39,7 +38,7 @@ public class DesertCactusSmall extends AbstractTile {
 		this.setBounds();
 	}
 	public void setBounds(){
-		 bounds2D = new Rectangle2D(x+GameManager.ScaleX(5), y+height*0.4, width*0.6, height*0.5);
+		 bounds2D = new Rectangle2D(x+15, y+height*0.4, width*0.6, height*0.5);
 	}
 	/**
 	 * Method which moves this object
@@ -55,7 +54,7 @@ public class DesertCactusSmall extends AbstractTile {
 	 */
 	public void wave() {
 		if (x > oldX + GameSettings.WIND_FORCE) {
-			velX -= Math.random() * (0.35 - 0.01 + 1) + 0.01;
+			velX -= Math.random() * (0.35 - 0.05 + 1) + 0.05;
 		}
 		if (x <= oldX) {
 			if (velX < GameSettings.WIND_FORCE)
@@ -76,7 +75,7 @@ public class DesertCactusSmall extends AbstractTile {
 	public void drawBoundingBox() {
 
 		if (GameSettings.DEBUG_MODE) {
-			bounds = new Rectangle(x+GameManager.ScaleX(5), y+height*0.4, width*0.6, height*0.5);
+			bounds = new Rectangle(x+15, y+55, width-70, height-70);
 			bounds.setStroke(Color.WHITE);
 			bounds.setFill(Color.TRANSPARENT);
 			bounds.setStrokeWidth(3);
